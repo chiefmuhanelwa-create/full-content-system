@@ -1,0 +1,203 @@
+{
+  "instagram": {
+    "platform": "Instagram Reels",
+    "optimal_duration": "15-60 seconds",
+    "hook_timing": "First 3 seconds critical",
+    "best_practices": {
+      "visual": [
+        "Text overlay on first frame (people watch without sound)",
+        "Face in frame within 1 second",
+        "Movement or pattern interrupt immediately",
+        "High contrast colors"
+      ],
+      "script": [
+        "Front-load the value (say the point immediately)",
+        "Use captions - 80% watch without sound",
+        "Keep sentences short (easier to caption)",
+        "End with question to boost comments"
+      ],
+      "engagement": [
+        "Ask viewers to save/share in CTA",
+        "Use trending audio (but lower volume for voiceover)",
+        "Post at 6-9am or 5-8pm (South African time)",
+        "Carousel posts for educational content"
+      ]
+    },
+    "hook_styles": {
+      "text_based": "Big bold text overlay with short punchy hook",
+      "talking_head": "Face + text combination, start talking immediately",
+      "b_roll": "Engaging visuals with voiceover",
+      "trending": "Use trending format but make it educational"
+    },
+    "avoid": [
+      "Long intros",
+      "Asking for likes/follows",
+      "Complex concepts without visuals",
+      "External links in caption (kills reach)"
+    ]
+  },
+  "tiktok": {
+    "platform": "TikTok",
+    "optimal_duration": "21-34 seconds (sweet spot for algorithm)",
+    "hook_timing": "First 2 seconds critical",
+    "best_practices": {
+      "visual": [
+        "Fast-paced cuts (every 2-3 seconds)",
+        "Use trending effects/filters",
+        "Green screen for educational content",
+        "Dynamic text animations"
+      ],
+      "script": [
+        "Start with pattern interrupt or question",
+        "Match Gen Z language and energy",
+        "Use current slang naturally",
+        "End with hook for part 2 (serialization works)"
+      ],
+      "engagement": [
+        "Use 3-5 trending hashtags",
+        "Post 1-3 times daily",
+        "Reply to comments with videos",
+        "Duet/stitch trending content in your niche"
+      ]
+    },
+    "hook_styles": {
+      "scroll_stopper": "Controversial first frame or statement",
+      "pov": "POV format is highly engaging",
+      "storytime": "Narrative hooks work well",
+      "tutorial": "Quick tips format (\"3 ways to...\")"
+    },
+    "avoid": [
+      "Corporate/stiff delivery",
+      "Perfect production (raw performs better)",
+      "Long explanations without energy",
+      "Ignoring trends completely"
+    ]
+  },
+  "youtube": {
+    "platform": "YouTube Shorts",
+    "optimal_duration": "30-60 seconds",
+    "hook_timing": "First 3-5 seconds",
+    "best_practices": {
+      "visual": [
+        "Vertical format (9:16)",
+        "Clear thumbnail even in feed",
+        "Good lighting and audio quality",
+        "Show face for better retention"
+      ],
+      "script": [
+        "Hook + promise in first 5 seconds",
+        "Deliver value, don't just tease",
+        "Can be slightly longer than IG/TikTok",
+        "Clear CTA to full videos or subscribe"
+      ],
+      "engagement": [
+        "Pin comment with question",
+        "Link to full video in description",
+        "Use YouTube SEO in title",
+        "Create shorts from long-form content"
+      ]
+    },
+    "hook_styles": {
+      "educational": "Direct teaching works well",
+      "list_format": "\"5 things...\" performs great",
+      "behind_scenes": "BTS of YouTube creation",
+      "controversial": "Hot takes get engagement"
+    },
+    "avoid": [
+      "Low quality audio",
+      "Boring thumbnails",
+      "No clear value proposition",
+      "Forgetting to tell them to subscribe"
+    ]
+  },
+  "linkedin": {
+    "platform": "LinkedIn",
+    "optimal_duration": "30-90 seconds",
+    "hook_timing": "First 5-7 seconds",
+    "best_practices": {
+      "visual": [
+        "Professional but authentic",
+        "Office/work environment backgrounds",
+        "Clear captions for sound-off viewing",
+        "Less flashy than IG/TikTok"
+      ],
+      "script": [
+        "Professional tone but conversational",
+        "Industry insights and career advice",
+        "Case studies and ROI stories",
+        "Thought leadership, not entertainment"
+      ],
+      "engagement": [
+        "Post early morning (6-8am) for professionals",
+        "Use 3-5 relevant industry hashtags",
+        "Engage in comments professionally",
+        "Share documents/carousels for deep dives"
+      ]
+    },
+    "hook_styles": {
+      "authority": "Industry insights and predictions",
+      "case_study": "Client results and ROI",
+      "career_tips": "How to advance professionally",
+      "contrarian": "Challenge industry norms"
+    },
+    "avoid": [
+      "Overly casual language",
+      "Trending dances/memes",
+      "Sales pitches without value",
+      "Controversial personal opinions"
+    ]
+  },
+  "twitter": {
+    "platform": "Twitter/X",
+    "optimal_duration": "15-45 seconds",
+    "hook_timing": "First 2 seconds",
+    "best_practices": {
+      "visual": [
+        "Minimal text overlay",
+        "Fast-paced content",
+        "Meme-able moments",
+        "Quote tweets add context"
+      ],
+      "script": [
+        "Direct, no fluff",
+        "Hot takes and opinions",
+        "Thread-worthy insights",
+        "Quotable one-liners"
+      ],
+      "engagement": [
+        "Reply to trending topics",
+        "Use video in threads",
+        "Controversial takes get engagement",
+        "Quote tweet with value add"
+      ]
+    },
+    "hook_styles": {
+      "hot_take": "Controversial opinions",
+      "thread_teaser": "Hook for longer thread",
+      "breaking_news": "First to share insights",
+      "meme": "Humorous but relevant"
+    },
+    "avoid": [
+      "Long explanations",
+      "Boring corporate speak",
+      "Being late to trends",
+      "Ignoring viral moments"
+    ]
+  },
+  "cross_platform_principles": {
+    "universal_truths": [
+      "Hook in first 3 seconds or lose them",
+      "Value before entertainment",
+      "Authentic beats perfect",
+      "Consistency beats virality"
+    ],
+    "adaptation_strategy": {
+      "same_content_different_format": "Repurpose but adapt to platform culture",
+      "instagram": "Polished + educational",
+      "tiktok": "Raw + entertaining",
+      "youtube": "In-depth + valuable",
+      "linkedin": "Professional + insightful",
+      "twitter": "Concise + opinionated"
+    }
+  }
+}

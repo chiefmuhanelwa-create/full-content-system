@@ -1,0 +1,68 @@
+{
+  "important_notes": {
+    "do_not_copy": "CRITICAL: These are STRUCTURAL patterns to learn from, NOT content to copy verbatim",
+    "usage": "Study the STRUCTURE and APPROACH, then generate FRESH content for each user",
+    "warning": "Copying these examples defeats the purpose - use them to understand patterns only"
+  },
+  "transformation_patterns": {
+    "structure": "[Before State] → [After State] in [Timeframe] using [Method]",
+    "example": "I went from R750/month to R8,333/month in 18 months by pitching partnerships not posts",
+    "components": {
+      "before_state": "Specific, relatable starting point with number",
+      "after_state": "Aspirational but believable end point with number",
+      "timeframe": "Realistic duration that shows it's achievable",
+      "method": "Unique approach that creates curiosity"
+    },
+    "learn_from_this": "Specificity (numbers) + Relatability (starting low) + Curiosity (unique method)"
+  },
+  "contrarian_truth": {
+    "structure": "Stop doing [Common Advice]. Start doing [Opposite Approach]. Here's why...",
+    "example": "Stop creating content. Start creating cash flow. Here's the difference...",
+    "components": {
+      "common_advice": "What everyone is being told to do",
+      "opposite_approach": "Your contrarian perspective",
+      "proof_promise": "Why your way works better"
+    },
+    "learn_from_this": "Challenges assumptions + Offers alternative + Promises proof"
+  },
+  "mistake_revelation": {
+    "structure": "You're [doing X] because you think [assumption]. But [reality]. Here's what actually works...",
+    "example": "You're accepting R500 posts because you think you need 100K followers. But brands care about engagement rate, not follower count.",
+    "components": {
+      "current_behavior": "What they're doing wrong",
+      "false_assumption": "Why they think it's right",
+      "reality_check": "The truth they don't know",
+      "solution_tease": "What actually works"
+    },
+    "learn_from_this": "Identifies mistake without attacking person + Explains why mistake made + Offers solution"
+  },
+  "origin_story": {
+    "structure": "[Shame/Fear] drove me to [desperate action]. [Unexpected result]. Now [transformation].",
+    "example": "Family shame drove me to quit my job without backup. Lost R15K. Learned partnerships beat posts. Now R100K/month helping creators.",
+    "components": {
+      "emotional_driver": "What pushed them to act (Shadow Fear)",
+      "risky_decision": "Bold action taken",
+      "valley_moment": "Low point/failure",
+      "discovery": "What they learned",
+      "current_state": "Where they are now"
+    },
+    "learn_from_this": "Vulnerability + Risk + Failure + Learning + Transformation = Relatable authority"
+  },
+  "hook_formula_examples": {
+    "question_hook": {
+      "structure": "[Bold question addressing pain/desire]?",
+      "example": "Why are you accepting R500 posts when your engagement is worth R5,000?",
+      "learn_from_this": "Challenges their current reality + Shows gap between current and possible"
+    },
+    "statement_hook": {
+      "structure": "[Controversial truth]. [Consequence]. [Solution tease].",
+      "example": "Your follower count doesn't matter. Your pitch structure does. Here's the 3-email system.",
+      "learn_from_this": "Bold claim + Why it matters + What they'll learn"
+    },
+    "story_hook": {
+      "structure": "I [past state]. Now I [current state]. By [unexpected method].",
+      "example": "I used to beg for R750 collabs. Now brands pitch me R50K deals. By changing one email.",
+      "learn_from_this": "Relatability + Aspiration + Curiosity gap"
+    }
+  }
+}

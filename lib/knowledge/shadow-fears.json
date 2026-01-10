@@ -1,0 +1,47 @@
+{
+  "description": "Unspoken terrors audience won't admit publicly - 3am anxiety spirals",
+  "usage_warning": "Use sparingly and ALWAYS provide solution - never leave in fear without hope",
+  "balance_rule": "40% agitate fear/urgency, 60% provide solution/hope",
+  "fears": {
+    "family_shame": {
+      "fear": "My family thinks I'm wasting my life",
+      "power_words": ["Shame", "Disappointment", "Embarrassment", "Failure", "Waste", "Regret", "Burden", "Joke"],
+      "when_to_use": ["Origin stories", "Transformation content", "Motivational messaging"]
+    },
+    "time_anxiety": {
+      "fear": "I've wasted years on this. What if I've destroyed my life?",
+      "power_words": ["Wasted", "Too late", "Behind", "Lost", "Irreversible", "Foolish", "Missed", "Should have"],
+      "when_to_use": ["Urgency-driven content", "Decision-pushing", "Launch campaigns"]
+    },
+    "imposter_syndrome": {
+      "fear": "I'm a fake. Someone will expose me. I don't deserve success.",
+      "power_words": ["Fraud", "Fake", "Imposter", "Unqualified", "Exposed", "Lucky", "Pretending", "Caught"],
+      "when_to_use": ["Vulnerability content", "Confidence-building", "Qualification-addressing"]
+    },
+    "generational_poverty": {
+      "fear": "I'll die poor like my parents. Cycle won't break.",
+      "power_words": ["Broke", "Cycle", "Curse", "Doomed", "Trapped", "Never", "Poverty", "Stuck", "Fate"],
+      "when_to_use": ["Legacy content", "Big-picture messaging", "High-ticket offers"]
+    },
+    "wrong_path": {
+      "fear": "What if I chose WRONG? What if everyone who doubted me was right?",
+      "power_words": ["Wrong", "Mistake", "Regret", "Should have", "Trapped", "Dead end", "Foolish", "Deluded"],
+      "when_to_use": ["Pivoting content", "Strategy-shift", "Validation messaging"]
+    },
+    "invisible_labor": {
+      "fear": "I'm working myself to death for nothing. No one sees.",
+      "power_words": ["Invisible", "Exhausted", "Burnout", "Drowning", "Unappreciated", "Killing me", "Suffocating"],
+      "when_to_use": ["Burnout content", "Systems-over-hustle", "Automation pitches"]
+    },
+    "exploitation": {
+      "fear": "The system is rigged. People are using me.",
+      "power_words": ["Exploited", "Used", "Rigged", "Powerless", "Cheated", "Robbed", "Victim", "Oppressed"],
+      "when_to_use": ["Pricing content", "Negotiation teaching", "Empowerment messaging"]
+    },
+    "permanent_failure": {
+      "fear": "What if I never make it? Forever stuck.",
+      "power_words": ["Forever", "Never", "Stuck", "Doomed", "Ceiling", "Hopeless", "Over", "Dead end"],
+      "when_to_use": ["Systems-change content", "Transformation messaging", "Breakthrough positioning"]
+    }
+  }
+}

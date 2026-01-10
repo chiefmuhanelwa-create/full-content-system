@@ -1,11 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
-import { HOOK_GENERATOR_PROMPT } from '@/lib/prompts'
+import { buildSystemPrompt, buildUserContextPrompt } from '@/lib/knowledge-base'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { topic, platform, duration, tone, hookType, count = 5 } = body
+    const {
+      topic,
+      platform,
+      duration,
+      tone,
+      hookType,
+      targetAudience,
+      count = 5
+    } = body
 
     // Validate required fields
     if (!topic || !platform) {
@@ -15,30 +23,53 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Construct user prompt
-    const userPrompt = `Generate ${count} viral hooks for:
+    // Build system prompt with framework knowledge
+    const systemPrompt = buildSystemPrompt('hooks')
 
-Topic: ${topic}
-Platform: ${platform}
-Duration: ${duration || 'any'}
-Tone: ${tone || 'any'}
-Hook Type: ${hookType || 'any'}
+    // Build user context prompt
+    const userContext = buildUserContextPrompt({
+      topic,
+      platform,
+      duration,
+      tone,
+      targetAudience,
+      additionalContext: hookType ? `Hook Type Preference: ${hookType}` : undefined,
+    })
 
-Requirements:
-- Each hook must be 8-15 words maximum
-- Use the R×A×C×U^B formula (Relevance × Authenticity × Curiosity × Urgency ^ Boldness)
-- Start with power words that trigger emotion
-- Address the viewer directly when possible
-- Create information gaps
-- Be platform-specific (${platform} audience expectations)
+    // Construct generation instruction
+    const userPrompt = `${userContext}
 
-Return ONLY a JSON array of strings. No other text.`
+## GENERATION TASK
+
+Generate ${count} CUSTOM viral hooks for this specific user and context.
+
+REQUIREMENTS:
+1. Each hook must be 8-15 words maximum
+2. Apply R×A×C×U^B formula intelligently (don't force it)
+3. Use power words naturally from the categories that fit
+4. Make it sound authentic to ${platform} audience
+5. Address the viewer directly ("you" not "people")
+6. Create curiosity gaps without clickbait
+7. Consider which Shadow Fear their audience likely has
+
+PROCESS:
+1. Analyze the topic and identify the core pain/desire
+2. Determine audience's awareness level (problem/solution aware)
+3. Select appropriate power words from relevant categories
+4. Apply proven hook patterns but make them UNIQUE
+5. Ensure platform-specific optimization
+
+CRITICAL: Generate FRESH hooks that sound like they could ONLY work for this topic/audience.
+Don't use generic templates or copy example patterns verbatim.
+
+OUTPUT FORMAT: Return ONLY a JSON array of ${count} hook strings, no other text.
+Example: ["Hook 1 here", "Hook 2 here", "Hook 3 here"]`
 
     // Call Claude API
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
       max_tokens: 1024,
-      system: HOOK_GENERATOR_PROMPT,
+      system: systemPrompt,
       messages: [
         {
           role: 'user',
@@ -77,7 +108,9 @@ Return ONLY a JSON array of strings. No other text.`
         duration,
         tone,
         hookType,
+        targetAudience,
         count: hooks.length,
+        generatedAt: new Date().toISOString(),
       },
     })
   } catch (error: any) {

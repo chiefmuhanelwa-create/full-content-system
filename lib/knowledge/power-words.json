@@ -1,0 +1,42 @@
+{
+  "urgency": {
+    "category": "Urgency & Time Sensitivity",
+    "usage": "Create FOMO and immediate action",
+    "words": ["Now", "Today", "Immediately", "Limited", "Ending", "Last", "Final", "Deadline", "Expire", "Vanish"]
+  },
+  "curiosity": {
+    "category": "Curiosity & Mystery",
+    "usage": "Create information gaps that demand filling",
+    "words": ["Secret", "Hidden", "Revealed", "Discovered", "Behind", "Never", "Shocking", "Unexpected", "Forbidden", "Insider"]
+  },
+  "fear": {
+    "category": "Fear & Warning",
+    "usage": "Highlight dangers and mistakes to avoid",
+    "words": ["Danger", "Risk", "Warning", "Mistake", "Wrong", "Failure", "Lose", "Missing", "Avoid", "Don't", "Never", "Stop"]
+  },
+  "desire": {
+    "category": "Desire & Aspiration",
+    "usage": "Trigger aspirational goals and dreams",
+    "words": ["Freedom", "Wealth", "Success", "Powerful", "Exclusive", "Elite", "Premium", "Dream", "Achieve", "Win", "Breakthrough"]
+  },
+  "trust": {
+    "category": "Trust & Authority",
+    "usage": "Build credibility and authority",
+    "words": ["Proven", "Tested", "Verified", "Guaranteed", "Certified", "Official", "Authentic", "Expert", "Authority", "Science"]
+  },
+  "value": {
+    "category": "Value & Savings",
+    "usage": "Highlight financial benefits",
+    "words": ["Free", "Bonus", "Save", "Discount", "Value", "ROI", "Investment", "Returns", "Profit", "Earn"]
+  },
+  "transformation": {
+    "category": "Transformation & Change",
+    "usage": "Show dramatic improvements possible",
+    "words": ["Transform", "Change", "Shift", "Upgrade", "Grow", "Improve", "Boost", "Double", "Triple", "Skyrocket", "Explode"]
+  },
+  "simplicity": {
+    "category": "Simplicity & Ease",
+    "usage": "Remove perceived difficulty barriers",
+    "words": ["Easy", "Simple", "Quick", "Fast", "Instant", "Automatic", "Effortless", "Painless", "Foolproof", "Straightforward"]
+  }
+}

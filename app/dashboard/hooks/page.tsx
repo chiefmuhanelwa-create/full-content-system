@@ -26,6 +26,7 @@ export default function HookGeneratorPage() {
   const [duration, setDuration] = useState('60s')
   const [tone, setTone] = useState('educational')
   const [hookType, setHookType] = useState('any')
+  const [targetAudience, setTargetAudience] = useState('')
   const [loading, setLoading] = useState(false)
   const [hooks, setHooks] = useState<Hook[]>([])
   const [error, setError] = useState('')
@@ -51,6 +52,7 @@ export default function HookGeneratorPage() {
           duration,
           tone,
           hookType,
+          targetAudience: targetAudience.trim() || undefined,
           count: 5,
         }),
       })
@@ -123,6 +125,20 @@ export default function HookGeneratorPage() {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
             />
+          </div>
+
+          {/* Target Audience Input */}
+          <div className="space-y-2">
+            <Label htmlFor="targetAudience">Target Audience (Optional)</Label>
+            <Input
+              id="targetAudience"
+              placeholder="e.g., 'creators making R0-5K/month' or 'small business owners'"
+              value={targetAudience}
+              onChange={(e) => setTargetAudience(e.target.value)}
+            />
+            <p className="text-xs text-gray-500">
+              Be specific for better results. Who is this hook for?
+            </p>
           </div>
 
           {/* Platform Selection */}
