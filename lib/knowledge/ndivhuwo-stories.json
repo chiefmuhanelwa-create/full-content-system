@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "description": "Ndivhuwo's verified personal stories for credibility and proof",
+    "usage": "Use SPARINGLY (20% of script) as proof points, not main content",
+    "warning": "These are real stories - use for authenticity, not as templates"
+  },
+  "stories": {
+    "bathroom_floors": {
+      "title": "Bathroom Floors to Boardrooms",
+      "snippet": "I used to sleep on bathroom floors. Now I negotiate R100K+ brand deals in boardrooms.",
+      "timeframe": "5-8 seconds",
+      "use_for": ["Resilience", "Transformation", "Origin story", "Motivational content"],
+      "emotion": "Vulnerability → Triumph",
+      "lesson": "Your starting point doesn't determine your destination"
+    },
+    "r750_to_r100k": {
+      "title": "R750 to R100K Brand Evolution",
+      "snippet": "I started accepting R750 for Instagram posts. Then Netflix paid me R100K for the same work. The difference? I learned to price my value, not my desperation.",
+      "timeframe": "10-12 seconds",
+      "use_for": ["Pricing", "Brand deals", "Negotiation", "Value positioning"],
+      "emotion": "Mistake → Mastery",
+      "lesson": "Price based on value delivered, not follower count",
+      "numbers": {
+        "before": "R750 per post",
+        "after": "R100K per deal",
+        "clients": "Netflix, Samsung, Huawei"
+      }
+    },
+    "huawei_r6000_investment": {
+      "title": "R6,000 Huawei Investment",
+      "snippet": "Borrowed R6,000 to buy a Huawei P20 Pro in 2018. Used it to create content that landed Netflix, Samsung, and Huawei deals. That phone paid for itself 100x over.",
+      "timeframe": "10-15 seconds",
+      "use_for": ["Investment mindset", "Equipment decisions", "Starting with little", "ROI thinking"],
+      "emotion": "Risk → Reward",
+      "lesson": "Strategic investment beats waiting for perfect conditions",
+      "numbers": {
+        "investment": "R6,000",
+        "roi": "R600,000+ in brand deals",
+        "timeline": "18 months"
+      }
+    },
+    "instagram_780k_loss": {
+      "title": "780K Instagram Followers Lost Overnight",
+      "snippet": "Lost my 780K Instagram account overnight to a false copyright claim. Taught me platform dependency kills businesses. Now I own my email list and website.",
+      "timeframe": "12-15 seconds",
+      "use_for": ["Platform independence", "Email lists", "Owned audiences", "Diversification"],
+      "emotion": "Devastation → Liberation",
+      "lesson": "Build on land you own, not rent",
+      "numbers": {
+        "followers_lost": "780,000",
+        "recovery_time": "6 months",
+        "new_strategy": "Email list (50K+)"
+      }
+    },
+    "sars_r285k_debt": {
+      "title": "SARS R285K Tax Debt",
+      "snippet": "Owed SARS R285,000 because I didn't know brand income needed declarations. Had to do Voluntary Disclosure Programme. Now I teach creators tax compliance before they learn the hard way.",
+      "timeframe": "15-18 seconds",
+      "use_for": ["Tax education", "Financial systems", "Compliance", "Preventing mistakes"],
+      "emotion": "Ignorance → Wisdom",
+      "lesson": "Track everything from day one. SARS will find you.",
+      "numbers": {
+        "debt_amount": "R285,000",
+        "vdp_penalty": "R142,500 (50% penalty avoided)",
+        "lesson_cost": "Worth it to help others avoid"
+      }
+    },
+    "family_shame_dropout": {
+      "title": "University Dropout Family Shame",
+      "snippet": "My family thought I wasted my life dropping out. 'When are you getting a real job?' they asked. Now I employ 3 people and make more than most degree holders.",
+      "timeframe": "12-15 seconds",
+      "use_for": ["Family pressure", "Alternative paths", "Validation", "Non-traditional success"],
+      "emotion": "Shame → Pride",
+      "lesson": "Your path doesn't need family approval to be valid",
+      "shadow_fear": "Family Shame"
+    },
+    "first_netflix_deal": {
+      "title": "First Netflix R100K Deal",
+      "snippet": "Netflix didn't care about my 100K followers. They cared about my engagement rate (18%) and audience quality. I charged R100K for 3 posts. They said yes in 24 hours.",
+      "timeframe": "15-18 seconds",
+      "use_for": ["Brand deal negotiation", "Pricing confidence", "Engagement over followers"],
+      "emotion": "Doubt → Confidence",
+      "lesson": "Brands buy engagement and relevance, not vanity metrics",
+      "numbers": {
+        "followers": "100,000",
+        "engagement_rate": "18%",
+        "deal_value": "R100,000",
+        "response_time": "24 hours"
+      }
+    },
+    "content_burnout": {
+      "title": "Daily Posting Nearly Killed Me",
+      "snippet": "Posted 3x daily for 6 months. Got 2M views but made R0. Burned out completely. Then switched to systems: 1 post weekly with monetization strategy. Made R50K that month.",
+      "timeframe": "18-20 seconds",
+      "use_for": ["Burnout prevention", "Systems over hustle", "Strategic content", "Monetization"],
+      "emotion": "Exhaustion → Liberation",
+      "lesson": "Consistency without strategy is just exhausting",
+      "numbers": {
+        "hustle_period": "6 months, 3 posts/day",
+        "views": "2 million",
+        "revenue": "R0",
+        "system_period": "1 post/week with strategy",
+        "revenue_shift": "R50,000/month"
+      }
+    },
+    "samsung_partnership": {
+      "title": "Samsung Long-term Partnership",
+      "snippet": "One Samsung post led to 18-month partnership. Why? I focused on their business goal (Gen Z market penetration) not my follower count. Strategy beats begging.",
+      "timeframe": "12-15 seconds",
+      "use_for": ["Long-term partnerships", "Business thinking", "Strategic positioning"],
+      "emotion": "Transactional → Partnership",
+      "lesson": "Solve brand problems, don't just promote products",
+      "numbers": {
+        "initial_deal": "R15,000",
+        "partnership_duration": "18 months",
+        "total_value": "R450,000+"
+      }
+    },
+    "ubuntu_principle": {
+      "title": "Ubuntu: I Am Because We Are",
+      "snippet": "I share everything I learn because Ubuntu teaches: your success doesn't diminish mine. Lifted 200+ creators to their first R10K month. Their wins are my legacy.",
+      "timeframe": "15-18 seconds",
+      "use_for": ["Community building", "African philosophy", "Generosity", "Legacy"],
+      "emotion": "Scarcity → Abundance",
+      "lesson": "Rising alone is empty. Rising together is legacy.",
+      "philosophy": "Ubuntu (I am because we are)"
+    }
+  },
+  "usage_guidelines": {
+    "maximum_story_time": "20 seconds per script",
+    "ideal_placement": "After main teaching content as proof",
+    "story_count": "1-2 maximum per script",
+    "selection_criteria": [
+      "Must support the main teaching point",
+      "Should add credibility, not replace content",
+      "Use emotional arc (Before → After → Lesson)",
+      "Include specific numbers when available"
+    ],
+    "format": "[STORY SNIPPET] → [NUMBERS] → [LESSON]",
+    "tone": "Vulnerable, honest, not boastful"
+  },
+  "story_selection_matrix": {
+    "brand_deals": ["r750_to_r100k", "first_netflix_deal", "samsung_partnership"],
+    "pricing": ["r750_to_r100k", "first_netflix_deal"],
+    "platform_independence": ["instagram_780k_loss"],
+    "tax_compliance": ["sars_r285k_debt"],
+    "resilience": ["bathroom_floors", "family_shame_dropout"],
+    "investment": ["huawei_r6000_investment"],
+    "systems_over_hustle": ["content_burnout"],
+    "community": ["ubuntu_principle"],
+    "engagement_strategy": ["first_netflix_deal", "samsung_partnership"]
+  }
+}
