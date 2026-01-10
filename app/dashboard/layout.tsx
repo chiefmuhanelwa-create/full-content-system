@@ -1,23 +1,62 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import {
   Zap,
   LayoutDashboard,
   FileText,
   BookOpen,
-  Calendar,
-  DollarSign,
-  Target,
-  Video,
-  Settings,
+  Brain,
   LogOut,
 } from 'lucide-react'
+import { cn } from '@/lib/utils'
+
+const navItems = [
+  {
+    name: 'Dashboard',
+    href: '/dashboard',
+    icon: LayoutDashboard,
+  },
+  {
+    name: 'Hook Generator',
+    href: '/dashboard/hooks',
+    icon: Zap,
+    description: 'R×A×C×U^B Formula',
+  },
+  {
+    name: 'Script Writer',
+    href: '/dashboard/scripts',
+    icon: FileText,
+    description: '5-Line Method',
+  },
+  {
+    name: 'Story Extractor',
+    href: '/dashboard/stories',
+    icon: BookOpen,
+    description: '4-Criteria Test',
+  },
+  {
+    name: 'Fear Analyzer',
+    href: '/dashboard/fears',
+    icon: Brain,
+    description: '10 Shadow Fears',
+  },
+]
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const pathname = usePathname()
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/auth/signin' })
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Sidebar */}
@@ -25,74 +64,51 @@ export default function DashboardLayout({
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-6 border-b">
-            <Link href="/dashboard" className="flex items-center space-x-2">
-              <Zap className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold">NOCHILL</span>
+            <Link href="/dashboard" className="flex flex-col">
+              <span className="text-xl font-bold text-gray-900">NOCHILL</span>
+              <span className="text-xs text-gray-500 mt-1">Viral Script Generator</span>
             </Link>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-1">
-            <Link href="/dashboard">
-              <Button variant="ghost" className="w-full justify-start">
-                <LayoutDashboard className="mr-2 h-4 w-4" />
-                Dashboard
-              </Button>
-            </Link>
-            <Link href="/dashboard/hooks">
-              <Button variant="ghost" className="w-full justify-start">
-                <Zap className="mr-2 h-4 w-4" />
-                Hook Generator
-              </Button>
-            </Link>
-            <Link href="/dashboard/scripts">
-              <Button variant="ghost" className="w-full justify-start">
-                <FileText className="mr-2 h-4 w-4" />
-                Script Writer
-              </Button>
-            </Link>
-            <Link href="/dashboard/stories">
-              <Button variant="ghost" className="w-full justify-start">
-                <BookOpen className="mr-2 h-4 w-4" />
-                Story Extractor
-              </Button>
-            </Link>
-            <Link href="/dashboard/pitch">
-              <Button variant="ghost" className="w-full justify-start">
-                <Target className="mr-2 h-4 w-4" />
-                Pitch Builder
-              </Button>
-            </Link>
-            <Link href="/dashboard/fears">
-              <Button variant="ghost" className="w-full justify-start">
-                <Video className="mr-2 h-4 w-4" />
-                Fear Analyzer
-              </Button>
-            </Link>
-            <Link href="/dashboard/calendar">
-              <Button variant="ghost" className="w-full justify-start">
-                <Calendar className="mr-2 h-4 w-4" />
-                Content Calendar
-              </Button>
-            </Link>
-            <Link href="/dashboard/revenue">
-              <Button variant="ghost" className="w-full justify-start">
-                <DollarSign className="mr-2 h-4 w-4" />
-                Revenue Tracker
-              </Button>
-            </Link>
+          <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+            {navItems.map((item) => {
+              const Icon = item.icon
+              const isActive = pathname === item.href
+
+              return (
+                <Link key={item.href} href={item.href}>
+                  <div
+                    className={cn(
+                      'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors',
+                      isActive
+                        ? 'bg-blue-50 text-blue-600'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    )}
+                  >
+                    <Icon className={cn('h-5 w-5 flex-shrink-0', isActive && 'text-blue-600')} />
+                    <div className="flex-1 min-w-0">
+                      <p className={cn('text-sm font-medium', isActive && 'text-blue-600')}>
+                        {item.name}
+                      </p>
+                      {item.description && (
+                        <p className="text-xs text-gray-500 truncate">{item.description}</p>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Bottom Actions */}
-          <div className="p-4 border-t space-y-1">
-            <Link href="/dashboard/settings">
-              <Button variant="ghost" className="w-full justify-start">
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </Button>
-            </Link>
-            <Button variant="ghost" className="w-full justify-start text-red-600">
-              <LogOut className="mr-2 h-4 w-4" />
+          <div className="p-4 border-t">
+            <Button
+              variant="outline"
+              onClick={handleSignOut}
+              className="w-full flex items-center justify-center gap-2"
+            >
+              <LogOut className="h-4 w-4" />
               Sign Out
             </Button>
           </div>

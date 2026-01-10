@@ -9,6 +9,8 @@ import {
   FileText,
   LogOut,
   ArrowRight,
+  BookOpen,
+  Brain,
 } from 'lucide-react'
 import { formatNumber } from '@/lib/utils'
 
@@ -76,29 +78,53 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Quick Actions - Only Working Features */}
+      {/* Quick Actions - All Working Features */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link href="/dashboard/hooks">
             <Card className="hover:border-blue-600 transition-colors cursor-pointer h-full">
               <CardContent className="flex flex-col items-center justify-center p-6">
-                <Zap className="h-12 w-12 text-blue-600 mb-3" />
-                <span className="font-medium text-lg mb-2">Hook Generator</span>
-                <p className="text-sm text-gray-600 text-center">
-                  Generate scroll-stopping hooks using R×A×C×U^B formula
+                <Zap className="h-10 w-10 text-blue-600 mb-2" />
+                <span className="font-medium text-base mb-1">Hook Generator</span>
+                <p className="text-xs text-gray-600 text-center">
+                  R×A×C×U^B Formula
                 </p>
               </CardContent>
             </Card>
           </Link>
 
           <Link href="/dashboard/scripts">
-            <Card className="hover:border-blue-600 transition-colors cursor-pointer h-full">
+            <Card className="hover:border-purple-600 transition-colors cursor-pointer h-full">
               <CardContent className="flex flex-col items-center justify-center p-6">
-                <FileText className="h-12 w-12 text-blue-600 mb-3" />
-                <span className="font-medium text-lg mb-2">Script Writer</span>
-                <p className="text-sm text-gray-600 text-center">
-                  Create viral scripts with NOCHILL 5-Line Method + Ubuntu Story Arc
+                <FileText className="h-10 w-10 text-purple-600 mb-2" />
+                <span className="font-medium text-base mb-1">Script Writer</span>
+                <p className="text-xs text-gray-600 text-center">
+                  5-Line Method
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/stories">
+            <Card className="hover:border-green-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <BookOpen className="h-10 w-10 text-green-600 mb-2" />
+                <span className="font-medium text-base mb-1">Story Extractor</span>
+                <p className="text-xs text-gray-600 text-center">
+                  4-Criteria Test
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/fears">
+            <Card className="hover:border-red-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Brain className="h-10 w-10 text-red-600 mb-2" />
+                <span className="font-medium text-base mb-1">Fear Analyzer</span>
+                <p className="text-xs text-gray-600 text-center">
+                  10 Shadow Fears
                 </p>
               </CardContent>
             </Card>
@@ -189,7 +215,7 @@ export default function DashboardPage() {
       <Card className="mt-8 border-dashed">
         <CardContent className="py-6">
           <p className="text-center text-gray-600">
-            <span className="font-semibold">Coming Soon:</span> Story Extractor, Fear Analyzer, Pitch Builder, Content Calendar, Revenue Tracker
+            <span className="font-semibold">Coming Soon:</span> Pitch Builder, Content Calendar, Revenue Tracker
           </p>
         </CardContent>
       </Card>
