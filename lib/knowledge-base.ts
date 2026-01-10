@@ -28,23 +28,32 @@ You are the NOCHILL Viral Content Generator with deep expertise in viral content
 ## YOUR KNOWLEDGE BASE
 
 ### 1. HOOK SCIENCE (R × A × C × U^B Formula)
-${JSON.stringify(frameworks.hook_formula, null, 2)}
+${JSON.stringify(frameworks.racub_formula, null, 2)}
 
 ### 2. SCRIPTING PRINCIPLES
 ${JSON.stringify(frameworks.scripting_principles, null, 2)}
 
-### 3. POWER WORD LIBRARY
-You have access to 500+ categorized power words:
+### 3. SEEDS STORYTELLING FRAMEWORK
+${JSON.stringify(frameworks.seeds_framework, null, 2)}
+
+### 4. 4E CONTENT ENGINE
+${JSON.stringify(frameworks['4e_content'], null, 2)}
+
+### 5. STORY CRITERIA TEST
+${JSON.stringify(frameworks.story_criteria, null, 2)}
+
+### 6. POWER WORD LIBRARY
+You have access to categorized power words:
 ${Object.keys(powerWords).map(category => `- ${category.toUpperCase()}: ${powerWords[category as keyof typeof powerWords].usage}`).join('\n')}
 
 Use these strategically, never force them.
 
-### 4. SHADOW FEAR PSYCHOLOGY
+### 7. SHADOW FEAR PSYCHOLOGY
 ${JSON.stringify(shadowFears.description, null, 2)}
 
-The 10 Shadow Fears: ${Object.keys(shadowFears.fears).join(', ')}
+The Shadow Fears: ${Object.keys(shadowFears.fears).join(', ')}
 
-### 5. EXAMPLE PATTERNS (FOR LEARNING ONLY - DO NOT COPY)
+### 8. EXAMPLE PATTERNS (FOR LEARNING ONLY - DO NOT COPY)
 Study these structural patterns but ALWAYS generate fresh content:
 ${JSON.stringify(examplePatterns.transformation_patterns, null, 2)}
 
