@@ -22,6 +22,102 @@ export async function POST(request: NextRequest) {
     // Add Ndivhuwo's story bank to system knowledge
     const systemPromptWithStories = `${systemPrompt}
 
+## R×A×C×U^B HOOK SCIENCE FORMULA
+
+The foundation of every scroll-stopping hook:
+- **R = Relevant**: Who does this attack? (specific target audience)
+- **A = Awareness**: What level? (symptom/problem/solution/product aware)
+- **C = Clarity of Outcome**: What will they get? (clear promise)
+- **U = Unique**: How does this break the pattern? (pattern interrupt)
+- **B = Broadened**: Accessible to wider audience (not too niche)
+
+Apply this formula to LINE 1: CONTEXT hook creation.
+
+## 4E CONTENT EVOLUTION FRAMEWORK
+
+Content mix for maximum engagement and monetization:
+- **40% EDUCATE**: Teach frameworks, strategies, systems
+- **30% ENTERTAIN**: Stories, humor, relatable struggles
+- **20% ENCOURAGE**: Motivation, inspiration, possibility
+- **10% EARN**: Monetization, offers, CTAs
+
+Use this to balance content across your script.
+
+## PAIDS MONETIZATION FRAMEWORK
+
+Revenue streams for creators:
+- **P = Products**: Physical/digital products you sell
+- **A = Ads/Affiliates**: Sponsored content, affiliate commissions
+- **I = Information**: Courses, coaching, consulting
+- **D = Deals**: Brand partnerships, speaking gigs
+- **S = Services**: Done-for-you services, freelancing
+
+Reference when teaching monetization topics.
+
+## SHADOW FEAR PSYCHOLOGY (10 Categories)
+
+What your audience is REALLY afraid of (but won't say):
+
+1. **Fear of Invisibility**: "What if nobody ever notices me?"
+2. **Fear of Wasted Potential**: "What if I'm capable of more but never reach it?"
+3. **Fear of Being Left Behind**: "What if everyone else figures it out except me?"
+4. **Fear of Exposure**: "What if they find out I'm not as good as I seem?"
+5. **Fear of Permanent Mediocrity**: "What if this is as good as it gets?"
+6. **Fear of Missed Timing**: "What if I'm too late/too early?"
+7. **Fear of Being Forgotten**: "What if my work doesn't matter long-term?"
+8. **Fear of Financial Dependency**: "What if I never control my own income?"
+9. **Fear of Creative Exhaustion**: "What if I run out of ideas/relevance?"
+10. **Fear of Systemic Exclusion**: "What if the game is rigged against people like me?"
+
+Target ONE Shadow Fear per script in your hook/collision.
+
+## 4 VIRAL SCRIPTING PRINCIPLES (Apply to EVERY line)
+
+### PRINCIPLE 1: NEGATIVITY ALWAYS WINS
+
+- Negativity invokes MORE attention and emotion than positivity
+- **CRITICAL RULE: Use INDIRECT negativity only**
+- ❌ DON'T attack the viewer ("YOUR mistake...")
+- ✅ DO attack the problem/system ("This mistake is costing you...")
+- Attack the PROBLEM, never the PERSON
+- Use power words: "suck," "wasting," "bullshit," "terrible," "broken," "failing"
+- Example: "Platform dependency is keeping you broke" (NOT "You're broke because you're lazy")
+
+### PRINCIPLE 2: YOU FORMAT
+
+- Always use "YOU" instead of "they," "people," "someone," "one"
+- Direct address creates personal connection
+- Replace ALL instances:
+  - "They" → "You"
+  - "People" → "You"
+  - "Someone" → "You"
+  - "One" → "You"
+  - "Folks" → "You"
+  - "Everyone" → "You"
+- Example: "You're probably making this mistake" (NOT "People often make this mistake")
+
+### PRINCIPLE 3: SHORT & SIMPLE AS POSSIBLE
+
+- Keep sentences concise and punchy
+- Avoid unnecessary complexity
+- One idea per sentence when possible
+- Cut filler words ruthlessly
+- Use active voice, not passive
+- Simple words beat complex words
+- Example: "Do this" (NOT "You should consider implementing this strategy")
+
+### PRINCIPLE 4: AUDIBLE FLOW CHECK
+
+- Read script OUT LOUD before finalizing
+- If you stumble, rewrite
+- Natural conversational rhythm
+- Breath points for camera delivery
+- Emphasis words clearly marked
+- Sounds like TALKING, not reading
+- Example: Script should flow like you're explaining to a friend at a braai
+
+**ALL 4 PRINCIPLES MUST BE APPLIED TO EVERY LINE OF THE SCRIPT.**
+
 ## NDIVHUWO'S VERIFIED STORIES (Use 20% of script time)
 
 ${JSON.stringify(ndivhuwoStories, null, 2)}
@@ -110,32 +206,33 @@ Return ONLY a JSON object (no markdown, no extra text):
   "fiveLine": {
     "context": {
       "timestamp": "0-8s",
-      "script": "WE-focused opening with pattern interrupt",
+      "script": "WE-focused opening with pattern interrupt (YOU format, indirect negativity, short & punchy, audible flow)",
       "visual": "What viewer sees",
-      "ubuntuPrinciple": "Which Ubuntu principle applies"
+      "ubuntuPrinciple": "Which Ubuntu principle applies",
+      "shadowFear": "Which Shadow Fear targeted"
     },
     "collision": {
       "timestamp": "8-18s",
-      "script": "Name the system villain and build tension",
+      "script": "Name the system villain and build tension (YOU format, indirect negativity, short & punchy, audible flow)",
       "visual": "What viewer sees",
-      "systemVillain": "What system/structure is the problem"
+      "systemVillain": "What system/structure is the problem (NOT people)"
     },
     "conversion": {
       "timestamp": "18-35s",
-      "script": "Teach the framework/strategy (80% teaching)",
+      "script": "Teach the framework/strategy - 80% teaching (YOU format, indirect negativity, short & punchy, audible flow)",
       "visual": "What viewer sees",
-      "framework": "Which framework from knowledge base"
+      "framework": "Which framework from knowledge base (PAIDS/4E/Shadow Fears/etc.)"
     },
     "calibration": {
       "timestamp": "35-48s",
-      "script": "Ndivhuwo story as proof (20% story)",
+      "script": "Ndivhuwo story as proof - 20% story (YOU format when addressing viewer, short & punchy, audible flow)",
       "visual": "What viewer sees",
-      "storyUsed": "Which story from story bank",
-      "numbers": "Specific metrics from story"
+      "storyUsed": "Which story from story bank (title)",
+      "numbers": "Specific metrics from story (R750 → R100K, etc.)"
     },
     "community": {
       "timestamp": "48-60s",
-      "script": "Ubuntu CTA with collective framing",
+      "script": "Ubuntu CTA with collective framing (YOU format, WE outcomes, short & punchy, audible flow)",
       "visual": "What viewer sees",
       "collectiveAction": "What WE will do together"
     }
@@ -149,21 +246,63 @@ Return ONLY a JSON object (no markdown, no extra text):
     "Key text overlay 1",
     "Key text overlay 2",
     "Key text overlay 3"
-  ]
+  ],
+  "racub_analysis": {
+    "relevant": "Who this targets (specific audience)",
+    "awareness": "Awareness level (symptom/problem/solution/product)",
+    "clarity": "Clear outcome promised",
+    "unique": "Pattern break/unique angle",
+    "broadened": "How it's accessible to wider audience"
+  },
+  "ubuntu_check": {
+    "we_over_i": "✅ WE framing in Context, I only in Calibration",
+    "system_villain": "✅ System blamed (e.g., 'platform dependency'), NOT people",
+    "collective_result": "✅ Community transformation shown in Community CTA"
+  },
+  "scripting_principles_check": {
+    "negativity": "✅ Indirect negativity applied (attacks problems, not viewer)",
+    "you_format": "✅ YOU format used throughout (no they/people/someone)",
+    "short_simple": "✅ Concise sentences, simple words, active voice",
+    "audible_flow": "✅ Passes read-aloud test, natural conversational rhythm"
+  }
 }
 
 ### CRITICAL REQUIREMENTS:
 
+**NOCHILL 5-Line Method:**
 1. **Use WE language** in Context (0-8s), transition to I only when sharing personal proof
 2. **Name SYSTEM villains** (not people) in Collision phase
 3. **Apply But/Therefore dance** throughout script transitions
 4. **Generate FRESH teaching content** in Conversion (80% of value)
 5. **Select ONE relevant Ndivhuwo story** for Calibration (20% proof)
 6. **Frame CTA as collective action** (Ubuntu principle)
-7. **Include specific numbers** when using stories
-8. **Platform-optimize timing** and visuals
-9. **Natural, conversational language** (sounds good spoken out loud)
-10. **Stick to 5-Line timing**: 0-8s, 8-18s, 18-35s, 35-48s, 48-60s
+7. **Stick to 5-Line timing**: 0-8s, 8-18s, 18-35s, 35-48s, 48-60s
+
+**Hook Science:**
+8. **Apply R×A×C×U^B formula** to hook creation (Relevant, Awareness, Clarity, Unique, Broadened)
+9. **Target ONE Shadow Fear** explicitly in hook/collision
+
+**4 Viral Scripting Principles (EVERY LINE):**
+10. **NEGATIVITY**: Use indirect negativity (attack systems/problems, NOT viewer)
+11. **YOU FORMAT**: Use "YOU" exclusively (never "they/people/someone")
+12. **SHORT & SIMPLE**: Concise sentences, simple words, cut filler ruthlessly
+13. **AUDIBLE FLOW**: Script must sound natural when read aloud (conversational rhythm)
+
+**Content Quality:**
+14. **Include specific numbers** when using stories
+15. **Platform-optimize timing** and visuals
+16. **Reference frameworks** (PAIDS, 4E, Shadow Fears) when relevant
+
+### CRITICAL DON'TS (Automatic Failure):
+
+❌ Attack the viewer directly (indirect negativity only)
+❌ Use "they/people/someone" instead of "YOU"
+❌ Use complex words when simple ones work
+❌ Write scripts that don't pass the audible flow check (read aloud test)
+❌ Make story the main content (it's proof, not teaching)
+❌ Use "I" in Context section (WE-focused until Calibration)
+❌ Blame people as villains (blame SYSTEMS only)
+❌ Create individual-focused CTAs (collective action only)
 
 ### BUT/THEREFORE DANCE TECHNIQUE:
 

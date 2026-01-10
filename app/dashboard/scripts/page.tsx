@@ -19,11 +19,33 @@ interface FiveLineSection {
   script: string
   visual: string
   ubuntuPrinciple?: string
+  shadowFear?: string
   systemVillain?: string
   framework?: string
   storyUsed?: string
   numbers?: string
   collectiveAction?: string
+}
+
+interface RACUBAnalysis {
+  relevant: string
+  awareness: string
+  clarity: string
+  unique: string
+  broadened: string
+}
+
+interface UbuntuCheck {
+  we_over_i: string
+  system_villain: string
+  collective_result: string
+}
+
+interface ScriptingPrinciplesCheck {
+  negativity: string
+  you_format: string
+  short_simple: string
+  audible_flow: string
 }
 
 interface GeneratedScript {
@@ -37,6 +59,9 @@ interface GeneratedScript {
   }
   bRoll: string[]
   textOverlays: string[]
+  racub_analysis?: RACUBAnalysis
+  ubuntu_check?: UbuntuCheck
+  scripting_principles_check?: ScriptingPrinciplesCheck
 }
 
 export default function ScriptWriterPage() {
@@ -97,6 +122,7 @@ LINE 1: CONTEXT (${script.fiveLine.context.timestamp})
 ${script.fiveLine.context.script}
 Visual: ${script.fiveLine.context.visual}
 ${script.fiveLine.context.ubuntuPrinciple ? `Ubuntu Principle: ${script.fiveLine.context.ubuntuPrinciple}` : ''}
+${script.fiveLine.context.shadowFear ? `Shadow Fear: ${script.fiveLine.context.shadowFear}` : ''}
 
 LINE 2: COLLISION (${script.fiveLine.collision.timestamp})
 ${script.fiveLine.collision.script}
@@ -126,6 +152,29 @@ ${script.bRoll.map((b, i) => `${i + 1}. ${b}`).join('\n')}
 
 TEXT OVERLAYS:
 ${script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n')}
+
+${script.racub_analysis ? `
+═══════════════════════════════════════
+R×A×C×U^B HOOK SCIENCE ANALYSIS:
+- Relevant: ${script.racub_analysis.relevant}
+- Awareness: ${script.racub_analysis.awareness}
+- Clarity: ${script.racub_analysis.clarity}
+- Unique: ${script.racub_analysis.unique}
+- Broadened: ${script.racub_analysis.broadened}
+` : ''}
+${script.ubuntu_check ? `
+UBUNTU STORY ARC VALIDATION:
+- ${script.ubuntu_check.we_over_i}
+- ${script.ubuntu_check.system_villain}
+- ${script.ubuntu_check.collective_result}
+` : ''}
+${script.scripting_principles_check ? `
+4 VIRAL SCRIPTING PRINCIPLES:
+- ${script.scripting_principles_check.negativity}
+- ${script.scripting_principles_check.you_format}
+- ${script.scripting_principles_check.short_simple}
+- ${script.scripting_principles_check.audible_flow}
+` : ''}
 `.trim()
 
     navigator.clipboard.writeText(fullScript)
@@ -289,6 +338,9 @@ ${script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n')}
                     {script.fiveLine.context.ubuntuPrinciple && (
                       <p className="text-blue-600"><strong>Ubuntu:</strong> {script.fiveLine.context.ubuntuPrinciple}</p>
                     )}
+                    {script.fiveLine.context.shadowFear && (
+                      <p className="text-blue-600"><strong>Shadow Fear:</strong> {script.fiveLine.context.shadowFear}</p>
+                    )}
                   </div>
                 </div>
 
@@ -398,6 +450,73 @@ ${script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n')}
                     ))}
                   </ul>
                 </div>
+
+                {/* Analysis Sections */}
+                {(script.racub_analysis || script.ubuntu_check || script.scripting_principles_check) && (
+                  <div className="pt-6 border-t space-y-4">
+                    <p className="text-sm font-bold text-gray-800 mb-3">📊 QUALITY ANALYSIS</p>
+
+                    {/* R×A×C×U^B Analysis */}
+                    {script.racub_analysis && (
+                      <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-md">
+                        <p className="text-xs font-semibold text-indigo-600 mb-2">
+                          R×A×C×U^B Hook Science
+                        </p>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <span className="font-semibold text-indigo-700">Relevant:</span>
+                            <p className="text-indigo-600">{script.racub_analysis.relevant}</p>
+                          </div>
+                          <div>
+                            <span className="font-semibold text-indigo-700">Awareness:</span>
+                            <p className="text-indigo-600">{script.racub_analysis.awareness}</p>
+                          </div>
+                          <div>
+                            <span className="font-semibold text-indigo-700">Clarity:</span>
+                            <p className="text-indigo-600">{script.racub_analysis.clarity}</p>
+                          </div>
+                          <div>
+                            <span className="font-semibold text-indigo-700">Unique:</span>
+                            <p className="text-indigo-600">{script.racub_analysis.unique}</p>
+                          </div>
+                          <div className="col-span-2">
+                            <span className="font-semibold text-indigo-700">Broadened:</span>
+                            <p className="text-indigo-600">{script.racub_analysis.broadened}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Ubuntu Check */}
+                    {script.ubuntu_check && (
+                      <div className="p-3 bg-amber-50 border border-amber-200 rounded-md">
+                        <p className="text-xs font-semibold text-amber-600 mb-2">
+                          Ubuntu Story Arc Validation
+                        </p>
+                        <div className="space-y-1 text-xs text-amber-700">
+                          <p>{script.ubuntu_check.we_over_i}</p>
+                          <p>{script.ubuntu_check.system_villain}</p>
+                          <p>{script.ubuntu_check.collective_result}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 4 Scripting Principles Check */}
+                    {script.scripting_principles_check && (
+                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-md">
+                        <p className="text-xs font-semibold text-emerald-600 mb-2">
+                          4 Viral Scripting Principles
+                        </p>
+                        <div className="space-y-1 text-xs text-emerald-700">
+                          <p>{script.scripting_principles_check.negativity}</p>
+                          <p>{script.scripting_principles_check.you_format}</p>
+                          <p>{script.scripting_principles_check.short_simple}</p>
+                          <p>{script.scripting_principles_check.audible_flow}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
           ) : (
