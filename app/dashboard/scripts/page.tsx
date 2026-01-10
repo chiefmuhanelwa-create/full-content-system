@@ -14,25 +14,29 @@ import {
 } from '@/components/ui/select'
 import { FileText, Sparkles, Copy, Download } from 'lucide-react'
 
-interface ScriptBreakdown {
+interface FiveLineSection {
   timestamp: string
   script: string
   visual: string
-  hookRetention?: string
+  ubuntuPrinciple?: string
+  systemVillain?: string
+  framework?: string
+  storyUsed?: string
+  numbers?: string
+  collectiveAction?: string
 }
 
 interface GeneratedScript {
   title: string
-  hook: string
-  breakdown: ScriptBreakdown[]
-  cta: string
+  fiveLine: {
+    context: FiveLineSection
+    collision: FiveLineSection
+    conversion: FiveLineSection
+    calibration: FiveLineSection
+    community: FiveLineSection
+  }
   bRoll: string[]
   textOverlays: string[]
-  ndivhuwoTouch?: {
-    story: string
-    placement: string
-    duration: string
-  }
 }
 
 export default function ScriptWriterPage() {
@@ -86,31 +90,42 @@ export default function ScriptWriterPage() {
     const fullScript = `
 ${script.title}
 
-HOOK (0-3s):
-${script.hook}
+NOCHILL 5-LINE METHOD SCRIPT
+═══════════════════════════════════════
 
-FULL SCRIPT:
-${script.breakdown.map(b => `
-[${b.timestamp}]
-SCRIPT: ${b.script}
-VISUAL: ${b.visual}
-`).join('\n')}
+LINE 1: CONTEXT (${script.fiveLine.context.timestamp})
+${script.fiveLine.context.script}
+Visual: ${script.fiveLine.context.visual}
+${script.fiveLine.context.ubuntuPrinciple ? `Ubuntu Principle: ${script.fiveLine.context.ubuntuPrinciple}` : ''}
 
-CTA:
-${script.cta}
+LINE 2: COLLISION (${script.fiveLine.collision.timestamp})
+${script.fiveLine.collision.script}
+Visual: ${script.fiveLine.collision.visual}
+${script.fiveLine.collision.systemVillain ? `System Villain: ${script.fiveLine.collision.systemVillain}` : ''}
+
+LINE 3: CONVERSION (${script.fiveLine.conversion.timestamp})
+${script.fiveLine.conversion.script}
+Visual: ${script.fiveLine.conversion.visual}
+${script.fiveLine.conversion.framework ? `Framework: ${script.fiveLine.conversion.framework}` : ''}
+
+LINE 4: CALIBRATION (${script.fiveLine.calibration.timestamp})
+${script.fiveLine.calibration.script}
+Visual: ${script.fiveLine.calibration.visual}
+${script.fiveLine.calibration.storyUsed ? `Story: ${script.fiveLine.calibration.storyUsed}` : ''}
+${script.fiveLine.calibration.numbers ? `Numbers: ${script.fiveLine.calibration.numbers}` : ''}
+
+LINE 5: COMMUNITY (${script.fiveLine.community.timestamp})
+${script.fiveLine.community.script}
+Visual: ${script.fiveLine.community.visual}
+${script.fiveLine.community.collectiveAction ? `Collective Action: ${script.fiveLine.community.collectiveAction}` : ''}
+
+═══════════════════════════════════════
 
 B-ROLL SUGGESTIONS:
 ${script.bRoll.map((b, i) => `${i + 1}. ${b}`).join('\n')}
 
 TEXT OVERLAYS:
 ${script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n')}
-
-${script.ndivhuwoTouch ? `
-NDIVHUWO'S STORY TOUCH:
-${script.ndivhuwoTouch.story}
-Placement: ${script.ndivhuwoTouch.placement}
-Duration: ${script.ndivhuwoTouch.duration}
-` : ''}
 `.trim()
 
     navigator.clipboard.writeText(fullScript)
@@ -124,7 +139,7 @@ Duration: ${script.ndivhuwoTouch.duration}
           Script Writer
         </h1>
         <p className="text-gray-600">
-          One-input script generator: 80% fresh teaching + 20% Ndivhuwo's proven stories
+          NOCHILL 5-Line Method: Context → Collision → Conversion → Calibration → Community
         </p>
       </div>
 
@@ -194,13 +209,14 @@ Duration: ${script.ndivhuwoTouch.duration}
               {/* Info Box */}
               <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
                 <p className="text-sm text-blue-800 font-medium mb-2">
-                  🎯 How It Works:
+                  🎯 NOCHILL 5-Line Method:
                 </p>
                 <ul className="text-xs text-blue-700 space-y-1">
-                  <li>• 80% Fresh Teaching (frameworks + psychology)</li>
-                  <li>• 20% Ndivhuwo's Stories (credibility + proof)</li>
-                  <li>• SEEDS Structure (Setup → Escalation → Emotion → Discovery → Summary)</li>
-                  <li>• Platform-optimized timing and visuals</li>
+                  <li>• <strong>Context (0-8s):</strong> WE-focused hook (Ubuntu Story Arc)</li>
+                  <li>• <strong>Collision (8-18s):</strong> Name the system villain</li>
+                  <li>• <strong>Conversion (18-35s):</strong> 80% fresh teaching</li>
+                  <li>• <strong>Calibration (35-48s):</strong> 20% Ndivhuwo proof story</li>
+                  <li>• <strong>Community (48-60s):</strong> Collective action CTA</li>
                 </ul>
               </div>
 
@@ -257,81 +273,106 @@ Duration: ${script.ndivhuwoTouch.duration}
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Hook */}
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
-                  <p className="text-xs font-semibold text-blue-600 mb-2">
-                    HOOK (0-3 seconds)
-                  </p>
-                  <p className="font-medium text-blue-900">{script.hook}</p>
-                </div>
-
-                {/* Script Breakdown */}
-                <div className="space-y-4">
-                  <p className="font-semibold text-sm">COMPLETE SCRIPT:</p>
-                  {script.breakdown.map((section, index) => (
-                    <div
-                      key={index}
-                      className="p-4 border rounded-md bg-gray-50"
-                    >
-                      <p className="text-xs font-semibold text-gray-500 mb-2">
-                        {section.timestamp}
-                      </p>
-                      <div className="space-y-2">
-                        <div>
-                          <span className="text-xs font-semibold text-gray-600">
-                            SCRIPT:
-                          </span>
-                          <p className="text-sm mt-1">{section.script}</p>
-                        </div>
-                        <div>
-                          <span className="text-xs font-semibold text-gray-600">
-                            VISUAL:
-                          </span>
-                          <p className="text-sm mt-1 text-gray-600">
-                            {section.visual}
-                          </p>
-                        </div>
-                        {section.hookRetention && (
-                          <div>
-                            <span className="text-xs font-semibold text-gray-600">
-                              RETENTION:
-                            </span>
-                            <p className="text-sm mt-1 text-gray-500 italic">
-                              {section.hookRetention}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Ndivhuwo's Story Touch */}
-                {script.ndivhuwoTouch && (
-                  <div className="p-4 bg-purple-50 border border-purple-200 rounded-md">
-                    <p className="text-xs font-semibold text-purple-600 mb-2">
-                      NDIVHUWO'S STORY (20% Personality Touch)
+                {/* Line 1: Context */}
+                <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-md">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-bold text-blue-600 bg-blue-200 px-2 py-1 rounded">
+                      LINE 1
+                    </span>
+                    <p className="text-xs font-semibold text-blue-600">
+                      CONTEXT ({script.fiveLine.context.timestamp})
                     </p>
-                    <p className="text-sm text-purple-900 mb-2">
-                      {script.ndivhuwoTouch.story}
-                    </p>
-                    <div className="flex gap-4 text-xs text-purple-700">
-                      <span>📍 {script.ndivhuwoTouch.placement}</span>
-                      <span>⏱️ {script.ndivhuwoTouch.duration}</span>
-                    </div>
                   </div>
-                )}
+                  <p className="font-medium text-blue-900 mb-2">{script.fiveLine.context.script}</p>
+                  <div className="space-y-1 text-xs">
+                    <p className="text-blue-700"><strong>Visual:</strong> {script.fiveLine.context.visual}</p>
+                    {script.fiveLine.context.ubuntuPrinciple && (
+                      <p className="text-blue-600"><strong>Ubuntu:</strong> {script.fiveLine.context.ubuntuPrinciple}</p>
+                    )}
+                  </div>
+                </div>
 
-                {/* CTA */}
-                <div className="p-4 bg-green-50 border border-green-200 rounded-md">
-                  <p className="text-xs font-semibold text-green-600 mb-2">
-                    CALL TO ACTION
-                  </p>
-                  <p className="font-medium text-green-900">{script.cta}</p>
+                {/* Line 2: Collision */}
+                <div className="p-4 bg-red-50 border-l-4 border-red-600 rounded-md">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-bold text-red-600 bg-red-200 px-2 py-1 rounded">
+                      LINE 2
+                    </span>
+                    <p className="text-xs font-semibold text-red-600">
+                      COLLISION ({script.fiveLine.collision.timestamp})
+                    </p>
+                  </div>
+                  <p className="font-medium text-red-900 mb-2">{script.fiveLine.collision.script}</p>
+                  <div className="space-y-1 text-xs">
+                    <p className="text-red-700"><strong>Visual:</strong> {script.fiveLine.collision.visual}</p>
+                    {script.fiveLine.collision.systemVillain && (
+                      <p className="text-red-600"><strong>System Villain:</strong> {script.fiveLine.collision.systemVillain}</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Line 3: Conversion */}
+                <div className="p-4 bg-purple-50 border-l-4 border-purple-600 rounded-md">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-bold text-purple-600 bg-purple-200 px-2 py-1 rounded">
+                      LINE 3
+                    </span>
+                    <p className="text-xs font-semibold text-purple-600">
+                      CONVERSION ({script.fiveLine.conversion.timestamp}) - 80% Teaching
+                    </p>
+                  </div>
+                  <p className="font-medium text-purple-900 mb-2">{script.fiveLine.conversion.script}</p>
+                  <div className="space-y-1 text-xs">
+                    <p className="text-purple-700"><strong>Visual:</strong> {script.fiveLine.conversion.visual}</p>
+                    {script.fiveLine.conversion.framework && (
+                      <p className="text-purple-600"><strong>Framework:</strong> {script.fiveLine.conversion.framework}</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Line 4: Calibration */}
+                <div className="p-4 bg-orange-50 border-l-4 border-orange-600 rounded-md">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-bold text-orange-600 bg-orange-200 px-2 py-1 rounded">
+                      LINE 4
+                    </span>
+                    <p className="text-xs font-semibold text-orange-600">
+                      CALIBRATION ({script.fiveLine.calibration.timestamp}) - 20% Proof
+                    </p>
+                  </div>
+                  <p className="font-medium text-orange-900 mb-2">{script.fiveLine.calibration.script}</p>
+                  <div className="space-y-1 text-xs">
+                    <p className="text-orange-700"><strong>Visual:</strong> {script.fiveLine.calibration.visual}</p>
+                    {script.fiveLine.calibration.storyUsed && (
+                      <p className="text-orange-600"><strong>Story:</strong> {script.fiveLine.calibration.storyUsed}</p>
+                    )}
+                    {script.fiveLine.calibration.numbers && (
+                      <p className="text-orange-600"><strong>Numbers:</strong> {script.fiveLine.calibration.numbers}</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Line 5: Community */}
+                <div className="p-4 bg-green-50 border-l-4 border-green-600 rounded-md">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-bold text-green-600 bg-green-200 px-2 py-1 rounded">
+                      LINE 5
+                    </span>
+                    <p className="text-xs font-semibold text-green-600">
+                      COMMUNITY ({script.fiveLine.community.timestamp}) - Ubuntu CTA
+                    </p>
+                  </div>
+                  <p className="font-medium text-green-900 mb-2">{script.fiveLine.community.script}</p>
+                  <div className="space-y-1 text-xs">
+                    <p className="text-green-700"><strong>Visual:</strong> {script.fiveLine.community.visual}</p>
+                    {script.fiveLine.community.collectiveAction && (
+                      <p className="text-green-600"><strong>Collective Action:</strong> {script.fiveLine.community.collectiveAction}</p>
+                    )}
+                  </div>
                 </div>
 
                 {/* B-Roll Suggestions */}
-                <div>
+                <div className="pt-4 border-t">
                   <p className="text-xs font-semibold text-gray-600 mb-2">
                     B-ROLL SUGGESTIONS:
                   </p>
@@ -368,7 +409,7 @@ Duration: ${script.ndivhuwoTouch.duration}
                 </h3>
                 <p className="text-gray-500 text-center max-w-md text-sm">
                   Enter your content idea and click "Generate Complete Script" to create
-                  a production-ready script with NOCHILL frameworks + Ndivhuwo's proven stories.
+                  a production-ready script using the NOCHILL 5-Line Method with Ubuntu Story Arc.
                 </p>
               </CardContent>
             </Card>

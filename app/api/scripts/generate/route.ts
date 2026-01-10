@@ -49,61 +49,97 @@ DO NOT make the story the main content. Use it to SUPPORT the teaching.
 "${idea}"
 
 ${platform ? `Platform: ${platform}` : 'Platform: Auto-detect best fit'}
-${duration ? `Duration: ${duration}` : 'Duration: Auto-optimize'}
+${duration ? `Duration: ${duration}` : 'Duration: Auto-optimize (default 60s)'}
 
 ## GENERATION TASK
 
-Create a COMPLETE production-ready script with:
+Create a COMPLETE production-ready script using the NOCHILL 5-Line Method:
 
-### STRUCTURE (SEEDS Framework):
-1. **SETUP (Hook - First 3-5 seconds)**
-   - Scroll-stopping opening using R×A×C×U^B formula
-   - Create immediate pattern interrupt
+### STRUCTURE (NOCHILL 5-Line Method):
 
-2. **ESCALATION (Context - 5-15 seconds)**
-   - Establish the problem/topic
-   - Build tension or curiosity
+**LINE 1: CONTEXT (0-8 seconds) - "WE" Not "I"**
+- Use UBUNTU Story Arc: Start with collective truth (WE experienced this)
+- Pattern interrupt with shared problem
+- Apply R×A×C×U^B formula for hook
+- CRITICAL: Use "WE" language, not "I" (unless transition at 5-6s)
+- Example: "We've all been told..." → "Here's what nobody tells you..."
 
-3. **EMOTION (Peak - 15-30 seconds)**
-   - Main teaching content (FRESH, not template)
-   - Use frameworks from knowledge base
-   - This is 80% of the script
+**LINE 2: COLLISION (8-18 seconds) - The Crisis**
+- Name the SYSTEM villain (not people): algorithm changes, industry gatekeeping, outdated advice
+- Build tension around the collective problem
+- Use But/Therefore dance: "We think X, BUT reality is Y, THEREFORE we need Z"
+- Show the gap between promise and reality
 
-4. **DISCOVERY (Solution - 30-50 seconds)**
-   - Actionable insights or steps
-   - Include Ndivhuwo story snippet HERE (20% credibility)
-   - Keep story under 15 seconds
+**LINE 3: CONVERSION (18-35 seconds) - The Framework**
+- 80% FRESH TEACHING: Introduce your framework/method
+- Use frameworks from knowledge base (PAIDS, 4E, Shadow Fears, etc.)
+- Teach the system/strategy (not just tips)
+- Keep language conversational and actionable
+- This is the MEAT of the content
 
-5. **SUMMARY (CTA - Last 5-10 seconds)**
-   - Clear call to action
-   - Platform-optimized engagement ask
+**LINE 4: CALIBRATION (35-48 seconds) - The Proof**
+- 20% NDIVHUWO STORY: Select 1 relevant story from story bank
+- Use as PROOF POINT (not main content)
+- Include specific numbers and emotional arc
+- Show Before → Numbers → Lesson
+- Maximum 12-15 seconds for story
+
+**LINE 5: COMMUNITY (48-60 seconds) - Ubuntu CTA**
+- Call to action emphasizing COLLECTIVE action
+- "Join us," "Let's build together," "We're creating..."
+- Focus on WE outcomes, not just individual gain
+- Platform-optimized engagement ask
+- Ubuntu principle: "I am because we are"
+
+### UBUNTU STORY ARC PRINCIPLES (CRITICAL):
+
+1. **WE Over I**: Start with collective experience, transition to personal proof
+2. **System Villains**: Blame systems/structures, not people
+3. **Collective Results**: Frame success as community win, not solo achievement
+4. **But/Therefore Dance**: "We believe X, BUT reality is Y, THEREFORE we need Z"
 
 ### CONTENT SPLIT (CRITICAL):
-- **80% FRESH TEACHING**: Use frameworks, psychology, fresh insights
-- **20% NDIVHUWO STORY**: Select 1 relevant story from story bank as proof point
+- **80% FRESH TEACHING**: Framework/strategy in Conversion phase
+- **20% NDIVHUWO STORY**: Proof point in Calibration phase
 
 ### OUTPUT FORMAT:
 
 Return ONLY a JSON object (no markdown, no extra text):
 {
   "title": "Compelling script title",
-  "hook": "First 3-5 second opening line",
-  "breakdown": [
-    {
-      "timestamp": "0-3s",
-      "script": "Exact words to say (conversational, natural)",
-      "visual": "What viewer sees on screen",
-      "hookRetention": "Why they keep watching"
+  "fiveLine": {
+    "context": {
+      "timestamp": "0-8s",
+      "script": "WE-focused opening with pattern interrupt",
+      "visual": "What viewer sees",
+      "ubuntuPrinciple": "Which Ubuntu principle applies"
     },
-    {
-      "timestamp": "3-8s",
-      "script": "...",
-      "visual": "...",
-      "hookRetention": "..."
+    "collision": {
+      "timestamp": "8-18s",
+      "script": "Name the system villain and build tension",
+      "visual": "What viewer sees",
+      "systemVillain": "What system/structure is the problem"
+    },
+    "conversion": {
+      "timestamp": "18-35s",
+      "script": "Teach the framework/strategy (80% teaching)",
+      "visual": "What viewer sees",
+      "framework": "Which framework from knowledge base"
+    },
+    "calibration": {
+      "timestamp": "35-48s",
+      "script": "Ndivhuwo story as proof (20% story)",
+      "visual": "What viewer sees",
+      "storyUsed": "Which story from story bank",
+      "numbers": "Specific metrics from story"
+    },
+    "community": {
+      "timestamp": "48-60s",
+      "script": "Ubuntu CTA with collective framing",
+      "visual": "What viewer sees",
+      "collectiveAction": "What WE will do together"
     }
-    // Continue for full duration
-  ],
-  "cta": "Final call to action (platform-specific)",
+  },
   "bRoll": [
     "B-roll suggestion 1",
     "B-roll suggestion 2",
@@ -113,28 +149,35 @@ Return ONLY a JSON object (no markdown, no extra text):
     "Key text overlay 1",
     "Key text overlay 2",
     "Key text overlay 3"
-  ],
-  "ndivhuwoTouch": {
-    "story": "Selected story snippet from story bank (12-15 seconds)",
-    "placement": "After main teaching content",
-    "duration": "12 seconds"
-  }
+  ]
 }
 
 ### CRITICAL REQUIREMENTS:
 
-1. **Generate FRESH teaching content** (don't use story as filler)
-2. **Select ONE relevant Ndivhuwo story** from the story bank
-3. **Place story AFTER teaching** as proof/credibility
-4. **Use SEEDS structure** throughout
-5. **Platform-optimize timing** and visuals
-6. **Apply 4 scripting principles**: Negativity (indirect), You-format, Short & Simple, Audible Flow
+1. **Use WE language** in Context (0-8s), transition to I only when sharing personal proof
+2. **Name SYSTEM villains** (not people) in Collision phase
+3. **Apply But/Therefore dance** throughout script transitions
+4. **Generate FRESH teaching content** in Conversion (80% of value)
+5. **Select ONE relevant Ndivhuwo story** for Calibration (20% proof)
+6. **Frame CTA as collective action** (Ubuntu principle)
 7. **Include specific numbers** when using stories
-8. **Emotional arc in story**: Before → After → Lesson
-9. **Second-by-second breakdown** with exact timestamps
-10. **Natural, conversational language** (sounds good spoken out loud)
+8. **Platform-optimize timing** and visuals
+9. **Natural, conversational language** (sounds good spoken out loud)
+10. **Stick to 5-Line timing**: 0-8s, 8-18s, 18-35s, 35-48s, 48-60s
 
-REMEMBER: The script should teach (80%) and use story as proof (20%), not the other way around!
+### BUT/THEREFORE DANCE TECHNIQUE:
+
+Use throughout transitions:
+- Context → Collision: "We think X, BUT the system does Y"
+- Collision → Conversion: "The problem is real, THEREFORE here's the framework"
+- Conversion → Calibration: "The method works, BUT don't just take my word for it"
+- Calibration → Community: "I did it, THEREFORE we can all do it together"
+
+REMEMBER:
+- WE over I (Ubuntu Story Arc)
+- Systems are villains, not people
+- 80% teaching, 20% story proof
+- Collective CTA, not individual win
 `
 
     // Call Claude API with extended token limit for scripts
