@@ -49,8 +49,23 @@ interface ScriptingPrinciplesCheck {
   audible_flow: string
 }
 
+interface Hook {
+  text: string
+  type: 'information_gap' | 'desired_result' | 'undesired_result' | 'a_to_b_transformation'
+  racub_breakdown: {
+    relevant: string
+    awareness: string
+    clarity: string
+    unique: string
+    broadened: string
+  }
+  shadowFear: string
+  powerWords: string[]
+}
+
 interface GeneratedScript {
   title: string
+  hook: Hook
   fiveLine: {
     context: FiveLineSection
     collision: FiveLineSection
@@ -60,7 +75,6 @@ interface GeneratedScript {
   }
   bRoll: string[]
   textOverlays: string[]
-  racub_analysis?: RACUBAnalysis
   ubuntu_check?: UbuntuCheck
   scripting_principles_check?: ScriptingPrinciplesCheck
 }
@@ -130,20 +144,48 @@ export default function ScriptWriterPage() {
     }
   }
 
+  const getHookTypeLabel = (type: string) => {
+    const labels = {
+      information_gap: '🔍 Information Gap',
+      desired_result: '🎯 Desired Result',
+      undesired_result: '⚠️ Undesired Result',
+      a_to_b_transformation: '🔄 A-to-B Transformation',
+    }
+    return labels[type as keyof typeof labels] || type
+  }
+
   const copyScript = () => {
     if (!script) return
 
     const fullScript = `
 ${script.title}
 
-NOCHILL 5-LINE METHOD SCRIPT
+═══════════════════════════════════════
+🎣 HOOK SCIENCE (R×A×C×U^B Formula)
+═══════════════════════════════════════
+
+${getHookTypeLabel(script.hook.type)}
+
+"${script.hook.text}"
+
+R×A×C×U^B Breakdown:
+• R (Relevant): ${script.hook.racub_breakdown.relevant}
+• A (Awareness): ${script.hook.racub_breakdown.awareness}
+• C (Clarity): ${script.hook.racub_breakdown.clarity}
+• U (Unique): ${script.hook.racub_breakdown.unique}
+• B (Broadened): ${script.hook.racub_breakdown.broadened}
+
+Shadow Fear Targeted: ${script.hook.shadowFear}
+Power Words: ${script.hook.powerWords.join(', ')}
+
+═══════════════════════════════════════
+🎯 NOCHILL 5-Line Method
 ═══════════════════════════════════════
 
 LINE 1: CONTEXT (${script.fiveLine.context.timestamp})
 ${script.fiveLine.context.script}
 Visual: ${script.fiveLine.context.visual}
 ${script.fiveLine.context.ubuntuPrinciple ? `Ubuntu Principle: ${script.fiveLine.context.ubuntuPrinciple}` : ''}
-${script.fiveLine.context.shadowFear ? `Shadow Fear: ${script.fiveLine.context.shadowFear}` : ''}
 
 LINE 2: COLLISION (${script.fiveLine.collision.timestamp})
 ${script.fiveLine.collision.script}
@@ -391,6 +433,60 @@ ${script.scripting_principles_check ? `
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Hook Science Section */}
+                <div className="p-5 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-300 rounded-lg">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-2xl">🎣</span>
+                    <h3 className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                      Hook Science (R×A×C×U^B Formula)
+                    </h3>
+                  </div>
+
+                  <div className="mb-3">
+                    <span className="text-xs font-semibold text-purple-700 bg-purple-200 px-2 py-1 rounded">
+                      {getHookTypeLabel(script.hook.type)}
+                    </span>
+                  </div>
+
+                  <p className="text-lg font-bold text-purple-900 mb-4 p-3 bg-white rounded-md border-l-4 border-purple-600">
+                    "{script.hook.text}"
+                  </p>
+
+                  <details className="mb-3">
+                    <summary className="cursor-pointer text-sm font-semibold text-purple-700 hover:text-purple-900 mb-2">
+                      📐 R×A×C×U^B Breakdown
+                    </summary>
+                    <div className="space-y-2 pl-4 text-sm border-l-2 border-purple-300">
+                      <p><strong className="text-purple-700">R (Relevant):</strong> {script.hook.racub_breakdown.relevant}</p>
+                      <p><strong className="text-purple-700">A (Awareness):</strong> {script.hook.racub_breakdown.awareness}</p>
+                      <p><strong className="text-purple-700">C (Clarity):</strong> {script.hook.racub_breakdown.clarity}</p>
+                      <p><strong className="text-purple-700">U (Unique):</strong> {script.hook.racub_breakdown.unique}</p>
+                      <p><strong className="text-purple-700">B (Broadened):</strong> {script.hook.racub_breakdown.broadened}</p>
+                    </div>
+                  </details>
+
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    <div className="bg-white px-3 py-1.5 rounded-md border border-purple-200">
+                      <strong className="text-purple-700">Shadow Fear:</strong> {script.hook.shadowFear}
+                    </div>
+                    <div className="bg-white px-3 py-1.5 rounded-md border border-purple-200">
+                      <strong className="text-purple-700">Power Words:</strong> {script.hook.powerWords.join(', ')}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t-2 border-purple-200"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-3 bg-white text-purple-700 font-semibold">
+                      ⬇️ Hook flows into 5-Line Method ⬇️
+                    </span>
+                  </div>
+                </div>
+
                 {/* Line 1: Context */}
                 <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-md">
                   <div className="flex items-center gap-2 mb-2">

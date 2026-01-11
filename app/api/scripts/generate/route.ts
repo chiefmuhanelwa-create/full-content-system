@@ -149,16 +149,69 @@ ${duration ? `Duration: ${duration}` : 'Duration: Auto-optimize (default 60s)'}
 
 ## GENERATION TASK
 
-Create a COMPLETE production-ready script using the NOCHILL 5-Line Method:
+Create a COMPLETE production-ready script following this 2-PHASE process:
+
+**PHASE 1: Generate Hook (R×A×C×U^B Hook Science)**
+**PHASE 2: Build Script (NOCHILL 5-Line Method)**
+
+The hook from Phase 1 flows directly into LINE 1: CONTEXT of Phase 2.
+
+---
+
+## PHASE 1: 🎣 HOOK SCIENCE (R×A×C×U^B Formula)
+
+**CRITICAL: Generate the hook FIRST before writing the 5-Line script.**
+
+### THE 4 HOOK TYPES (Component C: Clarity of Outcome):
+
+Choose ONE hook type based on the content idea:
+
+1. **INFORMATION GAP** - "You see X? Here's what they're NOT telling you about Y..."
+   - Use when: Audience knows result exists but not hidden factors
+   - Creates curiosity through knowledge gap revelation
+
+2. **DESIRED RESULT** - "I'm going to show you how to achieve X in Y time—even if Z..."
+   - Use when: Audience wants clear solution, needs confidence
+   - Power move: Specific + timeframe + overcomes objection
+
+3. **UNDESIRED RESULT** - "Never, ever, ever do X. Once you do, Y. And next thing: Z."
+   - Use when: Audience making critical mistake unknowingly
+   - Power move: Strong negativity + consequence chain
+
+4. **A-TO-B TRANSFORMATION** - "You're doing X. Here's how to do Y instead—and achieve Z."
+   - Use when: Audience stuck in wrong state, needs pathway
+   - Power move: Acknowledge current + contrast + solution
+
+### R×A×C×U^B FORMULA APPLICATION:
+
+- **R (Relevant)**: Who is this for? (specific ICP targeting)
+- **A (Awareness)**: What do they know? (symptom/problem/solution/product aware)
+- **C (Clarity)**: What outcome promised? (use one of 4 hook types above)
+- **U (Unique)**: What breaks the pattern? (power words, unique angle)
+- **B (Broadened)**: How to reach more? (accessible to wider audience)
+
+### HOOK REQUIREMENTS:
+
+- 15-25 words maximum (3-5 seconds spoken)
+- Uses YOU format (not "they" or "people")
+- Includes indirect negativity (attacks problem, not person)
+- Passes audible flow check (sounds natural when spoken)
+- Targets ONE Shadow Fear explicitly
+
+**The hook you generate will become the opening of LINE 1: CONTEXT.**
+
+---
+
+## PHASE 2: 🎯 NOCHILL 5-Line Method
 
 ### STRUCTURE (NOCHILL 5-Line Method):
 
 **LINE 1: CONTEXT (0-8 seconds) - "WE" Not "I"**
-- Use UBUNTU Story Arc: Start with collective truth (WE experienced this)
+- **STARTS WITH THE HOOK from Phase 1** (first 3-5 seconds)
+- Hook flows into WE-focused setup using Ubuntu Story Arc
 - Pattern interrupt with shared problem
-- Apply R×A×C×U^B formula for hook
 - CRITICAL: Use "WE" language, not "I" (unless transition at 5-6s)
-- Example: "We've all been told..." → "Here's what nobody tells you..."
+- Example: [HOOK] "You see creators getting 10K views? Here's what they're hiding..." → [WE-SETUP] "We've all been told to just post consistently..."
 
 **LINE 2: COLLISION (8-18 seconds) - The Crisis**
 - Name the SYSTEM villain (not people): algorithm changes, industry gatekeeping, outdated advice
@@ -203,13 +256,25 @@ Create a COMPLETE production-ready script using the NOCHILL 5-Line Method:
 Return ONLY a JSON object (no markdown, no extra text):
 {
   "title": "Compelling script title",
+  "hook": {
+    "text": "The viral hook (15-25 words) that opens the script",
+    "type": "information_gap | desired_result | undesired_result | a_to_b_transformation",
+    "racub_breakdown": {
+      "relevant": "Who this targets (specific audience)",
+      "awareness": "Awareness level (symptom/problem/solution/product)",
+      "clarity": "Clear outcome promised (hook type)",
+      "unique": "Pattern break/unique angle used",
+      "broadened": "How it's accessible to wider audience"
+    },
+    "shadowFear": "Which of the 10 Shadow Fears this hook targets",
+    "powerWords": ["list", "of", "power", "words", "used"]
+  },
   "fiveLine": {
     "context": {
       "timestamp": "0-8s",
-      "script": "WE-focused opening with pattern interrupt (YOU format, indirect negativity, short & punchy, audible flow)",
+      "script": "STARTS with the hook from above, then flows into WE-focused setup (YOU format, indirect negativity, short & punchy, audible flow). Example: '[HOOK] You see creators getting 10K views? Here's what they're hiding... [WE-SETUP] We've all been told to just post consistently...'",
       "visual": "What viewer sees",
-      "ubuntuPrinciple": "Which Ubuntu principle applies",
-      "shadowFear": "Which Shadow Fear targeted"
+      "ubuntuPrinciple": "Which Ubuntu principle applies"
     },
     "collision": {
       "timestamp": "8-18s",
@@ -247,13 +312,6 @@ Return ONLY a JSON object (no markdown, no extra text):
     "Key text overlay 2",
     "Key text overlay 3"
   ],
-  "racub_analysis": {
-    "relevant": "Who this targets (specific audience)",
-    "awareness": "Awareness level (symptom/problem/solution/product)",
-    "clarity": "Clear outcome promised",
-    "unique": "Pattern break/unique angle",
-    "broadened": "How it's accessible to wider audience"
-  },
   "ubuntu_check": {
     "we_over_i": "✅ WE framing in Context, I only in Calibration",
     "system_villain": "✅ System blamed (e.g., 'platform dependency'), NOT people",
@@ -269,18 +327,22 @@ Return ONLY a JSON object (no markdown, no extra text):
 
 ### CRITICAL REQUIREMENTS:
 
-**NOCHILL 5-Line Method:**
-1. **Use WE language** in Context (0-8s), transition to I only when sharing personal proof
-2. **Name SYSTEM villains** (not people) in Collision phase
-3. **Apply But/Therefore dance** throughout script transitions
-4. **Generate FRESH teaching content** in Conversion (80% of value)
-5. **Select ONE relevant Ndivhuwo story** for Calibration (20% proof)
-6. **Frame CTA as collective action** (Ubuntu principle)
-7. **Stick to 5-Line timing**: 0-8s, 8-18s, 18-35s, 35-48s, 48-60s
+**Hook Science (PHASE 1 - Generate FIRST):**
+1. **Choose ONE of the 4 hook types** (Information Gap, Desired Result, Undesired Result, A-to-B Transformation)
+2. **Apply complete R×A×C×U^B formula** (Relevant, Awareness, Clarity, Unique, Broadened)
+3. **Target ONE Shadow Fear** explicitly in the hook
+4. **Keep hook to 15-25 words** (3-5 seconds spoken)
+5. **Include power words** for pattern interrupt
+6. **Ensure hook passes all 4 Viral Scripting Principles** (Negativity, YOU format, Short & Simple, Audible Flow)
 
-**Hook Science:**
-8. **Apply R×A×C×U^B formula** to hook creation (Relevant, Awareness, Clarity, Unique, Broadened)
-9. **Target ONE Shadow Fear** explicitly in hook/collision
+**NOCHILL 5-Line Method (PHASE 2 - Build AFTER Hook):**
+7. **LINE 1 STARTS with the generated hook**, then flows into WE language setup
+8. **Name SYSTEM villains** (not people) in Collision phase
+9. **Apply But/Therefore dance** throughout script transitions
+10. **Generate FRESH teaching content** in Conversion (80% of value)
+11. **Select ONE relevant Ndivhuwo story** for Calibration (20% proof)
+12. **Frame CTA as collective action** (Ubuntu principle)
+13. **Stick to 5-Line timing**: 0-8s, 8-18s, 18-35s, 35-48s, 48-60s
 
 **4 Viral Scripting Principles (EVERY LINE):**
 10. **NEGATIVITY**: Use indirect negativity (attack systems/problems, NOT viewer)
