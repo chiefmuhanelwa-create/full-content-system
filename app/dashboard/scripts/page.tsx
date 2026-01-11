@@ -12,8 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen } from 'lucide-react'
+import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen, Monitor } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
+import { useRouter } from 'next/navigation'
 
 interface FiveLineSection {
   timestamp: string
@@ -73,6 +74,7 @@ interface GeneratedScript {
 
 export default function ScriptWriterPage() {
   const { pendingAction, setPendingAction, addContentToCalendar, stories, selectedStory, selectStory } = useContent()
+  const router = useRouter()
 
   const [idea, setIdea] = useState('')
   const [platform, setPlatform] = useState('auto')
@@ -341,6 +343,25 @@ ${script.scripting_principles_check ? `
     }
   }
 
+  const loadToTeleprompter = () => {
+    if (!script) return
+
+    const fullScript = `${script.title}
+
+${script.fiveLine.context.script}
+
+${script.fiveLine.collision.script}
+
+${script.fiveLine.conversion.script}
+
+${script.fiveLine.calibration.script}
+
+${script.fiveLine.community.script}`
+
+    localStorage.setItem('teleprompterScript', fullScript)
+    router.push('/dashboard/teleprompter')
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
@@ -518,7 +539,7 @@ ${script.scripting_principles_check ? `
                     <CardTitle>{script.title}</CardTitle>
                     <CardDescription>Production-ready script</CardDescription>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-wrap">
                     <Button size="sm" variant="outline" onClick={copyScript} className={copySuccess ? 'bg-green-100 border-green-500' : ''}>
                       <Copy className="h-4 w-4 mr-2" />
                       {copySuccess ? 'Copied!' : 'Copy'}
@@ -526,6 +547,10 @@ ${script.scripting_principles_check ? `
                     <Button size="sm" variant="outline" onClick={downloadPDF}>
                       <Download className="h-4 w-4 mr-2" />
                       PDF
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={loadToTeleprompter} className="bg-cyan-50 hover:bg-cyan-100">
+                      <Monitor className="h-4 w-4 mr-2" />
+                      Teleprompter
                     </Button>
                   </div>
                 </div>

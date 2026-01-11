@@ -14,6 +14,15 @@ export default function TeleprompterPage() {
   const containerRef = useRef<HTMLDivElement>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
+  // Load script from localStorage if available
+  useEffect(() => {
+    const savedScript = localStorage.getItem('teleprompterScript')
+    if (savedScript) {
+      setScript(savedScript)
+      localStorage.removeItem('teleprompterScript')
+    }
+  }, [])
+
   useEffect(() => {
     if (isPlaying) {
       intervalRef.current = setInterval(() => {
