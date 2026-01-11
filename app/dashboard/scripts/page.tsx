@@ -28,14 +28,6 @@ interface FiveLineSection {
   collectiveAction?: string
 }
 
-interface RACUBAnalysis {
-  relevant: string
-  awareness: string
-  clarity: string
-  unique: string
-  broadened: string
-}
-
 interface UbuntuCheck {
   we_over_i: string
   system_villain: string
@@ -216,16 +208,8 @@ ${script.bRoll.map((b, i) => `${i + 1}. ${b}`).join('\n')}
 TEXT OVERLAYS:
 ${script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n')}
 
-${script.racub_analysis ? `
-═══════════════════════════════════════
-R×A×C×U^B HOOK SCIENCE ANALYSIS:
-- Relevant: ${script.racub_analysis.relevant}
-- Awareness: ${script.racub_analysis.awareness}
-- Clarity: ${script.racub_analysis.clarity}
-- Unique: ${script.racub_analysis.unique}
-- Broadened: ${script.racub_analysis.broadened}
-` : ''}
 ${script.ubuntu_check ? `
+═══════════════════════════════════════
 UBUNTU STORY ARC VALIDATION:
 - ${script.ubuntu_check.we_over_i}
 - ${script.ubuntu_check.system_villain}
