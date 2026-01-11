@@ -601,40 +601,9 @@ ${script.scripting_principles_check ? `
                 </div>
 
                 {/* Analysis Sections */}
-                {(script.racub_analysis || script.ubuntu_check || script.scripting_principles_check) && (
+                {(script.ubuntu_check || script.scripting_principles_check) && (
                   <div className="pt-6 border-t space-y-4">
                     <p className="text-sm font-bold text-gray-800 mb-3">📊 QUALITY ANALYSIS</p>
-
-                    {/* R×A×C×U^B Analysis */}
-                    {script.racub_analysis && (
-                      <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-md">
-                        <p className="text-xs font-semibold text-indigo-600 mb-2">
-                          R×A×C×U^B Hook Science
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 text-xs">
-                          <div>
-                            <span className="font-semibold text-indigo-700">Relevant:</span>
-                            <p className="text-indigo-600">{script.racub_analysis.relevant}</p>
-                          </div>
-                          <div>
-                            <span className="font-semibold text-indigo-700">Awareness:</span>
-                            <p className="text-indigo-600">{script.racub_analysis.awareness}</p>
-                          </div>
-                          <div>
-                            <span className="font-semibold text-indigo-700">Clarity:</span>
-                            <p className="text-indigo-600">{script.racub_analysis.clarity}</p>
-                          </div>
-                          <div>
-                            <span className="font-semibold text-indigo-700">Unique:</span>
-                            <p className="text-indigo-600">{script.racub_analysis.unique}</p>
-                          </div>
-                          <div className="col-span-2">
-                            <span className="font-semibold text-indigo-700">Broadened:</span>
-                            <p className="text-indigo-600">{script.racub_analysis.broadened}</p>
-                          </div>
-                        </div>
-                      </div>
-                    )}
 
                     {/* Ubuntu Check */}
                     {script.ubuntu_check && (
