@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { BookOpen, Sparkles, Copy, Check, AlertCircle } from 'lucide-react'
+import { BookOpen, Sparkles, Copy, Check, AlertCircle, ArrowRight } from 'lucide-react'
+import { useContent } from '@/contexts/ContentContext'
 
 interface StoryMetrics {
   before: string
@@ -30,6 +32,9 @@ interface ExtractedStory {
 }
 
 export default function StoryExtractorPage() {
+  const router = useRouter()
+  const { addStory, setPendingAction } = useContent()
+
   const [storyInput, setStoryInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [stories, setStories] = useState<ExtractedStory[]>([])
@@ -65,7 +70,17 @@ export default function StoryExtractorPage() {
         throw new Error(data.error || 'Failed to extract stories')
       }
 
+      // Set local state
       setStories(data.stories)
+
+      // Also save to global context for cross-tool communication
+      data.stories.forEach((story: ExtractedStory) => {
+        addStory({
+          title: story.title,
+          content: story.content,
+          metrics: story.metrics,
+        })
+      })
     } catch (err: any) {
       setError(err.message || 'An error occurred')
       console.error('Error extracting stories:', err)
@@ -190,24 +205,49 @@ Use Case: ${story.useCase}
               {stories.map((story, index) => (
                 <Card key={index} className="border-l-4 border-purple-600">
                   <CardHeader>
-                    <div className="flex items-start justify-between">
+                    <div className="flex items-start justify-between gap-2">
                       <div className="flex-1">
                         <CardTitle className="text-lg">{story.title}</CardTitle>
                         <CardDescription className="mt-1">
                           {story.type.charAt(0).toUpperCase() + story.type.slice(1)}
                         </CardDescription>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => copyStory(story, index)}
-                      >
-                        {copiedIndex === index ? (
-                          <Check className="h-4 w-4 text-green-600" />
-                        ) : (
-                          <Copy className="h-4 w-4" />
-                        )}
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            // Save story to context and navigate to Script Writer
+                            const savedStory = addStory({
+                              title: story.title,
+                              content: story.content,
+                              metrics: story.metrics,
+                            })
+                            setPendingAction({
+                              action: 'use-story-in-script',
+                              data: savedStory,
+                            })
+                            router.push('/dashboard/scripts')
+                          }}
+                          className="gap-1"
+                          title="Use in Script Writer"
+                        >
+                          <ArrowRight className="h-3 w-3" />
+                          Script
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyStory(story, index)}
+                          title="Copy story"
+                        >
+                          {copiedIndex === index ? (
+                            <Check className="h-4 w-4 text-green-600" />
+                          ) : (
+                            <Copy className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -12,7 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Zap, Copy, Heart, Trash2, Sparkles } from 'lucide-react'
+import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon } from 'lucide-react'
+import { useContent } from '@/contexts/ContentContext'
 
 interface Hook {
   id: string
@@ -21,6 +23,9 @@ interface Hook {
 }
 
 export default function HookGeneratorPage() {
+  const router = useRouter()
+  const { addHook, setPendingAction, addContentToCalendar, selectedFears } = useContent()
+
   const [topic, setTopic] = useState('')
   const [platform, setPlatform] = useState('instagram')
   const [duration, setDuration] = useState('60s')
@@ -63,14 +68,24 @@ export default function HookGeneratorPage() {
         throw new Error(data.error || 'Failed to generate hooks')
       }
 
-      // Transform hooks into objects with IDs
+      // Transform hooks into objects with IDs and save to context
       const generatedHooks: Hook[] = data.hooks.map((content: string, index: number) => ({
         id: `${Date.now()}-${index}`,
         content,
         likes: 0,
       }))
 
+      // Save to local state for display
       setHooks(generatedHooks)
+
+      // Also save to global context for cross-tool communication
+      generatedHooks.forEach((hook) => {
+        addHook({
+          content: hook.content,
+          type: hookType !== 'any' ? hookType as any : 'information_gap', // Default type
+          platform,
+        })
+      })
     } catch (err: any) {
       setError(err.message || 'An error occurred')
       console.error('Error generating hooks:', err)
@@ -254,11 +269,12 @@ export default function HookGeneratorPage() {
                     <div className="text-sm text-gray-500 mb-2">Hook #{index + 1}</div>
                     <p className="text-lg font-medium leading-relaxed">{hook.content}</p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => likeHook(hook.id)}
+                      title="Like this hook"
                     >
                       <Heart
                         className={`h-4 w-4 ${
@@ -273,13 +289,54 @@ export default function HookGeneratorPage() {
                       variant="ghost"
                       size="icon"
                       onClick={() => copyHook(hook.content)}
+                      title="Copy to clipboard"
                     >
                       <Copy className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        // Save hook to context and navigate to Script Writer
+                        const savedHook = addHook({
+                          content: hook.content,
+                          type: hookType !== 'any' ? hookType as any : 'information_gap',
+                          platform,
+                        })
+                        setPendingAction({
+                          action: 'use-hook-in-script',
+                          data: savedHook,
+                        })
+                        router.push('/dashboard/scripts')
+                      }}
+                      className="gap-1"
+                      title="Use in Script Writer"
+                    >
+                      <ArrowRight className="h-3 w-3" />
+                      Script
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        addContentToCalendar({
+                          title: hook.content.substring(0, 50) + '...',
+                          platform,
+                          sourceTools: ['Hook Generator'],
+                        })
+                        // Show toast or notification (optional)
+                      }}
+                      className="gap-1"
+                      title="Add to Content Calendar"
+                    >
+                      <CalendarIcon className="h-3 w-3" />
+                      Calendar
                     </Button>
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => deleteHook(hook.id)}
+                      title="Delete hook"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

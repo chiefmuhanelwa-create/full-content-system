@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
@@ -12,7 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { FileText, Sparkles, Copy, Download } from 'lucide-react'
+import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen } from 'lucide-react'
+import { useContent } from '@/contexts/ContentContext'
 
 interface FiveLineSection {
   timestamp: string
@@ -65,12 +66,32 @@ interface GeneratedScript {
 }
 
 export default function ScriptWriterPage() {
+  const { pendingAction, setPendingAction, addContentToCalendar, stories, selectedStory, selectStory } = useContent()
+
   const [idea, setIdea] = useState('')
   const [platform, setPlatform] = useState('auto')
   const [duration, setDuration] = useState('auto')
   const [loading, setLoading] = useState(false)
   const [script, setScript] = useState<GeneratedScript | null>(null)
   const [error, setError] = useState('')
+  const [showStorySelector, setShowStorySelector] = useState(false)
+
+  // Check for pending action (hook from Hook Generator)
+  useEffect(() => {
+    if (pendingAction.action === 'use-hook-in-script' && pendingAction.data) {
+      const hook = pendingAction.data
+      setIdea(hook.content)
+      setPlatform(hook.platform || 'auto')
+      // Clear pending action
+      setPendingAction(null)
+    }
+    if (pendingAction.action === 'use-story-in-script' && pendingAction.data) {
+      const story = pendingAction.data
+      // Append story to idea
+      setIdea((prev) => prev + '\n\nProof Story: ' + story.content)
+      setPendingAction(null)
+    }
+  }, [pendingAction, setPendingAction])
 
   const generateScript = async () => {
     if (!idea.trim()) {
@@ -214,10 +235,58 @@ ${script.scripting_principles_check ? `
                   rows={4}
                   className="resize-none"
                 />
-                <p className="text-xs text-gray-500">
-                  Be specific about what you want to teach or share
-                </p>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-gray-500">
+                    Be specific about what you want to teach or share
+                  </p>
+                  {stories.length > 0 && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowStorySelector(!showStorySelector)}
+                      className="gap-1"
+                    >
+                      <BookOpen className="h-3 w-3" />
+                      Add Story ({stories.length})
+                    </Button>
+                  )}
+                </div>
               </div>
+
+              {/* Story Selector */}
+              {showStorySelector && stories.length > 0 && (
+                <div className="space-y-2 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <Label>Select Proof Story from Story Extractor</Label>
+                  <div className="space-y-2 max-h-60 overflow-y-auto">
+                    {stories.map((story) => (
+                      <button
+                        key={story.id}
+                        onClick={() => {
+                          setIdea((prev) =>
+                            prev + '\n\nProof Story: ' + story.content +
+                            `\nMetrics: ${story.metrics.before} → ${story.metrics.after} in ${story.metrics.timeframe}`
+                          )
+                          setShowStorySelector(false)
+                        }}
+                        className="w-full text-left p-3 bg-white border border-gray-200 rounded-md hover:border-blue-400 hover:bg-blue-50 transition-colors"
+                      >
+                        <div className="font-medium text-sm">{story.title}</div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {story.metrics.before} → {story.metrics.after} in {story.metrics.timeframe}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowStorySelector(false)}
+                    className="w-full"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              )}
 
               {/* Platform Selection (Optional) */}
               <div className="space-y-2">
