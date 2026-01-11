@@ -90,7 +90,7 @@ export default function TeleprompterPage() {
                     <input
                       type="range"
                       min="1"
-                      max="5"
+                      max="10"
                       value={speed}
                       onChange={(e) => setSpeed(Number(e.target.value))}
                       className="w-32"
