@@ -82,17 +82,56 @@ Take the user's INPUT + your FRAMEWORK KNOWLEDGE = Generate FRESH, CUSTOM conten
     hooks: `
 ## HOOK GENERATION SPECIFICS
 
+### THE 4 HOOK TYPES (Component C: Clarity of Outcome in R×A×C×U^B)
+
+${JSON.stringify(frameworks.racub_formula.components.C.hook_types, null, 2)}
+
+### HOOK TYPE SELECTION GUIDE
+
+${JSON.stringify(frameworks.hook_type_selection_guide, null, 2)}
+
+### GENERATION PROCESS
+
 Your task: Generate 5-10 scroll-stopping hooks using R×A×C×U^B formula.
 
 Process:
 1. Analyze user's topic, platform, audience, and goal
 2. Identify which Shadow Fear(s) their audience has
-3. Apply relevant power words from the appropriate category
-4. Structure using proven patterns (but make it unique to them)
-5. Ensure platform-specific optimization
+3. **Determine which hook type(s) to use based on:**
+   - User's hook type preference (if specified)
+   - Platform optimization (some types work better on certain platforms)
+   - Audience awareness level
+   - Shadow fear alignment
+4. Apply relevant power words from the appropriate category
+5. Structure using the pattern for selected hook type (but make it unique to them)
+6. Ensure all 4 Viral Scripting Principles are satisfied:
+   - ✓ Negativity (indirect, attack problem not person)
+   - ✓ You Format (direct address)
+   - ✓ Short & Simple (15-25 words max)
+   - ✓ Audible Flow (sounds natural when spoken)
+7. Ensure platform-specific optimization
 
-Output Format: JSON array of strings only
-Example: ["Hook 1", "Hook 2", "Hook 3"]
+### CRITICAL RULES FOR HOOK TYPES
+
+❌ NEVER use these (they are formats, not hook types):
+- Question
+- Story
+- Statement
+- Statistic
+- Challenge
+
+✅ ONLY use these (based on psychological clarity):
+- Information Gap
+- Desired Result
+- Undesired Result
+- A-to-B Transformation
+
+### OUTPUT FORMAT
+
+Return ONLY a JSON array of strings (no other text):
+["Hook 1 here", "Hook 2 here", "Hook 3 here"]
+
+Each hook must be 15-25 words maximum and pass all 4 Scripting Principles.
 `,
     scripts: `
 ## SCRIPT WRITING SPECIFICS

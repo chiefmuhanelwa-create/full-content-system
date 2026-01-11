@@ -192,22 +192,24 @@ export default function HookGeneratorPage() {
             </Select>
           </div>
 
-          {/* Hook Type Selection */}
+          {/* Hook Type Selection - R×A×C×U^B Hook Science */}
           <div className="space-y-2">
-            <Label htmlFor="hookType">Hook Type</Label>
+            <Label htmlFor="hookType">Hook Type (Component C: Clarity of Outcome)</Label>
             <Select value={hookType} onValueChange={setHookType}>
               <SelectTrigger id="hookType">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="any">Any Type</SelectItem>
-                <SelectItem value="question">Question</SelectItem>
-                <SelectItem value="statement">Statement</SelectItem>
-                <SelectItem value="story">Story</SelectItem>
-                <SelectItem value="statistic">Statistic</SelectItem>
-                <SelectItem value="challenge">Challenge</SelectItem>
+                <SelectItem value="information_gap">🔍 Information Gap - Reveal missing crucial context</SelectItem>
+                <SelectItem value="desired_result">🎯 Desired Result - Promise specific achievable outcome</SelectItem>
+                <SelectItem value="undesired_result">⚠️ Undesired Result - Call out mistake & consequences</SelectItem>
+                <SelectItem value="a_to_b_transformation">🔄 A-to-B Transformation - Show pathway from wrong to right</SelectItem>
               </SelectContent>
             </Select>
+            <p className="text-xs text-gray-500">
+              Based on R×A×C×U^B Hook Science. These are proven psychological outcome patterns.
+            </p>
           </div>
 
           {/* Error Display */}

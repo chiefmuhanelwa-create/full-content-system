@@ -1,19 +1,121 @@
 {
   "meta": {
-    "version": "1.0.0",
-    "last_updated": "2026-01-09",
+    "version": "2.0.0",
+    "last_updated": "2026-01-11",
     "description": "NOCHILL Viral Script Generator - Complete Framework Knowledge Base",
     "philosophy": "Ubuntu + Kingdom + Legacy - Building for children's children"
   },
   "racub_formula": {
     "name": "R × A × C × U^B Formula",
-    "description": "Universal viral hook science"
+    "description": "Universal viral hook science",
+    "components": {
+      "R": {
+        "name": "Relevant",
+        "question": "Who is this for?",
+        "description": "ICP targeting - speak directly to ideal customer profile"
+      },
+      "A": {
+        "name": "Awareness",
+        "question": "What do they know?",
+        "levels": ["Symptom Aware", "Problem Aware", "Solution Aware", "Product Aware"],
+        "description": "Match content to audience knowledge level"
+      },
+      "C": {
+        "name": "Clarity of Outcome",
+        "question": "What outcome promised?",
+        "description": "The 4 hook types based on psychological clarity",
+        "hook_types": {
+          "information_gap": {
+            "name": "Information Gap",
+            "emoji": "🔍",
+            "pattern": "You see X? Here's what they're NOT telling you about Y...",
+            "description": "Reveals missing crucial context",
+            "when_to_use": "Audience knows result exists but not hidden factors",
+            "example": "You know when creators say 'comment LINK for free download'? Here's the automation they're hiding...",
+            "power_move": "Creates curiosity through knowledge gap revelation",
+            "variation_types": {
+              "A": "Power word focused - emphasize unique power words",
+              "B": "Curiosity gap - create knowledge gap that demands filling",
+              "C": "Urgency/FOMO - time-based or scarcity-based pressure"
+            }
+          },
+          "desired_result": {
+            "name": "Desired Result",
+            "emoji": "🎯",
+            "pattern": "I'm going to show you how to achieve X in Y time—even if Z...",
+            "description": "Promises specific achievable outcome",
+            "when_to_use": "Audience wants clear solution, needs confidence",
+            "example": "I'm going to save you 30 hours creating content in 2 hours—even during loadshedding.",
+            "power_move": "Specific + timeframe + overcomes objection",
+            "variation_types": {
+              "A": "Power word focused - emphasize transformation language",
+              "B": "Curiosity gap - create intrigue around method",
+              "C": "Urgency/FOMO - limited time opportunity"
+            }
+          },
+          "undesired_result": {
+            "name": "Undesired Result",
+            "emoji": "⚠️",
+            "pattern": "Never, ever, ever do X. Once you do, Y. And next thing: Z.",
+            "description": "Calls out mistake and reveals consequences",
+            "when_to_use": "Audience making critical mistake unknowingly",
+            "example": "Never send a client a payment link. Once you do, they start thinking. And next: 'I need to think about it.'",
+            "power_move": "Strong negativity + consequence chain",
+            "variation_types": {
+              "A": "Power word focused - emphasize danger language",
+              "B": "Curiosity gap - tease the mistake without revealing",
+              "C": "Urgency/FOMO - stop before it's too late"
+            }
+          },
+          "a_to_b_transformation": {
+            "name": "A-to-B Transformation",
+            "emoji": "🔄",
+            "pattern": "You're doing X. Here's how to do Y instead—and achieve Z.",
+            "description": "Shows pathway from wrong state to right state",
+            "when_to_use": "Audience stuck in wrong state, needs pathway",
+            "example": "Hashtags are dead. Stop focusing on them. Instead, here are 3 hacks to make you famous.",
+            "power_move": "Acknowledge current + contrast + solution",
+            "variation_types": {
+              "A": "Power word focused - emphasize transformation",
+              "B": "Curiosity gap - reveal better way exists",
+              "C": "Urgency/FOMO - change now before falling behind"
+            }
+          }
+        }
+      },
+      "U": {
+        "name": "Unique",
+        "question": "What breaks the pattern?",
+        "description": "Power words, unique angles, pattern interrupts"
+      },
+      "B": {
+        "name": "Broadened",
+        "question": "How to reach more?",
+        "description": "Remove specifics to expand audience while maintaining relevance"
+      }
+    }
   },
   "scripting_principles": {
-    "negativity": "Attack problem, never person",
-    "you_format": "Always use 'you' not 'they'",
-    "short_simple": "Eliminate all fluff",
-    "audible_flow": "Must sound natural spoken"
+    "negativity": {
+      "rule": "Negativity always wins",
+      "how": "Attack problem, never person. Use indirect negativity.",
+      "power_words": ["suck", "terrible", "waste", "broken", "killing"]
+    },
+    "you_format": {
+      "rule": "Direct address creates connection",
+      "how": "Replace: they → you, people → you, someone → you",
+      "why": "Makes it personal"
+    },
+    "short_simple": {
+      "rule": "15-25 words max (3-5 seconds spoken)",
+      "how": "One idea per hook. No jargon.",
+      "why": "Attention span optimization"
+    },
+    "audible_flow": {
+      "rule": "Must flow naturally when spoken",
+      "how": "Read out loud. If you stumble, rewrite.",
+      "why": "Most content consumed with audio on"
+    }
   },
   "seeds_framework": {
     "name": "SEEDS Storytelling",
@@ -28,5 +130,55 @@
   "story_criteria": {
     "test": "Must pass 3 of 4",
     "criteria": ["Special", "Relevant", "Quantifiable", "Named"]
+  },
+  "hook_type_selection_guide": {
+    "information_gap": {
+      "use_when": ["They know the outcome but not the method", "You have insider knowledge to reveal", "Pattern interrupt through revelation"],
+      "platform_optimization": {
+        "instagram": "Highly effective",
+        "tiktok": "Highly effective",
+        "youtube_shorts": "Effective",
+        "youtube_long": "Highly effective for retention",
+        "linkedin": "Moderate"
+      },
+      "4e_alignment": ["Entertain", "Educate"],
+      "shadow_fears": ["Fraud fear", "Exploitation"]
+    },
+    "desired_result": {
+      "use_when": ["They want transformation but lack confidence", "You can promise specific outcome", "Need to overcome objections"],
+      "platform_optimization": {
+        "instagram": "Highly effective",
+        "tiktok": "Highly effective",
+        "youtube_shorts": "Highly effective",
+        "youtube_long": "Moderate",
+        "linkedin": "Highly effective"
+      },
+      "4e_alignment": ["Educate", "Encourage", "Earn"],
+      "shadow_fears": ["Time anxiety", "Death/poverty"]
+    },
+    "undesired_result": {
+      "use_when": ["They're making costly mistakes", "Strong warning needed", "Negativity will resonate"],
+      "platform_optimization": {
+        "instagram": "Highly effective",
+        "tiktok": "Highly effective",
+        "youtube_shorts": "Moderate",
+        "youtube_long": "Moderate",
+        "linkedin": "Moderate"
+      },
+      "4e_alignment": ["Entertain", "Educate"],
+      "shadow_fears": ["Family shame", "Permanent failure"]
+    },
+    "a_to_b_transformation": {
+      "use_when": ["They're stuck in old way", "Clear contrast needed", "Show better alternative"],
+      "platform_optimization": {
+        "instagram": "Highly effective",
+        "tiktok": "Highly effective",
+        "youtube_shorts": "Highly effective",
+        "youtube_long": "Highly effective",
+        "linkedin": "Highly effective"
+      },
+      "4e_alignment": ["Educate", "Encourage"],
+      "shadow_fears": ["Wrong path terror", "Spiritual crisis"]
+    }
   }
 }
