@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X } from 'lucide-react'
+import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X, Save } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 
 interface Hook {
@@ -130,6 +130,26 @@ export default function HookGeneratorPage() {
 
   const deleteHook = (id: string) => {
     setHooks((prev) => prev.filter((hook) => hook.id !== id))
+  }
+
+  const saveHook = (hook: any) => {
+    const savedHook = {
+      id: Date.now().toString(),
+      content: hook.content,
+      hookType: hookType,
+      platform: platform,
+      timestamp: new Date().toISOString(),
+      isFavorite: false,
+      targetAudience: targetAudience,
+      notes: '',
+    }
+
+    const existing = localStorage.getItem('savedHooks')
+    const hooks = existing ? JSON.parse(existing) : []
+    hooks.unshift(savedHook)
+    localStorage.setItem('savedHooks', JSON.stringify(hooks))
+
+    alert('Hook saved to your library!')
   }
 
   return (
@@ -338,6 +358,14 @@ export default function HookGeneratorPage() {
                       title="Copy to clipboard"
                     >
                       <Copy className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => saveHook(hook)}
+                      title="Save to library"
+                    >
+                      <Save className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="outline"

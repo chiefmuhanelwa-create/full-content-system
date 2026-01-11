@@ -21,6 +21,7 @@ import {
   Users,
   Monitor,
   Mic,
+  Database,
 } from 'lucide-react'
 import { formatNumber } from '@/lib/utils'
 
@@ -300,6 +301,36 @@ export default function DashboardPage() {
                 <span className="font-medium text-base mb-1">Collaboration Hub</span>
                 <p className="text-xs text-gray-600 text-center">
                   Team Workflow
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+      </div>
+
+      {/* Content Libraries */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4 mt-8">Content Libraries</h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          <Link href="/dashboard/saved-hooks">
+            <Card className="hover:border-blue-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Database className="h-10 w-10 text-blue-600 mb-2" />
+                <span className="font-medium text-base mb-1">Saved Hooks</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Your Hook Library
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/saved-stories">
+            <Card className="hover:border-green-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Database className="h-10 w-10 text-green-600 mb-2" />
+                <span className="font-medium text-base mb-1">Saved Stories</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Your Story Library
                 </p>
               </CardContent>
             </Card>

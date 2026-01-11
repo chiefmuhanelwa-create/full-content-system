@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { BookOpen, Sparkles, Copy, Check, AlertCircle, ArrowRight } from 'lucide-react'
+import { BookOpen, Sparkles, Copy, Check, AlertCircle, ArrowRight, Save } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 
 interface StoryMetrics {
@@ -108,6 +108,25 @@ Use Case: ${story.useCase}
 
   const getCriteriaCount = (criteria: StoryCriteria) => {
     return Object.values(criteria).filter(Boolean).length
+  }
+
+  const saveStory = (story: ExtractedStory) => {
+    const savedStory = {
+      id: Date.now().toString(),
+      content: story.content,
+      source: story.title,
+      timestamp: new Date().toISOString(),
+      category: story.type,
+      isFavorite: false,
+      notes: `${story.metrics.before} → ${story.metrics.after} (${story.metrics.timeframe})`,
+    }
+
+    const existing = localStorage.getItem('savedStories')
+    const stories = existing ? JSON.parse(existing) : []
+    stories.unshift(savedStory)
+    localStorage.setItem('savedStories', JSON.stringify(stories))
+
+    alert('Story saved to your library!')
   }
 
   return (
@@ -213,6 +232,16 @@ Use Case: ${story.useCase}
                         </CardDescription>
                       </div>
                       <div className="flex items-center gap-1">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => saveStory(story)}
+                          className="gap-1"
+                          title="Save to Library"
+                        >
+                          <Save className="h-3 w-3" />
+                          Save
+                        </Button>
                         <Button
                           variant="outline"
                           size="sm"
