@@ -6,7 +6,7 @@ import ndivhuwoStories from '@/lib/knowledge/ndivhuwo-stories.json'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { idea, platform, duration } = body
+    const { idea, platform, duration, recentStories = [] } = body
 
     // Validate required fields
     if (!idea || !idea.trim()) {
@@ -18,6 +18,17 @@ export async function POST(request: NextRequest) {
 
     // Build system prompt with framework knowledge
     const systemPrompt = buildSystemPrompt('scripts')
+
+    // Filter out recently used stories to ensure variety
+    const availableStories = { ...ndivhuwoStories }
+    if (recentStories.length > 0) {
+      // Remove recently used stories from the available pool
+      recentStories.forEach((storyKey: string) => {
+        if (availableStories.stories && availableStories.stories[storyKey]) {
+          delete availableStories.stories[storyKey]
+        }
+      })
+    }
 
     // Add Ndivhuwo's story bank to system knowledge
     const systemPromptWithStories = `${systemPrompt}
@@ -120,7 +131,15 @@ Target ONE Shadow Fear per script in your hook/collision.
 
 ## NDIVHUWO'S VERIFIED STORIES (Use 20% of script time)
 
-${JSON.stringify(ndivhuwoStories, null, 2)}
+${JSON.stringify(availableStories, null, 2)}
+
+${recentStories.length > 0 ? `
+⚠️ STORY ROTATION ENFORCEMENT:
+The following stories were recently used and MUST NOT be used in this script:
+${recentStories.map((key: string) => `- ${key}`).join('\n')}
+
+Choose a DIFFERENT story from the available pool above to ensure variety and freshness.
+` : ''}
 
 CRITICAL RULES FOR STORIES:
 1. Stories are PROOF POINTS, not main content (max 20% of script)

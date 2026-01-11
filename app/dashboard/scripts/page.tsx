@@ -112,6 +112,10 @@ export default function ScriptWriterPage() {
     setError('')
 
     try {
+      // Get recently used stories from localStorage (last 5)
+      const recentStoriesData = localStorage.getItem('recentStories')
+      const recentStories = recentStoriesData ? JSON.parse(recentStoriesData) : []
+
       const response = await fetch('/api/scripts/generate', {
         method: 'POST',
         headers: {
@@ -121,6 +125,7 @@ export default function ScriptWriterPage() {
           idea,
           platform: platform === 'auto' ? undefined : platform,
           duration: duration === 'auto' ? undefined : duration,
+          recentStories, // Pass recently used stories for rotation
         }),
       })
 
@@ -131,12 +136,39 @@ export default function ScriptWriterPage() {
       }
 
       setScript(data.script)
+
+      // Track the used story for rotation
+      if (data.script?.fiveLine?.calibration?.storyUsed) {
+        const storyKey = convertStoryTitleToKey(data.script.fiveLine.calibration.storyUsed)
+        if (storyKey) {
+          // Add to recent stories (keep last 5)
+          const updatedRecentStories = [storyKey, ...recentStories].slice(0, 5)
+          localStorage.setItem('recentStories', JSON.stringify(updatedRecentStories))
+        }
+      }
     } catch (err: any) {
       setError(err.message || 'An error occurred')
       console.error('Error generating script:', err)
     } finally {
       setLoading(false)
     }
+  }
+
+  // Helper to convert story title back to key
+  const convertStoryTitleToKey = (title: string): string | null => {
+    const storyMapping: Record<string, string> = {
+      'Bathroom Floors to Boardrooms': 'bathroom_floors',
+      'R750 to R100K Brand Evolution': 'r750_to_r100k',
+      'R6,000 Huawei Investment': 'huawei_r6000_investment',
+      '780K Instagram Followers Lost Overnight': 'instagram_780k_loss',
+      'SARS R285K Tax Debt': 'sars_r285k_debt',
+      'University Dropout Family Shame': 'family_shame_dropout',
+      'First Netflix R100K Deal': 'first_netflix_deal',
+      'Daily Posting Nearly Killed Me': 'content_burnout',
+      'Samsung Long-term Partnership': 'samsung_partnership',
+      'Ubuntu: I Am Because We Are': 'ubuntu_principle',
+    }
+    return storyMapping[title] || null
   }
 
   const getHookTypeLabel = (type: string) => {
