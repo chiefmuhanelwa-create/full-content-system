@@ -81,6 +81,7 @@ export default function ScriptWriterPage() {
   const [script, setScript] = useState<GeneratedScript | null>(null)
   const [error, setError] = useState('')
   const [showStorySelector, setShowStorySelector] = useState(false)
+  const [copySuccess, setCopySuccess] = useState(false)
 
   // Check for pending action (hook from Hook Generator)
   useEffect(() => {
@@ -148,6 +149,9 @@ export default function ScriptWriterPage() {
 
   const copyScript = () => {
     if (!script) return
+
+    setCopySuccess(true)
+    setTimeout(() => setCopySuccess(false), 2000)
 
     const fullScript = `
 ${script.title}
@@ -225,6 +229,116 @@ ${script.scripting_principles_check ? `
 `.trim()
 
     navigator.clipboard.writeText(fullScript)
+  }
+
+  const downloadPDF = () => {
+    if (!script) return
+
+    const fullScript = `
+${script.title}
+
+═══════════════════════════════════════
+🎣 HOOK SCIENCE (R×A×C×U^B Formula)
+═══════════════════════════════════════
+
+${getHookTypeLabel(script.hook.type)}
+
+"${script.hook.text}"
+
+R×A×C×U^B Breakdown:
+• R (Relevant): ${script.hook.racub_breakdown.relevant}
+• A (Awareness): ${script.hook.racub_breakdown.awareness}
+• C (Clarity): ${script.hook.racub_breakdown.clarity}
+• U (Unique): ${script.hook.racub_breakdown.unique}
+• B (Broadened): ${script.hook.racub_breakdown.broadened}
+
+Shadow Fear Targeted: ${script.hook.shadowFear}
+Power Words: ${script.hook.powerWords.join(', ')}
+
+═══════════════════════════════════════
+🎯 NOCHILL 5-Line Method
+═══════════════════════════════════════
+
+LINE 1: CONTEXT (${script.fiveLine.context.timestamp})
+${script.fiveLine.context.script}
+Visual: ${script.fiveLine.context.visual}
+${script.fiveLine.context.ubuntuPrinciple ? `Ubuntu Principle: ${script.fiveLine.context.ubuntuPrinciple}` : ''}
+
+LINE 2: COLLISION (${script.fiveLine.collision.timestamp})
+${script.fiveLine.collision.script}
+Visual: ${script.fiveLine.collision.visual}
+${script.fiveLine.collision.systemVillain ? `System Villain: ${script.fiveLine.collision.systemVillain}` : ''}
+
+LINE 3: CONVERSION (${script.fiveLine.conversion.timestamp})
+${script.fiveLine.conversion.script}
+Visual: ${script.fiveLine.conversion.visual}
+${script.fiveLine.conversion.framework ? `Framework: ${script.fiveLine.conversion.framework}` : ''}
+
+LINE 4: CALIBRATION (${script.fiveLine.calibration.timestamp})
+${script.fiveLine.calibration.script}
+Visual: ${script.fiveLine.calibration.visual}
+${script.fiveLine.calibration.storyUsed ? `Story: ${script.fiveLine.calibration.storyUsed}` : ''}
+${script.fiveLine.calibration.numbers ? `Numbers: ${script.fiveLine.calibration.numbers}` : ''}
+
+LINE 5: COMMUNITY (${script.fiveLine.community.timestamp})
+${script.fiveLine.community.script}
+Visual: ${script.fiveLine.community.visual}
+${script.fiveLine.community.collectiveAction ? `Collective Action: ${script.fiveLine.community.collectiveAction}` : ''}
+
+═══════════════════════════════════════
+
+B-ROLL SUGGESTIONS:
+${script.bRoll.map((b, i) => `${i + 1}. ${b}`).join('\n')}
+
+TEXT OVERLAYS:
+${script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n')}
+
+${script.ubuntu_check ? `
+═══════════════════════════════════════
+UBUNTU STORY ARC VALIDATION:
+- ${script.ubuntu_check.we_over_i}
+- ${script.ubuntu_check.system_villain}
+- ${script.ubuntu_check.collective_result}
+` : ''}
+${script.scripting_principles_check ? `
+4 VIRAL SCRIPTING PRINCIPLES:
+- ${script.scripting_principles_check.negativity}
+- ${script.scripting_principles_check.you_format}
+- ${script.scripting_principles_check.short_simple}
+- ${script.scripting_principles_check.audible_flow}
+` : ''}
+`.trim()
+
+    // Create a printable HTML document
+    const printWindow = window.open('', '_blank')
+    if (printWindow) {
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${script.title}</title>
+          <style>
+            body { font-family: monospace; padding: 40px; line-height: 1.6; max-width: 800px; margin: 0 auto; }
+            h1 { color: #2563eb; }
+            pre { white-space: pre-wrap; word-wrap: break-word; }
+            @media print {
+              body { padding: 20px; }
+            }
+          </style>
+        </head>
+        <body>
+          <pre>${fullScript}</pre>
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(() => window.close(), 100);
+            }
+          </script>
+        </body>
+        </html>
+      `)
+      printWindow.document.close()
+    }
   }
 
   return (
@@ -405,11 +519,11 @@ ${script.scripting_principles_check ? `
                     <CardDescription>Production-ready script</CardDescription>
                   </div>
                   <div className="flex gap-2">
-                    <Button size="sm" variant="outline" onClick={copyScript}>
+                    <Button size="sm" variant="outline" onClick={copyScript} className={copySuccess ? 'bg-green-100 border-green-500' : ''}>
                       <Copy className="h-4 w-4 mr-2" />
-                      Copy
+                      {copySuccess ? 'Copied!' : 'Copy'}
                     </Button>
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="outline" onClick={downloadPDF}>
                       <Download className="h-4 w-4 mr-2" />
                       PDF
                     </Button>
