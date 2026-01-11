@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon } from 'lucide-react'
+import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 
 interface Hook {
@@ -24,7 +24,7 @@ interface Hook {
 
 export default function HookGeneratorPage() {
   const router = useRouter()
-  const { addHook, setPendingAction, addContentToCalendar, selectedFears } = useContent()
+  const { addHook, setPendingAction, addContentToCalendar, selectedFears, pendingAction } = useContent()
 
   const [topic, setTopic] = useState('')
   const [platform, setPlatform] = useState('instagram')
@@ -35,6 +35,22 @@ export default function HookGeneratorPage() {
   const [loading, setLoading] = useState(false)
   const [hooks, setHooks] = useState<Hook[]>([])
   const [error, setError] = useState('')
+  const [targetedFear, setTargetedFear] = useState<{ id: number; name: string; relevance: number } | null>(null)
+
+  // Check for pending action from Fear Analyzer
+  useEffect(() => {
+    if (pendingAction.action === 'target-fear-in-hooks' && pendingAction.data) {
+      const fear = pendingAction.data
+      setTargetedFear({
+        id: fear.id,
+        name: fear.name,
+        relevance: fear.relevance,
+      })
+      setTargetAudience(fear.targetAudience || '')
+      // Clear pending action
+      setPendingAction(null)
+    }
+  }, [pendingAction, setPendingAction])
 
   const generateHooks = async () => {
     if (!topic.trim()) {
@@ -58,6 +74,11 @@ export default function HookGeneratorPage() {
           tone,
           hookType,
           targetAudience: targetAudience.trim() || undefined,
+          targetFear: targetedFear ? {
+            id: targetedFear.id,
+            name: targetedFear.name,
+            relevance: targetedFear.relevance,
+          } : undefined,
           count: 5,
         }),
       })
@@ -129,6 +150,31 @@ export default function HookGeneratorPage() {
           <CardDescription>
             Enter your topic and preferences to generate scroll-stopping hooks
           </CardDescription>
+
+          {/* Targeted Fear Badge */}
+          {targetedFear && (
+            <div className="mt-4 p-3 bg-purple-50 border border-purple-200 rounded-lg flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Target className="h-4 w-4 text-purple-600" />
+                <div>
+                  <p className="text-sm font-medium text-purple-900">
+                    Targeting Shadow Fear: {targetedFear.name}
+                  </p>
+                  <p className="text-xs text-purple-600">
+                    Relevance: {targetedFear.relevance}% | Hooks will address this specific fear
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setTargetedFear(null)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Topic Input */}

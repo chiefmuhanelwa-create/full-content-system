@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Calendar as CalendarIcon, Plus, Trash2 } from 'lucide-react'
+import { Calendar as CalendarIcon, Plus, Trash2, Zap, FileText, BookOpen, Brain, Target } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { useContent } from '@/contexts/ContentContext'
 
 interface ContentEntry {
   id: string
@@ -25,7 +26,8 @@ interface ContentEntry {
 }
 
 export default function ContentCalendarPage() {
-  const [entries, setEntries] = useState<ContentEntry[]>([])
+  const { calendarEntries, addToCalendar, removeFromCalendar } = useContent()
+
   const [newEntry, setNewEntry] = useState<Partial<ContentEntry>>({
     date: new Date().toISOString().split('T')[0],
     title: '',
@@ -37,16 +39,15 @@ export default function ContentCalendarPage() {
   const addEntry = () => {
     if (!newEntry.title?.trim()) return
 
-    const entry: ContentEntry = {
-      id: Date.now().toString(),
+    addToCalendar({
       date: newEntry.date!,
       title: newEntry.title!,
       category: newEntry.category as ContentEntry['category'],
       platform: newEntry.platform!,
       notes: newEntry.notes!,
-    }
+      sourceTools: ['Calendar'], // Manually added
+    })
 
-    setEntries([...entries, entry])
     setNewEntry({
       date: new Date().toISOString().split('T')[0],
       title: '',
@@ -57,7 +58,7 @@ export default function ContentCalendarPage() {
   }
 
   const deleteEntry = (id: string) => {
-    setEntries(entries.filter((e) => e.id !== id))
+    removeFromCalendar(id)
   }
 
   const getCategoryColor = (category: string) => {
@@ -75,12 +76,21 @@ export default function ContentCalendarPage() {
     }
   }
 
+  const getSourceToolIcon = (tools: string[]) => {
+    if (tools.includes('Hook Generator')) return <Zap className="h-3 w-3" />
+    if (tools.includes('Script Writer')) return <FileText className="h-3 w-3" />
+    if (tools.includes('Story Extractor')) return <BookOpen className="h-3 w-3" />
+    if (tools.includes('Fear Analyzer')) return <Brain className="h-3 w-3" />
+    if (tools.includes('Pitch Builder')) return <Target className="h-3 w-3" />
+    return <CalendarIcon className="h-3 w-3" />
+  }
+
   const getStats = () => {
-    const total = entries.length
-    const educate = entries.filter((e) => e.category === '40% Educate').length
-    const entertain = entries.filter((e) => e.category === '30% Entertain').length
-    const encourage = entries.filter((e) => e.category === '20% Encourage').length
-    const earn = entries.filter((e) => e.category === '10% Earn').length
+    const total = calendarEntries.length
+    const educate = calendarEntries.filter((e) => e.category === '40% Educate').length
+    const entertain = calendarEntries.filter((e) => e.category === '30% Entertain').length
+    const encourage = calendarEntries.filter((e) => e.category === '20% Encourage').length
+    const earn = calendarEntries.filter((e) => e.category === '10% Earn').length
 
     return {
       total,
@@ -94,7 +104,7 @@ export default function ContentCalendarPage() {
   const stats = getStats()
 
   // Sort entries by date
-  const sortedEntries = [...entries].sort((a, b) =>
+  const sortedEntries = [...calendarEntries].sort((a, b) =>
     new Date(a.date).getTime() - new Date(b.date).getTime()
   )
 
@@ -248,7 +258,7 @@ export default function ContentCalendarPage() {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Upcoming Content ({entries.length})</CardTitle>
+              <CardTitle>Upcoming Content ({calendarEntries.length})</CardTitle>
               <CardDescription>Your content schedule</CardDescription>
             </CardHeader>
             <CardContent>
@@ -290,6 +300,12 @@ export default function ContentCalendarPage() {
                         <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700 border border-gray-200">
                           {entry.platform}
                         </span>
+                        {entry.sourceTools && entry.sourceTools.length > 0 && (
+                          <span className="text-xs px-2 py-1 rounded bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1">
+                            {getSourceToolIcon(entry.sourceTools)}
+                            {entry.sourceTools.join(', ')}
+                          </span>
+                        )}
                       </div>
 
                       {entry.notes && (

@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { Brain, Sparkles, Copy, Check, AlertCircle, TrendingUp } from 'lucide-react'
+import { Brain, Sparkles, Copy, Check, AlertCircle, TrendingUp, ArrowRight } from 'lucide-react'
+import { useContent } from '@/contexts/ContentContext'
 
 interface FearHook {
   hook: string
@@ -33,6 +35,9 @@ interface FearAnalysis {
 }
 
 export default function FearAnalyzerPage() {
+  const router = useRouter()
+  const { addFear, setPendingAction } = useContent()
+
   const [audienceDescription, setAudienceDescription] = useState('')
   const [loading, setLoading] = useState(false)
   const [analysis, setAnalysis] = useState<FearAnalysis | null>(null)
@@ -66,7 +71,19 @@ export default function FearAnalyzerPage() {
         throw new Error(data.error || 'Failed to analyze fears')
       }
 
+      // Set local state
       setAnalysis(data.analysis)
+
+      // Save identified fears to global context for Hook Generator
+      data.analysis.identifiedFears.forEach((fear: IdentifiedFear) => {
+        addFear({
+          id: fear.fearId,
+          name: fear.fearName,
+          relevance: fear.relevanceScore,
+          hooks: fear.hooks,
+          targetAudience: audienceDescription,
+        })
+      })
     } catch (err: any) {
       setError(err.message || 'An error occurred')
       console.error('Error analyzing fears:', err)
@@ -215,13 +232,37 @@ export default function FearAnalyzerPage() {
                   .map((fear, index) => (
                     <Card key={index} className={`border-l-4 ${getScoreColor(fear.relevanceScore)}`}>
                       <CardHeader>
-                        <div className="flex items-start justify-between">
+                        <div className="flex items-start justify-between gap-2">
                           <div className="flex-1">
                             <CardTitle className="text-lg">{fear.fearName}</CardTitle>
                             <CardDescription className="mt-1">
                               Relevance: {fear.relevanceScore}%
                             </CardDescription>
                           </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              // Save fear and navigate to Hook Generator
+                              const savedFear = addFear({
+                                id: fear.fearId,
+                                name: fear.fearName,
+                                relevance: fear.relevanceScore,
+                                hooks: fear.hooks,
+                                targetAudience: audienceDescription,
+                              })
+                              setPendingAction({
+                                action: 'target-fear-in-hooks',
+                                data: savedFear,
+                              })
+                              router.push('/dashboard/hooks')
+                            }}
+                            className="gap-1"
+                            title="Generate more hooks targeting this fear"
+                          >
+                            <ArrowRight className="h-3 w-3" />
+                            More Hooks
+                          </Button>
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-4">
