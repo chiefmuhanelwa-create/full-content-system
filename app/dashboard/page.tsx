@@ -14,6 +14,13 @@ import {
   Target,
   Calendar,
   DollarSign,
+  BarChart,
+  Repeat,
+  Image,
+  TrendingUp,
+  Users,
+  Monitor,
+  Mic,
 } from 'lucide-react'
 import { formatNumber } from '@/lib/utils'
 
@@ -167,6 +174,132 @@ export default function DashboardPage() {
                 <span className="font-medium text-base mb-1">Revenue Tracker</span>
                 <p className="text-xs text-gray-600 text-center">
                   PAIDS Streams
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+
+        <h2 className="text-2xl font-bold mb-4 mt-8">Advanced Tools</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <Link href="/dashboard/analytics">
+            <Card className="hover:border-blue-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <BarChart className="h-10 w-10 text-blue-600 mb-2" />
+                <span className="font-medium text-base mb-1">Performance Analytics</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Track & Learn
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/repurpose">
+            <Card className="hover:border-purple-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Repeat className="h-10 w-10 text-purple-600 mb-2" />
+                <span className="font-medium text-base mb-1">Content Repurposing</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Multi-Format Engine
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/visuals">
+            <Card className="hover:border-pink-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Image className="h-10 w-10 text-pink-600 mb-2" />
+                <span className="font-medium text-base mb-1">Visual Content</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Thumbnails & B-Roll
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/trends">
+            <Card className="hover:border-orange-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <TrendingUp className="h-10 w-10 text-orange-600 mb-2" />
+                <span className="font-medium text-base mb-1">Trend Integration</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Real-Time Trends
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/batch-planner">
+            <Card className="hover:border-teal-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Calendar className="h-10 w-10 text-teal-600 mb-2" />
+                <span className="font-medium text-base mb-1">Batch Planner</span>
+                <p className="text-xs text-gray-600 text-center">
+                  30-Day Content
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/competitor">
+            <Card className="hover:border-indigo-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Users className="h-10 w-10 text-indigo-600 mb-2" />
+                <span className="font-medium text-base mb-1">Competitor Analysis</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Find Your Edge
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/brand-voice">
+            <Card className="hover:border-violet-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Mic className="h-10 w-10 text-violet-600 mb-2" />
+                <span className="font-medium text-base mb-1">Brand Voice</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Consistency Check
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/cta-optimizer">
+            <Card className="hover:border-rose-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Target className="h-10 w-10 text-rose-600 mb-2" />
+                <span className="font-medium text-base mb-1">CTA Optimizer</span>
+                <p className="text-xs text-gray-600 text-center">
+                  High-Converting CTAs
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+
+        <h2 className="text-2xl font-bold mb-4">Production & Team</h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          <Link href="/dashboard/teleprompter">
+            <Card className="hover:border-cyan-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Monitor className="h-10 w-10 text-cyan-600 mb-2" />
+                <span className="font-medium text-base mb-1">Teleprompter</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Pro Filming Tool
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/collaboration">
+            <Card className="hover:border-emerald-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Users className="h-10 w-10 text-emerald-600 mb-2" />
+                <span className="font-medium text-base mb-1">Collaboration Hub</span>
+                <p className="text-xs text-gray-600 text-center">
+                  Team Workflow
                 </p>
               </CardContent>
             </Card>
