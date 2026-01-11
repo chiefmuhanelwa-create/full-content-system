@@ -20,12 +20,12 @@ export async function POST(request: NextRequest) {
     const systemPrompt = buildSystemPrompt('scripts')
 
     // Filter out recently used stories to ensure variety
-    const availableStories = { ...ndivhuwoStories }
-    if (recentStories.length > 0) {
+    const availableStories = JSON.parse(JSON.stringify(ndivhuwoStories))
+    if (recentStories.length > 0 && availableStories.stories) {
       // Remove recently used stories from the available pool
       recentStories.forEach((storyKey: string) => {
-        if (availableStories.stories && availableStories.stories[storyKey]) {
-          delete availableStories.stories[storyKey]
+        if (availableStories.stories && (availableStories.stories as any)[storyKey]) {
+          delete (availableStories.stories as any)[storyKey]
         }
       })
     }
