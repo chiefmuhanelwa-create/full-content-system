@@ -111,7 +111,7 @@ interface ContentContextType {
     action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | null
     data: any
   }
-  setPendingAction: (action: { action: string; data: any } | null) => void
+  setPendingAction: (action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | null; data: any } | null) => void
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined)
@@ -269,6 +269,15 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     })
   }, [addToCalendar])
 
+  // Wrapper for setPendingAction to match interface
+  const handleSetPendingAction = useCallback((action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | null; data: any } | null) => {
+    if (action === null) {
+      setPendingAction({ action: null, data: null })
+    } else {
+      setPendingAction(action)
+    }
+  }, [])
+
   const value: ContentContextType = {
     // Hooks
     hooks,
@@ -310,7 +319,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
     // Pending actions
     pendingAction,
-    setPendingAction,
+    setPendingAction: handleSetPendingAction,
   }
 
   return (
