@@ -11,6 +11,9 @@ import {
   BookOpen,
   Brain,
   LogOut,
+  Target,
+  Calendar,
+  DollarSign,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -43,6 +46,24 @@ const navItems = [
     href: '/dashboard/fears',
     icon: Brain,
     description: '10 Shadow Fears',
+  },
+  {
+    name: 'Pitch Builder',
+    href: '/dashboard/pitch',
+    icon: Target,
+    description: '5 Pillars',
+  },
+  {
+    name: 'Content Calendar',
+    href: '/dashboard/calendar',
+    icon: Calendar,
+    description: '4E Framework',
+  },
+  {
+    name: 'Revenue Tracker',
+    href: '/dashboard/revenue',
+    icon: DollarSign,
+    description: 'PAIDS Streams',
   },
 ]
 

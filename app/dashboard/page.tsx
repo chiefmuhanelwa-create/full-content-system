@@ -11,6 +11,9 @@ import {
   ArrowRight,
   BookOpen,
   Brain,
+  Target,
+  Calendar,
+  DollarSign,
 } from 'lucide-react'
 import { formatNumber } from '@/lib/utils'
 
@@ -80,8 +83,8 @@ export default function DashboardPage() {
 
       {/* Quick Actions - All Working Features */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <h2 className="text-2xl font-bold mb-4">Content Creation Tools</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <Link href="/dashboard/hooks">
             <Card className="hover:border-blue-600 transition-colors cursor-pointer h-full">
               <CardContent className="flex flex-col items-center justify-center p-6">
@@ -125,6 +128,45 @@ export default function DashboardPage() {
                 <span className="font-medium text-base mb-1">Fear Analyzer</span>
                 <p className="text-xs text-gray-600 text-center">
                   10 Shadow Fears
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+
+        <h2 className="text-2xl font-bold mb-4">Business Growth Tools</h2>
+        <div className="grid md:grid-cols-3 gap-4">
+          <Link href="/dashboard/pitch">
+            <Card className="hover:border-orange-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Target className="h-10 w-10 text-orange-600 mb-2" />
+                <span className="font-medium text-base mb-1">Pitch Builder</span>
+                <p className="text-xs text-gray-600 text-center">
+                  5 Pillars Framework
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/calendar">
+            <Card className="hover:border-teal-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Calendar className="h-10 w-10 text-teal-600 mb-2" />
+                <span className="font-medium text-base mb-1">Content Calendar</span>
+                <p className="text-xs text-gray-600 text-center">
+                  4E Framework
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/revenue">
+            <Card className="hover:border-green-600 transition-colors cursor-pointer h-full">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <DollarSign className="h-10 w-10 text-green-600 mb-2" />
+                <span className="font-medium text-base mb-1">Revenue Tracker</span>
+                <p className="text-xs text-gray-600 text-center">
+                  PAIDS Streams
                 </p>
               </CardContent>
             </Card>
@@ -211,14 +253,6 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Coming Soon Notice */}
-      <Card className="mt-8 border-dashed">
-        <CardContent className="py-6">
-          <p className="text-center text-gray-600">
-            <span className="font-semibold">Coming Soon:</span> Pitch Builder, Content Calendar, Revenue Tracker
-          </p>
-        </CardContent>
-      </Card>
     </div>
   )
 }
