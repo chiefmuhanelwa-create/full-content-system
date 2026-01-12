@@ -52,6 +52,49 @@ export default function HookGeneratorPage() {
     }
   }, [pendingAction, setPendingAction])
 
+  // Check for vault data integration
+  useEffect(() => {
+    const vaultData = localStorage.getItem('vaultToHookGenerator')
+    if (vaultData) {
+      try {
+        const data = JSON.parse(vaultData)
+
+        // Pre-fill from content idea
+        if (data.contentIdea) {
+          setTopic(data.contentIdea)
+          if (data.hookType) setHookType(data.hookType)
+          if (data.platform) setPlatform(data.platform)
+          if (data.shadowFear) {
+            // Create targeted fear from vault shadow fear
+            setTargetedFear({
+              id: Date.now(),
+              name: data.shadowFear,
+              relevance: 85, // High relevance from vault
+            })
+          }
+        }
+
+        // Pre-fill from story
+        if (data.story) {
+          setTopic(`Create hook about: ${data.lesson || data.story}`)
+          if (data.hookType) setHookType(data.hookType)
+          if (data.shadowFear) {
+            setTargetedFear({
+              id: Date.now(),
+              name: data.shadowFear,
+              relevance: 85,
+            })
+          }
+        }
+
+        // Clear vault data after loading
+        localStorage.removeItem('vaultToHookGenerator')
+      } catch (error) {
+        console.error('Error loading vault data:', error)
+      }
+    }
+  }, [])
+
   const generateHooks = async () => {
     if (!topic.trim()) {
       setError('Please enter a topic')

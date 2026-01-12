@@ -84,6 +84,41 @@ export default function ScriptWriterPage() {
   const [error, setError] = useState('')
   const [showStorySelector, setShowStorySelector] = useState(false)
   const [copySuccess, setCopySuccess] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editedScript, setEditedScript] = useState<GeneratedScript | null>(null)
+
+  // Check for vault data integration
+  useEffect(() => {
+    const vaultData = localStorage.getItem('vaultToScriptWriter')
+    if (vaultData) {
+      try {
+        const data = JSON.parse(vaultData)
+
+        // Pre-fill from content idea
+        if (data.idea) {
+          setIdea(data.idea)
+          if (data.description) {
+            setIdea(`${data.idea}\n\n${data.description}`)
+          }
+          if (data.platform) setPlatform(data.platform)
+          if (data.duration) setDuration(data.duration)
+        }
+
+        // Pre-fill from story
+        if (data.story) {
+          setIdea(`Create script about: ${data.story}\n\nLesson: ${data.lesson || ''}\n\nEmotion Arc: ${data.emotion || ''}`)
+          if (data.timeframe) {
+            setDuration(data.timeframe.includes('60') ? '60s' : 'auto')
+          }
+        }
+
+        // Clear vault data after loading
+        localStorage.removeItem('vaultToScriptWriter')
+      } catch (error) {
+        console.error('Error loading vault data:', error)
+      }
+    }
+  }, [])
 
   // Check for pending action (hook from Hook Generator)
   useEffect(() => {
@@ -378,20 +413,88 @@ ${script.scripting_principles_check ? `
   const loadToTeleprompter = () => {
     if (!script) return
 
-    const fullScript = `${script.title}
+    const scriptToUse = isEditing && editedScript ? editedScript : script
 
-${script.fiveLine.context.script}
+    const fullScript = `${scriptToUse.title}
 
-${script.fiveLine.collision.script}
+${scriptToUse.fiveLine.context.script}
 
-${script.fiveLine.conversion.script}
+${scriptToUse.fiveLine.collision.script}
 
-${script.fiveLine.calibration.script}
+${scriptToUse.fiveLine.conversion.script}
 
-${script.fiveLine.community.script}`
+${scriptToUse.fiveLine.calibration.script}
+
+${scriptToUse.fiveLine.community.script}`
 
     localStorage.setItem('teleprompterScript', fullScript)
     router.push('/dashboard/teleprompter')
+  }
+
+  const enableEditing = () => {
+    setEditedScript(JSON.parse(JSON.stringify(script))) // Deep copy
+    setIsEditing(true)
+  }
+
+  const saveEdits = () => {
+    if (editedScript) {
+      setScript(editedScript)
+      setIsEditing(false)
+    }
+  }
+
+  const cancelEdits = () => {
+    setEditedScript(null)
+    setIsEditing(false)
+  }
+
+  const updateHookText = (text: string) => {
+    if (editedScript) {
+      setEditedScript({
+        ...editedScript,
+        hook: {
+          ...editedScript.hook,
+          text
+        }
+      })
+    }
+  }
+
+  const updateFiveLineSection = (line: 'context' | 'collision' | 'conversion' | 'calibration' | 'community', field: 'script' | 'visual', value: string) => {
+    if (editedScript) {
+      setEditedScript({
+        ...editedScript,
+        fiveLine: {
+          ...editedScript.fiveLine,
+          [line]: {
+            ...editedScript.fiveLine[line],
+            [field]: value
+          }
+        }
+      })
+    }
+  }
+
+  const updateBRoll = (index: number, value: string) => {
+    if (editedScript) {
+      const newBRoll = [...editedScript.bRoll]
+      newBRoll[index] = value
+      setEditedScript({
+        ...editedScript,
+        bRoll: newBRoll
+      })
+    }
+  }
+
+  const updateTextOverlay = (index: number, value: string) => {
+    if (editedScript) {
+      const newOverlays = [...editedScript.textOverlays]
+      newOverlays[index] = value
+      setEditedScript({
+        ...editedScript,
+        textOverlays: newOverlays
+      })
+    }
   }
 
   return (
@@ -507,14 +610,31 @@ ${script.fiveLine.community.script}`
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="auto">Auto-optimize duration</SelectItem>
-                    <SelectItem value="15s">15 seconds</SelectItem>
-                    <SelectItem value="30s">30 seconds</SelectItem>
-                    <SelectItem value="60s">60 seconds</SelectItem>
-                    <SelectItem value="90s">90 seconds</SelectItem>
-                    <SelectItem value="3min">3 minutes</SelectItem>
+                    {(platform === 'youtube' || platform === 'youtube-long') ? (
+                      <>
+                        <SelectItem value="auto">Auto-optimize (5-15 min for YouTube)</SelectItem>
+                        <SelectItem value="5min">5 minutes</SelectItem>
+                        <SelectItem value="8min">8 minutes</SelectItem>
+                        <SelectItem value="10min">10 minutes</SelectItem>
+                        <SelectItem value="15min">15 minutes</SelectItem>
+                      </>
+                    ) : (
+                      <>
+                        <SelectItem value="auto">Auto-optimize duration</SelectItem>
+                        <SelectItem value="15s">15 seconds</SelectItem>
+                        <SelectItem value="30s">30 seconds</SelectItem>
+                        <SelectItem value="60s">60 seconds</SelectItem>
+                        <SelectItem value="90s">90 seconds</SelectItem>
+                        <SelectItem value="3min">3 minutes</SelectItem>
+                      </>
+                    )}
                   </SelectContent>
                 </Select>
+                {(platform === 'youtube' || platform === 'youtube-long') && (
+                  <p className="text-xs text-purple-600 font-medium">
+                    🎬 YouTube long-form: Script will be optimized for 5-15 minute deep-dive content
+                  </p>
+                )}
               </div>
 
               {/* Info Box */}
@@ -572,18 +692,36 @@ ${script.fiveLine.community.script}`
                     <CardDescription>Production-ready script</CardDescription>
                   </div>
                   <div className="flex gap-2 flex-wrap">
-                    <Button size="sm" variant="outline" onClick={copyScript} className={copySuccess ? 'bg-green-100 border-green-500' : ''}>
-                      <Copy className="h-4 w-4 mr-2" />
-                      {copySuccess ? 'Copied!' : 'Copy'}
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={downloadPDF}>
-                      <Download className="h-4 w-4 mr-2" />
-                      PDF
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={loadToTeleprompter} className="bg-cyan-50 hover:bg-cyan-100">
-                      <Monitor className="h-4 w-4 mr-2" />
-                      Teleprompter
-                    </Button>
+                    {isEditing ? (
+                      <>
+                        <Button size="sm" onClick={saveEdits} className="bg-green-600 hover:bg-green-700">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Save Changes
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={cancelEdits}>
+                          Cancel
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button size="sm" variant="outline" onClick={enableEditing} className="bg-blue-50 hover:bg-blue-100">
+                          <FileText className="h-4 w-4 mr-2" />
+                          Edit Script
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={copyScript} className={copySuccess ? 'bg-green-100 border-green-500' : ''}>
+                          <Copy className="h-4 w-4 mr-2" />
+                          {copySuccess ? 'Copied!' : 'Copy'}
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={downloadPDF}>
+                          <Download className="h-4 w-4 mr-2" />
+                          PDF
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={loadToTeleprompter} className="bg-cyan-50 hover:bg-cyan-100">
+                          <Monitor className="h-4 w-4 mr-2" />
+                          Teleprompter
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               </CardHeader>
@@ -603,9 +741,17 @@ ${script.fiveLine.community.script}`
                     </span>
                   </div>
 
-                  <p className="text-lg font-bold text-purple-900 mb-4 p-3 bg-white rounded-md border-l-4 border-purple-600">
-                    "{script.hook.text}"
-                  </p>
+                  {isEditing && editedScript ? (
+                    <Textarea
+                      value={editedScript.hook.text}
+                      onChange={(e) => updateHookText(e.target.value)}
+                      className="text-lg font-bold text-purple-900 mb-4 p-3 border-l-4 border-purple-600 min-h-[80px]"
+                    />
+                  ) : (
+                    <p className="text-lg font-bold text-purple-900 mb-4 p-3 bg-white rounded-md border-l-4 border-purple-600">
+                      "{script.hook.text}"
+                    </p>
+                  )}
 
                   <details className="mb-3">
                     <summary className="cursor-pointer text-sm font-semibold text-purple-700 hover:text-purple-900 mb-2">
@@ -649,19 +795,38 @@ ${script.fiveLine.community.script}`
                       LINE 1
                     </span>
                     <p className="text-xs font-semibold text-blue-600">
-                      CONTEXT ({script.fiveLine.context.timestamp})
+                      CONTEXT ({(isEditing && editedScript ? editedScript : script).fiveLine.context.timestamp})
                     </p>
                   </div>
-                  <p className="font-medium text-blue-900 mb-2">{script.fiveLine.context.script}</p>
-                  <div className="space-y-1 text-xs">
-                    <p className="text-blue-700"><strong>Visual:</strong> {script.fiveLine.context.visual}</p>
-                    {script.fiveLine.context.ubuntuPrinciple && (
-                      <p className="text-blue-600"><strong>Ubuntu:</strong> {script.fiveLine.context.ubuntuPrinciple}</p>
-                    )}
-                    {script.fiveLine.context.shadowFear && (
-                      <p className="text-blue-600"><strong>Shadow Fear:</strong> {script.fiveLine.context.shadowFear}</p>
-                    )}
-                  </div>
+                  {isEditing && editedScript ? (
+                    <>
+                      <Label className="text-xs text-blue-700 mb-1">Script:</Label>
+                      <Textarea
+                        value={editedScript.fiveLine.context.script}
+                        onChange={(e) => updateFiveLineSection('context', 'script', e.target.value)}
+                        className="font-medium text-blue-900 mb-2 min-h-[80px]"
+                      />
+                      <Label className="text-xs text-blue-700 mb-1 mt-2">Visual:</Label>
+                      <Input
+                        value={editedScript.fiveLine.context.visual}
+                        onChange={(e) => updateFiveLineSection('context', 'visual', e.target.value)}
+                        className="text-sm mb-2"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-medium text-blue-900 mb-2">{script.fiveLine.context.script}</p>
+                      <div className="space-y-1 text-xs">
+                        <p className="text-blue-700"><strong>Visual:</strong> {script.fiveLine.context.visual}</p>
+                        {script.fiveLine.context.ubuntuPrinciple && (
+                          <p className="text-blue-600"><strong>Ubuntu:</strong> {script.fiveLine.context.ubuntuPrinciple}</p>
+                        )}
+                        {script.fiveLine.context.shadowFear && (
+                          <p className="text-blue-600"><strong>Shadow Fear:</strong> {script.fiveLine.context.shadowFear}</p>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Line 2: Collision */}
@@ -671,16 +836,35 @@ ${script.fiveLine.community.script}`
                       LINE 2
                     </span>
                     <p className="text-xs font-semibold text-red-600">
-                      COLLISION ({script.fiveLine.collision.timestamp})
+                      COLLISION ({(isEditing && editedScript ? editedScript : script).fiveLine.collision.timestamp})
                     </p>
                   </div>
-                  <p className="font-medium text-red-900 mb-2">{script.fiveLine.collision.script}</p>
-                  <div className="space-y-1 text-xs">
-                    <p className="text-red-700"><strong>Visual:</strong> {script.fiveLine.collision.visual}</p>
-                    {script.fiveLine.collision.systemVillain && (
-                      <p className="text-red-600"><strong>System Villain:</strong> {script.fiveLine.collision.systemVillain}</p>
-                    )}
-                  </div>
+                  {isEditing && editedScript ? (
+                    <>
+                      <Label className="text-xs text-red-700 mb-1">Script:</Label>
+                      <Textarea
+                        value={editedScript.fiveLine.collision.script}
+                        onChange={(e) => updateFiveLineSection('collision', 'script', e.target.value)}
+                        className="font-medium text-red-900 mb-2 min-h-[80px]"
+                      />
+                      <Label className="text-xs text-red-700 mb-1 mt-2">Visual:</Label>
+                      <Input
+                        value={editedScript.fiveLine.collision.visual}
+                        onChange={(e) => updateFiveLineSection('collision', 'visual', e.target.value)}
+                        className="text-sm mb-2"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-medium text-red-900 mb-2">{script.fiveLine.collision.script}</p>
+                      <div className="space-y-1 text-xs">
+                        <p className="text-red-700"><strong>Visual:</strong> {script.fiveLine.collision.visual}</p>
+                        {script.fiveLine.collision.systemVillain && (
+                          <p className="text-red-600"><strong>System Villain:</strong> {script.fiveLine.collision.systemVillain}</p>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Line 3: Conversion */}
@@ -690,16 +874,35 @@ ${script.fiveLine.community.script}`
                       LINE 3
                     </span>
                     <p className="text-xs font-semibold text-purple-600">
-                      CONVERSION ({script.fiveLine.conversion.timestamp}) - 80% Teaching
+                      CONVERSION ({(isEditing && editedScript ? editedScript : script).fiveLine.conversion.timestamp}) - 80% Teaching
                     </p>
                   </div>
-                  <p className="font-medium text-purple-900 mb-2">{script.fiveLine.conversion.script}</p>
-                  <div className="space-y-1 text-xs">
-                    <p className="text-purple-700"><strong>Visual:</strong> {script.fiveLine.conversion.visual}</p>
-                    {script.fiveLine.conversion.framework && (
-                      <p className="text-purple-600"><strong>Framework:</strong> {script.fiveLine.conversion.framework}</p>
-                    )}
-                  </div>
+                  {isEditing && editedScript ? (
+                    <>
+                      <Label className="text-xs text-purple-700 mb-1">Script:</Label>
+                      <Textarea
+                        value={editedScript.fiveLine.conversion.script}
+                        onChange={(e) => updateFiveLineSection('conversion', 'script', e.target.value)}
+                        className="font-medium text-purple-900 mb-2 min-h-[80px]"
+                      />
+                      <Label className="text-xs text-purple-700 mb-1 mt-2">Visual:</Label>
+                      <Input
+                        value={editedScript.fiveLine.conversion.visual}
+                        onChange={(e) => updateFiveLineSection('conversion', 'visual', e.target.value)}
+                        className="text-sm mb-2"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-medium text-purple-900 mb-2">{script.fiveLine.conversion.script}</p>
+                      <div className="space-y-1 text-xs">
+                        <p className="text-purple-700"><strong>Visual:</strong> {script.fiveLine.conversion.visual}</p>
+                        {script.fiveLine.conversion.framework && (
+                          <p className="text-purple-600"><strong>Framework:</strong> {script.fiveLine.conversion.framework}</p>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Line 4: Calibration */}
@@ -709,19 +912,38 @@ ${script.fiveLine.community.script}`
                       LINE 4
                     </span>
                     <p className="text-xs font-semibold text-orange-600">
-                      CALIBRATION ({script.fiveLine.calibration.timestamp}) - 20% Proof
+                      CALIBRATION ({(isEditing && editedScript ? editedScript : script).fiveLine.calibration.timestamp}) - 20% Proof
                     </p>
                   </div>
-                  <p className="font-medium text-orange-900 mb-2">{script.fiveLine.calibration.script}</p>
-                  <div className="space-y-1 text-xs">
-                    <p className="text-orange-700"><strong>Visual:</strong> {script.fiveLine.calibration.visual}</p>
-                    {script.fiveLine.calibration.storyUsed && (
-                      <p className="text-orange-600"><strong>Story:</strong> {script.fiveLine.calibration.storyUsed}</p>
-                    )}
-                    {script.fiveLine.calibration.numbers && (
-                      <p className="text-orange-600"><strong>Numbers:</strong> {script.fiveLine.calibration.numbers}</p>
-                    )}
-                  </div>
+                  {isEditing && editedScript ? (
+                    <>
+                      <Label className="text-xs text-orange-700 mb-1">Script:</Label>
+                      <Textarea
+                        value={editedScript.fiveLine.calibration.script}
+                        onChange={(e) => updateFiveLineSection('calibration', 'script', e.target.value)}
+                        className="font-medium text-orange-900 mb-2 min-h-[80px]"
+                      />
+                      <Label className="text-xs text-orange-700 mb-1 mt-2">Visual:</Label>
+                      <Input
+                        value={editedScript.fiveLine.calibration.visual}
+                        onChange={(e) => updateFiveLineSection('calibration', 'visual', e.target.value)}
+                        className="text-sm mb-2"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-medium text-orange-900 mb-2">{script.fiveLine.calibration.script}</p>
+                      <div className="space-y-1 text-xs">
+                        <p className="text-orange-700"><strong>Visual:</strong> {script.fiveLine.calibration.visual}</p>
+                        {script.fiveLine.calibration.storyUsed && (
+                          <p className="text-orange-600"><strong>Story:</strong> {script.fiveLine.calibration.storyUsed}</p>
+                        )}
+                        {script.fiveLine.calibration.numbers && (
+                          <p className="text-orange-600"><strong>Numbers:</strong> {script.fiveLine.calibration.numbers}</p>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Line 5: Community */}
@@ -731,16 +953,35 @@ ${script.fiveLine.community.script}`
                       LINE 5
                     </span>
                     <p className="text-xs font-semibold text-green-600">
-                      COMMUNITY ({script.fiveLine.community.timestamp}) - Ubuntu CTA
+                      COMMUNITY ({(isEditing && editedScript ? editedScript : script).fiveLine.community.timestamp}) - Ubuntu CTA
                     </p>
                   </div>
-                  <p className="font-medium text-green-900 mb-2">{script.fiveLine.community.script}</p>
-                  <div className="space-y-1 text-xs">
-                    <p className="text-green-700"><strong>Visual:</strong> {script.fiveLine.community.visual}</p>
-                    {script.fiveLine.community.collectiveAction && (
-                      <p className="text-green-600"><strong>Collective Action:</strong> {script.fiveLine.community.collectiveAction}</p>
-                    )}
-                  </div>
+                  {isEditing && editedScript ? (
+                    <>
+                      <Label className="text-xs text-green-700 mb-1">Script:</Label>
+                      <Textarea
+                        value={editedScript.fiveLine.community.script}
+                        onChange={(e) => updateFiveLineSection('community', 'script', e.target.value)}
+                        className="font-medium text-green-900 mb-2 min-h-[80px]"
+                      />
+                      <Label className="text-xs text-green-700 mb-1 mt-2">Visual:</Label>
+                      <Input
+                        value={editedScript.fiveLine.community.visual}
+                        onChange={(e) => updateFiveLineSection('community', 'visual', e.target.value)}
+                        className="text-sm mb-2"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-medium text-green-900 mb-2">{script.fiveLine.community.script}</p>
+                      <div className="space-y-1 text-xs">
+                        <p className="text-green-700"><strong>Visual:</strong> {script.fiveLine.community.visual}</p>
+                        {script.fiveLine.community.collectiveAction && (
+                          <p className="text-green-600"><strong>Collective Action:</strong> {script.fiveLine.community.collectiveAction}</p>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* B-Roll Suggestions */}
@@ -748,13 +989,27 @@ ${script.fiveLine.community.script}`
                   <p className="text-xs font-semibold text-gray-600 mb-2">
                     B-ROLL SUGGESTIONS:
                   </p>
-                  <ul className="text-sm space-y-1">
-                    {script.bRoll.map((item, index) => (
-                      <li key={index} className="text-gray-700">
-                        {index + 1}. {item}
-                      </li>
-                    ))}
-                  </ul>
+                  {isEditing && editedScript ? (
+                    <div className="space-y-2">
+                      {editedScript.bRoll.map((item, index) => (
+                        <Input
+                          key={index}
+                          value={item}
+                          onChange={(e) => updateBRoll(index, e.target.value)}
+                          className="text-sm"
+                          placeholder={`B-Roll ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <ul className="text-sm space-y-1">
+                      {script.bRoll.map((item, index) => (
+                        <li key={index} className="text-gray-700">
+                          {index + 1}. {item}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 {/* Text Overlays */}
@@ -762,13 +1017,27 @@ ${script.fiveLine.community.script}`
                   <p className="text-xs font-semibold text-gray-600 mb-2">
                     TEXT OVERLAYS:
                   </p>
-                  <ul className="text-sm space-y-1">
-                    {script.textOverlays.map((item, index) => (
-                      <li key={index} className="text-gray-700">
-                        {index + 1}. {item}
-                      </li>
-                    ))}
-                  </ul>
+                  {isEditing && editedScript ? (
+                    <div className="space-y-2">
+                      {editedScript.textOverlays.map((item, index) => (
+                        <Input
+                          key={index}
+                          value={item}
+                          onChange={(e) => updateTextOverlay(index, e.target.value)}
+                          className="text-sm"
+                          placeholder={`Text Overlay ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <ul className="text-sm space-y-1">
+                      {script.textOverlays.map((item, index) => (
+                        <li key={index} className="text-gray-700">
+                          {index + 1}. {item}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 {/* Analysis Sections */}

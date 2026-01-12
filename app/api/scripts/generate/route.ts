@@ -158,13 +158,33 @@ STORY INTEGRATION EXAMPLE:
 DO NOT make the story the main content. Use it to SUPPORT the teaching.
 `
 
+    // Detect YouTube long-form requirement
+    const isYouTubeLongForm = platform?.toLowerCase() === 'youtube' || platform?.toLowerCase() === 'youtube-long'
+    const targetDuration = isYouTubeLongForm ? '5-15 minutes' : duration || '60s'
+
     // Build user context
     const userPrompt = `## USER'S CONTENT IDEA
 
 "${idea}"
 
 ${platform ? `Platform: ${platform}` : 'Platform: Auto-detect best fit'}
-${duration ? `Duration: ${duration}` : 'Duration: Auto-optimize (default 60s)'}
+Duration: ${targetDuration}
+
+${isYouTubeLongForm ? `
+🎬 YOUTUBE LONG-FORM REQUIREMENTS:
+- Target script length: 5-15 minutes (300-900 seconds)
+- Expand each 5-Line section proportionally:
+  * LINE 1: CONTEXT (0-90s) - Extended hook and problem setup
+  * LINE 2: COLLISION (90-210s) - Deeper system analysis and pain amplification
+  * LINE 3: CONVERSION (210-660s) - Complete framework teaching with examples, sub-frameworks, and detailed strategies
+  * LINE 4: CALIBRATION (660-780s) - Multiple proof stories with detailed numbers and lessons
+  * LINE 5: COMMUNITY (780-900s) - Extended CTA with community building
+- Add MORE teaching depth in Conversion (frameworks within frameworks)
+- Include 2-3 stories instead of 1 in Calibration
+- Add more examples, analogies, and tactical steps
+- Maintain all Hook Science, Ubuntu principles, and scripting principles
+- Keep conversational pacing with natural pauses and transitions
+` : ''}
 
 ## GENERATION TASK
 

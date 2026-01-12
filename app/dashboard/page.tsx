@@ -311,7 +311,20 @@ export default function DashboardPage() {
       {/* Content Libraries */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4 mt-8">Content Libraries</h2>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-3 gap-4">
+          <Link href="/dashboard/vault">
+            <Card className="hover:border-purple-600 transition-colors cursor-pointer h-full border-2 border-purple-200">
+              <CardContent className="flex flex-col items-center justify-center p-6">
+                <Database className="h-10 w-10 text-purple-600 mb-2" />
+                <span className="font-medium text-base mb-1">Story & Content Vault</span>
+                <p className="text-xs text-gray-600 text-center">
+                  110+ Ideas & Stories
+                </p>
+                <span className="text-xs text-purple-600 font-semibold mt-2">NEW ✨</span>
+              </CardContent>
+            </Card>
+          </Link>
+
           <Link href="/dashboard/saved-hooks">
             <Card className="hover:border-blue-600 transition-colors cursor-pointer h-full">
               <CardContent className="flex flex-col items-center justify-center p-6">
