@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Calendar as CalendarIcon, Plus, Trash2, Zap, FileText, BookOpen, Brain, Target } from 'lucide-react'
+import { Calendar as CalendarIcon, Plus, Trash2, Zap, FileText, BookOpen, Brain, Target, ChevronLeft, ChevronRight, List } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -27,6 +27,10 @@ interface ContentEntry {
 
 export default function ContentCalendarPage() {
   const { calendarEntries, addToCalendar, removeFromCalendar } = useContent()
+
+  const [currentDate, setCurrentDate] = useState(new Date())
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
   const [newEntry, setNewEntry] = useState<Partial<ContentEntry>>({
     date: new Date().toISOString().split('T')[0],
@@ -64,15 +68,50 @@ export default function ContentCalendarPage() {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case '40% Educate':
-        return 'bg-blue-100 text-blue-700 border-blue-200'
+        return {
+          bg: 'bg-blue-500',
+          text: 'text-white',
+          border: 'border-blue-600',
+          lightBg: 'bg-blue-100',
+          lightText: 'text-blue-700',
+          lightBorder: 'border-blue-200'
+        }
       case '30% Entertain':
-        return 'bg-purple-100 text-purple-700 border-purple-200'
+        return {
+          bg: 'bg-purple-500',
+          text: 'text-white',
+          border: 'border-purple-600',
+          lightBg: 'bg-purple-100',
+          lightText: 'text-purple-700',
+          lightBorder: 'border-purple-200'
+        }
       case '20% Encourage':
-        return 'bg-green-100 text-green-700 border-green-200'
+        return {
+          bg: 'bg-green-500',
+          text: 'text-white',
+          border: 'border-green-600',
+          lightBg: 'bg-green-100',
+          lightText: 'text-green-700',
+          lightBorder: 'border-green-200'
+        }
       case '10% Earn':
-        return 'bg-orange-100 text-orange-700 border-orange-200'
+        return {
+          bg: 'bg-orange-500',
+          text: 'text-white',
+          border: 'border-orange-600',
+          lightBg: 'bg-orange-100',
+          lightText: 'text-orange-700',
+          lightBorder: 'border-orange-200'
+        }
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200'
+        return {
+          bg: 'bg-gray-500',
+          text: 'text-white',
+          border: 'border-gray-600',
+          lightBg: 'bg-gray-100',
+          lightText: 'text-gray-700',
+          lightBorder: 'border-gray-200'
+        }
     }
   }
 
@@ -103,22 +142,142 @@ export default function ContentCalendarPage() {
 
   const stats = getStats()
 
+  // Calendar grid functions
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    return new Date(year, month + 1, 0).getDate()
+  }
+
+  const getFirstDayOfMonth = (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    return new Date(year, month, 1).getDay()
+  }
+
+  const getEntriesForDate = (date: Date) => {
+    const dateStr = date.toISOString().split('T')[0]
+    return calendarEntries.filter(entry => entry.date === dateStr)
+  }
+
+  const navigateMonth = (direction: 'prev' | 'next') => {
+    setCurrentDate(prev => {
+      const newDate = new Date(prev)
+      if (direction === 'prev') {
+        newDate.setMonth(newDate.getMonth() - 1)
+      } else {
+        newDate.setMonth(newDate.getMonth() + 1)
+      }
+      return newDate
+    })
+  }
+
+  const renderCalendarGrid = () => {
+    const daysInMonth = getDaysInMonth(currentDate)
+    const firstDay = getFirstDayOfMonth(currentDate)
+    const days = []
+
+    // Add empty cells for days before the start of the month
+    for (let i = 0; i < firstDay; i++) {
+      days.push(<div key={`empty-${i}`} className="min-h-[120px] bg-gray-50 border border-gray-200"></div>)
+    }
+
+    // Add cells for each day of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
+      const entries = getEntriesForDate(date)
+      const isToday = date.toDateString() === new Date().toDateString()
+
+      days.push(
+        <div
+          key={day}
+          className={`min-h-[120px] border border-gray-200 p-2 ${
+            isToday ? 'bg-blue-50 ring-2 ring-blue-500' : 'bg-white hover:bg-gray-50'
+          } cursor-pointer transition-colors`}
+          onClick={() => {
+            setSelectedDate(date)
+            setNewEntry({ ...newEntry, date: date.toISOString().split('T')[0] })
+          }}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className={`text-sm font-semibold ${isToday ? 'text-blue-600' : 'text-gray-700'}`}>
+              {day}
+            </span>
+            {entries.length > 0 && (
+              <span className="text-xs bg-gray-200 text-gray-700 px-1.5 py-0.5 rounded">
+                {entries.length}
+              </span>
+            )}
+          </div>
+
+          <div className="space-y-1">
+            {entries.slice(0, 3).map(entry => {
+              const colors = getCategoryColor(entry.category)
+              return (
+                <div
+                  key={entry.id}
+                  className={`text-xs p-1.5 rounded ${colors.bg} ${colors.text} truncate group relative`}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setSelectedDate(date)
+                  }}
+                >
+                  <div className="truncate">{entry.title}</div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      deleteEntry(entry.id)
+                    }}
+                    className="absolute -top-1 -right-1 h-5 w-5 p-0 bg-red-600 hover:bg-red-700 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    ×
+                  </Button>
+                </div>
+              )
+            })}
+            {entries.length > 3 && (
+              <div className="text-xs text-gray-500 text-center">
+                +{entries.length - 3} more
+              </div>
+            )}
+          </div>
+        </div>
+      )
+    }
+
+    return days
+  }
+
   // Sort entries by date
   const sortedEntries = [...calendarEntries].sort((a, b) =>
     new Date(a.date).getTime() - new Date(b.date).getTime()
   )
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <CalendarIcon className="h-8 w-8 text-green-600" />
-          Content Calendar
-        </h1>
-        <p className="text-gray-600">
-          Plan your content using the 4E framework: 40% Educate, 30% Entertain, 20% Encourage, 10% Earn
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
+              <CalendarIcon className="h-8 w-8 text-green-600" />
+              Content Calendar
+            </h1>
+            <p className="text-gray-600">
+              Plan your content using the 4E framework: 40% Educate, 30% Entertain, 20% Encourage, 10% Earn
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+            className="flex items-center gap-2"
+          >
+            {viewMode === 'grid' ? <List className="h-4 w-4" /> : <CalendarIcon className="h-4 w-4" />}
+            {viewMode === 'grid' ? 'List View' : 'Calendar View'}
+          </Button>
+        </div>
       </div>
 
       {/* Stats */}
@@ -169,16 +328,16 @@ export default function ContentCalendarPage() {
         </Card>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* Add Entry Form */}
-        <Card>
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Add Content Form */}
+        <Card className="lg:col-span-1">
           <CardHeader>
             <CardTitle>Add Content</CardTitle>
-            <CardDescription>Schedule new content using the 4E framework</CardDescription>
+            <CardDescription>Schedule new content to your calendar</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
+              <Label htmlFor="date">Date *</Label>
               <Input
                 id="date"
                 type="date"
@@ -188,17 +347,17 @@ export default function ContentCalendarPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="title">Content Title</Label>
+              <Label htmlFor="title">Title *</Label>
               <Input
                 id="title"
-                placeholder="e.g., How to price your first brand deal"
+                placeholder="Content title or topic"
                 value={newEntry.title}
                 onChange={(e) => setNewEntry({ ...newEntry, title: e.target.value })}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="category">4E Category</Label>
+              <Label htmlFor="category">Category (4E Framework)</Label>
               <Select
                 value={newEntry.category}
                 onValueChange={(value) =>
@@ -209,10 +368,10 @@ export default function ContentCalendarPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="40% Educate">40% Educate (Teach frameworks)</SelectItem>
-                  <SelectItem value="30% Entertain">30% Entertain (Stories & humor)</SelectItem>
-                  <SelectItem value="20% Encourage">20% Encourage (Motivation)</SelectItem>
-                  <SelectItem value="10% Earn">10% Earn (Monetization)</SelectItem>
+                  <SelectItem value="40% Educate">40% Educate</SelectItem>
+                  <SelectItem value="30% Entertain">30% Entertain</SelectItem>
+                  <SelectItem value="20% Encourage">20% Encourage</SelectItem>
+                  <SelectItem value="10% Earn">10% Earn</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -255,106 +414,199 @@ export default function ContentCalendarPage() {
         </Card>
 
         {/* Calendar View */}
-        <div className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Upcoming Content ({calendarEntries.length})</CardTitle>
-              <CardDescription>Your content schedule</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {sortedEntries.length > 0 ? (
-                <div className="space-y-3 max-h-[600px] overflow-y-auto">
-                  {sortedEntries.map((entry) => (
-                    <div
-                      key={entry.id}
-                      className="p-4 border rounded-lg hover:shadow-md transition-shadow"
+        <div className="lg:col-span-2 space-y-4">
+          {viewMode === 'grid' ? (
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>
+                      {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                    </CardTitle>
+                    <CardDescription>{calendarEntries.length} items scheduled</CardDescription>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" onClick={() => navigateMonth('prev')}>
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentDate(new Date())}
                     >
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex-1">
-                          <p className="font-medium text-sm">{entry.title}</p>
-                          <p className="text-xs text-gray-500 mt-1">
-                            {new Date(entry.date).toLocaleDateString('en-US', {
-                              weekday: 'short',
-                              month: 'short',
-                              day: 'numeric',
-                            })}
-                          </p>
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => deleteEntry(entry.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-red-600" />
-                        </Button>
-                      </div>
-
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span
-                          className={`text-xs px-2 py-1 rounded border ${getCategoryColor(
-                            entry.category
-                          )}`}
-                        >
-                          {entry.category}
-                        </span>
-                        <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700 border border-gray-200">
-                          {entry.platform}
-                        </span>
-                        {entry.sourceTools && entry.sourceTools.length > 0 && (
-                          <span className="text-xs px-2 py-1 rounded bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1">
-                            {getSourceToolIcon(entry.sourceTools)}
-                            {entry.sourceTools.join(', ')}
-                          </span>
-                        )}
-                      </div>
-
-                      {entry.notes && (
-                        <p className="text-xs text-gray-600 mt-2 line-clamp-2">{entry.notes}</p>
-                      )}
+                      Today
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => navigateMonth('next')}>
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {/* Weekday headers */}
+                <div className="grid grid-cols-7 gap-0 mb-2">
+                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                    <div key={day} className="text-center text-xs font-semibold text-gray-600 py-2">
+                      {day}
                     </div>
                   ))}
                 </div>
-              ) : (
-                <div className="text-center py-12">
-                  <CalendarIcon className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                  <p className="text-gray-500 text-sm">No content scheduled yet</p>
-                  <p className="text-gray-400 text-xs mt-1">
-                    Add your first content entry to get started
-                  </p>
+
+                {/* Calendar grid */}
+                <div className="grid grid-cols-7 gap-0 border-t border-l">
+                  {renderCalendarGrid()}
                 </div>
-              )}
-            </CardContent>
-          </Card>
+
+                {/* Legend */}
+                <div className="mt-6 pt-4 border-t">
+                  <p className="text-xs font-semibold text-gray-600 mb-2">Color Legend:</p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                      <span className="text-xs">Educate (40%)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-purple-500 rounded"></div>
+                      <span className="text-xs">Entertain (30%)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-green-500 rounded"></div>
+                      <span className="text-xs">Encourage (20%)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                      <span className="text-xs">Earn (10%)</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>Upcoming Content ({calendarEntries.length})</CardTitle>
+                <CardDescription>Your content schedule</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {sortedEntries.length > 0 ? (
+                  <div className="space-y-3 max-h-[600px] overflow-y-auto">
+                    {sortedEntries.map((entry) => {
+                      const colors = getCategoryColor(entry.category)
+                      return (
+                        <div
+                          key={entry.id}
+                          className="p-4 border rounded-lg hover:shadow-md transition-shadow"
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <p className="font-medium text-sm">{entry.title}</p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {new Date(entry.date).toLocaleDateString('en-US', {
+                                  weekday: 'short',
+                                  month: 'short',
+                                  day: 'numeric',
+                                })}
+                              </p>
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => deleteEntry(entry.id)}
+                            >
+                              <Trash2 className="h-4 w-4 text-red-600" />
+                            </Button>
+                          </div>
+
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span
+                              className={`text-xs px-2 py-1 rounded border ${colors.lightBg} ${colors.lightText} ${colors.lightBorder}`}
+                            >
+                              {entry.category}
+                            </span>
+                            <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700 border border-gray-200">
+                              {entry.platform}
+                            </span>
+                            {entry.sourceTools && entry.sourceTools.length > 0 && (
+                              <span className="text-xs px-2 py-1 rounded bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1">
+                                {getSourceToolIcon(entry.sourceTools)}
+                                {entry.sourceTools.join(', ')}
+                              </span>
+                            )}
+                          </div>
+
+                          {entry.notes && (
+                            <p className="text-xs text-gray-600 mt-2 line-clamp-2">{entry.notes}</p>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <CalendarIcon className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                    <p className="text-gray-500 text-sm">No content scheduled yet</p>
+                    <p className="text-gray-400 text-xs mt-1">
+                      Add your first content entry to get started
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
 
           {/* 4E Framework Guide */}
-          <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200">
+          <Card className="bg-gradient-to-r from-blue-50 to-purple-50">
             <CardHeader>
-              <CardTitle className="text-sm">4E Content Framework</CardTitle>
+              <CardTitle className="text-lg">4E Content Framework</CardTitle>
+              <CardDescription>Balance your content for maximum engagement and revenue</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2 text-xs">
-              <div className="flex items-start gap-2">
-                <span className="font-bold text-blue-600">40%</span>
-                <p className="text-blue-700">
-                  <strong>Educate:</strong> Teach frameworks, strategies, systems
-                </p>
+            <CardContent className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">
+                  40%
+                </div>
+                <div>
+                  <p className="font-semibold text-blue-900">Educate</p>
+                  <p className="text-sm text-blue-700">
+                    Teach frameworks, strategies, and tactics your audience can implement
+                  </p>
+                </div>
               </div>
-              <div className="flex items-start gap-2">
-                <span className="font-bold text-purple-600">30%</span>
-                <p className="text-purple-700">
-                  <strong>Entertain:</strong> Stories, humor, relatable content
-                </p>
+
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">
+                  30%
+                </div>
+                <div>
+                  <p className="font-semibold text-purple-900">Entertain</p>
+                  <p className="text-sm text-purple-700">
+                    Share stories, behind-the-scenes, and relatable experiences
+                  </p>
+                </div>
               </div>
-              <div className="flex items-start gap-2">
-                <span className="font-bold text-green-600">20%</span>
-                <p className="text-green-700">
-                  <strong>Encourage:</strong> Motivation, inspiration, possibility
-                </p>
+
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">
+                  20%
+                </div>
+                <div>
+                  <p className="font-semibold text-green-900">Encourage</p>
+                  <p className="text-sm text-green-700">
+                    Motivate, inspire, and show what's possible for your community
+                  </p>
+                </div>
               </div>
-              <div className="flex items-start gap-2">
-                <span className="font-bold text-orange-600">10%</span>
-                <p className="text-orange-700">
-                  <strong>Earn:</strong> Monetization, offers, CTAs
-                </p>
+
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">
+                  10%
+                </div>
+                <div>
+                  <p className="font-semibold text-orange-900">Earn</p>
+                  <p className="text-sm text-orange-700">
+                    Promote products, services, and monetization opportunities
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
