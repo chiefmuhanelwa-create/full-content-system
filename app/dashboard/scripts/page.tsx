@@ -88,6 +88,24 @@ export default function ScriptWriterPage() {
   const [isEditing, setIsEditing] = useState(false)
   const [editedScript, setEditedScript] = useState<GeneratedScript | null>(null)
 
+  // Sales Script Mode
+  const [scriptMode, setScriptMode] = useState<'content' | 'sales'>('content')
+  const [selectedProductId, setSelectedProductId] = useState('')
+  const [salesFormat, setSalesFormat] = useState('reel')
+  const [products, setProducts] = useState<any[]>([])
+
+  // Load products from localStorage
+  useEffect(() => {
+    const storedProducts = localStorage.getItem('products')
+    if (storedProducts) {
+      try {
+        setProducts(JSON.parse(storedProducts))
+      } catch (error) {
+        console.error('Error loading products:', error)
+      }
+    }
+  }, [])
+
   // Check for vault data integration
   useEffect(() => {
     const vaultData = localStorage.getItem('vaultToScriptWriter')
@@ -139,8 +157,14 @@ export default function ScriptWriterPage() {
   }, [pendingAction, setPendingAction])
 
   const generateScript = async () => {
-    if (!idea.trim()) {
+    // Validation
+    if (scriptMode === 'content' && !idea.trim()) {
       setError('Please enter your content idea')
+      return
+    }
+
+    if (scriptMode === 'sales' && !selectedProductId) {
+      setError('Please select a product to sell')
       return
     }
 
@@ -152,17 +176,32 @@ export default function ScriptWriterPage() {
       const recentStoriesData = localStorage.getItem('recentStories')
       const recentStories = recentStoriesData ? JSON.parse(recentStoriesData) : []
 
+      // Prepare request body
+      const requestBody: any = {
+        idea,
+        platform: platform === 'auto' ? undefined : platform,
+        duration: duration === 'auto' ? undefined : duration,
+        recentStories, // Pass recently used stories for rotation
+      }
+
+      // Add sales mode data
+      if (scriptMode === 'sales') {
+        const selectedProduct = products.find((p) => p.id === selectedProductId)
+        if (!selectedProduct) {
+          throw new Error('Selected product not found')
+        }
+
+        requestBody.salesMode = true
+        requestBody.product = selectedProduct
+        requestBody.salesFormat = salesFormat
+      }
+
       const response = await fetch('/api/scripts/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          idea,
-          platform: platform === 'auto' ? undefined : platform,
-          duration: duration === 'auto' ? undefined : duration,
-          recentStories, // Pass recently used stories for rotation
-        }),
+        body: JSON.stringify(requestBody),
       })
 
       const data = await response.json()
@@ -506,7 +545,9 @@ ${scriptToUse.fiveLine.community.script}`
           Script Writer
         </h1>
         <p className="text-gray-600">
-          NOCHILL 5-Line Method: Context → Collision → Conversion → Calibration → Community
+          {scriptMode === 'content'
+            ? 'NOCHILL 5-Line Method: Context → Collision → Conversion → Calibration → Community'
+            : '💰 Sales Script Generator: 10-Step Storytelling Framework for Product Selling'}
         </p>
       </div>
 
@@ -517,16 +558,86 @@ ${scriptToUse.fiveLine.community.script}`
             <CardHeader>
               <CardTitle>What's Your Idea?</CardTitle>
               <CardDescription>
-                Describe what you want to teach or share. AI will create a complete production-ready script.
+                {scriptMode === 'content'
+                  ? 'Describe what you want to teach or share. AI will create a complete production-ready script.'
+                  : 'Create a sales script that sells your products using the 10-step storytelling framework.'}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Script Mode Toggle */}
+              <div className="space-y-2">
+                <Label htmlFor="scriptMode">Script Mode</Label>
+                <Select value={scriptMode} onValueChange={(value: 'content' | 'sales') => setScriptMode(value)}>
+                  <SelectTrigger id="scriptMode" className={scriptMode === 'sales' ? 'border-green-500 bg-green-50' : ''}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="content">📚 Content Script (Teaching & Engagement)</SelectItem>
+                    <SelectItem value="sales">💰 Sales Script (Product Selling)</SelectItem>
+                  </SelectContent>
+                </Select>
+                {scriptMode === 'sales' && (
+                  <p className="text-xs text-green-700 font-medium bg-green-100 p-2 rounded">
+                    💰 Sales Mode: Generate scripts designed to sell your products using 10-step storytelling framework
+                  </p>
+                )}
+              </div>
+
+              {/* Sales Mode: Product Selector */}
+              {scriptMode === 'sales' && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="product">Select Product to Sell *</Label>
+                    <Select value={selectedProductId} onValueChange={setSelectedProductId}>
+                      <SelectTrigger id="product">
+                        <SelectValue placeholder="Choose a product..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {products.length === 0 ? (
+                          <SelectItem value="none" disabled>No products found - Create products first</SelectItem>
+                        ) : (
+                          products.map((product) => (
+                            <SelectItem key={product.id} value={product.id}>
+                              {product.name} - R{product.price} ({product.audienceLevel})
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
+                    {products.length === 0 && (
+                      <p className="text-xs text-amber-700 bg-amber-50 p-2 rounded">
+                        ⚠️ No products found. Visit the <a href="/dashboard/products" className="underline font-medium">Product Database</a> to create your first product.
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="salesFormat">Sales Format</Label>
+                    <Select value={salesFormat} onValueChange={setSalesFormat}>
+                      <SelectTrigger id="salesFormat">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="reel">📱 Short-Form (Reel/TikTok)</SelectItem>
+                        <SelectItem value="email">📧 Email Sales Sequence</SelectItem>
+                        <SelectItem value="thread">🧵 Twitter/X Thread</SelectItem>
+                        <SelectItem value="sales-page">📄 Sales Page Copy</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </>
+              )}
+
               {/* Main Idea Input */}
               <div className="space-y-2">
-                <Label htmlFor="idea">Your Content Idea *</Label>
+                <Label htmlFor="idea">{scriptMode === 'sales' ? 'Angle or Hook (Optional)' : 'Your Content Idea *'}</Label>
                 <Textarea
                   id="idea"
-                  placeholder="e.g., 'Teach creators how to price their brand deals' or 'Share my journey from R750 to R100K brand partnerships'"
+                  placeholder={
+                    scriptMode === 'sales'
+                      ? "Optional: Add a specific angle, hook, or context. If blank, AI will create the best sales script based on your product data."
+                      : "e.g., 'Teach creators how to price their brand deals' or 'Share my journey from R750 to R100K brand partnerships'"
+                  }
                   value={idea}
                   onChange={(e) => setIdea(e.target.value)}
                   rows={4}
@@ -534,9 +645,11 @@ ${scriptToUse.fiveLine.community.script}`
                 />
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-gray-500">
-                    Be specific about what you want to teach or share
+                    {scriptMode === 'sales'
+                      ? 'Sales scripts are built from your product data - idea field is optional'
+                      : 'Be specific about what you want to teach or share'}
                   </p>
-                  {stories.length > 0 && (
+                  {stories.length > 0 && scriptMode === 'content' && (
                     <Button
                       variant="outline"
                       size="sm"
@@ -639,17 +752,32 @@ ${scriptToUse.fiveLine.community.script}`
               </div>
 
               {/* Info Box */}
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
-                <p className="text-sm text-blue-800 font-medium mb-2">
-                  🎯 NOCHILL 5-Line Method:
+              <div className={`p-4 border rounded-md ${scriptMode === 'sales' ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'}`}>
+                <p className={`text-sm font-medium mb-2 ${scriptMode === 'sales' ? 'text-green-800' : 'text-blue-800'}`}>
+                  {scriptMode === 'sales' ? '💰 10-Step Sales Framework:' : '🎯 NOCHILL 5-Line Method:'}
                 </p>
-                <ul className="text-xs text-blue-700 space-y-1">
-                  <li>• <strong>Context (0-8s):</strong> WE-focused hook (Ubuntu Story Arc)</li>
-                  <li>• <strong>Collision (8-18s):</strong> Name the system villain</li>
-                  <li>• <strong>Conversion (18-35s):</strong> 80% fresh teaching</li>
-                  <li>• <strong>Calibration (35-48s):</strong> 20% Ndivhuwo proof story</li>
-                  <li>• <strong>Community (48-60s):</strong> Collective action CTA</li>
-                </ul>
+                {scriptMode === 'sales' ? (
+                  <ul className="text-xs text-green-700 space-y-1">
+                    <li>• <strong>Hook:</strong> Call out specific audience with pain</li>
+                    <li>• <strong>Problem Amplification:</strong> Emotional stakes of staying stuck</li>
+                    <li>• <strong>Intrigue:</strong> Hint at the transformation</li>
+                    <li>• <strong>Solution Intro:</strong> Present your product</li>
+                    <li>• <strong>Credentials:</strong> Why you can help them</li>
+                    <li>• <strong>Benefits Stack:</strong> What they get</li>
+                    <li>• <strong>Social Proof:</strong> Testimonials & results</li>
+                    <li>• <strong>Offer:</strong> Godfather value stack</li>
+                    <li>• <strong>Scarcity:</strong> Urgency/exclusivity</li>
+                    <li>• <strong>CTA:</strong> Clear action to purchase</li>
+                  </ul>
+                ) : (
+                  <ul className="text-xs text-blue-700 space-y-1">
+                    <li>• <strong>Context (0-8s):</strong> WE-focused hook (Ubuntu Story Arc)</li>
+                    <li>• <strong>Collision (8-18s):</strong> Name the system villain</li>
+                    <li>• <strong>Conversion (18-35s):</strong> 80% fresh teaching</li>
+                    <li>• <strong>Calibration (35-48s):</strong> 20% Ndivhuwo proof story</li>
+                    <li>• <strong>Community (48-60s):</strong> Collective action CTA</li>
+                  </ul>
+                )}
               </div>
 
               {/* Error Display */}
@@ -663,18 +791,18 @@ ${scriptToUse.fiveLine.community.script}`
               <Button
                 onClick={generateScript}
                 disabled={loading}
-                className="w-full"
+                className={`w-full ${scriptMode === 'sales' ? 'bg-green-600 hover:bg-green-700' : ''}`}
                 size="lg"
               >
                 {loading ? (
                   <>
                     <Sparkles className="mr-2 h-4 w-4 animate-spin" />
-                    Generating Script...
+                    Generating {scriptMode === 'sales' ? 'Sales' : ''} Script...
                   </>
                 ) : (
                   <>
                     <Sparkles className="mr-2 h-4 w-4" />
-                    Generate Complete Script
+                    {scriptMode === 'sales' ? '💰 Generate Sales Script' : 'Generate Complete Script'}
                   </>
                 )}
               </Button>

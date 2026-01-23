@@ -6,12 +6,20 @@ import ndivhuwoStories from '@/lib/knowledge/ndivhuwo-stories.json'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { idea, platform, duration, recentStories = [] } = body
+    const { idea, platform, duration, recentStories = [], salesMode = false, product, salesFormat } = body
 
     // Validate required fields
-    if (!idea || !idea.trim()) {
+    if (!salesMode && (!idea || !idea.trim())) {
       return NextResponse.json(
         { error: 'Content idea is required' },
+        { status: 400 }
+      )
+    }
+
+    // Validate sales mode requirements
+    if (salesMode && !product) {
+      return NextResponse.json(
+        { error: 'Product is required for sales scripts' },
         { status: 400 }
       )
     }
@@ -162,7 +170,240 @@ DO NOT make the story the main content. Use it to SUPPORT the teaching.
     const isYouTubeLongForm = platform?.toLowerCase() === 'youtube' || platform?.toLowerCase() === 'youtube-long'
     const targetDuration = isYouTubeLongForm ? '5-15 minutes' : duration || '60s'
 
-    // Build user context
+    // Build user context - SALES MODE
+    if (salesMode) {
+      const salesUserPrompt = `## SALES SCRIPT GENERATION
+
+**MODE: Product Sales Script (10-Step Storytelling Framework)**
+
+### PRODUCT INFORMATION:
+- **Product Name**: ${product.name}
+- **Price**: R${product.price}
+- **Audience Level**: ${product.audienceLevel} (Beginner/Established/Contentpreneur)
+- **Product Type**: ${product.productType}
+- **Status**: ${product.status}
+
+### CORE PRODUCT DATA:
+**Pain Points This Product Solves:**
+${product.painPoints}
+
+**Core Benefits & Outcomes:**
+${product.coreBenefits}
+
+**Product Description:**
+${product.description}
+
+**Bonuses Included:**
+${product.bonuses}
+
+**Price Anchor (What They'd Pay Elsewhere):**
+${product.priceAnchor}
+
+**Guarantee (Risk Reversal):**
+${product.guarantee}
+
+**Social Proof & Testimonials:**
+${product.testimonials}
+
+${idea ? `### ADDITIONAL CONTEXT/ANGLE:\n${idea}\n` : ''}
+
+### SALES FORMAT:
+${salesFormat === 'reel' ? '📱 Short-Form Video (60-90s Reel/TikTok)' :
+  salesFormat === 'email' ? '📧 Email Sales Sequence' :
+  salesFormat === 'thread' ? '🧵 Twitter/X Thread' :
+  '📄 Sales Page Copy'}
+
+---
+
+## 10-STEP SALES STORYTELLING FRAMEWORK
+
+Create a sales script using this proven 10-step framework:
+
+### STEP 1: HOOK (Call Out Specific Audience)
+- Target specific audience segment: ${product.audienceLevel} creators
+- Call out their pain point directly
+- Use pattern interrupt
+- Example: "If you're a ${product.audienceLevel.toLowerCase()} creator struggling with [PAIN], this is for you..."
+
+### STEP 2: PROBLEM AMPLIFICATION (Emotional Stakes)
+- Amplify the pain from the product's painPoints
+- Show emotional cost of staying stuck
+- Use fear-based motivation (Shadow Fears)
+- Make them FEEL the problem
+
+### STEP 3: INTRIGUE (Hint at Transformation)
+- Tease the solution without revealing yet
+- Show the "after" state (coreBenefits)
+- Create curiosity gap
+- Example: "What if you could [BENEFIT]?"
+
+### STEP 4: SOLUTION INTRODUCTION (Present Product)
+- Introduce ${product.name}
+- Position as THE solution to their problem
+- Clear value proposition
+- "This is ${product.name}, and here's what it does..."
+
+### STEP 5: CREDENTIALS (Why You Can Help)
+- Use Ndivhuwo's stories as proof
+- Show authority and expertise
+- Demonstrate understanding of their journey
+- "I've been where you are..."
+
+### STEP 6: BENEFITS STACK (What They Get)
+- List tangible outcomes from coreBenefits
+- Transform features into benefits
+- Use "You'll be able to..." format
+- Itemize what changes for them
+
+### STEP 7: SOCIAL PROOF (Testimonials & Results)
+- Include testimonials from product data
+- Show real results
+- Third-party validation
+- "Here's what others achieved..."
+
+### STEP 8: OFFER (Godfather Value Stack)
+- Present R${product.price} price with priceAnchor comparison
+- Stack bonuses: ${product.bonuses}
+- Show total value vs. price
+- Make it irresistible
+
+### STEP 9: RISK REVERSAL (Guarantee)
+- Emphasize guarantee: ${product.guarantee}
+- Remove all purchase anxiety
+- "You can't lose" positioning
+- Make it safe to say yes
+
+### STEP 10: CTA (Clear Call to Action)
+- Direct instruction to purchase
+- Create urgency (limited spots/time)
+- Make it easy (link in bio, DM, etc.)
+- Final push: "Click the link now..."
+
+---
+
+## OUTPUT FORMAT:
+
+${salesFormat === 'reel' ? `
+Return a JSON object for SHORT-FORM VIDEO (60-90s):
+{
+  "title": "Compelling sales hook title",
+  "hook": {
+    "text": "Opening hook that calls out audience",
+    "shadowFear": "Which Shadow Fear this targets",
+    "painPoint": "Specific pain addressed"
+  },
+  "script": "Full 60-90 second sales script following all 10 steps, formatted for camera delivery. Use YOU format, short punchy sentences, conversational tone.",
+  "visualSuggestions": ["Visual 1", "Visual 2", "Visual 3"],
+  "textOverlays": ["Key overlay 1", "Key overlay 2"],
+  "cta": "Clear call to action"
+}
+` : salesFormat === 'email' ? `
+Return a JSON object for EMAIL SALES SEQUENCE:
+{
+  "subject": "Compelling email subject line",
+  "preview": "Preview text that shows in inbox",
+  "body": "Full email copy following 10-step framework with proper formatting and line breaks",
+  "ps": "P.S. section for final CTA reinforcement",
+  "cta": "Primary call to action button text"
+}
+` : salesFormat === 'thread' ? `
+Return a JSON object for TWITTER/X THREAD:
+{
+  "tweets": [
+    "Tweet 1 (Hook - call out audience)",
+    "Tweet 2 (Problem amplification)",
+    "Tweet 3 (Intrigue)",
+    "Tweet 4 (Solution intro)",
+    "Tweet 5 (Credentials)",
+    "Tweet 6 (Benefits stack)",
+    "Tweet 7 (Social proof)",
+    "Tweet 8 (Offer with price)",
+    "Tweet 9 (Risk reversal)",
+    "Tweet 10 (CTA)"
+  ],
+  "hookTweet": "The opening tweet optimized for virality"
+}
+` : `
+Return a JSON object for SALES PAGE COPY:
+{
+  "headline": "Main headline",
+  "subheadline": "Supporting subheadline",
+  "sections": {
+    "hook": "Opening section copy",
+    "problem": "Problem amplification section",
+    "solution": "Solution introduction section",
+    "benefits": "Benefits list section",
+    "proof": "Social proof section",
+    "offer": "Offer stack section with pricing",
+    "guarantee": "Guarantee section",
+    "cta": "Final CTA section"
+  },
+  "bullets": ["Benefit bullet 1", "Benefit bullet 2", "..."]
+}
+`}
+
+### CRITICAL REQUIREMENTS:
+
+1. **Use product data extensively** - Don't make up features/benefits
+2. **Target ${product.audienceLevel} audience** specifically
+3. **Apply 4 Viral Scripting Principles**: Negativity (indirect), YOU format, Short & Simple, Audible Flow
+4. **Price positioning**: R${product.price} vs ${product.priceAnchor}
+5. **Include all bonuses** from product data
+6. **Emphasize guarantee** for risk reversal
+7. **Use real testimonials** from product data
+8. **Conversational tone** - sounds like talking to a friend
+9. **Focus on TRANSFORMATION** not just features
+10. **Make CTA crystal clear** and urgent
+
+Generate the sales script now following the 10-step framework for ${salesFormat} format.`
+
+      // Call Claude API for sales mode
+      const salesMessage = await anthropic.messages.create({
+        model: MODELS.SONNET,
+        max_tokens: 4096,
+        system: buildSystemPrompt('scripts'),
+        messages: [
+          {
+            role: 'user',
+            content: salesUserPrompt,
+          },
+        ],
+      })
+
+      const salesContent = salesMessage.content[0]
+      if (salesContent.type !== 'text') {
+        throw new Error('Unexpected response type from Claude')
+      }
+
+      let salesScript: any
+      try {
+        const jsonMatch = salesContent.text.match(/\{[\s\S]*\}/)
+        if (jsonMatch) {
+          salesScript = JSON.parse(jsonMatch[0])
+        } else {
+          salesScript = JSON.parse(salesContent.text)
+        }
+      } catch (parseError) {
+        console.error('Failed to parse Claude sales response:', salesContent.text)
+        throw new Error('Failed to parse sales script from Claude response')
+      }
+
+      return NextResponse.json({
+        success: true,
+        script: salesScript,
+        metadata: {
+          mode: 'sales',
+          product: product.name,
+          price: product.price,
+          format: salesFormat,
+          audienceLevel: product.audienceLevel,
+          generatedAt: new Date().toISOString(),
+          approach: '10-Step Sales Storytelling Framework',
+        },
+      })
+    }
+
+    // Build user context - CONTENT MODE
     const userPrompt = `## USER'S CONTENT IDEA
 
 "${idea}"
