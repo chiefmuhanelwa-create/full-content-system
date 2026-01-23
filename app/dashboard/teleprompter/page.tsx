@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Slider } from '@/components/ui/slider'
 import {
   MonitorPlay,
   Play,
@@ -230,25 +229,27 @@ export default function TeleprompterPage() {
 
               <div className="space-y-2">
                 <Label>Font Size: {fontSize}px</Label>
-                <Slider
-                  value={[fontSize]}
-                  onValueChange={(value) => setFontSize(value[0])}
+                <input
+                  type="range"
+                  value={fontSize}
+                  onChange={(e) => setFontSize(Number(e.target.value))}
                   min={16}
                   max={72}
                   step={2}
-                  className="w-full"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label>Scroll Speed: {speed}x</Label>
-                <Slider
-                  value={[speed]}
-                  onValueChange={(value) => setSpeed(value[0])}
+                <input
+                  type="range"
+                  value={speed}
+                  onChange={(e) => setSpeed(Number(e.target.value))}
                   min={1}
                   max={10}
                   step={0.5}
-                  className="w-full"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                 />
               </div>
 
