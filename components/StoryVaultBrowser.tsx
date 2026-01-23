@@ -45,6 +45,7 @@ export default function StoryVaultBrowser({
   const [searchQuery, setSearchQuery] = useState('')
   const [filterHookType, setFilterHookType] = useState<string>('all')
   const [filterShadowFear, setFilterShadowFear] = useState<string>('all')
+  const [filterAudienceLevel, setFilterAudienceLevel] = useState<string>('all')
 
   // Get filtered content and stories
   const categoryContents = getContentIdeasByCategory(selectedCategory)
@@ -60,8 +61,10 @@ export default function StoryVaultBrowser({
     const matchesHookType = filterHookType === 'all' || content.hookType === filterHookType
     const matchesShadowFear =
       filterShadowFear === 'all' || content.shadowFear.includes(filterShadowFear)
+    const matchesAudienceLevel =
+      filterAudienceLevel === 'all' || content.audienceLevel === filterAudienceLevel
 
-    return matchesSearch && matchesHookType && matchesShadowFear
+    return matchesSearch && matchesHookType && matchesShadowFear && matchesAudienceLevel
   })
 
   const filteredStories = themeStories.filter((story) => {
@@ -74,8 +77,10 @@ export default function StoryVaultBrowser({
     const matchesHookType = filterHookType === 'all' || story.hookType === filterHookType
     const matchesShadowFear =
       filterShadowFear === 'all' || story.shadowFear.includes(filterShadowFear)
+    const matchesAudienceLevel =
+      filterAudienceLevel === 'all' || story.audienceLevel === filterAudienceLevel
 
-    return matchesSearch && matchesHookType && matchesShadowFear
+    return matchesSearch && matchesHookType && matchesShadowFear && matchesAudienceLevel
   })
 
   const selectedContent = filteredContents.find((c) => c.id === selectedContentId)
@@ -170,7 +175,17 @@ export default function StoryVaultBrowser({
                 />
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
+              <select
+                value={filterAudienceLevel}
+                onChange={(e) => setFilterAudienceLevel(e.target.value)}
+                className="px-3 py-2 border rounded-md text-sm font-medium bg-gradient-to-r from-green-50 to-blue-50"
+              >
+                <option value="all">All Audience Levels</option>
+                <option value="Beginner">🌱 Beginner (0-10K)</option>
+                <option value="Established">📈 Established (10K-100K)</option>
+                <option value="Contentpreneur">🚀 Contentpreneur (100K+)</option>
+              </select>
               <select
                 value={filterHookType}
                 onChange={(e) => setFilterHookType(e.target.value)}
@@ -307,6 +322,16 @@ export default function StoryVaultBrowser({
                 <div className="text-xs text-gray-600 mb-3">{content.description}</div>
 
                 <div className="flex flex-wrap gap-1 mb-3">
+                  <Badge
+                    className={`text-xs ${
+                      content.audienceLevel === 'Beginner' ? 'bg-green-100 text-green-700' :
+                      content.audienceLevel === 'Established' ? 'bg-blue-100 text-blue-700' :
+                      'bg-purple-100 text-purple-700'
+                    }`}
+                  >
+                    {content.audienceLevel === 'Beginner' ? '🌱' :
+                     content.audienceLevel === 'Established' ? '📈' : '🚀'} {content.audienceLevel}
+                  </Badge>
                   <Badge variant="outline" className="text-xs">
                     {content.hookType.replace(/_/g, ' ')}
                   </Badge>
@@ -416,6 +441,16 @@ export default function StoryVaultBrowser({
                 <div className="text-xs text-gray-700 mb-3 italic">"{story.snippet}"</div>
 
                 <div className="flex flex-wrap gap-1 mb-2">
+                  <Badge
+                    className={`text-xs ${
+                      story.audienceLevel === 'Beginner' ? 'bg-green-100 text-green-700' :
+                      story.audienceLevel === 'Established' ? 'bg-blue-100 text-blue-700' :
+                      'bg-purple-100 text-purple-700'
+                    }`}
+                  >
+                    {story.audienceLevel === 'Beginner' ? '🌱' :
+                     story.audienceLevel === 'Established' ? '📈' : '🚀'} {story.audienceLevel}
+                  </Badge>
                   <Badge variant="outline" className="text-xs">
                     {story.hookType.replace(/_/g, ' ')}
                   </Badge>

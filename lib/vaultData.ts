@@ -13,6 +13,7 @@ export interface ContentIdea {
   targetPlatform: string[]
   estimatedDuration: string
   keywords: string[]
+  audienceLevel: 'Beginner' | 'Established' | 'Contentpreneur' // NEW: Audience segmentation
 }
 
 export interface StoryVariation {
@@ -26,6 +27,7 @@ export interface StoryVariation {
   shadowFear: string[]
   emotion: string
   lesson: string
+  audienceLevel: 'Beginner' | 'Established' | 'Contentpreneur' // NEW: Audience segmentation
   numbers?: {
     before?: string
     after?: string
@@ -47,7 +49,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Rejection'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['brand deals', 'monetization', 'creator economy', 'negotiation']
+    keywords: ['brand deals', 'monetization', 'creator economy', 'negotiation'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'fin-002',
@@ -59,7 +62,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Being Average'],
     targetPlatform: ['Instagram', 'YouTube', 'LinkedIn'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['monetization', 'value', 'pricing', 'business']
+    keywords: ['monetization', 'value', 'pricing', 'business'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'fin-003',
@@ -71,7 +75,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Rejection'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['pricing', 'brand deals', 'transformation', 'negotiation']
+    keywords: ['pricing', 'brand deals', 'transformation', 'negotiation'],
+    audienceLevel: 'Contentpreneur'
   },
   {
     id: 'fin-004',
@@ -83,7 +88,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Being Average'],
     targetPlatform: ['Instagram', 'YouTube', 'LinkedIn'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['brand deals', 'engagement', 'metrics', 'monetization']
+    keywords: ['brand deals', 'engagement', 'metrics', 'monetization'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'fin-005',
@@ -95,7 +101,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Being Average'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['monetization', 'revenue streams', 'micro-creator', 'income']
+    keywords: ['monetization', 'revenue streams', 'micro-creator', 'income'],
+    audienceLevel: 'Established'
   },
   {
     id: 'fin-006',
@@ -107,7 +114,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Failure'],
     targetPlatform: ['Instagram', 'YouTube', 'LinkedIn'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['tax', 'SARS', 'compliance', 'business']
+    keywords: ['tax', 'SARS', 'compliance', 'business'],
+    audienceLevel: 'Established'
   },
   {
     id: 'fin-007',
@@ -119,7 +127,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Rejection', 'Being Average'],
     targetPlatform: ['Instagram', 'LinkedIn', 'YouTube'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['media kit', 'brand deals', 'pitch', 'template']
+    keywords: ['media kit', 'brand deals', 'pitch', 'template'],
+    audienceLevel: 'Contentpreneur'
   },
   {
     id: 'fin-008',
@@ -131,7 +140,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Wasted Effort'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['monetization', 'mistakes', 'income', 'strategy']
+    keywords: ['monetization', 'mistakes', 'income', 'strategy'],
+    audienceLevel: 'Established'
   },
   {
     id: 'fin-009',
@@ -143,7 +153,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Making Wrong Decisions'],
     targetPlatform: ['Instagram', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['investment', 'ROI', 'equipment', 'strategy']
+    keywords: ['investment', 'ROI', 'equipment', 'strategy'],
+    audienceLevel: 'Established'
   },
   {
     id: 'fin-010',
@@ -155,7 +166,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Rejection', 'Being Unknown'],
     targetPlatform: ['Instagram', 'LinkedIn', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['cold pitch', 'outreach', 'brand deals', 'email']
+    keywords: ['cold pitch', 'outreach', 'brand deals', 'email'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'fin-011',
@@ -167,7 +179,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Platform Dependency'],
     targetPlatform: ['Instagram', 'YouTube', 'TikTok'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['diversification', 'income streams', 'revenue', 'stability']
+    keywords: ['diversification', 'income streams', 'revenue', 'stability'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'fin-012',
@@ -179,7 +192,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Rejection', 'Being Average'],
     targetPlatform: ['Instagram', 'YouTube', 'LinkedIn'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['Netflix', 'negotiation', 'brand deal', 'case study']
+    keywords: ['Netflix', 'negotiation', 'brand deal', 'case study'],
+    audienceLevel: 'Contentpreneur'
   },
   {
     id: 'fin-013',
@@ -191,7 +205,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Rejection', 'Financial Insecurity'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['barter deals', 'payment', 'boundaries', 'negotiation']
+    keywords: ['barter deals', 'payment', 'boundaries', 'negotiation'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'fin-014',
@@ -203,7 +218,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Slow Progress'],
     targetPlatform: ['Instagram', 'YouTube', 'TikTok'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['milestone', 'first income', 'journey', 'reality']
+    keywords: ['milestone', 'first income', 'journey', 'reality'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'fin-015',
@@ -215,7 +231,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Failure'],
     targetPlatform: ['Instagram', 'LinkedIn', 'YouTube'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['tax', 'tracking', 'SARS', 'spreadsheet']
+    keywords: ['tax', 'tracking', 'SARS', 'spreadsheet'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'fin-016',
@@ -227,7 +244,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Exploited', 'Financial Insecurity'],
     targetPlatform: ['Instagram', 'YouTube', 'LinkedIn'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['red flags', 'contracts', 'brand deals', 'protection']
+    keywords: ['red flags', 'contracts', 'brand deals', 'protection'],
+    audienceLevel: 'Established'
   },
   {
     id: 'fin-017',
@@ -239,7 +257,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Rejection', 'Being Average'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['pricing', 'calculator', 'rates', 'followers']
+    keywords: ['pricing', 'calculator', 'rates', 'followers'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'fin-018',
@@ -251,7 +270,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Making Wrong Decisions'],
     targetPlatform: ['Instagram', 'YouTube', 'LinkedIn'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['full-time creator', 'transition', 'income', 'milestone']
+    keywords: ['full-time creator', 'transition', 'income', 'milestone'],
+    audienceLevel: 'Established'
   },
   {
     id: 'fin-019',
@@ -263,7 +283,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Inconsistency'],
     targetPlatform: ['Instagram', 'YouTube', 'LinkedIn'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['recurring revenue', 'subscription', 'stability', 'income']
+    keywords: ['recurring revenue', 'subscription', 'stability', 'income'],
+    audienceLevel: 'Established'
   },
   {
     id: 'fin-020',
@@ -275,7 +296,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Rejection', 'Being Ignored'],
     targetPlatform: ['Instagram', 'LinkedIn', 'YouTube'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['email template', 'sponsorship', 'pitch', 'open rate']
+    keywords: ['email template', 'sponsorship', 'pitch', 'open rate'],
+    audienceLevel: 'Beginner'
   },
 
   // === PLATFORM MASTERY (20 ideas) ===
@@ -289,7 +311,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Platform Dependency', 'Loss of Control'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['account loss', 'platform risk', 'diversification', 'backup']
+    keywords: ['account loss', 'platform risk', 'diversification', 'backup'],
+    audienceLevel: 'Contentpreneur'
   },
   {
     id: 'plat-002',
@@ -301,7 +324,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Platform Dependency', 'Loss of Control'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['email list', 'owned audience', 'newsletter', 'conversion']
+    keywords: ['email list', 'owned audience', 'newsletter', 'conversion'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-003',
@@ -313,7 +337,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Making Wrong Decisions', 'Wasted Effort'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['platform choice', 'comparison', 'strategy', 'decision']
+    keywords: ['platform choice', 'comparison', 'strategy', 'decision'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'plat-004',
@@ -325,7 +350,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Invisible', 'Algorithmic Suppression'],
     targetPlatform: ['Instagram'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['algorithm', 'ranking', 'Instagram', 'reach']
+    keywords: ['algorithm', 'ranking', 'Instagram', 'reach'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'plat-005',
@@ -337,7 +363,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Invisible', 'Algorithmic Suppression'],
     targetPlatform: ['Instagram', 'TikTok'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['shadowban', 'recovery', 'algorithm', 'reach']
+    keywords: ['shadowban', 'recovery', 'algorithm', 'reach'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'plat-006',
@@ -349,7 +376,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Invisible', 'Being Average'],
     targetPlatform: ['Instagram', 'TikTok'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['Reels', 'views', 'algorithm', 'ranking factors']
+    keywords: ['Reels', 'views', 'algorithm', 'ranking factors'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'plat-007',
@@ -361,7 +389,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Unknown', 'Slow Progress'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['growth', 'organic', '10K followers', 'blueprint']
+    keywords: ['growth', 'organic', '10K followers', 'blueprint'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'plat-008',
@@ -373,7 +402,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Wasted Effort', 'Inconsistency'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube', 'LinkedIn'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['repurposing', 'content multiplication', 'efficiency', 'strategy']
+    keywords: ['repurposing', 'content multiplication', 'efficiency', 'strategy'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-009',
@@ -385,7 +415,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Invisible', 'Wasted Effort'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube', 'LinkedIn'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['posting time', 'timing', 'optimization', 'data']
+    keywords: ['posting time', 'timing', 'optimization', 'data'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'plat-010',
@@ -397,7 +428,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Inconsistency', 'Being Left Behind'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['batching', 'consistency', 'strategy', 'burnout']
+    keywords: ['batching', 'consistency', 'strategy', 'burnout'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-011',
@@ -409,7 +441,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Unknown', 'Not Fitting In'],
     targetPlatform: ['LinkedIn'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['LinkedIn', 'creative', 'growth', 'strategy']
+    keywords: ['LinkedIn', 'creative', 'growth', 'strategy'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-012',
@@ -421,7 +454,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Financial Insecurity', 'Making Wrong Decisions'],
     targetPlatform: ['YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['YouTube', 'Shorts', 'long-form', 'revenue']
+    keywords: ['YouTube', 'Shorts', 'long-form', 'revenue'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-013',
@@ -433,7 +467,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Burnout', 'Overwhelm'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube', 'LinkedIn'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['multi-platform', 'efficiency', 'system', 'workflow']
+    keywords: ['multi-platform', 'efficiency', 'system', 'workflow'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-014',
@@ -445,7 +480,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Average', 'Lack of Credibility'],
     targetPlatform: ['Instagram'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['verification', 'blue check', 'Instagram', 'credibility']
+    keywords: ['verification', 'blue check', 'Instagram', 'credibility'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-015',
@@ -457,7 +493,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Invisible', 'Losing Relevance'],
     targetPlatform: ['Instagram', 'TikTok'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['engagement', 'drop', 'recovery', 'fix']
+    keywords: ['engagement', 'drop', 'recovery', 'fix'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-016',
@@ -469,7 +506,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Invisible', 'Being Average'],
     targetPlatform: ['TikTok'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['TikTok', 'viral', 'formula', 'views']
+    keywords: ['TikTok', 'viral', 'formula', 'views'],
+    audienceLevel: 'Contentpreneur'
   },
   {
     id: 'plat-017',
@@ -481,7 +519,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Annoying', 'Losing Followers'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube', 'LinkedIn'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['cross-promotion', 'multi-platform', 'strategy', 'growth']
+    keywords: ['cross-promotion', 'multi-platform', 'strategy', 'growth'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-018',
@@ -493,7 +532,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Making Wrong Decisions', 'Wasted Effort'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['analytics', 'metrics', 'tracking', 'KPIs']
+    keywords: ['analytics', 'metrics', 'tracking', 'KPIs'],
+    audienceLevel: 'Established'
   },
   {
     id: 'plat-019',
@@ -505,7 +545,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Platform Dependency', 'Loss of Control'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['backup', 'archive', 'protection', 'security']
+    keywords: ['backup', 'archive', 'protection', 'security'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'plat-020',
@@ -517,7 +558,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Platform Dependency', 'Financial Insecurity'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube', 'LinkedIn'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['conversion', 'funnel', 'monetization', 'strategy']
+    keywords: ['conversion', 'funnel', 'monetization', 'strategy'],
+    audienceLevel: 'Established'
   },
 
   // === CONTENT STRATEGY (20 ideas) ===
@@ -531,7 +573,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Wasted Effort', 'Being Average'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['5-line method', 'framework', 'scripting', 'structure']
+    keywords: ['5-line method', 'framework', 'scripting', 'structure'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'strat-002',
@@ -543,7 +586,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Ignored', 'Being Average'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['hook science', 'formula', 'RACUB', 'attention']
+    keywords: ['hook science', 'formula', 'RACUB', 'attention'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-003',
@@ -555,7 +599,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Invisible', 'Wasted Effort'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['viral', 'distribution', 'reach', 'strategy']
+    keywords: ['viral', 'distribution', 'reach', 'strategy'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-004',
@@ -567,7 +612,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Burnout', 'Inconsistency'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['batching', 'production', 'efficiency', 'workflow']
+    keywords: ['batching', 'production', 'efficiency', 'workflow'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-005',
@@ -579,7 +625,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Average', 'Wasted Effort'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube', 'LinkedIn'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['4E framework', 'content types', 'strategy', 'balance']
+    keywords: ['4E framework', 'content types', 'strategy', 'balance'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'strat-006',
@@ -591,7 +638,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Average', 'Identity Crisis'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['niche', 'positioning', 'discovery', 'differentiation']
+    keywords: ['niche', 'positioning', 'discovery', 'differentiation'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'strat-007',
@@ -603,7 +651,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Boring', 'Losing Relevance'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '60-90 seconds',
-    keywords: ['story rotation', 'variety', 'freshness', 'system']
+    keywords: ['story rotation', 'variety', 'freshness', 'system'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-008',
@@ -615,7 +664,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Burnout', 'Wasted Effort'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['burnout', 'consistency', 'strategy', 'lesson']
+    keywords: ['burnout', 'consistency', 'strategy', 'lesson'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'strat-009',
@@ -627,7 +677,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Chaos', 'Inconsistency'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube', 'LinkedIn'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['content calendar', 'planning', 'organization', 'system']
+    keywords: ['content calendar', 'planning', 'organization', 'system'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-010',
@@ -639,7 +690,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Average', 'Lack of Originality'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['competitor analysis', 'research', 'inspiration', 'ethics']
+    keywords: ['competitor analysis', 'research', 'inspiration', 'ethics'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-011',
@@ -651,7 +703,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Ignored', 'Irrelevance'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '180-240 seconds',
-    keywords: ['shadow fears', 'psychology', 'targeting', 'emotions']
+    keywords: ['shadow fears', 'psychology', 'targeting', 'emotions'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-012',
@@ -663,7 +716,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Wasted Effort', 'Inconsistency'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube', 'LinkedIn'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['repurposing', 'efficiency', 'multiplication', 'workflow']
+    keywords: ['repurposing', 'efficiency', 'multiplication', 'workflow'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-013',
@@ -675,7 +729,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Boring', 'Being Ignored'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['edutainment', 'education', 'entertainment', 'balance']
+    keywords: ['edutainment', 'education', 'entertainment', 'balance'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'strat-014',
@@ -687,7 +742,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Ignored', 'Low Conversion'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['PAIDS', 'persuasion', 'copywriting', 'structure']
+    keywords: ['PAIDS', 'persuasion', 'copywriting', 'structure'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-015',
@@ -699,7 +755,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Identity Crisis', 'Being Ignored'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['authenticity', 'personal brand', 'strategy', 'identity']
+    keywords: ['authenticity', 'personal brand', 'strategy', 'identity'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-016',
@@ -711,7 +768,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Ignored', 'Irrelevance'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['transformation', 'before after', 'storytelling', 'hooks']
+    keywords: ['transformation', 'before after', 'storytelling', 'hooks'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'strat-017',
@@ -723,7 +781,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Lack of Credibility', 'Being Doubted'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['storytelling', 'credibility', 'proof points', '20% rule']
+    keywords: ['storytelling', 'credibility', 'proof points', '20% rule'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-018',
@@ -735,7 +794,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Ignored', 'Irrelevance'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['MS×TS×SS', 'storytelling', 'framework', 'formula']
+    keywords: ['MS×TS×SS', 'storytelling', 'framework', 'formula'],
+    audienceLevel: 'Established'
   },
   {
     id: 'strat-019',
@@ -747,7 +807,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Being Left Behind', 'Making Wrong Decisions'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube'],
     estimatedDuration: '90-120 seconds',
-    keywords: ['trends', 'analysis', 'timing', 'decision-making']
+    keywords: ['trends', 'analysis', 'timing', 'decision-making'],
+    audienceLevel: 'Beginner'
   },
   {
     id: 'strat-020',
@@ -759,7 +820,8 @@ export const contentIdeas: ContentIdea[] = [
     shadowFear: ['Burnout', 'Loss of Control'],
     targetPlatform: ['Instagram', 'TikTok', 'YouTube', 'LinkedIn'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['automation', 'systems', 'delegation', 'scalability']
+    keywords: ['automation', 'systems', 'delegation', 'scalability'],
+    audienceLevel: 'Contentpreneur'
   },
 
   // I'll continue with SKILLS, MINDSET, TIME, and AFRICAN categories to reach 110+ total
@@ -780,6 +842,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Shame', 'Being Judged'],
     emotion: 'Vulnerability → Triumph',
     lesson: 'Your starting point doesn\'t determine your destination',
+    audienceLevel: 'Beginner'
   },
   {
     id: 'origin-002',
@@ -792,6 +855,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Being From Wrong Background', 'Limited Options'],
     emotion: 'Limitation → Possibility',
     lesson: 'Create the opportunities that didn\'t exist for you',
+    audienceLevel: 'Beginner'
   },
   {
     id: 'origin-003',
@@ -804,6 +868,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Financial Risk', 'Making Wrong Decisions'],
     emotion: 'Risk → Reward',
     lesson: 'Strategic investment beats waiting for perfect conditions',
+    audienceLevel: 'Beginner',
     numbers: {
       before: 'R6,000 debt',
       after: 'R600,000+ ROI',
@@ -821,6 +886,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Lack of Credentials', 'Not Qualified'],
     emotion: 'Doubt → Confidence',
     lesson: 'Skills matter more than degrees in creator economy',
+    audienceLevel: 'Beginner'
   },
   {
     id: 'origin-005',
@@ -833,6 +899,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Wasted Time', 'Being Different'],
     emotion: 'Curiosity → Mastery',
     lesson: 'Your environment shapes you - use it intentionally',
+    audienceLevel: 'Beginner'
   },
 
   // === UNIVERSITY DROPOUT (10 variations) ===
@@ -847,6 +914,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Family Shame', 'Disappointing Others'],
     emotion: 'Shame → Pride',
     lesson: 'Your path doesn\'t need family approval to be valid',
+    audienceLevel: 'Beginner'
   },
   {
     id: 'uni-002',
@@ -859,6 +927,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Making Wrong Decisions', 'Letting People Down'],
     emotion: 'Fear → Liberation',
     lesson: 'Sometimes quitting is strategic, not failure',
+    audienceLevel: 'Beginner'
   },
   {
     id: 'uni-003',
@@ -871,6 +940,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Financial Insecurity', 'Being Alone'],
     emotion: 'Rejection → Resourcefulness',
     lesson: 'Necessity is the real mother of invention',
+    audienceLevel: 'Beginner',
     numbers: {
       before: 'R0 income, dependent on parents',
       after: 'R10,000 in 60 days',
@@ -888,6 +958,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Wasted Time', 'Wrong Path'],
     emotion: 'Confusion → Clarity',
     lesson: 'Practical skills beat theoretical knowledge in creator economy',
+    audienceLevel: 'Beginner'
   },
   {
     id: 'uni-005',
@@ -900,6 +971,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Wasted Opportunity', 'Being Unprepared'],
     emotion: 'Uncertainty → Preparation',
     lesson: 'Use every environment as a testing ground',
+    audienceLevel: 'Established',
     numbers: {
       before: '0 followers, no strategy',
       after: '50K followers, proven formula',
@@ -919,6 +991,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Platform Dependency', 'Loss of Control'],
     emotion: 'Devastation → Liberation',
     lesson: 'Build on land you own, not rent',
+    audienceLevel: 'Contentpreneur',
     numbers: {
       before: '780,000 followers',
       after: '0 followers, but owned email list',
@@ -936,6 +1009,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Financial Insecurity', 'Being Wrong'],
     emotion: 'Doubt → Belief',
     lesson: 'First proof of concept changes everything',
+    audienceLevel: 'Beginner',
     numbers: {
       before: 'R0 months',
       after: 'R10,000 first milestone',
@@ -953,6 +1027,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Rejection', 'Not Good Enough'],
     emotion: 'Doubt → Confidence',
     lesson: 'Brands buy engagement and relevance, not vanity metrics',
+    audienceLevel: 'Contentpreneur',
     numbers: {
       before: '100,000 followers',
       after: 'R100,000 deal',
@@ -970,6 +1045,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Financial Ruin', 'Legal Trouble'],
     emotion: 'Ignorance → Wisdom',
     lesson: 'Track everything from day one. SARS will find you.',
+    audienceLevel: 'Established',
     numbers: {
       before: 'No tax tracking',
       after: 'R285,000 debt',
@@ -987,6 +1063,7 @@ export const storyVariations: StoryVariation[] = [
     shadowFear: ['Burnout', 'Wasted Effort'],
     emotion: 'Exhaustion → Liberation',
     lesson: 'Consistency without strategy is just exhausting',
+    audienceLevel: 'Established',
     numbers: {
       before: '3 posts/day, 6 months, 2M views',
       after: 'R0 revenue',
