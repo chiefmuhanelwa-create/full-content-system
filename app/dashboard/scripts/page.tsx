@@ -168,6 +168,79 @@ export default function ScriptWriterPage() {
       return
     }
 
+    // Check if product has pre-written 10-step framework
+    if (scriptMode === 'sales') {
+      const selectedProduct = products.find((p) => p.id === selectedProductId)
+      if (selectedProduct && selectedProduct.step1_callout) {
+        // Product has pre-written framework - display it directly
+        setScript({
+          title: `${selectedProduct.name} - 10-Step Sales Script`,
+          hook: {
+            text: selectedProduct.step2_attention || 'Attention-grabbing hook',
+            type: 'desired_result',
+            racub_breakdown: {
+              relevant: 'Targets specific audience pain',
+              awareness: 'Calls out their current situation',
+              clarity: 'Clear problem statement',
+              unique: 'Unique angle on the problem',
+              broadened: 'Universal appeal within niche'
+            },
+            shadowFear: selectedProduct.painPoints || 'Core fear addressed',
+            powerWords: ['you', 'never', 'secret', 'proven']
+          },
+          fiveLine: {
+            context: {
+              timestamp: '0-8s',
+              script: selectedProduct.step1_callout || '',
+              visual: 'Direct to camera, confident energy',
+              ubuntuPrinciple: 'Call out the collective struggle'
+            },
+            collision: {
+              timestamp: '8-18s',
+              script: selectedProduct.step3_problem || '',
+              visual: 'Problem visualization',
+              systemVillain: 'The broken system keeping them stuck'
+            },
+            conversion: {
+              timestamp: '18-35s',
+              script: `${selectedProduct.step4_intrigue}\n\n${selectedProduct.step5_floodlight}`,
+              visual: 'Paint the pain, then hint at hope',
+              framework: '10-Step Storytelling Framework'
+            },
+            calibration: {
+              timestamp: '35-50s',
+              script: `${selectedProduct.step6_solution}\n\n${selectedProduct.step7_credentials}\n\n${selectedProduct.step8_benefits}`,
+              visual: 'Show product, share credentials, stack benefits',
+              storyUsed: 'Personal journey with this solution',
+              numbers: 'Real results from implementation'
+            },
+            community: {
+              timestamp: '50-60s',
+              script: `${selectedProduct.step9_proof}\n\n${selectedProduct.step10_offer}`,
+              visual: 'Social proof + Godfather offer reveal',
+              collectiveAction: 'Join others who took action'
+            }
+          },
+          bRoll: [
+            'Product showcase visuals',
+            'Results/testimonials on screen',
+            'Before/after scenarios',
+            'Value stack breakdown',
+            'Call-to-action with link'
+          ],
+          textOverlays: [
+            selectedProduct.step1_callout || 'Hook text',
+            'The Problem',
+            'The Solution',
+            `R${selectedProduct.price} (Worth R${selectedProduct.price * 10}+)`,
+            'Click link to get started'
+          ]
+        })
+        setLoading(false)
+        return
+      }
+    }
+
     setLoading(true)
     setError('')
 
@@ -598,6 +671,7 @@ ${scriptToUse.fiveLine.community.script}`
                         ) : (
                           products.map((product) => (
                             <SelectItem key={product.id} value={product.id}>
+                              {product.step1_callout ? '✅ ' : ''}
                               {product.name} - R{product.price} ({product.audienceLevel})
                             </SelectItem>
                           ))
@@ -607,6 +681,16 @@ ${scriptToUse.fiveLine.community.script}`
                     {products.length === 0 && (
                       <p className="text-xs text-amber-700 bg-amber-50 p-2 rounded">
                         ⚠️ No products found. Visit the <a href="/dashboard/products" className="underline font-medium">Product Database</a> to create your first product.
+                      </p>
+                    )}
+                    {selectedProductId && products.find((p) => p.id === selectedProductId)?.step1_callout && (
+                      <p className="text-xs text-green-700 bg-green-50 p-2 rounded border border-green-200">
+                        ✅ This product has a pre-written 10-step framework. Will display instantly without AI generation.
+                      </p>
+                    )}
+                    {selectedProductId && !products.find((p) => p.id === selectedProductId)?.step1_callout && (
+                      <p className="text-xs text-blue-700 bg-blue-50 p-2 rounded border border-blue-200">
+                        💡 This product doesn't have a pre-written framework. AI will generate one from product data.
                       </p>
                     )}
                   </div>
