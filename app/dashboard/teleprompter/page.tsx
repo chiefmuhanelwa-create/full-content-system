@@ -38,18 +38,22 @@ export default function TeleprompterPage() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Load script from localStorage if coming from library
+  // Load script from localStorage if coming from library or script generator
   useEffect(() => {
     const teleprompterData = localStorage.getItem('teleprompterScript')
     if (teleprompterData) {
       try {
+        // Try to parse as JSON first (new format)
         const data = JSON.parse(teleprompterData)
         setScript(data.fullScript || data.content || '')
         setScriptTitle(data.title || 'Untitled Script')
-        localStorage.removeItem('teleprompterScript')
       } catch (error) {
-        console.error('Error loading script:', error)
+        // If parsing fails, treat as plain string (backward compatibility)
+        setScript(teleprompterData)
+        setScriptTitle('Imported Script')
       }
+      // Clean up after loading
+      localStorage.removeItem('teleprompterScript')
     }
   }, [])
 

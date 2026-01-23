@@ -650,7 +650,14 @@ ${scriptToUse.fiveLine.calibration.script}
 ${scriptToUse.fiveLine.community.script}`
     }
 
-    localStorage.setItem('teleprompterScript', fullScript)
+    // Store as JSON object for teleprompter
+    const teleprompterData = {
+      title: scriptToUse.title,
+      fullScript: fullScript,
+      content: fullScript, // Fallback field
+    }
+
+    localStorage.setItem('teleprompterScript', JSON.stringify(teleprompterData))
     router.push('/dashboard/teleprompter')
   }
 
