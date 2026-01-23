@@ -1,12 +1,18 @@
 import Anthropic from '@anthropic-ai/sdk'
 
-if (!process.env.ANTHROPIC_API_KEY) {
-  throw new Error('Missing ANTHROPIC_API_KEY environment variable')
-}
+// During build time, use a placeholder. At runtime, the actual key must exist.
+const apiKey = process.env.ANTHROPIC_API_KEY || 'build-time-placeholder'
 
 export const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+  apiKey: apiKey,
 })
+
+// Runtime validation - will throw error when API is actually called if key is missing
+export function validateApiKey() {
+  if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'build-time-placeholder') {
+    throw new Error('Missing ANTHROPIC_API_KEY environment variable')
+  }
+}
 
 export const MODELS = {
   SONNET: 'claude-sonnet-4-20250514',
