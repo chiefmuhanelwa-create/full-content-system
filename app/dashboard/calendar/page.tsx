@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Calendar as CalendarIcon, Plus, Trash2, Zap, FileText, BookOpen, Brain, Target, ChevronLeft, ChevronRight, List, Download } from 'lucide-react'
+import { Calendar as CalendarIcon, Plus, Trash2, Zap, FileText, BookOpen, Brain, Target, ChevronLeft, ChevronRight, List, Download, Edit, Sparkles } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import {
   Select,
   SelectContent,
@@ -26,11 +27,13 @@ interface ContentEntry {
 }
 
 export default function ContentCalendarPage() {
-  const { calendarEntries, addToCalendar, removeFromCalendar } = useContent()
+  const { calendarEntries, addToCalendar, updateCalendar, removeFromCalendar, setPendingAction } = useContent()
+  const router = useRouter()
 
   const [currentDate, setCurrentDate] = useState(new Date())
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [editingId, setEditingId] = useState<string | null>(null)
 
   const [newEntry, setNewEntry] = useState<Partial<ContentEntry>>({
     date: new Date().toISOString().split('T')[0],
@@ -62,7 +65,68 @@ export default function ContentCalendarPage() {
   }
 
   const deleteEntry = (id: string) => {
-    removeFromCalendar(id)
+    if (confirm('Delete this calendar entry?')) {
+      removeFromCalendar(id)
+    }
+  }
+
+  const startEditing = (entry: ContentEntry) => {
+    setEditingId(entry.id)
+    setNewEntry({
+      date: entry.date,
+      title: entry.title,
+      category: entry.category,
+      platform: entry.platform,
+      notes: entry.notes,
+    })
+  }
+
+  const saveEdit = () => {
+    if (!editingId || !newEntry.title?.trim()) return
+
+    updateCalendar(editingId, {
+      date: newEntry.date!,
+      title: newEntry.title!,
+      category: newEntry.category as ContentEntry['category'],
+      platform: newEntry.platform!,
+      notes: newEntry.notes!,
+    })
+
+    setEditingId(null)
+    setNewEntry({
+      date: new Date().toISOString().split('T')[0],
+      title: '',
+      category: '40% Educate',
+      platform: 'Instagram',
+      notes: '',
+    })
+  }
+
+  const cancelEdit = () => {
+    setEditingId(null)
+    setNewEntry({
+      date: new Date().toISOString().split('T')[0],
+      title: '',
+      category: '40% Educate',
+      platform: 'Instagram',
+      notes: '',
+    })
+  }
+
+  const generateHooksFromEntry = (entry: ContentEntry) => {
+    setPendingAction({
+      action: 'generate-hooks-from-calendar',
+      data: entry
+    })
+    router.push('/dashboard/hooks')
+  }
+
+  const generateScriptFromEntry = (entry: ContentEntry) => {
+    setPendingAction({
+      action: 'generate-script-from-calendar',
+      data: entry
+    })
+    router.push('/dashboard/scripts')
   }
 
   const getCategoryColor = (category: string) => {
@@ -532,11 +596,13 @@ Built for sustainable content creation and business growth
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* Add Content Form */}
+        {/* Add/Edit Content Form */}
         <Card className="lg:col-span-1">
           <CardHeader>
-            <CardTitle>Add Content</CardTitle>
-            <CardDescription>Schedule new content to your calendar</CardDescription>
+            <CardTitle>{editingId ? 'Edit Content' : 'Add Content'}</CardTitle>
+            <CardDescription>
+              {editingId ? 'Update your calendar entry' : 'Schedule new content to your calendar'}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -609,10 +675,22 @@ Built for sustainable content creation and business growth
               />
             </div>
 
-            <Button onClick={addEntry} disabled={!newEntry.title?.trim()} className="w-full">
-              <Plus className="mr-2 h-4 w-4" />
-              Add to Calendar
-            </Button>
+            {editingId ? (
+              <div className="flex gap-2">
+                <Button onClick={saveEdit} disabled={!newEntry.title?.trim()} className="flex-1">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Save Changes
+                </Button>
+                <Button onClick={cancelEdit} variant="outline" className="flex-1">
+                  Cancel
+                </Button>
+              </div>
+            ) : (
+              <Button onClick={addEntry} disabled={!newEntry.title?.trim()} className="w-full">
+                <Plus className="mr-2 h-4 w-4" />
+                Add to Calendar
+              </Button>
+            )}
           </CardContent>
         </Card>
 
@@ -711,16 +789,27 @@ Built for sustainable content creation and business growth
                                 })}
                               </p>
                             </div>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => deleteEntry(entry.id)}
-                            >
-                              <Trash2 className="h-4 w-4 text-red-600" />
-                            </Button>
+                            <div className="flex gap-1">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => startEditing(entry)}
+                                title="Edit entry"
+                              >
+                                <Edit className="h-4 w-4 text-blue-600" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => deleteEntry(entry.id)}
+                                title="Delete entry"
+                              >
+                                <Trash2 className="h-4 w-4 text-red-600" />
+                              </Button>
+                            </div>
                           </div>
 
-                          <div className="flex items-center gap-2 flex-wrap">
+                          <div className="flex items-center gap-2 flex-wrap mb-2">
                             <span
                               className={`text-xs px-2 py-1 rounded border ${colors.lightBg} ${colors.lightText} ${colors.lightBorder}`}
                             >
@@ -738,8 +827,30 @@ Built for sustainable content creation and business growth
                           </div>
 
                           {entry.notes && (
-                            <p className="text-xs text-gray-600 mt-2 line-clamp-2">{entry.notes}</p>
+                            <p className="text-xs text-gray-600 mb-2 line-clamp-2">{entry.notes}</p>
                           )}
+
+                          {/* Action Buttons */}
+                          <div className="flex gap-2 pt-2 border-t">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => generateHooksFromEntry(entry)}
+                              className="flex-1 text-xs bg-purple-50 hover:bg-purple-100 border-purple-300"
+                            >
+                              <Zap className="h-3 w-3 mr-1" />
+                              Generate Hooks
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => generateScriptFromEntry(entry)}
+                              className="flex-1 text-xs bg-blue-50 hover:bg-blue-100 border-blue-300"
+                            >
+                              <Sparkles className="h-3 w-3 mr-1" />
+                              Generate Script
+                            </Button>
+                          </div>
                         </div>
                       )
                     })}

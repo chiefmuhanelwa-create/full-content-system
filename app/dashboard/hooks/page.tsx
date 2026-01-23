@@ -37,7 +37,7 @@ export default function HookGeneratorPage() {
   const [error, setError] = useState('')
   const [targetedFear, setTargetedFear] = useState<{ id: number; name: string; relevance: number } | null>(null)
 
-  // Check for pending action from Fear Analyzer
+  // Check for pending action from Fear Analyzer or Calendar
   useEffect(() => {
     if (pendingAction.action === 'target-fear-in-hooks' && pendingAction.data) {
       const fear = pendingAction.data
@@ -47,6 +47,12 @@ export default function HookGeneratorPage() {
         relevance: fear.relevance,
       })
       setTargetAudience(fear.targetAudience || '')
+      // Clear pending action
+      setPendingAction(null)
+    } else if (pendingAction.action === 'generate-hooks-from-calendar' && pendingAction.data) {
+      const entry = pendingAction.data
+      setTopic(entry.notes || entry.title)
+      setPlatform(entry.platform.toLowerCase())
       // Clear pending action
       setPendingAction(null)
     }

@@ -95,6 +95,7 @@ interface ContentContextType {
   // Calendar state
   calendarEntries: CalendarEntry[]
   addToCalendar: (entry: Omit<CalendarEntry, 'id'>) => CalendarEntry
+  updateCalendar: (id: string, entry: Partial<CalendarEntry>) => void
   removeFromCalendar: (id: string) => void
 
   // Revenue state
@@ -108,10 +109,10 @@ interface ContentContextType {
 
   // Cross-tool navigation state
   pendingAction: {
-    action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | null
+    action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | null
     data: any
   }
-  setPendingAction: (action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | null; data: any } | null) => void
+  setPendingAction: (action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | null; data: any } | null) => void
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined)
@@ -141,7 +142,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   // Pending actions for cross-tool navigation
   const [pendingAction, setPendingAction] = useState<{
-    action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | null
+    action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | null
     data: any
   }>({ action: null, data: null })
 
@@ -225,6 +226,12 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     return newEntry
   }, [])
 
+  const updateCalendar = useCallback((id: string, entry: Partial<CalendarEntry>) => {
+    setCalendarEntries(prev => prev.map(e =>
+      e.id === id ? { ...e, ...entry } : e
+    ).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()))
+  }, [])
+
   const removeFromCalendar = useCallback((id: string) => {
     setCalendarEntries(prev => prev.filter(e => e.id !== id))
   }, [])
@@ -270,7 +277,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   }, [addToCalendar])
 
   // Wrapper for setPendingAction to match interface
-  const handleSetPendingAction = useCallback((action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | null; data: any } | null) => {
+  const handleSetPendingAction = useCallback((action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | null; data: any } | null) => {
     if (action === null) {
       setPendingAction({ action: null, data: null })
     } else {
@@ -306,6 +313,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     // Calendar
     calendarEntries,
     addToCalendar,
+    updateCalendar,
     removeFromCalendar,
 
     // Revenue

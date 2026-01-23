@@ -141,7 +141,7 @@ export default function ScriptWriterPage() {
     }
   }, [])
 
-  // Check for pending action (hook from Hook Generator)
+  // Check for pending action (hook from Hook Generator or Calendar)
   useEffect(() => {
     if (pendingAction.action === 'use-hook-in-script' && pendingAction.data) {
       const hook = pendingAction.data
@@ -154,6 +154,12 @@ export default function ScriptWriterPage() {
       const story = pendingAction.data
       // Append story to idea
       setIdea((prev) => prev + '\n\nProof Story: ' + story.content)
+      setPendingAction(null)
+    }
+    if (pendingAction.action === 'generate-script-from-calendar' && pendingAction.data) {
+      const entry = pendingAction.data
+      setIdea(entry.notes || entry.title)
+      setPlatform(entry.platform.toLowerCase())
       setPendingAction(null)
     }
   }, [pendingAction, setPendingAction])
