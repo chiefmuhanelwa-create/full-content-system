@@ -5,8 +5,26 @@ import ndivhuwoStories from '@/lib/knowledge/ndivhuwo-stories.json'
 
 export async function POST(request: NextRequest) {
   try {
+    // Log request for debugging
+    console.log('Script generation API called')
+
+    // Check if API key is available
+    const apiKey = process.env.ANTHROPIC_API_KEY
+    if (!apiKey || apiKey === '' || apiKey === 'build-time-placeholder') {
+      console.error('ANTHROPIC_API_KEY not configured properly')
+      return NextResponse.json(
+        {
+          error: 'API configuration error',
+          details: 'ANTHROPIC_API_KEY environment variable is not set. Please configure it in Netlify dashboard under Site Settings > Environment Variables.'
+        },
+        { status: 500 }
+      )
+    }
+
     const body = await request.json()
     const { idea, platform, duration, recentStories = [], salesMode = false, product, salesFormat } = body
+
+    console.log('Request body:', { idea: idea?.substring(0, 50), platform, duration, salesMode })
 
     // Validate required fields
     if (!salesMode && (!idea || !idea.trim())) {
@@ -682,6 +700,10 @@ REMEMBER:
 `
 
     // Call Claude API with extended token limit for scripts
+    console.log('Calling Claude API...')
+    console.log('Model:', MODELS.SONNET)
+    console.log('Max tokens:', 8000)
+
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
       max_tokens: 8000, // Increased for longer 10-step scripts
@@ -694,27 +716,40 @@ REMEMBER:
       ],
     })
 
+    console.log('Claude API call successful')
+    console.log('Response received, extracting content...')
+
     // Extract the text content
     const content = message.content[0]
     if (content.type !== 'text') {
+      console.error('Unexpected content type:', content.type)
       throw new Error('Unexpected response type from Claude')
     }
 
+    console.log('Text content received, length:', content.text.length)
+
     // Parse the JSON response
+    console.log('Parsing JSON response...')
     let script: any
     try {
       // Try to extract JSON from the response
       const jsonMatch = content.text.match(/\{[\s\S]*\}/)
       if (jsonMatch) {
+        console.log('JSON found in response, parsing...')
         script = JSON.parse(jsonMatch[0])
       } else {
+        console.log('No JSON wrapper found, parsing entire response...')
         script = JSON.parse(content.text)
       }
+      console.log('Script parsed successfully')
+      console.log('Script title:', script.title)
     } catch (parseError) {
-      console.error('Failed to parse Claude response:', content.text)
+      console.error('Failed to parse Claude response:', content.text.substring(0, 500))
+      console.error('Parse error:', parseError)
       throw new Error('Failed to parse script from Claude response')
     }
 
+    console.log('Returning successful response')
     return NextResponse.json({
       success: true,
       script,
