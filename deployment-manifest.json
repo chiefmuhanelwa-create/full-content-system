@@ -1,0 +1,40 @@
+{
+  "name": "NOCHILL Content Creation System",
+  "version": "2.0.0",
+  "timestamp": "2026-01-23T19:07:00Z",
+  "commit": "8085d3b",
+  "branch": "claude/nochill-web-app-26Yi8",
+  "features": {
+    "savedLibrary": {
+      "enabled": true,
+      "route": "/dashboard/library",
+      "description": "Content management hub for all saved content"
+    },
+    "teleprompter": {
+      "enabled": true,
+      "route": "/dashboard/teleprompter",
+      "description": "Professional teleprompter with auto-scroll"
+    },
+    "pdfExports": {
+      "enabled": true,
+      "locations": ["hooks", "scripts", "calendar", "campaigns", "offers"],
+      "description": "Export functionality across all tools"
+    },
+    "calendarIntegration": {
+      "enabled": true,
+      "features": ["edit", "generateHooks", "generateScripts"],
+      "description": "Edit entries and generate content from calendar"
+    },
+    "navigation": {
+      "signOutRemoved": true,
+      "newItems": ["Saved Library", "Teleprompter"],
+      "description": "Enhanced sidebar navigation"
+    }
+  },
+  "build": {
+    "totalPages": 45,
+    "newPages": 2,
+    "status": "success",
+    "framework": "Next.js 14.2.23"
+  }
+}
