@@ -1,7 +1,7 @@
 {
   "name": "nochill-viral-script-generator",
-  "version": "1.0.0",
-  "description": "NOCHILL Viral Scripting System - AI-powered content creation platform",
+  "version": "2.0.0",
+  "description": "NOCHILL Content Creation System - Complete suite with Library, Teleprompter, PDF exports, and integrated workflow",
   "private": true,
   "scripts": {
     "dev": "next dev",
