@@ -30,6 +30,20 @@ interface FiveLineSection {
   collectiveAction?: string
 }
 
+interface TenStepSection {
+  timestamp: string
+  script: string
+  visual: string
+  audience?: string
+  shadowFear?: string
+  powerWords?: string[]
+  systemVillain?: string
+  framework?: string
+  storyUsed?: string
+  numbers?: string
+  collectiveAction?: string
+}
+
 interface UbuntuCheck {
   we_over_i: string
   system_villain: string
@@ -59,8 +73,21 @@ interface Hook {
 
 interface GeneratedScript {
   title: string
-  hook: Hook
-  fiveLine: {
+  hook?: Hook
+  fullScript?: string  // NEW: Complete script ready for teleprompter
+  tenStepScript?: {    // NEW: 10-step framework structure
+    step1_callout: TenStepSection
+    step2_attention: TenStepSection
+    step3_problem_backup: TenStepSection
+    step4_intrigue: TenStepSection
+    step5_floodlight: TenStepSection
+    step6_solution: TenStepSection
+    step7_credentials: TenStepSection
+    step8_benefits: TenStepSection
+    step9_social_proof: TenStepSection
+    step10_godfather_offer: TenStepSection
+  }
+  fiveLine?: {  // OLD: Keep for backward compatibility
     context: FiveLineSection
     collision: FiveLineSection
     conversion: FiveLineSection
@@ -363,6 +390,19 @@ export default function ScriptWriterPage() {
     setCopySuccess(true)
     setTimeout(() => setCopySuccess(false), 2000)
 
+    // Use fullScript if available (NEW 10-step framework)
+    if (script.fullScript) {
+      const textToCopy = `${script.title}\n\n${script.fullScript}`
+      navigator.clipboard.writeText(textToCopy)
+      return
+    }
+
+    // Fallback to building from fiveLine structure (old format)
+    if (!script.hook || !script.fiveLine) {
+      navigator.clipboard.writeText(script.title)
+      return
+    }
+
     const fullScript = `
 ${script.title}
 
@@ -444,9 +484,16 @@ ${script.scripting_principles_check ? `
   const downloadPDF = () => {
     if (!script) return
 
-    const fullScript = `
-${script.title}
+    // Build the fullScript content
+    let fullScriptContent = ''
 
+    // Use fullScript if available (NEW 10-step framework)
+    if (script.fullScript) {
+      fullScriptContent = script.fullScript
+    }
+    // Fallback to building from fiveLine structure (old format)
+    else if (script.hook && script.fiveLine) {
+      fullScriptContent = `
 ═══════════════════════════════════════
 🎣 HOOK SCIENCE (R×A×C×U^B Formula)
 ═══════════════════════════════════════
@@ -518,6 +565,7 @@ ${script.scripting_principles_check ? `
 - ${script.scripting_principles_check.audible_flow}
 ` : ''}
 `.trim()
+    }
 
     // Create a printable HTML document
     const printWindow = window.open('', '_blank')
@@ -537,7 +585,8 @@ ${script.scripting_principles_check ? `
           </style>
         </head>
         <body>
-          <pre>${fullScript}</pre>
+          <h1>${script.title}</h1>
+          <pre>${fullScriptContent}</pre>
           <script>
             window.onload = function() {
               window.print();
@@ -556,7 +605,39 @@ ${script.scripting_principles_check ? `
 
     const scriptToUse = isEditing && editedScript ? editedScript : script
 
-    const fullScript = `${scriptToUse.title}
+    let fullScript = ''
+
+    // Use fullScript field if available (NEW 10-step framework)
+    if (scriptToUse.fullScript) {
+      fullScript = `${scriptToUse.title}\n\n${scriptToUse.fullScript}`
+    }
+    // Build from tenStepScript if available
+    else if (scriptToUse.tenStepScript) {
+      fullScript = `${scriptToUse.title}
+
+${scriptToUse.tenStepScript.step1_callout.script}
+
+${scriptToUse.tenStepScript.step2_attention.script}
+
+${scriptToUse.tenStepScript.step3_problem_backup.script}
+
+${scriptToUse.tenStepScript.step4_intrigue.script}
+
+${scriptToUse.tenStepScript.step5_floodlight.script}
+
+${scriptToUse.tenStepScript.step6_solution.script}
+
+${scriptToUse.tenStepScript.step7_credentials.script}
+
+${scriptToUse.tenStepScript.step8_benefits.script}
+
+${scriptToUse.tenStepScript.step9_social_proof.script}
+
+${scriptToUse.tenStepScript.step10_godfather_offer.script}`
+    }
+    // Fallback to old fiveLine structure for backward compatibility
+    else if (scriptToUse.fiveLine) {
+      fullScript = `${scriptToUse.title}
 
 ${scriptToUse.fiveLine.context.script}
 
@@ -567,6 +648,7 @@ ${scriptToUse.fiveLine.conversion.script}
 ${scriptToUse.fiveLine.calibration.script}
 
 ${scriptToUse.fiveLine.community.script}`
+    }
 
     localStorage.setItem('teleprompterScript', fullScript)
     router.push('/dashboard/teleprompter')
@@ -590,7 +672,7 @@ ${scriptToUse.fiveLine.community.script}`
   }
 
   const updateHookText = (text: string) => {
-    if (editedScript) {
+    if (editedScript && editedScript.hook) {
       setEditedScript({
         ...editedScript,
         hook: {
@@ -602,7 +684,7 @@ ${scriptToUse.fiveLine.community.script}`
   }
 
   const updateFiveLineSection = (line: 'context' | 'collision' | 'conversion' | 'calibration' | 'community', field: 'script' | 'visual', value: string) => {
-    if (editedScript) {
+    if (editedScript && editedScript.fiveLine) {
       setEditedScript({
         ...editedScript,
         fiveLine: {
@@ -1006,83 +1088,110 @@ ${scriptToUse.fiveLine.community.script}`
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Hook Science Section */}
-                <div className="p-5 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-300 rounded-lg">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-2xl">🎣</span>
-                    <h3 className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                      Hook Science (R×A×C×U^B Formula)
-                    </h3>
-                  </div>
-
-                  <div className="mb-3">
-                    <span className="text-xs font-semibold text-purple-700 bg-purple-200 px-2 py-1 rounded">
-                      {getHookTypeLabel(script.hook.type)}
-                    </span>
-                  </div>
-
-                  {isEditing && editedScript ? (
-                    <Textarea
-                      value={editedScript.hook.text}
-                      onChange={(e) => updateHookText(e.target.value)}
-                      className="text-lg font-bold text-purple-900 mb-4 p-3 border-l-4 border-purple-600 min-h-[80px]"
-                    />
-                  ) : (
-                    <p className="text-lg font-bold text-purple-900 mb-4 p-3 bg-white rounded-md border-l-4 border-purple-600">
-                      "{script.hook.text}"
-                    </p>
-                  )}
-
-                  <details className="mb-3">
-                    <summary className="cursor-pointer text-sm font-semibold text-purple-700 hover:text-purple-900 mb-2">
-                      📐 R×A×C×U^B Breakdown
-                    </summary>
-                    <div className="space-y-2 pl-4 text-sm border-l-2 border-purple-300">
-                      <p><strong className="text-purple-700">R (Relevant):</strong> {script.hook.racub_breakdown.relevant}</p>
-                      <p><strong className="text-purple-700">A (Awareness):</strong> {script.hook.racub_breakdown.awareness}</p>
-                      <p><strong className="text-purple-700">C (Clarity):</strong> {script.hook.racub_breakdown.clarity}</p>
-                      <p><strong className="text-purple-700">U (Unique):</strong> {script.hook.racub_breakdown.unique}</p>
-                      <p><strong className="text-purple-700">B (Broadened):</strong> {script.hook.racub_breakdown.broadened}</p>
+                {/* Hook Science Section - Only show if hook exists */}
+                {script.hook && (
+                  <div className="p-5 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-300 rounded-lg">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl">🎣</span>
+                      <h3 className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        Hook Science (R×A×C×U^B Formula)
+                      </h3>
                     </div>
-                  </details>
 
-                  <div className="flex flex-wrap gap-2 text-xs">
-                    <div className="bg-white px-3 py-1.5 rounded-md border border-purple-200">
-                      <strong className="text-purple-700">Shadow Fear:</strong> {script.hook.shadowFear}
+                    <div className="mb-3">
+                      <span className="text-xs font-semibold text-purple-700 bg-purple-200 px-2 py-1 rounded">
+                        {getHookTypeLabel(script.hook.type)}
+                      </span>
                     </div>
-                    <div className="bg-white px-3 py-1.5 rounded-md border border-purple-200">
-                      <strong className="text-purple-700">Power Words:</strong> {script.hook.powerWords.join(', ')}
-                    </div>
-                  </div>
-                </div>
 
-                {/* Divider */}
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t-2 border-purple-200"></div>
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-3 bg-white text-purple-700 font-semibold">
-                      ⬇️ Hook flows into 5-Line Method ⬇️
-                    </span>
-                  </div>
-                </div>
-
-                {/* Line 1: Context */}
-                <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-md">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-bold text-blue-600 bg-blue-200 px-2 py-1 rounded">
-                      LINE 1
-                    </span>
-                    <p className="text-xs font-semibold text-blue-600">
-                      CONTEXT ({(isEditing && editedScript ? editedScript : script).fiveLine.context.timestamp})
-                    </p>
-                  </div>
-                  {isEditing && editedScript ? (
-                    <>
-                      <Label className="text-xs text-blue-700 mb-1">Script:</Label>
+                    {isEditing && editedScript && editedScript.hook ? (
                       <Textarea
-                        value={editedScript.fiveLine.context.script}
+                        value={editedScript.hook.text}
+                        onChange={(e) => updateHookText(e.target.value)}
+                        className="text-lg font-bold text-purple-900 mb-4 p-3 border-l-4 border-purple-600 min-h-[80px]"
+                      />
+                    ) : (
+                      <p className="text-lg font-bold text-purple-900 mb-4 p-3 bg-white rounded-md border-l-4 border-purple-600">
+                        "{script.hook.text}"
+                      </p>
+                    )}
+
+                    <details className="mb-3">
+                      <summary className="cursor-pointer text-sm font-semibold text-purple-700 hover:text-purple-900 mb-2">
+                        📐 R×A×C×U^B Breakdown
+                      </summary>
+                      <div className="space-y-2 pl-4 text-sm border-l-2 border-purple-300">
+                        <p><strong className="text-purple-700">R (Relevant):</strong> {script.hook.racub_breakdown.relevant}</p>
+                        <p><strong className="text-purple-700">A (Awareness):</strong> {script.hook.racub_breakdown.awareness}</p>
+                        <p><strong className="text-purple-700">C (Clarity):</strong> {script.hook.racub_breakdown.clarity}</p>
+                        <p><strong className="text-purple-700">U (Unique):</strong> {script.hook.racub_breakdown.unique}</p>
+                        <p><strong className="text-purple-700">B (Broadened):</strong> {script.hook.racub_breakdown.broadened}</p>
+                      </div>
+                    </details>
+
+                    <div className="flex flex-wrap gap-2 text-xs">
+                      <div className="bg-white px-3 py-1.5 rounded-md border border-purple-200">
+                        <strong className="text-purple-700">Shadow Fear:</strong> {script.hook.shadowFear}
+                      </div>
+                      <div className="bg-white px-3 py-1.5 rounded-md border border-purple-200">
+                        <strong className="text-purple-700">Power Words:</strong> {script.hook.powerWords.join(', ')}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Full Script Display (NEW 10-Step Framework) */}
+                {script.fullScript && (
+                  <div className="p-5 bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-400 rounded-lg">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl">📝</span>
+                      <h3 className="text-lg font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                        10-Step Storytelling Framework Script
+                      </h3>
+                    </div>
+                    <div className="bg-white p-4 rounded-md border border-green-200">
+                      <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-gray-800">
+                        {script.fullScript}
+                      </pre>
+                    </div>
+                    <p className="text-xs text-green-700 mt-3">
+                      ✅ This script follows the complete 10-step storytelling framework. Click "Teleprompter" above to load it for recording.
+                    </p>
+                  </div>
+                )}
+
+                {/* Divider - Only show if fiveLine exists */}
+                {script.fiveLine && (
+                  <>
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t-2 border-purple-200"></div>
+                      </div>
+                      <div className="relative flex justify-center text-sm">
+                        <span className="px-3 bg-white text-purple-700 font-semibold">
+                          ⬇️ Hook flows into 5-Line Method ⬇️
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* Line 1: Context - Only show if fiveLine exists */}
+                {script.fiveLine && (
+                  <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-md">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xs font-bold text-blue-600 bg-blue-200 px-2 py-1 rounded">
+                        LINE 1
+                      </span>
+                      <p className="text-xs font-semibold text-blue-600">
+                        CONTEXT ({(isEditing && editedScript ? editedScript : script).fiveLine?.context.timestamp})
+                      </p>
+                    </div>
+                    {isEditing && editedScript && editedScript.fiveLine ? (
+                      <>
+                        <Label className="text-xs text-blue-700 mb-1">Script:</Label>
+                        <Textarea
+                          value={editedScript.fiveLine.context.script}
                         onChange={(e) => updateFiveLineSection('context', 'script', e.target.value)}
                         className="font-medium text-blue-900 mb-2 min-h-[80px]"
                       />
@@ -1108,18 +1217,20 @@ ${scriptToUse.fiveLine.community.script}`
                     </>
                   )}
                 </div>
+                )}
 
-                {/* Line 2: Collision */}
+                {/* Line 2: Collision - Only show if fiveLine exists */}
+                {script.fiveLine && (
                 <div className="p-4 bg-red-50 border-l-4 border-red-600 rounded-md">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-xs font-bold text-red-600 bg-red-200 px-2 py-1 rounded">
                       LINE 2
                     </span>
                     <p className="text-xs font-semibold text-red-600">
-                      COLLISION ({(isEditing && editedScript ? editedScript : script).fiveLine.collision.timestamp})
+                      COLLISION ({(isEditing && editedScript ? editedScript : script).fiveLine?.collision.timestamp})
                     </p>
                   </div>
-                  {isEditing && editedScript ? (
+                  {isEditing && editedScript && editedScript.fiveLine ? (
                     <>
                       <Label className="text-xs text-red-700 mb-1">Script:</Label>
                       <Textarea
@@ -1146,18 +1257,20 @@ ${scriptToUse.fiveLine.community.script}`
                     </>
                   )}
                 </div>
+                )}
 
-                {/* Line 3: Conversion */}
+                {/* Line 3: Conversion - Only show if fiveLine exists */}
+                {script.fiveLine && (
                 <div className="p-4 bg-purple-50 border-l-4 border-purple-600 rounded-md">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-xs font-bold text-purple-600 bg-purple-200 px-2 py-1 rounded">
                       LINE 3
                     </span>
                     <p className="text-xs font-semibold text-purple-600">
-                      CONVERSION ({(isEditing && editedScript ? editedScript : script).fiveLine.conversion.timestamp}) - 80% Teaching
+                      CONVERSION ({(isEditing && editedScript ? editedScript : script).fiveLine?.conversion.timestamp}) - 80% Teaching
                     </p>
                   </div>
-                  {isEditing && editedScript ? (
+                  {isEditing && editedScript && editedScript.fiveLine ? (
                     <>
                       <Label className="text-xs text-purple-700 mb-1">Script:</Label>
                       <Textarea
@@ -1184,18 +1297,20 @@ ${scriptToUse.fiveLine.community.script}`
                     </>
                   )}
                 </div>
+                )}
 
-                {/* Line 4: Calibration */}
+                {/* Line 4: Calibration - Only show if fiveLine exists */}
+                {script.fiveLine && (
                 <div className="p-4 bg-orange-50 border-l-4 border-orange-600 rounded-md">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-xs font-bold text-orange-600 bg-orange-200 px-2 py-1 rounded">
                       LINE 4
                     </span>
                     <p className="text-xs font-semibold text-orange-600">
-                      CALIBRATION ({(isEditing && editedScript ? editedScript : script).fiveLine.calibration.timestamp}) - 20% Proof
+                      CALIBRATION ({(isEditing && editedScript ? editedScript : script).fiveLine?.calibration.timestamp}) - 20% Proof
                     </p>
                   </div>
-                  {isEditing && editedScript ? (
+                  {isEditing && editedScript && editedScript.fiveLine ? (
                     <>
                       <Label className="text-xs text-orange-700 mb-1">Script:</Label>
                       <Textarea
@@ -1225,18 +1340,20 @@ ${scriptToUse.fiveLine.community.script}`
                     </>
                   )}
                 </div>
+                )}
 
-                {/* Line 5: Community */}
+                {/* Line 5: Community - Only show if fiveLine exists */}
+                {script.fiveLine && (
                 <div className="p-4 bg-green-50 border-l-4 border-green-600 rounded-md">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-xs font-bold text-green-600 bg-green-200 px-2 py-1 rounded">
                       LINE 5
                     </span>
                     <p className="text-xs font-semibold text-green-600">
-                      COMMUNITY ({(isEditing && editedScript ? editedScript : script).fiveLine.community.timestamp}) - Ubuntu CTA
+                      COMMUNITY ({(isEditing && editedScript ? editedScript : script).fiveLine?.community.timestamp}) - Ubuntu CTA
                     </p>
                   </div>
-                  {isEditing && editedScript ? (
+                  {isEditing && editedScript && editedScript.fiveLine ? (
                     <>
                       <Label className="text-xs text-green-700 mb-1">Script:</Label>
                       <Textarea
@@ -1263,6 +1380,7 @@ ${scriptToUse.fiveLine.community.script}`
                     </>
                   )}
                 </div>
+                )}
 
                 {/* B-Roll Suggestions */}
                 <div className="pt-4 border-t">

@@ -403,7 +403,7 @@ Generate the sales script now following the 10-step framework for ${salesFormat}
       })
     }
 
-    // Build user context - CONTENT MODE
+    // Build user context - CONTENT MODE (Now using 10-Step Framework)
     const userPrompt = `## USER'S CONTENT IDEA
 
 "${idea}"
@@ -414,14 +414,9 @@ Duration: ${targetDuration}
 ${isYouTubeLongForm ? `
 🎬 YOUTUBE LONG-FORM REQUIREMENTS:
 - Target script length: 5-15 minutes (300-900 seconds)
-- Expand each 5-Line section proportionally:
-  * LINE 1: CONTEXT (0-90s) - Extended hook and problem setup
-  * LINE 2: COLLISION (90-210s) - Deeper system analysis and pain amplification
-  * LINE 3: CONVERSION (210-660s) - Complete framework teaching with examples, sub-frameworks, and detailed strategies
-  * LINE 4: CALIBRATION (660-780s) - Multiple proof stories with detailed numbers and lessons
-  * LINE 5: COMMUNITY (780-900s) - Extended CTA with community building
-- Add MORE teaching depth in Conversion (frameworks within frameworks)
-- Include 2-3 stories instead of 1 in Calibration
+- Expand each step of the 10-Step Framework proportionally
+- Add MORE teaching depth and examples
+- Include 2-3 stories for proof
 - Add more examples, analogies, and tactical steps
 - Maintain all Hook Science, Ubuntu principles, and scripting principles
 - Keep conversational pacing with natural pauses and transitions
@@ -429,159 +424,168 @@ ${isYouTubeLongForm ? `
 
 ## GENERATION TASK
 
-Create a COMPLETE production-ready script following this 2-PHASE process:
-
-**PHASE 1: Generate Hook (R×A×C×U^B Hook Science)**
-**PHASE 2: Build Script (NOCHILL 5-Line Method)**
-
-The hook from Phase 1 flows directly into LINE 1: CONTEXT of Phase 2.
+Create a COMPLETE production-ready script following the **10-STEP STORYTELLING FRAMEWORK**:
 
 ---
 
-## PHASE 1: 🎣 HOOK SCIENCE (R×A×C×U^B Formula)
+## 🎯 10-STEP STORYTELLING FRAMEWORK
 
-**CRITICAL: Generate the hook FIRST before writing the 5-Line script.**
+### STEP 1: CALL OUT THE AUDIENCE
+→ Who is this specifically for?
+- Target specific audience segment clearly
+- Call out their pain point directly
+- Use pattern interrupt
+- Example: "If you're a [AUDIENCE] struggling with [PAIN], this is for you..."
 
-### THE 4 HOOK TYPES (Component C: Clarity of Outcome):
+### STEP 2: DEMAND ATTENTION
+→ Bold statement/question that stops the scroll
+- Create immediate curiosity
+- Challenge existing beliefs
+- Use power words and indirect negativity
+- Target ONE Shadow Fear explicitly
+- Example: "What if everything you know about [TOPIC] is keeping you stuck?"
 
-Choose ONE hook type based on the content idea:
+### STEP 3: BACK UP THE BIG PROBLEM
+→ Validate why this problem exists and why it matters
+- Explain the root cause
+- Show it's not their fault (system/structure villain)
+- Build emotional stakes
+- Use But/Therefore dance
+- Example: "The algorithm rewards X, BUT that's destroying Y, THEREFORE..."
 
-1. **INFORMATION GAP** - "You see X? Here's what they're NOT telling you about Y..."
-   - Use when: Audience knows result exists but not hidden factors
-   - Creates curiosity through knowledge gap revelation
+### STEP 4: CREATE IRRESISTIBLE INTRIGUE
+→ Tease the transformation/what's possible
+- Hint at the solution without revealing yet
+- Show the "after" state
+- Create curiosity gap
+- Example: "What if you could [BENEFIT] without [OBJECTION]?"
 
-2. **DESIRED RESULT** - "I'm going to show you how to achieve X in Y time—even if Z..."
-   - Use when: Audience wants clear solution, needs confidence
-   - Power move: Specific + timeframe + overcomes objection
+### STEP 5: FLOODLIGHT ON THE PROBLEM
+→ Paint the vivid picture of pain (current state)
+- Amplify the emotional cost
+- Show what they're losing by staying stuck
+- Use specific examples and numbers
+- Make them FEEL the problem
+- Example: "Right now, you're [PAIN]. Every day costs you [COST]..."
 
-3. **UNDESIRED RESULT** - "Never, ever, ever do X. Once you do, Y. And next thing: Z."
-   - Use when: Audience making critical mistake unknowingly
-   - Power move: Strong negativity + consequence chain
+### STEP 6: PROVIDE THE SOLUTION
+→ Introduce your framework/method as THE answer
+- Present your unique system
+- Explain how it works
+- Teach the framework (this is 60-70% of the script)
+- Reference frameworks from knowledge base (PAIDS, 4E, Shadow Fears)
+- Example: "Here's the [FRAMEWORK] that changes everything..."
 
-4. **A-TO-B TRANSFORMATION** - "You're doing X. Here's how to do Y instead—and achieve Z."
-   - Use when: Audience stuck in wrong state, needs pathway
-   - Power move: Acknowledge current + contrast + solution
+### STEP 7: SHOW CREDENTIALS
+→ Why should they trust YOU specifically?
+- Use Ndivhuwo's stories as proof (20% of script)
+- Show authority and expertise
+- Demonstrate understanding of their journey
+- Include specific numbers and results
+- Example: "I learned this the hard way. Started at R750..."
 
-### R×A×C×U^B FORMULA APPLICATION:
+### STEP 8: DETAIL THE BENEFITS
+→ What exactly do they get? (Features → Benefits)
+- List tangible outcomes
+- Use "You'll be able to..." format
+- Show transformation clearly
+- Stack the value
+- Example: "Once you apply this, you'll [BENEFIT 1], [BENEFIT 2], [BENEFIT 3]..."
 
-- **R (Relevant)**: Who is this for? (specific ICP targeting)
-- **A (Awareness)**: What do they know? (symptom/problem/solution/product aware)
-- **C (Clarity)**: What outcome promised? (use one of 4 hook types above)
-- **U (Unique)**: What breaks the pattern? (power words, unique angle)
-- **B (Broadened)**: How to reach more? (accessible to wider audience)
+### STEP 9: SOCIAL PROOF
+→ Testimonials, case studies, results
+- Show real results from others
+- Include specific metrics
+- Third-party validation
+- Community wins (Ubuntu principle)
+- Example: "Others using this have [RESULTS]..."
 
-### HOOK REQUIREMENTS:
+### STEP 10: GODFATHER OFFER
+→ The offer they can't refuse + guarantee/bonus
+- Clear call to action
+- Emphasize collective action (Ubuntu CTA)
+- "Join us," "Let's build together"
+- Make it easy (link in bio, comment, DM)
+- Example: "Join us. Click the link. Let's build this together..."
 
-- 15-25 words maximum (3-5 seconds spoken)
-- Uses YOU format (not "they" or "people")
-- Includes indirect negativity (attacks problem, not person)
-- Passes audible flow check (sounds natural when spoken)
-- Targets ONE Shadow Fear explicitly
+### UBUNTU STORY ARC PRINCIPLES (Apply Throughout):
 
-**The hook you generate will become the opening of LINE 1: CONTEXT.**
-
----
-
-## PHASE 2: 🎯 NOCHILL 5-Line Method
-
-### STRUCTURE (NOCHILL 5-Line Method):
-
-**LINE 1: CONTEXT (0-8 seconds) - "WE" Not "I"**
-- **STARTS WITH THE HOOK from Phase 1** (first 3-5 seconds)
-- Hook flows into WE-focused setup using Ubuntu Story Arc
-- Pattern interrupt with shared problem
-- CRITICAL: Use "WE" language, not "I" (unless transition at 5-6s)
-- Example: [HOOK] "You see creators getting 10K views? Here's what they're hiding..." → [WE-SETUP] "We've all been told to just post consistently..."
-
-**LINE 2: COLLISION (8-18 seconds) - The Crisis**
-- Name the SYSTEM villain (not people): algorithm changes, industry gatekeeping, outdated advice
-- Build tension around the collective problem
-- Use But/Therefore dance: "We think X, BUT reality is Y, THEREFORE we need Z"
-- Show the gap between promise and reality
-
-**LINE 3: CONVERSION (18-35 seconds) - The Framework**
-- 80% FRESH TEACHING: Introduce your framework/method
-- Use frameworks from knowledge base (PAIDS, 4E, Shadow Fears, etc.)
-- Teach the system/strategy (not just tips)
-- Keep language conversational and actionable
-- This is the MEAT of the content
-
-**LINE 4: CALIBRATION (35-48 seconds) - The Proof**
-- 20% NDIVHUWO STORY: Select 1 relevant story from story bank
-- Use as PROOF POINT (not main content)
-- Include specific numbers and emotional arc
-- Show Before → Numbers → Lesson
-- Maximum 12-15 seconds for story
-
-**LINE 5: COMMUNITY (48-60 seconds) - Ubuntu CTA**
-- Call to action emphasizing COLLECTIVE action
-- "Join us," "Let's build together," "We're creating..."
-- Focus on WE outcomes, not just individual gain
-- Platform-optimized engagement ask
-- Ubuntu principle: "I am because we are"
-
-### UBUNTU STORY ARC PRINCIPLES (CRITICAL):
-
-1. **WE Over I**: Start with collective experience, transition to personal proof
+1. **WE Over I**: Start with collective experience, use personal proof later
 2. **System Villains**: Blame systems/structures, not people
-3. **Collective Results**: Frame success as community win, not solo achievement
+3. **Collective Results**: Frame success as community win
 4. **But/Therefore Dance**: "We believe X, BUT reality is Y, THEREFORE we need Z"
 
 ### CONTENT SPLIT (CRITICAL):
-- **80% FRESH TEACHING**: Framework/strategy in Conversion phase
-- **20% NDIVHUWO STORY**: Proof point in Calibration phase
+- **70% TEACHING**: Framework/strategy (Steps 6-8)
+- **20% STORY PROOF**: Ndivhuwo story (Step 7)
+- **10% CTA**: Call to action (Step 10)
 
 ### OUTPUT FORMAT:
 
 Return ONLY a JSON object (no markdown, no extra text):
 {
   "title": "Compelling script title",
-  "hook": {
-    "text": "The viral hook (15-25 words) that opens the script",
-    "type": "information_gap | desired_result | undesired_result | a_to_b_transformation",
-    "racub_breakdown": {
-      "relevant": "Who this targets (specific audience)",
-      "awareness": "Awareness level (symptom/problem/solution/product)",
-      "clarity": "Clear outcome promised (hook type)",
-      "unique": "Pattern break/unique angle used",
-      "broadened": "How it's accessible to wider audience"
-    },
-    "shadowFear": "Which of the 10 Shadow Fears this hook targets",
-    "powerWords": ["list", "of", "power", "words", "used"]
-  },
-  "fiveLine": {
-    "context": {
-      "timestamp": "0-8s",
-      "script": "STARTS with the hook from above, then flows into WE-focused setup (YOU format, indirect negativity, short & punchy, audible flow). Example: '[HOOK] You see creators getting 10K views? Here's what they're hiding... [WE-SETUP] We've all been told to just post consistently...'",
+  "tenStepScript": {
+    "step1_callout": {
+      "timestamp": "0-5s",
+      "script": "Call out specific audience (YOU format, pattern interrupt)",
       "visual": "What viewer sees",
-      "ubuntuPrinciple": "Which Ubuntu principle applies"
+      "audience": "Who this is for specifically"
     },
-    "collision": {
-      "timestamp": "8-18s",
-      "script": "Name the system villain and build tension (YOU format, indirect negativity, short & punchy, audible flow)",
+    "step2_attention": {
+      "timestamp": "5-10s",
+      "script": "Bold statement/question that stops scroll (indirect negativity, power words)",
       "visual": "What viewer sees",
-      "systemVillain": "What system/structure is the problem (NOT people)"
+      "shadowFear": "Which Shadow Fear targeted",
+      "powerWords": ["list", "of", "power", "words"]
     },
-    "conversion": {
-      "timestamp": "18-35s",
-      "script": "Teach the framework/strategy - 80% teaching (YOU format, indirect negativity, short & punchy, audible flow)",
+    "step3_problem_backup": {
+      "timestamp": "10-15s",
+      "script": "Validate why problem exists (system villain, But/Therefore dance)",
       "visual": "What viewer sees",
-      "framework": "Which framework from knowledge base (PAIDS/4E/Shadow Fears/etc.)"
+      "systemVillain": "What system is the problem"
     },
-    "calibration": {
-      "timestamp": "35-48s",
-      "script": "Ndivhuwo story as proof - 20% story (YOU format when addressing viewer, short & punchy, audible flow)",
+    "step4_intrigue": {
+      "timestamp": "15-20s",
+      "script": "Tease transformation without revealing (curiosity gap)",
+      "visual": "What viewer sees"
+    },
+    "step5_floodlight": {
+      "timestamp": "20-25s",
+      "script": "Paint vivid picture of current pain (emotional amplification)",
+      "visual": "What viewer sees"
+    },
+    "step6_solution": {
+      "timestamp": "25-40s",
+      "script": "Introduce framework/method - MAIN TEACHING (conversational, actionable)",
       "visual": "What viewer sees",
-      "storyUsed": "Which story from story bank (title)",
-      "numbers": "Specific metrics from story (R750 → R100K, etc.)"
+      "framework": "Framework name (PAIDS/4E/Shadow Fears/custom)"
     },
-    "community": {
-      "timestamp": "48-60s",
-      "script": "Ubuntu CTA with collective framing (YOU format, WE outcomes, short & punchy, audible flow)",
+    "step7_credentials": {
+      "timestamp": "40-48s",
+      "script": "Ndivhuwo story as proof with numbers (Before → Numbers → Lesson)",
+      "visual": "What viewer sees",
+      "storyUsed": "Which story from story bank",
+      "numbers": "Specific metrics (R750 → R100K, etc.)"
+    },
+    "step8_benefits": {
+      "timestamp": "48-53s",
+      "script": "Detail what they get (You'll be able to... format)",
+      "visual": "What viewer sees"
+    },
+    "step9_social_proof": {
+      "timestamp": "53-57s",
+      "script": "Show community results (Ubuntu collective wins)",
+      "visual": "What viewer sees"
+    },
+    "step10_godfather_offer": {
+      "timestamp": "57-60s",
+      "script": "Ubuntu CTA - Join us, let's build together (collective action)",
       "visual": "What viewer sees",
       "collectiveAction": "What WE will do together"
     }
   },
+  "fullScript": "Complete formatted script with all 10 steps in natural flow, ready for teleprompter. Include all narration exactly as it should be spoken on camera.",
   "bRoll": [
     "B-roll suggestion 1",
     "B-roll suggestion 2",
@@ -593,9 +597,9 @@ Return ONLY a JSON object (no markdown, no extra text):
     "Key text overlay 3"
   ],
   "ubuntu_check": {
-    "we_over_i": "✅ WE framing in Context, I only in Calibration",
-    "system_villain": "✅ System blamed (e.g., 'platform dependency'), NOT people",
-    "collective_result": "✅ Community transformation shown in Community CTA"
+    "we_over_i": "✅ WE framing throughout, I only in credentials",
+    "system_villain": "✅ System blamed, NOT people",
+    "collective_result": "✅ Community transformation in social proof & CTA"
   },
   "scripting_principles_check": {
     "negativity": "✅ Indirect negativity applied (attacks problems, not viewer)",
@@ -607,33 +611,29 @@ Return ONLY a JSON object (no markdown, no extra text):
 
 ### CRITICAL REQUIREMENTS:
 
-**Hook Science (PHASE 1 - Generate FIRST):**
-1. **Choose ONE of the 4 hook types** (Information Gap, Desired Result, Undesired Result, A-to-B Transformation)
-2. **Apply complete R×A×C×U^B formula** (Relevant, Awareness, Clarity, Unique, Broadened)
-3. **Target ONE Shadow Fear** explicitly in the hook
-4. **Keep hook to 15-25 words** (3-5 seconds spoken)
-5. **Include power words** for pattern interrupt
-6. **Ensure hook passes all 4 Viral Scripting Principles** (Negativity, YOU format, Short & Simple, Audible Flow)
+**10-Step Framework Application:**
+1. **STEP 1**: Call out specific audience clearly (pattern interrupt)
+2. **STEP 2**: Demand attention with bold statement (target ONE Shadow Fear, use power words)
+3. **STEP 3**: Back up problem with system villain (NOT people), use But/Therefore dance
+4. **STEP 4**: Create intrigue without revealing solution (curiosity gap)
+5. **STEP 5**: Amplify pain with specific examples and emotional cost
+6. **STEP 6**: Provide solution - MAIN TEACHING (70% of script, use frameworks from knowledge base)
+7. **STEP 7**: Show credentials with Ndivhuwo story (20% of script, include numbers)
+8. **STEP 8**: Detail benefits in "You'll be able to..." format
+9. **STEP 9**: Include social proof and community results (Ubuntu wins)
+10. **STEP 10**: Godfather CTA with collective framing ("Join us", "Let's build")
 
-**NOCHILL 5-Line Method (PHASE 2 - Build AFTER Hook):**
-7. **LINE 1 STARTS with the generated hook**, then flows into WE language setup
-8. **Name SYSTEM villains** (not people) in Collision phase
-9. **Apply But/Therefore dance** throughout script transitions
-10. **Generate FRESH teaching content** in Conversion (80% of value)
-11. **Select ONE relevant Ndivhuwo story** for Calibration (20% proof)
-12. **Frame CTA as collective action** (Ubuntu principle)
-13. **Stick to 5-Line timing**: 0-8s, 8-18s, 18-35s, 35-48s, 48-60s
-
-**4 Viral Scripting Principles (EVERY LINE):**
-10. **NEGATIVITY**: Use indirect negativity (attack systems/problems, NOT viewer)
-11. **YOU FORMAT**: Use "YOU" exclusively (never "they/people/someone")
-12. **SHORT & SIMPLE**: Concise sentences, simple words, cut filler ruthlessly
-13. **AUDIBLE FLOW**: Script must sound natural when read aloud (conversational rhythm)
+**4 Viral Scripting Principles (EVERY STEP):**
+11. **NEGATIVITY**: Use indirect negativity (attack systems/problems, NOT viewer)
+12. **YOU FORMAT**: Use "YOU" exclusively (never "they/people/someone")
+13. **SHORT & SIMPLE**: Concise sentences, simple words, cut filler ruthlessly
+14. **AUDIBLE FLOW**: Script must sound natural when read aloud (conversational rhythm)
 
 **Content Quality:**
-14. **Include specific numbers** when using stories
-15. **Platform-optimize timing** and visuals
-16. **Reference frameworks** (PAIDS, 4E, Shadow Fears) when relevant
+15. **Include specific numbers** when using stories (R750 → R100K format)
+16. **Platform-optimize timing** (60s short-form or 5-15min long-form)
+17. **Reference frameworks** (PAIDS, 4E, Shadow Fears) in Step 6 teaching
+18. **Include fullScript field** with complete camera-ready narration for teleprompter
 
 ### CRITICAL DON'TS (Automatic Failure):
 
@@ -641,24 +641,27 @@ Return ONLY a JSON object (no markdown, no extra text):
 ❌ Use "they/people/someone" instead of "YOU"
 ❌ Use complex words when simple ones work
 ❌ Write scripts that don't pass the audible flow check (read aloud test)
-❌ Make story the main content (it's proof, not teaching)
-❌ Use "I" in Context section (WE-focused until Calibration)
-❌ Blame people as villains (blame SYSTEMS only)
-❌ Create individual-focused CTAs (collective action only)
+❌ Make story the main content (it's proof in Step 7, not main teaching)
+❌ Blame people as villains (blame SYSTEMS only in Step 3)
+❌ Create individual-focused CTAs (collective action in Step 10)
+❌ Skip the fullScript field (required for teleprompter integration)
 
 ### BUT/THEREFORE DANCE TECHNIQUE:
 
 Use throughout transitions:
-- Context → Collision: "We think X, BUT the system does Y"
-- Collision → Conversion: "The problem is real, THEREFORE here's the framework"
-- Conversion → Calibration: "The method works, BUT don't just take my word for it"
-- Calibration → Community: "I did it, THEREFORE we can all do it together"
+- Step 2 → Step 3: "You're seeing X, BUT the system is doing Y"
+- Step 3 → Step 4: "The problem is real, THEREFORE imagine if..."
+- Step 5 → Step 6: "The pain is costing you, THEREFORE here's the framework"
+- Step 6 → Step 7: "The method works, BUT don't just take my word for it"
+- Step 7 → Step 8: "I did it, THEREFORE you'll be able to..."
+- Step 9 → Step 10: "Others succeeded, THEREFORE let's build this together"
 
 REMEMBER:
-- WE over I (Ubuntu Story Arc)
-- Systems are villains, not people
-- 80% teaching, 20% story proof
-- Collective CTA, not individual win
+- WE over I (Ubuntu Story Arc) throughout
+- Systems are villains, not people (Step 3)
+- 70% teaching (Step 6), 20% story proof (Step 7), 10% CTA (Step 10)
+- Collective CTA, not individual win (Step 10)
+- MUST include fullScript field for teleprompter
 `
 
     // Call Claude API with extended token limit for scripts
@@ -703,7 +706,7 @@ REMEMBER:
         platform: platform || 'auto-detected',
         duration: duration || 'auto-optimized',
         generatedAt: new Date().toISOString(),
-        approach: '80% Fresh Teaching + 20% Ndivhuwo Stories',
+        approach: '10-Step Storytelling Framework',
       },
     })
   } catch (error: any) {
