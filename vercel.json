@@ -12,8 +12,14 @@
       "ANTHROPIC_API_KEY": "@anthropic_api_key"
     }
   },
+  "git": {
+    "deploymentEnabled": {
+      "claude/nochill-web-app-26Yi8": true
+    }
+  },
   "github": {
     "enabled": true,
-    "silent": false
+    "silent": false,
+    "autoAlias": true
   }
 }
