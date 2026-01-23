@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen, Monitor } from 'lucide-react'
+import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen, Monitor, Edit, Save } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 import { useRouter } from 'next/navigation'
 
@@ -87,6 +87,8 @@ export default function ScriptWriterPage() {
   const [copySuccess, setCopySuccess] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [editedScript, setEditedScript] = useState<GeneratedScript | null>(null)
+  const [saveSuccess, setSaveSuccess] = useState(false)
+  const [scriptTitle, setScriptTitle] = useState('')
 
   // Sales Script Mode
   const [scriptMode, setScriptMode] = useState<'content' | 'sales'>('content')
@@ -155,6 +157,26 @@ export default function ScriptWriterPage() {
       setPendingAction(null)
     }
   }, [pendingAction, setPendingAction])
+
+  // Check for script to load
+  useEffect(() => {
+    const loadScript = localStorage.getItem('loadScript')
+    if (loadScript) {
+      try {
+        const scriptData = JSON.parse(loadScript)
+        setScript(scriptData.script)
+        setScriptTitle(scriptData.title)
+        setScriptMode(scriptData.mode)
+        if (scriptData.productName) {
+          const product = products.find(p => p.name === scriptData.productName)
+          if (product) setSelectedProductId(product.id)
+        }
+        localStorage.removeItem('loadScript')
+      } catch (error) {
+        console.error('Error loading script:', error)
+      }
+    }
+  }, [products])
 
   const generateScript = async () => {
     // Validation
@@ -610,6 +632,29 @@ ${scriptToUse.fiveLine.community.script}`
     }
   }
 
+  const saveScriptToLibrary = () => {
+    const scriptToSave = isEditing && editedScript ? editedScript : script
+    if (!scriptToSave) return
+
+    const savedScript = {
+      id: Date.now().toString(),
+      title: scriptTitle || scriptToSave.title,
+      mode: scriptMode,
+      productName: scriptMode === 'sales' ? products.find(p => p.id === selectedProductId)?.name : undefined,
+      platform: platform !== 'auto' ? platform : undefined,
+      createdAt: new Date().toISOString(),
+      script: scriptToSave
+    }
+
+    const existing = localStorage.getItem('savedScripts')
+    const scripts = existing ? JSON.parse(existing) : []
+    scripts.unshift(savedScript)
+    localStorage.setItem('savedScripts', JSON.stringify(scripts))
+
+    setSaveSuccess(true)
+    setTimeout(() => setSaveSuccess(false), 2000)
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
@@ -900,8 +945,17 @@ ${scriptToUse.fiveLine.community.script}`
             <Card>
               <CardHeader>
                 <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle>{script.title}</CardTitle>
+                  <div className="flex-1 mr-4">
+                    {isEditing ? (
+                      <Input
+                        value={scriptTitle || script.title}
+                        onChange={(e) => setScriptTitle(e.target.value)}
+                        className="text-lg font-bold mb-1"
+                        placeholder="Script title..."
+                      />
+                    ) : (
+                      <CardTitle>{scriptTitle || script.title}</CardTitle>
+                    )}
                     <CardDescription>Production-ready script</CardDescription>
                   </div>
                   <div className="flex gap-2 flex-wrap">
@@ -909,7 +963,7 @@ ${scriptToUse.fiveLine.community.script}`
                       <>
                         <Button size="sm" onClick={saveEdits} className="bg-green-600 hover:bg-green-700">
                           <FileText className="h-4 w-4 mr-2" />
-                          Save Changes
+                          Apply Changes
                         </Button>
                         <Button size="sm" variant="outline" onClick={cancelEdits}>
                           Cancel
@@ -917,9 +971,16 @@ ${scriptToUse.fiveLine.community.script}`
                       </>
                     ) : (
                       <>
+                        <Button
+                          size="sm"
+                          onClick={saveScriptToLibrary}
+                          className={saveSuccess ? 'bg-green-600 hover:bg-green-700' : 'bg-purple-600 hover:bg-purple-700'}
+                        >
+                          {saveSuccess ? '✓ Saved!' : 'Save Script'}
+                        </Button>
                         <Button size="sm" variant="outline" onClick={enableEditing} className="bg-blue-50 hover:bg-blue-100">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Edit Script
+                          <Edit className="h-4 w-4 mr-2" />
+                          Edit
                         </Button>
                         <Button size="sm" variant="outline" onClick={copyScript} className={copySuccess ? 'bg-green-100 border-green-500' : ''}>
                           <Copy className="h-4 w-4 mr-2" />

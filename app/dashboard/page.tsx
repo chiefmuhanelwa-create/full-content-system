@@ -22,6 +22,8 @@ import {
   Monitor,
   Mic,
   Database,
+  Workflow,
+  Save,
 } from 'lucide-react'
 import { formatNumber } from '@/lib/utils'
 
@@ -87,6 +89,42 @@ export default function DashboardPage() {
             </p>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Featured Tools */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">🚀 Workflow & Organization</h2>
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
+          <Link href="/dashboard/workflow">
+            <Card className="hover:border-purple-600 transition-colors cursor-pointer h-full bg-gradient-to-br from-purple-50 to-blue-50">
+              <CardContent className="flex flex-col items-start justify-center p-6">
+                <Workflow className="h-10 w-10 text-purple-600 mb-2" />
+                <span className="font-medium text-lg mb-1">Content Workflow Tracker</span>
+                <p className="text-sm text-gray-600">
+                  Track content from Planning → Ideation → Creation → Posting
+                </p>
+                <p className="text-xs text-purple-600 mt-2 font-medium">
+                  ✨ NEW: Never lose track of your content ideas
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/saved-scripts">
+            <Card className="hover:border-green-600 transition-colors cursor-pointer h-full bg-gradient-to-br from-green-50 to-teal-50">
+              <CardContent className="flex flex-col items-start justify-center p-6">
+                <Save className="h-10 w-10 text-green-600 mb-2" />
+                <span className="font-medium text-lg mb-1">Saved Scripts Library</span>
+                <p className="text-sm text-gray-600">
+                  Access all your saved scripts, edit and reuse anytime
+                </p>
+                <p className="text-xs text-green-600 mt-2 font-medium">
+                  ✨ NEW: Auto-saves all generated scripts
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
       </div>
 
       {/* Quick Actions - All Working Features */}
