@@ -151,15 +151,28 @@ export default function LibraryPage() {
               text-align: center;
               margin-bottom: 40px;
               padding: 30px;
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
               color: white;
               border-radius: 15px;
+            }
+            .framework-badge {
+              background: #eff6ff;
+              border-left: 4px solid #3b82f6;
+              padding: 15px;
+              margin-bottom: 30px;
+              border-radius: 5px;
+            }
+            .framework-title {
+              font-weight: bold;
+              color: #1e40af;
+              margin-bottom: 10px;
             }
             pre {
               white-space: pre-wrap;
               word-wrap: break-word;
-              font-family: 'Courier New', monospace;
-              font-size: 12px;
+              font-family: Arial, sans-serif;
+              font-size: 13px;
+              line-height: 1.6;
               background: #f7fafc;
               padding: 30px;
               border-radius: 10px;
@@ -174,9 +187,16 @@ export default function LibraryPage() {
         </head>
         <body>
           <div class="header">
-            <h1>${script.title}</h1>
-            <p>${script.platform} • ${script.duration}</p>
+            <h1>🎬 ${script.title}</h1>
+            <p>${script.platform || 'Platform'} • ${script.duration || 'Duration'}</p>
             <p>Generated: ${new Date(script.createdAt).toLocaleDateString()}</p>
+          </div>
+          <div class="framework-badge">
+            <div class="framework-title">THE 10-STEP STORYTELLING FRAMEWORK</div>
+            <div style="font-size: 11px; color: #1e40af;">
+              1. Call Out → 2. Demand Attention → 3. Back Up Problem → 4. Create Intrigue → 5. Floodlight →
+              6. Provide Solution → 7. Show Credentials → 8. Detail Benefits → 9. Social Proof → 10. Godfather Offer
+            </div>
           </div>
           <pre>${script.fullScript}</pre>
           <script>

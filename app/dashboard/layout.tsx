@@ -37,7 +37,7 @@ const navItems = [
     name: 'Script Writer',
     href: '/dashboard/scripts',
     icon: FileText,
-    description: '5-Line Method',
+    description: '10-Step Framework',
   },
   {
     name: 'Story Extractor',

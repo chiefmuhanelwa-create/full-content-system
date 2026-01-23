@@ -759,7 +759,7 @@ ${scriptToUse.fiveLine.community.script}`
         </h1>
         <p className="text-gray-600">
           {scriptMode === 'content'
-            ? 'NOCHILL 5-Line Method: Context → Collision → Conversion → Calibration → Community'
+            ? '10-Step Storytelling Framework: Call Out → Demand Attention → Back Up Problem → Create Intrigue → Floodlight → Provide Solution → Show Credentials → Detail Benefits → Social Proof → Godfather Offer'
             : '💰 Sales Script Generator: 10-Step Storytelling Framework for Product Selling'}
         </p>
       </div>
@@ -1151,18 +1151,36 @@ ${scriptToUse.fiveLine.community.script}`
                 {script.fullScript && (
                   <div className="p-5 bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-400 rounded-lg">
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-2xl">📝</span>
+                      <span className="text-2xl">🎬</span>
                       <h3 className="text-lg font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                        10-Step Storytelling Framework Script
+                        THE 10-STEP STORYTELLING FRAMEWORK
                       </h3>
                     </div>
-                    <div className="bg-white p-4 rounded-md border border-green-200">
+
+                    {/* Framework Overview Badge */}
+                    <div className="mb-4 p-3 bg-blue-100 border-l-4 border-blue-600 rounded text-xs">
+                      <p className="font-semibold text-blue-900 mb-2">Framework Structure:</p>
+                      <div className="grid grid-cols-2 gap-1 text-blue-800">
+                        <div>1. Call Out Audience</div>
+                        <div>6. Provide Solution</div>
+                        <div>2. Demand Attention</div>
+                        <div>7. Show Credentials</div>
+                        <div>3. Back Up Problem</div>
+                        <div>8. Detail Benefits</div>
+                        <div>4. Create Intrigue</div>
+                        <div>9. Social Proof</div>
+                        <div>5. Floodlight Problem</div>
+                        <div>10. Godfather Offer</div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-4 rounded-md border border-green-200 max-h-[600px] overflow-y-auto">
                       <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-gray-800">
                         {script.fullScript}
                       </pre>
                     </div>
                     <p className="text-xs text-green-700 mt-3">
-                      ✅ This script follows the complete 10-step storytelling framework. Click "Teleprompter" above to load it for recording.
+                      ✅ This script follows the complete 10-step storytelling framework with clear step divisions. Click "Teleprompter" above to load it for recording.
                     </p>
                   </div>
                 )}
