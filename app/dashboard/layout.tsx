@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import {
   Zap,
@@ -10,10 +9,13 @@ import {
   FileText,
   BookOpen,
   Brain,
-  LogOut,
   Target,
   Calendar,
   DollarSign,
+  Save,
+  MonitorPlay,
+  Rocket,
+  Gift,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ContentProvider } from '@/contexts/ContentContext'
@@ -61,6 +63,30 @@ const navItems = [
     description: '4E Framework',
   },
   {
+    name: 'Saved Library',
+    href: '/dashboard/library',
+    icon: Save,
+    description: 'All Saved Content',
+  },
+  {
+    name: 'Teleprompter',
+    href: '/dashboard/teleprompter',
+    icon: MonitorPlay,
+    description: 'Record Scripts',
+  },
+  {
+    name: 'Campaign Planner',
+    href: '/dashboard/campaigns',
+    icon: Rocket,
+    description: 'Launch Strategy',
+  },
+  {
+    name: 'Offer Builder',
+    href: '/dashboard/offers',
+    icon: Gift,
+    description: 'Godfather Offers',
+  },
+  {
     name: 'Revenue Tracker',
     href: '/dashboard/revenue',
     icon: DollarSign,
@@ -75,10 +101,6 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname()
 
-  const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/auth/signin' })
-  }
-
   return (
     <ContentProvider>
       <div className="min-h-screen bg-gray-50">
@@ -89,7 +111,7 @@ export default function DashboardLayout({
             <div className="p-6 border-b">
               <Link href="/dashboard" className="flex flex-col">
                 <span className="text-xl font-bold text-gray-900">NOCHILL</span>
-                <span className="text-xs text-gray-500 mt-1">Viral Script Generator</span>
+                <span className="text-xs text-gray-500 mt-1">Content Creation System</span>
               </Link>
             </div>
 
@@ -124,16 +146,14 @@ export default function DashboardLayout({
               })}
             </nav>
 
-            {/* Bottom Actions */}
+            {/* Footer */}
             <div className="p-4 border-t">
-              <Button
-                variant="outline"
-                onClick={handleSignOut}
-                className="w-full flex items-center justify-center gap-2"
-              >
-                <LogOut className="h-4 w-4" />
-                Sign Out
-              </Button>
+              <p className="text-xs text-center text-gray-500">
+                NOCHILL v1.0
+              </p>
+              <p className="text-xs text-center text-gray-400 mt-1">
+                Built for Creators
+              </p>
             </div>
           </div>
         </aside>

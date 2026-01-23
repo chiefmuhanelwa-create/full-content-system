@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X, Save } from 'lucide-react'
+import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X, Save, Download } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 
 interface Hook {
@@ -185,12 +185,9 @@ export default function HookGeneratorPage() {
     const savedHook = {
       id: Date.now().toString(),
       content: hook.content,
-      hookType: hookType,
+      type: hookType,
       platform: platform,
-      timestamp: new Date().toISOString(),
-      isFavorite: false,
-      targetAudience: targetAudience,
-      notes: '',
+      createdAt: new Date().toISOString(),
     }
 
     const existing = localStorage.getItem('savedHooks')
@@ -199,6 +196,81 @@ export default function HookGeneratorPage() {
     localStorage.setItem('savedHooks', JSON.stringify(hooks))
 
     alert('Hook saved to your library!')
+  }
+
+  const exportHooksToPDF = () => {
+    const printWindow = window.open('', '_blank')
+    if (printWindow) {
+      const content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Generated Hooks - ${new Date().toLocaleDateString()}</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              padding: 40px;
+              line-height: 1.8;
+              max-width: 800px;
+              margin: 0 auto;
+              color: #2d3748;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 40px;
+              padding: 30px;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white;
+              border-radius: 15px;
+            }
+            .hook {
+              margin-bottom: 30px;
+              padding: 20px;
+              background: #f7fafc;
+              border-left: 4px solid #667eea;
+              border-radius: 5px;
+            }
+            .hook-number {
+              font-size: 12px;
+              color: #718096;
+              margin-bottom: 10px;
+            }
+            .hook-content {
+              font-size: 16px;
+              font-weight: 500;
+              line-height: 1.6;
+            }
+            @media print {
+              body { padding: 20px; }
+              .hook-content { font-size: 14px; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Generated Hooks</h1>
+            <p>Topic: ${topic}</p>
+            <p>Platform: ${platform.charAt(0).toUpperCase() + platform.slice(1)} • ${duration}</p>
+            <p>Generated: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+          </div>
+          ${hooks.map((hook, index) => `
+            <div class="hook">
+              <div class="hook-number">Hook #${index + 1}</div>
+              <div class="hook-content">${hook.content}</div>
+            </div>
+          `).join('')}
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(() => window.close(), 100);
+            }
+          </script>
+        </body>
+        </html>
+      `
+      printWindow.document.write(content)
+      printWindow.document.close()
+    }
   }
 
   return (
@@ -374,7 +446,13 @@ export default function HookGeneratorPage() {
       {/* Generated Hooks Display */}
       {hooks.length > 0 && (
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">Generated Hooks ({hooks.length})</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold">Generated Hooks ({hooks.length})</h2>
+            <Button onClick={exportHooksToPDF} variant="outline" className="bg-green-50 hover:bg-green-100 border-green-300">
+              <Download className="mr-2 h-4 w-4" />
+              Export PDF
+            </Button>
+          </div>
 
           {hooks.map((hook, index) => (
             <Card key={hook.id}>
