@@ -585,79 +585,24 @@ Return ONLY a JSON object (no markdown, no extra text):
       "collectiveAction": "What WE will do together"
     }
   },
-  "fullScript": "Complete formatted script with CLEAR STEP DIVISIONS for teleprompter. Format as follows:
+  "fullScript": "Complete formatted script with CLEAR STEP DIVISIONS. Use this exact format for EACH of the 10 steps:
 
+═══════════════════════════════════════
+STEP X: [STEP NAME]
+→ [Step purpose description]
+═══════════════════════════════════════
+
+[Actual script content to be spoken on camera]
+
+Example for Step 1:
 ═══════════════════════════════════════
 STEP 1: CALL OUT THE AUDIENCE
 → Who is this specifically for?
 ═══════════════════════════════════════
 
-[Script content for step 1 - what should be spoken]
+If you're a content creator stuck at 1,000 followers wondering why your viral hooks aren't converting...
 
-═══════════════════════════════════════
-STEP 2: DEMAND ATTENTION
-→ Bold statement/question that stops the scroll
-═══════════════════════════════════════
-
-[Script content for step 2 - what should be spoken]
-
-═══════════════════════════════════════
-STEP 3: BACK UP THE BIG PROBLEM
-→ Validate why this problem exists and why it matters
-═══════════════════════════════════════
-
-[Script content for step 3 - what should be spoken]
-
-═══════════════════════════════════════
-STEP 4: CREATE IRRESISTIBLE INTRIGUE
-→ Tease the transformation/what's possible
-═══════════════════════════════════════
-
-[Script content for step 4 - what should be spoken]
-
-═══════════════════════════════════════
-STEP 5: FLOODLIGHT ON THE PROBLEM
-→ Paint the vivid picture of pain (current state)
-═══════════════════════════════════════
-
-[Script content for step 5 - what should be spoken]
-
-═══════════════════════════════════════
-STEP 6: PROVIDE THE SOLUTION
-→ Introduce your framework/method as THE answer
-═══════════════════════════════════════
-
-[Script content for step 6 - what should be spoken - THIS IS 60-70% OF SCRIPT]
-
-═══════════════════════════════════════
-STEP 7: SHOW CREDENTIALS
-→ Why should they trust YOU specifically?
-═══════════════════════════════════════
-
-[Script content for step 7 - what should be spoken - Include Ndivhuwo story with numbers - 20% OF SCRIPT]
-
-═══════════════════════════════════════
-STEP 8: DETAIL THE BENEFITS
-→ What exactly do they get? (Features → Benefits)
-═══════════════════════════════════════
-
-[Script content for step 8 - what should be spoken]
-
-═══════════════════════════════════════
-STEP 9: SOCIAL PROOF
-→ Testimonials, case studies, results
-═══════════════════════════════════════
-
-[Script content for step 9 - what should be spoken]
-
-═══════════════════════════════════════
-STEP 10: GODFATHER OFFER
-→ The offer they can't refuse + guarantee/bonus
-═══════════════════════════════════════
-
-[Script content for step 10 - what should be spoken - Ubuntu CTA: Join us, let's build together]
-
-IMPORTANT: Each section must include ONLY the spoken narration (what you say on camera). The step headers help you see the framework structure but are NOT spoken.",
+Repeat this format for all 10 steps. Step headers (with ═══) are for structure only - NOT spoken. Only the script content below each header is what you say on camera.",
   "bRoll": [
     "B-roll suggestion 1",
     "B-roll suggestion 2",
@@ -739,7 +684,7 @@ REMEMBER:
     // Call Claude API with extended token limit for scripts
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 4096,
+      max_tokens: 8000, // Increased for longer 10-step scripts
       system: systemPromptWithStories,
       messages: [
         {
@@ -783,9 +728,23 @@ REMEMBER:
     })
   } catch (error: any) {
     console.error('Script generation error:', error)
+
+    // Provide more detailed error information
+    const errorMessage = error.message || 'Failed to generate script'
+    const errorDetails = {
+      message: errorMessage,
+      type: error.type || 'unknown',
+      status: error.status || 500,
+    }
+
+    console.error('Full error details:', errorDetails)
+
     return NextResponse.json(
-      { error: error.message || 'Failed to generate script' },
-      { status: 500 }
+      {
+        error: errorMessage,
+        details: process.env.NODE_ENV === 'development' ? errorDetails : undefined
+      },
+      { status: error.status || 500 }
     )
   }
 }
