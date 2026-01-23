@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Calendar as CalendarIcon, Plus, Trash2, Zap, FileText, BookOpen, Brain, Target, ChevronLeft, ChevronRight, List } from 'lucide-react'
+import { Calendar as CalendarIcon, Plus, Trash2, Zap, FileText, BookOpen, Brain, Target, ChevronLeft, ChevronRight, List, Download } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -142,6 +142,198 @@ export default function ContentCalendarPage() {
 
   const stats = getStats()
 
+  // Export Calendar to PDF
+  const exportCalendarToPDF = () => {
+    const sortedEntries = [...calendarEntries].sort((a, b) =>
+      new Date(a.date).getTime() - new Date(b.date).getTime()
+    )
+
+    const pdfContent = `
+═══════════════════════════════════════════════════════════
+📅 CONTENT CALENDAR EXPORT
+═══════════════════════════════════════════════════════════
+
+Generated: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
+Total Scheduled Content: ${calendarEntries.length} items
+
+═══════════════════════════════════════════════════════════
+📊 4E FRAMEWORK BREAKDOWN
+═══════════════════════════════════════════════════════════
+
+The 4E Content Evolution Framework ensures balanced content mix:
+
+📘 40% EDUCATE (Target: ${stats.educate}% Actual)
+   → Teach frameworks, strategies, systems
+   → Build authority and trust
+   → Current: ${calendarEntries.filter(e => e.category === '40% Educate').length} pieces
+
+🎭 30% ENTERTAIN (Target: ${stats.entertain}% Actual)
+   → Stories, humor, relatable struggles
+   → Increase engagement and shares
+   → Current: ${calendarEntries.filter(e => e.category === '30% Entertain').length} pieces
+
+💪 20% ENCOURAGE (Target: ${stats.encourage}% Actual)
+   → Motivation, inspiration, possibility
+   → Build community and loyalty
+   → Current: ${calendarEntries.filter(e => e.category === '20% Encourage').length} pieces
+
+💰 10% EARN (Target: ${stats.earn}% Actual)
+   → Monetization, offers, CTAs
+   → Drive revenue and conversions
+   → Current: ${calendarEntries.filter(e => e.category === '10% Earn').length} pieces
+
+═══════════════════════════════════════════════════════════
+📅 COMPLETE CONTENT SCHEDULE
+═══════════════════════════════════════════════════════════
+
+${sortedEntries.length === 0 ? 'No content scheduled yet.' : sortedEntries.map((entry, index) => `
+──────────────────────────────────────────────────────────
+${index + 1}. ${entry.title}
+──────────────────────────────────────────────────────────
+
+📅 Date: ${new Date(entry.date).toLocaleDateString('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+})}
+
+📁 Category: ${entry.category}
+   ${entry.category === '40% Educate' ? '→ Teaching & Educational Content' :
+     entry.category === '30% Entertain' ? '→ Entertainment & Storytelling' :
+     entry.category === '20% Encourage' ? '→ Motivational & Inspirational' :
+     '→ Monetization & Sales Content'}
+
+📱 Platform: ${entry.platform}
+
+${entry.notes ? `📝 Notes:
+${entry.notes}
+` : ''}
+${entry.sourceTools && entry.sourceTools.length > 0 ? `🛠️ Created With: ${entry.sourceTools.join(', ')}
+` : ''}
+`).join('\n')}
+
+═══════════════════════════════════════════════════════════
+💡 4E FRAMEWORK BEST PRACTICES
+═══════════════════════════════════════════════════════════
+
+✅ IDEAL CONTENT MIX:
+   • 40% Educational content (frameworks, how-tos, strategies)
+   • 30% Entertainment (stories, behind-the-scenes, relatable moments)
+   • 20% Encouragement (motivation, wins, community building)
+   • 10% Monetization (offers, products, calls-to-action)
+
+✅ POSTING CONSISTENCY:
+   • Maintain regular schedule across platforms
+   • Balance content types throughout the week
+   • Avoid clustering too much of one category
+
+✅ PLATFORM OPTIMIZATION:
+   • Instagram: Visual storytelling + educational carousels
+   • TikTok: Quick tips + entertaining hooks
+   • YouTube: Deep-dive education + story-driven content
+   • LinkedIn: Professional insights + thought leadership
+   • Twitter/X: Threads + quick wins
+
+✅ ENGAGEMENT TRIGGERS:
+   • Educate: "Save this for later", "Tag someone who needs this"
+   • Entertain: "Share if this is you", reactions and comments
+   • Encourage: "Drop a 🔥 if you're ready", community building
+   • Earn: "Link in bio", "Limited spots", clear CTA
+
+═══════════════════════════════════════════════════════════
+📈 CALENDAR MANAGEMENT TIPS
+═══════════════════════════════════════════════════════════
+
+1. BATCH CREATE CONTENT
+   → Plan 2-4 weeks ahead
+   → Create content in batches by type
+   → Schedule during your most creative hours
+
+2. TRACK PERFORMANCE
+   → Note which content types perform best
+   → Double down on what works
+   → Adjust 4E mix based on goals
+
+3. STAY FLEXIBLE
+   → Leave room for trending topics
+   → Allow spontaneous content
+   → Adapt to audience feedback
+
+4. REUSE & REPURPOSE
+   → One core idea = multiple formats
+   → Cross-post across platforms
+   → Update and reshare top performers
+
+═══════════════════════════════════════════════════════════
+END OF CALENDAR EXPORT
+═══════════════════════════════════════════════════════════
+
+Generated by NOCHILL Content Creation System
+Built for sustainable content creation and business growth
+`.trim()
+
+    // Create printable PDF
+    const printWindow = window.open('', '_blank')
+    if (printWindow) {
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Content Calendar - ${new Date().toLocaleDateString()}</title>
+          <style>
+            body {
+              font-family: 'Courier New', monospace;
+              padding: 40px;
+              line-height: 1.8;
+              max-width: 900px;
+              margin: 0 auto;
+              color: #2d3748;
+            }
+            h1 {
+              color: #2b6cb0;
+              border-bottom: 3px solid #2b6cb0;
+              padding-bottom: 10px;
+            }
+            pre {
+              white-space: pre-wrap;
+              word-wrap: break-word;
+              font-family: 'Courier New', monospace;
+              font-size: 11px;
+            }
+            @media print {
+              body { padding: 20px; font-size: 10px; }
+              pre { font-size: 9px; }
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 30px;
+              padding: 20px;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white;
+              border-radius: 10px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1 style="color: white; border: none;">📅 Content Calendar</h1>
+            <p style="margin: 0;">NOCHILL Content Creation System</p>
+          </div>
+          <pre>${pdfContent}</pre>
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(() => window.close(), 100);
+            }
+          </script>
+        </body>
+        </html>
+      `)
+      printWindow.document.close()
+    }
+  }
+
   // Calendar grid functions
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear()
@@ -269,14 +461,25 @@ export default function ContentCalendarPage() {
               Plan your content using the 4E framework: 40% Educate, 30% Entertain, 20% Encourage, 10% Earn
             </p>
           </div>
-          <Button
-            variant="outline"
-            onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-            className="flex items-center gap-2"
-          >
-            {viewMode === 'grid' ? <List className="h-4 w-4" /> : <CalendarIcon className="h-4 w-4" />}
-            {viewMode === 'grid' ? 'List View' : 'Calendar View'}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={exportCalendarToPDF}
+              className="flex items-center gap-2 bg-green-50 hover:bg-green-100 border-green-300"
+              disabled={calendarEntries.length === 0}
+            >
+              <Download className="h-4 w-4" />
+              Export PDF
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+              className="flex items-center gap-2"
+            >
+              {viewMode === 'grid' ? <List className="h-4 w-4" /> : <CalendarIcon className="h-4 w-4" />}
+              {viewMode === 'grid' ? 'List View' : 'Calendar View'}
+            </Button>
+          </div>
         </div>
       </div>
 

@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Rocket, Calendar as CalendarIcon, Target, TrendingUp, Copy, CheckCircle } from 'lucide-react'
+import { Rocket, Calendar as CalendarIcon, Target, TrendingUp, Copy, CheckCircle, Download } from 'lucide-react'
 
 interface Product {
   id: string
@@ -435,6 +435,147 @@ This is for your children's children.
     setTimeout(() => setCopySuccess(false), 2000)
   }
 
+  const exportCampaignToPDF = () => {
+    if (campaign.length === 0) return
+
+    const exportText = `
+🚀 ${selectedProduct?.name} LAUNCH CAMPAIGN
+${campaignDuration}-Day Product Launch Plan
+
+Product: ${selectedProduct?.name} (R${selectedProduct?.price})
+Launch Date: ${launchDate}
+Duration: ${campaignDuration} days
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${campaign.map((day) => `
+📅 DAY ${day.day} - ${day.date}
+Phase: ${day.phase}
+
+${day.content.map((c, i) => `
+${i + 1}. ${c.platform}
+   Type: ${c.type}
+   Theme: ${c.theme}
+   Focus: ${c.focus}
+   CTA: "${c.cta}"
+`).join('\n')}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`).join('\n')}
+
+💡 CAMPAIGN SUCCESS TIPS:
+
+1. Pre-create content for Days 1-5 before launch
+2. Batch content creation by platform
+3. Use scheduling tools (Buffer, Later)
+4. Track engagement daily
+5. Adjust messaging based on feedback
+6. Prepare customer service for Day 10 spike
+7. Have backup content for low-performing posts
+
+You understand? Because you understand.
+This is for your children's children.
+`.trim()
+
+    const printWindow = window.open('', '_blank')
+    if (printWindow) {
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${selectedProduct?.name} - ${campaignDuration}-Day Launch Campaign</title>
+          <style>
+            body {
+              font-family: 'Arial', sans-serif;
+              padding: 40px;
+              line-height: 1.8;
+              max-width: 900px;
+              margin: 0 auto;
+              color: #2d3748;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 40px;
+              padding: 30px;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white;
+              border-radius: 15px;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 32px;
+              color: white;
+            }
+            .header p {
+              margin: 10px 0 0 0;
+              font-size: 16px;
+              opacity: 0.95;
+            }
+            pre {
+              white-space: pre-wrap;
+              word-wrap: break-word;
+              font-family: 'Courier New', monospace;
+              font-size: 11px;
+              background: #f7fafc;
+              padding: 30px;
+              border-radius: 10px;
+              border: 2px solid #e2e8f0;
+            }
+            .footer {
+              margin-top: 40px;
+              padding: 20px;
+              background: #f7fafc;
+              border-left: 4px solid #764ba2;
+              border-radius: 5px;
+            }
+            @media print {
+              body { padding: 20px; }
+              pre { font-size: 10px; padding: 20px; }
+              .header { padding: 20px; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>🚀 PRODUCT LAUNCH CAMPAIGN</h1>
+            <p>${selectedProduct?.name}</p>
+            <p>${campaignDuration}-Day Strategic Launch Plan</p>
+            <p>Generated: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+          </div>
+          <pre>${exportText}</pre>
+          <div class="footer">
+            <h3 style="margin-top: 0; color: #2d3748;">📋 Campaign Execution Checklist:</h3>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li><strong>Week Before Launch:</strong> Batch create all awareness content</li>
+              <li><strong>Launch Day:</strong> Execute Phase 1 (Awareness) content</li>
+              <li><strong>Mid Campaign:</strong> Monitor engagement, adjust strategy</li>
+              <li><strong>Final Days:</strong> Ramp up urgency and scarcity</li>
+              <li><strong>Post-Launch:</strong> Analyze results, collect testimonials</li>
+            </ul>
+            <h3 style="margin-top: 20px; color: #2d3748;">🎯 Key Success Metrics:</h3>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>Track engagement rate by phase</li>
+              <li>Monitor conversion rates daily</li>
+              <li>Measure email open/click rates</li>
+              <li>Count DMs and inquiries</li>
+              <li>Record total revenue generated</li>
+            </ul>
+            <p style="margin: 15px 0 0 0; font-size: 12px; color: #718096;">
+              Created with NOCHILL Business Operating System
+            </p>
+          </div>
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(() => window.close(), 100);
+            }
+          </script>
+        </body>
+        </html>
+      `)
+      printWindow.document.close()
+    }
+  }
+
   const getPhaseColor = (phase: string) => {
     switch (phase) {
       case 'Awareness':
@@ -531,16 +672,26 @@ This is for your children's children.
                 Generate Campaign Plan
               </Button>
 
-              {/* Export Button */}
+              {/* Export Buttons */}
               {campaign.length > 0 && (
-                <Button
-                  onClick={exportCampaign}
-                  variant="outline"
-                  className="w-full"
-                >
-                  <Copy className="mr-2 h-4 w-4" />
-                  {copySuccess ? 'Copied!' : 'Export Campaign'}
-                </Button>
+                <div className="space-y-2">
+                  <Button
+                    onClick={exportCampaign}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Copy className="mr-2 h-4 w-4" />
+                    {copySuccess ? 'Copied!' : 'Export Campaign'}
+                  </Button>
+                  <Button
+                    onClick={exportCampaignToPDF}
+                    variant="outline"
+                    className="w-full bg-green-50 hover:bg-green-100 border-green-300"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Export PDF
+                  </Button>
+                </div>
               )}
             </CardContent>
           </Card>

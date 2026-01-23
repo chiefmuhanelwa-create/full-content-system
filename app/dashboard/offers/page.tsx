@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Gift, DollarSign, Shield, Clock, Copy, Sparkles, Plus, Trash2 } from 'lucide-react'
+import { Gift, DollarSign, Shield, Clock, Copy, Sparkles, Plus, Trash2, Download } from 'lucide-react'
 
 interface Product {
   id: string
@@ -186,6 +186,102 @@ Let's build.
     navigator.clipboard.writeText(generatedOffer)
     setCopySuccess(true)
     setTimeout(() => setCopySuccess(false), 2000)
+  }
+
+  const exportOfferToPDF = () => {
+    if (!selectedProduct || !generatedOffer) {
+      alert('Please generate an offer first')
+      return
+    }
+
+    const printWindow = window.open('', '_blank')
+    if (printWindow) {
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${selectedProduct.name} - Godfather Offer</title>
+          <style>
+            body {
+              font-family: 'Arial', sans-serif;
+              padding: 40px;
+              line-height: 1.8;
+              max-width: 800px;
+              margin: 0 auto;
+              color: #2d3748;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 40px;
+              padding: 30px;
+              background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+              color: white;
+              border-radius: 15px;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 32px;
+              color: white;
+            }
+            .header p {
+              margin: 10px 0 0 0;
+              font-size: 16px;
+              opacity: 0.95;
+            }
+            pre {
+              white-space: pre-wrap;
+              word-wrap: break-word;
+              font-family: 'Courier New', monospace;
+              font-size: 12px;
+              background: #f7fafc;
+              padding: 30px;
+              border-radius: 10px;
+              border: 2px solid #e2e8f0;
+            }
+            .footer {
+              margin-top: 40px;
+              padding: 20px;
+              background: #f7fafc;
+              border-left: 4px solid #f5576c;
+              border-radius: 5px;
+            }
+            @media print {
+              body { padding: 20px; }
+              pre { font-size: 11px; padding: 20px; }
+              .header { padding: 20px; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>🎯 THE GODFATHER OFFER</h1>
+            <p>${selectedProduct.name}</p>
+            <p>Generated: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+          </div>
+          <pre>${generatedOffer}</pre>
+          <div class="footer">
+            <h3 style="margin-top: 0; color: #2d3748;">📝 Implementation Notes:</h3>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+              <li>Use this offer in sales posts, emails, and landing pages</li>
+              <li>Update the CTA with your specific link or action</li>
+              <li>Track conversions and adjust urgency/bonuses based on results</li>
+              <li>Test different platforms (Instagram, email, Twitter) to see what converts best</li>
+            </ul>
+            <p style="margin: 15px 0 0 0; font-size: 12px; color: #718096;">
+              Created with NOCHILL Business Operating System
+            </p>
+          </div>
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(() => window.close(), 100);
+            }
+          </script>
+        </body>
+        </html>
+      `)
+      printWindow.document.close()
+    }
   }
 
   return (
@@ -436,10 +532,16 @@ Let's build.
                     <Gift className="h-5 w-5 text-purple-600" />
                     Generated Offer
                   </CardTitle>
-                  <Button size="sm" variant="outline" onClick={copyOffer}>
-                    <Copy className="mr-2 h-4 w-4" />
-                    {copySuccess ? 'Copied!' : 'Copy'}
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" onClick={exportOfferToPDF} className="bg-green-50 hover:bg-green-100 border-green-300">
+                      <Download className="mr-2 h-4 w-4" />
+                      PDF
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={copyOffer}>
+                      <Copy className="mr-2 h-4 w-4" />
+                      {copySuccess ? 'Copied!' : 'Copy'}
+                    </Button>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>
