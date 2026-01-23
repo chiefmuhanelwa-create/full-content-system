@@ -23,11 +23,8 @@ export default function LandingPage() {
             <span className="text-2xl font-bold">NOCHILL</span>
           </div>
           <div className="space-x-4">
-            <Button variant="ghost" asChild>
-              <Link href="/auth/signin">Sign In</Link>
-            </Button>
             <Button asChild>
-              <Link href="/auth/signup">Get Started</Link>
+              <Link href="/dashboard">Launch App →</Link>
             </Button>
           </div>
         </nav>
@@ -44,10 +41,10 @@ export default function LandingPage() {
         </p>
         <div className="flex gap-4 justify-center">
           <Button size="lg" asChild>
-            <Link href="/auth/signup">Start Free Trial</Link>
+            <Link href="/dashboard">Start Creating Now (Free) →</Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
-            <Link href="#features">See How It Works</Link>
+            <Link href="#features">See Features</Link>
           </Button>
         </div>
 
@@ -158,78 +155,74 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Key Features Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Simple, Transparent Pricing</h2>
-          <p className="text-gray-600">Choose the plan that fits your content goals</p>
+          <h2 className="text-3xl font-bold mb-4">🎯 New: Business System Features</h2>
+          <p className="text-gray-600">Transform your content into revenue</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <Card>
+          <Card className="border-green-500 border-2">
             <CardHeader>
-              <CardTitle>Free</CardTitle>
-              <CardDescription>Perfect for getting started</CardDescription>
-              <div className="text-3xl font-bold mt-4">R0</div>
-              <div className="text-gray-600">/month</div>
+              <CardTitle className="text-green-700">💰 Sales Script Mode</CardTitle>
+              <CardDescription>NEW - Product Selling Framework</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm">
-                <li>✓ 10 hooks/month</li>
-                <li>✓ 3 scripts/month</li>
-                <li>✓ 1 story extraction</li>
-                <li>✓ Basic analytics</li>
+                <li>✓ 10-step sales storytelling</li>
+                <li>✓ Multiple formats (Reel/Email/Thread)</li>
+                <li>✓ Product-aware scripts</li>
+                <li>✓ Godfather value stacking</li>
               </ul>
-              <Button className="w-full mt-6" variant="outline" asChild>
-                <Link href="/auth/signup">Start Free</Link>
+              <Button className="w-full mt-6 bg-green-600 hover:bg-green-700" asChild>
+                <Link href="/dashboard/scripts">Try Sales Scripts →</Link>
               </Button>
             </CardContent>
           </Card>
 
           <Card className="border-blue-600 border-2">
             <CardHeader>
-              <CardTitle>Pro</CardTitle>
-              <CardDescription>For serious creators</CardDescription>
-              <div className="text-3xl font-bold mt-4">R499</div>
-              <div className="text-gray-600">/month</div>
+              <CardTitle className="text-blue-700">🗂️ Product Database</CardTitle>
+              <CardDescription>NEW - Manage Your Offers</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm">
-                <li>✓ Unlimited hooks</li>
-                <li>✓ Unlimited scripts</li>
-                <li>✓ Unlimited stories</li>
-                <li>✓ Content calendar</li>
-                <li>✓ Revenue tracking</li>
-                <li>✓ PDF exports</li>
-                <li>✓ Priority support</li>
+                <li>✓ Store product details</li>
+                <li>✓ Pain points & benefits</li>
+                <li>✓ Bonuses & guarantees</li>
+                <li>✓ Audience level targeting</li>
               </ul>
               <Button className="w-full mt-6" asChild>
-                <Link href="/auth/signup?plan=pro">Start Pro Trial</Link>
+                <Link href="/dashboard/products">Manage Products →</Link>
               </Button>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-purple-600 border-2">
             <CardHeader>
-              <CardTitle>Agency</CardTitle>
-              <CardDescription>For teams & agencies</CardDescription>
-              <div className="text-3xl font-bold mt-4">R1,999</div>
-              <div className="text-gray-600">/month</div>
+              <CardTitle className="text-purple-700">📚 Content Vault</CardTitle>
+              <CardDescription>75+ Ideas & Stories Tagged</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm">
-                <li>✓ Everything in Pro</li>
-                <li>✓ Team collaboration (5 users)</li>
-                <li>✓ White-label exports</li>
-                <li>✓ API access</li>
-                <li>✓ Custom branding</li>
-                <li>✓ Dedicated support</li>
+                <li>✓ Audience level filtering</li>
+                <li>✓ Beginner to Contentpreneur</li>
+                <li>✓ Hook type categorization</li>
+                <li>✓ Shadow fear mapping</li>
               </ul>
-              <Button className="w-full mt-6" variant="outline" asChild>
-                <Link href="/auth/signup?plan=agency">Contact Sales</Link>
+              <Button className="w-full mt-6 bg-purple-600 hover:bg-purple-700" asChild>
+                <Link href="/dashboard/vault">Browse Vault →</Link>
               </Button>
             </CardContent>
           </Card>
+        </div>
+
+        <div className="text-center mt-12">
+          <p className="text-lg font-semibold text-gray-700 mb-4">🎉 Completely Free & Open - No Login Required</p>
+          <Button size="lg" asChild>
+            <Link href="/dashboard">Access All Features Now →</Link>
+          </Button>
         </div>
       </section>
 
@@ -239,15 +232,15 @@ export default function LandingPage() {
           <CardHeader>
             <CardTitle className="text-3xl text-white">Ready to Create Viral Content?</CardTitle>
             <CardDescription className="text-blue-100">
-              Join thousands of creators using NOCHILL to generate millions of views
+              Open-source AI content system powered by Claude. Free forever.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Button size="lg" variant="secondary" asChild>
-              <Link href="/auth/signup">Start Your Free Trial</Link>
+              <Link href="/dashboard">Start Creating Now →</Link>
             </Button>
             <p className="text-sm text-blue-100 mt-4">
-              No credit card required. Start creating in 2 minutes.
+              No login. No credit card. Start creating in seconds.
             </p>
           </CardContent>
         </Card>
