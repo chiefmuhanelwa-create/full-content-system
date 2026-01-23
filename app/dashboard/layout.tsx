@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ContentProvider } from '@/contexts/ContentContext'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 const navItems = [
   {
@@ -102,8 +103,9 @@ export default function DashboardLayout({
   const pathname = usePathname()
 
   return (
-    <ContentProvider>
-      <div className="min-h-screen bg-gray-50">
+    <ErrorBoundary>
+      <ContentProvider>
+        <div className="min-h-screen bg-gray-50">
         {/* Sidebar */}
         <aside className="fixed left-0 top-0 h-full w-64 bg-white border-r">
           <div className="flex flex-col h-full">
@@ -162,7 +164,8 @@ export default function DashboardLayout({
         <main className="ml-64 min-h-screen">
           {children}
         </main>
-      </div>
-    </ContentProvider>
+        </div>
+      </ContentProvider>
+    </ErrorBoundary>
   )
 }
