@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://full-content-system-nochill.vercel.app/sitemap.xml
