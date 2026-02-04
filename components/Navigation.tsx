@@ -11,6 +11,9 @@ import {
   Brain,
   LayoutDashboard,
   LogOut,
+  History,
+  Server,
+  Database,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -43,6 +46,24 @@ const navItems = [
     href: '/dashboard/fears',
     icon: Brain,
     description: '10 Shadow Fears',
+  },
+  {
+    name: 'Operations',
+    href: '/dashboard/operations',
+    icon: Server,
+    description: 'System Control Center',
+  },
+  {
+    name: 'History',
+    href: '/dashboard/history',
+    icon: History,
+    description: 'Activity Log & Timeline',
+  },
+  {
+    name: 'Data Migration',
+    href: '/dashboard/migrate',
+    icon: Database,
+    description: 'Migrate to Database',
   },
 ]
 

@@ -33,6 +33,9 @@ model User {
   stories       Story[]
   revenue       Revenue[]
   calendar      CalendarEntry[]
+  activityLogs  ActivityLog[]
+  contentVersions ContentVersion[]
+  systemSettings SystemSetting[]
 
   @@map("users")
 }
@@ -247,4 +250,115 @@ model CalendarEntry {
   @@index([date])
   @@index([category])
   @@map("calendar_entries")
+}
+
+// Activity Log Model - Track all user actions
+model ActivityLog {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Activity details
+  action      String   // created, updated, deleted, viewed, exported, generated
+  entityType  String   // hook, script, story, calendar, revenue, user_setting
+  entityId    String?  // ID of the entity affected
+
+  // Detailed information
+  description String?  // Human-readable description
+  metadata    Json?    // Additional data (old values, new values, etc.)
+
+  // Context
+  ipAddress   String?
+  userAgent   String?
+  sessionId   String?
+
+  // Timestamps
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([entityType])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
+
+// Content Version Model - Track content edits and refinements
+model ContentVersion {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Version info
+  entityType  String   // hook, script, story
+  entityId    String   // ID of the content
+  version     Int      // Version number (1, 2, 3...)
+
+  // Content snapshot
+  content     Json     // Full content snapshot at this version
+
+  // Change tracking
+  changeType  String   // create, edit, refine, optimize
+  changes     Json?    // Specific changes made
+  changeReason String? // Why was this changed?
+
+  // Metadata
+  isActive    Boolean  @default(false) // Is this the current version?
+
+  // Timestamps
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@index([isActive])
+  @@map("content_versions")
+}
+
+// System Settings Model - User preferences for operational system
+model SystemSetting {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Settings
+  key         String   // Setting key (e.g., "auto_backup", "notification_preferences")
+  value       Json     // Setting value (flexible JSON)
+  category    String?  // Settings category for organization
+
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, key])
+  @@index([userId])
+  @@map("system_settings")
+}
+
+// Data Backup Model - Track system backups
+model DataBackup {
+  id          String   @id @default(cuid())
+  userId      String?  // Optional - can be system-wide backup
+
+  // Backup details
+  backupType  String   // full, incremental, user_data
+  fileName    String   // Backup file name
+  filePath    String?  // Storage location
+  fileSize    BigInt?  // Size in bytes
+
+  // Status
+  status      String   @default("pending") // pending, completed, failed
+  error       String?  // Error message if failed
+
+  // Metadata
+  dataTypes   Json?    // Types of data included (hooks, scripts, stories, etc.)
+  recordCount Int?     // Number of records backed up
+
+  // Timestamps
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+
+  @@index([userId])
+  @@index([status])
+  @@index([startedAt])
+  @@map("data_backups")
 }
