@@ -1,0 +1,232 @@
+import { NextRequest, NextResponse } from 'next/server'
+import Anthropic from '@anthropic-ai/sdk'
+
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+})
+
+const MODELS = {
+  SONNET: 'claude-sonnet-4-20250514',
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const { contentType, formula, platform, topic, keyPoints, personalStory, voiceProfile } = body
+
+    if (!contentType || !formula || !platform || !topic) {
+      return NextResponse.json(
+        { error: 'Missing required fields: contentType, formula, platform, and topic are required' },
+        { status: 400 }
+      )
+    }
+
+    // Voice profile instructions
+    let voiceInstructions = ''
+    if (voiceProfile && voiceProfile.name) {
+      voiceInstructions = `
+
+# VOICE & PERSONALITY PROFILE
+
+The creator has defined their unique voice. MAINTAIN THIS VOICE throughout the script:
+
+Creator: ${voiceProfile.name}
+Cadence: ${voiceProfile.cadence}
+Vocabulary: ${voiceProfile.vocabulary}
+Perspective: ${voiceProfile.perspective}
+Vulnerability Level: ${voiceProfile.vulnerabilityLevel}
+Energy: ${voiceProfile.energy}
+
+${voiceProfile.signaturePhrases && voiceProfile.signaturePhrases.length > 0 ? `
+SIGNATURE PHRASES (use naturally when appropriate):
+${voiceProfile.signaturePhrases.map((p: string) => `- "${p}"`).join('\n')}
+` : ''}
+
+${voiceProfile.avoidPhrases && voiceProfile.avoidPhrases.length > 0 ? `
+AVOID THESE PHRASES:
+${voiceProfile.avoidPhrases.map((p: string) => `- "${p}"`).join('\n')}
+` : ''}
+
+${voiceProfile.exampleContent ? `
+EXAMPLE OF THEIR VOICE:
+${voiceProfile.exampleContent.substring(0, 500)}...
+` : ''}
+
+CRITICAL: Write in THEIR voice, not a generic voice. Match their cadence, vocabulary, energy, and perspective exactly.`
+    }
+
+    // Load content formulas
+    const fs = require('fs')
+    const path = require('path')
+    const formulasPath = path.join(process.cwd(), 'lib', 'knowledge', 'content-formulas.json')
+    const formulasData = JSON.parse(fs.readFileSync(formulasPath, 'utf-8'))
+
+    const formulaType = contentType === 'talking-head' ? 'talkingHeadFormulas' : 'youtubeFormulas'
+
+    // Build system prompt
+    const systemPrompt = `You are an expert video content strategist and scriptwriter. Your expertise is in creating production-ready scripts using proven content formulas that maximize retention and engagement.
+
+# YOUR KNOWLEDGE BASE
+
+${JSON.stringify(formulasData[formulaType], null, 2)}
+
+# PLATFORM OPTIMIZATION
+
+${JSON.stringify(formulasData.platformOptimization, null, 2)}
+
+# YOUR TASK
+
+Create a production-ready script using the selected formula and optimized for the target platform. The script should:
+
+1. **Follow Formula Structure Precisely**: Apply the exact structure/stages of the selected formula
+2. **Platform Optimization**: Adapt pacing, style, and length for the specific platform
+3. **Retention Focus**: Include pattern interrupts, hooks, and engagement tactics
+4. **Production Ready**: Include delivery notes, visual suggestions, and technical details
+5. **Authentic Voice**: Sound natural and conversational, not scripted or corporate
+
+# OUTPUT FORMAT
+
+Return a JSON object with this exact structure:
+{
+  "title": "Compelling video title (optimized for platform)",
+  "formula": "Name of formula used",
+  "platform": "Platform name",
+  "fullScript": "The complete script ready to be read on camera. Use clear paragraph breaks. Write exactly how it should be spoken - conversational, natural, with energy. Include [PAUSE] markers where needed.",
+  "structure": [
+    {
+      "section": "Section name from formula",
+      "duration": "X seconds" or "X minutes",
+      "content": "What happens in this section (2-3 sentences)",
+      "deliveryNotes": "How to deliver this (tone, energy, gestures, camera work)"
+    }
+  ],
+  "visualSuggestions": [
+    "Specific visual suggestion 1 (b-roll, text overlay, cut, etc.)",
+    "Specific visual suggestion 2",
+    "Specific visual suggestion 3",
+    "..."
+  ],
+  "thumbnailIdeas": [
+    "Thumbnail idea 1 (for YouTube only)",
+    "Thumbnail idea 2",
+    "Thumbnail idea 3"
+  ],
+  "retentionTips": [
+    "Specific retention tip 1",
+    "Specific retention tip 2",
+    "Specific retention tip 3",
+    "..."
+  ]
+}
+
+# CRITICAL RULES
+
+## Script Writing
+1. **Conversational Flow**: Write how people actually talk, not how books are written
+2. **No Fluff**: Every sentence must serve a purpose (hook, teach, transition, engage)
+3. **Energy**: Write with 8-9/10 energy, use exclamations, emphasis, emotion
+4. **Pacing**: Vary sentence length. Short punchy sentences. Then longer explanatory ones. Mix it up.
+5. **Direct Address**: Use "you" not "people" or "they" - direct conversation with viewer
+
+## Platform-Specific
+- **Short-form (Reels/TikTok/Shorts)**: Ultra-fast pacing, no intros, hook in first 1 second, quick cuts
+- **YouTube Long-form**: Strong first 30 seconds, pattern interrupts every 60-90 seconds, story elements
+- **LinkedIn**: Professional but personal, lead with business value, subtle CTAs
+
+## Delivery Notes
+- Be specific: "High energy, leaning forward, gesture with hands" not "be enthusiastic"
+- Include camera work: "Quick cut here", "Zoom in for emphasis", "Show screen recording"
+- Note tone shifts: "Shift to serious tone", "Return to playful energy"
+
+## Visual Suggestions
+- Be actionable: "Text overlay: '3 Steps' with animation" not "add text"
+- Specify timing: "At 0:15 - cut to b-roll of X"
+- Include style notes: "Fast cuts every 1-2 seconds" or "Cinematic slow pans"
+
+## Retention
+- Identify specific moments where viewers might drop off
+- Suggest pattern interrupts at those points
+- Include open loops and payoff timing
+- Note engagement asks (comments, likes, shares)
+
+Remember: The best content formula combines proven structure with authentic personal voice. Make it feel natural, not formulaic.${voiceInstructions}`
+
+    // Build user prompt
+    const userPrompt = `Create a production-ready ${contentType} script using the ${formula} formula for ${platform}.
+
+TOPIC/TITLE:
+${topic}
+
+KEY POINTS TO COVER:
+${keyPoints}
+
+${personalStory ? `PERSONAL STORY TO INCLUDE:\n${personalStory}` : ''}
+
+Platform: ${platform}
+Formula: ${formula}
+Content Type: ${contentType}
+
+Apply the ${formula} formula structure precisely while optimizing for ${platform}. Make it production-ready with detailed delivery notes, visual suggestions, and retention tactics.
+
+Return the complete JSON output as specified in the system prompt.`
+
+    // Call Claude API
+    const message = await anthropic.messages.create({
+      model: MODELS.SONNET,
+      max_tokens: 8000,
+      temperature: 0.8,
+      system: systemPrompt,
+      messages: [
+        {
+          role: 'user',
+          content: userPrompt,
+        },
+      ],
+    })
+
+    // Parse response
+    const responseText = message.content[0].type === 'text' ? message.content[0].text : ''
+
+    // Extract JSON from response
+    let formulaOutput
+    try {
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/)
+      if (jsonMatch) {
+        formulaOutput = JSON.parse(jsonMatch[0])
+      } else {
+        formulaOutput = JSON.parse(responseText)
+      }
+    } catch (parseError) {
+      console.error('Failed to parse Claude response:', responseText)
+      return NextResponse.json(
+        { error: 'Failed to parse formula output. Please try again.' },
+        { status: 500 }
+      )
+    }
+
+    // Validate output structure
+    if (!formulaOutput.fullScript || !formulaOutput.structure || !formulaOutput.visualSuggestions) {
+      console.error('Invalid output structure:', formulaOutput)
+      return NextResponse.json(
+        { error: 'Invalid formula output structure. Please try again.' },
+        { status: 500 }
+      )
+    }
+
+    // If not YouTube, remove thumbnailIdeas
+    if (platform !== 'youtube' && formulaOutput.thumbnailIdeas) {
+      delete formulaOutput.thumbnailIdeas
+    }
+
+    return NextResponse.json(formulaOutput)
+  } catch (error: any) {
+    console.error('Formula generation error:', error)
+    return NextResponse.json(
+      {
+        error: error.message || 'Failed to generate formula',
+        details: error.toString(),
+      },
+      { status: 500 }
+    )
+  }
+}

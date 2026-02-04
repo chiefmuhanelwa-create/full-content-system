@@ -14,84 +14,137 @@ import {
   DollarSign,
   Save,
   MonitorPlay,
-  Rocket,
-  Gift,
+  Sparkles,
+  Wand2,
+  Share2,
+  Mic,
+  Library,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ContentProvider } from '@/contexts/ContentContext'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 
-const navItems = [
+interface NavSection {
+  title: string
+  items: NavItem[]
+}
+
+interface NavItem {
+  name: string
+  href: string
+  icon: any
+  description?: string
+  badge?: string
+}
+
+const navSections: NavSection[] = [
   {
-    name: 'Dashboard',
-    href: '/dashboard',
-    icon: LayoutDashboard,
+    title: 'Core Creation',
+    items: [
+      {
+        name: 'Hook Generator',
+        href: '/dashboard/hooks',
+        icon: Zap,
+        description: 'R×A×C×U^B Formula',
+      },
+      {
+        name: 'Storytelling Studio',
+        href: '/dashboard/storytelling',
+        icon: Sparkles,
+        description: 'Story Frameworks',
+        badge: 'NEW',
+      },
+      {
+        name: 'Script Writer',
+        href: '/dashboard/scripts',
+        icon: FileText,
+        description: '10-Step Framework',
+      },
+      {
+        name: 'Content Formulas',
+        href: '/dashboard/formulas',
+        icon: Wand2,
+        description: 'Talking Head & YouTube',
+        badge: 'NEW',
+      },
+      {
+        name: 'Story Extractor',
+        href: '/dashboard/stories',
+        icon: BookOpen,
+        description: '4-Criteria Test',
+      },
+    ],
   },
   {
-    name: 'Hook Generator',
-    href: '/dashboard/hooks',
-    icon: Zap,
-    description: 'R×A×C×U^B Formula',
+    title: 'Optimization',
+    items: [
+      {
+        name: 'Fear Analyzer',
+        href: '/dashboard/fears',
+        icon: Brain,
+        description: '10 Shadow Fears',
+      },
+      {
+        name: 'Pitch Builder',
+        href: '/dashboard/pitch',
+        icon: Target,
+        description: '5 Pillars',
+      },
+      {
+        name: 'Content Adapter',
+        href: '/dashboard/adapter',
+        icon: Share2,
+        description: 'Multi-Platform Export',
+        badge: 'NEW',
+      },
+    ],
   },
   {
-    name: 'Script Writer',
-    href: '/dashboard/scripts',
-    icon: FileText,
-    description: '10-Step Framework',
+    title: 'Production',
+    items: [
+      {
+        name: 'Teleprompter',
+        href: '/dashboard/teleprompter',
+        icon: MonitorPlay,
+        description: 'Record Scripts',
+      },
+      {
+        name: 'Voice Profile',
+        href: '/dashboard/voice',
+        icon: Mic,
+        description: 'Your Unique Voice',
+        badge: 'NEW',
+      },
+      {
+        name: 'Story Vault',
+        href: '/dashboard/vault',
+        icon: Library,
+        description: '110+ Content Ideas',
+      },
+    ],
   },
   {
-    name: 'Story Extractor',
-    href: '/dashboard/stories',
-    icon: BookOpen,
-    description: '4-Criteria Test',
-  },
-  {
-    name: 'Fear Analyzer',
-    href: '/dashboard/fears',
-    icon: Brain,
-    description: '10 Shadow Fears',
-  },
-  {
-    name: 'Pitch Builder',
-    href: '/dashboard/pitch',
-    icon: Target,
-    description: '5 Pillars',
-  },
-  {
-    name: 'Content Calendar',
-    href: '/dashboard/calendar',
-    icon: Calendar,
-    description: '4E Framework',
-  },
-  {
-    name: 'Saved Library',
-    href: '/dashboard/library',
-    icon: Save,
-    description: 'All Saved Content',
-  },
-  {
-    name: 'Teleprompter',
-    href: '/dashboard/teleprompter',
-    icon: MonitorPlay,
-    description: 'Record Scripts',
-  },
-  {
-    name: 'Campaign Planner',
-    href: '/dashboard/campaigns',
-    icon: Rocket,
-    description: 'Launch Strategy',
-  },
-  {
-    name: 'Offer Builder',
-    href: '/dashboard/offers',
-    icon: Gift,
-    description: 'Godfather Offers',
-  },
-  {
-    name: 'Revenue Tracker',
-    href: '/dashboard/revenue',
-    icon: DollarSign,
-    description: 'PAIDS Streams',
+    title: 'Planning & Tracking',
+    items: [
+      {
+        name: 'Content Calendar',
+        href: '/dashboard/calendar',
+        icon: Calendar,
+        description: '4E Framework',
+      },
+      {
+        name: 'Revenue Tracker',
+        href: '/dashboard/revenue',
+        icon: DollarSign,
+        description: 'PAIDS Streams',
+      },
+      {
+        name: 'Saved Library',
+        href: '/dashboard/library',
+        icon: Save,
+        description: 'All Saved Content',
+      },
+    ],
   },
 ]
 
@@ -118,43 +171,75 @@ export default function DashboardLayout({
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-              {navItems.map((item) => {
-                const Icon = item.icon
-                const isActive = pathname === item.href
+            <nav className="flex-1 p-3 space-y-6 overflow-y-auto">
+              {/* Dashboard Link */}
+              <Link href="/dashboard">
+                <div
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors',
+                    pathname === '/dashboard'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  )}
+                >
+                  <LayoutDashboard className={cn('h-5 w-5 flex-shrink-0', pathname === '/dashboard' && 'text-blue-600')} />
+                  <p className={cn('text-sm font-medium', pathname === '/dashboard' && 'text-blue-600')}>
+                    Dashboard
+                  </p>
+                </div>
+              </Link>
 
-                return (
-                  <Link key={item.href} href={item.href}>
-                    <div
-                      className={cn(
-                        'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors',
-                        isActive
-                          ? 'bg-blue-50 text-blue-600'
-                          : 'text-gray-700 hover:bg-gray-100'
-                      )}
-                    >
-                      <Icon className={cn('h-5 w-5 flex-shrink-0', isActive && 'text-blue-600')} />
-                      <div className="flex-1 min-w-0">
-                        <p className={cn('text-sm font-medium', isActive && 'text-blue-600')}>
-                          {item.name}
-                        </p>
-                        {item.description && (
-                          <p className="text-xs text-gray-500 truncate">{item.description}</p>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
-                )
-              })}
+              {/* Sectioned Navigation */}
+              {navSections.map((section) => (
+                <div key={section.title} className="space-y-1">
+                  <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    {section.title}
+                  </h3>
+                  {section.items.map((item) => {
+                    const Icon = item.icon
+                    const isActive = pathname === item.href
+
+                    return (
+                      <Link key={item.href} href={item.href}>
+                        <div
+                          className={cn(
+                            'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors relative',
+                            isActive
+                              ? 'bg-blue-50 text-blue-600'
+                              : 'text-gray-700 hover:bg-gray-100'
+                          )}
+                        >
+                          <Icon className={cn('h-5 w-5 flex-shrink-0', isActive && 'text-blue-600')} />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <p className={cn('text-sm font-medium', isActive && 'text-blue-600')}>
+                                {item.name}
+                              </p>
+                              {item.badge && (
+                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                  {item.badge}
+                                </span>
+                              )}
+                            </div>
+                            {item.description && (
+                              <p className="text-xs text-gray-500 truncate">{item.description}</p>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    )
+                  })}
+                </div>
+              ))}
             </nav>
 
             {/* Footer */}
             <div className="p-4 border-t">
               <p className="text-xs text-center text-gray-500">
-                NOCHILL v1.0
+                NOCHILL v2.0
               </p>
               <p className="text-xs text-center text-gray-400 mt-1">
-                Built for Creators
+                Professional Content Creation System
               </p>
             </div>
           </div>

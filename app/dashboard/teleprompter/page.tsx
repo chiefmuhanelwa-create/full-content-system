@@ -33,10 +33,15 @@ export default function TeleprompterPage() {
   const [showControls, setShowControls] = useState(true)
   const [scriptTitle, setScriptTitle] = useState('Untitled Script')
   const [isMirrored, setIsMirrored] = useState(false)
+  const [showTimer, setShowTimer] = useState(false)
+  const [elapsedTime, setElapsedTime] = useState(0)
+  const [isPreparing, setIsPreparing] = useState(false)
+  const [countdown, setCountdown] = useState(3)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   // Load script from localStorage if coming from library or script generator
   useEffect(() => {
@@ -56,6 +61,58 @@ export default function TeleprompterPage() {
       localStorage.removeItem('teleprompterScript')
     }
   }, [])
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Space bar = play/pause
+      if (e.code === 'Space' && !showControls) {
+        e.preventDefault()
+        togglePlay()
+      }
+      // R = reset
+      if (e.code === 'KeyR' && !showControls) {
+        e.preventDefault()
+        resetScroll()
+      }
+      // Arrow Up = increase speed
+      if (e.code === 'ArrowUp' && !showControls) {
+        e.preventDefault()
+        setSpeed(prev => Math.min(10, prev + 0.5))
+      }
+      // Arrow Down = decrease speed
+      if (e.code === 'ArrowDown' && !showControls) {
+        e.preventDefault()
+        setSpeed(prev => Math.max(1, prev - 0.5))
+      }
+      // ESC = show controls
+      if (e.code === 'Escape' && !showControls) {
+        setShowControls(true)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [showControls, isPlaying])
+
+  // Timer
+  useEffect(() => {
+    if (isPlaying) {
+      timerRef.current = setInterval(() => {
+        setElapsedTime(prev => prev + 1)
+      }, 1000)
+    } else {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+    }
+  }, [isPlaying])
 
   // Auto-scroll functionality
   useEffect(() => {
@@ -95,12 +152,44 @@ export default function TeleprompterPage() {
   }, [scrollPosition])
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying)
+    if (!isPlaying && !showControls) {
+      // Start countdown before playing
+      setIsPreparing(true)
+      setCountdown(3)
+
+      const countdownInterval = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            clearInterval(countdownInterval)
+            setIsPreparing(false)
+            setIsPlaying(true)
+            return 3
+          }
+          return prev - 1
+        })
+      }, 1000)
+    } else {
+      setIsPlaying(!isPlaying)
+    }
   }
 
   const resetScroll = () => {
     setScrollPosition(0)
     setIsPlaying(false)
+    setElapsedTime(0)
+  }
+
+  // Calculate stats
+  const wordCount = script.trim().split(/\s+/).filter(word => word.length > 0).length
+  const estimatedMinutes = Math.ceil(wordCount / 150) // Average speaking pace: 150 words/minute
+  const progress = scrollRef.current
+    ? (scrollPosition / (scrollRef.current.scrollHeight - scrollRef.current.clientHeight)) * 100
+    : 0
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
   const toggleFullscreen = () => {
@@ -231,6 +320,26 @@ export default function TeleprompterPage() {
                 />
               </div>
 
+              {/* Script Stats */}
+              {script.trim() && (
+                <div className="bg-blue-50 rounded-lg p-3 space-y-1">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Words:</span>
+                    <span className="font-semibold text-gray-900">{wordCount}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Est. Time:</span>
+                    <span className="font-semibold text-gray-900">{estimatedMinutes} min</span>
+                  </div>
+                  {elapsedTime > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Elapsed:</span>
+                      <span className="font-semibold text-green-600">{formatTime(elapsedTime)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               <div className="space-y-2">
                 <Label>Font Size: {fontSize}px</Label>
                 <input
@@ -255,6 +364,17 @@ export default function TeleprompterPage() {
                   step={0.5}
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                 />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="timer"
+                  checked={showTimer}
+                  onChange={(e) => setShowTimer(e.target.checked)}
+                  className="h-4 w-4"
+                />
+                <Label htmlFor="timer" className="text-sm">Show Timer</Label>
               </div>
 
               <div className="flex items-center gap-2">
@@ -345,16 +465,28 @@ export default function TeleprompterPage() {
             </CardContent>
           </Card>
 
-          {/* Quick Tips */}
-          <Card className="bg-blue-50">
+          {/* Keyboard Shortcuts */}
+          <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
             <CardHeader>
-              <CardTitle className="text-sm">Pro Tips</CardTitle>
+              <CardTitle className="text-sm">Keyboard Shortcuts</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-xs">
-              <p>💡 <strong>Fullscreen:</strong> Press F11 or use the fullscreen button for distraction-free recording</p>
-              <p>💡 <strong>Speed:</strong> Start at 2x and adjust based on your reading pace</p>
-              <p>💡 <strong>Mirror:</strong> Enable if using a reflective teleprompter setup</p>
-              <p>💡 <strong>Font Size:</strong> Larger fonts work better for camera distance</p>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Play/Pause</span>
+                <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">Space</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Reset</span>
+                <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">R</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Speed Up/Down</span>
+                <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">↑/↓</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Show Controls</span>
+                <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">ESC</kbd>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -380,24 +512,52 @@ export default function TeleprompterPage() {
                   />
                 </div>
               ) : (
-                <div
-                  ref={scrollRef}
-                  className="bg-black text-white rounded-lg overflow-hidden"
-                  style={{
-                    height: '70vh',
-                    overflow: 'hidden',
-                  }}
-                >
+                <div className="relative">
+                  {/* Progress Bar */}
+                  {script.trim() && (
+                    <div className="mb-2 bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div
+                        className="bg-gradient-to-r from-blue-600 to-cyan-600 h-full transition-all duration-300"
+                        style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Timer Display */}
+                  {showTimer && elapsedTime > 0 && (
+                    <div className="absolute top-4 right-4 z-10 bg-black/80 text-white px-4 py-2 rounded-lg text-2xl font-mono">
+                      {formatTime(elapsedTime)}
+                    </div>
+                  )}
+
+                  {/* Countdown Overlay */}
+                  {isPreparing && (
+                    <div className="absolute inset-0 z-20 bg-black/90 flex items-center justify-center rounded-lg">
+                      <div className="text-9xl font-bold text-white animate-pulse">
+                        {countdown}
+                      </div>
+                    </div>
+                  )}
+
                   <div
-                    className="p-12 leading-relaxed"
+                    ref={scrollRef}
+                    className="bg-black text-white rounded-lg overflow-hidden"
                     style={{
-                      fontSize: fontSize + 'px',
-                      transform: isMirrored ? 'scaleX(-1)' : 'none',
-                      fontFamily: 'Arial, sans-serif',
-                      fontWeight: 500,
+                      height: '70vh',
+                      overflow: 'hidden',
                     }}
                   >
-                    {script || 'No script loaded. Enter text or load from library.'}
+                    <div
+                      className="p-12 leading-relaxed"
+                      style={{
+                        fontSize: fontSize + 'px',
+                        transform: isMirrored ? 'scaleX(-1)' : 'none',
+                        fontFamily: 'Arial, sans-serif',
+                        fontWeight: 500,
+                      }}
+                    >
+                      {script || 'No script loaded. Enter text or load from library.'}
+                    </div>
                   </div>
                 </div>
               )}

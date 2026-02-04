@@ -1,0 +1,663 @@
+{
+  "talkingHeadFormulas": {
+    "description": "Proven formulas for direct-to-camera talking head content (15-90 seconds)",
+    "formulas": [
+      {
+        "name": "Hook-Teach-CTA",
+        "duration": "30-60 seconds",
+        "structure": {
+          "hook": {
+            "duration": "3-5 seconds",
+            "techniques": [
+              "Pattern interrupt visual/sound",
+              "Bold contrarian statement",
+              "Shocking number/statistic",
+              "Direct callout: 'If you're [avatar]...'"
+            ],
+            "examples": [
+              "Stop posting daily. Here's why...",
+              "I make $50K/month posting 3x per week",
+              "Your content isn't bad. Your strategy is."
+            ]
+          },
+          "teach": {
+            "duration": "40-50 seconds",
+            "structure": "3-point framework or single big idea",
+            "techniques": [
+              "Use hand gestures to emphasize each point",
+              "Quick cuts between points for energy",
+              "Visual text overlays for key points",
+              "Personal example or quick story"
+            ],
+            "format": [
+              "Point 1: [Quick explanation + why it matters]",
+              "Point 2: [Quick explanation + common mistake]",
+              "Point 3: [Quick explanation + result]"
+            ]
+          },
+          "cta": {
+            "duration": "5-10 seconds",
+            "types": [
+              "Follow for more [specific benefit]",
+              "Comment [word] for [lead magnet]",
+              "Save this to remember it",
+              "Share this with someone who needs it"
+            ]
+          }
+        },
+        "bestFor": "Educational content, quick tips, framework teaching",
+        "platforms": ["Instagram Reels", "TikTok", "YouTube Shorts"]
+      },
+      {
+        "name": "Story-Lesson-Action",
+        "duration": "60-90 seconds",
+        "structure": {
+          "story": {
+            "duration": "30-40 seconds",
+            "format": "Mini transformation story",
+            "elements": [
+              "Relatable problem (5 sec)",
+              "What you tried that failed (10 sec)",
+              "The moment of change (5 sec)",
+              "What happened after (10-20 sec)"
+            ],
+            "techniques": [
+              "Speak directly to camera, conversational",
+              "Use facial expressions to show emotion",
+              "Quick b-roll or visual examples",
+              "Specific numbers and names"
+            ]
+          },
+          "lesson": {
+            "duration": "20-30 seconds",
+            "format": "The ONE big takeaway",
+            "structure": "Here's what I learned that you can use...",
+            "techniques": [
+              "Distill to single actionable insight",
+              "Make it universally applicable",
+              "Use metaphor or analogy if complex"
+            ]
+          },
+          "action": {
+            "duration": "10-20 seconds",
+            "format": "Specific next step",
+            "examples": [
+              "Try this: [specific action]",
+              "Here's exactly what to do: [steps]",
+              "Start with [simple first step]"
+            ]
+          }
+        },
+        "bestFor": "Personal stories, case studies, relatable content",
+        "platforms": ["Instagram Reels", "TikTok", "Facebook Reels"]
+      },
+      {
+        "name": "Problem-Agitate-Solve (Video)",
+        "duration": "45-75 seconds",
+        "structure": {
+          "problem": {
+            "duration": "10-15 seconds",
+            "hook": "Callout the specific problem",
+            "techniques": [
+              "Start with 'If you're [struggling with X]...'",
+              "Or 'Here's why [common approach] isn't working...'",
+              "Make them nod in agreement immediately"
+            ]
+          },
+          "agitate": {
+            "duration": "25-35 seconds",
+            "format": "Make the pain visceral",
+            "structure": [
+              "Show what happens if ignored",
+              "Stack 2-3 specific consequences",
+              "Use 'and worse...' escalation",
+              "Target their shadow fear"
+            ],
+            "techniques": [
+              "Speak faster, increase energy",
+              "Lean forward into camera",
+              "Use hand gestures for emphasis",
+              "Show frustration/concern in face"
+            ]
+          },
+          "solve": {
+            "duration": "20-25 seconds",
+            "format": "Present your solution",
+            "structure": [
+              "The good news is... [solution]",
+              "Here's what works instead...",
+              "Quick 2-3 step framework",
+              "Result you/clients got"
+            ]
+          }
+        },
+        "bestFor": "Problem-aware audience, sales content, urgent issues",
+        "platforms": ["Instagram Reels", "TikTok", "LinkedIn"]
+      },
+      {
+        "name": "Myth-Bust-Truth",
+        "duration": "30-60 seconds",
+        "structure": {
+          "myth": {
+            "duration": "10 seconds",
+            "format": "Everyone says [common belief]...",
+            "examples": [
+              "Everyone says post daily. That's BS.",
+              "You think you need 10K followers to make money. Wrong.",
+              "They tell you to niche down. Here's why that's backwards."
+            ]
+          },
+          "bust": {
+            "duration": "25-35 seconds",
+            "format": "Explain why it's wrong",
+            "structure": [
+              "Why this advice exists (acknowledge it)",
+              "Why it doesn't work for most people",
+              "The hidden cost or consequence",
+              "Personal or client example of failure"
+            ]
+          },
+          "truth": {
+            "duration": "15-20 seconds",
+            "format": "What actually works",
+            "structure": [
+              "The real strategy/truth",
+              "Why this works better",
+              "Quick result or proof",
+              "Simple CTA"
+            ]
+          }
+        },
+        "bestFor": "Thought leadership, contrarian takes, positioning",
+        "platforms": ["LinkedIn", "Twitter/X", "Instagram", "TikTok"]
+      },
+      {
+        "name": "Before-After-How",
+        "duration": "45-60 seconds",
+        "structure": {
+          "before": {
+            "duration": "15 seconds",
+            "format": "Show the struggle state",
+            "elements": [
+              "Specific situation with numbers",
+              "Emotional impact",
+              "Time/money/energy cost"
+            ],
+            "example": "6 months ago: posting daily, 400 followers, $0 revenue, burnt out"
+          },
+          "after": {
+            "duration": "10 seconds",
+            "format": "Show the transformed state",
+            "elements": [
+              "Specific results with numbers",
+              "Timeframe",
+              "What changed in life/business"
+            ],
+            "example": "Today: posting 3x/week, 50K followers, $15K/month, 20 hours/week"
+          },
+          "how": {
+            "duration": "25-35 seconds",
+            "format": "The framework/system that caused change",
+            "structure": [
+              "The ONE shift that changed everything",
+              "2-3 specific actions taken",
+              "Why it works (brief)",
+              "CTA to learn more/try it"
+            ]
+          }
+        },
+        "bestFor": "Transformation stories, credibility building, social proof",
+        "platforms": ["Instagram Reels", "TikTok", "YouTube Shorts", "LinkedIn"]
+      }
+    ],
+    "universalRules": {
+      "first3Seconds": [
+        "Must stop the scroll immediately",
+        "Visual or verbal pattern interrupt",
+        "No intros, no 'hey guys', jump straight in"
+      ],
+      "pacing": [
+        "Speak 20% faster than normal conversation",
+        "Cut all filler words in editing",
+        "Use quick cuts every 2-3 seconds for energy",
+        "Vary shot angles or zoom for visual interest"
+      ],
+      "visuals": [
+        "Direct eye contact with camera",
+        "Gesture with hands to emphasize points",
+        "Text overlays for key points/numbers",
+        "B-roll or visual examples for 30% of video"
+      ],
+      "delivery": [
+        "Conversational, not scripted-sounding",
+        "Show emotion in face and voice",
+        "Energy level 8-9 out of 10",
+        "Be opinionated, not neutral"
+      ]
+    }
+  },
+  "youtubeFormulas": {
+    "description": "Proven formulas for long-form YouTube content (5-30 minutes)",
+    "formulas": [
+      {
+        "name": "Tutorial/How-To Formula",
+        "duration": "8-15 minutes",
+        "structure": {
+          "hook": {
+            "duration": "30-45 seconds",
+            "elements": [
+              "Show the end result first (visual proof)",
+              "Promise specific outcome in timeframe",
+              "Tease the 'secret' or unique approach",
+              "Quick credibility (your results/clients)"
+            ],
+            "example": "In the next 12 minutes, I'll show you the exact system I used to hit 100K subs in 6 months - starting from zero. No fancy equipment, no previous audience. Just this 5-step framework."
+          },
+          "context": {
+            "duration": "1-2 minutes",
+            "elements": [
+              "Why this matters (the problem)",
+              "Common mistakes people make",
+              "Why your approach is different",
+              "What they'll learn by the end"
+            ]
+          },
+          "teaching": {
+            "duration": "60-70% of video",
+            "structure": [
+              "Break into 3-7 clear steps",
+              "Each step: Explain → Demonstrate → Why it works",
+              "Use screen recordings, examples, b-roll",
+              "Address common objections/mistakes",
+              "Mini-recaps after each section"
+            ],
+            "techniques": [
+              "Use on-screen graphics/text for key points",
+              "Show real examples, not just theory",
+              "Include 'watch outs' and troubleshooting",
+              "Insert personal stories/examples"
+            ]
+          },
+          "proof": {
+            "duration": "2-3 minutes",
+            "elements": [
+              "Your results using this method",
+              "Student/client results",
+              "Show before/after",
+              "Address skepticism directly"
+            ]
+          },
+          "cta": {
+            "duration": "1-2 minutes",
+            "elements": [
+              "Recap the key takeaways (3 points)",
+              "Clear next step for viewer",
+              "Link to resource/tool/template",
+              "Ask for like/sub/comment",
+              "Tease next video"
+            ]
+          }
+        },
+        "bestFor": "Educational content, skill teaching, software tutorials",
+        "retentionTips": [
+          "Add pattern interrupts every 90-120 seconds",
+          "Use open loops: 'I'll show you the #1 mistake at the end'",
+          "Quick cuts, don't let camera sit still",
+          "Vary b-roll, screen recordings, talking head"
+        ]
+      },
+      {
+        "name": "Storytelling Documentary Style",
+        "duration": "12-25 minutes",
+        "structure": {
+          "coldOpen": {
+            "duration": "60-90 seconds",
+            "format": "Drop them into the most dramatic moment",
+            "example": "I was sitting in my car at 2am, crying, with $73 in my bank account. I had a choice to make that would change everything. But let me back up and show you how I got here...",
+            "techniques": [
+              "Start at the climax, then rewind",
+              "Use cinematic visuals",
+              "Emotional music",
+              "Show vulnerability immediately"
+            ]
+          },
+          "act1_setup": {
+            "duration": "20-25% of video",
+            "elements": [
+              "The ordinary world (where you started)",
+              "The inciting incident (what changed)",
+              "Decision to embark on journey",
+              "Stakes: what was at risk"
+            ]
+          },
+          "act2_journey": {
+            "duration": "50-60% of video",
+            "structure": [
+              "The struggle (obstacles faced)",
+              "Failed attempts (humanizing)",
+              "Discovery of solution",
+              "Testing and refining",
+              "The dark night (lowest point)",
+              "The breakthrough"
+            ],
+            "techniques": [
+              "Use multiple story loops",
+              "Intercut with teaching moments",
+              "Show real footage/screenshots",
+              "Build tension with music and pacing"
+            ]
+          },
+          "act3_resolution": {
+            "duration": "20-25% of video",
+            "elements": [
+              "The transformation (results)",
+              "What was learned",
+              "How life changed",
+              "The lesson for viewers",
+              "How they can apply it"
+            ]
+          },
+          "epilogue": {
+            "duration": "1-2 minutes",
+            "format": "Where you are now + the offer",
+            "elements": [
+              "Current state/results",
+              "How you help others now",
+              "Clear CTA",
+              "Final inspiring message"
+            ]
+          }
+        },
+        "bestFor": "Origin stories, major transformations, case studies",
+        "productionNotes": [
+          "Heavy emphasis on b-roll (50% of video)",
+          "Cinematic visuals and music",
+          "Color grading for emotional tone",
+          "Mix of tight shots and wide shots"
+        ]
+      },
+      {
+        "name": "Ultimate Guide / Listicle",
+        "duration": "10-20 minutes",
+        "structure": {
+          "intro": {
+            "duration": "45-60 seconds",
+            "format": "The complete list revealed",
+            "example": "These are the 7 mistakes killing your content - I've made all of them, cost me 2 years. By the end of this video, you'll know exactly what they are and how to fix each one.",
+            "elements": [
+              "State the number (7 things, 5 mistakes, 10 tips)",
+              "Why this matters / cost of not knowing",
+              "Tease #1 most important",
+              "Quick credibility"
+            ]
+          },
+          "items": {
+            "duration": "70-80% of video",
+            "format": "Each item gets 1-2 minutes",
+            "structure": "For each item:\n- Title card or visual separator\n- What it is (define it)\n- Why it matters (the cost/benefit)\n- How to do it OR how to avoid it\n- Quick example (personal or client)\n- Mini-transition to next"
+          },
+          "bonus": {
+            "duration": "1-2 minutes",
+            "format": "Bonus tip or secret",
+            "purpose": "Reward those who watched to the end",
+            "example": "If you made it this far, here's the bonus tip I don't talk about publicly..."
+          },
+          "conclusion": {
+            "duration": "1-2 minutes",
+            "elements": [
+              "Recap the list quickly",
+              "The #1 most important to start with",
+              "Clear next step",
+              "CTA for deeper resource"
+            ]
+          }
+        },
+        "bestFor": "Comprehensive guides, mistake compilations, tool lists",
+        "retentionHacks": [
+          "Use progress bar showing #X of #Total",
+          "Each item is a mini-pattern interrupt",
+          "Vary the format: some stories, some data, some demos",
+          "Tease later items early: 'Wait til you see #7'"
+        ]
+      },
+      {
+        "name": "Results Reveal / Vlog Style",
+        "duration": "8-15 minutes",
+        "structure": {
+          "teaser": {
+            "duration": "20-30 seconds",
+            "format": "Show the results, build curiosity",
+            "example": "In 30 days, I went from $3K to $47K using this one strategy. Let me show you exactly what I did, day by day.",
+            "elements": [
+              "Flash the numbers/results",
+              "Promise transparency/behind-scenes",
+              "Personal and relatable tone"
+            ]
+          },
+          "baseline": {
+            "duration": "2-3 minutes",
+            "elements": [
+              "Where you started (specific numbers)",
+              "The challenge or goal",
+              "Initial strategy/hypothesis",
+              "Expectations vs reality mindset"
+            ]
+          },
+          "journey": {
+            "duration": "60-70% of video",
+            "format": "Day-by-day or week-by-week breakdown",
+            "structure": [
+              "What you did each period",
+              "What worked / what didn't",
+              "Adjustments made",
+              "Behind-the-scenes footage",
+              "Failures and frustrations (vulnerability)",
+              "Breakthroughs and wins"
+            ],
+            "techniques": [
+              "Show real screenshots/data",
+              "Include vlog-style raw footage",
+              "Show your emotional reactions",
+              "Be honest about challenges"
+            ]
+          },
+          "results": {
+            "duration": "2-3 minutes",
+            "format": "Full reveal with proof",
+            "elements": [
+              "Show all metrics/numbers",
+              "Visual proof (screenshots, analytics)",
+              "How it compares to goal",
+              "What surprised you"
+            ]
+          },
+          "lessons": {
+            "duration": "2-3 minutes",
+            "elements": [
+              "Top 3 lessons learned",
+              "What you'd do differently",
+              "What was essential vs optional",
+              "How viewers can apply this"
+            ]
+          }
+        },
+        "bestFor": "Challenges, experiments, income reports, growth case studies",
+        "authenticity": [
+          "Show unedited numbers/proof",
+          "Include failures, not just wins",
+          "Vlog-style raw footage mixed with polished",
+          "Speak to camera like talking to a friend"
+        ]
+      },
+      {
+        "name": "Deep Dive Analysis",
+        "duration": "15-30 minutes",
+        "structure": {
+          "hook": {
+            "duration": "45-60 seconds",
+            "format": "Present the mystery or question",
+            "example": "This creator went from 0 to 1M followers in 90 days. Everyone thinks it's the algorithm. It's not. After analyzing 247 of their videos, I found the real pattern. Let me show you.",
+            "elements": [
+              "Intriguing question or observation",
+              "Why conventional wisdom is wrong",
+              "Promise of deep analysis",
+              "What you'll discover"
+            ]
+          },
+          "context": {
+            "duration": "2-3 minutes",
+            "elements": [
+              "Background on subject",
+              "Why this matters",
+              "Common assumptions",
+              "Your unique angle/methodology"
+            ]
+          },
+          "analysis": {
+            "duration": "65-75% of video",
+            "structure": [
+              "Break into 3-5 key findings",
+              "For each: Show data → Explain pattern → Why it works",
+              "Use lots of visuals (charts, examples, footage)",
+              "Compare to alternatives",
+              "Address counterarguments"
+            ],
+            "techniques": [
+              "Show your research/data",
+              "Use screen recordings of analysis",
+              "Include multiple examples",
+              "Build from simple to complex",
+              "Use analogies to explain complex ideas"
+            ]
+          },
+          "synthesis": {
+            "duration": "3-5 minutes",
+            "format": "Pull it all together",
+            "elements": [
+              "The core insight (the 'aha')",
+              "How pieces connect",
+              "The strategic framework",
+              "Why this changes everything"
+            ]
+          },
+          "application": {
+            "duration": "2-3 minutes",
+            "elements": [
+              "How to apply this yourself",
+              "Practical action steps",
+              "What to avoid",
+              "Expected results/timeline"
+            ]
+          }
+        },
+        "bestFor": "Thought leadership, strategy content, analysis, education",
+        "authority": [
+          "Show receipts (data, research, examples)",
+          "Cite sources and give credit",
+          "Acknowledge complexity and nuance",
+          "Present original insights, not common knowledge"
+        ]
+      }
+    ],
+    "universalStructure": {
+      "first30Seconds": [
+        "Hook must promise specific valuable outcome",
+        "Show visual proof or dramatic moment",
+        "No long intros, no 'hey guys what's up'",
+        "Answer: What's this about? Why should I care? Why YOU?"
+      ],
+      "everyMinute": [
+        "Pattern interrupt (visual/audio change)",
+        "Mini-payoff (small win or insight)",
+        "Tease what's coming next",
+        "Vary shot types and b-roll"
+      ],
+      "retention": [
+        "Open loops early, close them late",
+        "Use progress indicators (Step 2 of 5)",
+        "Quick cuts, no dead air",
+        "Vary energy and pacing",
+        "Inject stories between teaching"
+      ],
+      "endScreen": [
+        "Recap key takeaways (3 points max)",
+        "Clear singular CTA",
+        "Tease next video (strong hook)",
+        "End screen cards to 2 videos + subscribe"
+      ]
+    },
+    "thumbnailFormulas": {
+      "highCTR": [
+        {
+          "type": "Before/After Split",
+          "description": "Left: before state, Right: after state with arrow",
+          "textOverlay": "Big bold number or outcome"
+        },
+        {
+          "type": "Emotional Face + Text",
+          "description": "You with exaggerated emotion (shock, excitement) + 3-5 word text",
+          "colors": "High contrast, bright colors"
+        },
+        {
+          "type": "Mystery/Curiosity",
+          "description": "Show partial reveal of result + question",
+          "example": "Blurred screenshot + 'How Did This Happen?'"
+        },
+        {
+          "type": "Direct Callout",
+          "description": "You pointing at viewer + 'You're doing this WRONG'",
+          "purpose": "Direct pattern interrupt"
+        }
+      ],
+      "rules": [
+        "Faces beat no faces (emotion wins)",
+        "3-5 words max text (legible on mobile)",
+        "High contrast colors (pop on dark theme)",
+        "Show don't tell (visual > text)",
+        "Test on mobile size before publishing"
+      ]
+    }
+  },
+  "platformOptimization": {
+    "instagram": {
+      "idealLength": "45-90 seconds",
+      "bestFormulas": ["Hook-Teach-CTA", "Story-Lesson-Action", "Before-After-How"],
+      "specificTips": [
+        "First frame must work as standalone image",
+        "Use captions (80% watch muted)",
+        "Fast cuts every 1-2 seconds",
+        "End with clear engagement ask"
+      ]
+    },
+    "tiktok": {
+      "idealLength": "15-60 seconds",
+      "bestFormulas": ["Hook-Teach-CTA", "Myth-Bust-Truth", "Problem-Agitate-Solve"],
+      "specificTips": [
+        "First 1 second is life or death",
+        "Native feel (not polished)",
+        "Use trending sounds when possible",
+        "Text overlays in TikTok style"
+      ]
+    },
+    "youtube": {
+      "idealLength": "8-20 minutes (sweet spot for ads)",
+      "bestFormulas": ["Tutorial", "Storytelling Documentary", "Deep Dive Analysis"],
+      "specificTips": [
+        "First 30 seconds determine everything",
+        "Aim for 50%+ retention",
+        "Use chapters for long videos",
+        "Thumbnail + title combo is critical"
+      ]
+    },
+    "linkedin": {
+      "idealLength": "60-90 seconds",
+      "bestFormulas": ["Before-After-How", "Myth-Bust-Truth", "Problem-Agitate-Solve"],
+      "specificTips": [
+        "Professional but personal",
+        "Lead with business outcomes",
+        "Caption-driven (video enhances)",
+        "Subtle CTA, not salesy"
+      ]
+    }
+  }
+}

@@ -1,0 +1,758 @@
+{
+  "masterStorytellingFrameworks": {
+    "description": "Comprehensive collection of proven storytelling frameworks for content creation",
+    "frameworks": [
+      {
+        "name": "Hero's Journey (12 Stages)",
+        "origin": "Joseph Campbell's Monomyth",
+        "bestFor": "Personal transformation stories, origin stories, case studies",
+        "structure": [
+          {
+            "stage": 1,
+            "name": "Ordinary World",
+            "description": "Show where you/client started - the 'before' state",
+            "duration": "5-10%",
+            "keyElements": ["Establish baseline", "Relatable struggle", "Status quo"]
+          },
+          {
+            "stage": 2,
+            "name": "Call to Adventure",
+            "description": "The moment that changed everything - the catalyst",
+            "duration": "5%",
+            "keyElements": ["Triggering event", "Opportunity appears", "Problem intensifies"]
+          },
+          {
+            "stage": 3,
+            "name": "Refusal of the Call",
+            "description": "Initial resistance, doubts, fears (humanizes you)",
+            "duration": "5%",
+            "keyElements": ["Self-doubt", "Fear of failure", "Skepticism"]
+          },
+          {
+            "stage": 4,
+            "name": "Meeting the Mentor",
+            "description": "Discovery of guidance, framework, or revelation",
+            "duration": "10%",
+            "keyElements": ["Key insight", "System discovered", "Mentor/framework introduced"]
+          },
+          {
+            "stage": 5,
+            "name": "Crossing the Threshold",
+            "description": "Decision to commit - taking action",
+            "duration": "5%",
+            "keyElements": ["Commitment made", "Investment", "Point of no return"]
+          },
+          {
+            "stage": 6,
+            "name": "Tests, Allies, Enemies",
+            "description": "The journey - challenges faced, lessons learned",
+            "duration": "15%",
+            "keyElements": ["Obstacles overcome", "Skills developed", "Support found"]
+          },
+          {
+            "stage": 7,
+            "name": "Approach to Inmost Cave",
+            "description": "The biggest challenge appears",
+            "duration": "10%",
+            "keyElements": ["Major obstacle", "Preparation", "Stakes raised"]
+          },
+          {
+            "stage": 8,
+            "name": "Ordeal",
+            "description": "The darkest moment before breakthrough",
+            "duration": "10%",
+            "keyElements": ["Crisis point", "Lowest moment", "Everything on the line"]
+          },
+          {
+            "stage": 9,
+            "name": "Reward (Seizing the Sword)",
+            "description": "The breakthrough - results achieved",
+            "duration": "10%",
+            "keyElements": ["Victory moment", "Quantifiable results", "Transformation visible"]
+          },
+          {
+            "stage": 10,
+            "name": "The Road Back",
+            "description": "Applying the lessons, building consistency",
+            "duration": "5%",
+            "keyElements": ["Consolidation", "Refinement", "System solidified"]
+          },
+          {
+            "stage": 11,
+            "name": "Resurrection",
+            "description": "Final transformation - the new you/them",
+            "duration": "5%",
+            "keyElements": ["Complete transformation", "New identity", "Sustained results"]
+          },
+          {
+            "stage": 12,
+            "name": "Return with Elixir",
+            "description": "Sharing the solution - your offer/framework",
+            "duration": "5%",
+            "keyElements": ["Value delivery", "Call to action", "Pathway offered"]
+          }
+        ],
+        "contentApplications": {
+          "60second": "Use stages 1, 2, 4, 9, 12 only",
+          "90second": "Use stages 1, 2, 3, 4, 6, 9, 12",
+          "3minute": "Use stages 1, 2, 3, 4, 5, 6, 7, 9, 11, 12",
+          "longform": "Use all 12 stages with detail"
+        }
+      },
+      {
+        "name": "Before-After-Bridge (BAB)",
+        "origin": "Classic copywriting framework",
+        "bestFor": "Problem-solution content, transformation stories, testimonials",
+        "structure": [
+          {
+            "stage": 1,
+            "name": "Before",
+            "description": "Paint the pain - where they are now",
+            "duration": "30%",
+            "keyElements": [
+              "Specific struggle (named person/situation)",
+              "Emotional impact",
+              "Failed attempts",
+              "Quantified pain (time/money/stress)",
+              "Universal relatability"
+            ],
+            "techniques": [
+              "Use sensory details",
+              "Show don't tell",
+              "Make it visceral",
+              "Target shadow fears"
+            ]
+          },
+          {
+            "stage": 2,
+            "name": "After",
+            "description": "Show the promised land - where they could be",
+            "duration": "30%",
+            "keyElements": [
+              "Specific results (numbers)",
+              "Lifestyle transformation",
+              "Emotional shift",
+              "Time freedom",
+              "Status elevation"
+            ],
+            "techniques": [
+              "Paint vivid picture",
+              "Use 'imagine if...'",
+              "Contrast with before",
+              "Make it tangible"
+            ]
+          },
+          {
+            "stage": 3,
+            "name": "Bridge",
+            "description": "The pathway - how to get there",
+            "duration": "40%",
+            "keyElements": [
+              "Your framework/system",
+              "Proof it works (credentials)",
+              "Why it's different",
+              "Specific steps",
+              "Clear call to action"
+            ],
+            "techniques": [
+              "Show credibility",
+              "Address objections",
+              "Make it simple",
+              "Create urgency"
+            ]
+          }
+        ],
+        "variations": {
+          "BAB-S": "Add 'Social Proof' stage after Bridge (testimonials/results)",
+          "BAB-O": "Add 'Objections' stage before Bridge (address skepticism)",
+          "BAB-U": "Add 'Urgency' stage after Bridge (scarcity/FOMO)"
+        }
+      },
+      {
+        "name": "Problem-Agitate-Solve (PAS)",
+        "origin": "Direct response copywriting",
+        "bestFor": "Urgent problems, pain-point content, sales content",
+        "structure": [
+          {
+            "stage": 1,
+            "name": "Problem",
+            "description": "Identify the core problem clearly",
+            "duration": "20%",
+            "keyElements": [
+              "Name the problem specifically",
+              "Make it relatable",
+              "Show it's common",
+              "Validate the struggle"
+            ]
+          },
+          {
+            "stage": 2,
+            "name": "Agitate",
+            "description": "Amplify the pain - make them FEEL it",
+            "duration": "40%",
+            "keyElements": [
+              "Show what happens if ignored",
+              "Stack the consequences",
+              "Use shadow fears",
+              "Create emotional intensity",
+              "Show cost (time/money/relationships)"
+            ],
+            "techniques": [
+              "What if scenarios",
+              "Compound consequences",
+              "Paint worst case",
+              "Use time pressure",
+              "Show opportunity cost"
+            ]
+          },
+          {
+            "stage": 3,
+            "name": "Solve",
+            "description": "Present your solution as the relief",
+            "duration": "40%",
+            "keyElements": [
+              "Introduce framework",
+              "Show it's simple",
+              "Provide proof",
+              "Clear action steps",
+              "Strong CTA"
+            ]
+          }
+        ],
+        "powerMoves": [
+          "Agitate with 3-5 specific consequences",
+          "Use 'And worse...' pattern for escalation",
+          "Contrast pain vs relief explicitly",
+          "Make solution feel inevitable"
+        ]
+      },
+      {
+        "name": "STAR Method",
+        "origin": "Behavioral interviewing technique adapted for content",
+        "bestFor": "Case studies, client results, credibility building",
+        "structure": [
+          {
+            "stage": 1,
+            "name": "Situation",
+            "description": "Set the context - where they started",
+            "duration": "20%",
+            "keyElements": [
+              "Specific person/company",
+              "Clear starting point",
+              "Quantified baseline",
+              "Industry/niche context"
+            ]
+          },
+          {
+            "stage": 2,
+            "name": "Task",
+            "description": "What they needed to achieve",
+            "duration": "15%",
+            "keyElements": [
+              "Specific goal",
+              "Why it mattered",
+              "Stakes involved",
+              "Constraints/challenges"
+            ]
+          },
+          {
+            "stage": 3,
+            "name": "Action",
+            "description": "What you/they did (your framework in action)",
+            "duration": "40%",
+            "keyElements": [
+              "Specific steps taken",
+              "Your unique approach",
+              "Timeline",
+              "Adjustments made",
+              "Teaching moment"
+            ]
+          },
+          {
+            "stage": 4,
+            "name": "Result",
+            "description": "The outcome - quantified transformation",
+            "duration": "25%",
+            "keyElements": [
+              "Specific numbers",
+              "Before vs After",
+              "Timeframe",
+              "Additional benefits",
+              "Lesson/takeaway for audience"
+            ]
+          }
+        ],
+        "contentTips": [
+          "Always use real names or 'Client X'",
+          "Lead with the result, then tell the story",
+          "Use this for 20% of content (credibility section)",
+          "End with lesson applicable to audience"
+        ]
+      },
+      {
+        "name": "Three-Act Structure",
+        "origin": "Dramatic structure - Aristotle/Hollywood",
+        "bestFor": "Long-form content, video series, detailed transformations",
+        "structure": [
+          {
+            "act": 1,
+            "name": "Setup",
+            "duration": "25%",
+            "elements": [
+              {
+                "name": "Exposition",
+                "description": "Introduce character, world, status quo"
+              },
+              {
+                "name": "Inciting Incident",
+                "description": "The event that disrupts everything"
+              },
+              {
+                "name": "Plot Point 1",
+                "description": "Decision to take action - enter new world"
+              }
+            ],
+            "contentApplication": "Hook + Problem + Decision to change"
+          },
+          {
+            "act": 2,
+            "name": "Confrontation",
+            "duration": "50%",
+            "elements": [
+              {
+                "name": "Rising Action",
+                "description": "Obstacles, lessons, growth"
+              },
+              {
+                "name": "Midpoint",
+                "description": "Major revelation or shift"
+              },
+              {
+                "name": "Dark Night",
+                "description": "Lowest point, biggest obstacle"
+              },
+              {
+                "name": "Plot Point 2",
+                "description": "Final piece falls into place"
+              }
+            ],
+            "contentApplication": "Journey + Framework teaching + Crisis overcome"
+          },
+          {
+            "act": 3,
+            "name": "Resolution",
+            "duration": "25%",
+            "elements": [
+              {
+                "name": "Climax",
+                "description": "Final breakthrough"
+              },
+              {
+                "name": "Falling Action",
+                "description": "Consequences of victory"
+              },
+              {
+                "name": "Resolution",
+                "description": "New normal, transformation complete"
+              }
+            ],
+            "contentApplication": "Results + Proof + Call to action"
+          }
+        ]
+      },
+      {
+        "name": "Pixar's Story Spine",
+        "origin": "Pixar's storytelling framework",
+        "bestFor": "Engaging narratives, personal stories, viral content",
+        "structure": [
+          {
+            "stage": 1,
+            "phrase": "Once upon a time...",
+            "description": "Establish the starting point",
+            "example": "Once upon a time, I was broke, overwhelmed, and posting content daily with zero results..."
+          },
+          {
+            "stage": 2,
+            "phrase": "Every day...",
+            "description": "Show the routine/pattern",
+            "example": "Every day, I'd wake up at 5am, batch content for hours, and watch other creators blow up while I stayed stuck..."
+          },
+          {
+            "stage": 3,
+            "phrase": "But one day...",
+            "description": "The inciting incident",
+            "example": "But one day, I discovered the hidden pattern behind every viral creator's success..."
+          },
+          {
+            "stage": 4,
+            "phrase": "Because of that...",
+            "description": "Consequence 1",
+            "example": "Because of that, I completely changed my content strategy and tested this new framework..."
+          },
+          {
+            "stage": 5,
+            "phrase": "Because of that...",
+            "description": "Consequence 2 (can repeat)",
+            "example": "Because of that, my very next post hit 500K views and my following exploded..."
+          },
+          {
+            "stage": 6,
+            "phrase": "Until finally...",
+            "description": "The resolution/transformation",
+            "example": "Until finally, I hit 100K followers in 90 days and built a business that actually works..."
+          },
+          {
+            "stage": 7,
+            "phrase": "And ever since then...",
+            "description": "The new reality",
+            "example": "And ever since then, I've been teaching this exact system to other creators..."
+          }
+        ],
+        "powerTips": [
+          "Use conversational language",
+          "Build tension with each 'because of that'",
+          "Make the transformation tangible",
+          "End with clear takeaway or CTA"
+        ]
+      },
+      {
+        "name": "The Nested Loop",
+        "origin": "Advanced storytelling technique",
+        "bestFor": "Keeping attention, long-form content, multi-layered stories",
+        "description": "Open multiple story loops and close them in reverse order",
+        "structure": [
+          {
+            "loop": "A",
+            "position": "Open first",
+            "example": "This morning, I made a decision that will change everything... (DON'T RESOLVE YET)",
+            "technique": "Create curiosity gap"
+          },
+          {
+            "loop": "B",
+            "position": "Open second",
+            "example": "But before I tell you what it was, you need to understand what happened last month... (OPEN NEW LOOP)",
+            "technique": "Pause first story, start new one"
+          },
+          {
+            "loop": "C",
+            "position": "Open third",
+            "example": "Which actually started 6 months ago when... (OPEN ANOTHER LOOP)",
+            "technique": "Go even deeper"
+          },
+          {
+            "loop": "C",
+            "position": "Close first",
+            "example": "...and that's how I discovered the framework. (CLOSE LOOP C)",
+            "technique": "Resolve innermost loop"
+          },
+          {
+            "loop": "B",
+            "position": "Close second",
+            "example": "So last month, I finally tested it and... (CLOSE LOOP B)",
+            "technique": "Return to middle loop"
+          },
+          {
+            "loop": "A",
+            "position": "Close last",
+            "example": "Which brings me to this morning. The decision? I'm going all in. (CLOSE LOOP A)",
+            "technique": "Satisfying resolution"
+          }
+        ],
+        "rules": [
+          "Don't open more than 3-4 loops",
+          "Close loops in REVERSE order (LIFO - Last In, First Out)",
+          "Each loop must be interesting on its own",
+          "Use time jumps or perspective shifts",
+          "Perfect for long-form YouTube content"
+        ]
+      },
+      {
+        "name": "AIDA Framework",
+        "origin": "Classic marketing/sales framework",
+        "bestFor": "Sales content, lead generation, conversion-focused content",
+        "structure": [
+          {
+            "stage": "Attention",
+            "duration": "10%",
+            "description": "Grab attention immediately",
+            "techniques": [
+              "Pattern interrupt",
+              "Bold statement",
+              "Shocking statistic",
+              "Question",
+              "Call out specific avatar"
+            ]
+          },
+          {
+            "stage": "Interest",
+            "duration": "30%",
+            "description": "Build interest in the solution",
+            "techniques": [
+              "Tease the transformation",
+              "Show what's possible",
+              "Create curiosity",
+              "Introduce unique mechanism"
+            ]
+          },
+          {
+            "stage": "Desire",
+            "duration": "40%",
+            "description": "Make them WANT the solution",
+            "techniques": [
+              "Paint vivid 'after' picture",
+              "Show social proof",
+              "Stack benefits",
+              "Address objections",
+              "Create FOMO"
+            ]
+          },
+          {
+            "stage": "Action",
+            "duration": "20%",
+            "description": "Clear call to action",
+            "techniques": [
+              "Remove friction",
+              "Create urgency",
+              "Simple next step",
+              "Reduce risk (guarantee)"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "The Curiosity Gap",
+        "origin": "BuzzFeed/viral content technique",
+        "bestFor": "Hooks, introductions, maintaining attention",
+        "technique": "Open a gap between what they know and what they want to know",
+        "examples": [
+          {
+            "weak": "I'll teach you how to grow on Instagram",
+            "strong": "The Instagram algorithm change that NOBODY is talking about..."
+          },
+          {
+            "weak": "Here's my morning routine",
+            "strong": "I changed ONE thing in my morning and 10X'd my productivity..."
+          },
+          {
+            "weak": "How to make money with content",
+            "strong": "The creator monetization method that brands are trying to hide..."
+          }
+        ],
+        "formula": "Known problem + Hidden/Unknown solution = Curiosity Gap",
+        "rules": [
+          "Never fully resolve in the hook",
+          "Promise specific value",
+          "Must deliver on the promise",
+          "Use throughout content to maintain tension"
+        ]
+      }
+    ]
+  },
+  "storyArcTemplates": {
+    "description": "Pre-built story arc templates for different content types",
+    "templates": [
+      {
+        "name": "Origin Story",
+        "purpose": "Establish credibility and relatability",
+        "framework": "Hero's Journey",
+        "duration": "90-180 seconds",
+        "structure": {
+          "hook": "Where I started (relatably broken)",
+          "struggle": "Failed attempts, doubts, pain",
+          "discovery": "The moment everything changed",
+          "transformation": "The journey and results",
+          "lesson": "What I learned that you can use",
+          "cta": "How I can help you skip the pain"
+        }
+      },
+      {
+        "name": "Client Victory Story",
+        "purpose": "Social proof and credibility",
+        "framework": "STAR Method",
+        "duration": "60-90 seconds",
+        "structure": {
+          "hook": "Client name + dramatic result",
+          "situation": "Where they started (specific numbers)",
+          "problem": "What was blocking them",
+          "solution": "What we did (your framework)",
+          "result": "Quantified transformation",
+          "lesson": "Why it worked + how audience can apply"
+        }
+      },
+      {
+        "name": "Framework Teaching Story",
+        "purpose": "Educate while maintaining engagement",
+        "framework": "BAB + Curiosity Gap",
+        "duration": "120-180 seconds",
+        "structure": {
+          "hook": "Tease the framework's power",
+          "before": "Why the old way doesn't work",
+          "discovery": "How I discovered this framework",
+          "breakdown": "The framework explained (70% of content)",
+          "proof": "My results + client results",
+          "cta": "How to implement it"
+        }
+      },
+      {
+        "name": "Vulnerability Story",
+        "purpose": "Build deep connection and trust",
+        "framework": "Three-Act Structure",
+        "duration": "120-240 seconds",
+        "structure": {
+          "hook": "The mistake/failure (vulnerability)",
+          "setup": "What led to this moment",
+          "crisis": "The lowest point",
+          "revelation": "What I realized",
+          "transformation": "How I changed",
+          "gift": "What this taught me to give you"
+        }
+      },
+      {
+        "name": "Contrarian Take Story",
+        "purpose": "Position as thought leader",
+        "framework": "PAS + AIDA",
+        "duration": "60-90 seconds",
+        "structure": {
+          "hook": "Everyone tells you X. They're wrong.",
+          "problem": "Why the common advice fails",
+          "agitate": "The damage it's causing",
+          "alternative": "What actually works (your approach)",
+          "proof": "Why this is true (data/experience)",
+          "cta": "Try this instead"
+        }
+      }
+    ]
+  },
+  "storytellingPrinciples": {
+    "description": "Universal principles that make stories compelling",
+    "principles": [
+      {
+        "principle": "Specificity Creates Universality",
+        "explanation": "The more specific your story, the more relatable it becomes",
+        "bad": "I struggled with business",
+        "good": "I sat in my Honda Civic at 2am, crying over my $47 bank balance...",
+        "rule": "Use names, numbers, places, sensory details"
+      },
+      {
+        "principle": "Show, Don't Tell",
+        "explanation": "Let them experience the emotion, don't name it",
+        "bad": "I was very stressed",
+        "good": "My hands shook as I clicked 'post'. My heart pounded. Would anyone care?",
+        "rule": "Describe physical sensations, actions, environment"
+      },
+      {
+        "principle": "Transformation Over Transaction",
+        "explanation": "People buy transformation, not information",
+        "bad": "I'll teach you 5 hooks",
+        "good": "You'll never stare at a blank screen again, wondering what to post",
+        "rule": "Paint the 'after' state, not just the 'what'"
+      },
+      {
+        "principle": "Stakes + Urgency = Attention",
+        "explanation": "What's at risk? Why does this matter NOW?",
+        "bad": "This strategy is helpful",
+        "good": "If you don't fix this, you'll spend another year spinning your wheels...",
+        "rule": "Make the cost of inaction clear and painful"
+      },
+      {
+        "principle": "Conflict Drives Narrative",
+        "explanation": "Every great story has opposition",
+        "types": [
+          "Man vs Self (internal doubt, limiting beliefs)",
+          "Man vs Man (competitor, critic, hater)",
+          "Man vs System (algorithm, industry, broken model)",
+          "Man vs Nature (time, resources, circumstances)"
+        ],
+        "rule": "Identify the villain/obstacle in every story"
+      },
+      {
+        "principle": "The Rule of Three",
+        "explanation": "Three is the magic number for memorable content",
+        "applications": [
+          "Three failed attempts before success",
+          "Three key points in teaching",
+          "Three examples to prove a point",
+          "Three consequences of inaction"
+        ],
+        "rule": "Structure content in threes whenever possible"
+      },
+      {
+        "principle": "Emotional Resonance > Logical Argument",
+        "explanation": "People remember how you made them feel",
+        "emotions": [
+          "Hope (transformation possible)",
+          "Fear (what they'll lose)",
+          "Anger (at the system/problem)",
+          "Relief (there's a solution)",
+          "Pride (they can do this)",
+          "Belonging (they're not alone)"
+        ],
+        "rule": "Every story should evoke at least one strong emotion"
+      },
+      {
+        "principle": "The Gap is the Gold",
+        "explanation": "Tension between current state and desired state drives action",
+        "formula": "Current Pain + Desired Outcome + Blocked Path = Compelling Story",
+        "rule": "Always show the gap and position yourself as the bridge"
+      }
+    ]
+  },
+  "voiceAndPersonality": {
+    "description": "Frameworks for developing authentic voice",
+    "components": [
+      {
+        "element": "Cadence",
+        "description": "Your unique rhythm and pacing",
+        "questions": [
+          "Do you use short, punchy sentences or longer, flowing ones?",
+          "Do you pause for effect or maintain constant energy?",
+          "What's your tempo? (Fast, medium, slow, variable)"
+        ]
+      },
+      {
+        "element": "Vocabulary",
+        "description": "Your word choice and language patterns",
+        "questions": [
+          "Do you use industry jargon or plain language?",
+          "What words/phrases do you repeat?",
+          "Do you swear? Use slang? Stay formal?"
+        ]
+      },
+      {
+        "element": "Perspective",
+        "description": "Your unique worldview and opinions",
+        "questions": [
+          "What do you believe that others don't?",
+          "What makes you angry/excited?",
+          "What's your contrarian take?"
+        ]
+      },
+      {
+        "element": "Vulnerability Level",
+        "description": "How much you share",
+        "spectrum": [
+          "Highly Personal (share failures, fears, doubts)",
+          "Selectively Vulnerable (share key moments)",
+          "Professionally Distant (focus on results/teaching)",
+          "Anonymous Expert (no personal stories)"
+        ]
+      },
+      {
+        "element": "Energy",
+        "description": "Your content's emotional tone",
+        "types": [
+          "High Energy (enthusiastic, exclamatory, motivational)",
+          "Calm Authority (measured, confident, reassuring)",
+          "Raw Honest (unfiltered, real, conversational)",
+          "Playful Smart (humorous, clever, entertaining)"
+        ]
+      }
+    ]
+  },
+  "integrationNotes": {
+    "withScriptWriter": "Storytelling frameworks should feed into the 10-Step Framework at Step 7 (Show Credentials)",
+    "withHookGenerator": "Story-based hooks use curiosity gap and emotional resonance",
+    "withStoryExtractor": "Extracted stories can be enhanced using these frameworks",
+    "newFeature": "Storytelling Studio will allow selecting a framework, inputting key details, and generating a complete story arc"
+  }
+}

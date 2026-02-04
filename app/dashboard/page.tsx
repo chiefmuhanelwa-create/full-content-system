@@ -1,344 +1,249 @@
 'use client'
 
 import Link from 'next/link'
-import { signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Zap,
   FileText,
-  LogOut,
   ArrowRight,
   BookOpen,
   Brain,
   Target,
   Calendar,
   DollarSign,
-  BarChart,
-  Repeat,
-  Image,
-  TrendingUp,
-  Users,
-  Monitor,
-  Mic,
-  Database,
-  Workflow,
   Save,
+  MonitorPlay,
+  Sparkles,
+  Wand2,
+  Share2,
+  Mic,
+  Library,
+  Rocket,
 } from 'lucide-react'
-import { formatNumber } from '@/lib/utils'
 
 export default function DashboardPage() {
-  // Mock data - in production, fetch from database
-  const stats = {
-    hooksGenerated: 0,
-    scriptsCreated: 0,
-  }
-
-  const recentHooks = [
-    'We\'ve all been told content creation is the path to freedom, but platform dependency is keeping you broke',
-    'You think posting more will fix it, BUT the algorithm doesn\'t reward volume, THEREFORE you need a system',
-    'Stop creating content. Start creating cash flow.',
-  ]
-
-  const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/auth/signin' })
-  }
-
   return (
     <div className="container mx-auto px-8 py-8">
-      {/* Header with Sign Out */}
-      <div className="mb-8 flex justify-between items-start">
+      {/* Header */}
+      <div className="mb-8">
         <div>
-          <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
-          <p className="text-gray-600">Welcome to NOCHILL Viral Script Generator</p>
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            NOCHILL v2.0
+          </h1>
+          <p className="text-gray-600 text-lg">Professional Content Creation System</p>
         </div>
-        <Button
-          variant="outline"
-          onClick={handleSignOut}
-          className="flex items-center gap-2"
-        >
-          <LogOut className="h-4 w-4" />
-          Sign Out
-        </Button>
       </div>
 
-      {/* Stats Grid - Only Working Features */}
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Hooks Generated</CardTitle>
-            <Zap className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.hooksGenerated}</div>
-            <p className="text-xs text-muted-foreground">
-              R×A×C×U^B Hook Science
-            </p>
-          </CardContent>
-        </Card>
+      {/* Welcome Message */}
+      <Card className="mb-8 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+        <CardContent className="p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to Your Content Creation Hub</h2>
+          <p className="text-gray-700">
+            Transform your ideas into viral content with proven frameworks, storytelling techniques, and professional formulas.
+            Everything you need to create, optimize, and scale your content is here.
+          </p>
+        </CardContent>
+      </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Scripts Created</CardTitle>
-            <FileText className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.scriptsCreated}</div>
-            <p className="text-xs text-muted-foreground">
-              NOCHILL 5-Line Method
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Featured Tools */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">🚀 Workflow & Organization</h2>
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
-          <Link href="/dashboard/workflow">
-            <Card className="hover:border-purple-600 transition-colors cursor-pointer h-full bg-gradient-to-br from-purple-50 to-blue-50">
-              <CardContent className="flex flex-col items-start justify-center p-6">
-                <Workflow className="h-10 w-10 text-purple-600 mb-2" />
-                <span className="font-medium text-lg mb-1">Content Workflow Tracker</span>
-                <p className="text-sm text-gray-600">
-                  Track content from Planning → Ideation → Creation → Posting
+      {/* New Features Showcase */}
+      <div className="mb-10">
+        <div className="flex items-center gap-2 mb-4">
+          <Rocket className="h-6 w-6 text-green-600" />
+          <h2 className="text-2xl font-bold">New Features</h2>
+          <span className="bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-full">v2.0</span>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Link href="/dashboard/storytelling">
+            <Card className="hover:border-purple-500 hover:shadow-lg transition-all cursor-pointer h-full bg-gradient-to-br from-purple-50 to-pink-50">
+              <CardContent className="p-6">
+                <Sparkles className="h-10 w-10 text-purple-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Storytelling Studio</h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  8 proven frameworks: Hero's Journey, BAB, PAS, and more
                 </p>
-                <p className="text-xs text-purple-600 mt-2 font-medium">
-                  ✨ NEW: Never lose track of your content ideas
-                </p>
+                <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">
+                  NEW
+                </span>
               </CardContent>
             </Card>
           </Link>
 
-          <Link href="/dashboard/saved-scripts">
-            <Card className="hover:border-green-600 transition-colors cursor-pointer h-full bg-gradient-to-br from-green-50 to-teal-50">
-              <CardContent className="flex flex-col items-start justify-center p-6">
-                <Save className="h-10 w-10 text-green-600 mb-2" />
-                <span className="font-medium text-lg mb-1">Saved Scripts Library</span>
-                <p className="text-sm text-gray-600">
-                  Access all your saved scripts, edit and reuse anytime
+          <Link href="/dashboard/formulas">
+            <Card className="hover:border-cyan-500 hover:shadow-lg transition-all cursor-pointer h-full bg-gradient-to-br from-blue-50 to-cyan-50">
+              <CardContent className="p-6">
+                <Wand2 className="h-10 w-10 text-cyan-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Content Formulas</h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  Talking head & YouTube formulas with delivery notes
                 </p>
-                <p className="text-xs text-green-600 mt-2 font-medium">
-                  ✨ NEW: Auto-saves all generated scripts
+                <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">
+                  NEW
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/adapter">
+            <Card className="hover:border-emerald-500 hover:shadow-lg transition-all cursor-pointer h-full bg-gradient-to-br from-green-50 to-emerald-50">
+              <CardContent className="p-6">
+                <Share2 className="h-10 w-10 text-emerald-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Content Adapter</h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  Transform content for LinkedIn, X, Facebook, Newsletter
                 </p>
+                <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">
+                  NEW
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/voice">
+            <Card className="hover:border-orange-500 hover:shadow-lg transition-all cursor-pointer h-full bg-gradient-to-br from-orange-50 to-red-50">
+              <CardContent className="p-6">
+                <Mic className="h-10 w-10 text-orange-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Voice Profile</h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  Define your unique voice for authentic content
+                </p>
+                <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">
+                  NEW
+                </span>
               </CardContent>
             </Card>
           </Link>
         </div>
       </div>
 
-      {/* Quick Actions - All Working Features */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">Content Creation Tools</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      {/* Core Creation Tools */}
+      <div className="mb-10">
+        <h2 className="text-2xl font-bold mb-4">Core Creation Tools</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Link href="/dashboard/hooks">
-            <Card className="hover:border-blue-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Zap className="h-10 w-10 text-blue-600 mb-2" />
-                <span className="font-medium text-base mb-1">Hook Generator</span>
-                <p className="text-xs text-gray-600 text-center">
-                  R×A×C×U^B Formula
+            <Card className="hover:border-blue-600 hover:shadow-md transition-all cursor-pointer h-full">
+              <CardContent className="p-6">
+                <Zap className="h-10 w-10 text-blue-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Hook Generator</h3>
+                <p className="text-sm text-gray-600">
+                  R×A×C×U^B Formula for viral hooks
                 </p>
               </CardContent>
             </Card>
           </Link>
 
           <Link href="/dashboard/scripts">
-            <Card className="hover:border-purple-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <FileText className="h-10 w-10 text-purple-600 mb-2" />
-                <span className="font-medium text-base mb-1">Script Writer</span>
-                <p className="text-xs text-gray-600 text-center">
-                  5-Line Method
+            <Card className="hover:border-purple-600 hover:shadow-md transition-all cursor-pointer h-full">
+              <CardContent className="p-6">
+                <FileText className="h-10 w-10 text-purple-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Script Writer</h3>
+                <p className="text-sm text-gray-600">
+                  10-Step Storytelling Framework
                 </p>
               </CardContent>
             </Card>
           </Link>
 
           <Link href="/dashboard/stories">
-            <Card className="hover:border-green-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <BookOpen className="h-10 w-10 text-green-600 mb-2" />
-                <span className="font-medium text-base mb-1">Story Extractor</span>
-                <p className="text-xs text-gray-600 text-center">
-                  4-Criteria Test
+            <Card className="hover:border-green-600 hover:shadow-md transition-all cursor-pointer h-full">
+              <CardContent className="p-6">
+                <BookOpen className="h-10 w-10 text-green-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Story Extractor</h3>
+                <p className="text-sm text-gray-600">
+                  4-Criteria Test for powerful stories
                 </p>
               </CardContent>
             </Card>
           </Link>
 
           <Link href="/dashboard/fears">
-            <Card className="hover:border-red-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Brain className="h-10 w-10 text-red-600 mb-2" />
-                <span className="font-medium text-base mb-1">Fear Analyzer</span>
-                <p className="text-xs text-gray-600 text-center">
-                  10 Shadow Fears
+            <Card className="hover:border-red-600 hover:shadow-md transition-all cursor-pointer h-full">
+              <CardContent className="p-6">
+                <Brain className="h-10 w-10 text-red-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Fear Analyzer</h3>
+                <p className="text-sm text-gray-600">
+                  Target 10 Shadow Fears
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/pitch">
+            <Card className="hover:border-orange-600 hover:shadow-md transition-all cursor-pointer h-full">
+              <CardContent className="p-6">
+                <Target className="h-10 w-10 text-orange-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Pitch Builder</h3>
+                <p className="text-sm text-gray-600">
+                  5-Pillar Framework
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/vault">
+            <Card className="hover:border-purple-600 hover:shadow-md transition-all cursor-pointer h-full border-2 border-purple-200">
+              <CardContent className="p-6">
+                <Library className="h-10 w-10 text-purple-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Story Vault</h3>
+                <p className="text-sm text-gray-600">
+                  110+ Pre-built Content Ideas
                 </p>
               </CardContent>
             </Card>
           </Link>
         </div>
+      </div>
 
-        <h2 className="text-2xl font-bold mb-4">Business Growth Tools</h2>
-        <div className="grid md:grid-cols-3 gap-4">
-          <Link href="/dashboard/pitch">
-            <Card className="hover:border-orange-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Target className="h-10 w-10 text-orange-600 mb-2" />
-                <span className="font-medium text-base mb-1">Pitch Builder</span>
-                <p className="text-xs text-gray-600 text-center">
-                  5 Pillars Framework
+      {/* Production & Planning */}
+      <div className="mb-10">
+        <h2 className="text-2xl font-bold mb-4">Production & Planning</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Link href="/dashboard/teleprompter">
+            <Card className="hover:border-cyan-600 hover:shadow-md transition-all cursor-pointer h-full">
+              <CardContent className="p-6">
+                <MonitorPlay className="h-10 w-10 text-cyan-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Teleprompter</h3>
+                <p className="text-sm text-gray-600">
+                  Enhanced with timer, progress, shortcuts
                 </p>
+                <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-1 rounded mt-2">
+                  ENHANCED
+                </span>
               </CardContent>
             </Card>
           </Link>
 
           <Link href="/dashboard/calendar">
-            <Card className="hover:border-teal-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Calendar className="h-10 w-10 text-teal-600 mb-2" />
-                <span className="font-medium text-base mb-1">Content Calendar</span>
-                <p className="text-xs text-gray-600 text-center">
-                  4E Framework
+            <Card className="hover:border-teal-600 hover:shadow-md transition-all cursor-pointer h-full">
+              <CardContent className="p-6">
+                <Calendar className="h-10 w-10 text-teal-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Content Calendar</h3>
+                <p className="text-sm text-gray-600">
+                  4E Framework planning
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link href="/dashboard/library">
+            <Card className="hover:border-blue-600 hover:shadow-md transition-all cursor-pointer h-full">
+              <CardContent className="p-6">
+                <Save className="h-10 w-10 text-blue-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Saved Library</h3>
+                <p className="text-sm text-gray-600">
+                  All your saved content
                 </p>
               </CardContent>
             </Card>
           </Link>
 
           <Link href="/dashboard/revenue">
-            <Card className="hover:border-green-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <DollarSign className="h-10 w-10 text-green-600 mb-2" />
-                <span className="font-medium text-base mb-1">Revenue Tracker</span>
-                <p className="text-xs text-gray-600 text-center">
-                  PAIDS Streams
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
-
-        <h2 className="text-2xl font-bold mb-4 mt-8">Advanced Tools</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Link href="/dashboard/analytics">
-            <Card className="hover:border-blue-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <BarChart className="h-10 w-10 text-blue-600 mb-2" />
-                <span className="font-medium text-base mb-1">Performance Analytics</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Track & Learn
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/repurpose">
-            <Card className="hover:border-purple-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Repeat className="h-10 w-10 text-purple-600 mb-2" />
-                <span className="font-medium text-base mb-1">Content Repurposing</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Multi-Format Engine
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/visuals">
-            <Card className="hover:border-pink-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Image className="h-10 w-10 text-pink-600 mb-2" />
-                <span className="font-medium text-base mb-1">Visual Content</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Thumbnails & B-Roll
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/trends">
-            <Card className="hover:border-orange-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <TrendingUp className="h-10 w-10 text-orange-600 mb-2" />
-                <span className="font-medium text-base mb-1">Trend Integration</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Real-Time Trends
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/batch-planner">
-            <Card className="hover:border-teal-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Calendar className="h-10 w-10 text-teal-600 mb-2" />
-                <span className="font-medium text-base mb-1">Batch Planner</span>
-                <p className="text-xs text-gray-600 text-center">
-                  30-Day Content
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/competitor">
-            <Card className="hover:border-indigo-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Users className="h-10 w-10 text-indigo-600 mb-2" />
-                <span className="font-medium text-base mb-1">Competitor Analysis</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Find Your Edge
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/brand-voice">
-            <Card className="hover:border-violet-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Mic className="h-10 w-10 text-violet-600 mb-2" />
-                <span className="font-medium text-base mb-1">Brand Voice</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Consistency Check
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/cta-optimizer">
-            <Card className="hover:border-rose-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Target className="h-10 w-10 text-rose-600 mb-2" />
-                <span className="font-medium text-base mb-1">CTA Optimizer</span>
-                <p className="text-xs text-gray-600 text-center">
-                  High-Converting CTAs
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
-
-        <h2 className="text-2xl font-bold mb-4">Production & Team</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <Link href="/dashboard/teleprompter">
-            <Card className="hover:border-cyan-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Monitor className="h-10 w-10 text-cyan-600 mb-2" />
-                <span className="font-medium text-base mb-1">Teleprompter</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Pro Filming Tool
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/collaboration">
-            <Card className="hover:border-emerald-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Users className="h-10 w-10 text-emerald-600 mb-2" />
-                <span className="font-medium text-base mb-1">Collaboration Hub</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Team Workflow
+            <Card className="hover:border-green-600 hover:shadow-md transition-all cursor-pointer h-full">
+              <CardContent className="p-6">
+                <DollarSign className="h-10 w-10 text-green-600 mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Revenue Tracker</h3>
+                <p className="text-sm text-gray-600">
+                  PAIDS Streams tracking
                 </p>
               </CardContent>
             </Card>
@@ -346,128 +251,98 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Content Libraries */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4 mt-8">Content Libraries</h2>
-        <div className="grid md:grid-cols-3 gap-4">
-          <Link href="/dashboard/vault">
-            <Card className="hover:border-purple-600 transition-colors cursor-pointer h-full border-2 border-purple-200">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Database className="h-10 w-10 text-purple-600 mb-2" />
-                <span className="font-medium text-base mb-1">Story & Content Vault</span>
-                <p className="text-xs text-gray-600 text-center">
-                  110+ Ideas & Stories
+      {/* Quick Start Guide */}
+      <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-purple-600" />
+            Quick Start Guide
+          </CardTitle>
+          <CardDescription>Get started with your content creation workflow</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                1
+              </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-gray-900 mb-1">Set Up Your Voice Profile</h4>
+                <p className="text-sm text-gray-600 mb-2">
+                  Define your unique voice, cadence, and personality. This ensures all generated content sounds like YOU.
                 </p>
-                <span className="text-xs text-purple-600 font-semibold mt-2">NEW ✨</span>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/saved-hooks">
-            <Card className="hover:border-blue-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Database className="h-10 w-10 text-blue-600 mb-2" />
-                <span className="font-medium text-base mb-1">Saved Hooks</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Your Hook Library
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/dashboard/saved-stories">
-            <Card className="hover:border-green-600 transition-colors cursor-pointer h-full">
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <Database className="h-10 w-10 text-green-600 mb-2" />
-                <span className="font-medium text-base mb-1">Saved Stories</span>
-                <p className="text-xs text-gray-600 text-center">
-                  Your Story Library
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
-      </div>
-
-      {/* Feature Information */}
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* Recent Hooks Preview */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Hook Science (R×A×C×U^B)</CardTitle>
-            <CardDescription>Example hooks using the formula</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentHooks.map((hook, index) => (
-                <div key={index} className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <p className="text-sm font-medium text-blue-900">{hook}</p>
-                </div>
-              ))}
-              <Link href="/dashboard/hooks">
-                <Button variant="default" className="w-full">
-                  Generate Your Hooks
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
+                <Link href="/dashboard/voice">
+                  <Button size="sm" variant="outline">
+                    Create Voice Profile
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
             </div>
-          </CardContent>
-        </Card>
 
-        {/* NOCHILL 5-Line Method Info */}
-        <Card>
-          <CardHeader>
-            <CardTitle>NOCHILL 5-Line Method</CardTitle>
-            <CardDescription>Complete viral scripting framework</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0">1</div>
-                <div>
-                  <p className="font-medium text-sm">Context (0-8s)</p>
-                  <p className="text-xs text-gray-600">WE-focused hook with Ubuntu Story Arc</p>
-                </div>
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                2
               </div>
-              <div className="flex items-start gap-3">
-                <div className="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0">2</div>
-                <div>
-                  <p className="font-medium text-sm">Collision (8-18s)</p>
-                  <p className="text-xs text-gray-600">Name the SYSTEM villain</p>
-                </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-gray-900 mb-1">Extract Your Proof Stories</h4>
+                <p className="text-sm text-gray-600 mb-2">
+                  Use Story Extractor to pull out powerful stories from your journey. These become your credibility.
+                </p>
+                <Link href="/dashboard/stories">
+                  <Button size="sm" variant="outline">
+                    Extract Stories
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0">3</div>
-                <div>
-                  <p className="font-medium text-sm">Conversion (18-35s)</p>
-                  <p className="text-xs text-gray-600">80% fresh teaching - frameworks & strategy</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0">4</div>
-                <div>
-                  <p className="font-medium text-sm">Calibration (35-48s)</p>
-                  <p className="text-xs text-gray-600">20% proof story with numbers</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0">5</div>
-                <div>
-                  <p className="font-medium text-sm">Community (48-60s)</p>
-                  <p className="text-xs text-gray-600">Collective action CTA</p>
-                </div>
-              </div>
-              <Link href="/dashboard/scripts">
-                <Button variant="default" className="w-full mt-4">
-                  Create Viral Script
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
             </div>
-          </CardContent>
-        </Card>
-      </div>
 
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">
+                3
+              </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-gray-900 mb-1">Create Your First Content</h4>
+                <p className="text-sm text-gray-600 mb-2">
+                  Choose a tool: Generate hooks, write full scripts with formulas, or craft stories. Then adapt for all platforms.
+                </p>
+                <div className="flex gap-2">
+                  <Link href="/dashboard/hooks">
+                    <Button size="sm" variant="outline">Hooks</Button>
+                  </Link>
+                  <Link href="/dashboard/formulas">
+                    <Button size="sm" variant="outline">Formulas</Button>
+                  </Link>
+                  <Link href="/dashboard/storytelling">
+                    <Button size="sm" variant="outline">Stories</Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold">
+                4
+              </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-gray-900 mb-1">Record & Publish</h4>
+                <p className="text-sm text-gray-600 mb-2">
+                  Use Teleprompter for smooth recording, then Content Adapter to repurpose for all platforms.
+                </p>
+                <div className="flex gap-2">
+                  <Link href="/dashboard/teleprompter">
+                    <Button size="sm" variant="outline">Teleprompter</Button>
+                  </Link>
+                  <Link href="/dashboard/adapter">
+                    <Button size="sm" variant="outline">Adapter</Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
