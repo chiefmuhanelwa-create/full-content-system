@@ -126,7 +126,7 @@ export default function StorytellingStudio() {
     if (!output) return
 
     setPendingAction({
-      type: 'use-story-in-script',
+      action: 'use-story-in-script',
       data: {
         story: output.fullStory,
         title: output.title,

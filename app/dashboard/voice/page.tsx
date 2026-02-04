@@ -15,7 +15,7 @@ interface VoiceProfile {
   perspective: string
   vulnerabilityLevel: string
   energy: string
-  signature Phrases: string[]
+  signaturePhrases: string[]
   avoidPhrases: string[]
   exampleContent: string
   updatedAt: string

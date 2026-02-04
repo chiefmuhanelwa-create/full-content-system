@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
@@ -80,7 +81,7 @@ export async function GET(request: NextRequest) {
 
     // Process timeline data
     const timelineMap = new Map<string, number>();
-    activityTimeline.forEach(log => {
+    activityTimeline.forEach((log: { createdAt: Date }) => {
       const dateKey = log.createdAt.toISOString().split('T')[0];
       timelineMap.set(dateKey, (timelineMap.get(dateKey) || 0) + 1);
     });
@@ -95,11 +96,11 @@ export async function GET(request: NextRequest) {
         days,
         startDate
       },
-      byType: activityByType.map(item => ({
+      byType: activityByType.map((item: { entityType: string; _count: number }) => ({
         type: item.entityType,
         count: item._count
       })),
-      byAction: activityByAction.map(item => ({
+      byAction: activityByAction.map((item: { action: string; _count: number }) => ({
         action: item.action,
         count: item._count
       })),

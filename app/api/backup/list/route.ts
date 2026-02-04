@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,12 +23,13 @@ export async function GET(request: NextRequest) {
     });
 
     // Get summary statistics
+    type Backup = typeof backups[number];
     const summary = {
       total: backups.length,
-      completed: backups.filter(b => b.status === 'completed').length,
-      failed: backups.filter(b => b.status === 'failed').length,
-      pending: backups.filter(b => b.status === 'pending').length,
-      totalSize: backups.reduce((sum, b) => sum + Number(b.fileSize || 0), 0),
+      completed: backups.filter((b: Backup) => b.status === 'completed').length,
+      failed: backups.filter((b: Backup) => b.status === 'failed').length,
+      pending: backups.filter((b: Backup) => b.status === 'pending').length,
+      totalSize: backups.reduce((sum: number, b: Backup) => sum + Number(b.fileSize || 0), 0),
       latestBackup: backups[0]
     };
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
@@ -33,7 +34,8 @@ export async function GET(request: NextRequest) {
     const totalVersions = versions.length;
 
     // Get active version
-    const activeVersion = versions.find(v => v.isActive);
+    type Version = typeof versions[number];
+    const activeVersion = versions.find((v: Version) => v.isActive);
 
     return NextResponse.json({
       versions,
