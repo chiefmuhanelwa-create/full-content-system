@@ -1,0 +1,45 @@
+import { NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import { db } from '@/lib/db'
+
+export async function GET(req: Request) {
+  try {
+    const session = await getServerSession(authOptions)
+
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    const { searchParams } = new URL(req.url)
+    const platform = searchParams.get('platform')
+    const category = searchParams.get('category')
+    const isFavorite = searchParams.get('isFavorite')
+
+    const where: any = {
+      userId: session.user.id,
+    }
+
+    if (platform) where.platform = platform
+    if (category) where.category = category
+    if (isFavorite === 'true') where.isFavorite = true
+
+    const hooks = await db.hook.findMany({
+      where,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    return NextResponse.json({ hooks })
+  } catch (error) {
+    console.error('List hooks error:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch hooks' },
+      { status: 500 }
+    )
+  }
+}

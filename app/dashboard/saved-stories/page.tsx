@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { BookOpen, Trash2, FileText, Calendar, Copy, Star } from 'lucide-react'
+import { BookOpen, Trash2, FileText, Calendar, Copy, Star, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useDatabase } from '@/hooks/useDatabase'
+import { useSession } from 'next-auth/react'
 
 interface SavedStory {
   id: string
@@ -14,36 +16,57 @@ interface SavedStory {
   category: string
   isFavorite: boolean
   notes?: string
+  title?: string
 }
 
 export default function SavedStoriesPage() {
   const router = useRouter()
+  const { data: session, status } = useSession()
+  const { listStories, deleteStory: deleteStoryDb, loading } = useDatabase()
   const [savedStories, setSavedStories] = useState<SavedStory[]>([])
   const [filter, setFilter] = useState<string>('all')
 
   useEffect(() => {
-    const stored = localStorage.getItem('savedStories')
-    if (stored) {
-      setSavedStories(JSON.parse(stored))
+    if (status === 'authenticated') {
+      loadStories()
+    } else if (status === 'unauthenticated') {
+      router.push('/auth/signin')
     }
-  }, [])
+  }, [status])
 
-  const deleteStory = (id: string) => {
-    const updated = savedStories.filter(s => s.id !== id)
-    setSavedStories(updated)
-    localStorage.setItem('savedStories', JSON.stringify(updated))
+  const loadStories = async () => {
+    const stories = await listStories()
+    const formatted = stories.map((s: any) => ({
+      id: s.id,
+      content: s.content,
+      source: s.storyType,
+      timestamp: s.createdAt,
+      category: s.category || 'general',
+      isFavorite: s.isFavorite,
+      notes: s.title,
+      title: s.title,
+    }))
+    setSavedStories(formatted)
   }
 
-  const toggleFavorite = (id: string) => {
+  const deleteStory = async (id: string) => {
+    const success = await deleteStoryDb(id)
+    if (success) {
+      setSavedStories(savedStories.filter(s => s.id !== id))
+    }
+  }
+
+  const toggleFavorite = async (id: string) => {
     const updated = savedStories.map(s =>
       s.id === id ? { ...s, isFavorite: !s.isFavorite } : s
     )
     setSavedStories(updated)
-    localStorage.setItem('savedStories', JSON.stringify(updated))
+    await loadStories()
   }
 
   const useInScript = (story: SavedStory) => {
-    localStorage.setItem('tempStoryForScript', JSON.stringify(story))
+    sessionStorage.setItem('selectedStoryId', story.id)
+    sessionStorage.setItem('selectedStoryContent', story.content)
     router.push('/dashboard/scripts')
   }
 
@@ -77,6 +100,14 @@ export default function SavedStoriesPage() {
     ? savedStories.filter(s => s.isFavorite)
     : savedStories.filter(s => s.category === filter)
 
+  if (status === 'loading' || loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <div className="container mx-auto px-8 py-8 max-w-7xl">
       <div className="mb-8">
@@ -84,7 +115,7 @@ export default function SavedStoriesPage() {
           <BookOpen className="h-10 w-10 text-green-600" />
           Saved Stories Library
         </h1>
-        <p className="text-gray-600">Your collection of extracted stories ready to use</p>
+        <p className="text-gray-600">Your collection of extracted stories ready to use (saved in database)</p>
       </div>
 
       {/* Stats */}

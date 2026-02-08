@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { FileText, Trash2, Edit, Copy, Download, Eye, Search } from 'lucide-react'
+import { FileText, Trash2, Edit, Copy, Download, Eye, Search, Loader2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
+import { useDatabase } from '@/hooks/useDatabase'
+import { useSession } from 'next-auth/react'
 
 interface SavedScript {
   id: string
@@ -16,42 +18,78 @@ interface SavedScript {
   platform?: string
   createdAt: string
   script: any
+  content?: string
+  goal?: string
 }
 
 export default function SavedScriptsPage() {
   const router = useRouter()
+  const { data: session, status } = useSession()
+  const { listScripts, deleteScript: deleteScriptDb, loading } = useDatabase()
   const [scripts, setScripts] = useState<SavedScript[]>([])
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
-    const stored = localStorage.getItem('savedScripts')
-    if (stored) {
-      setScripts(JSON.parse(stored))
+    if (status === 'authenticated') {
+      loadScripts()
+    } else if (status === 'unauthenticated') {
+      router.push('/auth/signin')
     }
-  }, [])
+  }, [status])
 
-  const deleteScript = (id: string) => {
+  const loadScripts = async () => {
+    const scriptsData = await listScripts()
+    const formatted = scriptsData.map((s: any) => ({
+      id: s.id,
+      title: s.title,
+      mode: s.goal === 'earn' ? 'sales' : 'content',
+      productName: s.category,
+      platform: s.platform,
+      createdAt: s.createdAt,
+      script: {
+        content: s.content,
+        breakdown: s.breakdown,
+        visuals: s.visuals,
+        overlays: s.overlays,
+      },
+      content: s.content,
+      goal: s.goal,
+    }))
+    setScripts(formatted)
+  }
+
+  const deleteScript = async (id: string) => {
     if (confirm('Delete this script?')) {
-      const updated = scripts.filter(s => s.id !== id)
-      setScripts(updated)
-      localStorage.setItem('savedScripts', JSON.stringify(updated))
+      const success = await deleteScriptDb(id)
+      if (success) {
+        setScripts(scripts.filter(s => s.id !== id))
+      }
     }
   }
 
   const loadScript = (script: SavedScript) => {
-    localStorage.setItem('loadScript', JSON.stringify(script))
+    sessionStorage.setItem('loadScript', JSON.stringify(script))
     router.push('/dashboard/scripts')
   }
 
   const copyScript = (script: SavedScript) => {
-    const fullScript = JSON.stringify(script.script, null, 2)
+    const fullScript = script.content || JSON.stringify(script.script, null, 2)
     navigator.clipboard.writeText(fullScript)
+    alert('Script copied to clipboard!')
   }
 
   const filteredScripts = scripts.filter(s =>
     s.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     s.productName?.toLowerCase().includes(searchQuery.toLowerCase())
   )
+
+  if (status === 'loading' || loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -61,7 +99,7 @@ export default function SavedScriptsPage() {
           Saved Scripts
         </h1>
         <p className="text-gray-600">
-          Your library of generated scripts - {scripts.length} saved
+          Your library of generated scripts - {scripts.length} saved (in database)
         </p>
       </div>
 

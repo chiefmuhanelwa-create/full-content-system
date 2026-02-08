@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Zap, Trash2, FileText, Calendar, Copy, Star } from 'lucide-react'
+import { Zap, Trash2, FileText, Calendar, Copy, Star, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useDatabase } from '@/hooks/useDatabase'
+import { useSession } from 'next-auth/react'
 
 interface SavedHook {
   id: string
@@ -15,56 +17,91 @@ interface SavedHook {
   isFavorite: boolean
   targetAudience?: string
   notes?: string
+  createdAt?: string
 }
 
 export default function SavedHooksPage() {
   const router = useRouter()
+  const { data: session, status } = useSession()
+  const { listHooks, deleteHook: deleteHookDb, loading } = useDatabase()
   const [savedHooks, setSavedHooks] = useState<SavedHook[]>([])
   const [filter, setFilter] = useState<string>('all')
 
   useEffect(() => {
-    const stored = localStorage.getItem('savedHooks')
-    if (stored) {
-      setSavedHooks(JSON.parse(stored))
+    if (status === 'authenticated') {
+      loadHooks()
+    } else if (status === 'unauthenticated') {
+      router.push('/auth/signin')
     }
-  }, [])
+  }, [status])
 
-  const deleteHook = (id: string) => {
-    const updated = savedHooks.filter(h => h.id !== id)
-    setSavedHooks(updated)
-    localStorage.setItem('savedHooks', JSON.stringify(updated))
+  const loadHooks = async () => {
+    const hooks = await listHooks()
+    const formatted = hooks.map((h: any) => ({
+      id: h.id,
+      content: h.content,
+      hookType: h.hookType || 'general',
+      platform: h.platform,
+      timestamp: h.createdAt,
+      isFavorite: h.isFavorite,
+      targetAudience: h.tone,
+      notes: h.category,
+      createdAt: h.createdAt,
+    }))
+    setSavedHooks(formatted)
   }
 
-  const toggleFavorite = (id: string) => {
+  const deleteHook = async (id: string) => {
+    const success = await deleteHookDb(id)
+    if (success) {
+      setSavedHooks(savedHooks.filter(h => h.id !== id))
+    }
+  }
+
+  const toggleFavorite = async (id: string) => {
+    // Update locally immediately for better UX
     const updated = savedHooks.map(h =>
       h.id === id ? { ...h, isFavorite: !h.isFavorite } : h
     )
     setSavedHooks(updated)
-    localStorage.setItem('savedHooks', JSON.stringify(updated))
+
+    // Reload from database to sync
+    await loadHooks()
   }
 
   const useInScript = (hook: SavedHook) => {
-    localStorage.setItem('tempHookForScript', JSON.stringify(hook))
+    // Store hook ID in session storage for cross-page communication
+    sessionStorage.setItem('selectedHookId', hook.id)
+    sessionStorage.setItem('selectedHookContent', hook.content)
     router.push('/dashboard/scripts')
   }
 
-  const scheduleToCalendar = (hook: SavedHook) => {
-    const calendarEntry = {
-      id: Date.now().toString(),
-      date: new Date().toISOString().split('T')[0],
-      content: hook.content,
-      contentType: 'Hook',
-      source: hook.hookType,
-      sourceTools: ['Hook Generator'],
-      status: 'scheduled' as const,
+  const scheduleToCalendar = async (hook: SavedHook) => {
+    // Save to database via API
+    try {
+      const response = await fetch('/api/calendar/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          date: new Date(),
+          title: `Hook: ${hook.content.substring(0, 50)}...`,
+          description: hook.content,
+          category: 'educate',
+          platform: hook.platform,
+          hookId: hook.id,
+          status: 'planned',
+        }),
+      })
+
+      if (response.ok) {
+        alert('Hook scheduled to calendar!')
+      } else {
+        alert('Failed to schedule hook')
+      }
+    } catch (error) {
+      console.error('Error scheduling hook:', error)
+      alert('Failed to schedule hook')
     }
-
-    const existing = localStorage.getItem('calendarEntries')
-    const entries = existing ? JSON.parse(existing) : []
-    entries.push(calendarEntry)
-    localStorage.setItem('calendarEntries', JSON.stringify(entries))
-
-    alert('Hook scheduled to calendar!')
   }
 
   const copyHook = (content: string) => {
@@ -88,6 +125,14 @@ export default function SavedHooksPage() {
     return labels[type] || type
   }
 
+  if (status === 'loading' || loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <div className="container mx-auto px-8 py-8 max-w-7xl">
       <div className="mb-8">
@@ -95,7 +140,7 @@ export default function SavedHooksPage() {
           <Zap className="h-10 w-10 text-blue-600" />
           Saved Hooks Library
         </h1>
-        <p className="text-gray-600">Your collection of scroll-stopping hooks ready to use</p>
+        <p className="text-gray-600">Your collection of scroll-stopping hooks ready to use (saved in database)</p>
       </div>
 
       {/* Stats */}
