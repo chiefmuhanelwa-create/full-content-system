@@ -42,7 +42,7 @@ export default function SavedScriptsPage() {
     const formatted = scriptsData.map((s: any) => ({
       id: s.id,
       title: s.title,
-      mode: s.goal === 'earn' ? 'sales' : 'content',
+      mode: (s.goal === 'earn' ? 'sales' : 'content') as 'sales' | 'content',
       productName: s.category,
       platform: s.platform,
       createdAt: s.createdAt,

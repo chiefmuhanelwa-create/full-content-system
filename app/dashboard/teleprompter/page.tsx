@@ -548,12 +548,14 @@ export default function TeleprompterPage() {
                     }}
                   >
                     <div
-                      className="p-12 leading-relaxed"
+                      className="p-12"
                       style={{
                         fontSize: fontSize + 'px',
                         transform: isMirrored ? 'scaleX(-1)' : 'none',
                         fontFamily: 'Arial, sans-serif',
                         fontWeight: 500,
+                        whiteSpace: 'pre-wrap',
+                        lineHeight: '1.8',
                       }}
                     >
                       {script || 'No script loaded. Enter text or load from library.'}
