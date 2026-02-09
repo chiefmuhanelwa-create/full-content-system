@@ -123,6 +123,12 @@ export default function ScriptWriterPage() {
   const [salesFormat, setSalesFormat] = useState('reel')
   const [products, setProducts] = useState<any[]>([])
 
+  // NOCHILL Framework Selectors
+  const [contentType, setContentType] = useState('auto') // 4E: entertain, educate, encourage, earn
+  const [paidsStream, setPaidsStream] = useState('auto') // products, ads, information, deals, services
+  const [storyType, setStoryType] = useState('auto') // Genesis: origin, struggle, transformation, breakthrough, lesson
+  const [hookCategory, setHookCategory] = useState('auto') // 120 hooks: origin, transformation, lesson, social_proof, curiosity, controversy
+
   // Load products from localStorage
   useEffect(() => {
     const storedProducts = localStorage.getItem('products')
@@ -310,6 +316,11 @@ export default function ScriptWriterPage() {
         platform: platform === 'auto' ? undefined : platform,
         duration: duration === 'auto' ? undefined : duration,
         recentStories, // Pass recently used stories for rotation
+        // NOCHILL Framework Options
+        contentType: contentType === 'auto' ? undefined : contentType,
+        paidsStream: paidsStream === 'auto' ? undefined : paidsStream,
+        storyType: storyType === 'auto' ? undefined : storyType,
+        hookCategory: hookCategory === 'auto' ? undefined : hookCategory,
       }
 
       // Add sales mode data
@@ -974,6 +985,95 @@ ${scriptToUse.fiveLine.community.script}`
                   </p>
                 )}
               </div>
+
+              {/* NOCHILL Framework Options */}
+              {scriptMode === 'content' && (
+                <div className="space-y-4 p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="h-4 w-4 text-purple-600" />
+                    <Label className="text-purple-900 font-semibold">NOCHILL Framework Options (Optional)</Label>
+                  </div>
+                  <p className="text-xs text-purple-700 mb-3">
+                    Fine-tune your script using the NOCHILL Viral Scripting Master Guide frameworks
+                  </p>
+
+                  {/* 4E Content Type */}
+                  <div className="space-y-2">
+                    <Label htmlFor="contentType" className="text-sm">4E Content Type</Label>
+                    <Select value={contentType} onValueChange={setContentType}>
+                      <SelectTrigger id="contentType" className="bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="auto">🤖 Auto-detect (AI chooses best fit)</SelectItem>
+                        <SelectItem value="entertain">🎭 Entertain (30%) - Story + Humor + Relatability</SelectItem>
+                        <SelectItem value="educate">📚 Educate (35%) - Problem + Framework + Steps</SelectItem>
+                        <SelectItem value="encourage">💪 Encourage (20%) - Struggle + Lesson + Hope</SelectItem>
+                        <SelectItem value="earn">💰 Earn (15%) - Pain + Solution + CTA</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* PAIDS Revenue Stream */}
+                  <div className="space-y-2">
+                    <Label htmlFor="paidsStream" className="text-sm">PAIDS Revenue Stream</Label>
+                    <Select value={paidsStream} onValueChange={setPaidsStream}>
+                      <SelectTrigger id="paidsStream" className="bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="auto">🤖 Auto-detect (AI chooses best stream)</SelectItem>
+                        <SelectItem value="products">🛍️ Products - Physical/digital products</SelectItem>
+                        <SelectItem value="ads">📺 Ads & Affiliates - Sponsorships/partnerships</SelectItem>
+                        <SelectItem value="information">🎓 Information - Courses/workshops</SelectItem>
+                        <SelectItem value="deals">🤝 Deals - Brand collaborations</SelectItem>
+                        <SelectItem value="services">⚙️ Services - Done-for-you/consulting</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Genesis Framework Story Type */}
+                  <div className="space-y-2">
+                    <Label htmlFor="storyType" className="text-sm">Genesis Framework (Story Type)</Label>
+                    <Select value={storyType} onValueChange={setStoryType}>
+                      <SelectTrigger id="storyType" className="bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="auto">🤖 Auto-detect (AI chooses best story)</SelectItem>
+                        <SelectItem value="origin">🌱 Origin - Build rapport & relatability</SelectItem>
+                        <SelectItem value="struggle">💔 Struggle - Create empathy & validate pain</SelectItem>
+                        <SelectItem value="transformation">🔄 Transformation - Prove method works</SelectItem>
+                        <SelectItem value="breakthrough">💡 Breakthrough - Create 'aha' moments</SelectItem>
+                        <SelectItem value="lesson">📖 Lesson - Share wisdom & prevent mistakes</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Hook Category (120 Hooks Bank) */}
+                  <div className="space-y-2">
+                    <Label htmlFor="hookCategory" className="text-sm">Hook Category (120 Hooks Bank)</Label>
+                    <Select value={hookCategory} onValueChange={setHookCategory}>
+                      <SelectTrigger id="hookCategory" className="bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="auto">🤖 Auto-detect (AI chooses best category)</SelectItem>
+                        <SelectItem value="origin">🌱 Origin & Struggle - Relatability & connection</SelectItem>
+                        <SelectItem value="transformation">🔄 Transformation - Social proof & validation</SelectItem>
+                        <SelectItem value="lesson">📖 Lesson & Breakthrough - Educational & authority</SelectItem>
+                        <SelectItem value="social_proof">⭐ Social Proof & Authority - Credibility</SelectItem>
+                        <SelectItem value="curiosity">🔍 Curiosity & Pattern Interrupt - Viral potential</SelectItem>
+                        <SelectItem value="controversy">🔥 Controversy & Hot Take - Debate & polarization</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <p className="text-xs text-purple-600 italic">
+                    💡 Leave as "Auto-detect" for AI to choose optimal frameworks based on your idea
+                  </p>
+                </div>
+              )}
 
               {/* Info Box */}
               <div className={`p-4 border rounded-md ${scriptMode === 'sales' ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'}`}>

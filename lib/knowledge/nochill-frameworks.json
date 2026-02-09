@@ -1,0 +1,915 @@
+{
+  "name": "NOCHILL Viral Scripting Master Guide",
+  "version": "1.0",
+  "description": "Complete viral scripting system with Hook Science + Storytelling Systems + 4 Foundational Principles",
+  "author": "Ndivhuwo 'NO CHILL in Mzansi' Muhanelwa",
+
+  "foundational_principles": {
+    "description": "The 4 core principles that every viral script must follow",
+    "principles": [
+      {
+        "id": 1,
+        "name": "Negativity Always Wins",
+        "core_concept": "At least on social media, negativity more often wins over positivity",
+        "psychology": {
+          "negative_impact": "9/10 emotional intensity",
+          "positive_impact": "6/10 emotional intensity",
+          "reason": "Negativity invokes MORE attention and MORE emotion than positivity"
+        },
+        "critical_rule": "INDIRECT NEGATIVITY ONLY",
+        "application": {
+          "do_not": "Shit on the viewer",
+          "do": "Shit on the mistake the viewer is making"
+        },
+        "examples": {
+          "positive": "These three leg workouts are so much better than squats, and the last one is the best.",
+          "negative": "Squats just fucking suck whenever it comes to actually growing your legs instead of just wasting your time in the gym. Here are three leg workouts that will actually get you some tree trunks for legs.",
+          "why_negative_wins": "Attacks the problem (ineffective squats) without attacking the person"
+        },
+        "power_words": ["suck", "wasting time", "bullshit", "terrible", "failing", "broke", "ignored", "ghosting"],
+        "implementation_steps": [
+          "Start with your positive version of the hook/statement",
+          "Identify what's NOT working (the mistake/problem)",
+          "Attack that mistake with strong language",
+          "Keep it indirect (about 'the viewer's situation' not 'the viewer')",
+          "Use power words"
+        ],
+        "golden_rule": "Always attack the problem, never the person"
+      },
+      {
+        "id": 2,
+        "name": "You Format",
+        "core_concept": "Always use 'you' instead of 'they,' 'people,' 'someone,' or 'one'",
+        "psychology": {
+          "they": "Talking ABOUT your viewer",
+          "you": "Talking TO your viewer"
+        },
+        "impact": "Direct address creates personal connection. Personal connection drives higher engagement, longer watch time, and stronger conversion rates",
+        "words_to_replace": {
+          "they": "you",
+          "people": "you",
+          "someone": "you",
+          "one": "you",
+          "folks": "you",
+          "everyone": "you"
+        },
+        "examples": [
+          {
+            "before": "People often make this mistake...",
+            "after": "You're probably making this mistake..."
+          },
+          {
+            "before": "When someone wants to grow their following...",
+            "after": "When you want to grow your following..."
+          },
+          {
+            "before": "They need to understand the algorithm...",
+            "after": "You need to understand the algorithm..."
+          }
+        ],
+        "implementation_process": [
+          "Write your complete script first",
+          "Do a find-and-replace search for: 'they,' 'people,' 'someone,' 'one,' 'folks,' 'y'all'",
+          "Replace each instance with 'you'",
+          "Read through to ensure it flows naturally",
+          "Adjust any awkward phrasing"
+        ],
+        "scope": "Applies to captions, emails, sales pages, and all written content—not just video scripts"
+      },
+      {
+        "id": 3,
+        "name": "Short & Simple As Possible",
+        "core_concept": "Every word must earn its place. Cut ruthlessly",
+        "principles": [
+          "Use active voice over passive voice",
+          "Replace complex words with simple alternatives",
+          "Cut filler words (just, really, very, actually, literally)",
+          "One idea per sentence maximum",
+          "Break long sentences into short punchy ones"
+        ],
+        "examples": [
+          {
+            "before": "What I'm going to do is actually show you three different exercises that are really much better for leg development",
+            "after": "Here are three exercises that build bigger legs"
+          },
+          {
+            "before": "The thing that you need to understand is that...",
+            "after": "Here's what matters..."
+          }
+        ],
+        "social_media_rules": {
+          "attention_span": "Average viewer decides in 1.5 seconds",
+          "scroll_behavior": "Users scroll if confused or bored",
+          "clarity_wins": "Simple beats clever every time"
+        }
+      },
+      {
+        "id": 4,
+        "name": "The Audible Flow Check",
+        "core_concept": "If it doesn't sound natural when read aloud, rewrite it",
+        "process": [
+          "Write your script",
+          "Read it out loud at normal speaking pace",
+          "Mark any spots where you stumble",
+          "Identify unnatural phrasing or awkward transitions",
+          "Rewrite problem areas",
+          "Read again until it flows smoothly"
+        ],
+        "red_flags": [
+          "You stumble over a phrase",
+          "You run out of breath mid-sentence",
+          "It sounds like 'writing' not 'talking'",
+          "Transitions feel forced",
+          "Rhythm is inconsistent"
+        ],
+        "goal": "Scripts should sound like natural conversation, not academic writing",
+        "tip": "Record yourself reading it. If you wouldn't say it in conversation, cut it"
+      }
+    ],
+    "checklist": [
+      {
+        "principle": "Negativity",
+        "question": "Does this attack the PROBLEM (not the person)?"
+      },
+      {
+        "principle": "You Format",
+        "question": "Have I replaced 'they/people/someone' with 'you'?"
+      },
+      {
+        "principle": "Short & Simple",
+        "question": "Can I say this in fewer words?"
+      },
+      {
+        "principle": "Audible Flow",
+        "question": "Does this sound natural when read aloud?"
+      }
+    ]
+  },
+
+  "hook_formula": {
+    "name": "R×A×C×U^B Formula",
+    "description": "Every viral hook is built on five core components",
+    "formula": "R × A × C × U^B",
+    "foundation": "R × A × C",
+    "multiplier": "U^B",
+    "components": [
+      {
+        "id": "R",
+        "name": "Relevant",
+        "description": "Who does your hook attack?",
+        "questions": [
+          "Is this for my ideal customer avatar?",
+          "Will they recognize themselves in this?",
+          "Does this speak to their specific situation?"
+        ],
+        "examples": [
+          "Creators who feel judged by family",
+          "Entrepreneurs tired of platform dependency",
+          "African creators frustrated by low CPMs"
+        ]
+      },
+      {
+        "id": "A",
+        "name": "Awareness",
+        "description": "What level of understanding does your audience have?",
+        "levels": [
+          {
+            "level": "Symptom Aware",
+            "description": "They feel the pain but don't know what's causing it",
+            "hook_approach": "Call out the feeling/symptom"
+          },
+          {
+            "level": "Problem Aware",
+            "description": "They know the problem exists",
+            "hook_approach": "Name the specific problem"
+          },
+          {
+            "level": "Solution Aware",
+            "description": "They know solutions exist but haven't chosen one",
+            "hook_approach": "Differentiate your solution"
+          },
+          {
+            "level": "Product Aware",
+            "description": "They know your product/service exists",
+            "hook_approach": "Address objections or provide proof"
+          }
+        ],
+        "examples": [
+          {
+            "awareness": "Symptom",
+            "hook": "Your content gets views but no sales. Here's why..."
+          },
+          {
+            "awareness": "Problem",
+            "hook": "Platform dependency is killing African creators. Here's the escape plan..."
+          }
+        ]
+      },
+      {
+        "id": "C",
+        "name": "Clarity of Outcome",
+        "description": "What transformation does your hook promise?",
+        "rule": "Promise must be clear in first 3 seconds",
+        "hook_types": [
+          {
+            "type": "Information Gap",
+            "description": "Promise to reveal unknown information",
+            "examples": [
+              "Here's what brands actually look for...",
+              "The algorithm change nobody's talking about..."
+            ]
+          },
+          {
+            "type": "Desired Result",
+            "description": "Promise to achieve wanted outcome",
+            "examples": [
+              "Get 10K followers in 30 days",
+              "Land your first R50K brand deal"
+            ]
+          },
+          {
+            "type": "Undesired Result",
+            "description": "Promise to avoid negative outcome",
+            "examples": [
+              "Stop wasting money on ads that don't convert",
+              "Avoid the tax mistakes that cost me R285K"
+            ]
+          },
+          {
+            "type": "A-to-B Transformation",
+            "description": "Promise to move from current state to desired state",
+            "examples": [
+              "From R750 brand deals to R8,333/month retainers",
+              "From 0 email subscribers to 100K in 12 months"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "U",
+        "name": "Unique",
+        "description": "How does your hook break the pattern?",
+        "pattern_interrupts": [
+          "Controversial statement",
+          "Unexpected number/statistic",
+          "Counterintuitive claim",
+          "Personal vulnerability",
+          "Strong language",
+          "Unusual comparison",
+          "Shocking result"
+        ],
+        "examples": [
+          "Squats just fucking suck for leg growth",
+          "I lost 780K followers. Best thing that ever happened",
+          "Your family is right. You ARE wasting your life (unless...)"
+        ]
+      },
+      {
+        "id": "B",
+        "name": "Broadened",
+        "description": "How do you make it accessible to MORE people?",
+        "strategies": [
+          "Remove niche-specific jargon",
+          "Use universal pain points",
+          "Apply to multiple industries/situations",
+          "Focus on the principle, not the tactic"
+        ],
+        "examples": [
+          {
+            "narrow": "If you're a fitness coach struggling with client acquisition...",
+            "broadened": "If you're a creator tired of content being ignored..."
+          },
+          {
+            "narrow": "Instagram Reels aren't converting for your gym",
+            "broadened": "Your content gets views but no sales"
+          }
+        ]
+      }
+    ],
+    "checklist": [
+      {
+        "component": "RELEVANT",
+        "question": "Is this for my ideal customer avatar?"
+      },
+      {
+        "component": "AWARENESS",
+        "question": "What level does my audience understand this topic?"
+      },
+      {
+        "component": "CLARITY",
+        "question": "Is the outcome promise clear in first 3 seconds?"
+      },
+      {
+        "component": "UNIQUE",
+        "question": "Does this break the pattern they expect?"
+      },
+      {
+        "component": "BROADENED",
+        "question": "Can I make this apply to MORE people without diluting?"
+      }
+    ]
+  },
+
+  "genesis_framework": {
+    "name": "The Genesis Framework",
+    "description": "5 core story types that every creator possesses - your unfair competitive advantage",
+    "story_types": [
+      {
+        "id": 1,
+        "type": "Origin Stories",
+        "purpose": "Build instant rapport, establish relatability",
+        "elements": [
+          "Where you came from",
+          "Early struggles",
+          "Formative experiences",
+          "The moment you decided to change"
+        ],
+        "nochill_examples": [
+          "Bathroom floor covenant",
+          "Tshikwarani village upbringing",
+          "R400/month family income",
+          "No running water, no electricity"
+        ],
+        "script_usage": "Use in intros, 'about me' content, relatability hooks",
+        "emotional_impact": "High - creates immediate connection"
+      },
+      {
+        "id": 2,
+        "type": "Struggle Stories",
+        "purpose": "Create empathy, show you understand their pain",
+        "elements": [
+          "The specific challenge",
+          "What didn't work",
+          "Cost of failure (emotional, financial, time)",
+          "Rock bottom moment"
+        ],
+        "nochill_examples": [
+          "R285K SARS debt from tax ignorance",
+          "780K followers lost to platform dependency",
+          "Sleeping in university bathrooms for 2 months",
+          "Failed business attempts before breakthrough"
+        ],
+        "script_usage": "Problem awareness content, 'you're not alone' messaging",
+        "emotional_impact": "Very High - validates viewer's struggles"
+      },
+      {
+        "id": 3,
+        "type": "Transformation Stories",
+        "purpose": "Demonstrate possibility, inspire hope, prove your method works",
+        "elements": [
+          "Clear before state (quantified)",
+          "The turning point decision",
+          "What changed (the method)",
+          "Clear after state (quantified)"
+        ],
+        "nochill_examples": [
+          "Platform dependency → owned audience system (100K email subscribers)",
+          "R750 brand deals → R8,333/month retainers",
+          "R6,000 phone investment → R600K+ platform revenue",
+          "Bathroom floors → Netflix partnerships"
+        ],
+        "script_usage": "Social proof, case studies, method validation",
+        "emotional_impact": "High - creates belief in possibility"
+      },
+      {
+        "id": 4,
+        "type": "Breakthrough Stories",
+        "purpose": "Show the moment everything changed, create 'aha' moments",
+        "elements": [
+          "The specific insight/realization",
+          "What triggered it",
+          "Immediate action taken",
+          "Fast results achieved"
+        ],
+        "nochill_examples": [
+          "Realizing 96% of creators fail because of platform dependency",
+          "The covenant moment: 'If You get me out of this...'",
+          "First R50K campaign that changed everything",
+          "Discovering the 4E Content Engine formula"
+        ],
+        "script_usage": "Teaching moments, framework introductions, 'lightbulb' content",
+        "emotional_impact": "Medium-High - creates curiosity and learning"
+      },
+      {
+        "id": 5,
+        "type": "Lesson Stories",
+        "purpose": "Teach principles through experience, provide actionable wisdom",
+        "elements": [
+          "The mistake made",
+          "Why it happened",
+          "What was learned",
+          "How viewer can avoid it"
+        ],
+        "nochill_examples": [
+          "Accepting R750 brand deals → learned pricing psychology",
+          "Ignoring email list → lost 780K followers, learned owned audiences",
+          "Not understanding taxes → R285K debt, learned business systems",
+          "Chasing validation over value → learned content-to-cash frameworks"
+        ],
+        "script_usage": "Educational content, mistakes to avoid, wisdom sharing",
+        "emotional_impact": "Medium - creates trust and authority"
+      }
+    ],
+    "extraction_process": {
+      "description": "Every creator has 10-15 proof stories. Use this extraction process:",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Memory Scan",
+          "detail": "Write down every achievement, milestone, transformation, or setback from the last 5 years"
+        },
+        {
+          "step": 2,
+          "action": "Quantify",
+          "detail": "Add numbers to each story (revenue, followers, time saved, problems solved)"
+        },
+        {
+          "step": 3,
+          "action": "Categorize",
+          "detail": "Assign each story to one of the 5 types"
+        },
+        {
+          "step": 4,
+          "action": "Name the Method",
+          "detail": "Turn each story into a teachable framework"
+        },
+        {
+          "step": 5,
+          "action": "Deploy Strategically",
+          "detail": "Use stories in hooks, content, sales conversations"
+        }
+      ]
+    }
+  },
+
+  "story_arc": {
+    "name": "The 7-Stage Story Arc",
+    "description": "Every compelling story follows this structure for maximum emotional impact",
+    "stages": [
+      {
+        "stage": 1,
+        "name": "Setup (Context)",
+        "description": "Establish the ordinary world, introduce the character, set the scene",
+        "timing": "5-10 seconds maximum in short-form content",
+        "elements": [
+          "Who is the character?",
+          "What's their normal situation?",
+          "What's the setting?"
+        ],
+        "nochill_example": "I was sleeping in university bathrooms for 2 months...",
+        "script_tip": "Make it FAST - viewers want conflict, not exposition"
+      },
+      {
+        "stage": 2,
+        "name": "Inciting Incident (The Trigger)",
+        "description": "Something happens that disrupts the status quo",
+        "elements": [
+          "What event triggered the change?",
+          "Why now?",
+          "What's at stake?"
+        ],
+        "nochill_example": "My REAP bursary was cancelled after I failed one module...",
+        "script_tip": "This is the 'why now' moment that justifies the story"
+      },
+      {
+        "stage": 3,
+        "name": "Escalation (Rising Tension)",
+        "description": "The stakes increase, the problem gets worse, the pressure builds",
+        "purpose": "This is where emotional investment happens",
+        "elements": [
+          "How did things get worse?",
+          "What obstacles appeared?",
+          "What was the cost?"
+        ],
+        "nochill_example": "Every footstep approaching the bathroom door sent my heart racing—would I be discovered?",
+        "script_tip": "Stack problems - make the viewer feel the weight"
+      },
+      {
+        "stage": 4,
+        "name": "Crisis Point (The Bottom)",
+        "description": "The lowest moment. All hope seems lost",
+        "purpose": "The emotional peak that makes the transformation meaningful",
+        "elements": [
+          "What was the darkest moment?",
+          "What almost made you quit?",
+          "How did it feel?"
+        ],
+        "nochill_example": "Some nights I wondered if I should just give up, go home, admit defeat...",
+        "script_tip": "Don't rush this - let the viewer sit in the pain"
+      },
+      {
+        "stage": 5,
+        "name": "Decision (The Turn)",
+        "description": "The character makes a choice that changes everything",
+        "purpose": "This is the pivot from problem to solution",
+        "elements": [
+          "What decision was made?",
+          "Why this decision?",
+          "What changed in their mindset?"
+        ],
+        "nochill_example": "That night I made a covenant with God: If You get me out of this, I will use whatever platform You give me to point people back to You",
+        "script_tip": "Make the decision specific and active"
+      },
+      {
+        "stage": 6,
+        "name": "Transformation (The Climb)",
+        "description": "Show the journey from decision to outcome",
+        "elements": [
+          "What changed?",
+          "What was learned?",
+          "What actions were taken?",
+          "What results came?"
+        ],
+        "nochill_example": "From that R6,000 Huawei phone came R600K+ in platform revenue, then Netflix partnerships, Samsung, Coca-Cola...",
+        "script_tip": "Include specific numbers and milestones"
+      },
+      {
+        "stage": 7,
+        "name": "Resolution (New Reality + Lesson)",
+        "description": "Where are they now? What's the lesson? How can viewer apply this?",
+        "elements": [
+          "Current state vs. starting state",
+          "The principle extracted",
+          "How viewer can use this"
+        ],
+        "nochill_example": "Today: 3M+ followers, 100K email subscribers, teaching thousands. The covenant is being fulfilled. You can do the same - here's how...",
+        "script_tip": "Always bridge to actionable lesson"
+      }
+    ],
+    "duration_adaptations": {
+      "60_second_content": {
+        "focus": "Crisis Point (4) → Decision (5) → Transformation (6)",
+        "skip": "Setup (condense to 1 line), Escalation (imply through Crisis), Resolution (just the lesson)"
+      },
+      "long_form_content": {
+        "focus": "Use all 7 stages",
+        "emphasis": "Spend more time in Escalation and Transformation"
+      }
+    }
+  },
+
+  "paids_framework": {
+    "name": "PAIDS Framework",
+    "description": "5 revenue streams - every script should serve one",
+    "critical_rule": "Never create content without identifying which PAIDS stream it serves. Content without monetization strategy is just expensive entertainment.",
+    "streams": [
+      {
+        "id": "P",
+        "name": "Products",
+        "description": "Physical or digital products you sell directly",
+        "content_types": [
+          "Product showcases",
+          "Product launches",
+          "Testimonials",
+          "Unboxing/reviews"
+        ],
+        "script_focus": "Problem → Product → Proof",
+        "example_hook": "This R297 template generated R50K in brand deals—here's what's inside",
+        "cta_examples": [
+          "Link in bio to grab yours",
+          "DM me TEMPLATE for instant access",
+          "Limited spots available - get it before it's gone"
+        ]
+      },
+      {
+        "id": "A",
+        "name": "Ads & Affiliates",
+        "description": "Revenue from platform ads, sponsorships, affiliate commissions",
+        "content_types": [
+          "Brand partnership content",
+          "Sponsored posts",
+          "Affiliate product reviews",
+          "Authentic integration"
+        ],
+        "script_focus": "Authentic integration, clear disclosure",
+        "example_hook": "I only partner with brands I actually use—here's why I chose [Brand]",
+        "disclosure_requirements": [
+          "Always disclose partnerships clearly",
+          "FTC compliance: #ad, #sponsored",
+          "South African ASA guidelines"
+        ]
+      },
+      {
+        "id": "I",
+        "name": "Information",
+        "description": "Courses, masterclasses, workshops, coaching programs",
+        "content_types": [
+          "Course teasers",
+          "Workshop promos",
+          "Webinar invites",
+          "Free masterclass offers"
+        ],
+        "script_focus": "Teach framework, tease depth",
+        "example_hook": "Here's the 5-step framework—full breakdown in my free masterclass",
+        "content_ratio": "Give 80% value, tease 20% depth/implementation support"
+      },
+      {
+        "id": "D",
+        "name": "Deals",
+        "description": "Brand partnerships, sponsorships, collaborations",
+        "content_types": [
+          "Behind-the-scenes partnerships",
+          "Brand collaboration announcements",
+          "Case studies",
+          "Transparency content"
+        ],
+        "script_focus": "Collaboration transparency, value demonstration",
+        "example_hook": "How I landed this R50K campaign—the exact pitch email",
+        "positioning_tips": [
+          "Show your process",
+          "Demonstrate ROI for brands",
+          "Build authority as partner, not influencer"
+        ]
+      },
+      {
+        "id": "S",
+        "name": "Services",
+        "description": "Done-for-you services, consulting, agency work",
+        "content_types": [
+          "Case studies",
+          "Client results",
+          "Consultation offers",
+          "Service explainers"
+        ],
+        "script_focus": "Transformation proof, expertise display",
+        "example_hook": "We took this creator from R0 to R25K/month in 90 days—here's how",
+        "trust_builders": [
+          "Show before/after results",
+          "Client testimonials",
+          "Process transparency",
+          "Guarantee/risk reversal"
+        ]
+      }
+    ]
+  },
+
+  "4e_content_engine": {
+    "name": "4E Content Engine",
+    "description": "Balance your content across 4 categories to build audience AND revenue",
+    "distribution": {
+      "entertain": "30%",
+      "educate": "35%",
+      "encourage": "20%",
+      "earn": "15%"
+    },
+    "categories": [
+      {
+        "id": "E1",
+        "name": "Entertain",
+        "percentage": "30%",
+        "purpose": "Capture attention, build initial audience",
+        "script_formula": "Story + Humor + Relatability",
+        "content_types": [
+          "Relatable struggles",
+          "Funny observations",
+          "Day-in-the-life",
+          "Behind-the-scenes bloopers"
+        ],
+        "hook_examples": [
+          "POV: You're a creator and your mom asks when you're getting a 'real job'",
+          "The 5 stages of waiting for a brand deal response",
+          "What I thought content creation would be vs. reality"
+        ],
+        "goal": "Get discovered, build familiarity, increase shareability"
+      },
+      {
+        "id": "E2",
+        "name": "Educate",
+        "percentage": "35%",
+        "purpose": "Position as expert, provide lasting value",
+        "script_formula": "Problem + Framework + Actionable Steps",
+        "content_types": [
+          "How-to tutorials",
+          "Framework breakdowns",
+          "Mistake avoidance",
+          "Strategy explainers"
+        ],
+        "hook_examples": [
+          "The R×A×C×U^B hook formula that gets 10M+ views",
+          "3 mistakes killing your content (and how to fix them)",
+          "My exact 7-day content batching system"
+        ],
+        "goal": "Build authority, create saves/shares, establish expertise"
+      },
+      {
+        "id": "E3",
+        "name": "Encourage",
+        "percentage": "20%",
+        "purpose": "Build community, inspire action",
+        "script_formula": "Struggle + Lesson + Hope",
+        "content_types": [
+          "Transformation stories",
+          "Motivational messages",
+          "Community wins",
+          "Mindset shifts"
+        ],
+        "hook_examples": [
+          "I lost 780K followers. Here's what I learned about real success",
+          "Your family thinks you're wasting time. Prove them wrong",
+          "From bathroom floors to Netflix - the journey no one sees"
+        ],
+        "goal": "Deepen connection, inspire belief, foster loyalty"
+      },
+      {
+        "id": "E4",
+        "name": "Earn",
+        "percentage": "15%",
+        "purpose": "Convert followers into customers",
+        "script_formula": "Pain + Solution + Clear CTA",
+        "content_types": [
+          "Product launches",
+          "Service offers",
+          "Course promos",
+          "Consultation invites"
+        ],
+        "hook_examples": [
+          "This R297 script template generated R50K in deals. Get it now",
+          "I'm taking 10 creators from R0 to R25K/month. Apply here",
+          "The exact framework from my R5,000 course - free masterclass today"
+        ],
+        "goal": "Drive sales, generate leads, monetize audience",
+        "critical_rule": "Only 15% should be direct selling - trust is built through value first"
+      }
+    ],
+    "balancing_strategy": {
+      "weekly_posting_schedule": {
+        "monday": "Educate - Start week with value",
+        "tuesday": "Entertain - Keep engagement high",
+        "wednesday": "Educate - Mid-week teaching",
+        "thursday": "Encourage - Build community",
+        "friday": "Entertain - Weekend vibes",
+        "saturday": "Educate or Encourage - Slow scroll day",
+        "sunday": "Earn - High engagement day for offers"
+      },
+      "monthly_review": "Track which category drives most: followers, engagement, revenue. Adjust ratios accordingly."
+    }
+  },
+
+  "platform_templates": {
+    "instagram_reels": {
+      "platform": "Instagram Reels",
+      "optimization": {
+        "duration": "7-15 seconds (ideal), max 90 seconds",
+        "hook_window": "First 1.5 seconds",
+        "text_overlay": "3-5 words max per frame",
+        "sound_strategy": "Trending audio + voiceover",
+        "cta_placement": "Last 3 seconds + caption",
+        "hashtag_count": "3-5 relevant, 1-2 branded"
+      },
+      "algorithm_priorities": [
+        "Completion rate (watch to end)",
+        "Saves (highest value)",
+        "Shares",
+        "Comments",
+        "Profile visits"
+      ],
+      "script_structure": {
+        "0_to_1.5s": "Hook (Visual + Text Overlay)",
+        "1.5_to_5s": "Problem Escalation",
+        "5_to_13s": "Solution (3 Quick Tips)",
+        "13_to_15s": "CTA"
+      }
+    },
+    "tiktok": {
+      "platform": "TikTok",
+      "optimization": {
+        "duration": "15-45 seconds (sweet spot), max 10 minutes",
+        "hook_window": "First 2 seconds",
+        "text_overlay": "Bold, large text - TikTok audiences read more",
+        "sound_strategy": "Trending sounds are CRITICAL",
+        "cta_placement": "Throughout + strong final CTA",
+        "hashtag_count": "3-5, mix trending + niche"
+      },
+      "algorithm_priorities": [
+        "Watch time percentage",
+        "Rewatches (loop content)",
+        "Comments",
+        "Shares",
+        "Sound usage"
+      ],
+      "script_structure": {
+        "0_to_2s": "Pattern interrupt hook",
+        "2_to_10s": "Problem + Agitation",
+        "10_to_40s": "Solution with energy",
+        "40_to_45s": "Strong CTA + loop back to hook"
+      }
+    },
+    "youtube_shorts": {
+      "platform": "YouTube Shorts",
+      "optimization": {
+        "duration": "30-60 seconds (ideal)",
+        "hook_window": "First 3 seconds",
+        "text_overlay": "Use strategically, not constantly",
+        "sound_strategy": "Original audio performs well",
+        "cta_placement": "Verbal CTA + pinned comment",
+        "description": "Use for SEO keywords"
+      },
+      "algorithm_priorities": [
+        "Watch time",
+        "Click-through to long-form",
+        "Subscribes",
+        "Likes",
+        "Comments"
+      ],
+      "script_structure": {
+        "0_to_3s": "Hook with question or statement",
+        "3_to_15s": "Problem breakdown",
+        "15_to_50s": "Solution delivery",
+        "50_to_60s": "CTA to long-form video or subscribe"
+      }
+    },
+    "youtube_longform": {
+      "platform": "YouTube Long-form",
+      "optimization": {
+        "duration": "8-15 minutes (sweet spot for ads)",
+        "hook_window": "First 30 seconds",
+        "retention_points": "Every 2-3 minutes, re-hook viewer",
+        "pattern_interrupt": "Change scene/energy every 45-60 seconds",
+        "cta_placement": "Mid-roll (7 min), End (14 min)"
+      },
+      "algorithm_priorities": [
+        "Average view duration",
+        "Click-through rate (thumbnail + title)",
+        "Session time (keeps viewers on YouTube)",
+        "Engagement rate"
+      ],
+      "script_structure": {
+        "0_to_30s": "Hook + outcome promise",
+        "30s_to_2min": "Story/context (why this matters)",
+        "2_to_10min": "Main content (framework/teaching)",
+        "10_to_14min": "Examples, proof, case studies",
+        "14_to_15min": "Recap + CTA"
+      }
+    }
+  },
+
+  "implementation_roadmap": {
+    "day_1": {
+      "focus": "Story Extraction",
+      "tasks": [
+        "Extract 5-10 proof stories from your experience (2 hours)",
+        "Categorize into Genesis Framework types",
+        "Quantify each story with numbers"
+      ]
+    },
+    "day_2": {
+      "focus": "Hook Creation",
+      "tasks": [
+        "Create 20 hooks from your proof stories (2 hours)",
+        "Test each hook against R×A×C×U^B formula",
+        "Select top 10 hooks for content creation"
+      ]
+    },
+    "day_3": {
+      "focus": "Script Writing",
+      "tasks": [
+        "Write 5 complete scripts (60-90 seconds each) (3 hours)",
+        "Apply 4 Foundational Principles to each script",
+        "Read aloud to check audible flow"
+      ]
+    },
+    "day_4": {
+      "focus": "Content Production",
+      "tasks": [
+        "Film all 5 scripts in one batch session (2-3 hours)",
+        "Use simple setup (phone + natural light)",
+        "Focus on delivery, not perfection"
+      ]
+    },
+    "day_5": {
+      "focus": "Editing & Optimization",
+      "tasks": [
+        "Edit videos with text overlays and trending audio (3 hours)",
+        "Optimize for platform (Reels vs TikTok vs Shorts)",
+        "Write captions with CTAs"
+      ]
+    },
+    "day_6_7": {
+      "focus": "Posting & Engagement",
+      "tasks": [
+        "Post 1 video per day",
+        "Engage with every comment within 1 hour",
+        "Track metrics: views, saves, shares, DMs",
+        "Identify top performer for repurposing"
+      ]
+    },
+    "expected_results": "5 pieces of high-quality content posted, initial engagement data, first DM conversations about services/products"
+  },
+
+  "ubuntu_principles": {
+    "description": "I am because we are - Community over competition",
+    "core_values": [
+      "We rise together",
+      "Build for children's children",
+      "Point people back to what matters",
+      "Share knowledge freely",
+      "Community over competition"
+    ],
+    "scripting_application": {
+      "we_over_i": "Use collective framing - 'we' instead of 'I' when teaching",
+      "system_villains": "Blame systems, not people - attack the problem, not the viewer",
+      "collective_results": "Frame wins as community wins",
+      "legacy_thinking": "Always ask: does this serve the next generation?"
+    }
+  }
+}

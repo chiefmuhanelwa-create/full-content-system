@@ -13,8 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X, Save, Download } from 'lucide-react'
+import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X, Save, Download, BookOpen, ChevronDown, ChevronUp } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
+import { get120HooksBank } from '@/lib/knowledge-base'
 
 interface Hook {
   id: string
@@ -36,6 +37,11 @@ export default function HookGeneratorPage() {
   const [hooks, setHooks] = useState<Hook[]>([])
   const [error, setError] = useState('')
   const [targetedFear, setTargetedFear] = useState<{ id: number; name: string; relevance: number } | null>(null)
+
+  // NOCHILL 120 Hooks Bank
+  const [showHookBank, setShowHookBank] = useState(false)
+  const [selectedHookCategory, setSelectedHookCategory] = useState('all')
+  const hookBank = get120HooksBank()
 
   // Check for pending action from Fear Analyzer or Calendar
   useEffect(() => {
@@ -273,6 +279,15 @@ export default function HookGeneratorPage() {
     }
   }
 
+  const filteredHooks = selectedHookCategory === 'all'
+    ? hookBank.categories.flatMap(cat => cat.hooks)
+    : hookBank.categories.find(cat => cat.id.toString() === selectedHookCategory)?.hooks || []
+
+  const copyBankHook = (hookText: string) => {
+    navigator.clipboard.writeText(hookText)
+    alert('Hook copied to clipboard!')
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-8">
@@ -284,6 +299,123 @@ export default function HookGeneratorPage() {
           Generate viral hooks using the R×A×C×U^B formula
         </p>
       </div>
+
+      {/* NOCHILL 120 Hooks Bank Browser */}
+      <Card className="mb-8 border-purple-200">
+        <CardHeader className="cursor-pointer" onClick={() => setShowHookBank(!showHookBank)}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-purple-600" />
+              <CardTitle className="text-purple-900">
+                NOCHILL 120 Hooks Bank
+              </CardTitle>
+            </div>
+            {showHookBank ? (
+              <ChevronUp className="h-5 w-5 text-purple-600" />
+            ) : (
+              <ChevronDown className="h-5 w-5 text-purple-600" />
+            )}
+          </div>
+          <CardDescription>
+            Browse 120 proven hooks across 6 categories from the NOCHILL Viral Scripting Master Guide
+          </CardDescription>
+        </CardHeader>
+
+        {showHookBank && (
+          <CardContent className="space-y-4">
+            {/* Category Filter */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button
+                variant={selectedHookCategory === 'all' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedHookCategory('all')}
+                className={selectedHookCategory === 'all' ? 'bg-purple-600' : ''}
+              >
+                All (120)
+              </Button>
+              {hookBank.categories.map((category) => (
+                <Button
+                  key={category.id}
+                  variant={selectedHookCategory === category.id.toString() ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSelectedHookCategory(category.id.toString())}
+                  className={selectedHookCategory === category.id.toString() ? 'bg-purple-600' : ''}
+                >
+                  {category.category.split(' & ')[0]} ({category.count})
+                </Button>
+              ))}
+            </div>
+
+            {/* Selected Category Info */}
+            {selectedHookCategory !== 'all' && (
+              <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                {hookBank.categories
+                  .filter(cat => cat.id.toString() === selectedHookCategory)
+                  .map(category => (
+                    <div key={category.id}>
+                      <p className="font-semibold text-purple-900">{category.category}</p>
+                      <p className="text-sm text-purple-700 mt-1">{category.description}</p>
+                      <p className="text-xs text-purple-600 mt-2">
+                        <strong>Emotional Impact:</strong> {category.emotional_impact} |
+                        <strong> Best for:</strong> {category.best_for.join(', ')}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+            )}
+
+            {/* Hooks List */}
+            <div className="space-y-3 max-h-96 overflow-y-auto">
+              {filteredHooks.length === 0 ? (
+                <p className="text-center text-gray-500 py-4">No hooks found</p>
+              ) : (
+                filteredHooks.map((hook) => (
+                  <div
+                    key={hook.id}
+                    className="p-4 bg-white border border-gray-200 rounded-lg hover:border-purple-400 hover:shadow-md transition-all"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-gray-900 leading-relaxed">
+                          {hook.hook}
+                        </p>
+                        {hook.r_a_c_u_b && (
+                          <div className="mt-2 text-xs text-gray-600 space-y-1">
+                            <p><strong>Relevant:</strong> {hook.r_a_c_u_b.relevant}</p>
+                            <p><strong>Unique:</strong> {hook.r_a_c_u_b.unique}</p>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex gap-1">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyBankHook(hook.hook)}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setTopic(hook.hook)}
+                          className="h-8 w-8 p-0"
+                        >
+                          <ArrowRight className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <p className="text-xs text-purple-600 italic">
+              💡 These hooks are patterns to learn from - use them as inspiration to create your own custom hooks
+            </p>
+          </CardContent>
+        )}
+      </Card>
 
       <Card className="mb-8">
         <CardHeader>
