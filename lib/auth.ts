@@ -10,7 +10,7 @@ if (process.env.DATABASE_URL) {
   db = require('./db').db
 }
 
-const providers = [
+const providers: any[] = [
   CredentialsProvider({
     name: 'credentials',
     credentials: {
