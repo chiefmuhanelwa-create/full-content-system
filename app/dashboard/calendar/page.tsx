@@ -226,7 +226,7 @@ Total Scheduled Content: ${calendarEntries.length} items
 
 The 4E Content Evolution Framework ensures balanced content mix:
 
-📘 35% EDUCATE (Target: ${stats.educate}% Actual)
+📘 40% EDUCATE (Target: ${stats.educate}% Actual)
    → Teach frameworks, strategies, systems
    → Build authority and trust
    → Current: ${calendarEntries.filter(e => e.category === '40% Educate').length} pieces
@@ -241,7 +241,7 @@ The 4E Content Evolution Framework ensures balanced content mix:
    → Build community and loyalty
    → Current: ${calendarEntries.filter(e => e.category === '20% Encourage').length} pieces
 
-💰 15% EARN (Target: ${stats.earn}% Actual)
+💰 10% EARN (Target: ${stats.earn}% Actual)
    → Monetization, offers, CTAs
    → Drive revenue and conversions
    → Current: ${calendarEntries.filter(e => e.category === '10% Earn').length} pieces
@@ -282,10 +282,10 @@ ${entry.sourceTools && entry.sourceTools.length > 0 ? `🛠️ Created With: ${e
 ═══════════════════════════════════════════════════════════
 
 ✅ IDEAL CONTENT MIX:
-   • 35% Educational content (frameworks, how-tos, strategies)
+   • 40% Educational content (frameworks, how-tos, strategies)
    • 30% Entertainment (stories, behind-the-scenes, relatable moments)
    • 20% Encouragement (motivation, wins, community building)
-   • 15% Monetization (offers, products, calls-to-action)
+   • 10% Monetization (offers, products, calls-to-action)
 
 ✅ POSTING CONSISTENCY:
    • Maintain regular schedule across platforms
@@ -563,7 +563,7 @@ Built for sustainable content creation and business growth
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold text-blue-600">{stats.educate}%</p>
-            <p className="text-xs text-gray-500">Target: 35%</p>
+            <p className="text-xs text-gray-500">Target: 40%</p>
           </CardContent>
         </Card>
         <Card>
@@ -590,7 +590,7 @@ Built for sustainable content creation and business growth
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold text-orange-600">{stats.earn}%</p>
-            <p className="text-xs text-gray-500">Target: 15%</p>
+            <p className="text-xs text-gray-500">Target: 10%</p>
           </CardContent>
         </Card>
       </div>
@@ -744,7 +744,7 @@ Built for sustainable content creation and business growth
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-blue-500 rounded"></div>
-                      <span className="text-xs">Educate (35%)</span>
+                      <span className="text-xs">Educate (40%)</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-purple-500 rounded"></div>
@@ -756,7 +756,7 @@ Built for sustainable content creation and business growth
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-orange-500 rounded"></div>
-                      <span className="text-xs">Earn (15%)</span>
+                      <span className="text-xs">Earn (10%)</span>
                     </div>
                   </div>
                 </div>
@@ -877,7 +877,7 @@ Built for sustainable content creation and business growth
             <CardContent className="space-y-3">
               <div className="flex items-start gap-3">
                 <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">
-                  35%
+                  40%
                 </div>
                 <div>
                   <p className="font-semibold text-blue-900">Educate</p>
@@ -913,7 +913,7 @@ Built for sustainable content creation and business growth
 
               <div className="flex items-start gap-3">
                 <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">
-                  15%
+                  10%
                 </div>
                 <div>
                   <p className="font-semibold text-orange-900">Earn</p>
