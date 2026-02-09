@@ -71,11 +71,38 @@ interface Hook {
   powerWords: string[]
 }
 
+interface ActStructureSection {
+  timing: string
+  energy: string
+  script: string
+  visual: string
+  retentionDevice: string
+  shadowFear?: string
+  newConcept?: string
+  emotionalAnchor?: string
+  numbers?: string
+  crisisPoint?: string
+  milestones?: string[]
+  framework?: string
+  textOverlays?: string[]
+  cta?: string
+  collectiveAction?: string
+}
+
 interface GeneratedScript {
   title: string
   hook?: Hook
-  fullScript?: string  // NEW: Complete script ready for teleprompter
-  tenStepScript?: {    // NEW: 10-step framework structure
+  fullScript?: string  // Complete script ready for teleprompter
+  actStructure?: {     // NEW: 7-Act Retention Formula structure
+    act1_negative_hook: ActStructureSection
+    act2_uncomfortable_truth: ActStructureSection
+    act3_origin_story: ActStructureSection
+    act4_breaking_point: ActStructureSection
+    act5_transformation_journey: ActStructureSection
+    act6_framework: ActStructureSection
+    act7_mission_cta: ActStructureSection
+  }
+  tenStepScript?: {    // 10-step framework structure for sales mode
     step1_callout: TenStepSection
     step2_attention: TenStepSection
     step3_problem_backup: TenStepSection
@@ -94,8 +121,17 @@ interface GeneratedScript {
     calibration: FiveLineSection
     community: FiveLineSection
   }
-  bRoll: string[]
-  textOverlays: string[]
+  bRoll?: string[]
+  textOverlays?: string[]
+  retentionDevicesUsed?: {
+    act1?: string
+    act2?: string
+    act3?: string
+    act4?: string
+    act5?: string
+    act6?: string
+    act7?: string
+  }
   ubuntu_check?: UbuntuCheck
   scripting_principles_check?: ScriptingPrinciplesCheck
 }
@@ -468,10 +504,10 @@ ${script.fiveLine.community.collectiveAction ? `Collective Action: ${script.five
 ═══════════════════════════════════════
 
 B-ROLL SUGGESTIONS:
-${script.bRoll.map((b, i) => `${i + 1}. ${b}`).join('\n')}
+${script.bRoll && script.bRoll.length > 0 ? script.bRoll.map((b, i) => `${i + 1}. ${b}`).join('\n') : 'No B-roll suggestions available'}
 
 TEXT OVERLAYS:
-${script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n')}
+${script.textOverlays && script.textOverlays.length > 0 ? script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n') : 'No text overlays available'}
 
 ${script.ubuntu_check ? `
 ═══════════════════════════════════════
@@ -556,10 +592,10 @@ ${script.fiveLine.community.collectiveAction ? `Collective Action: ${script.five
 ═══════════════════════════════════════
 
 B-ROLL SUGGESTIONS:
-${script.bRoll.map((b, i) => `${i + 1}. ${b}`).join('\n')}
+${script.bRoll && script.bRoll.length > 0 ? script.bRoll.map((b, i) => `${i + 1}. ${b}`).join('\n') : 'No B-roll suggestions available'}
 
 TEXT OVERLAYS:
-${script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n')}
+${script.textOverlays && script.textOverlays.length > 0 ? script.textOverlays.map((t, i) => `${i + 1}. ${t}`).join('\n') : 'No text overlays available'}
 
 ${script.ubuntu_check ? `
 ═══════════════════════════════════════
@@ -717,7 +753,7 @@ ${scriptToUse.fiveLine.community.script}`
   }
 
   const updateBRoll = (index: number, value: string) => {
-    if (editedScript) {
+    if (editedScript && editedScript.bRoll) {
       const newBRoll = [...editedScript.bRoll]
       newBRoll[index] = value
       setEditedScript({
@@ -728,7 +764,7 @@ ${scriptToUse.fiveLine.community.script}`
   }
 
   const updateTextOverlay = (index: number, value: string) => {
-    if (editedScript) {
+    if (editedScript && editedScript.textOverlays) {
       const newOverlays = [...editedScript.textOverlays]
       newOverlays[index] = value
       setEditedScript({
@@ -770,7 +806,7 @@ ${scriptToUse.fiveLine.community.script}`
         </h1>
         <p className="text-gray-600">
           {scriptMode === 'content'
-            ? '10-Step Storytelling Framework: Call Out → Demand Attention → Back Up Problem → Create Intrigue → Floodlight → Provide Solution → Show Credentials → Detail Benefits → Social Proof → Godfather Offer'
+            ? '7-Act Retention Formula: Negative Hook → Uncomfortable Truth → Origin Story → Breaking Point → Transformation → Framework Teaching → Mission + CTA'
             : '💰 Sales Script Generator: 10-Step Storytelling Framework for Product Selling'}
         </p>
       </div>
@@ -1078,7 +1114,7 @@ ${scriptToUse.fiveLine.community.script}`
               {/* Info Box */}
               <div className={`p-4 border rounded-md ${scriptMode === 'sales' ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'}`}>
                 <p className={`text-sm font-medium mb-2 ${scriptMode === 'sales' ? 'text-green-800' : 'text-blue-800'}`}>
-                  {scriptMode === 'sales' ? '💰 10-Step Sales Framework:' : '🎯 NOCHILL 5-Line Method:'}
+                  {scriptMode === 'sales' ? '💰 10-Step Sales Framework:' : '🎯 7-Act Retention Formula:'}
                 </p>
                 {scriptMode === 'sales' ? (
                   <ul className="text-xs text-green-700 space-y-1">
@@ -1095,11 +1131,13 @@ ${scriptToUse.fiveLine.community.script}`
                   </ul>
                 ) : (
                   <ul className="text-xs text-blue-700 space-y-1">
-                    <li>• <strong>Context (0-8s):</strong> WE-focused hook (Ubuntu Story Arc)</li>
-                    <li>• <strong>Collision (8-18s):</strong> Name the system villain</li>
-                    <li>• <strong>Conversion (18-35s):</strong> 80% fresh teaching</li>
-                    <li>• <strong>Calibration (35-48s):</strong> 20% Ndivhuwo proof story</li>
-                    <li>• <strong>Community (48-60s):</strong> Collective action CTA</li>
+                    <li>• <strong>Act 1: Negative Hook (0-15s):</strong> Stop scroll, open loop, emotional response</li>
+                    <li>• <strong>Act 2: Uncomfortable Truth (15s-1min):</strong> Pattern interrupt, challenge beliefs</li>
+                    <li>• <strong>Act 3: Origin Story (1-2.5min):</strong> Build credibility through vulnerability</li>
+                    <li>• <strong>Act 4: Breaking Point (2.5-4min):</strong> Nuclear story, crisis moment</li>
+                    <li>• <strong>Act 5: Transformation (4-5.5min):</strong> Decision point, rapid wins</li>
+                    <li>• <strong>Act 6: Framework (5.5-6.5min):</strong> Tactical teaching, screenshot-worthy</li>
+                    <li>• <strong>Act 7: Mission + CTA (6.5-7.5min):</strong> Rally cry, collective action</li>
                   </ul>
                 )}
               </div>
@@ -1247,32 +1285,61 @@ ${scriptToUse.fiveLine.community.script}`
                   </div>
                 )}
 
-                {/* Full Script Display (NEW 10-Step Framework) */}
+                {/* Full Script Display (7-Act Retention Formula or 10-Step Framework) */}
                 {script.fullScript && (
                   <div className="p-5 bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-400 rounded-lg">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-2xl">🎬</span>
                       <h3 className="text-lg font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                        THE 10-STEP STORYTELLING FRAMEWORK
+                        {script.actStructure ? '7-ACT RETENTION FORMULA' : 'THE 10-STEP STORYTELLING FRAMEWORK'}
                       </h3>
                     </div>
 
                     {/* Framework Overview Badge */}
                     <div className="mb-4 p-3 bg-blue-100 border-l-4 border-blue-600 rounded text-xs">
                       <p className="font-semibold text-blue-900 mb-2">Framework Structure:</p>
-                      <div className="grid grid-cols-2 gap-1 text-blue-800">
-                        <div>1. Call Out Audience</div>
-                        <div>6. Provide Solution</div>
-                        <div>2. Demand Attention</div>
-                        <div>7. Show Credentials</div>
-                        <div>3. Back Up Problem</div>
-                        <div>8. Detail Benefits</div>
-                        <div>4. Create Intrigue</div>
-                        <div>9. Social Proof</div>
-                        <div>5. Floodlight Problem</div>
-                        <div>10. Godfather Offer</div>
-                      </div>
+                      {script.actStructure ? (
+                        <div className="grid grid-cols-2 gap-1 text-blue-800">
+                          <div>Act 1: Negative Hook</div>
+                          <div>Act 5: Transformation</div>
+                          <div>Act 2: Uncomfortable Truth</div>
+                          <div>Act 6: Framework Teaching</div>
+                          <div>Act 3: Origin Story</div>
+                          <div>Act 7: Mission + CTA</div>
+                          <div>Act 4: Breaking Point</div>
+                          <div className="text-purple-600 font-semibold">R×A×C×U^B Hook Science</div>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-2 gap-1 text-blue-800">
+                          <div>1. Call Out Audience</div>
+                          <div>6. Provide Solution</div>
+                          <div>2. Demand Attention</div>
+                          <div>7. Show Credentials</div>
+                          <div>3. Back Up Problem</div>
+                          <div>8. Detail Benefits</div>
+                          <div>4. Create Intrigue</div>
+                          <div>9. Social Proof</div>
+                          <div>5. Floodlight Problem</div>
+                          <div>10. Godfather Offer</div>
+                        </div>
+                      )}
                     </div>
+
+                    {/* Retention Devices Used (if available) */}
+                    {script.retentionDevicesUsed && (
+                      <div className="mb-4 p-3 bg-purple-100 border-l-4 border-purple-600 rounded text-xs">
+                        <p className="font-semibold text-purple-900 mb-2">🎯 Retention Devices Deployed:</p>
+                        <div className="grid grid-cols-2 gap-1 text-purple-800">
+                          {script.retentionDevicesUsed.act1 && <div>Act 1: {script.retentionDevicesUsed.act1}</div>}
+                          {script.retentionDevicesUsed.act2 && <div>Act 2: {script.retentionDevicesUsed.act2}</div>}
+                          {script.retentionDevicesUsed.act3 && <div>Act 3: {script.retentionDevicesUsed.act3}</div>}
+                          {script.retentionDevicesUsed.act4 && <div>Act 4: {script.retentionDevicesUsed.act4}</div>}
+                          {script.retentionDevicesUsed.act5 && <div>Act 5: {script.retentionDevicesUsed.act5}</div>}
+                          {script.retentionDevicesUsed.act6 && <div>Act 6: {script.retentionDevicesUsed.act6}</div>}
+                          {script.retentionDevicesUsed.act7 && <div>Act 7: {script.retentionDevicesUsed.act7}</div>}
+                        </div>
+                      </div>
+                    )}
 
                     <div className="bg-white p-4 rounded-md border border-green-200 max-h-[600px] overflow-y-auto">
                       <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-gray-800">
@@ -1280,7 +1347,7 @@ ${scriptToUse.fiveLine.community.script}`
                       </pre>
                     </div>
                     <p className="text-xs text-green-700 mt-3">
-                      ✅ This script follows the complete 10-step storytelling framework with clear step divisions. Click "Teleprompter" above to load it for recording.
+                      ✅ This script follows the complete {script.actStructure ? '7-Act Retention Formula' : '10-step storytelling framework'} with clear divisions. Click "Teleprompter" above to load it for recording.
                     </p>
                   </div>
                 )}
@@ -1508,11 +1575,12 @@ ${scriptToUse.fiveLine.community.script}`
                 )}
 
                 {/* B-Roll Suggestions */}
+                {script.bRoll && script.bRoll.length > 0 && (
                 <div className="pt-4 border-t">
                   <p className="text-xs font-semibold text-gray-600 mb-2">
                     B-ROLL SUGGESTIONS:
                   </p>
-                  {isEditing && editedScript ? (
+                  {isEditing && editedScript && editedScript.bRoll ? (
                     <div className="space-y-2">
                       {editedScript.bRoll.map((item, index) => (
                         <Input
@@ -1534,13 +1602,15 @@ ${scriptToUse.fiveLine.community.script}`
                     </ul>
                   )}
                 </div>
+                )}
 
                 {/* Text Overlays */}
+                {script.textOverlays && script.textOverlays.length > 0 && (
                 <div>
                   <p className="text-xs font-semibold text-gray-600 mb-2">
                     TEXT OVERLAYS:
                   </p>
-                  {isEditing && editedScript ? (
+                  {isEditing && editedScript && editedScript.textOverlays ? (
                     <div className="space-y-2">
                       {editedScript.textOverlays.map((item, index) => (
                         <Input
@@ -1562,6 +1632,7 @@ ${scriptToUse.fiveLine.community.script}`
                     </ul>
                   )}
                 </div>
+                )}
 
                 {/* Analysis Sections */}
                 {(script.ubuntu_check || script.scripting_principles_check) && (
@@ -1609,7 +1680,7 @@ ${scriptToUse.fiveLine.community.script}`
                 </h3>
                 <p className="text-gray-500 text-center max-w-md text-sm">
                   Enter your content idea and click "Generate Complete Script" to create
-                  a production-ready script using the NOCHILL 5-Line Method with Ubuntu Story Arc.
+                  a production-ready script using the 7-Act Retention Formula with R×A×C×U^B Hook Science.
                 </p>
               </CardContent>
             </Card>
