@@ -637,10 +637,10 @@ Built for sustainable content creation and business growth
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="35% Educate">35% Educate</SelectItem>
+                  <SelectItem value="40% Educate">40% Educate</SelectItem>
                   <SelectItem value="30% Entertain">30% Entertain</SelectItem>
                   <SelectItem value="20% Encourage">20% Encourage</SelectItem>
-                  <SelectItem value="15% Earn">15% Earn</SelectItem>
+                  <SelectItem value="10% Earn">10% Earn</SelectItem>
                 </SelectContent>
               </Select>
             </div>
