@@ -51,27 +51,27 @@ const navSections: NavSection[] = [
         name: 'Storytelling Studio',
         href: '/dashboard/storytelling',
         icon: Sparkles,
-        description: 'Story Frameworks',
+        description: 'Genesis Framework + 7-Stage Arc',
         badge: 'NEW',
       },
       {
         name: 'Script Writer',
         href: '/dashboard/scripts',
         icon: FileText,
-        description: '10-Step Framework',
+        description: '7-Act Retention Formula',
       },
       {
         name: 'Content Formulas',
         href: '/dashboard/formulas',
         icon: Wand2,
-        description: 'Talking Head & YouTube',
+        description: '4 Foundational Principles',
         badge: 'NEW',
       },
       {
         name: 'Story Extractor',
         href: '/dashboard/stories',
         icon: BookOpen,
-        description: '4-Criteria Test',
+        description: 'Genesis: 5 Story Types',
       },
     ],
   },
@@ -130,13 +130,13 @@ const navSections: NavSection[] = [
         name: 'Content Calendar',
         href: '/dashboard/calendar',
         icon: Calendar,
-        description: '4E Framework',
+        description: '4E Engine (30-35-20-15)',
       },
       {
         name: 'Revenue Tracker',
         href: '/dashboard/revenue',
         icon: DollarSign,
-        description: 'PAIDS Streams',
+        description: 'PAIDS Framework',
       },
       {
         name: 'Saved Library',
@@ -239,7 +239,7 @@ export default function DashboardLayout({
                 NOCHILL v2.0
               </p>
               <p className="text-xs text-center text-gray-400 mt-1">
-                Professional Content Creation System
+                Viral Scripting Master Guide
               </p>
             </div>
           </div>

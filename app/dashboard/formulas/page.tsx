@@ -207,7 +207,7 @@ ${output.retentionTips.map((r, i) => `${i + 1}. ${r}`).join('\n')}
           </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Content Formulas</h1>
-            <p className="text-gray-600">Proven formulas for talking head and YouTube content</p>
+            <p className="text-gray-600">Proven formulas built on 4 Foundational Principles: Negativity Always Wins, You Format, Short & Simple, Audible Flow</p>
           </div>
         </div>
 
@@ -241,9 +241,9 @@ ${output.retentionTips.map((r, i) => `${i + 1}. ${r}`).join('\n')}
             <div className="flex items-start gap-3">
               <PlayCircle className="h-5 w-5 text-purple-600 mt-0.5" />
               <div>
-                <h3 className="font-semibold text-sm text-gray-900">Production Ready</h3>
+                <h3 className="font-semibold text-sm text-gray-900">4 Foundational Principles</h3>
                 <p className="text-xs text-gray-600 mt-1">
-                  Includes delivery notes, visuals, retention tips
+                  Every formula applies: Negativity, You Format, Short & Simple, Audible Flow
                 </p>
               </div>
             </div>

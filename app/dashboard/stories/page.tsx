@@ -138,7 +138,7 @@ Use Case: ${story.useCase}
           Story Extractor
         </h1>
         <p className="text-gray-600">
-          Extract proof stories using the 4-Criteria Test: Special, Relevant, Quantifiable, Named
+          Extract proof stories using Genesis Framework (Origin, Struggle, Transformation, Breakthrough, Lesson) and 4-Criteria Test
         </p>
       </div>
 

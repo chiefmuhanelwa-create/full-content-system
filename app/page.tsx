@@ -36,8 +36,9 @@ export default function LandingPage() {
           Create Viral Content in <span className="text-blue-600">Minutes</span>, Not Hours
         </h1>
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          AI-powered viral scripting system that generates scroll-stopping hooks,
-          complete scripts, and content calendars using Claude AI and the proven NOCHILL framework.
+          AI-powered viral scripting system powered by Claude. Uses R×A×C×U^B Hook Science,
+          7-Act Retention Formula, Genesis Framework, and 4E Content Engine to generate
+          scroll-stopping hooks and complete production-ready scripts.
         </p>
         <div className="flex gap-4 justify-center">
           <Button size="lg" asChild>
@@ -88,7 +89,7 @@ export default function LandingPage() {
               <FileText className="h-10 w-10 text-blue-600 mb-2" />
               <CardTitle>Script Writer</CardTitle>
               <CardDescription>
-                Complete scripts with SEEDS framework and second-by-second breakdowns
+                Complete scripts using 7-Act Retention Formula with retention devices and second-by-second breakdowns
               </CardDescription>
             </CardHeader>
           </Card>
@@ -96,9 +97,9 @@ export default function LandingPage() {
           <Card>
             <CardHeader>
               <BookOpen className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Story Extractor</CardTitle>
+              <CardTitle>Storytelling Studio</CardTitle>
               <CardDescription>
-                Extract powerful proof stories from your journey
+                Extract proof stories using Genesis Framework (5 story types) and 7-Stage Story Arc
               </CardDescription>
             </CardHeader>
           </Card>
@@ -118,7 +119,7 @@ export default function LandingPage() {
               <Video className="h-10 w-10 text-blue-600 mb-2" />
               <CardTitle>Fear Analyzer</CardTitle>
               <CardDescription>
-                Identify and leverage Shadow Fears to create compelling content
+                Identify and leverage 10 Shadow Fears for deeper emotional connection
               </CardDescription>
             </CardHeader>
           </Card>
@@ -128,7 +129,7 @@ export default function LandingPage() {
               <Calendar className="h-10 w-10 text-blue-600 mb-2" />
               <CardTitle>Content Calendar</CardTitle>
               <CardDescription>
-                30-day content plans using the 4E framework
+                30-day content plans using 4E Engine (30% Entertain, 35% Educate, 20% Encourage, 15% Earn)
               </CardDescription>
             </CardHeader>
           </Card>
@@ -138,7 +139,7 @@ export default function LandingPage() {
               <DollarSign className="h-10 w-10 text-blue-600 mb-2" />
               <CardTitle>Revenue Tracker</CardTitle>
               <CardDescription>
-                Track PAIDS revenue streams and optimize earnings
+                Track PAIDS Framework (Products, Ads/Affiliates, Information, Deals, Services) revenue streams
               </CardDescription>
             </CardHeader>
           </Card>
@@ -146,9 +147,9 @@ export default function LandingPage() {
           <Card>
             <CardHeader>
               <TrendingUp className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Hook Bank</CardTitle>
+              <CardTitle>NOCHILL 120 Hooks Bank</CardTitle>
               <CardDescription>
-                Save, organize, and track your best-performing hooks
+                120 proven hooks across 6 categories with R×A×C×U^B breakdowns
               </CardDescription>
             </CardHeader>
           </Card>
@@ -170,9 +171,9 @@ export default function LandingPage() {
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm">
-                <li>✓ 10-step sales storytelling</li>
+                <li>✓ 10-Step Sales Storytelling Framework</li>
                 <li>✓ Multiple formats (Reel/Email/Thread)</li>
-                <li>✓ Product-aware scripts</li>
+                <li>✓ 4 Foundational Principles applied</li>
                 <li>✓ Godfather value stacking</li>
               </ul>
               <Button className="w-full mt-6 bg-green-600 hover:bg-green-700" asChild>
@@ -201,15 +202,15 @@ export default function LandingPage() {
 
           <Card className="border-purple-600 border-2">
             <CardHeader>
-              <CardTitle className="text-purple-700">📚 Content Vault</CardTitle>
-              <CardDescription>75+ Ideas & Stories Tagged</CardDescription>
+              <CardTitle className="text-purple-700">📚 Story & Content Vault</CardTitle>
+              <CardDescription>110+ Ideas & Story Variations</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm">
-                <li>✓ Audience level filtering</li>
-                <li>✓ Beginner to Contentpreneur</li>
-                <li>✓ Hook type categorization</li>
-                <li>✓ Shadow fear mapping</li>
+                <li>✓ 4 Awareness Level filtering</li>
+                <li>✓ Genesis Framework story types</li>
+                <li>✓ 4 Hook Type (C-Component) mapping</li>
+                <li>✓ 10 Shadow Fear targeting</li>
               </ul>
               <Button className="w-full mt-6 bg-purple-600 hover:bg-purple-700" asChild>
                 <Link href="/dashboard/vault">Browse Vault →</Link>

@@ -21,7 +21,7 @@ interface ContentEntry {
   id: string
   date: string
   title: string
-  category: '40% Educate' | '30% Entertain' | '20% Encourage' | '10% Earn'
+  category: '35% Educate' | '30% Entertain' | '20% Encourage' | '15% Earn'
   platform: string
   notes: string
 }
@@ -38,7 +38,7 @@ export default function ContentCalendarPage() {
   const [newEntry, setNewEntry] = useState<Partial<ContentEntry>>({
     date: new Date().toISOString().split('T')[0],
     title: '',
-    category: '40% Educate',
+    category: '35% Educate',
     platform: 'Instagram',
     notes: '',
   })
@@ -58,7 +58,7 @@ export default function ContentCalendarPage() {
     setNewEntry({
       date: new Date().toISOString().split('T')[0],
       title: '',
-      category: '40% Educate',
+      category: '35% Educate',
       platform: 'Instagram',
       notes: '',
     })
@@ -96,7 +96,7 @@ export default function ContentCalendarPage() {
     setNewEntry({
       date: new Date().toISOString().split('T')[0],
       title: '',
-      category: '40% Educate',
+      category: '35% Educate',
       platform: 'Instagram',
       notes: '',
     })
@@ -107,7 +107,7 @@ export default function ContentCalendarPage() {
     setNewEntry({
       date: new Date().toISOString().split('T')[0],
       title: '',
-      category: '40% Educate',
+      category: '35% Educate',
       platform: 'Instagram',
       notes: '',
     })
@@ -131,7 +131,7 @@ export default function ContentCalendarPage() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case '40% Educate':
+      case '35% Educate':
         return {
           bg: 'bg-blue-500',
           text: 'text-white',
@@ -158,7 +158,7 @@ export default function ContentCalendarPage() {
           lightText: 'text-green-700',
           lightBorder: 'border-green-200'
         }
-      case '10% Earn':
+      case '15% Earn':
         return {
           bg: 'bg-orange-500',
           text: 'text-white',
@@ -190,10 +190,10 @@ export default function ContentCalendarPage() {
 
   const getStats = () => {
     const total = calendarEntries.length
-    const educate = calendarEntries.filter((e) => e.category === '40% Educate').length
+    const educate = calendarEntries.filter((e) => e.category === '35% Educate').length
     const entertain = calendarEntries.filter((e) => e.category === '30% Entertain').length
     const encourage = calendarEntries.filter((e) => e.category === '20% Encourage').length
-    const earn = calendarEntries.filter((e) => e.category === '10% Earn').length
+    const earn = calendarEntries.filter((e) => e.category === '15% Earn').length
 
     return {
       total,
@@ -226,10 +226,10 @@ Total Scheduled Content: ${calendarEntries.length} items
 
 The 4E Content Evolution Framework ensures balanced content mix:
 
-📘 40% EDUCATE (Target: ${stats.educate}% Actual)
+📘 35% EDUCATE (Target: ${stats.educate}% Actual)
    → Teach frameworks, strategies, systems
    → Build authority and trust
-   → Current: ${calendarEntries.filter(e => e.category === '40% Educate').length} pieces
+   → Current: ${calendarEntries.filter(e => e.category === '35% Educate').length} pieces
 
 🎭 30% ENTERTAIN (Target: ${stats.entertain}% Actual)
    → Stories, humor, relatable struggles
@@ -241,10 +241,10 @@ The 4E Content Evolution Framework ensures balanced content mix:
    → Build community and loyalty
    → Current: ${calendarEntries.filter(e => e.category === '20% Encourage').length} pieces
 
-💰 10% EARN (Target: ${stats.earn}% Actual)
+💰 15% EARN (Target: ${stats.earn}% Actual)
    → Monetization, offers, CTAs
    → Drive revenue and conversions
-   → Current: ${calendarEntries.filter(e => e.category === '10% Earn').length} pieces
+   → Current: ${calendarEntries.filter(e => e.category === '15% Earn').length} pieces
 
 ═══════════════════════════════════════════════════════════
 📅 COMPLETE CONTENT SCHEDULE
@@ -263,7 +263,7 @@ ${index + 1}. ${entry.title}
 })}
 
 📁 Category: ${entry.category}
-   ${entry.category === '40% Educate' ? '→ Teaching & Educational Content' :
+   ${entry.category === '35% Educate' ? '→ Teaching & Educational Content' :
      entry.category === '30% Entertain' ? '→ Entertainment & Storytelling' :
      entry.category === '20% Encourage' ? '→ Motivational & Inspirational' :
      '→ Monetization & Sales Content'}
@@ -282,10 +282,10 @@ ${entry.sourceTools && entry.sourceTools.length > 0 ? `🛠️ Created With: ${e
 ═══════════════════════════════════════════════════════════
 
 ✅ IDEAL CONTENT MIX:
-   • 40% Educational content (frameworks, how-tos, strategies)
+   • 35% Educational content (frameworks, how-tos, strategies)
    • 30% Entertainment (stories, behind-the-scenes, relatable moments)
    • 20% Encouragement (motivation, wins, community building)
-   • 10% Monetization (offers, products, calls-to-action)
+   • 15% Monetization (offers, products, calls-to-action)
 
 ✅ POSTING CONSISTENCY:
    • Maintain regular schedule across platforms
@@ -522,7 +522,7 @@ Built for sustainable content creation and business growth
               Content Calendar
             </h1>
             <p className="text-gray-600">
-              Plan your content using the 4E framework: 40% Educate, 30% Entertain, 20% Encourage, 10% Earn
+              Plan your content using the 4E Engine: 30% Entertain, 35% Educate, 20% Encourage, 15% Earn
             </p>
           </div>
           <div className="flex gap-2">
@@ -563,7 +563,7 @@ Built for sustainable content creation and business growth
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold text-blue-600">{stats.educate}%</p>
-            <p className="text-xs text-gray-500">Target: 40%</p>
+            <p className="text-xs text-gray-500">Target: 35%</p>
           </CardContent>
         </Card>
         <Card>
@@ -590,7 +590,7 @@ Built for sustainable content creation and business growth
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold text-orange-600">{stats.earn}%</p>
-            <p className="text-xs text-gray-500">Target: 10%</p>
+            <p className="text-xs text-gray-500">Target: 15%</p>
           </CardContent>
         </Card>
       </div>
@@ -637,10 +637,10 @@ Built for sustainable content creation and business growth
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="40% Educate">40% Educate</SelectItem>
+                  <SelectItem value="35% Educate">35% Educate</SelectItem>
                   <SelectItem value="30% Entertain">30% Entertain</SelectItem>
                   <SelectItem value="20% Encourage">20% Encourage</SelectItem>
-                  <SelectItem value="10% Earn">10% Earn</SelectItem>
+                  <SelectItem value="15% Earn">15% Earn</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -744,7 +744,7 @@ Built for sustainable content creation and business growth
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-blue-500 rounded"></div>
-                      <span className="text-xs">Educate (40%)</span>
+                      <span className="text-xs">Educate (35%)</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-purple-500 rounded"></div>
@@ -756,7 +756,7 @@ Built for sustainable content creation and business growth
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-orange-500 rounded"></div>
-                      <span className="text-xs">Earn (10%)</span>
+                      <span className="text-xs">Earn (15%)</span>
                     </div>
                   </div>
                 </div>
@@ -877,7 +877,7 @@ Built for sustainable content creation and business growth
             <CardContent className="space-y-3">
               <div className="flex items-start gap-3">
                 <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">
-                  40%
+                  35%
                 </div>
                 <div>
                   <p className="font-semibold text-blue-900">Educate</p>
@@ -913,7 +913,7 @@ Built for sustainable content creation and business growth
 
               <div className="flex items-start gap-3">
                 <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0">
-                  10%
+                  15%
                 </div>
                 <div>
                   <p className="font-semibold text-orange-900">Earn</p>

@@ -40,7 +40,8 @@ export default function DashboardPage() {
         <CardContent className="p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to Your Content Creation Hub</h2>
           <p className="text-gray-700">
-            Transform your ideas into viral content with proven frameworks, storytelling techniques, and professional formulas.
+            Transform your ideas into viral content with R×A×C×U^B Hook Science, 7-Act Retention Formula,
+            Genesis Framework (5 story types), 4E Content Engine, and PAIDS monetization.
             Everything you need to create, optimize, and scale your content is here.
           </p>
         </CardContent>
@@ -60,7 +61,7 @@ export default function DashboardPage() {
                 <Sparkles className="h-10 w-10 text-purple-600 mb-3" />
                 <h3 className="font-semibold text-lg mb-1">Storytelling Studio</h3>
                 <p className="text-sm text-gray-600 mb-3">
-                  8 proven frameworks: Hero's Journey, BAB, PAS, and more
+                  Genesis Framework (5 story types) + 7-Stage Story Arc
                 </p>
                 <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">
                   NEW
@@ -75,7 +76,7 @@ export default function DashboardPage() {
                 <Wand2 className="h-10 w-10 text-cyan-600 mb-3" />
                 <h3 className="font-semibold text-lg mb-1">Content Formulas</h3>
                 <p className="text-sm text-gray-600 mb-3">
-                  Talking head & YouTube formulas with delivery notes
+                  4 Foundational Principles + Platform-optimized templates
                 </p>
                 <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded">
                   NEW
@@ -138,7 +139,7 @@ export default function DashboardPage() {
                 <FileText className="h-10 w-10 text-purple-600 mb-3" />
                 <h3 className="font-semibold text-lg mb-1">Script Writer</h3>
                 <p className="text-sm text-gray-600">
-                  10-Step Storytelling Framework
+                  7-Act Retention Formula with retention devices
                 </p>
               </CardContent>
             </Card>
@@ -150,7 +151,7 @@ export default function DashboardPage() {
                 <BookOpen className="h-10 w-10 text-green-600 mb-3" />
                 <h3 className="font-semibold text-lg mb-1">Story Extractor</h3>
                 <p className="text-sm text-gray-600">
-                  4-Criteria Test for powerful stories
+                  Genesis Framework: Origin, Struggle, Transformation, Breakthrough, Lesson
                 </p>
               </CardContent>
             </Card>
@@ -219,7 +220,7 @@ export default function DashboardPage() {
                 <Calendar className="h-10 w-10 text-teal-600 mb-3" />
                 <h3 className="font-semibold text-lg mb-1">Content Calendar</h3>
                 <p className="text-sm text-gray-600">
-                  4E Framework planning
+                  4E Engine: 30% Entertain, 35% Educate, 20% Encourage, 15% Earn
                 </p>
               </CardContent>
             </Card>
@@ -243,7 +244,7 @@ export default function DashboardPage() {
                 <DollarSign className="h-10 w-10 text-green-600 mb-3" />
                 <h3 className="font-semibold text-lg mb-1">Revenue Tracker</h3>
                 <p className="text-sm text-gray-600">
-                  PAIDS Streams tracking
+                  PAIDS: Products, Ads/Affiliates, Information, Deals, Services
                 </p>
               </CardContent>
             </Card>
@@ -287,7 +288,7 @@ export default function DashboardPage() {
               <div className="flex-1">
                 <h4 className="font-semibold text-gray-900 mb-1">Extract Your Proof Stories</h4>
                 <p className="text-sm text-gray-600 mb-2">
-                  Use Story Extractor to pull out powerful stories from your journey. These become your credibility.
+                  Use Story Extractor with Genesis Framework to identify your 5 story types (Origin, Struggle, Transformation, Breakthrough, Lesson). These become your competitive advantage.
                 </p>
                 <Link href="/dashboard/stories">
                   <Button size="sm" variant="outline">

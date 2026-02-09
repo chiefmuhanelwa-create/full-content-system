@@ -195,7 +195,7 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
           </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Storytelling Studio</h1>
-            <p className="text-gray-600">Transform your stories with proven narrative frameworks</p>
+            <p className="text-gray-600">Genesis Framework (5 story types) + 7-Stage Story Arc + Proven narrative frameworks</p>
           </div>
         </div>
 
@@ -205,9 +205,9 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
             <div className="flex items-start gap-3">
               <BookOpen className="h-5 w-5 text-purple-600 mt-0.5" />
               <div>
-                <h3 className="font-semibold text-sm text-gray-900">8 Proven Frameworks</h3>
+                <h3 className="font-semibold text-sm text-gray-900">Genesis Framework</h3>
                 <p className="text-xs text-gray-600 mt-1">
-                  Hero's Journey, BAB, PAS, STAR, and more
+                  5 story types: Origin, Struggle, Transformation, Breakthrough, Lesson + 7-Stage Story Arc
                 </p>
               </div>
             </div>
