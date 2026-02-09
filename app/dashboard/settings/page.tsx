@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Download, Upload, Save, AlertCircle, CheckCircle, Database, RefreshCw } from 'lucide-react'
@@ -10,9 +10,25 @@ export default function SettingsPage() {
   const [exportStatus, setExportStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [importStatus, setImportStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [lastBackup, setLastBackup] = useState<string | null>(null)
+  const [daysSinceBackup, setDaysSinceBackup] = useState<number | null>(null)
+
+  // Load last backup date on client side only
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const lastBackupStr = localStorage.getItem('lastBackup')
+      if (lastBackupStr) {
+        setLastBackup(lastBackupStr)
+        const lastBackupDate = new Date(lastBackupStr)
+        const days = Math.floor((new Date().getTime() - lastBackupDate.getTime()) / (1000 * 60 * 60 * 24))
+        setDaysSinceBackup(days)
+      }
+    }
+  }, [])
 
   // Export all localStorage data
   const exportData = () => {
+    if (typeof window === 'undefined') return
+
     try {
       const data: Record<string, any> = {}
       const keys = [
@@ -61,6 +77,8 @@ export default function SettingsPage() {
 
   // Import localStorage data
   const importData = () => {
+    if (typeof window === 'undefined') return
+
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = 'application/json'
@@ -92,19 +110,6 @@ export default function SettingsPage() {
     }
     input.click()
   }
-
-  // Auto-backup reminder
-  const checkBackupStatus = () => {
-    const lastBackupStr = localStorage.getItem('lastBackup')
-    if (lastBackupStr) {
-      const lastBackupDate = new Date(lastBackupStr)
-      const daysSinceBackup = Math.floor((new Date().getTime() - lastBackupDate.getTime()) / (1000 * 60 * 60 * 24))
-      return daysSinceBackup
-    }
-    return null
-  }
-
-  const daysSinceBackup = checkBackupStatus()
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
