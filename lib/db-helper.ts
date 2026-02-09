@@ -1,6 +1,9 @@
 import { db } from './db'
 import { NextResponse } from 'next/server'
 
+// Re-export db as prisma for convenience
+export const prisma = db
+
 /**
  * Check if database is configured and available
  * Returns an error response if database is not available

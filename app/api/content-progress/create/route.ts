@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { prisma } from '@/lib/db-helper'
+import { prisma, checkDatabase } from '@/lib/db-helper'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if database is available
+    const dbError = checkDatabase()
+    if (dbError) return dbError
+
     const session = await getServerSession()
     if (!session || !session.user?.email) {
       return NextResponse.json(
@@ -13,7 +17,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    const user = await prisma!.user.findUnique({
       where: { email: session.user.email }
     })
 
@@ -83,7 +87,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create content progress
-    const contentProgress = await prisma.contentProgress.create({
+    const contentProgress = await prisma!.contentProgress.create({
       data: {
         userId: user.id,
         title,

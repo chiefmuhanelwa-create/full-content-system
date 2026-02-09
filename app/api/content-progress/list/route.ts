@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { prisma } from '@/lib/db-helper'
+import { prisma, checkDatabase } from '@/lib/db-helper'
 
 export async function GET(request: NextRequest) {
   try {
+    // Check if database is available
+    const dbError = checkDatabase()
+    if (dbError) return dbError
+
     const session = await getServerSession()
     if (!session || !session.user?.email) {
       return NextResponse.json(
@@ -13,7 +17,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    const user = await prisma!.user.findUnique({
       where: { email: session.user.email }
     })
 
@@ -46,7 +50,7 @@ export async function GET(request: NextRequest) {
     if (contentType) where.contentType = contentType
 
     // Fetch content progress items
-    const contentProgress = await prisma.contentProgress.findMany({
+    const contentProgress = await prisma!.contentProgress.findMany({
       where,
       orderBy: [
         { isPriority: 'desc' },
@@ -64,7 +68,7 @@ export async function GET(request: NextRequest) {
     })
 
     // Get stage statistics
-    const stageCounts = await prisma.contentProgress.groupBy({
+    const stageCounts = await prisma!.contentProgress.groupBy({
       by: ['stage'],
       where: {
         userId: user.id,
@@ -74,7 +78,7 @@ export async function GET(request: NextRequest) {
     })
 
     // Get 4E tag statistics
-    const fourECounts = await prisma.contentProgress.groupBy({
+    const fourECounts = await prisma!.contentProgress.groupBy({
       by: ['fourETag'],
       where: {
         userId: user.id,

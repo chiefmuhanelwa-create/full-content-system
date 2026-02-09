@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { prisma } from '@/lib/db-helper'
+import { prisma, checkDatabase } from '@/lib/db-helper'
 
 export async function PATCH(request: NextRequest) {
   try {
+    // Check if database is available
+    const dbError = checkDatabase()
+    if (dbError) return dbError
+
     const session = await getServerSession()
     if (!session || !session.user?.email) {
       return NextResponse.json(
@@ -13,7 +17,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    const user = await prisma!.user.findUnique({
       where: { email: session.user.email }
     })
 
@@ -35,7 +39,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Verify ownership
-    const existingContent = await prisma.contentProgress.findUnique({
+    const existingContent = await prisma!.contentProgress.findUnique({
       where: { id }
     })
 
@@ -64,7 +68,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Update content progress
-    const updatedContent = await prisma.contentProgress.update({
+    const updatedContent = await prisma!.contentProgress.update({
       where: { id },
       data: updateData
     })

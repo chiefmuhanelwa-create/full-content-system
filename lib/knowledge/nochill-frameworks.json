@@ -1350,5 +1350,80 @@
       "collective_results": "Frame wins as community wins",
       "legacy_thinking": "Always ask: does this serve the next generation?"
     }
+  },
+
+  "genesis_framework": {
+    "description": "5 story types that create authentic connection through shared human experiences",
+    "tagline": "Your unfair competitive advantage: Stories that cannot be copied because they're YOUR unique experiences",
+    "story_types": [
+      {
+        "id": 1,
+        "type": "Origin",
+        "description": "Where you came from - the beginning of your journey",
+        "purpose": "Establishes relatability and shows humble beginnings",
+        "best_for": ["First-time audience", "Building trust", "Brand story"],
+        "key_elements": ["Starting point", "Initial circumstances", "First steps"],
+        "emotional_impact": "Connection through shared beginnings"
+      },
+      {
+        "id": 2,
+        "type": "Struggle",
+        "description": "The challenges and obstacles you faced",
+        "purpose": "Creates empathy and shows you understand their pain",
+        "best_for": ["Problem-aware audience", "Building authority", "Overcoming objections"],
+        "key_elements": ["Specific problem", "What didn't work", "Low points"],
+        "emotional_impact": "Validation of their current struggles"
+      },
+      {
+        "id": 3,
+        "type": "Transformation",
+        "description": "The moment everything changed - your breakthrough",
+        "purpose": "Demonstrates possibility and inspires action",
+        "best_for": ["Solution-aware audience", "Selling transformation", "Motivational content"],
+        "key_elements": ["Turning point", "What changed", "New perspective"],
+        "emotional_impact": "Hope and inspiration"
+      },
+      {
+        "id": 4,
+        "type": "Breakthrough",
+        "description": "The specific method or insight that led to success",
+        "purpose": "Provides tangible value and positions your expertise",
+        "best_for": ["Product-aware audience", "Educational content", "Authority building"],
+        "key_elements": ["Specific strategy", "Why it works", "Results achieved"],
+        "emotional_impact": "Clarity and confidence"
+      },
+      {
+        "id": 5,
+        "type": "Lesson",
+        "description": "The wisdom gained from experience - what you learned",
+        "purpose": "Shares insights while reinforcing expertise",
+        "best_for": ["Engaged audience", "Thought leadership", "Community building"],
+        "key_elements": ["Key insight", "Mistakes to avoid", "What you'd tell your past self"],
+        "emotional_impact": "Trust and respect"
+      }
+    ],
+    "selection_guide": {
+      "awareness_level": {
+        "symptom_aware": "Origin or Struggle - they need to see someone understands",
+        "problem_aware": "Struggle or Transformation - they need hope",
+        "solution_aware": "Transformation or Breakthrough - they need proof",
+        "product_aware": "Breakthrough or Lesson - they need confidence"
+      },
+      "content_goal": {
+        "build_trust": "Origin",
+        "show_empathy": "Struggle",
+        "inspire_action": "Transformation",
+        "educate": "Breakthrough",
+        "establish_authority": "Lesson"
+      }
+    },
+    "usage_notes": [
+      "Each story type serves a different stage of the customer journey",
+      "Rotate story types to keep content fresh",
+      "Your personal stories are your unfair advantage - competitors can't copy them",
+      "Combine with 4E framework: Origin/Struggle (Encourage), Transformation (Entertain), Breakthrough (Educate), Lesson (Educate/Earn)",
+      "All story types must follow the 7-Stage Story Arc structure",
+      "Apply 4 Foundational Principles to every story regardless of type"
+    ]
   }
 }
