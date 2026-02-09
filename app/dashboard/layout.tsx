@@ -289,10 +289,10 @@ export default function DashboardLayout({
             {/* Footer */}
             <div className="p-4 border-t">
               <p className="text-xs text-center text-gray-500">
-                NOCHILL v2.0
+                NOCHILL v2.1
               </p>
               <p className="text-xs text-center text-gray-400 mt-1">
-                Viral Scripting Master Guide
+                Content OS Enabled
               </p>
             </div>
           </div>
