@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X, Save, Download, BookOpen, ChevronDown, ChevronUp } from 'lucide-react'
+import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X, Save, Download, BookOpen, ChevronDown, ChevronUp, Database } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 import { get120HooksBank } from '@/lib/knowledge-base'
 
@@ -202,6 +202,83 @@ export default function HookGeneratorPage() {
     localStorage.setItem('savedHooks', JSON.stringify(hooks))
 
     alert('Hook saved to your library!')
+  }
+
+  const saveToHookBank = async (hook: Hook) => {
+    try {
+      const response = await fetch('/api/hook-bank/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          hookText: hook.content,
+          hookType: hookType !== 'any' ? hookType : 'question',
+          awarenessLevel: 'symptom_aware',
+          broadened: false,
+          topic: topic || '',
+          platform: platform || '',
+          timesUsed: 0,
+          avgPerformance: 0,
+          isFavorite: false,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to save hook to Hook Bank')
+      }
+
+      alert('Hook saved to Hook Bank!')
+    } catch (err: any) {
+      alert('Error saving to Hook Bank: ' + err.message)
+      console.error('Error saving to Hook Bank:', err)
+    }
+  }
+
+  const saveAllToHookBank = async () => {
+    if (hooks.length === 0) {
+      alert('No hooks to save!')
+      return
+    }
+
+    setLoading(true)
+    let successCount = 0
+    let failCount = 0
+
+    for (const hook of hooks) {
+      try {
+        const response = await fetch('/api/hook-bank/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            hookText: hook.content,
+            hookType: hookType !== 'any' ? hookType : 'question',
+            awarenessLevel: 'symptom_aware',
+            broadened: false,
+            topic: topic || '',
+            platform: platform || '',
+            timesUsed: 0,
+            avgPerformance: 0,
+            isFavorite: false,
+          }),
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          successCount++
+        } else {
+          failCount++
+          console.error('Failed to save hook:', data.error)
+        }
+      } catch (err: any) {
+        failCount++
+        console.error('Error saving hook:', err)
+      }
+    }
+
+    setLoading(false)
+    alert(`Saved ${successCount} hooks to Hook Bank${failCount > 0 ? ` (${failCount} failed)` : '!'}`)
   }
 
   const exportHooksToPDF = () => {
@@ -627,6 +704,15 @@ export default function HookGeneratorPage() {
                       <Save className="h-4 w-4" />
                     </Button>
                     <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => saveToHookBank(hook)}
+                      title="Save to Hook Bank"
+                      className="text-purple-600 hover:text-purple-700"
+                    >
+                      <Database className="h-4 w-4" />
+                    </Button>
+                    <Button
                       variant="outline"
                       size="sm"
                       onClick={() => {
@@ -683,7 +769,13 @@ export default function HookGeneratorPage() {
             <Button onClick={generateHooks} disabled={loading} className="flex-1">
               Generate More
             </Button>
-            <Button variant="outline" className="flex-1">
+            <Button
+              variant="outline"
+              className="flex-1 border-purple-300 hover:bg-purple-50"
+              onClick={saveAllToHookBank}
+              disabled={loading}
+            >
+              <Database className="mr-2 h-4 w-4 text-purple-600" />
               Save All to Hook Bank
             </Button>
           </div>

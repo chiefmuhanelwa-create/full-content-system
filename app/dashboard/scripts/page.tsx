@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen, Monitor, Edit, Save } from 'lucide-react'
+import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen, Monitor, Edit, Save, Layers } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 import { useRouter } from 'next/navigation'
 
@@ -797,6 +797,50 @@ ${scriptToUse.fiveLine.community.script}`
     setTimeout(() => setSaveSuccess(false), 2000)
   }
 
+  const saveToContentCards = async () => {
+    const scriptToSave = isEditing && editedScript ? editedScript : script
+    if (!scriptToSave) return
+
+    try {
+      const response = await fetch('/api/content-card/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contentTitle: scriptTitle || scriptToSave.title,
+          platform: platform !== 'auto' ? platform : 'instagram',
+          contentType: scriptMode === 'sales' ? 'sales' : 'educational',
+          status: 'drafted',
+          contentPillar: scriptMode === 'content' ? 'education' : 'promotion',
+          frameworkUsed: scriptToSave.actStructure || '7-Act Retention Formula',
+          audienceLevel: 'symptom_aware',
+          icpPainPoint: '',
+          hookAwareness: 'symptom_aware',
+          scriptHook: scriptToSave.hook || '',
+          fullScript: scriptToSave.fullScript || '',
+          productThatSolvesIt: scriptMode === 'sales' ? products.find(p => p.id === selectedProductId)?.name : undefined,
+          views: 0,
+          comments: 0,
+          shares: 0,
+          saves: 0,
+          leadsGenerated: 0,
+          revenueGenerated: 0,
+          isFavorite: false,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to save to Content Cards')
+      }
+
+      alert('Script saved to Content Cards!')
+    } catch (err: any) {
+      alert('Error saving to Content Cards: ' + err.message)
+      console.error('Error saving to Content Cards:', err)
+    }
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
@@ -1222,6 +1266,10 @@ ${scriptToUse.fiveLine.community.script}`
                         <Button size="sm" variant="outline" onClick={downloadPDF}>
                           <Download className="h-4 w-4 mr-2" />
                           PDF
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={saveToContentCards} className="bg-purple-50 hover:bg-purple-100 border-purple-300">
+                          <Layers className="h-4 w-4 mr-2 text-purple-600" />
+                          Content Card
                         </Button>
                         <Button size="sm" variant="outline" onClick={loadToTeleprompter} className="bg-cyan-50 hover:bg-cyan-100">
                           <Monitor className="h-4 w-4 mr-2" />

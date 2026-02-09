@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Sparkles, Copy, Save, FileText, Download, Loader2, BookOpen, Lightbulb } from 'lucide-react'
+import { Sparkles, Copy, Save, FileText, Download, Loader2, BookOpen, Lightbulb, Database } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 
 interface StoryOutput {
@@ -120,6 +120,51 @@ export default function StorytellingStudio() {
     })
     localStorage.setItem('stories', JSON.stringify(stories))
     alert('Story saved to library!')
+  }
+
+  const saveToStoryBank = async () => {
+    if (!output) return
+
+    try {
+      setLoading(true)
+      const response = await fetch('/api/story-bank/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          storyKey: output.title,
+          storyTitle: output.title,
+          storySnippet: output.fullStory.substring(0, 150),
+          fullStoryVersion: output.fullStory,
+          isSpecial: true,
+          isRelevant: true,
+          isQuantifiable: false,
+          hasNames: false,
+          transformationBefore: '',
+          transformationAfter: '',
+          timeframe: duration + 's',
+          emotionBefore: 'curious',
+          emotionAfter: targetEmotion || 'inspired',
+          useCases: [selectedType || 'story'],
+          contentPillar: coreMessage || '',
+          timesUsed: 0,
+          avgImpact: 0,
+          isFavorite: false,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to save story to Story Bank')
+      }
+
+      alert('Story saved to Story Bank!')
+    } catch (err: any) {
+      alert('Error saving to Story Bank: ' + err.message)
+      console.error('Error saving to Story Bank:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const useInScriptWriter = () => {
@@ -401,6 +446,10 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
                   <Button size="sm" variant="outline" onClick={saveStory}>
                     <Save className="h-3 w-3 mr-1" />
                     Save to Library
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={saveToStoryBank} className="border-purple-300 hover:bg-purple-50">
+                    <Database className="h-3 w-3 mr-1 text-purple-600" />
+                    Save to Story Bank
                   </Button>
                   <Button size="sm" variant="outline" onClick={useInScriptWriter}>
                     <FileText className="h-3 w-3 mr-1" />

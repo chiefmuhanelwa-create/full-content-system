@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { BookOpen, Sparkles, Copy, Check, AlertCircle, ArrowRight, Save } from 'lucide-react'
+import { BookOpen, Sparkles, Copy, Check, AlertCircle, ArrowRight, Save, Database } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 
 interface StoryMetrics {
@@ -129,6 +129,46 @@ Use Case: ${story.useCase}
     alert('Story saved to your library!')
   }
 
+  const saveToStoryBank = async (story: ExtractedStory) => {
+    try {
+      const response = await fetch('/api/story-bank/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          storyKey: story.title,
+          storyTitle: story.title,
+          storySnippet: story.content.substring(0, 150),
+          fullStoryVersion: story.content,
+          isSpecial: story.criteria.special,
+          isRelevant: story.criteria.relevant,
+          isQuantifiable: story.criteria.quantifiable,
+          hasNames: story.criteria.named,
+          transformationBefore: story.metrics.before,
+          transformationAfter: story.metrics.after,
+          timeframe: story.metrics.timeframe,
+          emotionBefore: 'uncertain',
+          emotionAfter: 'confident',
+          useCases: [story.useCase],
+          contentPillar: '',
+          timesUsed: 0,
+          avgImpact: 0,
+          isFavorite: false,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to save story to Story Bank')
+      }
+
+      alert('Story saved to Story Bank!')
+    } catch (err: any) {
+      alert('Error saving to Story Bank: ' + err.message)
+      console.error('Error saving to Story Bank:', err)
+    }
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       {/* Header */}
@@ -241,6 +281,16 @@ Use Case: ${story.useCase}
                         >
                           <Save className="h-3 w-3" />
                           Save
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => saveToStoryBank(story)}
+                          className="gap-1 border-purple-300 hover:bg-purple-50"
+                          title="Save to Story Bank"
+                        >
+                          <Database className="h-3 w-3 text-purple-600" />
+                          Bank
                         </Button>
                         <Button
                           variant="outline"

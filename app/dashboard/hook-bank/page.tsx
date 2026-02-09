@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -32,7 +33,8 @@ import {
   X,
   TrendingUp,
   Sparkles,
-  Save
+  Save,
+  ArrowRight
 } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 
@@ -77,6 +79,7 @@ interface FormData {
 }
 
 export default function HookBankPage() {
+  const router = useRouter()
   const [hooks, setHooks] = useState<HookBankEntry[]>([])
   const [filteredHooks, setFilteredHooks] = useState<HookBankEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -332,6 +335,22 @@ export default function HookBankPage() {
       alert(err.message || 'An error occurred')
       console.error('Error deleting hook:', err)
     }
+  }
+
+  const useInScript = (hook: HookBankEntry) => {
+    // Store the hook in localStorage for the Script Writer to pick up
+    localStorage.setItem('pendingAction', JSON.stringify({
+      action: 'use-hook-in-script',
+      data: {
+        content: hook.hookText,
+        type: hook.hookType,
+        platform: hook.platform || 'instagram',
+        topic: hook.topic || '',
+      },
+    }))
+
+    // Navigate to Script Writer
+    router.push('/dashboard/scripts')
   }
 
   const exportToCSV = () => {
@@ -748,6 +767,15 @@ export default function HookBankPage() {
                           hook.isFavorite ? 'fill-red-500 text-red-500' : ''
                         }`}
                       />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => useInScript(hook)}
+                      title="Use in Script Writer"
+                      className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    >
+                      <ArrowRight className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"

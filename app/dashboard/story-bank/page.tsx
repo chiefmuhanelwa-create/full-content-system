@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -36,6 +37,7 @@ import {
   Clock,
   Target,
   Zap,
+  ArrowRight,
 } from 'lucide-react'
 
 interface StoryBankEntry {
@@ -76,6 +78,7 @@ interface Stats {
 }
 
 export default function StoryBankPage() {
+  const router = useRouter()
   const [stories, setStories] = useState<StoryBankEntry[]>([])
   const [filteredStories, setFilteredStories] = useState<StoryBankEntry[]>([])
   const [stats, setStats] = useState<Stats>({ total: 0, favorites: 0, quantifiable: 0, avgImpact: 0 })
@@ -291,6 +294,25 @@ export default function StoryBankPage() {
     } catch (err: any) {
       console.error('Error toggling favorite:', err)
     }
+  }
+
+  const useInScript = (story: StoryBankEntry) => {
+    // Store the story in localStorage for the Script Writer to pick up
+    localStorage.setItem('pendingAction', JSON.stringify({
+      action: 'use-story-in-script',
+      data: {
+        title: story.title,
+        content: story.fullVersion || story.snippet,
+        metrics: {
+          before: story.beforeState || '',
+          after: story.afterState || '',
+          timeframe: story.timeframe || '',
+        },
+      },
+    }))
+
+    // Navigate to Script Writer
+    router.push('/dashboard/scripts')
   }
 
   // Edit story
@@ -1058,11 +1080,18 @@ export default function StoryBankPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleEdit(story)}
-                    className="flex-1"
+                    onClick={() => useInScript(story)}
+                    className="flex-1 border-blue-300 hover:bg-blue-50"
                   >
-                    <Edit className="h-3 w-3 mr-1" />
-                    Edit
+                    <ArrowRight className="h-3 w-3 mr-1 text-blue-600" />
+                    Use in Script
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleEdit(story)}
+                  >
+                    <Edit className="h-3 w-3" />
                   </Button>
                   <Button
                     variant="outline"

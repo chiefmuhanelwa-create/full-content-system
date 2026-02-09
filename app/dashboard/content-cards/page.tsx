@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -38,6 +39,7 @@ import {
   Filter,
   X,
   RefreshCw,
+  CalendarCheck,
 } from 'lucide-react'
 
 interface ContentCard {
@@ -86,6 +88,7 @@ interface Stats {
 }
 
 export default function ContentCardsPage() {
+  const router = useRouter()
   const [contentCards, setContentCards] = useState<ContentCard[]>([])
   const [filteredCards, setFilteredCards] = useState<ContentCard[]>([])
   const [stats, setStats] = useState<Stats | null>(null)
@@ -325,6 +328,27 @@ export default function ContentCardsPage() {
       isFavorite: card.isFavorite,
     })
     setIsDialogOpen(true)
+  }
+
+  // Schedule to Calendar Plus
+  const scheduleToCalendar = (card: ContentCard) => {
+    // Store the content card data in localStorage for Calendar Plus to pick up
+    localStorage.setItem('pendingAction', JSON.stringify({
+      action: 'schedule-from-content-card',
+      data: {
+        title: card.contentTitle,
+        description: card.icpPainPoint,
+        pillar: card.contentPillar,
+        platform: card.platform,
+        contentType: card.contentType,
+        status: card.status,
+        scheduledDate: card.publishDate || undefined,
+        contentCardId: card.id,
+      },
+    }))
+
+    // Navigate to Content Calendar Plus
+    router.push('/dashboard/content-calendar-plus')
   }
 
   // Export to CSV
@@ -1120,11 +1144,18 @@ export default function ContentCardsPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleEdit(card)}
-                    className="flex-1"
+                    onClick={() => scheduleToCalendar(card)}
+                    className="flex-1 border-green-300 hover:bg-green-50"
                   >
-                    <Edit className="h-3 w-3 mr-1" />
-                    Edit
+                    <CalendarCheck className="h-3 w-3 mr-1 text-green-600" />
+                    Schedule
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleEdit(card)}
+                  >
+                    <Edit className="h-3 w-3" />
                   </Button>
                   <Button
                     variant="outline"
