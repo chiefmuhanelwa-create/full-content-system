@@ -71,26 +71,54 @@ Open-source AI-powered viral content creation platform using Claude. Free foreve
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database (Neon, Supabase, or local)
+
+### Setup
+
 ```bash
-# Install dependencies
+# 1. Install dependencies
 npm install
 
-# Add your API key to .env
+# 2. Configure environment variables
+# Edit .env.local with your values:
+NEXTAUTH_SECRET=<generated-secret>
+DATABASE_URL=postgresql://user:password@host:5432/database
 ANTHROPIC_API_KEY=your_api_key_here
+NEXTAUTH_URL=http://localhost:3000
 
-# Run development server
+# 3. Set up database
+npx prisma db push
+
+# 4. Run development server
 npm run dev
 
-# Build for production
+# 5. Build for production
 npm run build
 ```
+
+### Authentication Setup
+The app now includes a full authentication system. See [SETUP.md](./SETUP.md) for detailed instructions.
+
+**Quick Fix for "Server Configuration" Error:**
+1. Ensure `NEXTAUTH_SECRET` is set in your environment variables
+2. Set up a PostgreSQL database and configure `DATABASE_URL`
+3. Run `npx prisma db push` to create tables
+4. Restart your development server
 
 ## 🌐 Deploy to Vercel
 
 1. Push code to GitHub
 2. Import project in Vercel
 3. Set branch to: `claude/nochill-web-app-26Yi8`
-4. Add environment variable: `ANTHROPIC_API_KEY`
+4. Add environment variables in Vercel dashboard:
+   - `NEXTAUTH_SECRET` - Generate with: `openssl rand -base64 32`
+   - `NEXTAUTH_URL` - Your Vercel app URL (e.g., https://your-app.vercel.app)
+   - `DATABASE_URL` - PostgreSQL connection string (Neon/Supabase)
+   - `ANTHROPIC_API_KEY` - Your Anthropic API key
+   - `GOOGLE_CLIENT_ID` (optional) - For Google OAuth
+   - `GOOGLE_CLIENT_SECRET` (optional) - For Google OAuth
 5. Deploy
 
 **Important:** Make sure Vercel is set to deploy from `claude/nochill-web-app-26Yi8` branch!
