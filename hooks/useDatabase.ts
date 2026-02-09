@@ -54,17 +54,19 @@ interface Story {
 }
 
 export function useDatabase() {
-  const sessionHook = useSession()
-  const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
+  // Authentication disabled - will implement later
+  // const sessionHook = useSession()
+  // const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   // Hooks operations
   const saveHook = useCallback(async (hook: Omit<Hook, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (status !== 'authenticated') {
-      setError('You must be logged in to save hooks')
-      return null
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   setError('You must be logged in to save hooks')
+    //   return null
+    // }
 
     setLoading(true)
     setError(null)
@@ -90,12 +92,13 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   const listHooks = useCallback(async (filters?: { platform?: string; category?: string; isFavorite?: boolean }) => {
-    if (status !== 'authenticated') {
-      return []
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   return []
+    // }
 
     setLoading(true)
     setError(null)
@@ -120,13 +123,14 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   const deleteHook = useCallback(async (id: string) => {
-    if (status !== 'authenticated') {
-      setError('You must be logged in to delete hooks')
-      return false
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   setError('You must be logged in to delete hooks')
+    //   return false
+    // }
 
     setLoading(true)
     setError(null)
@@ -147,14 +151,15 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   // Scripts operations
   const saveScript = useCallback(async (script: Omit<Script, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (status !== 'authenticated') {
-      setError('You must be logged in to save scripts')
-      return null
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   setError('You must be logged in to save scripts')
+    //   return null
+    // }
 
     setLoading(true)
     setError(null)
@@ -180,12 +185,13 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   const listScripts = useCallback(async (filters?: { platform?: string; category?: string; isFavorite?: boolean }) => {
-    if (status !== 'authenticated') {
-      return []
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   return []
+    // }
 
     setLoading(true)
     setError(null)
@@ -210,13 +216,14 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   const updateScript = useCallback(async (id: string, updates: Partial<Script>) => {
-    if (status !== 'authenticated') {
-      setError('You must be logged in to update scripts')
-      return null
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   setError('You must be logged in to update scripts')
+    //   return null
+    // }
 
     setLoading(true)
     setError(null)
@@ -242,13 +249,14 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   const deleteScript = useCallback(async (id: string) => {
-    if (status !== 'authenticated') {
-      setError('You must be logged in to delete scripts')
-      return false
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   setError('You must be logged in to delete scripts')
+    //   return false
+    // }
 
     setLoading(true)
     setError(null)
@@ -269,14 +277,15 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   // Stories operations
   const saveStory = useCallback(async (story: Omit<Story, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (status !== 'authenticated') {
-      setError('You must be logged in to save stories')
-      return null
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   setError('You must be logged in to save stories')
+    //   return null
+    // }
 
     setLoading(true)
     setError(null)
@@ -302,12 +311,13 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   const listStories = useCallback(async (filters?: { storyType?: string; category?: string; isFavorite?: boolean }) => {
-    if (status !== 'authenticated') {
-      return []
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   return []
+    // }
 
     setLoading(true)
     setError(null)
@@ -332,13 +342,14 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   const deleteStory = useCallback(async (id: string) => {
-    if (status !== 'authenticated') {
-      setError('You must be logged in to delete stories')
-      return false
-    }
+    // Authentication check disabled
+    // if (status !== 'authenticated') {
+    //   setError('You must be logged in to delete stories')
+    //   return false
+    // }
 
     setLoading(true)
     setError(null)
@@ -359,12 +370,12 @@ export function useDatabase() {
     } finally {
       setLoading(false)
     }
-  }, [status])
+  }, [])
 
   return {
     loading,
     error,
-    isAuthenticated: status === 'authenticated',
+    isAuthenticated: true, // Authentication disabled
     // Hooks
     saveHook,
     listHooks,

@@ -26,19 +26,16 @@ interface SavedScript {
 
 export default function SavedScriptsPage() {
   const router = useRouter()
-  const sessionHook = useSession()
-  const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
+  // Authentication disabled - will implement later
+  // const sessionHook = useSession()
+  // const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
   const { listScripts, deleteScript: deleteScriptDb, loading } = useDatabase()
   const [scripts, setScripts] = useState<SavedScript[]>([])
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      loadScripts()
-    } else if (status === 'unauthenticated') {
-      router.push('/auth/signin')
-    }
-  }, [status])
+    loadScripts()
+  }, [])
 
   const loadScripts = async () => {
     const scriptsData = await listScripts()
@@ -86,7 +83,7 @@ export default function SavedScriptsPage() {
     s.productName?.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  if (status === 'loading' || loading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />

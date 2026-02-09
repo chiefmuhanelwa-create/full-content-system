@@ -24,19 +24,16 @@ interface SavedHook {
 
 export default function SavedHooksPage() {
   const router = useRouter()
-  const sessionHook = useSession()
-  const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
+  // Authentication disabled - will implement later
+  // const sessionHook = useSession()
+  // const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
   const { listHooks, deleteHook: deleteHookDb, loading } = useDatabase()
   const [savedHooks, setSavedHooks] = useState<SavedHook[]>([])
   const [filter, setFilter] = useState<string>('all')
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      loadHooks()
-    } else if (status === 'unauthenticated') {
-      router.push('/auth/signin')
-    }
-  }, [status])
+    loadHooks()
+  }, [])
 
   const loadHooks = async () => {
     const hooks = await listHooks()
@@ -128,7 +125,7 @@ export default function SavedHooksPage() {
     return labels[type] || type
   }
 
-  if (status === 'loading' || loading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />

@@ -23,19 +23,16 @@ interface SavedStory {
 
 export default function SavedStoriesPage() {
   const router = useRouter()
-  const sessionHook = useSession()
-  const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
+  // Authentication disabled - will implement later
+  // const sessionHook = useSession()
+  // const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
   const { listStories, deleteStory: deleteStoryDb, loading } = useDatabase()
   const [savedStories, setSavedStories] = useState<SavedStory[]>([])
   const [filter, setFilter] = useState<string>('all')
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      loadStories()
-    } else if (status === 'unauthenticated') {
-      router.push('/auth/signin')
-    }
-  }, [status])
+    loadStories()
+  }, [])
 
   const loadStories = async () => {
     const stories = await listStories()
@@ -103,7 +100,7 @@ export default function SavedStoriesPage() {
     ? savedStories.filter(s => s.isFavorite)
     : savedStories.filter(s => s.category === filter)
 
-  if (status === 'loading' || loading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
