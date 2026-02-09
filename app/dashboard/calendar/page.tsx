@@ -21,7 +21,7 @@ interface ContentEntry {
   id: string
   date: string
   title: string
-  category: '35% Educate' | '30% Entertain' | '20% Encourage' | '15% Earn'
+  category: '40% Educate' | '30% Entertain' | '20% Encourage' | '10% Earn'
   platform: string
   notes: string
 }
@@ -38,7 +38,7 @@ export default function ContentCalendarPage() {
   const [newEntry, setNewEntry] = useState<Partial<ContentEntry>>({
     date: new Date().toISOString().split('T')[0],
     title: '',
-    category: '35% Educate',
+    category: '40% Educate',
     platform: 'Instagram',
     notes: '',
   })
@@ -58,7 +58,7 @@ export default function ContentCalendarPage() {
     setNewEntry({
       date: new Date().toISOString().split('T')[0],
       title: '',
-      category: '35% Educate',
+      category: '40% Educate',
       platform: 'Instagram',
       notes: '',
     })
@@ -96,7 +96,7 @@ export default function ContentCalendarPage() {
     setNewEntry({
       date: new Date().toISOString().split('T')[0],
       title: '',
-      category: '35% Educate',
+      category: '40% Educate',
       platform: 'Instagram',
       notes: '',
     })
@@ -107,7 +107,7 @@ export default function ContentCalendarPage() {
     setNewEntry({
       date: new Date().toISOString().split('T')[0],
       title: '',
-      category: '35% Educate',
+      category: '40% Educate',
       platform: 'Instagram',
       notes: '',
     })
@@ -131,7 +131,7 @@ export default function ContentCalendarPage() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case '35% Educate':
+      case '40% Educate':
         return {
           bg: 'bg-blue-500',
           text: 'text-white',
@@ -158,7 +158,7 @@ export default function ContentCalendarPage() {
           lightText: 'text-green-700',
           lightBorder: 'border-green-200'
         }
-      case '15% Earn':
+      case '10% Earn':
         return {
           bg: 'bg-orange-500',
           text: 'text-white',
@@ -190,10 +190,10 @@ export default function ContentCalendarPage() {
 
   const getStats = () => {
     const total = calendarEntries.length
-    const educate = calendarEntries.filter((e) => e.category === '35% Educate').length
+    const educate = calendarEntries.filter((e) => e.category === '40% Educate').length
     const entertain = calendarEntries.filter((e) => e.category === '30% Entertain').length
     const encourage = calendarEntries.filter((e) => e.category === '20% Encourage').length
-    const earn = calendarEntries.filter((e) => e.category === '15% Earn').length
+    const earn = calendarEntries.filter((e) => e.category === '10% Earn').length
 
     return {
       total,
@@ -229,7 +229,7 @@ The 4E Content Evolution Framework ensures balanced content mix:
 📘 35% EDUCATE (Target: ${stats.educate}% Actual)
    → Teach frameworks, strategies, systems
    → Build authority and trust
-   → Current: ${calendarEntries.filter(e => e.category === '35% Educate').length} pieces
+   → Current: ${calendarEntries.filter(e => e.category === '40% Educate').length} pieces
 
 🎭 30% ENTERTAIN (Target: ${stats.entertain}% Actual)
    → Stories, humor, relatable struggles
@@ -244,7 +244,7 @@ The 4E Content Evolution Framework ensures balanced content mix:
 💰 15% EARN (Target: ${stats.earn}% Actual)
    → Monetization, offers, CTAs
    → Drive revenue and conversions
-   → Current: ${calendarEntries.filter(e => e.category === '15% Earn').length} pieces
+   → Current: ${calendarEntries.filter(e => e.category === '10% Earn').length} pieces
 
 ═══════════════════════════════════════════════════════════
 📅 COMPLETE CONTENT SCHEDULE
@@ -263,7 +263,7 @@ ${index + 1}. ${entry.title}
 })}
 
 📁 Category: ${entry.category}
-   ${entry.category === '35% Educate' ? '→ Teaching & Educational Content' :
+   ${entry.category === '40% Educate' ? '→ Teaching & Educational Content' :
      entry.category === '30% Entertain' ? '→ Entertainment & Storytelling' :
      entry.category === '20% Encourage' ? '→ Motivational & Inspirational' :
      '→ Monetization & Sales Content'}
@@ -522,7 +522,7 @@ Built for sustainable content creation and business growth
               Content Calendar
             </h1>
             <p className="text-gray-600">
-              Plan your content using the 4E Engine: 30% Entertain, 35% Educate, 20% Encourage, 15% Earn
+              Plan your content using the 4E Engine: 30% Entertain, 40% Educate, 20% Encourage, 10% Earn
             </p>
           </div>
           <div className="flex gap-2">

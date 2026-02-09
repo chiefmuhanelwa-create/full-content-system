@@ -13,23 +13,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Package, Plus, Edit, Trash2, DollarSign, Users, Target } from 'lucide-react'
+import { Package, Plus, Edit, Trash2, DollarSign, Users, Target, Loader2 } from 'lucide-react'
 
 interface Product {
   id: string
-  name: string
+  productName: string
   price: number
-  audienceLevel: 'Beginner' | 'Established' | 'Contentpreneur'
-  productType: 'Digital' | 'Physical' | 'Service' | 'Tool' | 'Community'
-  status: 'Live' | 'Development' | 'Future'
+  currency?: string
+  audienceLevel: 'beginner' | 'established' | 'contentpreneur'
+  audienceSegment?: string
+  productType: 'digital_product' | 'course' | 'coaching' | 'community' | 'service' | 'physical'
+  status: 'active' | 'coming_soon' | 'archived' | 'sold_out'
   painPoints: string
   coreBenefits: string
   description: string
-  bonuses: string
-  priceAnchor: string
-  guarantee: string
-  testimonials: string
-  // 10-Step Storytelling Framework
+  bonuses?: string
+  priceAnchor?: string
+  guarantee?: string
+  testimonials?: any
+  paidsStream: 'products' | 'ads' | 'info' | 'deals' | 'services'
+  ladderPosition: 'entry' | 'core' | 'premium' | 'elite'
+  upsellTo?: string
+  downsellTo?: string
+  salesPageUrl?: string
+  checkoutUrl?: string
+  deliveryMethod?: string
+  isFavorite?: boolean
+  tags?: any
+  notes?: string
+  // 10-Step Storytelling Framework (stored in tags)
   step1_callout?: string
   step2_attention?: string
   step3_problem?: string
@@ -40,20 +52,26 @@ interface Product {
   step8_benefits?: string
   step9_proof?: string
   step10_offer?: string
-  contentHooks?: string[] // Array of content hooks for creating content about this product
+  contentHooks?: string[]
   createdAt: string
+  updatedAt: string
 }
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [isEditing, setIsEditing] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isSaving, setIsSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState<Partial<Product>>({
-    name: '',
+    productName: '',
     price: 0,
-    audienceLevel: 'Beginner',
-    productType: 'Digital',
-    status: 'Live',
+    audienceLevel: 'beginner',
+    productType: 'digital_product',
+    status: 'active',
+    paidsStream: 'products',
+    ladderPosition: 'entry',
     painPoints: '',
     coreBenefits: '',
     description: '',
@@ -74,29 +92,208 @@ export default function ProductsPage() {
     contentHooks: [],
   })
 
-  // Load products from localStorage
+  // Helper function to extract 10-step framework and contentHooks from tags
+  const extractFromTags = (tags: any) => {
+    if (!tags) return {}
+    return {
+      step1_callout: tags.step1_callout || '',
+      step2_attention: tags.step2_attention || '',
+      step3_problem: tags.step3_problem || '',
+      step4_intrigue: tags.step4_intrigue || '',
+      step5_floodlight: tags.step5_floodlight || '',
+      step6_solution: tags.step6_solution || '',
+      step7_credentials: tags.step7_credentials || '',
+      step8_benefits: tags.step8_benefits || '',
+      step9_proof: tags.step9_proof || '',
+      step10_offer: tags.step10_offer || '',
+      contentHooks: tags.contentHooks || [],
+    }
+  }
+
+  // Helper function to prepare tags with 10-step framework and contentHooks
+  const prepareTagsForSave = (data: Partial<Product>) => {
+    return {
+      step1_callout: data.step1_callout || '',
+      step2_attention: data.step2_attention || '',
+      step3_problem: data.step3_problem || '',
+      step4_intrigue: data.step4_intrigue || '',
+      step5_floodlight: data.step5_floodlight || '',
+      step6_solution: data.step6_solution || '',
+      step7_credentials: data.step7_credentials || '',
+      step8_benefits: data.step8_benefits || '',
+      step9_proof: data.step9_proof || '',
+      step10_offer: data.step10_offer || '',
+      contentHooks: data.contentHooks || [],
+    }
+  }
+
+  // Migrate localStorage data to database (one-time migration)
+  const migrateLocalStorageData = async () => {
+    try {
+      const stored = localStorage.getItem('products')
+      if (!stored) return
+
+      const localProducts = JSON.parse(stored)
+      if (!Array.isArray(localProducts) || localProducts.length === 0) return
+
+      console.log(`Migrating ${localProducts.length} products from localStorage to database...`)
+
+      for (const localProduct of localProducts) {
+        // Map old format to new format
+        const mappedProduct = {
+          productName: localProduct.name,
+          price: localProduct.price,
+          currency: 'ZAR',
+          audienceLevel: mapAudienceLevel(localProduct.audienceLevel),
+          productType: mapProductType(localProduct.productType),
+          status: mapStatus(localProduct.status),
+          painPoints: localProduct.painPoints,
+          coreBenefits: localProduct.coreBenefits,
+          description: localProduct.description,
+          bonuses: localProduct.bonuses || '',
+          priceAnchor: localProduct.priceAnchor || '',
+          guarantee: localProduct.guarantee || '',
+          testimonials: localProduct.testimonials ? { text: localProduct.testimonials } : null,
+          paidsStream: 'products' as const, // Default to products
+          ladderPosition: determineAudienceLadder(localProduct.audienceLevel),
+          tags: {
+            step1_callout: localProduct.step1_callout || '',
+            step2_attention: localProduct.step2_attention || '',
+            step3_problem: localProduct.step3_problem || '',
+            step4_intrigue: localProduct.step4_intrigue || '',
+            step5_floodlight: localProduct.step5_floodlight || '',
+            step6_solution: localProduct.step6_solution || '',
+            step7_credentials: localProduct.step7_credentials || '',
+            step8_benefits: localProduct.step8_benefits || '',
+            step9_proof: localProduct.step9_proof || '',
+            step10_offer: localProduct.step10_offer || '',
+            contentHooks: localProduct.contentHooks || [],
+          }
+        }
+
+        await fetch('/api/products/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(mappedProduct),
+        })
+      }
+
+      // Mark migration as complete
+      localStorage.setItem('products_migrated', 'true')
+      localStorage.removeItem('products')
+      console.log('Migration completed successfully!')
+    } catch (error) {
+      console.error('Migration error:', error)
+    }
+  }
+
+  // Helper functions for mapping old values to new format
+  const mapAudienceLevel = (level: string): 'beginner' | 'established' | 'contentpreneur' => {
+    const mapping: Record<string, 'beginner' | 'established' | 'contentpreneur'> = {
+      'Beginner': 'beginner',
+      'Established': 'established',
+      'Contentpreneur': 'contentpreneur',
+    }
+    return mapping[level] || 'beginner'
+  }
+
+  const mapProductType = (type: string): 'digital_product' | 'course' | 'coaching' | 'community' | 'service' | 'physical' => {
+    const mapping: Record<string, 'digital_product' | 'course' | 'coaching' | 'community' | 'service' | 'physical'> = {
+      'Digital': 'digital_product',
+      'Physical': 'physical',
+      'Service': 'service',
+      'Tool': 'digital_product',
+      'Community': 'community',
+    }
+    return mapping[type] || 'digital_product'
+  }
+
+  const mapStatus = (status: string): 'active' | 'coming_soon' | 'archived' | 'sold_out' => {
+    const mapping: Record<string, 'active' | 'coming_soon' | 'archived' | 'sold_out'> = {
+      'Live': 'active',
+      'Development': 'coming_soon',
+      'Future': 'coming_soon',
+    }
+    return mapping[status] || 'active'
+  }
+
+  const determineAudienceLadder = (level: string): 'entry' | 'core' | 'premium' | 'elite' => {
+    if (level === 'Beginner') return 'entry'
+    if (level === 'Established') return 'core'
+    if (level === 'Contentpreneur') return 'premium'
+    return 'entry'
+  }
+
+  // Load products from database
+  const loadProducts = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+
+      const response = await fetch('/api/products/list')
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to load products')
+      }
+
+      // Extract 10-step framework and contentHooks from tags
+      const productsWithExtractedData = data.products.map((product: any) => ({
+        ...product,
+        ...extractFromTags(product.tags),
+      }))
+
+      setProducts(productsWithExtractedData)
+    } catch (error: any) {
+      console.error('Error loading products:', error)
+      setError(error.message || 'Failed to load products')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Initial load and migration
   useEffect(() => {
-    const stored = localStorage.getItem('products')
-    if (stored) {
-      setProducts(JSON.parse(stored))
-    } else {
-      // Pre-populate with your known products
-      const defaultProducts: Product[] = [
-        {
-          id: Date.now().toString(),
-          name: 'SA Tax Guide',
-          price: 197,
-          audienceLevel: 'Beginner',
-          productType: 'Digital',
-          status: 'Live',
-          painPoints: 'Confused about SARS compliance, afraid of tax penalties, don\'t know what expenses to claim',
-          coreBenefits: 'Complete tax clarity, legal protection, peace of mind, R50K+ in deductions',
-          description: '115-page comprehensive guide for SA content creators. Every SARS scenario covered.',
-          bonuses: 'Free Tax Calculator Access (R299 value), Personal Tax Question Answer (R500 value)',
-          priceAnchor: 'Accountant consultation costs R3,500+',
-          guarantee: 'Personal review guarantee - get answer within 48 hours if confused',
-          testimonials: '500+ creators now tax compliant',
-          // 10-Step Storytelling Framework
+    const initializeProducts = async () => {
+      // Check if migration is needed
+      const migrated = localStorage.getItem('products_migrated')
+      if (!migrated) {
+        await migrateLocalStorageData()
+      }
+
+      // Load products from database
+      await loadProducts()
+
+      // If no products exist, create default products
+      const response = await fetch('/api/products/list')
+      const data = await response.json()
+      if (data.success && data.products.length === 0) {
+        await createDefaultProducts()
+        await loadProducts()
+      }
+    }
+
+    initializeProducts()
+  }, [])
+
+  // Create default products
+  const createDefaultProducts = async () => {
+    const defaultProducts = [
+      {
+        productName: 'SA Tax Guide',
+        price: 197,
+        audienceLevel: 'beginner' as const,
+        productType: 'digital_product' as const,
+        status: 'active' as const,
+        paidsStream: 'products' as const,
+        ladderPosition: 'entry' as const,
+        painPoints: 'Confused about SARS compliance, afraid of tax penalties, don\'t know what expenses to claim',
+        coreBenefits: 'Complete tax clarity, legal protection, peace of mind, R50K+ in deductions',
+        description: '115-page comprehensive guide for SA content creators. Every SARS scenario covered.',
+        bonuses: 'Free Tax Calculator Access (R299 value), Personal Tax Question Answer (R500 value)',
+        priceAnchor: 'Accountant consultation costs R3,500+',
+        guarantee: 'Personal review guarantee - get answer within 48 hours if confused',
+        tags: {
           step1_callout: 'If you made more than R30,000 from content creation last year and haven\'t registered with SARS...',
           step2_attention: 'You\'re probably committing tax fraud right now and don\'t even know it. And SARS? They already know about your income.',
           step3_problem: 'Here\'s what most South African creators don\'t realize: Every brand payment, every platform payout, every sponsorship—it\'s all being reported to SARS automatically. The banks are legally required to flag accounts receiving business income. I learned this the hard way when I owed SARS money I didn\'t have because I thought \'content creation\' wasn\'t a real business. Spoiler: SARS disagreed.',
@@ -116,23 +313,23 @@ export default function ProductsPage() {
             'What happens when SARS audits a content creator (real story)',
             'Is your content hobby or business? SARS already decided.'
           ],
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: (Date.now() + 1).toString(),
-          name: 'Niche Clarity Workbook',
-          price: 297,
-          audienceLevel: 'Beginner',
-          productType: 'Digital',
-          status: 'Live',
-          painPoints: 'Don\'t know what to post about, trying to appeal to everyone, no clear positioning',
-          coreBenefits: 'Find your niche in 7 days, clear content strategy, authentic positioning',
-          description: 'Step-by-step workbook to discover your profitable niche and positioning.',
-          bonuses: 'Niche validation checklist, Competitor analysis template',
-          priceAnchor: 'Brand strategist session costs R5,000+ for one hour',
-          guarantee: '7-day money-back guarantee if you don\'t find clarity',
-          testimonials: '300+ creators found their niche',
-          // 10-Step Storytelling Framework
+        }
+      },
+      {
+        productName: 'Niche Clarity Workbook',
+        price: 297,
+        audienceLevel: 'beginner' as const,
+        productType: 'digital_product' as const,
+        status: 'active' as const,
+        paidsStream: 'products' as const,
+        ladderPosition: 'entry' as const,
+        painPoints: 'Don\'t know what to post about, trying to appeal to everyone, no clear positioning',
+        coreBenefits: 'Find your niche in 7 days, clear content strategy, authentic positioning',
+        description: 'Step-by-step workbook to discover your profitable niche and positioning.',
+        bonuses: 'Niche validation checklist, Competitor analysis template',
+        priceAnchor: 'Brand strategist session costs R5,000+ for one hour',
+        guarantee: '7-day money-back guarantee if you don\'t find clarity',
+        tags: {
           step1_callout: 'If you\'re posting 3-5 times a day across multiple platforms and STILL not growing...',
           step2_attention: 'The problem isn\'t your content. It\'s not the algorithm. It\'s not \'saturation.\' The problem is: nobody knows what you actually stand for.',
           step3_problem: 'I see this every day: talented creators making beautiful content about... everything. Monday it\'s fitness tips. Wednesday it\'s relationship advice. Friday it\'s food reviews. And their followers? Confused. The algorithm? Confused. Brands? They scroll past because they can\'t figure out what you\'re an expert in. Here\'s the truth nobody tells you: The riches are in the niches. Not because you have to be boring—but because clarity creates cash flow.',
@@ -152,167 +349,248 @@ export default function ProductsPage() {
             'The biggest lie about finding your niche',
             'I built 3M followers by getting uncomfortably specific'
           ],
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: (Date.now() + 2).toString(),
-          name: 'The Influencer\'s Code',
-          price: 350,
-          audienceLevel: 'Established',
-          productType: 'Digital',
-          status: 'Live',
-          painPoints: 'Inconsistent income, don\'t know how to negotiate deals, underpricing services',
-          coreBenefits: 'Proven negotiation frameworks, pricing confidence, consistent brand deals',
-          description: 'Complete guide to landing and negotiating brand deals. 5,000+ copies sold.',
-          bonuses: 'Media kit template, Rate card calculator, Pitch email templates',
-          priceAnchor: 'Business coach charges R2,000+/hour for this knowledge',
-          guarantee: 'Land one deal or money back',
-          testimonials: '5,000+ copies sold, countless brand deals secured',
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: (Date.now() + 3).toString(),
-          name: 'Foundation of Content Creation',
-          price: 1997,
-          audienceLevel: 'Established',
-          productType: 'Digital',
-          status: 'Live',
-          painPoints: 'Posting inconsistently, no content strategy, burnout from daily posting, low engagement',
-          coreBenefits: 'Complete content system, viral frameworks, sustainable posting rhythm, 10X engagement',
-          description: 'Master the NOCHILL framework, Hook Science, and Ubuntu Story Arc. Everything I wish I knew when starting.',
-          bonuses: '110+ Content Ideas Vault, 110+ Story Variations, Hook Templates Library, Script breakdown examples',
-          priceAnchor: 'Content coaching costs R5,000+/month. This is lifetime access.',
-          guarantee: '30-day results or money back - see measurable engagement increase',
-          testimonials: 'Helped 2,000+ creators build sustainable content systems',
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: (Date.now() + 4).toString(),
-          name: 'Personal Brand Foundations',
-          price: 4997,
-          audienceLevel: 'Established',
-          productType: 'Digital',
-          status: 'Live',
-          painPoints: 'Being seen as "just another creator", no differentiation, copying others, imposter syndrome',
-          coreBenefits: 'Unique positioning, authentic brand voice, category of one status, magnetic personal brand',
-          description: 'Build a personal brand that stands out. From positioning to voice to visual identity.',
-          bonuses: 'Brand Voice Analyzer, Personal Story Mining Framework, Visual Identity Templates, Positioning Workshop Recording',
-          priceAnchor: 'Brand consultants charge R50,000+ for this level of transformation',
-          guarantee: '60-day implementation guarantee with 1-on-1 feedback session',
-          testimonials: 'Helped 500+ creators find their authentic voice and stand out',
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: (Date.now() + 5).toString(),
-          name: 'Skool Community',
-          price: 997,
-          audienceLevel: 'Established',
-          productType: 'Community',
-          status: 'Live',
-          painPoints: 'Learning alone, no accountability, missing connections, slow growth without community',
-          coreBenefits: 'Daily support, network of creators, accountability partners, exclusive resources, monthly coaching',
-          description: 'Join 500+ creators building together. Daily content reviews, strategy sessions, and community support.',
-          bonuses: 'Weekly group coaching calls, Monthly hot seat sessions, Exclusive resource library, Direct access to Ndivhuwo',
-          priceAnchor: 'Masterminds charge R10,000+/month. This is comprehensive community for R997/month.',
-          guarantee: 'Cancel anytime - no long-term commitment',
-          testimonials: '500+ active members, R1M+ in collective deals secured',
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: (Date.now() + 6).toString(),
-          name: 'Contentpreneur Starter Kit',
-          price: 7997,
-          audienceLevel: 'Contentpreneur',
-          productType: 'Digital',
-          status: 'Live',
-          painPoints: 'Time-for-money trap, can\'t scale, missing systems for growth, building for yourself not your children',
-          coreBenefits: 'Complete business system, scalable frameworks, generational wealth foundation, legacy building',
-          description: 'Everything you need to transition from creator to contentpreneur. Full operating system for your children\'s children.',
-          bonuses: 'Private community access, Monthly group coaching, All templates and frameworks, Personal onboarding call',
-          priceAnchor: 'MBA costs R200,000+ and teaches theory. This is practical business building with proven systems.',
-          guarantee: 'Implement for 90 days or full refund - we bet on your success',
-          testimonials: 'Transformed 100+ creators into business owners building generational wealth',
-          createdAt: new Date().toISOString(),
-        },
-      ]
-      setProducts(defaultProducts)
-      localStorage.setItem('products', JSON.stringify(defaultProducts))
-    }
-  }, [])
+        }
+      },
+      {
+        productName: 'The Influencer\'s Code',
+        price: 350,
+        audienceLevel: 'established' as const,
+        productType: 'digital_product' as const,
+        status: 'active' as const,
+        paidsStream: 'products' as const,
+        ladderPosition: 'entry' as const,
+        painPoints: 'Inconsistent income, don\'t know how to negotiate deals, underpricing services',
+        coreBenefits: 'Proven negotiation frameworks, pricing confidence, consistent brand deals',
+        description: 'Complete guide to landing and negotiating brand deals. 5,000+ copies sold.',
+        bonuses: 'Media kit template, Rate card calculator, Pitch email templates',
+        priceAnchor: 'Business coach charges R2,000+/hour for this knowledge',
+        guarantee: 'Land one deal or money back',
+        tags: {}
+      },
+      {
+        productName: 'Foundation of Content Creation',
+        price: 1997,
+        audienceLevel: 'established' as const,
+        productType: 'course' as const,
+        status: 'active' as const,
+        paidsStream: 'info' as const,
+        ladderPosition: 'core' as const,
+        painPoints: 'Posting inconsistently, no content strategy, burnout from daily posting, low engagement',
+        coreBenefits: 'Complete content system, viral frameworks, sustainable posting rhythm, 10X engagement',
+        description: 'Master the NOCHILL framework, Hook Science, and Ubuntu Story Arc. Everything I wish I knew when starting.',
+        bonuses: '110+ Content Ideas Vault, 110+ Story Variations, Hook Templates Library, Script breakdown examples',
+        priceAnchor: 'Content coaching costs R5,000+/month. This is lifetime access.',
+        guarantee: '30-day results or money back - see measurable engagement increase',
+        tags: {}
+      },
+      {
+        productName: 'Personal Brand Foundations',
+        price: 4997,
+        audienceLevel: 'established' as const,
+        productType: 'course' as const,
+        status: 'active' as const,
+        paidsStream: 'info' as const,
+        ladderPosition: 'premium' as const,
+        painPoints: 'Being seen as "just another creator", no differentiation, copying others, imposter syndrome',
+        coreBenefits: 'Unique positioning, authentic brand voice, category of one status, magnetic personal brand',
+        description: 'Build a personal brand that stands out. From positioning to voice to visual identity.',
+        bonuses: 'Brand Voice Analyzer, Personal Story Mining Framework, Visual Identity Templates, Positioning Workshop Recording',
+        priceAnchor: 'Brand consultants charge R50,000+ for this level of transformation',
+        guarantee: '60-day implementation guarantee with 1-on-1 feedback session',
+        tags: {}
+      },
+      {
+        productName: 'Skool Community',
+        price: 997,
+        audienceLevel: 'established' as const,
+        productType: 'community' as const,
+        status: 'active' as const,
+        paidsStream: 'services' as const,
+        ladderPosition: 'core' as const,
+        painPoints: 'Learning alone, no accountability, missing connections, slow growth without community',
+        coreBenefits: 'Daily support, network of creators, accountability partners, exclusive resources, monthly coaching',
+        description: 'Join 500+ creators building together. Daily content reviews, strategy sessions, and community support.',
+        bonuses: 'Weekly group coaching calls, Monthly hot seat sessions, Exclusive resource library, Direct access to Ndivhuwo',
+        priceAnchor: 'Masterminds charge R10,000+/month. This is comprehensive community for R997/month.',
+        guarantee: 'Cancel anytime - no long-term commitment',
+        tags: {}
+      },
+      {
+        productName: 'Contentpreneur Starter Kit',
+        price: 7997,
+        audienceLevel: 'contentpreneur' as const,
+        productType: 'course' as const,
+        status: 'active' as const,
+        paidsStream: 'info' as const,
+        ladderPosition: 'elite' as const,
+        painPoints: 'Time-for-money trap, can\'t scale, missing systems for growth, building for yourself not your children',
+        coreBenefits: 'Complete business system, scalable frameworks, generational wealth foundation, legacy building',
+        description: 'Everything you need to transition from creator to contentpreneur. Full operating system for your children\'s children.',
+        bonuses: 'Private community access, Monthly group coaching, All templates and frameworks, Personal onboarding call',
+        priceAnchor: 'MBA costs R200,000+ and teaches theory. This is practical business building with proven systems.',
+        guarantee: 'Implement for 90 days or full refund - we bet on your success',
+        tags: {}
+      },
+    ]
 
-  const saveProducts = (updatedProducts: Product[]) => {
-    setProducts(updatedProducts)
-    localStorage.setItem('products', JSON.stringify(updatedProducts))
+    for (const product of defaultProducts) {
+      try {
+        await fetch('/api/products/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(product),
+        })
+      } catch (error) {
+        console.error('Error creating default product:', error)
+      }
+    }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (editingId) {
-      // Update existing product
-      const updated = products.map((p) =>
-        p.id === editingId ? { ...formData, id: editingId, createdAt: p.createdAt } as Product : p
-      )
-      saveProducts(updated)
-      setEditingId(null)
-    } else {
-      // Create new product
-      const newProduct: Product = {
-        ...formData,
-        id: Date.now().toString(),
-        createdAt: new Date().toISOString(),
-      } as Product
-      saveProducts([...products, newProduct])
-    }
+    try {
+      setIsSaving(true)
+      setError(null)
 
-    // Reset form
-    setFormData({
-      name: '',
-      price: 0,
-      audienceLevel: 'Beginner',
-      productType: 'Digital',
-      status: 'Live',
-      painPoints: '',
-      coreBenefits: '',
-      description: '',
-      bonuses: '',
-      priceAnchor: '',
-      guarantee: '',
-      testimonials: '',
-      step1_callout: '',
-      step2_attention: '',
-      step3_problem: '',
-      step4_intrigue: '',
-      step5_floodlight: '',
-      step6_solution: '',
-      step7_credentials: '',
-      step8_benefits: '',
-      step9_proof: '',
-      step10_offer: '',
-      contentHooks: [],
-    })
-    setIsEditing(false)
+      // Prepare data with tags
+      const productData = {
+        productName: formData.productName,
+        price: formData.price,
+        currency: 'ZAR',
+        audienceLevel: formData.audienceLevel,
+        productType: formData.productType,
+        status: formData.status,
+        paidsStream: formData.paidsStream,
+        ladderPosition: formData.ladderPosition,
+        description: formData.description,
+        coreBenefits: formData.coreBenefits,
+        painPoints: formData.painPoints,
+        bonuses: formData.bonuses || '',
+        priceAnchor: formData.priceAnchor || '',
+        guarantee: formData.guarantee || '',
+        testimonials: formData.testimonials ? { text: formData.testimonials } : null,
+        tags: prepareTagsForSave(formData),
+      }
+
+      if (editingId) {
+        // Update existing product
+        const response = await fetch('/api/products/update', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...productData }),
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to update product')
+        }
+
+        // Update local state
+        const updatedProducts = products.map((p) =>
+          p.id === editingId ? { ...data.product, ...extractFromTags(data.product.tags) } : p
+        )
+        setProducts(updatedProducts)
+        setEditingId(null)
+      } else {
+        // Create new product
+        const response = await fetch('/api/products/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productData),
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to create product')
+        }
+
+        // Add to local state
+        const newProduct = { ...data.product, ...extractFromTags(data.product.tags) }
+        setProducts([...products, newProduct])
+      }
+
+      // Reset form
+      setFormData({
+        productName: '',
+        price: 0,
+        audienceLevel: 'beginner',
+        productType: 'digital_product',
+        status: 'active',
+        paidsStream: 'products',
+        ladderPosition: 'entry',
+        painPoints: '',
+        coreBenefits: '',
+        description: '',
+        bonuses: '',
+        priceAnchor: '',
+        guarantee: '',
+        testimonials: '',
+        step1_callout: '',
+        step2_attention: '',
+        step3_problem: '',
+        step4_intrigue: '',
+        step5_floodlight: '',
+        step6_solution: '',
+        step7_credentials: '',
+        step8_benefits: '',
+        step9_proof: '',
+        step10_offer: '',
+        contentHooks: [],
+      })
+      setIsEditing(false)
+    } catch (error: any) {
+      console.error('Error saving product:', error)
+      setError(error.message || 'Failed to save product')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   const editProduct = (product: Product) => {
-    setFormData(product)
+    setFormData({
+      ...product,
+      ...extractFromTags(product.tags),
+    })
     setEditingId(product.id)
     setIsEditing(true)
   }
 
-  const deleteProduct = (id: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
-      saveProducts(products.filter((p) => p.id !== id))
+  const deleteProduct = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this product?')) {
+      return
+    }
+
+    try {
+      setError(null)
+
+      const response = await fetch(`/api/products/delete?id=${id}`, {
+        method: 'DELETE',
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to delete product')
+      }
+
+      // Remove from local state
+      setProducts(products.filter((p) => p.id !== id))
+    } catch (error: any) {
+      console.error('Error deleting product:', error)
+      setError(error.message || 'Failed to delete product')
     }
   }
 
   const getAudienceBadgeColor = (level: string) => {
     switch (level) {
-      case 'Beginner':
+      case 'beginner':
         return 'bg-green-100 text-green-700 border-green-200'
-      case 'Established':
+      case 'established':
         return 'bg-blue-100 text-blue-700 border-blue-200'
-      case 'Contentpreneur':
+      case 'contentpreneur':
         return 'bg-purple-100 text-purple-700 border-purple-200'
       default:
         return 'bg-gray-100 text-gray-700 border-gray-200'
@@ -321,25 +599,55 @@ export default function ProductsPage() {
 
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
-      case 'Live':
+      case 'active':
         return 'bg-green-100 text-green-700'
-      case 'Development':
+      case 'coming_soon':
         return 'bg-yellow-100 text-yellow-700'
-      case 'Future':
+      case 'archived':
         return 'bg-gray-100 text-gray-700'
+      case 'sold_out':
+        return 'bg-red-100 text-red-700'
       default:
         return 'bg-gray-100 text-gray-700'
     }
   }
 
+  const getAudienceLabelForDisplay = (level: string) => {
+    switch (level) {
+      case 'beginner':
+        return 'Beginner'
+      case 'established':
+        return 'Established'
+      case 'contentpreneur':
+        return 'Contentpreneur'
+      default:
+        return level
+    }
+  }
+
+  const getStatusLabelForDisplay = (status: string) => {
+    switch (status) {
+      case 'active':
+        return 'Live'
+      case 'coming_soon':
+        return 'Coming Soon'
+      case 'archived':
+        return 'Archived'
+      case 'sold_out':
+        return 'Sold Out'
+      default:
+        return status
+    }
+  }
+
   const stats = {
     total: products.length,
-    live: products.filter((p) => p.status === 'Live').length,
+    live: products.filter((p) => p.status === 'active').length,
     totalValue: products.reduce((sum, p) => sum + p.price, 0),
     byAudience: {
-      beginner: products.filter((p) => p.audienceLevel === 'Beginner').length,
-      established: products.filter((p) => p.audienceLevel === 'Established').length,
-      contentpreneur: products.filter((p) => p.audienceLevel === 'Contentpreneur').length,
+      beginner: products.filter((p) => p.audienceLevel === 'beginner').length,
+      established: products.filter((p) => p.audienceLevel === 'established').length,
+      contentpreneur: products.filter((p) => p.audienceLevel === 'contentpreneur').length,
     },
   }
 
@@ -357,15 +665,66 @@ export default function ProductsPage() {
               Manage your products - powers all sales scripts, offers, and campaigns
             </p>
           </div>
-          <Button onClick={() => setIsEditing(!isEditing)} className="flex items-center gap-2">
+          <Button
+            onClick={() => {
+              setIsEditing(!isEditing)
+              if (!isEditing) {
+                setFormData({
+                  productName: '',
+                  price: 0,
+                  audienceLevel: 'beginner',
+                  productType: 'digital_product',
+                  status: 'active',
+                  paidsStream: 'products',
+                  ladderPosition: 'entry',
+                  painPoints: '',
+                  coreBenefits: '',
+                  description: '',
+                  bonuses: '',
+                  priceAnchor: '',
+                  guarantee: '',
+                  testimonials: '',
+                  step1_callout: '',
+                  step2_attention: '',
+                  step3_problem: '',
+                  step4_intrigue: '',
+                  step5_floodlight: '',
+                  step6_solution: '',
+                  step7_credentials: '',
+                  step8_benefits: '',
+                  step9_proof: '',
+                  step10_offer: '',
+                  contentHooks: [],
+                })
+                setEditingId(null)
+              }
+            }}
+            className="flex items-center gap-2"
+          >
             <Plus className="h-4 w-4" />
             {isEditing ? 'Cancel' : 'Add Product'}
           </Button>
         </div>
       </div>
 
+      {/* Error Message */}
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+          <p className="text-sm text-red-800">{error}</p>
+        </div>
+      )}
+
+      {/* Loading State */}
+      {isLoading && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
+          <p className="ml-3 text-gray-600">Loading products...</p>
+        </div>
+      )}
+
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      {!isLoading && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">Total Products</CardTitle>
@@ -403,6 +762,7 @@ export default function ProductsPage() {
           </CardContent>
         </Card>
       </div>
+      )}
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Product Form */}
@@ -415,13 +775,14 @@ export default function ProductsPage() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Product Name *</Label>
+                  <Label htmlFor="productName">Product Name *</Label>
                   <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    id="productName"
+                    value={formData.productName}
+                    onChange={(e) => setFormData({ ...formData, productName: e.target.value })}
                     placeholder="SA Tax Guide"
                     required
+                    disabled={isSaving}
                   />
                 </div>
 
@@ -434,6 +795,7 @@ export default function ProductsPage() {
                     onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
                     placeholder="197"
                     required
+                    disabled={isSaving}
                   />
                 </div>
 
@@ -444,14 +806,15 @@ export default function ProductsPage() {
                     onValueChange={(value) =>
                       setFormData({ ...formData, audienceLevel: value as Product['audienceLevel'] })
                     }
+                    disabled={isSaving}
                   >
                     <SelectTrigger id="audienceLevel">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Beginner">Beginner Creator</SelectItem>
-                      <SelectItem value="Established">Established Creator</SelectItem>
-                      <SelectItem value="Contentpreneur">Contentpreneur</SelectItem>
+                      <SelectItem value="beginner">Beginner Creator</SelectItem>
+                      <SelectItem value="established">Established Creator</SelectItem>
+                      <SelectItem value="contentpreneur">Contentpreneur</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -463,18 +826,65 @@ export default function ProductsPage() {
                     onValueChange={(value) =>
                       setFormData({ ...formData, productType: value as Product['productType'] })
                     }
+                    disabled={isSaving}
                   >
                     <SelectTrigger id="productType">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Digital">Digital Product</SelectItem>
-                      <SelectItem value="Physical">Physical Product</SelectItem>
-                      <SelectItem value="Service">Service</SelectItem>
-                      <SelectItem value="Tool">Tool/Software</SelectItem>
-                      <SelectItem value="Community">Community Access</SelectItem>
+                      <SelectItem value="digital_product">Digital Product</SelectItem>
+                      <SelectItem value="course">Course</SelectItem>
+                      <SelectItem value="coaching">Coaching</SelectItem>
+                      <SelectItem value="community">Community</SelectItem>
+                      <SelectItem value="service">Service</SelectItem>
+                      <SelectItem value="physical">Physical Product</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="paidsStream">PAIDS Stream *</Label>
+                  <Select
+                    value={formData.paidsStream}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, paidsStream: value as Product['paidsStream'] })
+                    }
+                    disabled={isSaving}
+                  >
+                    <SelectTrigger id="paidsStream">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="products">Products</SelectItem>
+                      <SelectItem value="ads">Ads</SelectItem>
+                      <SelectItem value="info">Info (Courses/Education)</SelectItem>
+                      <SelectItem value="deals">Deals (Brand Partnerships)</SelectItem>
+                      <SelectItem value="services">Services</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-gray-500">Which revenue stream does this belong to?</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="ladderPosition">Product Ladder Position *</Label>
+                  <Select
+                    value={formData.ladderPosition}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, ladderPosition: value as Product['ladderPosition'] })
+                    }
+                    disabled={isSaving}
+                  >
+                    <SelectTrigger id="ladderPosition">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="entry">Entry (R0-R500)</SelectItem>
+                      <SelectItem value="core">Core (R500-R5K)</SelectItem>
+                      <SelectItem value="premium">Premium (R5K-R50K)</SelectItem>
+                      <SelectItem value="elite">Elite (R50K+)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-gray-500">Where does this sit in your product ladder?</p>
                 </div>
 
                 <div className="space-y-2">
@@ -484,14 +894,16 @@ export default function ProductsPage() {
                     onValueChange={(value) =>
                       setFormData({ ...formData, status: value as Product['status'] })
                     }
+                    disabled={isSaving}
                   >
                     <SelectTrigger id="status">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Live">Live</SelectItem>
-                      <SelectItem value="Development">Development</SelectItem>
-                      <SelectItem value="Future">Future</SelectItem>
+                      <SelectItem value="active">Live/Active</SelectItem>
+                      <SelectItem value="coming_soon">Coming Soon</SelectItem>
+                      <SelectItem value="archived">Archived</SelectItem>
+                      <SelectItem value="sold_out">Sold Out</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -505,6 +917,7 @@ export default function ProductsPage() {
                     placeholder="115-page comprehensive guide..."
                     rows={2}
                     required
+                    disabled={isSaving}
                   />
                 </div>
 
@@ -517,6 +930,7 @@ export default function ProductsPage() {
                     placeholder="Confused about SARS, afraid of penalties..."
                     rows={3}
                     required
+                    disabled={isSaving}
                   />
                   <p className="text-xs text-gray-500">What problems does this solve?</p>
                 </div>
@@ -530,6 +944,7 @@ export default function ProductsPage() {
                     placeholder="Complete tax clarity, peace of mind..."
                     rows={3}
                     required
+                    disabled={isSaving}
                   />
                   <p className="text-xs text-gray-500">What outcomes do they get?</p>
                 </div>
@@ -542,6 +957,7 @@ export default function ProductsPage() {
                     onChange={(e) => setFormData({ ...formData, bonuses: e.target.value })}
                     placeholder="Free calculator access (R299 value)..."
                     rows={2}
+                    disabled={isSaving}
                   />
                 </div>
 
@@ -552,6 +968,7 @@ export default function ProductsPage() {
                     value={formData.priceAnchor}
                     onChange={(e) => setFormData({ ...formData, priceAnchor: e.target.value })}
                     placeholder="Accountant costs R3,500+"
+                    disabled={isSaving}
                   />
                   <p className="text-xs text-gray-500">What's the expensive alternative?</p>
                 </div>
@@ -564,6 +981,7 @@ export default function ProductsPage() {
                     onChange={(e) => setFormData({ ...formData, guarantee: e.target.value })}
                     placeholder="Personal review within 48 hours..."
                     rows={2}
+                    disabled={isSaving}
                   />
                 </div>
 
@@ -575,6 +993,7 @@ export default function ProductsPage() {
                     onChange={(e) => setFormData({ ...formData, testimonials: e.target.value })}
                     placeholder="500+ creators now tax compliant..."
                     rows={2}
+                    disabled={isSaving}
                   />
                 </div>
 
@@ -597,6 +1016,7 @@ export default function ProductsPage() {
                           value={formData.step1_callout}
                           onChange={(e) => setFormData({ ...formData, step1_callout: e.target.value })}
                           placeholder="If you made more than R30,000..."
+                          disabled={isSaving}
                         />
                       </div>
 
@@ -608,6 +1028,7 @@ export default function ProductsPage() {
                           onChange={(e) => setFormData({ ...formData, step2_attention: e.target.value })}
                           placeholder="Bold statement that stops the scroll..."
                           rows={2}
+                          disabled={isSaving}
                         />
                       </div>
 
@@ -619,6 +1040,7 @@ export default function ProductsPage() {
                           onChange={(e) => setFormData({ ...formData, step3_problem: e.target.value })}
                           placeholder="Validate why this problem exists..."
                           rows={3}
+                          disabled={isSaving}
                         />
                       </div>
 
@@ -630,6 +1052,7 @@ export default function ProductsPage() {
                           onChange={(e) => setFormData({ ...formData, step4_intrigue: e.target.value })}
                           placeholder="Tease the transformation..."
                           rows={2}
+                          disabled={isSaving}
                         />
                       </div>
 
@@ -641,6 +1064,7 @@ export default function ProductsPage() {
                           onChange={(e) => setFormData({ ...formData, step5_floodlight: e.target.value })}
                           placeholder="Paint the vivid picture of pain..."
                           rows={3}
+                          disabled={isSaving}
                         />
                       </div>
 
@@ -652,6 +1076,7 @@ export default function ProductsPage() {
                           onChange={(e) => setFormData({ ...formData, step6_solution: e.target.value })}
                           placeholder="Introduce your product as THE answer..."
                           rows={2}
+                          disabled={isSaving}
                         />
                       </div>
 
@@ -663,6 +1088,7 @@ export default function ProductsPage() {
                           onChange={(e) => setFormData({ ...formData, step7_credentials: e.target.value })}
                           placeholder="Why should they trust YOU specifically..."
                           rows={2}
+                          disabled={isSaving}
                         />
                       </div>
 
@@ -674,6 +1100,7 @@ export default function ProductsPage() {
                           onChange={(e) => setFormData({ ...formData, step8_benefits: e.target.value })}
                           placeholder="What exactly do they get..."
                           rows={4}
+                          disabled={isSaving}
                         />
                       </div>
 
@@ -685,6 +1112,7 @@ export default function ProductsPage() {
                           onChange={(e) => setFormData({ ...formData, step9_proof: e.target.value })}
                           placeholder="Testimonials, case studies, results..."
                           rows={2}
+                          disabled={isSaving}
                         />
                       </div>
 
@@ -696,6 +1124,7 @@ export default function ProductsPage() {
                           onChange={(e) => setFormData({ ...formData, step10_offer: e.target.value })}
                           placeholder="The offer they can't refuse + guarantee/bonus..."
                           rows={4}
+                          disabled={isSaving}
                         />
                       </div>
                     </div>
@@ -714,14 +1143,22 @@ export default function ProductsPage() {
                         onChange={(e) => setFormData({ ...formData, contentHooks: e.target.value.split('\n').filter(h => h.trim()) })}
                         placeholder="I owed SARS money I didn't have. Here's what I learned...&#10;5 expenses South African creators don't know they can claim&#10;SARS is watching your Instagram. Here's what they see..."
                         rows={5}
+                        disabled={isSaving}
                       />
                       <p className="text-xs text-gray-500">Ideas for creating content about this product</p>
                     </div>
                   </details>
                 </div>
 
-                <Button type="submit" className="w-full">
-                  {editingId ? 'Update Product' : 'Add Product'}
+                <Button type="submit" className="w-full" disabled={isSaving}>
+                  {isSaving ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      {editingId ? 'Updating...' : 'Creating...'}
+                    </>
+                  ) : (
+                    editingId ? 'Update Product' : 'Add Product'
+                  )}
                 </Button>
               </form>
             </CardContent>
@@ -730,57 +1167,61 @@ export default function ProductsPage() {
 
         {/* Products List */}
         <div className={isEditing ? 'lg:col-span-2' : 'lg:col-span-3'}>
-          <div className="space-y-4">
-            {products.length > 0 ? (
-              products.map((product) => (
-                <Card key={product.id} className="hover:shadow-md transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="flex items-center gap-2">
-                          {product.name}
-                          <span className={`text-xs px-2 py-1 rounded ${getStatusBadgeColor(product.status)}`}>
-                            {product.status}
+          {!isLoading && (
+            <div className="space-y-4">
+              {products.length > 0 ? (
+                products.map((product) => (
+                  <Card key={product.id} className="hover:shadow-md transition-shadow">
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="flex items-center gap-2">
+                            {product.productName}
+                            <span className={`text-xs px-2 py-1 rounded ${getStatusBadgeColor(product.status)}`}>
+                              {getStatusLabelForDisplay(product.status)}
+                            </span>
+                          </CardTitle>
+                          <CardDescription className="mt-2">{product.description}</CardDescription>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button variant="ghost" size="sm" onClick={() => editProduct(product)}>
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => deleteProduct(product.id)}
+                            className="text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-4 flex-wrap">
+                          <div className="flex items-center gap-2">
+                            <DollarSign className="h-4 w-4 text-green-600" />
+                            <span className="text-2xl font-bold text-green-600">
+                              R{product.price.toLocaleString()}
+                            </span>
+                          </div>
+                          <span
+                            className={`text-xs px-3 py-1 rounded-full border ${getAudienceBadgeColor(
+                              product.audienceLevel
+                            )}`}
+                          >
+                            <Users className="h-3 w-3 inline mr-1" />
+                            {getAudienceLabelForDisplay(product.audienceLevel)}
                           </span>
-                        </CardTitle>
-                        <CardDescription className="mt-2">{product.description}</CardDescription>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button variant="ghost" size="sm" onClick={() => editProduct(product)}>
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => deleteProduct(product.id)}
-                          className="text-red-600 hover:text-red-700"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-4 flex-wrap">
-                        <div className="flex items-center gap-2">
-                          <DollarSign className="h-4 w-4 text-green-600" />
-                          <span className="text-2xl font-bold text-green-600">
-                            R{product.price.toLocaleString()}
+                          <span className="text-xs px-3 py-1 rounded-full border bg-gray-100 text-gray-700">
+                            {product.productType.replace('_', ' ')}
+                          </span>
+                          <span className="text-xs px-3 py-1 rounded-full border bg-purple-100 text-purple-700">
+                            {product.paidsStream.toUpperCase()}
                           </span>
                         </div>
-                        <span
-                          className={`text-xs px-3 py-1 rounded-full border ${getAudienceBadgeColor(
-                            product.audienceLevel
-                          )}`}
-                        >
-                          <Users className="h-3 w-3 inline mr-1" />
-                          {product.audienceLevel}
-                        </span>
-                        <span className="text-xs px-3 py-1 rounded-full border bg-gray-100 text-gray-700">
-                          {product.productType}
-                        </span>
-                      </div>
 
                       <div className="grid md:grid-cols-2 gap-4 pt-4 border-t">
                         <div>
@@ -901,7 +1342,8 @@ export default function ProductsPage() {
                 </CardContent>
               </Card>
             )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -35,6 +35,10 @@ export default function MigratePage() {
   });
   const [migrating, setMigrating] = useState(false);
   const [migrationResult, setMigrationResult] = useState<MigrationResult | null>(null);
+  const [hooksKbStatus, setHooksKbStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [storiesKbStatus, setStoriesKbStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [hooksKbMessage, setHooksKbMessage] = useState('');
+  const [storiesKbMessage, setStoriesKbMessage] = useState('');
 
   // Mock userId - in production, get from auth
   const userId = 'demo-user-id';
@@ -100,6 +104,56 @@ export default function MigratePage() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const migrateKnowledgeBaseHooks = async () => {
+    setHooksKbStatus('loading');
+    setHooksKbMessage('');
+
+    try {
+      const response = await fetch('/api/migrate/hooks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setHooksKbStatus('success');
+        setHooksKbMessage(data.message || `Migrated ${data.migratedCount} hooks successfully!`);
+      } else {
+        setHooksKbStatus('error');
+        setHooksKbMessage(data.error || 'Failed to migrate hooks');
+      }
+    } catch (error: any) {
+      setHooksKbStatus('error');
+      setHooksKbMessage(error.message || 'Failed to migrate hooks');
+    }
+  };
+
+  const migrateKnowledgeBaseStories = async () => {
+    setStoriesKbStatus('loading');
+    setStoriesKbMessage('');
+
+    try {
+      const response = await fetch('/api/migrate/stories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStoriesKbStatus('success');
+        setStoriesKbMessage(data.message || `Migrated ${data.migratedCount} stories successfully!`);
+      } else {
+        setStoriesKbStatus('error');
+        setStoriesKbMessage(data.error || 'Failed to migrate stories');
+      }
+    } catch (error: any) {
+      setStoriesKbStatus('error');
+      setStoriesKbMessage(error.message || 'Failed to migrate stories');
+    }
   };
 
   return (
@@ -260,6 +314,72 @@ export default function MigratePage() {
                 <span>Cross-device sync</span>
               </div>
             </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Knowledge Base Migration */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Database className="w-5 h-5" />
+            Knowledge Base Migration
+          </CardTitle>
+          <CardDescription>Import proven hooks and stories from JSON knowledge base</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* 120 Hooks Migration */}
+          <div className="border rounded-lg p-4 space-y-3">
+            <div>
+              <h4 className="font-medium mb-1">120 Proven Hooks Bank</h4>
+              <p className="text-sm text-muted-foreground">
+                Import all 120 battle-tested hooks with R×A×C×U^B components from the knowledge base
+              </p>
+            </div>
+            <Button
+              onClick={migrateKnowledgeBaseHooks}
+              disabled={hooksKbStatus === 'loading' || hooksKbStatus === 'success'}
+              variant="outline"
+              className="w-full"
+            >
+              {hooksKbStatus === 'loading' && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              {hooksKbStatus === 'success' && <CheckCircle2 className="w-4 h-4 mr-2" />}
+              {hooksKbStatus === 'success' ? 'Hooks Migrated ✓' : 'Import 120 Hooks'}
+            </Button>
+            {hooksKbMessage && (
+              <div className={`text-sm p-2 rounded ${
+                hooksKbStatus === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+              }`}>
+                {hooksKbMessage}
+              </div>
+            )}
+          </div>
+
+          {/* Stories Migration */}
+          <div className="border rounded-lg p-4 space-y-3">
+            <div>
+              <h4 className="font-medium mb-1">Ndivhuwo's Stories Bank</h4>
+              <p className="text-sm text-muted-foreground">
+                Import all personal stories with transformations and proof points from the knowledge base
+              </p>
+            </div>
+            <Button
+              onClick={migrateKnowledgeBaseStories}
+              disabled={storiesKbStatus === 'loading' || storiesKbStatus === 'success'}
+              variant="outline"
+              className="w-full"
+            >
+              {storiesKbStatus === 'loading' && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              {storiesKbStatus === 'success' && <CheckCircle2 className="w-4 h-4 mr-2" />}
+              {storiesKbStatus === 'success' ? 'Stories Migrated ✓' : 'Import Personal Stories'}
+            </Button>
+            {storiesKbMessage && (
+              <div className={`text-sm p-2 rounded ${
+                storiesKbStatus === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+              }`}>
+                {storiesKbMessage}
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
