@@ -38,6 +38,14 @@ model User {
   systemSettings SystemSetting[]
   contentProgress ContentProgress[]
 
+  // NOCHILL Content OS Relations
+  contentCards      ContentCard[]
+  hookBank          HookBank[]
+  storyBank         StoryBankEntry[]
+  icpPainLibrary    ICPPainLibrary[]
+  products          Product[]
+  contentCalendarPlus ContentCalendarPlus[]
+
   @@map("users")
 }
 
@@ -427,4 +435,383 @@ model ContentProgress {
   @@index([scheduledFor])
   @@index([createdAt])
   @@map("content_progress")
+}
+
+// ============================================
+// NOCHILL CONTENT OS - COMPREHENSIVE SYSTEM
+// ============================================
+
+// Content Card Model - The central hub for each content piece
+model ContentCard {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // CONTENT IDENTITY
+  contentTitle    String
+  platform        String   // instagram, tiktok, youtube, linkedin, twitter, email
+  contentType     String   // reel, tiktok, youtube_short, youtube_long, story, carousel, thread, email, blog
+  status          String   @default("ideation") // ideation, scripting, shooting, editing, scheduled, published, archived
+  contentPillar   String   // authority, education, monetization, story, conversion
+  frameworkUsed   String?  // PAIDS, DARES, AFRICA Method, 4E, Story Bank, Hook Science
+
+  // ICP TARGETING
+  audienceLevel   String   // beginner_creator, established_creator, contentpreneur
+  icpPainPoint    String   // What keeps them awake at night
+  shadowFear      String?  // family_shame, poverty_cycle, imposter_syndrome, invisibility, etc.
+  desiredTransformationFrom  String?  // Where they are
+  desiredTransformationTo    String?  // Where they go
+
+  // HOOK ENGINE (R×A×C×U^B)
+  hookRelevant    String?  // Why this matters to African creators
+  hookAwareness   String   // symptom_aware, problem_aware, solution_aware, product_aware
+  hookClarity     String?  // What they will gain
+  hookUnique      String?  // Pattern interrupt / bold claim
+  hookBroadened   String?  // More accessible version
+  hookVariations  Json?    // ["Hook 1", "Hook 2", "Hook 3"]
+
+  // SCRIPT STRUCTURE (7-Act Story Arc)
+  scriptHook          String?  // 0-3s hook
+  scriptValuePromise  String?  // 3-8s value promise
+  scriptFirstConflict String?  // First conflict
+  scriptBody          String?  // Main body content
+  scriptRehooks       Json?    // ["Rehook 1", "Rehook 2", "Rehook 3"]
+  scriptEmotionalPeak String?  // Emotional peak
+  scriptCTA           String?  // Call to action
+  scriptRetentionLoop String?  // Retention loop
+  fullScript          String?  // Complete script with all acts
+
+  // STORY BANK CONNECTION
+  personalStoryUsed   String?  // bathroom_floor, losing_followers, brand_deals, sars, mom, aviation, meta_summit
+  villain             String?  // algorithm_myth, platform_dependency, exploitation, confusion
+  proofMoment         String?  // Receipt, result, screenshot, testimonial
+
+  // PRODUCT CONNECTION (NOCHILL PTY LTD)
+  problemThisSolves   String?  // Core problem
+  productThatSolvesIt String?  // tax_guide, influencers_code, paids_workbook, niche_workbook, skool, coaching, course
+  offerLevel          String?  // beginner, established, contentpreneur
+  productId           String?  // Link to Product database
+  product             Product? @relation(fields: [productId], references: [id])
+
+  // PRODUCTION SYSTEM
+  shootDate       DateTime?
+  publishDate     DateTime?
+  productionChecklist Json?  // {scriptReady, shot, edited, captionWritten, thumbnailReady, scheduled, published}
+
+  // FILMING NOTES
+  cameraStyle     String?
+  energyLevel     String?  // low_intense, conversational, vulnerable, teaching, highest_energy
+  location        String?
+  bRollIdeas      Json?    // ["B-roll idea 1", "B-roll idea 2"]
+  visualInterrupts Json?   // ["Visual 1", "Visual 2"]
+
+  // PERFORMANCE TRACKING
+  views           Int      @default(0)
+  comments        Int      @default(0)
+  shares          Int      @default(0)
+  saves           Int      @default(0)
+  watchTime       Float    @default(0)  // In seconds
+  leadsGenerated  Int      @default(0)
+  revenueGenerated Float   @default(0)
+
+  // LEARNINGS
+  lessonLearned   String?
+  whatWorked      String?
+  whatFailed      String?
+
+  // Metadata
+  isFavorite      Boolean  @default(false)
+  tags            Json?    // Custom tags
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([platform])
+  @@index([status])
+  @@index([contentPillar])
+  @@index([audienceLevel])
+  @@index([publishDate])
+  @@map("content_cards")
+}
+
+// Hooks Bank Model - Repository of all hook variations
+model HookBank {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Hook Content
+  hookText        String
+  hookType        String   // question, statement, story, statistic, challenge, pattern_interrupt
+
+  // R×A×C×U^B Components
+  relevant        String?  // Target audience relevance
+  awarenessLevel  String   // symptom_aware, problem_aware, solution_aware, product_aware
+  clarity         String?  // Clear outcome promise
+  unique          String?  // Pattern interrupt element
+  broadened       Boolean  @default(false) // Is it accessible to wider audience?
+
+  // Categorization
+  topic           String?
+  contentPillar   String?  // authority, education, monetization, story, conversion
+  platform        String?  // Best platform for this hook
+  shadowFear      String?  // Which Shadow Fear this targets
+
+  // Performance
+  timesUsed       Int      @default(0)
+  avgPerformance  Float    @default(0)  // Average views/engagement when used
+  isFavorite      Boolean  @default(false)
+
+  // Metadata
+  tags            Json?
+  notes           String?
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([hookType])
+  @@index([awarenessLevel])
+  @@index([contentPillar])
+  @@map("hook_bank")
+}
+
+// Story Bank Model - Repository of personal stories (extended from Story model)
+model StoryBankEntry {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Story Identity
+  storyKey        String   // bathroom_floors, r750_to_r100k, instagram_780k_loss, etc.
+  title           String
+  snippet         String   // Short version (5-20 seconds)
+  fullVersion     String?  // Extended version for long-form
+
+  // Story Structure
+  timeframe       String?  // How long to tell (5-8s, 10-12s, 15-18s)
+  emotion         String?  // Vulnerability → Triumph, Mistake → Mastery
+  lesson          String?  // Core lesson from the story
+
+  // Use Cases
+  useFor          Json     // ["Resilience", "Transformation", "Origin story"]
+  contentPillars  Json?    // ["authority", "education", "story"]
+
+  // Numbers & Proof
+  beforeState     String?
+  afterState      String?
+  specificNumbers Json?    // {"before": "R750 per post", "after": "R100K per deal"}
+
+  // 4-Criteria Test (Proof Stories)
+  isSpecial       Boolean  @default(false)
+  isRelevant      Boolean  @default(false)
+  isQuantifiable  Boolean  @default(false)
+  hasNames        Boolean  @default(false)
+
+  // Villain & Context
+  villain         String?  // What/who was the antagonist
+  shadowFear      String?  // Which Shadow Fear this addresses
+
+  // Usage Tracking
+  timesUsed       Int      @default(0)
+  lastUsed        DateTime?
+  avgImpact       Float    @default(0)  // Average performance when included
+
+  // Metadata
+  isFavorite      Boolean  @default(false)
+  tags            Json?
+  notes           String?
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([storyKey])
+  @@index([isQuantifiable])
+  @@map("story_bank")
+}
+
+// ICP Pain Library Model - Repository of audience pain points
+model ICPPainLibrary {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // ICP Definition
+  audienceLevel   String   // beginner_creator, established_creator, contentpreneur
+  audienceSegment String?  // More specific (e.g., "African fashion creators")
+
+  // Pain Point
+  painPoint       String   // What keeps them awake at night
+  painCategory    String   // financial, visibility, technical, confidence, time, knowledge
+  painIntensity   String   // low, medium, high, critical
+
+  // Shadow Fear Connection
+  shadowFear      String?  // invisibility, wasted_potential, left_behind, exposure, etc.
+  emotionalTrigger String? // Family shame, poverty cycle, imposter syndrome
+
+  // Symptom Manifestation
+  symptoms        Json?    // How this pain shows up in their life
+  objections      Json?    // Common objections/excuses they make
+
+  // Solution Mapping
+  solutionType    String?  // education, tool, framework, mindset_shift, system
+  productMatch    String?  // Which NOCHILL product solves this
+  contentPillar   String?  // Which content pillar addresses this
+
+  // Content Angle
+  hookAngles      Json?    // Proven hook angles for this pain
+  storyMatches    Json?    // Which stories resonate with this pain
+
+  // Performance
+  timesAddressed  Int      @default(0)
+  avgEngagement   Float    @default(0)
+  conversionRate  Float    @default(0)
+
+  // Metadata
+  isFavorite      Boolean  @default(false)
+  tags            Json?
+  notes           String?
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([audienceLevel])
+  @@index([painCategory])
+  @@index([shadowFear])
+  @@map("icp_pain_library")
+}
+
+// Product Database Model - NOCHILL PTY LTD Product Ecosystem
+model Product {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Product Identity
+  productName     String
+  productType     String   // digital_product, course, coaching, community, service, physical
+  price           Float
+  currency        String   @default("ZAR")
+
+  // Audience Fit
+  audienceLevel   String   // beginner, established, contentpreneur
+  audienceSegment String?  // More specific targeting
+
+  // Product Details
+  description     String
+  coreBenefits    String   // What they get
+  painPoints      String   // What problems it solves
+
+  // Sales Elements
+  priceAnchor     String?  // What they'd pay elsewhere
+  bonuses         String?  // What's included as bonus
+  guarantee       String?  // Risk reversal
+  testimonials    Json?    // Social proof
+
+  // PAIDS Classification
+  paidsStream     String   // products, ads, info, deals, services
+
+  // Product Ladder
+  ladderPosition  String   // entry, core, premium, elite
+  upsellTo        String?  // Next product in ladder
+  downsellTo      String?  // Lower-tier alternative
+
+  // Performance Tracking
+  totalSales      Int      @default(0)
+  totalRevenue    Float    @default(0)
+  conversionRate  Float    @default(0)
+  avgReviewScore  Float    @default(0)
+
+  // Status
+  status          String   @default("active") // active, coming_soon, archived, sold_out
+  launchDate      DateTime?
+
+  // Metadata
+  salesPageUrl    String?
+  checkoutUrl     String?
+  deliveryMethod  String?  // email, platform, manual
+  isFavorite      Boolean  @default(false)
+  tags            Json?
+  notes           String?
+
+  // Relations
+  contentCards    ContentCard[]
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productType])
+  @@index([audienceLevel])
+  @@index([paidsStream])
+  @@index([status])
+  @@map("products")
+}
+
+// Enhanced Content Calendar Model (extends existing CalendarEntry)
+model ContentCalendarPlus {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Scheduling
+  scheduledDate   DateTime
+  publishTime     String?  // "09:00", "14:30", etc.
+  timezone        String   @default("Africa/Johannesburg")
+
+  // Content Details
+  title           String
+  description     String?
+  contentPillar   String   // authority, education, monetization, story, conversion
+  fourETag        String   // educate, entertain, encourage, earn
+  platform        String
+  contentType     String   // reel, tiktok, youtube_short, etc.
+
+  // Links
+  contentCardId   String?  // Link to ContentCard
+  scriptId        String?
+  hookId          String?
+  storyId         String?
+
+  // Status
+  status          String   @default("planned") // planned, drafted, scripting, shooting, editing, scheduled, published, archived
+  completionPct   Int      @default(0)  // 0-100%
+
+  // Campaign/Series Tracking
+  campaignName    String?
+  seriesName      String?
+  episodeNumber   Int?
+
+  // Performance Goals
+  targetViews     Int?
+  targetEngagement Float?
+  targetLeads     Int?
+  targetRevenue   Float?
+
+  // Metadata
+  color           String?  // For calendar visualization
+  isPriority      Boolean  @default(false)
+  isRecurring     Boolean  @default(false)
+  recurringPattern String? // weekly, biweekly, monthly
+  tags            Json?
+  notes           String?
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([scheduledDate])
+  @@index([status])
+  @@index([contentPillar])
+  @@index([fourETag])
+  @@map("content_calendar_plus")
 }
