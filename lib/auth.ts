@@ -2,8 +2,13 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
-import { db } from './db'
 import bcrypt from 'bcryptjs'
+
+// Only import db if DATABASE_URL is configured
+let db: any = null
+if (process.env.DATABASE_URL) {
+  db = require('./db').db
+}
 
 const providers = [
   CredentialsProvider({
@@ -15,6 +20,24 @@ const providers = [
     async authorize(credentials) {
       if (!credentials?.email || !credentials?.password) {
         throw new Error('Invalid credentials')
+      }
+
+      // If no database is configured, use a demo user for testing
+      if (!db) {
+        // Demo credentials: demo@example.com / demo123
+        if (credentials.email === 'demo@example.com') {
+          const demoPasswordHash = '$2a$10$YourHashedPasswordHere' // This won't match, just for structure
+          // For demo, accept password "demo123"
+          if (credentials.password === 'demo123') {
+            return {
+              id: 'demo-user-id',
+              email: 'demo@example.com',
+              name: 'Demo User',
+              image: null,
+            }
+          }
+        }
+        throw new Error('Invalid credentials - Database not configured')
       }
 
       const user = await db.user.findUnique({
@@ -56,8 +79,8 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   )
 }
 
-export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(db),
+// Build auth options with conditional adapter
+const authConfig: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
@@ -84,3 +107,10 @@ export const authOptions: NextAuthOptions = {
     },
   },
 }
+
+// Only add adapter if database is configured
+if (db) {
+  authConfig.adapter = PrismaAdapter(db)
+}
+
+export const authOptions = authConfig
