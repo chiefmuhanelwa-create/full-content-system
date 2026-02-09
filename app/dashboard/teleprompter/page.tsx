@@ -40,7 +40,8 @@ export default function TeleprompterPage() {
   const [showTimer, setShowTimer] = useState(false)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [isPreparing, setIsPreparing] = useState(false)
-  const [countdown, setCountdown] = useState(3)
+  const [countdown, setCountdown] = useState(15)
+  const [countdownDuration, setCountdownDuration] = useState(15)
 
   // New rhythm and flow features
   const [showFocusLine, setShowFocusLine] = useState(true)
@@ -244,7 +245,7 @@ export default function TeleprompterPage() {
     if (!isPlaying && !showControls) {
       // Start countdown before playing
       setIsPreparing(true)
-      setCountdown(3)
+      setCountdown(countdownDuration)
 
       const countdownInterval = setInterval(() => {
         setCountdown(prev => {
@@ -252,7 +253,7 @@ export default function TeleprompterPage() {
             clearInterval(countdownInterval)
             setIsPreparing(false)
             setIsPlaying(true)
-            return 3
+            return countdownDuration
           }
           return prev - 1
         })
@@ -281,16 +282,82 @@ export default function TeleprompterPage() {
     return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
-  // Process script with breathing markers
+  // Process script with breathing markers and voice modulation
   const processScriptWithMarkers = (text: string) => {
-    if (!showBreathingMarkers) return text
+    let processedText = text
 
     // Add visual pause indicators after punctuation
-    return text
-      .replace(/\.\s/g, '. 🫁 ')
-      .replace(/\?\s/g, '? 🫁 ')
-      .replace(/!\s/g, '! 🫁 ')
-      .replace(/,\s/g, ', · ')
+    if (showBreathingMarkers) {
+      processedText = processedText
+        .replace(/\.\s/g, '. 🫁 ')
+        .replace(/\?\s/g, '? 🫁 ')
+        .replace(/!\s/g, '! 🫁 ')
+        .replace(/,\s/g, ', · ')
+    }
+
+    return processedText
+  }
+
+  // Render script with voice modulation styling
+  const renderScriptWithModulation = (text: string) => {
+    const words = text.split(' ')
+
+    return words.map((word, index) => {
+      // Check if word is all uppercase (BOLD/HIGH NOTE)
+      if (word.length > 1 && word === word.toUpperCase() && /[A-Z]/.test(word)) {
+        return (
+          <span
+            key={index}
+            style={{
+              fontSize: `${fontSize * 1.3}px`,
+              fontWeight: 'bold',
+              color: '#fbbf24', // Amber color for emphasis
+              textShadow: '0 0 10px rgba(251, 191, 36, 0.5)',
+            }}
+          >
+            {word}{' '}
+          </span>
+        )
+      }
+
+      // Check if word contains special markers
+      // [...text...] = softer/lower voice
+      if (word.startsWith('[') && word.endsWith(']')) {
+        return (
+          <span
+            key={index}
+            style={{
+              fontSize: `${fontSize * 0.85}px`,
+              opacity: 0.7,
+              fontStyle: 'italic',
+              color: '#94a3b8', // Gray for softer voice
+            }}
+          >
+            {word.slice(1, -1)}{' '}
+          </span>
+        )
+      }
+
+      // Check if word contains emphasis markers
+      // **text** = emphasis/moderate raise
+      if (word.startsWith('**') && word.endsWith('**')) {
+        return (
+          <span
+            key={index}
+            style={{
+              fontSize: `${fontSize * 1.15}px`,
+              fontWeight: '600',
+              color: '#60a5fa', // Blue for moderate emphasis
+            }}
+          >
+            {word.slice(2, -2)}{' '}
+          </span>
+        )
+      }
+
+      // Regular word
+      return <span key={index}>{word} </span>
+    })
   }
 
   // Handle speed preset changes
@@ -503,6 +570,26 @@ export default function TeleprompterPage() {
                   <Wind className="h-3 w-3" />
                   Smooth Speed Transitions
                 </Label>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Countdown Duration: {countdownDuration}s</Label>
+                <input
+                  type="range"
+                  value={countdownDuration}
+                  onChange={(e) => setCountdownDuration(Number(e.target.value))}
+                  min={3}
+                  max={30}
+                  step={1}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                />
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span>3s</span>
+                  <span>30s</span>
+                </div>
+                <p className="text-xs text-gray-500 italic">
+                  Time to prepare before recording starts
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -747,6 +834,38 @@ export default function TeleprompterPage() {
             </CardContent>
           </Card>
 
+          {/* Voice Modulation Guide */}
+          <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+            <CardHeader>
+              <CardTitle className="text-sm">🎤 Voice Modulation Guide</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 text-xs">
+              <div className="space-y-1">
+                <div className="font-semibold text-amber-900">How to format your script:</div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">UPPERCASE</span>
+                  <span className="text-amber-700 font-bold">Loud/Bold/High Note</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">**text**</span>
+                  <span className="text-blue-600 font-semibold">Moderate Emphasis</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">[text]</span>
+                  <span className="text-gray-400 italic">Soft/Lower Voice</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">🫁</span>
+                  <span className="text-green-600">Breathing Pause</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">·</span>
+                  <span className="text-purple-600">Short Pause</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Keyboard Shortcuts */}
           <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
             <CardHeader>
@@ -879,7 +998,7 @@ export default function TeleprompterPage() {
                         textShadow: '0 2px 4px rgba(0,0,0,0.5)',
                       }}
                     >
-                      {script ? processScriptWithMarkers(script) : 'No script loaded. Enter text or load from library.'}
+                      {script ? renderScriptWithModulation(processScriptWithMarkers(script)) : 'No script loaded. Enter text or load from library.'}
                     </div>
                   </div>
                 </div>

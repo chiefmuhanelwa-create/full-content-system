@@ -27,9 +27,10 @@ interface SavedScript {
   id: string
   title: string
   hook: string
-  fullScript: string
-  platform: string
-  duration: string
+  fullScript?: string
+  content?: string
+  platform?: string
+  duration?: string
   createdAt: string
 }
 
@@ -126,13 +127,20 @@ export default function LibraryPage() {
   }
 
   const openTeleprompter = (script: SavedScript) => {
-    localStorage.setItem('teleprompterScript', JSON.stringify(script))
+    const teleprompterData = {
+      title: script.title,
+      fullScript: script.fullScript || script.content || script.hook || '',
+      content: script.fullScript || script.content || script.hook || '',
+      hook: script.hook
+    }
+    localStorage.setItem('teleprompterScript', JSON.stringify(teleprompterData))
     router.push('/dashboard/teleprompter')
   }
 
   const exportScriptToPDF = (script: SavedScript) => {
     const printWindow = window.open('', '_blank')
     if (printWindow) {
+      const scriptContent = script.fullScript || script.content || script.hook || 'No script content available'
       printWindow.document.write(`
         <!DOCTYPE html>
         <html>
@@ -198,7 +206,7 @@ export default function LibraryPage() {
               6. Provide Solution → 7. Show Credentials → 8. Detail Benefits → 9. Social Proof → 10. Godfather Offer
             </div>
           </div>
-          <pre>${script.fullScript}</pre>
+          <pre>${scriptContent}</pre>
           <script>
             window.onload = function() {
               window.print();
@@ -214,9 +222,10 @@ export default function LibraryPage() {
 
   // Filter content based on search and platform
   const filteredScripts = savedScripts.filter(script => {
+    const fullScriptText = script.fullScript || script.content || ''
     const matchesSearch = script.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          script.fullScript.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesPlatform = filterPlatform === 'all' || script.platform.toLowerCase() === filterPlatform.toLowerCase()
+                          fullScriptText.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesPlatform = filterPlatform === 'all' || script.platform?.toLowerCase() === filterPlatform.toLowerCase()
     return matchesSearch && matchesPlatform
   })
 
