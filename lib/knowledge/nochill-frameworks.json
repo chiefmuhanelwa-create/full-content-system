@@ -249,6 +249,123 @@
         "id": "U",
         "name": "Unique",
         "description": "How does your hook break the pattern?",
+        "methods": {
+          "method_1": {
+            "name": "Unique Power Words",
+            "description": "Words that trigger attention in unexpected contexts",
+            "power_word_bank": {
+              "african_context": [
+                {
+                  "word": "Ruthlessly",
+                  "usage": "How to ruthlessly monetize your content even when CPMs are low",
+                  "why_it_works": "Military precision applied to creative work"
+                },
+                {
+                  "word": "Bulletproof",
+                  "usage": "Build a bulletproof business that survives load shedding",
+                  "why_it_works": "Indestructible imagery"
+                },
+                {
+                  "word": "Generational",
+                  "usage": "Building generational wealth through content",
+                  "why_it_works": "Ubuntu principle - legacy thinking"
+                },
+                {
+                  "word": "Weaponize",
+                  "usage": "How to weaponize your story into R100K/month",
+                  "why_it_works": "Military term for strategic deployment"
+                },
+                {
+                  "word": "Savage",
+                  "usage": "The savage truth about brand deals",
+                  "why_it_works": "Raw, unfiltered reality"
+                },
+                {
+                  "word": "Surgical",
+                  "usage": "The surgical precision required to turn 10K followers into R50K/month",
+                  "why_it_works": "Medical exactness"
+                },
+                {
+                  "word": "Obscene",
+                  "usage": "How to make obscene amounts of money from email marketing",
+                  "why_it_works": "Over-the-top descriptor for positive outcome"
+                },
+                {
+                  "word": "Bathroom floors",
+                  "usage": "From bathroom floors to Netflix partnerships",
+                  "why_it_works": "Visceral, unexpected, memorable origin story"
+                },
+                {
+                  "word": "Children's children",
+                  "usage": "For children's children - that's why I do this",
+                  "why_it_works": "Generational thinking, Ubuntu values"
+                },
+                {
+                  "word": "Covenant",
+                  "usage": "I made a covenant on a bathroom floor",
+                  "why_it_works": "Sacred, unbreakable commitment"
+                },
+                {
+                  "word": "Apartheid",
+                  "usage": "Digital apartheid - American creators get R200 CPM, you get R2",
+                  "why_it_works": "Charged historical term for systemic unfairness"
+                },
+                {
+                  "word": "Disgustingly",
+                  "usage": "How to become disgustingly well-spoken",
+                  "why_it_works": "Negative word for positive outcome creates cognitive dissonance"
+                },
+                {
+                  "word": "Impregnate",
+                  "usage": "I'm going to impregnate you with the ability to create viral content",
+                  "why_it_works": "Biological, permanent, visceral"
+                }
+              ]
+            },
+            "key_principle": "Use words natural to your voice but unexpected in context"
+          },
+          "method_2": {
+            "name": "Unique Angles",
+            "description": "Coming at topic from unexpected perspective",
+            "angle_types": [
+              {
+                "angle": "The Truth They Hide",
+                "example": "International gurus won't tell you this because it breaks their business model...",
+                "why_it_works": "Conspiracy + empowerment"
+              },
+              {
+                "angle": "If I Died Tomorrow",
+                "example": "If I died tomorrow, this is the exact business system I'd want my children to inherit...",
+                "why_it_works": "Mortality urgency + legacy"
+              },
+              {
+                "angle": "What Losing [BIG NUMBER] Taught Me",
+                "example": "Instagram deleted 780K of my followers. Best thing that ever happened...",
+                "why_it_works": "Counterintuitive claim (loss = gain)"
+              },
+              {
+                "angle": "The [AUTHORITY] Conversation",
+                "example": "SARS wants to have a conversation with you. They're not calling to chat...",
+                "why_it_works": "Personification of threat"
+              },
+              {
+                "angle": "The CPM Apartheid",
+                "example": "American creators get R200 per 1000 views. You get R2. That's digital apartheid...",
+                "why_it_works": "Charged language exposing unfairness"
+              },
+              {
+                "angle": "Reverse Psychology",
+                "example": "Your family thinks you're wasting time. They're right. Unless you do THIS...",
+                "why_it_works": "Agrees with negative then pivots"
+              },
+              {
+                "angle": "Size Matters",
+                "example": "Don't give a shit what they tell you - size matters. Look at your Follow button...",
+                "why_it_works": "Sexual innuendo → surprise → actual lesson"
+              }
+            ]
+          }
+        },
         "pattern_interrupts": [
           "Controversial statement",
           "Unexpected number/statistic",
@@ -256,13 +373,20 @@
           "Personal vulnerability",
           "Strong language",
           "Unusual comparison",
-          "Shocking result"
+          "Shocking result",
+          "Unique power word in unexpected context",
+          "Unexpected angle on common topic"
         ],
         "examples": [
           "Squats just fucking suck for leg growth",
           "I lost 780K followers. Best thing that ever happened",
-          "Your family is right. You ARE wasting your life (unless...)"
-        ]
+          "Your family is right. You ARE wasting your life (unless...)",
+          "How to ruthlessly monetize content when CPMs are R2",
+          "The covenant I made on bathroom floors changed everything",
+          "SARS doesn't negotiate. They calculate. Here's their math on your income...",
+          "Digital apartheid: You get R2 CPM while Americans get R200"
+        ],
+        "critical_warning": "Don't force uniqueness. If an angle feels cringe or unnatural, don't use it. Speak authentically."
       },
       {
         "id": "B",
@@ -307,139 +431,454 @@
         "component": "BROADENED",
         "question": "Can I make this apply to MORE people without diluting?"
       }
-    ]
-  },
-
-  "genesis_framework": {
-    "name": "The Genesis Framework",
-    "description": "5 core story types that every creator possesses - your unfair competitive advantage",
-    "story_types": [
-      {
-        "id": 1,
-        "type": "Origin Stories",
-        "purpose": "Build instant rapport, establish relatability",
-        "elements": [
-          "Where you came from",
-          "Early struggles",
-          "Formative experiences",
-          "The moment you decided to change"
-        ],
-        "nochill_examples": [
-          "Bathroom floor covenant",
-          "Tshikwarani village upbringing",
-          "R400/month family income",
-          "No running water, no electricity"
-        ],
-        "script_usage": "Use in intros, 'about me' content, relatability hooks",
-        "emotional_impact": "High - creates immediate connection"
-      },
-      {
-        "id": 2,
-        "type": "Struggle Stories",
-        "purpose": "Create empathy, show you understand their pain",
-        "elements": [
-          "The specific challenge",
-          "What didn't work",
-          "Cost of failure (emotional, financial, time)",
-          "Rock bottom moment"
-        ],
-        "nochill_examples": [
-          "R285K SARS debt from tax ignorance",
-          "780K followers lost to platform dependency",
-          "Sleeping in university bathrooms for 2 months",
-          "Failed business attempts before breakthrough"
-        ],
-        "script_usage": "Problem awareness content, 'you're not alone' messaging",
-        "emotional_impact": "Very High - validates viewer's struggles"
-      },
-      {
-        "id": 3,
-        "type": "Transformation Stories",
-        "purpose": "Demonstrate possibility, inspire hope, prove your method works",
-        "elements": [
-          "Clear before state (quantified)",
-          "The turning point decision",
-          "What changed (the method)",
-          "Clear after state (quantified)"
-        ],
-        "nochill_examples": [
-          "Platform dependency → owned audience system (100K email subscribers)",
-          "R750 brand deals → R8,333/month retainers",
-          "R6,000 phone investment → R600K+ platform revenue",
-          "Bathroom floors → Netflix partnerships"
-        ],
-        "script_usage": "Social proof, case studies, method validation",
-        "emotional_impact": "High - creates belief in possibility"
-      },
-      {
-        "id": 4,
-        "type": "Breakthrough Stories",
-        "purpose": "Show the moment everything changed, create 'aha' moments",
-        "elements": [
-          "The specific insight/realization",
-          "What triggered it",
-          "Immediate action taken",
-          "Fast results achieved"
-        ],
-        "nochill_examples": [
-          "Realizing 96% of creators fail because of platform dependency",
-          "The covenant moment: 'If You get me out of this...'",
-          "First R50K campaign that changed everything",
-          "Discovering the 4E Content Engine formula"
-        ],
-        "script_usage": "Teaching moments, framework introductions, 'lightbulb' content",
-        "emotional_impact": "Medium-High - creates curiosity and learning"
-      },
-      {
-        "id": 5,
-        "type": "Lesson Stories",
-        "purpose": "Teach principles through experience, provide actionable wisdom",
-        "elements": [
-          "The mistake made",
-          "Why it happened",
-          "What was learned",
-          "How viewer can avoid it"
-        ],
-        "nochill_examples": [
-          "Accepting R750 brand deals → learned pricing psychology",
-          "Ignoring email list → lost 780K followers, learned owned audiences",
-          "Not understanding taxes → R285K debt, learned business systems",
-          "Chasing validation over value → learned content-to-cash frameworks"
-        ],
-        "script_usage": "Educational content, mistakes to avoid, wisdom sharing",
-        "emotional_impact": "Medium - creates trust and authority"
-      }
     ],
-    "extraction_process": {
-      "description": "Every creator has 10-15 proof stories. Use this extraction process:",
-      "steps": [
+    "complete_integrated_examples": {
+      "description": "10 complete hook examples demonstrating all 5 components working together",
+      "examples": [
         {
-          "step": 1,
-          "action": "Memory Scan",
-          "detail": "Write down every achievement, milestone, transformation, or setback from the last 5 years"
+          "hook": "You're accepting R750 for brand deals worth R15,000. I did the same thing. Left R14,250 on the table. Here's why brands laugh at us—and how to make them pay what they budgeted...",
+          "breakdown": {
+            "R": "African creators making R0-5K/month from sporadic brand deals",
+            "A": "Problem Aware - They know they're undercharging, don't know how to fix it",
+            "C": "Undesired Result - 'You're accepting R750 for work worth R15,000'",
+            "U": "Personal Story - 'I left R14,250 on the table'",
+            "B": "'Creators accepting pennies' (not just 'fashion influencers in Joburg')"
+          }
         },
         {
-          "step": 2,
-          "action": "Quantify",
-          "detail": "Add numbers to each story (revenue, followers, time saved, problems solved)"
+          "hook": "I lost 780,000 followers in one second. False copyright claim. Everything gone. Forced me to build something they can never delete. Here's what I built—and why you need it before you lose everything too...",
+          "breakdown": {
+            "R": "Creators who've built following on one platform",
+            "A": "Symptom Aware - They feel vulnerable but don't know solution",
+            "C": "A-to-B Transformation - From platform dependent to platform independent",
+            "U": "Shocking Personal Loss - '780K followers overnight'",
+            "B": "'Anyone building on rented land' (not just 'Instagram influencers')"
+          }
         },
         {
-          "step": 3,
-          "action": "Categorize",
-          "detail": "Assign each story to one of the 5 types"
+          "hook": "SARS sent me a letter. R285,000 owed. Penalties. Interest. Nightmare. I thought taxes were optional. They're not. Here's what happens when SARS catches you—and the system I built so it never happens again...",
+          "breakdown": {
+            "R": "African creators making money but ignoring taxes",
+            "A": "Problem Aware - They know they should handle taxes, don't know how",
+            "C": "Undesired Result - 'SARS is coming. Here's what happens...'",
+            "U": "Personal Nightmare - 'R285K owed to SARS'",
+            "B": "'Anyone making money online' (not just 'influencers')"
+          }
         },
         {
-          "step": 4,
-          "action": "Name the Method",
-          "detail": "Turn each story into a teachable framework"
+          "hook": "I have 100,000 people I can email right now. Instagram can't touch them. TikTok can't ban them. I OWN that list. Here's how I built it from zero—and why it's worth more than 1 million followers...",
+          "breakdown": {
+            "R": "Creators who rely 100% on social media",
+            "A": "Solution Aware - They've heard 'build email list' but haven't done it",
+            "C": "Desired Result - '100K email subscribers. Here's exactly how...'",
+            "U": "Massive Number - '100,000 subscribers I OWN'",
+            "B": "'Creators who want owned audience' (not just 'coaches on Instagram')"
+          }
         },
         {
-          "step": 5,
-          "action": "Deploy Strategically",
-          "detail": "Use stories in hooks, content, sales conversations"
+          "hook": "I slept on bathroom floors for 2 months. Cold tiles. Harsh lights. Wondering if I'd made the biggest mistake of my life. Now I make R100K/month. Here's every step between the bathroom and the boardroom...",
+          "breakdown": {
+            "R": "Creators from humble beginnings doubting themselves",
+            "A": "Symptom Aware - They feel stuck, don't know what's holding them back",
+            "C": "A-to-B Transformation - 'From poverty to R100K/month'",
+            "U": "Extreme Origin Story - 'Sleeping on bathroom floors'",
+            "B": "'Anyone starting from nothing' (not just 'university students')"
+          }
+        },
+        {
+          "hook": "American creators get paid R200 per 1000 views. You get R2. That's not bad luck—that's digital apartheid. Here's the strategy that works when CPMs are 1/10th of theirs...",
+          "breakdown": {
+            "R": "African creators comparing themselves to Americans",
+            "A": "Problem Aware - They know African CPMs are lower, frustrated by it",
+            "C": "Undesired Result - 'You're using American strategy in African economy'",
+            "U": "Charged Language - 'Digital apartheid'",
+            "B": "'African creators' (not just 'South African TikTokers')"
+          }
+        },
+        {
+          "hook": "My mother's last words: 'Get educated.' She died before seeing me succeed. Everything I build now? For children's children. Not for likes. Here's why that shift changes everything...",
+          "breakdown": {
+            "R": "Creators who want to build something meaningful",
+            "A": "Symptom Aware - They know they want 'more' but can't articulate what",
+            "C": "A-to-B Transformation - 'From validation to legacy'",
+            "U": "Mother's Last Words - Sacred moment",
+            "B": "'Anyone building for wrong reasons' (not just 'millennials')"
+          }
+        },
+        {
+          "hook": "Load shedding isn't your enemy—it's your content strategist. Forces you to batch. Forces you to plan. Here's how to create 30 days of content in 2 hours, because Eskom won't cooperate...",
+          "breakdown": {
+            "R": "African creators dealing with infrastructure challenges",
+            "A": "Problem Aware - They know load shedding disrupts, see it as excuse",
+            "C": "Desired Result - 'Batch 30 days of content in 2 hours'",
+            "U": "Reframe Obstacle as Strategy - 'Load shedding is your strategist'",
+            "B": "'Creators with unreliable infrastructure' (not just 'South Africans')"
+          }
+        },
+        {
+          "hook": "You're making R300K a month and heading straight to jail. SARS doesn't forget. I owed R285K. Here's the compliance system that keeps you out of trouble...",
+          "breakdown": {
+            "R": "Successful creators ignoring tax obligations",
+            "A": "Symptom Aware - Making money but not considering tax consequences",
+            "C": "Undesired Result - 'Heading straight to jail' + 'Here's the system'",
+            "U": "Shocking Consequence - 'Straight to jail'",
+            "B": "'Anyone making money online' (not 'influencers with 100K+ followers')"
+          }
+        },
+        {
+          "hook": "I mapped 46 ways content creators make money. Most people use 1. Maybe 2. I'm personally running 12 simultaneously. Here's every single one—and how to activate 5 this month...",
+          "breakdown": {
+            "R": "Creators dependent on one income source",
+            "A": "Solution Aware - They know about multiple streams, don't know how to activate",
+            "C": "Information Gap - '46 streams. You're using 1. Here's the other 45'",
+            "U": "Specific Large Number - '46 revenue streams'",
+            "B": "'Entrepreneurs leaving money on table' (not just 'content creators')"
+          }
         }
       ]
+    },
+    "formula_logic": {
+      "foundation_equation": "R × A × C = Hook Foundation",
+      "description": "Miss any of R, A, or C and hook dies immediately. No foundation = no virality.",
+      "multiplier_equation": "U^B = Viral Multiplier",
+      "description_multiplier": "Have R × A × C but miss U or B? Hook gets 10K views (decent). Have ALL FIVE? Hook gets 100K-1M+ views (viral potential).",
+      "performance_predictions": {
+        "missing_RAC": "Hook dies - 0-1K views",
+        "RAC_only": "Decent hook - 5K-15K views",
+        "RAC_plus_U": "Good hook - 20K-50K views",
+        "RAC_plus_B": "Good hook - 20K-50K views",
+        "full_RACUB": "Viral hook - 100K-1M+ views"
+      }
     }
+  },
+
+  "retention_formula": {
+    "name": "Viral Retention Formula - ACT Structure",
+    "description": "7-Act script structure optimized for maximum retention with strategic retention devices",
+    "critical_principle": "Every script must maintain viewer attention through strategic retention devices (open loops, sub-hooks, emotional anchors, etc.)",
+    "structure": [
+      {
+        "act": 1,
+        "name": "The Negative Hook",
+        "timing": "0:00 - 0:15 (First 15 seconds)",
+        "purpose": "Stop the scroll. Create immediate emotional response. Open primary curiosity loop.",
+        "energy": "Low, intense, almost whisper. No music yet. Just you and lens.",
+        "elements": [
+          "Camera tight on face",
+          "Statement of shocking/negative reality",
+          "PAUSE - let it land (2 full seconds of silence)",
+          "Stare into camera for emphasis",
+          "Introduce yourself with authority"
+        ],
+        "retention_devices": [
+          {
+            "device": "OPEN LOOP",
+            "description": "Viewer thinks: 'Wait, what does he mean? Am I doing it wrong?'",
+            "examples": [
+              "96% of African creators will never make a living from content",
+              "Your content strategy is keeping you broke",
+              "You're one account ban away from losing everything"
+            ]
+          }
+        ],
+        "script_example": "[DIRECTION] Camera tight on face. Low, intense energy. Almost a whisper.\n\n[YOU]: 96% of content creators in Africa will never make a living from their content.\n\n[DIRECTION] PAUSE. 2 full seconds of silence. Stare into camera.\n\n[YOU]: Not because they're not talented. Not because the algorithm hates them. But because they're building like employees... on platforms they will never own.",
+        "platform_adaptations": {
+          "short_form": "0-5 seconds maximum. Get to the negative hook immediately.",
+          "long_form": "0-30 seconds. Can add more context and setup."
+        }
+      },
+      {
+        "act": 2,
+        "name": "The Uncomfortable Truth",
+        "timing": "0:15 - 1:00",
+        "purpose": "Pattern interrupt. Contradict what they believe. Create cognitive dissonance.",
+        "energy": "Shift to conversational. More inviting but still intense.",
+        "elements": [
+          "Cut to slightly wider shot",
+          "Music begins - low, cinematic, building",
+          "Challenge common beliefs",
+          "Name the lie they've been told",
+          "Introduce new concept/framework"
+        ],
+        "retention_devices": [
+          {
+            "device": "SUB-HOOK",
+            "description": "Contradicts viewer belief. They HAVE to hear why.",
+            "examples": [
+              "Content creation is NOT a career the way you're doing it",
+              "The algorithm doesn't hate you - your content just sucks",
+              "Followers don't equal income"
+            ]
+          },
+          {
+            "device": "NEW CONCEPT INTRODUCTION",
+            "description": "Introduce framework/term they haven't heard before",
+            "examples": [
+              "Contentpreneur vs Content Creator",
+              "Platform Apartheid",
+              "R×A×C×U^B Formula"
+            ]
+          }
+        ],
+        "script_example": "[YOU]: You've been lied to. They told you if you get enough followers, money will come. They told you content creation is a career.\n\n[DIRECTION] Slight shake of head.\n\n[YOU]: It's not. Not the way you're doing it. Content creation is a JOB. But there's another way. A word you need to learn: Contentpreneur."
+      },
+      {
+        "act": 3,
+        "name": "The Origin Story",
+        "timing": "1:00 - 2:30",
+        "purpose": "Build credibility through vulnerability. Create emotional anchor. Show you understand their struggle.",
+        "energy": "Shift to vulnerable. Slower pace. Raw emotion.",
+        "elements": [
+          "Share specific struggle/origin",
+          "Include quantified details (R400/month, 780K followers lost, etc.)",
+          "Create visual imagery with words",
+          "Reference recurring motif (mother's words, bathroom floors, etc.)",
+          "Show the pain before the transformation"
+        ],
+        "retention_devices": [
+          {
+            "device": "EMOTIONAL ANCHOR",
+            "description": "Recurring phrase/image viewer tracks throughout video",
+            "examples": [
+              "Mother's last words: 'Get educated'",
+              "Sleeping on bathroom floors",
+              "For children's children"
+            ]
+          },
+          {
+            "device": "QUANTIFIED STRUGGLE",
+            "description": "Specific numbers that create vivid picture",
+            "examples": [
+              "R400/month for family of 4 = R13/day",
+              "780,000 followers lost overnight",
+              "R285K owed to SARS"
+            ]
+          }
+        ],
+        "script_example": "[YOU]: I was born in Tshikwarani village. Venda. My mother earned R400 a month for a family of four. That's R13 per day.\n\n[DIRECTION] TEXT OVERLAY: 'R400/month. R13/day.'\n\n[YOU]: At school, no girl could talk to me. The shoes, the clothes... it was bad. But my mother kept saying: 'Go to school. Get educated. That's your way out.'"
+      },
+      {
+        "act": 4,
+        "name": "The Breaking Point",
+        "timing": "2:30 - 4:00",
+        "purpose": "Nuclear story. The moment that proves you earned your authority through suffering.",
+        "energy": "Lowest point. Quiet. Almost confessional.",
+        "elements": [
+          "The crisis/rock bottom moment",
+          "Stack the problems (make it worse)",
+          "Create dread through pacing",
+          "Specific sensory details that create scene",
+          "Moment of near-giving-up"
+        ],
+        "retention_devices": [
+          {
+            "device": "OPEN LOOP",
+            "description": "Build dread - they know something bad is coming",
+            "examples": [
+              "'Then second year came...' [PAUSE]",
+              "'But I refused to go home...'",
+              "'That night, everything changed...'"
+            ]
+          },
+          {
+            "device": "EMOTIONAL WHIPLASH",
+            "description": "From triumph to devastation in seconds",
+            "examples": [
+              "From university acceptance → failed one module → lost everything",
+              "From 780K followers → false copyright claim → account deleted",
+              "From making money → SARS letter → R285K debt"
+            ]
+          }
+        ],
+        "script_example": "[YOU]: University of Pretoria accepted me. Full bursary. First year? I excelled.\n\n[YOU]: Then second year came.\n\n[DIRECTION] PAUSE. Create dread.\n\n[YOU]: I failed ONE module. REAP dropped me instantly. No accommodation. No meal plan. Everything gone. But I refused to go home.\n\n[DIRECTION] Lean close to camera.\n\n[YOU]: So for two months... I slept in the university bathrooms."
+      },
+      {
+        "act": 5,
+        "name": "The Transformation Journey",
+        "timing": "4:00 - 5:30",
+        "purpose": "Show how you went from breaking point to breakthrough. Rapid montage of wins.",
+        "energy": "Shift from darkness to light. Pace picks up. Music builds.",
+        "elements": [
+          "The decision/turning point",
+          "Quick cuts between milestones",
+          "Text overlays with dates/numbers",
+          "Build momentum through pacing",
+          "Show the climb from bottom to peak"
+        ],
+        "retention_devices": [
+          {
+            "device": "SUB-HOOK",
+            "description": "Unexpected twist in the journey",
+            "examples": [
+              "Someone offered me R300K to buy the page. I said no.",
+              "Instagram deleted 780K followers. Best thing that happened.",
+              "I went BACK to school in 2024"
+            ]
+          },
+          {
+            "device": "PROOF POINT",
+            "description": "Specific numbers that build credibility",
+            "examples": [
+              "R6,000 phone → R600,000+ revenue (10,000% ROI)",
+              "R750 first deal → R8,333 monthly retainers",
+              "0 email subscribers → 100,000 owned audience"
+            ]
+          },
+          {
+            "device": "EMOTIONAL PEAK",
+            "description": "Callback to earlier emotional anchor - full circle moment",
+            "examples": [
+              "March 2025: Walked across that stage. 'Mama, I did it.'",
+              "The covenant is being fulfilled",
+              "For children's children - that's why"
+            ]
+          }
+        ],
+        "script_example": "[YOU]: August 2013. Air Traffic Services hired me. R6,000/month. I did something crazy.\n\n[DIRECTION] MONTAGE with text overlays\n\n[YOU]: Spent my ENTIRE salary on a smartphone. R6,000. That phone has generated R600,000+. That's 10,000% ROI.\n\n[DIRECTION] Quick cuts between milestones\n\n[YOU]: 2014: 100K followers. 2017: R300K offer - said no. 2019: 5.5M views. 2020: R84K first course. Netflix. Samsung. Red Bull.\n\n[YOU]: 2021: 780K followers deleted. Revenue didn't drop. It INCREASED."
+      },
+      {
+        "act": 6,
+        "name": "The Framework / Educational Value",
+        "timing": "5:30 - 6:30",
+        "purpose": "Deliver the lesson. Make it shareable. Give tactical takeaway.",
+        "energy": "Shift to TEACHING mode. Confident. Authoritative.",
+        "elements": [
+          "Direct to camera",
+          "Clear framework/principle",
+          "Side-by-side text comparisons",
+          "Acronym or memorable system",
+          "Make it screenshot-worthy"
+        ],
+        "retention_devices": [
+          {
+            "device": "EDUCATIONAL VALUE",
+            "description": "Highly shareable comparison/framework",
+            "examples": [
+              "Content Creator vs Contentpreneur (side by side)",
+              "PAIDS Framework (P-A-I-D-S breakdown)",
+              "R×A×C×U^B Formula components"
+            ]
+          },
+          {
+            "device": "POWERFUL FRAMING",
+            "description": "New concept they haven't heard - memorable and quotable",
+            "examples": [
+              "'Platform apartheid' - concept they'll remember",
+              "'1 stream = vulnerable. 5 streams = unbreakable'",
+              "'Followers don't pay rent'"
+            ]
+          }
+        ],
+        "script_example": "[YOU]: Content creator versus contentpreneur.\n\n[DIRECTION] TEXT OVERLAY side by side\n\n[YOU]: Content creator has an audience. Contentpreneur has a BUSINESS.\n\n[YOU]: Content creator depends on platforms. Contentpreneur OWNS assets.\n\n[YOU]: Here's the framework: PAIDS.\n\n[DIRECTION] Text appears: P.A.I.D.S\n\n[YOU]: Products. Ads & Affiliates. Information. Deals. Services. Five streams. When I had one, I was vulnerable. Five streams? Unbreakable."
+      },
+      {
+        "act": 7,
+        "name": "The Mission + Call to Action",
+        "timing": "6:30 - 7:30",
+        "purpose": "Rally cry. Convert emotion into action. Clear next step.",
+        "energy": "HIGHEST energy. Stand up if sitting. Preacher moment.",
+        "elements": [
+          "State the mission clearly",
+          "Build with repetition ('I'm here because...')",
+          "Direct eye contact",
+          "Point at camera",
+          "Multiple clear CTAs",
+          "Close with conviction and authority"
+        ],
+        "retention_devices": [
+          {
+            "device": "CRESCENDO",
+            "description": "Each statement builds emotional momentum",
+            "examples": [
+              "I'm here to... [builds 3-5 times]",
+              "If you're... [stacks 3-4 qualifying statements]",
+              "God didn't give you this gift so you could... [contrast]"
+            ]
+          },
+          {
+            "device": "CALL-BACKS",
+            "description": "Reference earlier emotional anchors",
+            "examples": [
+              "Remember the bathroom floors? That's why...",
+              "My mother's last words: 'Get educated.' This IS education.",
+              "For children's children - that's the mission"
+            ]
+          }
+        ],
+        "script_example": "[YOU]: This is my mission. I'm here to turn African creators into contentpreneurs.\n\n[YOU]: I'm here because my mother earned R400 a month and I refuse to let another family live on that.\n\n[YOU]: I'm here because I slept on bathroom floors and I know the system can fail you.\n\n[DIRECTION] Point at camera\n\n[YOU]: If you're tired of being broke and famous... follow this page NOW.\n\n[YOU]: If you want to build a BUSINESS from content... hit follow.\n\n[YOU]: God didn't give you this gift so you could be famous and broke. He gave you this to be FRUITFUL. From bathroom floors to Netflix. I'm NO CHILL. Let's build."
+      }
+    ],
+    "platform_adaptations": {
+      "60_second_short_form": {
+        "description": "Compress 7 acts into 60 seconds",
+        "structure": {
+          "0_to_5s": "ACT 1 - Negative Hook (compressed)",
+          "5_to_15s": "ACT 2 - Uncomfortable Truth + ACT 3 snippet (1-2 lines of origin)",
+          "15_to_35s": "ACT 4 - Breaking Point (nuclear moment only) + ACT 5 (quick transformation)",
+          "35_to_50s": "ACT 6 - Framework (quick teaching)",
+          "50_to_60s": "ACT 7 - CTA"
+        },
+        "retention_priority": "Focus on emotional whiplash and one strong framework"
+      },
+      "90_second_reel": {
+        "description": "Slightly expanded - can breathe more",
+        "structure": {
+          "0_to_10s": "ACT 1 - Full negative hook",
+          "10_to_25s": "ACT 2 - Uncomfortable truth + ACT 3 (condensed origin)",
+          "25_to_50s": "ACT 4 - Breaking point + ACT 5 (transformation highlights)",
+          "50_to_75s": "ACT 6 - Framework teaching",
+          "75_to_90s": "ACT 7 - Mission + CTA"
+        },
+        "retention_priority": "Can include more emotion and 1-2 retention devices per act"
+      },
+      "3_to_5_minute_youtube": {
+        "description": "Can use most of 7 acts with more depth",
+        "structure": {
+          "0_to_30s": "ACT 1 - Full negative hook with pauses",
+          "30_to_90s": "ACT 2 - Uncomfortable truth",
+          "90_to_150s": "ACT 3 - Origin story (more detail)",
+          "150_to_240s": "ACT 4 - Breaking point (full nuclear story)",
+          "240_to_300s": "ACT 5 - Transformation journey (montage)",
+          "300_to_360s": "ACT 6 - Framework teaching",
+          "360_to_420s": "ACT 7 - Mission + CTA"
+        },
+        "retention_priority": "Full emotional journey with all retention devices deployed"
+      },
+      "7_to_10_minute_longform": {
+        "description": "Full 7-Act structure with maximum depth",
+        "structure": {
+          "0_to_60s": "ACT 1 - Extended negative hook",
+          "60_to_150s": "ACT 2 - Full uncomfortable truth with examples",
+          "150_to_330s": "ACT 3 - Complete origin story with B-roll",
+          "330_to_480s": "ACT 4 - Extended breaking point with sensory details",
+          "480_to_570s": "ACT 5 - Full transformation montage",
+          "570_to_630s": "ACT 6 - Deep framework teaching with examples",
+          "630_to_720s": "ACT 7 - Full mission statement + multiple CTAs"
+        },
+        "retention_priority": "Deploy ALL retention devices. Re-hook every 90-120 seconds."
+      }
+    },
+    "retention_devices_glossary": {
+      "open_loop": "Statement that creates unanswered question viewer must stay to resolve",
+      "sub_hook": "Secondary hook within video that re-captures attention",
+      "emotional_anchor": "Recurring phrase/image that viewer emotionally tracks throughout",
+      "pattern_interrupt": "Unexpected statement that contradicts common belief",
+      "visual_storytelling": "Specific sensory details that create mental scene",
+      "emotional_whiplash": "Rapid shift from positive to negative or vice versa",
+      "proof_point": "Specific quantified result that builds credibility",
+      "crescendo": "Building emotional momentum through repetition",
+      "call_back": "Reference to earlier moment in video (creates cohesion)",
+      "educational_value": "Screenshot-worthy framework or teaching moment"
+    },
+    "critical_rules": [
+      "NEVER go 30+ seconds without a retention device",
+      "ALWAYS include at least 3 retention devices in short-form (under 90s)",
+      "PAUSE strategically - silence creates emphasis",
+      "TEXT OVERLAYS should reinforce key numbers/statements",
+      "MUSIC should match energy shifts between acts",
+      "DIRECTION notes are part of script - they guide production",
+      "Every script must consider platform duration for proper ACT compression"
+    ]
   },
 
   "story_arc": {

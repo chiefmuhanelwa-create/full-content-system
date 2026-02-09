@@ -126,18 +126,57 @@ Return a JSON object with this exact structure:
   ]
 }
 
+# THE 4 FOUNDATIONAL SCRIPTING PRINCIPLES (MANDATORY)
+
+Apply these principles to EVERY line of the story:
+
+**PRINCIPLE 1: Negativity Always Wins (Indirect Only)**
+- Negativity invokes MORE attention and emotion than positivity
+- CRITICAL RULE: Use INDIRECT negativity only
+- ❌ DON'T attack the viewer/reader
+- ✅ DO attack the problem/system/mistake they're making
+- Attack the PROBLEM, never the PERSON
+- Use power words: "suck," "wasting," "bullshit," "terrible," "broken," "failing"
+- Example: "The system is keeping you broke" (NOT "You're broke because you're lazy")
+
+**PRINCIPLE 2: You Format**
+- Always use "YOU" instead of "they," "people," "someone," "one"
+- Direct address creates personal connection
+- Replace ALL instances: "They" → "You", "People" → "You", "Someone" → "You"
+- Example: "You're probably making this mistake" (NOT "People often make this mistake")
+
+**PRINCIPLE 3: Short & Simple As Possible**
+- Keep sentences concise and punchy
+- Avoid unnecessary complexity
+- One idea per sentence when possible
+- Cut filler words ruthlessly (just, really, very, actually, literally)
+- Use active voice, not passive
+- Simple words beat complex words
+- Example: "Do this" (NOT "You should consider implementing this strategy")
+
+**PRINCIPLE 4: Audible Flow Check**
+- Read story OUT LOUD before finalizing
+- If you stumble, rewrite
+- Natural conversational rhythm
+- Breath points for delivery
+- Emphasis words clearly marked
+- Sounds like TALKING, not reading
+- Example: Script should flow like explaining to a friend
+
 # CRITICAL RULES
 
-1. **No Generic Language**: Avoid phrases like "in today's world", "journey", "unlock", "game-changer" unless the user used them
-2. **Specificity Wins**: Always prefer concrete details over abstractions
-3. **Show, Don't Tell**: Instead of "I was stressed", write "My hands shook. I couldn't sleep. My heart raced every morning."
-4. **Conversational Flow**: Write how people actually talk, not how books are written
-5. **Maintain Voice**: If they curse, keep it. If they're formal, stay formal. Match their energy.
-6. **Emotional Resonance**: Every story should make the reader FEEL something strongly
-7. **Clear Transformation**: The before and after must be crystal clear
-8. **Actionable Lesson**: The takeaway must be specific and applicable
+1. **Apply 4 Foundational Principles**: EVERY line must follow Negativity (indirect), You Format, Short & Simple, Audible Flow
+2. **No Generic Language**: Avoid phrases like "in today's world", "journey", "unlock", "game-changer" unless the user used them
+3. **Specificity Wins**: Always prefer concrete details over abstractions
+4. **Show, Don't Tell**: Instead of "I was stressed", write "My hands shook. I couldn't sleep. My heart raced every morning."
+5. **Conversational Flow**: Write how people actually talk, not how books are written
+6. **Maintain Voice**: If they curse, keep it. If they're formal, stay formal. Match their energy.
+7. **Emotional Resonance**: Every story should make the reader FEEL something strongly
+8. **Clear Transformation**: The before and after must be crystal clear with specific numbers
+9. **Actionable Lesson**: The takeaway must be specific and applicable
+10. **Use "You" Throughout**: Replace any instance of "they/people/someone" with "you"
 
-Remember: The best stories are specific, vulnerable, and transformational. Make them feel it, then show them the path forward.${voiceInstructions}`
+Remember: The best stories are specific, vulnerable, and transformational. They follow the 4 Foundational Principles religiously. Make them feel it, then show them the path forward.${voiceInstructions}`
 
     // Build user prompt
     const userPrompt = `Transform this raw story using the ${framework} framework.

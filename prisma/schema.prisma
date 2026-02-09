@@ -36,6 +36,7 @@ model User {
   activityLogs  ActivityLog[]
   contentVersions ContentVersion[]
   systemSettings SystemSetting[]
+  contentProgress ContentProgress[]
 
   @@map("users")
 }
@@ -361,4 +362,69 @@ model DataBackup {
   @@index([status])
   @@index([startedAt])
   @@map("data_backups")
+}
+
+// Content Progress Model - Track content through production pipeline
+model ContentProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Content identification
+  title       String
+  description String?
+  contentType String   // reel, tiktok, youtube_short, youtube_long, story, carousel, thread
+  topic       String?
+
+  // Production stage tracking
+  stage       String   @default("ideation") // ideation, scripting, shooting, editing, ready, posted
+  substage    String?  // More granular tracking (e.g., "script_draft", "first_edit", "final_review")
+
+  // Linked content (optional)
+  scriptId    String?
+  hookId      String?
+  storyId     String?
+
+  // Platform targeting
+  platforms   Json     // Array of platforms: ["instagram", "tiktok", "youtube"]
+
+  // 4E Content Strategy Tagging
+  fourETag    String   // entertain, educate, encourage, earn
+
+  // Target Audience Awareness Level (R×A×C×U^B - Awareness component)
+  awarenessLevel String // symptom_aware, problem_aware, solution_aware, product_aware
+
+  // Clarity Type (Hook outcome type)
+  clarityType String?  // information_gap, desired_result, undesired_result, a_to_b_transformation
+
+  // Shadow Fear Targeting
+  shadowFear  String?  // invisibility, wasted_potential, left_behind, exposure, etc.
+
+  // Performance tracking URLs and data
+  socialUrls  Json?    // { "instagram": "url", "tiktok": "url", "youtube": "url" }
+  performance Json?    // { "instagram": { "views": 0, "engagement": 0 }, ... }
+
+  // Scheduling
+  scheduledFor DateTime?
+  postedAt     DateTime?
+
+  // Notes and collaboration
+  notes       String?
+  tags        Json?    // Custom tags array
+
+  // Status flags
+  isPriority  Boolean  @default(false)
+  isArchived  Boolean  @default(false)
+
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([stage])
+  @@index([fourETag])
+  @@index([awarenessLevel])
+  @@index([scheduledFor])
+  @@index([createdAt])
+  @@map("content_progress")
 }

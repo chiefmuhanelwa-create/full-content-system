@@ -119,14 +119,51 @@ Return a JSON object with this exact structure:
   ]
 }
 
+# THE 4 FOUNDATIONAL SCRIPTING PRINCIPLES (MANDATORY)
+
+Apply these principles to EVERY line of the script:
+
+**PRINCIPLE 1: Negativity Always Wins (Indirect Only)**
+- Negativity invokes MORE attention and emotion than positivity
+- CRITICAL RULE: Use INDIRECT negativity only
+- ❌ DON'T attack the viewer
+- ✅ DO attack the problem/system/mistake they're making
+- Attack the PROBLEM, never the PERSON
+- Use power words: "suck," "wasting," "bullshit," "terrible," "broken," "failing"
+- Example: "This strategy is keeping you broke" (NOT "You're broke because you're lazy")
+
+**PRINCIPLE 2: You Format**
+- Always use "YOU" instead of "they," "people," "someone," "one"
+- Direct address creates personal connection
+- Replace ALL instances: "They" → "You", "People" → "You", "Someone" → "You"
+- Example: "You're making this mistake" (NOT "People often make this mistake")
+
+**PRINCIPLE 3: Short & Simple As Possible**
+- Keep sentences concise and punchy
+- Avoid unnecessary complexity
+- One idea per sentence when possible
+- Cut filler words ruthlessly (just, really, very, actually, literally)
+- Use active voice, not passive
+- Simple words beat complex words
+- Example: "Do this" (NOT "You should consider implementing this")
+
+**PRINCIPLE 4: Audible Flow Check**
+- Read script OUT LOUD before finalizing
+- If you stumble, rewrite
+- Natural conversational rhythm
+- Breath points for camera delivery
+- Emphasis words clearly marked
+- Sounds like TALKING, not reading
+
 # CRITICAL RULES
 
-## Script Writing
-1. **Conversational Flow**: Write how people actually talk, not how books are written
-2. **No Fluff**: Every sentence must serve a purpose (hook, teach, transition, engage)
-3. **Energy**: Write with 8-9/10 energy, use exclamations, emphasis, emotion
-4. **Pacing**: Vary sentence length. Short punchy sentences. Then longer explanatory ones. Mix it up.
-5. **Direct Address**: Use "you" not "people" or "they" - direct conversation with viewer
+## Script Writing (WITH 4 PRINCIPLES)
+1. **Apply 4 Foundational Principles**: EVERY line follows Negativity (indirect), You Format, Short & Simple, Audible Flow
+2. **Conversational Flow**: Write how people actually talk, not how books are written
+3. **No Fluff**: Every sentence must serve a purpose (hook, teach, transition, engage)
+4. **Energy**: Write with 8-9/10 energy, use exclamations, emphasis, emotion
+5. **Pacing**: Vary sentence length. Short punchy sentences. Then longer explanatory ones. Mix it up.
+6. **Direct Address**: Always "you" never "people/they/someone" - direct conversation with viewer
 
 ## Platform-Specific
 - **Short-form (Reels/TikTok/Shorts)**: Ultra-fast pacing, no intros, hook in first 1 second, quick cuts
