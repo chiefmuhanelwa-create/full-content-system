@@ -20,6 +20,10 @@ import {
   EyeOff,
   Maximize,
   Minimize,
+  Gauge,
+  Wind,
+  Focus,
+  Sparkles,
 } from 'lucide-react'
 
 export default function TeleprompterPage() {
@@ -37,6 +41,21 @@ export default function TeleprompterPage() {
   const [elapsedTime, setElapsedTime] = useState(0)
   const [isPreparing, setIsPreparing] = useState(false)
   const [countdown, setCountdown] = useState(3)
+
+  // New rhythm and flow features
+  const [showFocusLine, setShowFocusLine] = useState(true)
+  const [focusLinePosition, setFocusLinePosition] = useState(35) // Percentage from top
+  const [highlightCurrentWord, setHighlightCurrentWord] = useState(false)
+  const [lineSpacing, setLineSpacing] = useState(1.8)
+  const [textOpacity, setTextOpacity] = useState(100)
+  const [showBreathingMarkers, setShowBreathingMarkers] = useState(true)
+  const [smoothSpeed, setSmoothSpeed] = useState(false)
+  const [currentSpeed, setCurrentSpeed] = useState(2)
+  const [targetSpeed, setTargetSpeed] = useState(2)
+  const [speedPreset, setSpeedPreset] = useState<'slow' | 'normal' | 'fast' | 'custom'>('normal')
+  const [wordsPerMinute, setWordsPerMinute] = useState(150)
+  const [highlightColor, setHighlightColor] = useState('#3b82f6') // Blue
+  const [backgroundColor, setBackgroundColor] = useState('#000000') // Black
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -75,15 +94,45 @@ export default function TeleprompterPage() {
         e.preventDefault()
         resetScroll()
       }
-      // Arrow Up = increase speed
+      // Arrow Up = increase speed (0.1 increments for fine control)
       if (e.code === 'ArrowUp' && !showControls) {
         e.preventDefault()
-        setSpeed(prev => Math.min(10, prev + 0.5))
+        setSpeed(prev => {
+          const newSpeed = Math.min(10, prev + 0.1)
+          setTargetSpeed(newSpeed)
+          setSpeedPreset('custom')
+          return newSpeed
+        })
       }
-      // Arrow Down = decrease speed
+      // Arrow Down = decrease speed (0.1 increments for fine control)
       if (e.code === 'ArrowDown' && !showControls) {
         e.preventDefault()
-        setSpeed(prev => Math.max(1, prev - 0.5))
+        setSpeed(prev => {
+          const newSpeed = Math.max(0.1, prev - 0.1)
+          setTargetSpeed(newSpeed)
+          setSpeedPreset('custom')
+          return newSpeed
+        })
+      }
+      // Shift + Arrow Up = increase speed faster (0.5 increments)
+      if (e.code === 'ArrowUp' && e.shiftKey && !showControls) {
+        e.preventDefault()
+        setSpeed(prev => {
+          const newSpeed = Math.min(10, prev + 0.5)
+          setTargetSpeed(newSpeed)
+          setSpeedPreset('custom')
+          return newSpeed
+        })
+      }
+      // Shift + Arrow Down = decrease speed faster (0.5 increments)
+      if (e.code === 'ArrowDown' && e.shiftKey && !showControls) {
+        e.preventDefault()
+        setSpeed(prev => {
+          const newSpeed = Math.max(0.1, prev - 0.5)
+          setTargetSpeed(newSpeed)
+          setSpeedPreset('custom')
+          return newSpeed
+        })
       }
       // ESC = show controls
       if (e.code === 'Escape' && !showControls) {
@@ -114,12 +163,52 @@ export default function TeleprompterPage() {
     }
   }, [isPlaying])
 
+  // Smooth speed transitions
+  useEffect(() => {
+    if (smoothSpeed && currentSpeed !== targetSpeed) {
+      const speedDiff = targetSpeed - currentSpeed
+      const step = speedDiff * 0.05 // 5% of difference per frame
+
+      if (Math.abs(speedDiff) < 0.01) {
+        setCurrentSpeed(targetSpeed)
+      } else {
+        const timer = setTimeout(() => {
+          setCurrentSpeed(prev => prev + step)
+        }, 50)
+        return () => clearTimeout(timer)
+      }
+    } else if (!smoothSpeed) {
+      setCurrentSpeed(speed)
+    }
+  }, [smoothSpeed, currentSpeed, targetSpeed, speed])
+
+  // Speed preset handler
+  useEffect(() => {
+    let newSpeed = speed
+    switch (speedPreset) {
+      case 'slow':
+        newSpeed = 1.5
+        break
+      case 'normal':
+        newSpeed = 2.5
+        break
+      case 'fast':
+        newSpeed = 4.5
+        break
+      default:
+        return // Keep current speed for 'custom'
+    }
+    setSpeed(newSpeed)
+    setTargetSpeed(newSpeed)
+  }, [speedPreset])
+
   // Auto-scroll functionality
   useEffect(() => {
     if (isPlaying && scrollRef.current) {
       intervalRef.current = setInterval(() => {
         setScrollPosition((prev) => {
-          const newPosition = prev + speed
+          const effectiveSpeed = smoothSpeed ? currentSpeed : speed
+          const newPosition = prev + effectiveSpeed
           if (scrollRef.current) {
             scrollRef.current.scrollTop = newPosition
             // Stop at the end
@@ -142,7 +231,7 @@ export default function TeleprompterPage() {
         clearInterval(intervalRef.current)
       }
     }
-  }, [isPlaying, speed])
+  }, [isPlaying, speed, currentSpeed, smoothSpeed])
 
   // Update scroll position
   useEffect(() => {
@@ -190,6 +279,30 @@ export default function TeleprompterPage() {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
     return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
+
+  // Process script with breathing markers
+  const processScriptWithMarkers = (text: string) => {
+    if (!showBreathingMarkers) return text
+
+    // Add visual pause indicators after punctuation
+    return text
+      .replace(/\.\s/g, '. 🫁 ')
+      .replace(/\?\s/g, '? 🫁 ')
+      .replace(/!\s/g, '! 🫁 ')
+      .replace(/,\s/g, ', · ')
+  }
+
+  // Handle speed preset changes
+  const handleSpeedPresetChange = (preset: 'slow' | 'normal' | 'fast' | 'custom') => {
+    setSpeedPreset(preset)
+  }
+
+  // Handle manual speed change
+  const handleSpeedChange = (newSpeed: number) => {
+    setSpeed(newSpeed)
+    setTargetSpeed(newSpeed)
+    setSpeedPreset('custom')
   }
 
   const toggleFullscreen = () => {
@@ -340,6 +453,58 @@ export default function TeleprompterPage() {
                 </div>
               )}
 
+              {/* Speed Presets */}
+              <div className="space-y-2">
+                <Label className="flex items-center gap-2">
+                  <Gauge className="h-4 w-4" />
+                  Speed Preset
+                </Label>
+                <div className="grid grid-cols-4 gap-2">
+                  {(['slow', 'normal', 'fast', 'custom'] as const).map((preset) => (
+                    <Button
+                      key={preset}
+                      variant={speedPreset === preset ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => handleSpeedPresetChange(preset)}
+                      className="capitalize"
+                    >
+                      {preset}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Fine Speed Control: {speed.toFixed(1)}x</Label>
+                <input
+                  type="range"
+                  value={speed}
+                  onChange={(e) => handleSpeedChange(Number(e.target.value))}
+                  min={0.1}
+                  max={10}
+                  step={0.1}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                />
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span>0.1x (Very Slow)</span>
+                  <span>10x (Very Fast)</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="smooth-speed"
+                  checked={smoothSpeed}
+                  onChange={(e) => setSmoothSpeed(e.target.checked)}
+                  className="h-4 w-4"
+                />
+                <Label htmlFor="smooth-speed" className="text-sm flex items-center gap-1">
+                  <Wind className="h-3 w-3" />
+                  Smooth Speed Transitions
+                </Label>
+              </div>
+
               <div className="space-y-2">
                 <Label>Font Size: {fontSize}px</Label>
                 <input
@@ -354,38 +519,155 @@ export default function TeleprompterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Scroll Speed: {speed}x</Label>
+                <Label>Line Spacing: {lineSpacing.toFixed(1)}</Label>
                 <input
                   type="range"
-                  value={speed}
-                  onChange={(e) => setSpeed(Number(e.target.value))}
-                  min={1}
-                  max={10}
-                  step={0.5}
+                  value={lineSpacing}
+                  onChange={(e) => setLineSpacing(Number(e.target.value))}
+                  min={1.0}
+                  max={3.0}
+                  step={0.1}
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                 />
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="space-y-2">
+                <Label>Text Opacity: {textOpacity}%</Label>
                 <input
-                  type="checkbox"
-                  id="timer"
-                  checked={showTimer}
-                  onChange={(e) => setShowTimer(e.target.checked)}
-                  className="h-4 w-4"
+                  type="range"
+                  value={textOpacity}
+                  onChange={(e) => setTextOpacity(Number(e.target.value))}
+                  min={50}
+                  max={100}
+                  step={5}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                 />
-                <Label htmlFor="timer" className="text-sm">Show Timer</Label>
               </div>
 
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="mirror"
-                  checked={isMirrored}
-                  onChange={(e) => setIsMirrored(e.target.checked)}
-                  className="h-4 w-4"
-                />
-                <Label htmlFor="mirror" className="text-sm">Mirror Mode (for reflective displays)</Label>
+              {/* Visual Flow Helpers */}
+              <div className="space-y-2 pt-2 border-t">
+                <Label className="flex items-center gap-2 text-sm font-semibold">
+                  <Sparkles className="h-4 w-4" />
+                  Flow & Rhythm Helpers
+                </Label>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="focus-line"
+                    checked={showFocusLine}
+                    onChange={(e) => setShowFocusLine(e.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="focus-line" className="text-sm flex items-center gap-1">
+                    <Focus className="h-3 w-3" />
+                    Reading Guide Line
+                  </Label>
+                </div>
+
+                {showFocusLine && (
+                  <div className="ml-6 space-y-2">
+                    <Label className="text-xs">Guide Position: {focusLinePosition}%</Label>
+                    <input
+                      type="range"
+                      value={focusLinePosition}
+                      onChange={(e) => setFocusLinePosition(Number(e.target.value))}
+                      min={20}
+                      max={50}
+                      step={5}
+                      className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                    />
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="breathing-markers"
+                    checked={showBreathingMarkers}
+                    onChange={(e) => setShowBreathingMarkers(e.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="breathing-markers" className="text-sm">
+                    🫁 Breathing & Pause Markers
+                  </Label>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="highlight-word"
+                    checked={highlightCurrentWord}
+                    onChange={(e) => setHighlightCurrentWord(e.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="highlight-word" className="text-sm">
+                    Highlight Current Position
+                  </Label>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="timer"
+                    checked={showTimer}
+                    onChange={(e) => setShowTimer(e.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="timer" className="text-sm">Show Timer</Label>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="mirror"
+                    checked={isMirrored}
+                    onChange={(e) => setIsMirrored(e.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="mirror" className="text-sm">Mirror Mode</Label>
+                </div>
+              </div>
+
+              {/* Color Customization */}
+              <div className="space-y-2 pt-2 border-t">
+                <Label className="text-sm font-semibold">Color Customization</Label>
+
+                <div className="space-y-2">
+                  <Label className="text-xs">Background Color</Label>
+                  <div className="flex gap-2">
+                    <input
+                      type="color"
+                      value={backgroundColor}
+                      onChange={(e) => setBackgroundColor(e.target.value)}
+                      className="h-8 w-16 rounded cursor-pointer"
+                    />
+                    <Input
+                      type="text"
+                      value={backgroundColor}
+                      onChange={(e) => setBackgroundColor(e.target.value)}
+                      className="flex-1 h-8 text-xs"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs">Highlight Color</Label>
+                  <div className="flex gap-2">
+                    <input
+                      type="color"
+                      value={highlightColor}
+                      onChange={(e) => setHighlightColor(e.target.value)}
+                      className="h-8 w-16 rounded cursor-pointer"
+                    />
+                    <Input
+                      type="text"
+                      value={highlightColor}
+                      onChange={(e) => setHighlightColor(e.target.value)}
+                      className="flex-1 h-8 text-xs"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-2 pt-4 border-t">
@@ -480,8 +762,12 @@ export default function TeleprompterPage() {
                 <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">R</kbd>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Speed Up/Down</span>
+                <span className="text-gray-600">Fine Speed ±0.1</span>
                 <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">↑/↓</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Fast Speed ±0.5</span>
+                <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">Shift+↑/↓</kbd>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Show Controls</span>
@@ -541,12 +827,44 @@ export default function TeleprompterPage() {
 
                   <div
                     ref={scrollRef}
-                    className="bg-black text-white rounded-lg overflow-hidden"
+                    className="rounded-lg overflow-hidden relative"
                     style={{
                       height: '70vh',
                       overflow: 'hidden',
+                      backgroundColor: backgroundColor,
                     }}
                   >
+                    {/* Focus/Reading Guide Line */}
+                    {showFocusLine && (
+                      <div
+                        className="absolute left-0 right-0 z-10 pointer-events-none"
+                        style={{
+                          top: `${focusLinePosition}%`,
+                        }}
+                      >
+                        <div
+                          className="w-full"
+                          style={{
+                            height: '3px',
+                            background: `linear-gradient(90deg, transparent 0%, ${highlightColor} 50%, transparent 100%)`,
+                            boxShadow: `0 0 10px ${highlightColor}`,
+                          }}
+                        />
+                        {/* Highlight zone around the line */}
+                        {highlightCurrentWord && (
+                          <div
+                            className="absolute w-full"
+                            style={{
+                              top: '-60px',
+                              height: '120px',
+                              background: `linear-gradient(180deg, transparent 0%, ${highlightColor}15 40%, ${highlightColor}20 50%, ${highlightColor}15 60%, transparent 100%)`,
+                              pointerEvents: 'none',
+                            }}
+                          />
+                        )}
+                      </div>
+                    )}
+
                     <div
                       className="p-12"
                       style={{
@@ -555,10 +873,13 @@ export default function TeleprompterPage() {
                         fontFamily: 'Arial, sans-serif',
                         fontWeight: 500,
                         whiteSpace: 'pre-wrap',
-                        lineHeight: '1.8',
+                        lineHeight: lineSpacing.toString(),
+                        color: 'white',
+                        opacity: textOpacity / 100,
+                        textShadow: '0 2px 4px rgba(0,0,0,0.5)',
                       }}
                     >
-                      {script || 'No script loaded. Enter text or load from library.'}
+                      {script ? processScriptWithMarkers(script) : 'No script loaded. Enter text or load from library.'}
                     </div>
                   </div>
                 </div>
