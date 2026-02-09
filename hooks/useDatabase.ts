@@ -54,7 +54,8 @@ interface Story {
 }
 
 export function useDatabase() {
-  const { data: session, status } = useSession()
+  const sessionHook = useSession()
+  const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

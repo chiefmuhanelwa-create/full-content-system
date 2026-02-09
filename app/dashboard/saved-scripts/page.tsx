@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -24,7 +26,8 @@ interface SavedScript {
 
 export default function SavedScriptsPage() {
   const router = useRouter()
-  const { data: session, status } = useSession()
+  const sessionHook = useSession()
+  const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
   const { listScripts, deleteScript: deleteScriptDb, loading } = useDatabase()
   const [scripts, setScripts] = useState<SavedScript[]>([])
   const [searchQuery, setSearchQuery] = useState('')
