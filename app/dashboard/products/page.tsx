@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -58,6 +60,8 @@ interface Product {
 }
 
 export default function ProductsPage() {
+  const router = useRouter()
+  const { data: session, status } = useSession()
   const [products, setProducts] = useState<Product[]>([])
   const [isEditing, setIsEditing] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -649,6 +653,21 @@ export default function ProductsPage() {
       established: products.filter((p) => p.audienceLevel === 'established').length,
       contentpreneur: products.filter((p) => p.audienceLevel === 'contentpreneur').length,
     },
+  }
+
+  // Show loading state while checking authentication
+  if (status === 'loading') {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
+      </div>
+    )
+  }
+
+  // Redirect to signin if not authenticated
+  if (status === 'unauthenticated') {
+    router.push('/auth/signin')
+    return null
   }
 
   return (

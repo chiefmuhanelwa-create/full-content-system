@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -55,6 +57,8 @@ interface ICPPainPoint {
 }
 
 export default function ICPPainLibraryPage() {
+  const router = useRouter()
+  const { data: session, status } = useSession()
   const [painPoints, setPainPoints] = useState<ICPPainPoint[]>([])
   const [filteredPainPoints, setFilteredPainPoints] = useState<ICPPainPoint[]>([])
   const [isEditing, setIsEditing] = useState(false)
@@ -310,6 +314,21 @@ export default function ICPPainLibraryPage() {
       painPoints.length > 0
         ? (painPoints.reduce((sum, p) => sum + p.conversionRate, 0) / painPoints.length).toFixed(2)
         : '0.00',
+  }
+
+  // Show loading state while checking authentication
+  if (status === 'loading') {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Brain className="h-8 w-8 animate-spin text-purple-600" />
+      </div>
+    )
+  }
+
+  // Redirect to signin if not authenticated
+  if (status === 'unauthenticated') {
+    router.push('/auth/signin')
+    return null
   }
 
   return (

@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -100,6 +102,8 @@ const CONTENT_TYPE_OPTIONS = [
 ]
 
 export default function ContentCalendarPlusPage() {
+  const router = useRouter()
+  const { data: session, status } = useSession()
   const [entries, setEntries] = useState<ContentCalendarEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -517,6 +521,21 @@ export default function ContentCalendarPlusPage() {
       startDate: '',
       endDate: ''
     })
+  }
+
+  // Show loading state while checking authentication
+  if (status === 'loading') {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CalendarIcon className="h-8 w-8 animate-spin text-purple-600" />
+      </div>
+    )
+  }
+
+  // Redirect to signin if not authenticated
+  if (status === 'unauthenticated') {
+    router.push('/auth/signin')
+    return null
   }
 
   const hasActiveFilters = Object.values(filters).some(v => v !== '')
