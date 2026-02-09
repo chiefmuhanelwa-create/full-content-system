@@ -523,6 +523,9 @@ model ContentCard {
   isFavorite      Boolean  @default(false)
   tags            Json?    // Custom tags
 
+  // Relations
+  calendarEntries ContentCalendarPlus[]
+
   // Timestamps
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -777,6 +780,7 @@ model ContentCalendarPlus {
 
   // Links
   contentCardId   String?  // Link to ContentCard
+  contentCard     ContentCard? @relation(fields: [contentCardId], references: [id])
   scriptId        String?
   hookId          String?
   storyId         String?

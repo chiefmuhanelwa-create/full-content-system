@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import { prisma, checkDatabase } from '@/lib/db-helper'
 
 export async function GET(request: NextRequest) {
@@ -7,7 +8,7 @@ export async function GET(request: NextRequest) {
     const dbError = checkDatabase()
     if (dbError) return dbError
 
-    const session = await getServerSession()
+    const session = await getServerSession(authOptions)
     if (!session || !session.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -47,7 +48,25 @@ export async function GET(request: NextRequest) {
       orderBy: [
         { isPriority: 'desc' },
         { scheduledDate: 'asc' }
-      ]
+      ],
+      include: {
+        contentCard: {
+          select: {
+            id: true,
+            contentTitle: true,
+            platform: true,
+            status: true,
+            contentPillar: true,
+            icpPainPoint: true,
+            views: true,
+            comments: true,
+            shares: true,
+            saves: true,
+            leadsGenerated: true,
+            revenueGenerated: true
+          }
+        }
+      }
     })
 
     return NextResponse.json({ success: true, calendarEntries })

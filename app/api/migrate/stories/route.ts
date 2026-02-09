@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import { prisma, checkDatabase } from '@/lib/db-helper'
 import storiesData from '@/lib/knowledge/ndivhuwo-stories.json'
 
@@ -8,7 +9,7 @@ export async function POST(request: NextRequest) {
     const dbError = checkDatabase()
     if (dbError) return dbError
 
-    const session = await getServerSession()
+    const session = await getServerSession(authOptions)
     if (!session || !session.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
