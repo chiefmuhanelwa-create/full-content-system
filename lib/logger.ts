@@ -3,6 +3,7 @@ import { db } from './db';
 /**
  * Activity Logger
  * Centralized logging for all user actions
+ * Note: All functions gracefully handle missing database configuration
  */
 
 export interface LogActivityParams {
@@ -31,6 +32,12 @@ export interface CreateVersionParams {
  * Log an activity
  */
 export async function logActivity(params: LogActivityParams) {
+  // Gracefully handle missing database
+  if (!db) {
+    console.warn('Activity logging skipped: Database not configured');
+    return { success: false, error: 'Database not configured' };
+  }
+
   try {
     const activityLog = await db.activityLog.create({
       data: {
@@ -57,6 +64,12 @@ export async function logActivity(params: LogActivityParams) {
  * Create a new version of content
  */
 export async function createVersion(params: CreateVersionParams) {
+  // Gracefully handle missing database
+  if (!db) {
+    console.warn('Version creation skipped: Database not configured');
+    return { success: false, error: 'Database not configured' };
+  }
+
   try {
     // Get current version number
     const latestVersion = await db.contentVersion.findFirst({
@@ -155,6 +168,12 @@ export async function logActivities(activities: LogActivityParams[]) {
  * Get activity summary for a user
  */
 export async function getActivitySummary(userId: string, days: number = 30) {
+  // Gracefully handle missing database
+  if (!db) {
+    console.warn('Activity summary skipped: Database not configured');
+    return { success: false, error: 'Database not configured' };
+  }
+
   try {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);

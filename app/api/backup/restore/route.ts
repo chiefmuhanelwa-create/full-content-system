@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { checkDatabase } from '@/lib/db-helper';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const body = await request.json();
     const { userId, backupData } = body;
@@ -33,7 +38,7 @@ export async function POST(request: NextRequest) {
     if (data.hooks && Array.isArray(data.hooks)) {
       for (const hook of data.hooks) {
         try {
-          await db.hook.create({
+          await db!.hook.create({
             data: {
               ...hook,
               id: undefined, // Let database generate new ID
@@ -51,7 +56,7 @@ export async function POST(request: NextRequest) {
     if (data.scripts && Array.isArray(data.scripts)) {
       for (const script of data.scripts) {
         try {
-          await db.script.create({
+          await db!.script.create({
             data: {
               ...script,
               id: undefined,
@@ -69,7 +74,7 @@ export async function POST(request: NextRequest) {
     if (data.stories && Array.isArray(data.stories)) {
       for (const story of data.stories) {
         try {
-          await db.story.create({
+          await db!.story.create({
             data: {
               ...story,
               id: undefined,
@@ -87,7 +92,7 @@ export async function POST(request: NextRequest) {
     if (data.calendar && Array.isArray(data.calendar)) {
       for (const entry of data.calendar) {
         try {
-          await db.calendarEntry.create({
+          await db!.calendarEntry.create({
             data: {
               ...entry,
               id: undefined,
@@ -105,7 +110,7 @@ export async function POST(request: NextRequest) {
     if (data.revenue && Array.isArray(data.revenue)) {
       for (const rev of data.revenue) {
         try {
-          await db.revenue.create({
+          await db!.revenue.create({
             data: {
               ...rev,
               id: undefined,
@@ -120,7 +125,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Log the restore activity
-    await db.activityLog.create({
+    await db!.activityLog.create({
       data: {
         userId,
         action: 'restored',

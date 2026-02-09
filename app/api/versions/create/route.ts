@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { checkDatabase } from '@/lib/db-helper';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const body = await request.json();
     const {
@@ -26,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get current version number
-    const latestVersion = await db.contentVersion.findFirst({
+    const latestVersion = await db!.contentVersion.findFirst({
       where: {
         userId,
         entityType,
@@ -44,7 +49,7 @@ export async function POST(request: NextRequest) {
 
     // Mark all previous versions as inactive
     if (latestVersion) {
-      await db.contentVersion.updateMany({
+      await db!.contentVersion.updateMany({
         where: {
           userId,
           entityType,
@@ -58,7 +63,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create new version
-    const contentVersion = await db.contentVersion.create({
+    const contentVersion = await db!.contentVersion.create({
       data: {
         userId,
         entityType,
@@ -73,7 +78,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Log the activity
-    await db.activityLog.create({
+    await db!.activityLog.create({
       data: {
         userId,
         action: 'versioned',

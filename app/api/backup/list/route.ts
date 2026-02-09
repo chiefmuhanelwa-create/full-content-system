@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { checkDatabase } from '@/lib/db-helper';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const userId = searchParams.get('userId');
@@ -17,7 +22,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get all backups for user
-    const backups = await db.dataBackup.findMany({
+    const backups = await db!.dataBackup.findMany({
       where: { userId },
       orderBy: { startedAt: 'desc' }
     });

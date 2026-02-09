@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { checkDatabase } from '@/lib/db-helper'
 
 export async function PUT(req: Request) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const session = await getServerSession(authOptions)
 
@@ -25,7 +30,7 @@ export async function PUT(req: Request) {
     }
 
     // Verify ownership
-    const existingScript = await db.script.findUnique({
+    const existingScript = await db!.script.findUnique({
       where: { id },
     })
 
@@ -45,7 +50,7 @@ export async function PUT(req: Request) {
 
     const updates = await req.json()
 
-    const script = await db.script.update({
+    const script = await db!.script.update({
       where: { id },
       data: updates,
     })

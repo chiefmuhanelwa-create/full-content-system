@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { checkDatabase } from '@/lib/db-helper'
 
 export async function POST(req: Request) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const session = await getServerSession(authOptions)
 
@@ -37,7 +42,7 @@ export async function POST(req: Request) {
       )
     }
 
-    const story = await db.story.create({
+    const story = await db!.story.create({
       data: {
         userId: session.user.id,
         title,

@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { checkDatabase } from '@/lib/db-helper';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const userId = searchParams.get('userId');
@@ -30,7 +35,7 @@ export async function GET(request: NextRequest) {
       activityTimeline
     ] = await Promise.all([
       // Total count
-      db.activityLog.count({
+      db!.activityLog.count({
         where: {
           userId,
           createdAt: { gte: startDate }
@@ -38,7 +43,7 @@ export async function GET(request: NextRequest) {
       }),
 
       // By entity type
-      db.activityLog.groupBy({
+      db!.activityLog.groupBy({
         by: ['entityType'],
         where: {
           userId,
@@ -48,7 +53,7 @@ export async function GET(request: NextRequest) {
       }),
 
       // By action
-      db.activityLog.groupBy({
+      db!.activityLog.groupBy({
         by: ['action'],
         where: {
           userId,
@@ -58,7 +63,7 @@ export async function GET(request: NextRequest) {
       }),
 
       // Recent activities
-      db.activityLog.findMany({
+      db!.activityLog.findMany({
         where: {
           userId,
           createdAt: { gte: startDate }
@@ -68,7 +73,7 @@ export async function GET(request: NextRequest) {
       }),
 
       // Daily activity count
-      db.activityLog.findMany({
+      db!.activityLog.findMany({
         where: {
           userId,
           createdAt: { gte: startDate }

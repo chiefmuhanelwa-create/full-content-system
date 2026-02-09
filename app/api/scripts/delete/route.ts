@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { checkDatabase } from '@/lib/db-helper'
 
 export async function DELETE(req: Request) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const session = await getServerSession(authOptions)
 
@@ -25,7 +30,7 @@ export async function DELETE(req: Request) {
     }
 
     // Verify ownership
-    const script = await db.script.findUnique({
+    const script = await db!.script.findUnique({
       where: { id },
     })
 
@@ -43,7 +48,7 @@ export async function DELETE(req: Request) {
       )
     }
 
-    await db.script.delete({
+    await db!.script.delete({
       where: { id },
     })
 

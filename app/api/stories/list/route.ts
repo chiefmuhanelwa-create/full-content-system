@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { checkDatabase } from '@/lib/db-helper'
 
 export async function GET(req: Request) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const session = await getServerSession(authOptions)
 
@@ -27,7 +32,7 @@ export async function GET(req: Request) {
     if (category) where.category = category
     if (isFavorite === 'true') where.isFavorite = true
 
-    const stories = await db.story.findMany({
+    const stories = await db!.story.findMany({
       where,
       orderBy: {
         createdAt: 'desc',

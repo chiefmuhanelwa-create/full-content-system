@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { checkDatabase } from '@/lib/db-helper'
 import bcrypt from 'bcryptjs'
 
 export async function POST(req: Request) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const { name, email, password } = await req.json()
 
@@ -22,7 +27,7 @@ export async function POST(req: Request) {
     }
 
     // Check if user already exists
-    const existingUser = await db.user.findUnique({
+    const existingUser = await db!.user.findUnique({
       where: { email },
     })
 
@@ -37,7 +42,7 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 12)
 
     // Create user
-    const user = await db.user.create({
+    const user = await db!.user.create({
       data: {
         name,
         email,

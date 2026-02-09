@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { checkDatabase } from '@/lib/db-helper';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
+  // Check if database is available
+  const dbError = checkDatabase();
+  if (dbError) return dbError;
+
   try {
     const body = await request.json();
     const {
@@ -23,7 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get the version to restore
-    const versionToRestore = await db.contentVersion.findUnique({
+    const versionToRestore = await db!.contentVersion.findUnique({
       where: { id: versionId }
     });
 
@@ -35,7 +40,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Mark all versions as inactive
-    await db.contentVersion.updateMany({
+    await db!.contentVersion.updateMany({
       where: {
         userId,
         entityType,
@@ -47,13 +52,13 @@ export async function POST(request: NextRequest) {
     });
 
     // Mark the selected version as active
-    const restoredVersion = await db.contentVersion.update({
+    const restoredVersion = await db!.contentVersion.update({
       where: { id: versionId },
       data: { isActive: true }
     });
 
     // Log the activity
-    await db.activityLog.create({
+    await db!.activityLog.create({
       data: {
         userId,
         action: 'restored',
