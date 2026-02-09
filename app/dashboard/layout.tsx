@@ -19,6 +19,12 @@ import {
   Share2,
   Mic,
   Library,
+  Layers,
+  Database,
+  BookMarked,
+  Users,
+  Package,
+  CalendarCheck,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ContentProvider } from '@/contexts/ContentContext'
@@ -143,6 +149,53 @@ const navSections: NavSection[] = [
         href: '/dashboard/library',
         icon: Save,
         description: 'All Saved Content',
+      },
+    ],
+  },
+  {
+    title: 'NOCHILL Content OS',
+    items: [
+      {
+        name: 'Content Cards',
+        href: '/dashboard/content-cards',
+        icon: Layers,
+        description: 'Master Content Hub',
+        badge: 'NEW',
+      },
+      {
+        name: 'Hook Bank',
+        href: '/dashboard/hook-bank',
+        icon: Database,
+        description: 'R×A×C×U^B Repository',
+        badge: 'NEW',
+      },
+      {
+        name: 'Story Bank',
+        href: '/dashboard/story-bank',
+        icon: BookMarked,
+        description: '4-Criteria Stories',
+        badge: 'NEW',
+      },
+      {
+        name: 'ICP Pain Library',
+        href: '/dashboard/icp-pain-library',
+        icon: Users,
+        description: 'Audience Pain Points',
+        badge: 'NEW',
+      },
+      {
+        name: 'Products',
+        href: '/dashboard/products',
+        icon: Package,
+        description: 'PAIDS Product Ecosystem',
+        badge: 'NEW',
+      },
+      {
+        name: 'Content Calendar+',
+        href: '/dashboard/content-calendar-plus',
+        icon: CalendarCheck,
+        description: 'Enhanced Planning',
+        badge: 'NEW',
       },
     ],
   },
