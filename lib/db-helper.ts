@@ -10,11 +10,24 @@ export const prisma = db
  */
 export function checkDatabase() {
   if (!db) {
+    const databaseUrl = process.env.DATABASE_URL
+    const isDatabaseUrlSet = !!databaseUrl
+    const isProduction = process.env.NODE_ENV === 'production'
+
     return NextResponse.json(
       {
         error: 'Database not configured',
         message: 'This feature requires a database connection. Please configure DATABASE_URL in your environment variables.',
-        hint: 'You can use a local PostgreSQL instance or a hosted service like Neon, Supabase, or Railway.'
+        hint: 'You can use a local PostgreSQL instance or a hosted service like Neon, Supabase, or Railway.',
+        debug: {
+          isDatabaseUrlSet,
+          databaseUrlPrefix: databaseUrl?.substring(0, 20) || 'not set',
+          environment: process.env.NODE_ENV,
+          deploymentUrl: process.env.VERCEL_URL || 'localhost',
+          documentation: isProduction
+            ? 'See VERCEL_DEPLOYMENT_FIX.md in the repository for setup instructions'
+            : 'See DATABASE_FIX_README.md in the repository for setup instructions'
+        }
       },
       { status: 503 } // 503 Service Unavailable
     )
