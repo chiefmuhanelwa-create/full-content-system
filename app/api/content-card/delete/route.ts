@@ -1,33 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { prisma, checkDatabase } from '@/lib/db-helper'
+
+const DEFAULT_USER_ID = 'default-user-id'
 
 export async function DELETE(request: NextRequest) {
   try {
     // Check if database is available
     const dbError = checkDatabase()
     if (dbError) return dbError
-
-    const session = await getServerSession(authOptions)
-    if (!session || !session.user?.email) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    // Get user from database
-    const user = await prisma!.user.findUnique({
-      where: { email: session.user.email }
-    })
-
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      )
-    }
 
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
@@ -39,7 +19,7 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    // Verify ownership
+    // Verify card exists
     const existingCard = await prisma!.contentCard.findUnique({
       where: { id }
     })
@@ -48,13 +28,6 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json(
         { error: 'Content card not found' },
         { status: 404 }
-      )
-    }
-
-    if (existingCard.userId !== user.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized to delete this content card' },
-        { status: 403 }
       )
     }
 

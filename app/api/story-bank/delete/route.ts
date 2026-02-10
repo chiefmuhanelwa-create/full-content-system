@@ -1,25 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { prisma, checkDatabase } from '@/lib/db-helper'
+
+const DEFAULT_USER_ID = 'default-user-id'
 
 export async function DELETE(request: NextRequest) {
   try {
     const dbError = checkDatabase()
     if (dbError) return dbError
-
-    const session = await getServerSession(authOptions)
-    if (!session || !session.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const user = await prisma!.user.findUnique({
-      where: { email: session.user.email }
-    })
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 })
-    }
 
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
@@ -29,8 +16,8 @@ export async function DELETE(request: NextRequest) {
     }
 
     const existing = await prisma!.storyBankEntry.findUnique({ where: { id } })
-    if (!existing || existing.userId !== user.id) {
-      return NextResponse.json({ error: 'Story not found or unauthorized' }, { status: 403 })
+    if (!existing) {
+      return NextResponse.json({ error: 'Story not found' }, { status: 404 })
     }
 
     await prisma!.storyBankEntry.delete({ where: { id } })

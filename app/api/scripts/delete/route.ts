@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { checkDatabase } from '@/lib/db-helper'
 
@@ -10,15 +8,6 @@ export async function DELETE(req: Request) {
   if (dbError) return dbError;
 
   try {
-    const session = await getServerSession(authOptions)
-
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
 
@@ -29,7 +18,7 @@ export async function DELETE(req: Request) {
       )
     }
 
-    // Verify ownership
+    // Verify script exists
     const script = await db!.script.findUnique({
       where: { id },
     })
@@ -38,13 +27,6 @@ export async function DELETE(req: Request) {
       return NextResponse.json(
         { error: 'Script not found' },
         { status: 404 }
-      )
-    }
-
-    if (script.userId !== session.user.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 403 }
       )
     }
 

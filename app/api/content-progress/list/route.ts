@@ -1,33 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { prisma, checkDatabase } from '@/lib/db-helper'
+
+const DEFAULT_USER_ID = 'default-user-id'
 
 export async function GET(request: NextRequest) {
   try {
     // Check if database is available
     const dbError = checkDatabase()
     if (dbError) return dbError
-
-    const session = await getServerSession(authOptions)
-    if (!session || !session.user?.email) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    // Get user from database
-    const user = await prisma!.user.findUnique({
-      where: { email: session.user.email }
-    })
-
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      )
-    }
 
     // Parse query parameters
     const { searchParams } = new URL(request.url)
@@ -40,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     // Build where clause
     const where: any = {
-      userId: user.id
+      userId: DEFAULT_USER_ID
     }
 
     if (stage) where.stage = stage
@@ -72,7 +52,7 @@ export async function GET(request: NextRequest) {
     const stageCounts = await prisma!.contentProgress.groupBy({
       by: ['stage'],
       where: {
-        userId: user.id,
+        userId: DEFAULT_USER_ID,
         isArchived: false
       },
       _count: true
@@ -82,7 +62,7 @@ export async function GET(request: NextRequest) {
     const fourECounts = await prisma!.contentProgress.groupBy({
       by: ['fourETag'],
       where: {
-        userId: user.id,
+        userId: DEFAULT_USER_ID,
         isArchived: false
       },
       _count: true

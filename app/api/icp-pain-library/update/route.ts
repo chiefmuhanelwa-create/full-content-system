@@ -1,25 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { prisma, checkDatabase } from '@/lib/db-helper'
+
+const DEFAULT_USER_ID = 'default-user-id'
 
 export async function PUT(request: NextRequest) {
   try {
     const dbError = checkDatabase()
     if (dbError) return dbError
-
-    const session = await getServerSession(authOptions)
-    if (!session || !session.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const user = await prisma!.user.findUnique({
-      where: { email: session.user.email }
-    })
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 })
-    }
 
     const body = await request.json()
     const { id, ...updateData } = body
@@ -29,8 +16,8 @@ export async function PUT(request: NextRequest) {
     }
 
     const existing = await prisma!.iCPPainLibrary.findUnique({ where: { id } })
-    if (!existing || existing.userId !== user.id) {
-      return NextResponse.json({ error: 'Pain point not found or unauthorized' }, { status: 403 })
+    if (!existing) {
+      return NextResponse.json({ error: 'Pain point not found' }, { status: 404 })
     }
 
     const icpPain = await prisma!.iCPPainLibrary.update({

@@ -1,33 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { prisma, checkDatabase } from '@/lib/db-helper'
+
+const DEFAULT_USER_ID = 'default-user-id'
 
 export async function GET(request: NextRequest) {
   try {
     // Check if database is available
     const dbError = checkDatabase()
     if (dbError) return dbError
-
-    const session = await getServerSession(authOptions)
-    if (!session || !session.user?.email) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    // Get user from database
-    const user = await prisma!.user.findUnique({
-      where: { email: session.user.email }
-    })
-
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      )
-    }
 
     // Parse query parameters
     const { searchParams } = new URL(request.url)
@@ -39,7 +19,7 @@ export async function GET(request: NextRequest) {
 
     // Build where clause
     const where: any = {
-      userId: user.id
+      userId: DEFAULT_USER_ID
     }
 
     if (platform) where.platform = platform
@@ -72,17 +52,17 @@ export async function GET(request: NextRequest) {
       total: contentCards.length,
       byPlatform: await prisma!.contentCard.groupBy({
         by: ['platform'],
-        where: { userId: user.id },
+        where: { userId: DEFAULT_USER_ID },
         _count: true
       }),
       byStatus: await prisma!.contentCard.groupBy({
         by: ['status'],
-        where: { userId: user.id },
+        where: { userId: DEFAULT_USER_ID },
         _count: true
       }),
       byPillar: await prisma!.contentCard.groupBy({
         by: ['contentPillar'],
-        where: { userId: user.id },
+        where: { userId: DEFAULT_USER_ID },
         _count: true
       })
     }

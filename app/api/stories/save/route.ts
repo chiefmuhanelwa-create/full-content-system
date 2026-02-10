@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { checkDatabase } from '@/lib/db-helper'
+
+const DEFAULT_USER_ID = 'default-user-id'
 
 export async function POST(req: Request) {
   // Check if database is available
@@ -10,15 +10,6 @@ export async function POST(req: Request) {
   if (dbError) return dbError;
 
   try {
-    const session = await getServerSession(authOptions)
-
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
     const {
       title,
       content,
@@ -44,7 +35,7 @@ export async function POST(req: Request) {
 
     const story = await db!.story.create({
       data: {
-        userId: session.user.id,
+        userId: DEFAULT_USER_ID,
         title,
         content,
         storyType,
