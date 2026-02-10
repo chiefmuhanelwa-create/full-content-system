@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { checkDatabase } from '@/lib/db-helper'
 
+export const dynamic = 'force-dynamic'
+
 const DEFAULT_USER_ID = 'default-user-id'
 
 export async function GET(req: Request) {

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { checkDatabase } from '@/lib/db-helper'
 
+export const dynamic = 'force-dynamic'
+
 export async function DELETE(req: Request) {
   // Check if database is available
   const dbError = checkDatabase();
