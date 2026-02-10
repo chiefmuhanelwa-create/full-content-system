@@ -30,13 +30,19 @@ export async function GET() {
 
   // Try to connect to database if environment is valid
   if (validation.isValid) {
-    try {
-      await prisma.$queryRaw`SELECT 1`;
-      health.checks.database.status = 'pass';
-    } catch (error) {
+    if (!prisma) {
       health.checks.database.status = 'fail';
-      health.checks.database.error = error instanceof Error ? error.message : 'Unknown database error';
+      health.checks.database.error = 'Database client not initialized. DATABASE_URL may be missing.';
       health.status = 'unhealthy';
+    } else {
+      try {
+        await prisma.$queryRaw`SELECT 1`;
+        health.checks.database.status = 'pass';
+      } catch (error) {
+        health.checks.database.status = 'fail';
+        health.checks.database.error = error instanceof Error ? error.message : 'Unknown database error';
+        health.status = 'unhealthy';
+      }
     }
   } else {
     health.status = 'unhealthy';
