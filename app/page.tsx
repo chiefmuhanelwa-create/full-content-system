@@ -22,9 +22,12 @@ export default function LandingPage() {
             <Zap className="h-8 w-8 text-blue-600" />
             <span className="text-2xl font-bold">NOCHILL</span>
           </div>
-          <div className="space-x-4">
+          <div className="flex items-center space-x-3">
+            <Button variant="ghost" asChild>
+              <Link href="/auth/signin">Sign In</Link>
+            </Button>
             <Button asChild>
-              <Link href="/dashboard">Launch App →</Link>
+              <Link href="/auth/signup">Get Started Free</Link>
             </Button>
           </div>
         </nav>
@@ -40,9 +43,14 @@ export default function LandingPage() {
           7-Act Retention Formula, Genesis Framework, and 4E Content Engine to generate
           scroll-stopping hooks and complete production-ready scripts.
         </p>
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-xl mx-auto mb-8">
+          <p className="text-sm text-blue-900 font-medium">
+            ✨ Create an account to save all your work and never lose progress!
+          </p>
+        </div>
         <div className="flex gap-4 justify-center">
           <Button size="lg" asChild>
-            <Link href="/dashboard">Start Creating Now (Free) →</Link>
+            <Link href="/auth/signup">Start Creating Free →</Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
             <Link href="#features">See Features</Link>
@@ -220,9 +228,9 @@ export default function LandingPage() {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-lg font-semibold text-gray-700 mb-4">🎉 Completely Free & Open - No Login Required</p>
+          <p className="text-lg font-semibold text-gray-700 mb-4">🎉 Completely Free & Your Work is Always Saved</p>
           <Button size="lg" asChild>
-            <Link href="/dashboard">Access All Features Now →</Link>
+            <Link href="/auth/signup">Create Free Account →</Link>
           </Button>
         </div>
       </section>
@@ -238,10 +246,10 @@ export default function LandingPage() {
           </CardHeader>
           <CardContent>
             <Button size="lg" variant="secondary" asChild>
-              <Link href="/dashboard">Start Creating Now →</Link>
+              <Link href="/auth/signup">Create Free Account →</Link>
             </Button>
             <p className="text-sm text-blue-100 mt-4">
-              No login. No credit card. Start creating in seconds.
+              Free forever. Your work is saved automatically. No credit card required.
             </p>
           </CardContent>
         </Card>

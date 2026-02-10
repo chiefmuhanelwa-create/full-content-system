@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import {
   Zap,
@@ -25,6 +26,8 @@ import {
   Users,
   Package,
   CalendarCheck,
+  LogOut,
+  User,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ContentProvider } from '@/contexts/ContentContext'
@@ -207,6 +210,11 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
+  const { data: session } = useSession()
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/' })
+  }
 
   return (
     <ErrorBoundary>
@@ -287,11 +295,38 @@ export default function DashboardLayout({
             </nav>
 
             {/* Footer */}
-            <div className="p-4 border-t">
+            <div className="p-4 border-t space-y-3">
+              {/* User Profile */}
+              {session?.user && (
+                <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-sm">
+                      {session.user.name?.charAt(0) || session.user.email?.charAt(0) || 'U'}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {session.user.name || 'User'}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {session.user.email}
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start text-xs"
+                    onClick={handleSignOut}
+                  >
+                    <LogOut className="h-3 w-3 mr-2" />
+                    Sign Out
+                  </Button>
+                </div>
+              )}
               <p className="text-xs text-center text-gray-500">
                 NOCHILL v2.1.1
               </p>
-              <p className="text-xs text-center text-gray-400 mt-1">
+              <p className="text-xs text-center text-gray-400">
                 Content OS Live
               </p>
             </div>
