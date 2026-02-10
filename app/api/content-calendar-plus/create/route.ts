@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma, checkDatabase } from '@/lib/db-helper'
 
-const DEFAULT_USER_ID = 'default-user-id'
+import { ensureDefaultUser, DEFAULT_USER_ID } from '@/lib/ensure-user'
 
 export async function POST(request: NextRequest) {
   try {
@@ -46,6 +46,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
+
+    // Ensure default user exists
+    await ensureDefaultUser()
 
     const calendar = await prisma!.contentCalendarPlus.create({
       data: {

@@ -225,12 +225,16 @@ export default function HookGeneratorPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to save hook to Hook Bank')
+        const errorMsg = data.details
+          ? `${data.error}: ${data.details}`
+          : data.error || 'Failed to save hook to Hook Bank'
+        throw new Error(errorMsg)
       }
 
-      alert('Hook saved to Hook Bank!')
+      alert('✅ Hook saved to Hook Bank!')
     } catch (err: any) {
-      alert('Error saving to Hook Bank: ' + err.message)
+      const errorMessage = err.message || 'Unknown error occurred'
+      alert('❌ Error saving to Hook Bank:\n\n' + errorMessage)
       console.error('Error saving to Hook Bank:', err)
     }
   }
@@ -244,6 +248,7 @@ export default function HookGeneratorPage() {
     setLoading(true)
     let successCount = 0
     let failCount = 0
+    const errors: string[] = []
 
     for (const hook of hooks) {
       try {
@@ -269,16 +274,28 @@ export default function HookGeneratorPage() {
           successCount++
         } else {
           failCount++
-          console.error('Failed to save hook:', data.error)
+          const errorMsg = data.details ? `${data.error}: ${data.details}` : data.error
+          errors.push(errorMsg || 'Unknown error')
+          console.error('Failed to save hook:', errorMsg)
         }
       } catch (err: any) {
         failCount++
+        errors.push(err.message || 'Network error')
         console.error('Error saving hook:', err)
       }
     }
 
     setLoading(false)
-    alert(`Saved ${successCount} hooks to Hook Bank${failCount > 0 ? ` (${failCount} failed)` : '!'}`)
+
+    // Show detailed results
+    if (failCount === 0) {
+      alert(`✅ Successfully saved all ${successCount} hooks to Hook Bank!`)
+    } else if (successCount === 0) {
+      const errorSummary = errors.length > 0 ? `\n\nError: ${errors[0]}` : ''
+      alert(`❌ Failed to save all ${failCount} hooks.${errorSummary}\n\nPlease check:\n• Database is connected\n• Internet connection is stable\n• Check browser console for details`)
+    } else {
+      alert(`⚠️ Saved ${successCount} hooks to Hook Bank (${failCount} failed)\n\nSome hooks could not be saved. Check the browser console for details.`)
+    }
   }
 
   const exportHooksToPDF = () => {
