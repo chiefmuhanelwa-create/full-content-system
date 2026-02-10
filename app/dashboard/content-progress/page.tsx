@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
 import { Plus, Filter, Search, Calendar, ExternalLink, Edit, Trash2, CheckCircle2, Loader2 } from 'lucide-react'
 
 interface ContentProgress {
@@ -44,7 +43,6 @@ const PLATFORMS = ['instagram', 'tiktok', 'youtube', 'twitter', 'linkedin', 'fac
 
 export default function ContentProgressPage() {
   const router = useRouter()
-  const { data: session, status } = useSession()
   const [contentItems, setContentItems] = useState<ContentProgress[]>([])
   const [stats, setStats] = useState<Stats>({ byStage: {}, byFourE: {}, total: 0 })
   const [loading, setLoading] = useState(true)
@@ -202,21 +200,6 @@ export default function ContentProgressPage() {
       earn: 'bg-yellow-100 text-yellow-800'
     }
     return colors[tag] || 'bg-gray-100 text-gray-800'
-  }
-
-  // Show loading state while checking authentication
-  if (status === 'loading') {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
-      </div>
-    )
-  }
-
-  // Redirect to signin if not authenticated
-  if (status === 'unauthenticated') {
-    router.push('/auth/signin')
-    return null
   }
 
   return (

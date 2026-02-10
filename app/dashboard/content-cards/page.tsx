@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -90,7 +89,6 @@ interface Stats {
 
 export default function ContentCardsPage() {
   const router = useRouter()
-  const { data: session, status } = useSession()
   const [contentCards, setContentCards] = useState<ContentCard[]>([])
   const [filteredCards, setFilteredCards] = useState<ContentCard[]>([])
   const [stats, setStats] = useState<Stats | null>(null)
@@ -420,21 +418,6 @@ export default function ContentCardsPage() {
       twitter: 'text-sky-500',
     }
     return colors[platform] || 'text-gray-600'
-  }
-
-  // Show loading state while checking authentication
-  if (status === 'loading') {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <RefreshCw className="h-8 w-8 animate-spin text-blue-600" />
-      </div>
-    )
-  }
-
-  // Redirect to signin if not authenticated
-  if (status === 'unauthenticated') {
-    router.push('/auth/signin')
-    return null
   }
 
   return (

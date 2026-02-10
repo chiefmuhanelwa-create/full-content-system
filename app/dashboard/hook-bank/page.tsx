@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -81,7 +80,6 @@ interface FormData {
 
 export default function HookBankPage() {
   const router = useRouter()
-  const { data: session, status } = useSession()
   const [hooks, setHooks] = useState<HookBankEntry[]>([])
   const [filteredHooks, setFilteredHooks] = useState<HookBankEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -422,21 +420,6 @@ export default function HookBankPage() {
     setFilterPlatform('all')
     setFilterFavorite(false)
     setSearchQuery('')
-  }
-
-  // Show loading state while checking authentication
-  if (status === 'loading') {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Sparkles className="h-8 w-8 animate-spin text-purple-600" />
-      </div>
-    )
-  }
-
-  // Redirect to signin if not authenticated
-  if (status === 'unauthenticated') {
-    router.push('/auth/signin')
-    return null
   }
 
   const hasActiveFilters = filterHookType !== 'all' ||

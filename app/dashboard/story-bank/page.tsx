@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -80,7 +79,6 @@ interface Stats {
 
 export default function StoryBankPage() {
   const router = useRouter()
-  const { data: session, status } = useSession()
   const [stories, setStories] = useState<StoryBankEntry[]>([])
   const [filteredStories, setFilteredStories] = useState<StoryBankEntry[]>([])
   const [stats, setStats] = useState<Stats>({ total: 0, favorites: 0, quantifiable: 0, avgImpact: 0 })
@@ -419,21 +417,6 @@ export default function StoryBankPage() {
         [field]: value,
       },
     })
-  }
-
-  // Show loading state while checking authentication
-  if (status === 'loading') {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <RefreshCw className="h-8 w-8 animate-spin text-purple-600" />
-      </div>
-    )
-  }
-
-  // Redirect to signin if not authenticated
-  if (status === 'unauthenticated') {
-    router.push('/auth/signin')
-    return null
   }
 
   return (
