@@ -147,6 +147,9 @@ NEXTAUTH_URL=http://localhost:3000
 # 3. Set up database
 npx prisma db push
 
+# 3a. Test database connection (optional but recommended)
+npm run db:test
+
 # 4. Run development server
 npm run dev
 
@@ -162,6 +165,14 @@ The app now includes a full authentication system. See [SETUP.md](./SETUP.md) fo
 2. Set up a PostgreSQL database and configure `DATABASE_URL`
 3. Run `npx prisma db push` to create tables
 4. Restart your development server
+
+**Quick Fix for "Can't reach database server" Error:**
+This usually means your Neon database is suspended (normal for free tier):
+1. Go to [console.neon.tech](https://console.neon.tech)
+2. Click on your project to wake it up (takes 10-30 seconds)
+3. Run `npm run db:test` to verify connection
+4. Restart your dev server
+See [NEON_DATABASE_SUSPENDED.md](./NEON_DATABASE_SUSPENDED.md) for details.
 
 ## 🌐 Deploy to Vercel
 

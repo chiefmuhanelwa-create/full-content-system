@@ -31,10 +31,18 @@ function validateDatabaseUrl(url: string | undefined): string | null {
 const databaseUrl = process.env.DATABASE_URL
 const validationError = validateDatabaseUrl(databaseUrl)
 
-if (validationError && process.env.NODE_ENV !== 'test') {
+// Log validation status in development
+if (process.env.NODE_ENV === 'development') {
+  if (validationError) {
+    console.error('⚠️  Database configuration error:', validationError)
+    console.error('   Please set DATABASE_URL in your environment variables.')
+    console.error('   Example: postgresql://user:password@host:5432/database?sslmode=require')
+    console.error('   See DATABASE_FIX_README.md for instructions.')
+  } else {
+    console.log('✅ Database configuration validated')
+  }
+} else if (validationError && process.env.NODE_ENV === 'production') {
   console.error('⚠️  Database configuration error:', validationError)
-  console.error('   Please set DATABASE_URL in your environment variables.')
-  console.error('   Example: postgresql://user:password@host:5432/database?sslmode=require')
   console.error('   See VERCEL_DEPLOYMENT_FIX.md for instructions.')
 }
 
