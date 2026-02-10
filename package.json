@@ -12,6 +12,7 @@
     "db:push": "prisma db push --accept-data-loss",
     "db:migrate": "prisma migrate deploy",
     "db:generate": "prisma generate",
+    "db:fix": "bash scripts/fix-database-connection.sh",
     "validate:env": "node scripts/validate-env.js",
     "start": "next start",
     "lint": "next lint",
