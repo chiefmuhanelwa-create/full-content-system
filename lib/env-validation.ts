@@ -30,6 +30,37 @@ export function validateDatabaseUrl(url: string | undefined): {
     };
   }
 
+  // Check for placeholder values that indicate the URL hasn't been configured
+  const placeholders = [
+    'YOUR_PROJECT_REF',
+    'YOUR-PASSWORD',
+    'YOUR_REGION',
+    'your_',
+    'YOUR-',
+    'xxxxxxxxxxxx',
+    '[YOUR',
+  ];
+
+  const hasPlaceholder = placeholders.some(placeholder =>
+    url.toLowerCase().includes(placeholder.toLowerCase())
+  );
+
+  if (hasPlaceholder) {
+    return {
+      isValid: false,
+      error: 'DATABASE_URL contains placeholder values. Please replace with your actual Supabase credentials. See SUPABASE_SETUP.md for instructions.',
+    };
+  }
+
+  // Basic validation for PostgreSQL URL structure
+  const urlPattern = /^postgres(?:ql)?:\/\/[^:]+:[^@]+@[^:]+:\d+\/\w+/;
+  if (!urlPattern.test(url)) {
+    return {
+      isValid: false,
+      error: 'DATABASE_URL format is invalid. Expected format: postgresql://user:password@host:port/database',
+    };
+  }
+
   return { isValid: true };
 }
 

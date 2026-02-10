@@ -24,6 +24,31 @@ function validateDatabaseUrl(url: string | undefined): string | null {
     return `DATABASE_URL must start with ${validProtocols.join(' or ')}, got: ${url.substring(0, 20)}...`
   }
 
+  // Check for placeholder values
+  const placeholders = [
+    'YOUR_PROJECT_REF',
+    'YOUR-PASSWORD',
+    'YOUR_REGION',
+    'your_',
+    'YOUR-',
+    'xxxxxxxxxxxx',
+    '[YOUR',
+  ]
+
+  const foundPlaceholder = placeholders.find(placeholder =>
+    url.toLowerCase().includes(placeholder.toLowerCase())
+  )
+
+  if (foundPlaceholder) {
+    return `DATABASE_URL contains placeholder value "${foundPlaceholder}". Please configure your actual Supabase credentials. See SUPABASE_SETUP.md for help.`
+  }
+
+  // Basic structure validation
+  const urlPattern = /^postgres(?:ql)?:\/\/[^:]+:[^@]+@[^:]+:\d+\/\w+/
+  if (!urlPattern.test(url)) {
+    return 'DATABASE_URL format is invalid. Expected: postgresql://user:password@host:port/database'
+  }
+
   return null
 }
 
