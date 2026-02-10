@@ -47,19 +47,32 @@ Install Command: npm install
 
 **C. Add Environment Variables:**
 
-Click "Environment Variables" and add:
+Click "Environment Variables" and add these **REQUIRED** variables:
 
 | Name | Value | Environment |
 |------|-------|-------------|
-| `ANTHROPIC_API_KEY` | `your-actual-api-key` | Production, Preview, Development |
+| `DATABASE_URL` | `postgresql://neondb_owner:npg_r8dSqmMYNh7X@ep-lingering-field-ais25y1f-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require` | Production, Preview, Development |
+| `NEXTAUTH_SECRET` | `3SkkrAMs/1DS6lSa96AmJqAjVKrIW1lY93LlKlbuh4s=` | Production, Preview, Development |
+| `NEXTAUTH_URL` | `https://full-content-system-nochill.vercel.app` | Production |
+| `ANTHROPIC_API_KEY` | `your-actual-api-key` (optional) | Production, Preview, Development |
 
-**Important:** Get your real API key from: https://console.anthropic.com/settings/keys
+**Important Notes:**
+- `DATABASE_URL`: Neon PostgreSQL database (already configured)
+- `NEXTAUTH_SECRET`: Authentication secret (already generated)
+- `NEXTAUTH_URL`: Replace with your actual Vercel URL
+- `ANTHROPIC_API_KEY`: Get from https://console.anthropic.com/settings/keys (optional for now)
 
 **D. Deploy:**
 
 1. Click "**Deploy**"
 2. Wait 2-3 minutes for build
-3. Your URL will be: `https://full-content-system-nochill.vercel.app/`
+3. **Database tables will be created automatically** during first build
+4. Your URL will be: `https://full-content-system-nochill.vercel.app/`
+
+**Database Migration:**
+- The build process automatically runs `prisma generate`
+- On first deployment, tables will be created in your Neon database
+- No manual migration needed - it's all automated!
 
 ---
 
@@ -142,8 +155,21 @@ https://full-content-system-git-claude-nochill-web-app-26yi8-nochill.vercel.app/
 
 **Common errors:**
 
+**Error: "DATABASE_URL is not defined"**
+- Solution: Add `DATABASE_URL` environment variable (see Step 2C)
+- This is **REQUIRED** for the app to work
+
+**Error: "NEXTAUTH_SECRET is not defined"**
+- Solution: Add `NEXTAUTH_SECRET` environment variable (see Step 2C)
+- This is **REQUIRED** for authentication
+
+**Error: "Can't reach database server"**
+- Solution: Verify `DATABASE_URL` is correct in Vercel environment variables
+- Check Neon database is active (not paused) at https://neon.tech
+
 **Error: "ANTHROPIC_API_KEY is not defined"**
-- Solution: Add environment variable (see Step 2C)
+- Solution: Add environment variable (optional for now)
+- App works without it for basic features
 
 **Error: "Build failed"**
 - Solution: All build errors are already fixed in latest code
