@@ -8,6 +8,7 @@
     "build": "prisma generate && next build",
     "db:setup": "node scripts/setup-database.js",
     "db:test": "node scripts/test-database.js",
+    "db:wake": "node scripts/wake-db.js",
     "db:push": "prisma db push --accept-data-loss",
     "db:migrate": "prisma migrate deploy",
     "db:generate": "prisma generate",
