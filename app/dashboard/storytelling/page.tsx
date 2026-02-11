@@ -132,32 +132,38 @@ export default function StorytellingStudio() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           storyKey: output.title,
-          storyTitle: output.title,
-          storySnippet: output.fullStory.substring(0, 150),
-          fullStoryVersion: output.fullStory,
+          title: output.title,
+          snippet: output.fullStory.substring(0, 150),
+          fullVersion: output.fullStory,
           isSpecial: true,
           isRelevant: true,
           isQuantifiable: false,
           hasNames: false,
-          transformationBefore: '',
-          transformationAfter: '',
+          beforeState: '',
+          afterState: '',
           timeframe: duration + 's',
-          emotionBefore: 'curious',
-          emotionAfter: targetEmotion || 'inspired',
-          useCases: [selectedType || 'story'],
-          contentPillar: coreMessage || '',
+          emotion: targetEmotion || 'inspired',
+          lesson: coreMessage || '',
+          useFor: selectedType || 'story',
+          contentPillars: coreMessage || '',
           timesUsed: 0,
           avgImpact: 0,
           isFavorite: false,
         }),
       })
 
-      const data = await response.json()
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to save story to Story Bank')
+        let errorMessage = 'Failed to save story to Story Bank'
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch {
+          errorMessage = `Server error: ${response.status} ${response.statusText}`
+        }
+        throw new Error(errorMessage)
       }
 
+      const data = await response.json()
       alert('Story saved to Story Bank!')
     } catch (err: any) {
       alert('Error saving to Story Bank: ' + err.message)
