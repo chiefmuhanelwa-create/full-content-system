@@ -379,11 +379,19 @@ export default function ScriptWriterPage() {
         body: JSON.stringify(requestBody),
       })
 
-      const data = await response.json()
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to generate script')
+        let errorMessage = 'Failed to generate script'
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch {
+          // Response wasn't JSON, use status text
+          errorMessage = `Server error: ${response.status} ${response.statusText}`
+        }
+        throw new Error(errorMessage)
       }
+
+      const data = await response.json()
 
       setScript(data.script)
 
@@ -828,11 +836,18 @@ ${scriptToUse.fiveLine.community.script}`
         }),
       })
 
-      const data = await response.json()
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to save to Content Cards')
+        let errorMessage = 'Failed to save to Content Cards'
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch {
+          errorMessage = `Server error: ${response.status} ${response.statusText}`
+        }
+        throw new Error(errorMessage)
       }
+
+      const data = await response.json()
 
       alert('Script saved to Content Cards!')
     } catch (err: any) {
