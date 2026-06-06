@@ -1,0 +1,530 @@
+{
+  "meta": {
+    "version": "1.0",
+    "description": "Ndivhuwo Muhanelwa personal brand DNA — injected into every AI generation for authentic, audience-specific content",
+    "last_updated": "2026-06-06"
+  },
+
+  "creator": {
+    "name": "Ndivhuwo Muhanelwa",
+    "alias": "NoChill",
+    "brand": "No Chill in Mzansi Co.",
+    "company": "NOCHILL PTY LTD",
+    "company_reg": "2016/507839/07",
+    "website": "contentcreatorhub.online",
+    "short_link": "chkplt.com",
+    "email": "info@nochill.co.za",
+    "instagram": "@nochill_god",
+    "facebook": "@nochillinmzansi",
+    "tiktok": "@nochillgod",
+    "youtube": "@NoChill God",
+    "category": "Creator-economy education for African contentpreneurs",
+    "positioning": "Helping struggling African creators build platform-independent wealth through proven, God-centered, receipt-backed systems",
+    "signature_proof": "From sleeping in university bathrooms to R600,000+ annual income, 50+ brand deals, 9 awards",
+    "origin": "SA — primary market Mzansi, secondary broader Africa, tertiary diaspora"
+  },
+
+  "brand_voice": {
+    "tone": "Tough-love mentor. Direct, blunt, short punchy sentences. No fluff.",
+    "leads_with": "The scar first — bathroom story, R285K SARS bill, 780K followers lost. Backs every claim with exact numbers.",
+    "context": "Mzansi context always: Rands not dollars, SARS not IRS, Mr Price/Savanna/Takealot not US brands, Ubuntu philosophy",
+    "faith": "Faith-infused, never preachy. 'Your gift will make room for you.' 'For children's children.'",
+    "reading_level": "Grade-7. 10-year-old must follow it. Short sentences. One idea per line. White space is a feature.",
+    "rules": [
+      "Always quantify — 'R23,000 single campaign', '90 minutes, not 9 months'",
+      "Speak TO one person — 'you', never 'people' or 'someone'",
+      "End every section with a one-line gut-punch",
+      "Attack the system, never the person",
+      "From struggle TO outcome — always",
+      "Never say 'journey', 'unlock', 'game-changer', 'empower' — these are lazy"
+    ],
+    "signature_phrases": [
+      "You understand? Because you understand.",
+      "For children's children.",
+      "Build on land you own, not rent.",
+      "Price based on value delivered, not follower count.",
+      "Consistency without strategy is just exhausting.",
+      "Rising alone is empty. Rising together is legacy.",
+      "I am because we are — Ubuntu."
+    ],
+    "avoid": [
+      "journey", "unlock", "game-changer", "empower", "leverage", "synergy",
+      "holistic", "authentic (overused)", "hustle culture glorification",
+      "American references without SA equivalent", "dollar signs in SA content"
+    ]
+  },
+
+  "ethos_pathos_logos": {
+    "ethos": "I went from sleeping in a university bathroom to R300,000+ a month partnering with Netflix, Samsung, Red Bull.",
+    "pathos": "I know exactly what it feels like to have 500,000 followers and R0. I've been you.",
+    "logos": "96% of creators earn under $100K/year. The 4% who don't have one thing in common: a system."
+  },
+
+  "key_market_data": {
+    "african_creator_economy": "$17.84 billion by 2032 at 25.6% CAGR",
+    "creator_income_stat": "96% of creators earn under $100K/year",
+    "window_framing": "The window is open NOW — African creator economy is in its fastest growth phase",
+    "sa_context": {
+      "currency": "ZAR (South African Rand)",
+      "tax_authority": "SARS",
+      "payment_platforms": ["PayFast", "Paystack", "Yoco"],
+      "relevant_brands": ["Samsung", "Netflix SA", "Huawei", "Mr Price", "Savanna", "Takealot", "Capitec", "Old Mutual", "Standard Bank"],
+      "unique_challenges": ["load shedding", "data costs", "platform algorithm changes", "SARS compliance", "exclusivity clauses in brand deals", "no creator union or rate standard"]
+    }
+  },
+
+  "target_audiences": {
+    "called_expert": {
+      "id": "called_expert",
+      "name": "The Called Expert",
+      "tagline": "You know your field. You just don't know how to turn it into content that pays.",
+      "description": "Professionals with deep expertise who struggle to package and monetise their knowledge through content",
+      "demographics": {
+        "age": "28-42",
+        "income": "R15K-R60K/month from their job or practice",
+        "employment": "Employed professional, consultant, coach, teacher, trainer, accountant, doctor, lawyer, therapist",
+        "following": "0-5,000 (just starting or stuck)",
+        "platform": "LinkedIn primary, Instagram secondary"
+      },
+      "surface_pains": [
+        "I don't know where to start with content",
+        "I'm an expert but nobody follows me",
+        "I tried posting but got no engagement",
+        "I can't be 'cringe' on social media — I have a reputation",
+        "I don't have time to post every day"
+      ],
+      "deep_goals": [
+        "Be recognized as the go-to expert in my field",
+        "Generate income from knowledge without trading time for money forever",
+        "Build an audience that trusts me before I launch anything",
+        "Have a professional presence that attracts high-value clients"
+      ],
+      "shadow_fears": [
+        "Fear of being judged by peers and colleagues",
+        "Fear of saying something wrong publicly and damaging reputation",
+        "Fear that their expertise doesn't translate to content",
+        "Fear of being irrelevant in a world of young influencers"
+      ],
+      "feeler_triggers": [
+        "You spent 10 years building expertise. The person with 100K followers who knows less than you is charging 10x more.",
+        "Your LinkedIn says 'available for consulting' but the DMs are silent.",
+        "You have everything they need. They just can't find you."
+      ],
+      "best_hooks": [
+        "Information Gap — reveal what they don't know about content strategy",
+        "A-to-B Transformation — show the path from expert to recognized authority",
+        "Undesired Result — the cost of staying invisible"
+      ],
+      "products_for_this_audience": ["01", "02", "paids_course"],
+      "tone_for_this_audience": "Professional but direct. No fluff. Respect their intelligence. Show ROI."
+    },
+    "content_creator_inspirer": {
+      "id": "content_creator_inspirer",
+      "name": "The Content Creator Inspirer",
+      "tagline": "You're creating. You're just not getting paid for it.",
+      "description": "Aspiring and active creators who post consistently but haven't cracked monetisation. The undermonetised, not the unskilled.",
+      "demographics": {
+        "age_core": "23-28",
+        "age_range": "18-35",
+        "income": "R0-R10K/month content-related; R8K-R25K from job",
+        "employment": "Employed but unhappy, student, side-hustler, unemployed",
+        "following": "500-50,000 — undermonetised, NOT small",
+        "platform": "Instagram primary, TikTok growing, Facebook legacy, YouTube aspirational",
+        "faith": "Majority Christian — position business as calling, stewardship, generational wealth",
+        "education": "Matric to incomplete degree, self-taught"
+      },
+      "surface_pains": [
+        "I don't know how to monetise",
+        "The algorithm keeps changing",
+        "I post but get no results",
+        "I can't afford expensive courses",
+        "Brands ghost me or lowball me",
+        "I have followers but no money"
+      ],
+      "deep_goals": [
+        "Income that works while they sleep",
+        "Own the audience, not be at the mercy of platforms",
+        "A SYSTEM, not more effort",
+        "Proof it works for someone who looks like me — not an American",
+        "Be taken seriously as a business professional",
+        "Feel like the hard work actually pays off — literally"
+      ],
+      "shadow_fears": [
+        "Fear of Missing the Window — African creator economy is booming, am I too late?",
+        "Shame of Stagnation — 'I've been a creator for 2 years. My family is starting to wonder.'",
+        "Hunger for Proof It's Possible for Me — 'Show me someone from where I'm from who did it.'"
+      ],
+      "feeler_triggers": [
+        "African creator economy to $17.84B by 2032 — the window is open NOW",
+        "You've been saying you're a creator for 2 years. Your family is starting to wonder.",
+        "Show me someone from where I'm from who did it. Not an American. Me."
+      ],
+      "best_hooks": [
+        "A-to-B Transformation — from broke creator to paid contentpreneur",
+        "Undesired Result — what happens if you keep posting without a system",
+        "Information Gap — the brand deal secrets they don't teach you"
+      ],
+      "products_for_this_audience": ["03", "04", "05", "11", "13", "tax"],
+      "tone_for_this_audience": "Peer-to-peer. Vulnerable. Receipt-backed. 'I've been you' energy. Mzansi references."
+    }
+  },
+
+  "three_feeler_triggers": [
+    {
+      "name": "Fear of Missing the Window",
+      "hook": "African creator economy to $17.84B by 2032 — the window is open NOW",
+      "use_for": "Growth, monetisation, urgency products"
+    },
+    {
+      "name": "Shame of Stagnation",
+      "hook": "You've been saying you're a creator for 2 years. Your family is starting to wonder.",
+      "use_for": "Motivation, transformation, action-triggering products"
+    },
+    {
+      "name": "Hunger for Proof It's Possible for Me",
+      "hook": "Show me someone from where I'm from who did it. Not an American. Me.",
+      "use_for": "Credibility, case studies, origin story content"
+    }
+  ],
+
+  "official_products": [
+    {
+      "id": "01",
+      "title": "Stop Posting Random Content",
+      "subtitle": "Find the one niche people will pay you for — in 90 minutes, not 9 months.",
+      "back_hook": "Find the niche that actually pays",
+      "price_zar": null,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "information",
+      "ladder_position": "entry",
+      "product_type": "digital_product",
+      "status": "live",
+      "core_pain": "Posting everything and getting nowhere — no niche, no positioning, no money",
+      "core_transformation": "From scattered content to one profitable niche with a clear content direction",
+      "supporting_stories": ["content_burnout", "bathroom_floors"],
+      "content_hooks": [
+        "You've been posting for months. But you still don't know what you actually stand for.",
+        "The creator economy doesn't reward hard work. It rewards clarity.",
+        "Posting everything means the algorithm doesn't know who to show you to.",
+        "Your niche isn't what you love. It's where your love meets someone else's problem.",
+        "Every viral creator you follow found ONE thing and went all in. You're still browsing."
+      ]
+    },
+    {
+      "id": "02",
+      "title": "Stop Being Broke With a Big Following",
+      "subtitle": "Build 5 ways to earn from your content in 30 days — step by step.",
+      "back_hook": "Build 5 income streams in 30 days",
+      "price_zar": null,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "products",
+      "ladder_position": "entry",
+      "product_type": "digital_product",
+      "status": "live",
+      "core_pain": "Massive following, zero income — the monetisation gap",
+      "core_transformation": "From 1 broken income source to 5 working in parallel (the PAIDS system)",
+      "supporting_stories": ["content_burnout", "r750_to_r100k"],
+      "content_hooks": [
+        "You have 50,000 followers and can't pay rent. That's not a follower problem.",
+        "One income stream is a salary. Five income streams is a business.",
+        "The creator who posts 3x a day for free is subsidising the brands that profit from their audience.",
+        "Your audience is worth more than your brand deal rate. Here's the math.",
+        "PAIDS: 5 taps — when one runs dry, the other four keep flowing."
+      ]
+    },
+    {
+      "id": "03",
+      "title": "Stop Freezing When a Brand Messages You",
+      "subtitle": "5 ready-made WhatsApp replies for any brand DM — so you never undersell again.",
+      "back_hook": "Know what to say to any brand DM",
+      "price_zar": 99,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "deals",
+      "ladder_position": "entry",
+      "product_type": "digital_product",
+      "status": "live",
+      "core_pain": "A brand DMs you and you panic-price because you don't know what to say",
+      "core_transformation": "From frozen panic to confident, professional responses that protect your rate",
+      "supporting_stories": ["r750_to_r100k", "first_netflix_deal"],
+      "content_hooks": [
+        "A brand DM just landed. Your hands are shaking. You have 24 hours or they'll find someone else.",
+        "The first thing you say to a brand sets your rate — forever. No pressure.",
+        "Agencies are watching how fast you reply. Not just what you say.",
+        "That 'R3,000 budget' message isn't an offer. It's a starting point. But only if you know that.",
+        "5 messages that turn panic into profit — for every brand scenario."
+      ]
+    },
+    {
+      "id": "04",
+      "title": "Stop Doing One-Off Deals",
+      "subtitle": "The simple message that turns one campaign into monthly pay — sent in 48 hours.",
+      "back_hook": "Turn one campaign into monthly pay",
+      "price_zar": 99,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "deals",
+      "ladder_position": "entry",
+      "product_type": "digital_product",
+      "status": "planned",
+      "core_pain": "You finish a campaign and that's it — no extension, no retainer, back to zero",
+      "core_transformation": "From transactional one-offs to monthly retainers using one post-campaign message",
+      "supporting_stories": ["samsung_partnership", "r750_to_r100k"],
+      "content_hooks": [
+        "Every brand deal you finish without a follow-up message is leaving R30K+ on the table.",
+        "Samsung became an 18-month partnership because of ONE email I sent after the first post.",
+        "The invoice email is your highest-leverage moment. Most creators waste it.",
+        "Repeat campaign > 10 cold deals. You're doing this backwards.",
+        "One message. Sent 48 hours after campaign wrap. R450K over 18 months."
+      ]
+    },
+    {
+      "id": "05",
+      "title": "Stop Saying Yes to Low Offers",
+      "subtitle": "5 quick checks and ready-made replies to take it, ask for more, or say no — without upsetting the brand.",
+      "back_hook": "Decide take, ask for more, or say no",
+      "price_zar": null,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "deals",
+      "ladder_position": "entry",
+      "product_type": "digital_product",
+      "status": "live",
+      "core_pain": "Saying yes to bad deals out of fear and setting a low rate precedent",
+      "core_transformation": "From yes-to-everything to strategic deal acceptance using a 5-check framework",
+      "supporting_stories": ["r750_to_r100k", "first_netflix_deal"],
+      "content_hooks": [
+        "Saying yes to R2,500 teaches brands you're worth R2,500. Agencies share notes.",
+        "The R3,000 deal that blocked R45,000. Exclusivity clauses have a price you're not charging for.",
+        "How to say no to a brand deal without burning the relationship forever.",
+        "Not every deal is worth saying yes to. Here's how to know the difference.",
+        "First deal rate = filed rate. Agencies talk. What did you just file?"
+      ]
+    },
+    {
+      "id": "11",
+      "title": "Stop Signing Contracts That Cost You",
+      "subtitle": "8 warning signs to look for — and what to say — before you sign anything.",
+      "back_hook": "8 clauses that quietly cost you money",
+      "price_zar": 149,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "deals",
+      "ladder_position": "entry",
+      "product_type": "digital_product",
+      "status": "planned",
+      "core_pain": "Signing contracts without understanding the clauses that quietly cost money",
+      "core_transformation": "From signing blind to reading contracts like a lawyer (without needing one)",
+      "supporting_stories": ["sars_r285k_debt"],
+      "content_hooks": [
+        "The contract clause that blocked R200K worth of deals for 12 months. And nobody told me.",
+        "Exclusivity doesn't just mean one brand. It can mean an entire category. For a year.",
+        "You signed away the right to work with 3 brands. For R5,000. Read the clause.",
+        "8 things in brand contracts that quietly cost you money — and what to do about each one.",
+        "Your lawyer doesn't know creator contracts. Here's what they usually miss."
+      ]
+    },
+    {
+      "id": "13",
+      "title": "Stop Losing Deals Because You're Not Ready",
+      "subtitle": "The 9 things brands ask for — ready to send in 24 hours.",
+      "back_hook": "Be ready before the brand emails",
+      "price_zar": 197,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "deals",
+      "ladder_position": "entry",
+      "product_type": "digital_product",
+      "status": "planned",
+      "core_pain": "Losing deals because you can't respond professionally in the 24-48 hour window",
+      "core_transformation": "From caught off-guard to agency-ready with 9 assets prepared and ready to send",
+      "supporting_stories": ["first_netflix_deal", "r750_to_r100k"],
+      "content_hooks": [
+        "A brand emailed. You had 24 hours. You spent it trying to find your media kit.",
+        "Response speed signals professionalism more than your content quality in the first impression.",
+        "9 things brands ask for. Most creators can't send all 9. The ones who can, get the deal.",
+        "Your competitors aren't more talented. They're more prepared.",
+        "The window is 24 hours. After that, someone else is already on set."
+      ]
+    },
+    {
+      "id": "tax",
+      "title": "Stop Being Scared of SARS",
+      "subtitle": "A simple, step-by-step way to sort out your creator tax — before it's too late.",
+      "back_hook": "Fix your creator tax the right way",
+      "price_zar": null,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "information",
+      "ladder_position": "entry",
+      "product_type": "digital_product",
+      "status": "live",
+      "core_pain": "Not knowing brand income needs to be declared until SARS arrives",
+      "core_transformation": "From tax-scared to SARS-compliant with a system that protects income",
+      "supporting_stories": ["sars_r285k_debt"],
+      "content_hooks": [
+        "I owed SARS R285,000 because nobody told me brand payments count as income.",
+        "The VDP saved me R142,500. But I had to find it myself. You don't.",
+        "SARS is watching your Payfast account. Your Instagram doesn't show them everything.",
+        "The deductions list that saved R207,000. Yours for under R300.",
+        "You're earning from content. SARS knows. The question is: are you ready?"
+      ]
+    },
+    {
+      "id": "paids_course_starter",
+      "title": "PAIDS Starter Course",
+      "subtitle": "Build your first 5 income streams from content — in 30 days.",
+      "price_zar": 997,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "information",
+      "ladder_position": "core",
+      "product_type": "course",
+      "status": "planned",
+      "core_pain": "One income stream that stops when life does",
+      "core_transformation": "5 income streams running in parallel — Products, Affiliates, Info, Deals, Services",
+      "supporting_stories": ["content_burnout", "r750_to_r100k", "bathroom_floors"]
+    },
+    {
+      "id": "paids_course_pro",
+      "title": "PAIDS Pro Course",
+      "subtitle": "Scale to R100K/month from content — the system that survives algorithm changes.",
+      "price_zar": 1997,
+      "audience": "content_creator_inspirer",
+      "paids_stream": "information",
+      "ladder_position": "premium",
+      "product_type": "course",
+      "status": "planned",
+      "core_pain": "Stuck at the same income ceiling despite growing audience",
+      "core_transformation": "From income plateau to R100K/month using systems that survive any algorithm change",
+      "supporting_stories": ["instagram_780k_loss", "samsung_partnership", "first_netflix_deal"]
+    }
+  ],
+
+  "the_coil": {
+    "description": "The full buyer journey from cold follower to highest-value client",
+    "stages": [
+      "REEL (cold content)",
+      "Bio Link → contentcreatorhub.online",
+      "Email opt-in (lead magnet)",
+      "7-day nurture sequence",
+      "Tripwire: The Influencer's Code (R299)",
+      "Upsell: Stop Being Scared of SARS (R197)",
+      "Core: PAIDS Starter Course (R997)",
+      "Upsell: PAIDS Pro Course (R1,997)",
+      "Subscription: Creators Hub (R497/month)",
+      "1:1 Coaching (R9,997)",
+      "Mastermind (R25,000+)"
+    ]
+  },
+
+  "story_product_matrix": {
+    "bathroom_floors": ["01", "02", "paids_course_starter"],
+    "r750_to_r100k": ["03", "04", "05", "paids_course_starter", "paids_course_pro"],
+    "huawei_r6000_investment": ["01", "paids_course_starter"],
+    "instagram_780k_loss": ["02", "paids_course_pro"],
+    "sars_r285k_debt": ["tax"],
+    "family_shame_dropout": ["01", "02"],
+    "first_netflix_deal": ["03", "05", "13", "paids_course_pro"],
+    "content_burnout": ["01", "02", "paids_course_starter"],
+    "samsung_partnership": ["04", "paids_course_pro"],
+    "ubuntu_principle": ["02", "paids_course_pro"]
+  },
+
+  "platform_story_scripts": {
+    "instagram_reels": {
+      "format": "15-60s, hook in first 1s, text overlay 3-5 words max",
+      "best_story_use": "snippet only (5-8s), then pivot to teaching",
+      "cta_placement": "Last 3s + caption",
+      "recommended_stories": ["bathroom_floors", "content_burnout", "r750_to_r100k"]
+    },
+    "tiktok": {
+      "format": "15-45s sweet spot, fast cuts, trending sound friendly",
+      "best_story_use": "POV format, first person, rapid delivery",
+      "cta_placement": "Last 5s + duet/stitch invitation",
+      "recommended_stories": ["sars_r285k_debt", "instagram_780k_loss", "family_shame_dropout"]
+    },
+    "youtube_shorts": {
+      "format": "30-60s, strong hook, loop-worthy end",
+      "best_story_use": "Quick transformation proof, before/after numbers",
+      "cta_placement": "Last 5s verbal + pinned comment",
+      "recommended_stories": ["huawei_r6000_investment", "samsung_partnership", "first_netflix_deal"]
+    },
+    "youtube_longform": {
+      "format": "8-15min sweet spot, hook in first 30s, pattern interrupt every 2-3min",
+      "best_story_use": "Full story arc with all 7 stages, use 20% of video time",
+      "cta_placement": "Multiple: 30s, 2min, end screen + description",
+      "recommended_stories": ["bathroom_floors", "instagram_780k_loss", "content_burnout"]
+    },
+    "linkedin": {
+      "format": "300-1500 chars, professional hook, thought leadership, 3-5 hashtags",
+      "best_story_use": "Business credibility stories with exact numbers",
+      "cta_placement": "End with question or insight invitation",
+      "recommended_stories": ["samsung_partnership", "first_netflix_deal", "sars_r285k_debt"]
+    }
+  },
+
+  "content_formula": {
+    "4e_balance": {
+      "educate": "35% — teach the system, the framework, the how-to",
+      "entertain": "30% — story, personality, relatability",
+      "encourage": "20% — proof it's possible, testimonials, Ubuntu",
+      "earn": "15% — product mentions, CTAs, offer content"
+    },
+    "hook_science_priority": {
+      "1": "Curiosity Gap — 101M avg views",
+      "2": "Comparison — 58.6M avg views",
+      "3": "FOMO — 51.2M avg views",
+      "4": "Pattern Interrupt — 33M+ avg views",
+      "5": "Shock Factor, Personal, Relatability, Step-by-step, Social Proof, Listicle"
+    },
+    "sa_specific_hooks": [
+      "Load shedding angle — 'I built this income stream during load shedding'",
+      "SARS angle — 'SARS is watching your Instagram. Here's what you need to know.'",
+      "Matric-to-millions angle — 'I never finished university. Here's what I built instead.'",
+      "Ubuntu angle — 'This strategy made R1M. I'm giving it away because Ubuntu.'",
+      "Against Western advice — 'Stop following American creator advice. It doesn't work in Mzansi.'"
+    ]
+  },
+
+  "scripting_framework_for_products": {
+    "brand_deal_products": {
+      "products": ["03", "04", "05", "11", "13"],
+      "opening_context": "Brand deal situation — agency, WhatsApp, 24-hour window",
+      "villain": "The agency with information asymmetry and the creator who doesn't know their value",
+      "proof_story": "r750_to_r100k or first_netflix_deal",
+      "cta_direction": "Direct to contentcreatorhub.online"
+    },
+    "monetisation_products": {
+      "products": ["01", "02", "paids_course_starter"],
+      "opening_context": "Posting without earning — the time-for-money trap",
+      "villain": "The broken creator economy that rewards hustle without systems",
+      "proof_story": "content_burnout or bathroom_floors",
+      "cta_direction": "Direct to contentcreatorhub.online"
+    },
+    "compliance_products": {
+      "products": ["tax", "11"],
+      "opening_context": "Financial ignorance in a formal economy",
+      "villain": "The creator education system that teaches posting but not business",
+      "proof_story": "sars_r285k_debt",
+      "cta_direction": "Direct to contentcreatorhub.online"
+    }
+  },
+
+  "generation_instructions": {
+    "always_do": [
+      "Reference SA context — Rands, SARS, load shedding, local brands when relevant",
+      "Use Ndivhuwo's stories as proof points (20% max of script)",
+      "Apply R×A×C×U^B formula to every hook",
+      "Follow 4 Foundational Scripting Principles on every line",
+      "Match tone to audience (Called Expert = professional, Content Creator Inspirer = peer-to-peer)",
+      "Include at least one Feeler Trigger in product-related content",
+      "Reference Ubuntu philosophy in community/legacy content",
+      "Always mention the $17.84B African creator economy stat when discussing opportunity",
+      "Use the ethos-pathos-logos formula for sales content"
+    ],
+    "never_do": [
+      "Use US dollars in content for SA audience",
+      "Reference American creator success stories as aspirational (use Ndivhuwo's story instead)",
+      "Say 'journey', 'unlock', 'game-changer', 'empower', 'synergy'",
+      "Attack the audience member — always attack the system or the problem",
+      "Use 'they/people/someone' — always 'you'",
+      "Create generic content that could work for any creator anywhere",
+      "Ignore load shedding, data costs, and other SA-specific challenges"
+    ],
+    "content_dna_signature": "NOCHILL content is: Direct. Receipt-backed. SA-specific. Ubuntu-rooted. Built for children's children."
+  }
+}
