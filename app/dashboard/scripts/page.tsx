@@ -385,19 +385,36 @@ export default function ScriptWriterPage() {
           const errorData = await response.json()
           errorMessage = errorData.error || errorMessage
         } catch {
-          // Response wasn't JSON, use status text
           errorMessage = `Server error: ${response.status} ${response.statusText}`
         }
         throw new Error(errorMessage)
       }
 
-      const data = await response.json()
+      // Read streaming response
+      const reader = response.body!.getReader()
+      const decoder = new TextDecoder()
+      let fullText = ''
 
-      setScript(data.script)
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        fullText += decoder.decode(value, { stream: true })
+      }
+
+      // Parse the accumulated JSON
+      let parsedScript: any
+      try {
+        const jsonMatch = fullText.match(/\{[\s\S]*\}/)
+        parsedScript = JSON.parse(jsonMatch ? jsonMatch[0] : fullText)
+      } catch {
+        throw new Error('Failed to parse script response. Try again.')
+      }
+
+      setScript(parsedScript)
 
       // Track the used story for rotation
-      if (data.script?.fiveLine?.calibration?.storyUsed) {
-        const storyKey = convertStoryTitleToKey(data.script.fiveLine.calibration.storyUsed)
+      if (parsedScript?.fiveLine?.calibration?.storyUsed) {
+        const storyKey = convertStoryTitleToKey(parsedScript.fiveLine.calibration.storyUsed)
         if (storyKey) {
           // Add to recent stories (keep last 5)
           const updatedRecentStories = [storyKey, ...recentStories].slice(0, 5)

@@ -4,6 +4,8 @@ import { buildSystemPrompt, buildUserContextPrompt } from '@/lib/knowledge-base'
 import ndivhuwoStories from '@/lib/knowledge/ndivhuwo-stories.json'
 import { checkRateLimit } from '@/lib/rate-limit'
 
+export const maxDuration = 300
+
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)
   if (rl) return rl
@@ -378,49 +380,31 @@ Return a JSON object for SALES PAGE COPY:
 
 Generate the sales script now following the 10-step framework for ${salesFormat} format.`
 
-      // Call Claude API for sales mode
-      const salesMessage = await anthropic.messages.create({
+      // Call Claude API for sales mode — streaming to avoid 504
+      const salesStream = anthropic.messages.stream({
         model: MODELS.SONNET,
         max_tokens: 4096,
         system: buildSystemPrompt('scripts'),
-        messages: [
-          {
-            role: 'user',
-            content: salesUserPrompt,
-          },
-        ],
+        messages: [{ role: 'user', content: salesUserPrompt }],
       })
 
-      const salesContent = salesMessage.content[0]
-      if (salesContent.type !== 'text') {
-        throw new Error('Unexpected response type from Claude')
-      }
-
-      let salesScript: any
-      try {
-        const jsonMatch = salesContent.text.match(/\{[\s\S]*\}/)
-        if (jsonMatch) {
-          salesScript = JSON.parse(jsonMatch[0])
-        } else {
-          salesScript = JSON.parse(salesContent.text)
-        }
-      } catch (parseError) {
-        console.error('Failed to parse Claude sales response:', salesContent.text)
-        throw new Error('Failed to parse sales script from Claude response')
-      }
-
-      return NextResponse.json({
-        success: true,
-        script: salesScript,
-        metadata: {
-          mode: 'sales',
-          product: product.name,
-          price: product.price,
-          format: salesFormat,
-          audienceLevel: product.audienceLevel,
-          generatedAt: new Date().toISOString(),
-          approach: '10-Step Sales Storytelling Framework',
+      const encoder = new TextEncoder()
+      const readable = new ReadableStream({
+        async start(controller) {
+          try {
+            for await (const chunk of salesStream) {
+              if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+                controller.enqueue(encoder.encode(chunk.delta.text))
+              }
+            }
+          } finally {
+            controller.close()
+          }
         },
+      })
+
+      return new Response(readable, {
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
       })
     }
 
@@ -774,67 +758,33 @@ REMEMBER:
 - Platform duration determines ACT compression
 `
 
-    // Call Claude API with extended token limit for scripts
-    console.log('Calling Claude API...')
-    console.log('Model:', MODELS.SONNET)
-    console.log('Max tokens:', 6000)
+    // Call Claude API — streaming to avoid 504 on long generations
+    console.log('Calling Claude API (streaming)...')
 
-    const message = await anthropic.messages.create({
+    const stream = anthropic.messages.stream({
       model: MODELS.SONNET,
       max_tokens: 6000,
       system: systemPromptWithStories,
-      messages: [
-        {
-          role: 'user',
-          content: userPrompt,
-        },
-      ],
+      messages: [{ role: 'user', content: userPrompt }],
     })
 
-    console.log('Claude API call successful')
-    console.log('Response received, extracting content...')
-
-    // Extract the text content
-    const content = message.content[0]
-    if (content.type !== 'text') {
-      console.error('Unexpected content type:', content.type)
-      throw new Error('Unexpected response type from Claude')
-    }
-
-    console.log('Text content received, length:', content.text.length)
-
-    // Parse the JSON response
-    console.log('Parsing JSON response...')
-    let script: any
-    try {
-      // Try to extract JSON from the response
-      const jsonMatch = content.text.match(/\{[\s\S]*\}/)
-      if (jsonMatch) {
-        console.log('JSON found in response, parsing...')
-        script = JSON.parse(jsonMatch[0])
-      } else {
-        console.log('No JSON wrapper found, parsing entire response...')
-        script = JSON.parse(content.text)
-      }
-      console.log('Script parsed successfully')
-      console.log('Script title:', script.title)
-    } catch (parseError) {
-      console.error('Failed to parse Claude response:', content.text.substring(0, 500))
-      console.error('Parse error:', parseError)
-      throw new Error('Failed to parse script from Claude response')
-    }
-
-    console.log('Returning successful response')
-    return NextResponse.json({
-      success: true,
-      script,
-      metadata: {
-        idea,
-        platform: platform || 'auto-detected',
-        duration: duration || 'auto-optimized',
-        generatedAt: new Date().toISOString(),
-        approach: '10-Step Storytelling Framework',
+    const encoder = new TextEncoder()
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of stream) {
+            if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+              controller.enqueue(encoder.encode(chunk.delta.text))
+            }
+          }
+        } finally {
+          controller.close()
+        }
       },
+    })
+
+    return new Response(readable, {
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     })
   } catch (error: any) {
     console.error('Script generation error:', error)
