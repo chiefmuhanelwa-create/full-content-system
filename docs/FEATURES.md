@@ -1,0 +1,444 @@
+# NOCHILL Content Intelligence System — Feature Reference
+
+**System:** full-content-system (full-content-system.vercel.app)
+**Owner:** Ndivhuwo Muhanelwa (NoChill)
+**Last updated:** 2026-06-06
+**Total features:** 42 dashboard tools across 8 groups
+
+---
+
+## 1. COMMAND CENTER
+
+### 1.1 Dashboard
+**Route:** `/dashboard`
+**Function:** Overview of system activity — recent hook generations, script completions, story extractions. Quick stats on content output.
+**Inputs:** None (reads from DB)
+**Outputs:** Activity summary, navigation entry point
+**Connects to:** All features (hub page)
+**DARES:** Digital ✓
+
+---
+
+### 1.2 My Algorithm ⚡ CORE
+**Route:** `/dashboard/my-algorithm`
+**Function:** Ndivhuwo's personal content command centre. Displays the Creator DNA — brand voice, target audiences (Called Expert + Content Creator Inspirer), their pain points, shadow fears, and deep goals. Shows the Story → Product → Script pipeline, The Coil buyer journey, platform quick reference, and 4E balance indicators. Every element is pre-loaded with Ndivhuwo's data from `creator-dna.json`.
+**Inputs:** None (auto-loads from knowledge base)
+**Outputs:**
+- Quick-launch buttons to all core tools
+- Audience pre-load tokens written to `localStorage` (algorithmAudiencePreload, algorithmStoryPreload)
+- Navigates to Hooks/Scripts with pre-filled context
+**Connects to:** Hook Generator, Script Writer, Story Bank, Products, Pitch Builder, Fears Analyzer
+**AI model:** None (static intelligence display)
+**DARES:** Digital ✓, Evergreen ✓
+
+---
+
+## 2. CREATE CONTENT
+
+### 2.1 Hook Generator ⚡ CORE
+**Route:** `/dashboard/hooks`
+**API:** `POST /api/hooks/generate`
+**Function:** Generates hooks using the R×A×C×U^B formula (Relevant × Aware × Clear × Unique^Broadened). Takes topic, audience, platform, and hook type as inputs. Generates 5–10 hooks per request, ranked by viral potential. Reads `algorithmAudiencePreload` from localStorage to auto-select audience from My Algorithm.
+**Inputs:** Topic, platform (IG/TikTok/YouTube/LinkedIn/X), hook type (curiosity/fear/social proof/contrast/data), audience
+**Outputs:** 5–10 ranked hooks with type labels and save buttons
+**Connects to:** Hook Bank (save), My Algorithm (audience pre-fill), Fear Analyzer (fear-type hooks auto-suggested)
+**AI model:** Claude claude-haiku-4-5 (speed-optimised)
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 2.2 Script Writer ⚡ CORE
+**Route:** `/dashboard/scripts`
+**API:** `POST /api/scripts/generate`
+**Function:** Writes full video scripts using the 7-Act Story Arc + 10-Step Sales Framework. Applies all 4 scripting principles: Negativity Wins, You Format, Short & Simple, Audible Flow. Reads `algorithmStoryPreload` and product context from localStorage. Can write for organic (5 Story Types framework) or sales (10-Step) mode.
+**Inputs:** Topic/product, script type (educational/sales/story), platform, duration (60s/3min/10min), tone
+**Outputs:** Full script with timestamps, hook section, body, CTA, platform-optimised cuts
+**Connects to:** Storytelling Studio, Saved Scripts, Products (product → script), Teleprompter (auto-loads script), My Algorithm
+**AI model:** Claude claude-sonnet-4-6 (quality-optimised)
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 2.3 Storytelling Studio
+**Route:** `/dashboard/storytelling`
+**API:** `POST /api/storytelling/generate`
+**Function:** Builds full story structures using the 5 Story Types Framework (5 story types: Origin, Transformation, Failure→Lesson, Behind-the-Scenes, Social Proof). Applies the 7-Stage Story Arc. Extracts the emotional spine and maps it to the 4E framework.
+**Inputs:** Story seed/topic, story type, target audience, intended platform
+**Outputs:** Structured story with all 7 arc stages, emotional hooks at each stage, platform-specific opening lines
+**Connects to:** Script Writer (export story to script), Story Bank (save), Story Extractor
+**AI model:** Claude claude-sonnet-4-6
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 2.4 Story Extractor
+**Route:** `/dashboard/stories`
+**API:** `POST /api/stories/extract`
+**Function:** Takes any raw experience or life event and extracts a content-ready story using the 4-Criteria Test (Relatable / Specific / Transformative / Actionable). Structures it into a usable proof story and suggests which products it connects to.
+**Inputs:** Raw story text (paste in messy notes, voice transcript, journal entry)
+**Outputs:** Cleaned proof story, emotional anchor phrase, 3 platform variations, product-story connection suggestions
+**Connects to:** Story Bank (save), Script Writer (use in script), Products (maps story to products), My Algorithm
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 2.5 Teleprompter
+**Route:** `/dashboard/teleprompter`
+**Function:** Fullscreen teleprompter for recording to camera. Auto-loads scripts generated by Script Writer. Adjustable speed, font size, and scroll direction. Mirrors text for eye-contact recording.
+**Inputs:** Script (auto-loaded from Script Writer or manual paste)
+**Outputs:** Readable on-screen prompt during filming
+**Connects to:** Script Writer (receives scripts)
+**AI model:** None
+**DARES:** Digital ✓
+
+---
+
+### 2.6 Repurpose
+**Route:** `/dashboard/repurpose`
+**API:** `POST /api/repurpose/generate`
+**Function:** Takes any piece of content (script, hook, story, post) and adapts it for other platforms. Applies platform-native formatting rules: LinkedIn long-form, TikTok hook-first, X thread structure, Instagram caption with CTA.
+**Inputs:** Original content, source platform, target platforms (multi-select)
+**Outputs:** Platform-specific versions with format notes and character counts
+**Connects to:** Script Writer, Hook Generator, Platform Adapter, Content Studio
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓, Scalable ✓
+
+---
+
+### 2.7 Content Studio
+**Route:** `/dashboard/content-studio`
+**Function:** Full rich-text editor for composing and editing any content type. Supports markdown, formatting, image embeds, and version saving. The "workbench" where you assemble hooks + story + script into a final publishable piece.
+**Inputs:** Free-form text, imported hooks/scripts/stories
+**Outputs:** Formatted content piece, saved to history
+**Connects to:** All Create Content tools (receives output from any), Repurpose (pass finished piece)
+**AI model:** None (editor only)
+**DARES:** Digital ✓
+
+---
+
+## 3. AUDIENCE INTELLIGENCE
+
+### 3.1 Fear Analyzer ⚡ CORE
+**Route:** `/dashboard/fears`
+**API:** `POST /api/fears/analyze`
+**Function:** Maps a topic or niche to the 10 Shadow Fears framework. Identifies which fears are most activated in the target audience and generates fear-based hooks, story angles, and objection-handling language. Pre-loaded with Called Expert and Content Creator Inspirer fear profiles.
+**Inputs:** Topic, niche, audience type
+**Outputs:** Top 3 shadow fears ranked by activation strength, 3 hooks per fear, story angle per fear, CTA language per fear
+**Connects to:** Hook Generator (fear-type hooks), Script Writer (fear-based openers), My Algorithm
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 3.2 ICP Pain Library
+**Route:** `/dashboard/icp-pain-library`
+**API:** `GET /api/icp-pain-library`
+**Function:** Persistent database of audience pain points organised by ICP (Ideal Customer Profile). Pre-seeded with Called Expert and Content Creator Inspirer pain maps. New pains can be added from research or content comments.
+**Inputs:** ICP name, pain category, pain statement, intensity (1-10)
+**Outputs:** Searchable pain library, pain-to-product match suggestions
+**Connects to:** Script Writer (surface pains in scripts), Hook Generator (pain-led hooks), Fear Analyzer, My Algorithm
+**AI model:** None (database + search)
+**DARES:** Digital ✓, Recurring ✓ (builds over time)
+
+---
+
+### 3.3 Competitor Intel
+**Route:** `/dashboard/competitor`
+**API:** `POST /api/competitor/analyze`
+**Function:** Analyses a competitor or topic space to identify content gaps, positioning opportunities, and angles they're not covering. Uses the POSSESS framework to identify what you have that they don't.
+**Inputs:** Competitor name/niche, competitor content samples (paste), your niche
+**Outputs:** Gap analysis, 5 unique positioning angles, differentiation hooks, underserved topics list
+**Connects to:** Hook Generator (gap-based hooks), Trends Scanner, Brand Voice
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓
+
+---
+
+### 3.4 Trend Scanner
+**Route:** `/dashboard/trends`
+**API:** `POST /api/trends/fetch` + `POST /api/trends/suggest`
+**Function:** Identifies trending topics in the creator/coaching/marketing space and maps them to Ndivhuwo's niche angles. Suggests hooks and story formats for each trend before it peaks.
+**Inputs:** Niche keyword, platform, time window
+**Outputs:** Top 5 trending topics with momentum scores, 3 hook angles per trend, content type recommendation
+**Connects to:** Hook Generator, Batch Planner, Content Calendar+
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 3.5 Brand Voice
+**Route:** `/dashboard/brand-voice`
+**API:** `POST /api/brand-voice/analyze`
+**Function:** Analyses any content sample against Ndivhuwo's documented brand voice rules. Scores it on tone, language, banned words, and signature phrases. Rewrites the sample in the correct voice.
+**Inputs:** Content sample (any format)
+**Outputs:** Voice score (0-100), specific deviations identified, corrected version
+**Connects to:** Content Studio, Script Writer, Hook Generator (voice consistency check)
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓
+
+---
+
+## 4. MY LIBRARY
+
+### 4.1 Hook Bank
+**Route:** `/dashboard/hook-bank`
+**API:** `GET/POST /api/hook-bank`
+**Function:** Persistent collection of all saved hooks. Filterable by type, platform, audience, and performance tag. Hooks saved from Hook Generator land here. Can be tagged as "proven" once published and performing.
+**Inputs:** Hooks from Hook Generator (auto-save or manual save)
+**Outputs:** Searchable hook library, export to Content Studio
+**Connects to:** Hook Generator, Content Studio, Script Writer (insert saved hook as opener)
+**AI model:** None
+**DARES:** Digital ✓, Recurring ✓, Evergreen ✓
+
+---
+
+### 4.2 Story Bank
+**Route:** `/dashboard/story-bank`
+**API:** `GET/POST /api/story-bank`
+**Function:** Collection of all proof stories — both extracted via Story Extractor and manually added. Pre-seeded with Ndivhuwo's 10 core proof stories (Bathroom Floors, R10K Month, 445 Emails, etc.). Each story is tagged with the products and audiences it serves.
+**Inputs:** Stories from Story Extractor or Storytelling Studio, manual entries
+**Outputs:** Story library with product-story links, quick-insert for Script Writer
+**Connects to:** Story Extractor, Storytelling Studio, Script Writer, Products, My Algorithm
+**AI model:** None
+**DARES:** Digital ✓, Recurring ✓, Evergreen ✓
+
+---
+
+### 4.3 Saved Scripts
+**Route:** `/dashboard/saved-scripts`
+**Function:** Library of all generated and saved scripts. Organised by product, platform, and date. Each script links back to the hooks and stories it used.
+**Inputs:** Scripts from Script Writer
+**Outputs:** Script library, export to Teleprompter, Repurpose
+**Connects to:** Script Writer, Teleprompter, Repurpose
+**AI model:** None
+**DARES:** Digital ✓, Evergreen ✓
+
+---
+
+### 4.4 Content Vault
+**Route:** `/dashboard/vault`
+**Function:** 110+ pre-built content ideas organised by 4E category (Educate/Entertain/Encourage/Earn). Each idea includes a suggested hook type, story angle, and product CTA. Pull any idea and send directly to Script Writer.
+**Inputs:** None (pre-built library)
+**Outputs:** Content idea with hook + story + CTA pre-loaded
+**Connects to:** Script Writer, Hook Generator, Batch Planner
+**AI model:** None
+**DARES:** Digital ✓, Evergreen ✓
+
+---
+
+### 4.5 History
+**Route:** `/dashboard/history`
+**API:** `GET /api/activity`
+**Function:** Full activity timeline of every AI generation — hooks, scripts, stories, analyses. Timestamped with inputs used. Allows re-loading any past generation into the relevant tool.
+**Inputs:** None (reads from DB)
+**Outputs:** Chronological activity log, re-load links
+**Connects to:** All AI tools
+**DARES:** Digital ✓
+
+---
+
+## 5. PRODUCTS & REVENUE
+
+### 5.1 Products ⚡ CORE
+**Route:** `/dashboard/products`
+**API:** `GET /api/products/list`
+**Function:** Full product catalogue with all 10 NOCHILL products pre-seeded. Each product displays pricing, audience, PAIDS stream, ladder position, pain points, core benefits, content hooks, and bonuses. Cards link directly to Script Writer (generate a sales script for this product) and Pitch Builder.
+**Inputs:** Auto-seeded from `api/products/seed` on first access
+**Outputs:** Product catalogue, product detail modals, "Generate Script" and "Build Pitch" buttons per product
+**Connects to:** Script Writer, Pitch Builder, Godfather Offers, Revenue Tracker, My Algorithm
+**DARES:** Digital ✓, Recurring ✓
+
+---
+
+### 5.2 Godfather Offers
+**Route:** `/dashboard/offers`
+**Function:** Offer builder using the Godfather Offer framework. Builds irresistible offers by stacking core product + bonuses + guarantee + urgency + price anchor. Structures the offer for different delivery contexts (DMs, VSL, livestream, email).
+**Inputs:** Core product, bonuses, guarantee, price, price anchor, urgency mechanism
+**Outputs:** Complete offer stack document, formatted for each delivery context
+**Connects to:** Products, Pitch Builder, CTA Optimizer
+**AI model:** Claude claude-haiku-4-5
+**DARES:** Digital ✓, Recurring ✓
+
+---
+
+### 5.3 Pitch Builder ⚡ CORE
+**Route:** `/dashboard/pitch`
+**API:** `POST /api/pitch/build`
+**Function:** Builds sales pitches using the 5 Pillars framework + Ethos-Pathos-Logos structure. Takes product + proof story + audience fear and constructs a conversion-optimised pitch. Applies the de-chunking table for different buyer types (Analytical/Connector/Driver/Expressive).
+**Inputs:** Product (from Products), story (from Story Bank), audience type, delivery format (DM/email/VSL/stage)
+**Outputs:** Full pitch script with Ethos-Pathos-Logos sections, objection handlers, and CTA
+**Connects to:** Products, Story Bank, Script Writer, CTA Optimizer
+**AI model:** Claude claude-sonnet-4-6
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓, Recurring ✓
+
+---
+
+### 5.4 CTA Optimizer
+**Route:** `/dashboard/cta-optimizer`
+**API:** `POST /api/cta/suggest`
+**Function:** Generates and tests call-to-action language using psychological triggers (FOMO, social proof, loss aversion, identity alignment). Produces 5 CTA variants per request with predicted conversion impact.
+**Inputs:** Product/offer, platform, audience, current CTA text
+**Outputs:** 5 ranked CTA variants with rationale
+**Connects to:** Pitch Builder, Script Writer, Repurpose
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 5.5 Revenue Tracker
+**Route:** `/dashboard/revenue`
+**Function:** Income tracking dashboard. Log sales per product, track PAIDS stream performance (Products/Affiliates/Info/Deals/Services), and view revenue trends. Maps earnings to content pieces that drove them.
+**Inputs:** Manual sale entries or future Paystack webhook
+**Outputs:** Revenue by PAIDS stream, revenue timeline, best-performing content-to-sale links
+**Connects to:** Products, Analytics
+**AI model:** None
+**DARES:** Digital ✓, Recurring ✓
+
+---
+
+## 6. PLANNING & SCALE
+
+### 6.1 Content Calendar+
+**Route:** `/dashboard/content-calendar-plus`
+**API:** `GET/POST /api/content-calendar-plus`
+**Function:** 30-day visual calendar with 4E balance enforcement. Ensures each week has the right ratio: 30-35% Educate, 30-35% Entertain, 20% Encourage, 15% Earn. Drag-and-drop content scheduling with platform assignment.
+**Inputs:** Content pieces from any tool, manual entries
+**Outputs:** Balanced monthly calendar, export to platform schedulers
+**Connects to:** Batch Planner, Hook Generator, Script Writer, Content Vault
+**AI model:** None
+**DARES:** Digital ✓, Automation ✓, Scalable ✓
+
+---
+
+### 6.2 Batch Planner
+**Route:** `/dashboard/batch-planner`
+**API:** `POST /api/batch/generate`
+**Function:** Plans 30 days of content in one session using DARES principles. Inputs your available batch recording days and content goals, outputs a full content plan with topics, hooks, stories, and formats for each day. Generates all hooks in one AI call.
+**Inputs:** Batch recording dates, content goals, platforms, products to promote
+**Outputs:** 30-day content plan with per-day topic, hook, story, format, CTA, and product link
+**Connects to:** Content Calendar+, Hook Generator, Script Writer, Products, Content Vault
+**AI model:** Claude claude-sonnet-4-6
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓✓, Scalable ✓
+
+---
+
+### 6.3 Analytics
+**Route:** `/dashboard/analytics`
+**API:** `POST /api/analytics/insights`
+**Function:** Content performance analysis. Paste in real platform metrics (views, saves, shares, comments) and get AI-driven insights on what's working, what formats to double down on, and what to stop. Maps performance to the 4E framework.
+**Inputs:** Post metrics (paste raw numbers), platform, date range
+**Outputs:** Performance diagnosis, top/bottom performers, actionable next-30-days recommendation
+**Connects to:** Content Cards, Revenue Tracker
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 6.4 Content Cards
+**Route:** `/dashboard/content-cards`
+**Function:** Per-post metric tracking cards. One card per piece of content with views, saves, shares, comments, and revenue attributed. Links back to the hook and script that created it to identify winning formulas.
+**Inputs:** Manual metric entry per post
+**Outputs:** Performance cards per post, formula-level pattern recognition
+**Connects to:** Analytics, Hook Bank (mark hooks "proven"), Script Writer
+**AI model:** None
+**DARES:** Digital ✓, Recurring ✓
+
+---
+
+### 6.5 Campaigns
+**Route:** `/dashboard/campaigns`
+**Function:** Campaign management for launches and promotions. Groups content, offers, email sequences, and CTAs into a single campaign view with start/end dates, revenue target, and daily tasks.
+**Inputs:** Campaign name, product, launch dates, content plan, email sequence
+**Outputs:** Campaign brief, daily checklist, content calendar integration
+**Connects to:** Products, Content Calendar+, Revenue Tracker, Pitch Builder
+**AI model:** None
+**DARES:** Digital ✓, Recurring ✓, Scalable ✓
+
+---
+
+## 7. VISUALS & ADAPT
+
+### 7.1 Visual Generator
+**Route:** `/dashboard/visuals`
+**API:** `POST /api/visuals/generate`
+**Function:** Generates thumbnail concepts and b-roll shot lists based on hook and story. Produces image prompt text for Midjourney/DALL-E, caption text overlay suggestions, and thumbnail text hierarchy.
+**Inputs:** Hook text, story theme, platform
+**Outputs:** 3 thumbnail concept descriptions, b-roll shot list (10 shots), text overlay options, colour palette suggestion
+**Connects to:** Hook Generator, Script Writer, Repurpose
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 7.2 Platform Adapter
+**Route:** `/dashboard/adapter`
+**API:** `POST /api/adapter/generate`
+**Function:** Converts content from one platform format to another with full native-format rules applied. Understands LinkedIn algorithm (10-line hook + value + CTA), TikTok (hook in 0.5s), X (thread or single), Instagram (caption hooks, hashtag placement).
+**Inputs:** Source content, source platform, target platform(s)
+**Outputs:** Natively-formatted versions per platform with format rationale
+**Connects to:** Content Studio, Repurpose, Script Writer
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓, Scalable ✓
+
+---
+
+### 7.3 Formula Writer
+**Route:** `/dashboard/formulas`
+**API:** `POST /api/formulas/generate`
+**Function:** Generates content using proven video formulas (AIDA, PAS, BAB, DRIP, etc.) mapped to Ndivhuwo's scripting principles. Select a formula and topic, get a complete format-specific script structure.
+**Inputs:** Formula type, topic, platform, duration
+**Outputs:** Formula-structured content outline + opening hook options
+**Connects to:** Script Writer, Storytelling Studio
+**AI model:** Claude claude-haiku-4-5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+## 8. SYSTEM
+
+### 8.1 Operations
+**Route:** `/dashboard/operations`
+**Function:** System control panel — database health, API key status, seeding controls, version info. Admin-only view of system internals.
+**Connects to:** All API routes
+
+### 8.2 Settings
+**Route:** `/dashboard/settings`
+**Function:** Account settings — profile, notification preferences, API usage, subscription tier display.
+
+### 8.3 Data Migration
+**Route:** `/dashboard/migrate`
+**API:** `POST /api/migrate`
+**Function:** Migrates legacy localStorage data to the Supabase/PostgreSQL database. One-time operation for users who had hooks/stories stored locally.
+
+---
+
+## AI MODEL USAGE SUMMARY
+
+| Model | Used For | Why |
+|-------|----------|-----|
+| claude-haiku-4-5 | Hook gen, Fear, ICP, Brand Voice, CTA, Visual, Formula, Repurpose, Adapter, Trends | Speed (< 2s response) |
+| claude-sonnet-4-6 | Script Writer, Storytelling, Batch Planner, Pitch Builder | Quality (complex structured output) |
+
+---
+
+## RATE LIMITS
+
+All 17 AI-powered routes: **20 requests per hour per IP**
+Implementation: in-memory Map, sliding window, HTTP 429 with retry message

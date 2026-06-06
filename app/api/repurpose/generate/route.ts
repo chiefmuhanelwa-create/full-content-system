@@ -1,7 +1,10 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
+import { checkRateLimit } from '@/lib/rate-limit'
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(request)
+  if (rl) return rl
   try {
     const { script, formats } = await request.json()
 
@@ -97,7 +100,7 @@ Return a JSON object with this structure:
 Only include the formats that were requested. Be creative but stay true to the original message.`
 
     const message = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: 'claude-sonnet-4-6',
       max_tokens: 4000,
       messages: [
         {

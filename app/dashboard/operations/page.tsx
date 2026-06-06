@@ -67,8 +67,21 @@ export default function OperationsPage() {
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Mock userId
-  const userId = 'demo-user-id';
+  const userId = 'default-user-id'
+  const [seedStatus, setSeedStatus] = useState<Record<string, string>>({})
+
+  const runSeed = async (label: string, url: string, needsInternalHeader = false) => {
+    setSeedStatus(prev => ({ ...prev, [label]: 'running' }))
+    try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      if (needsInternalHeader) headers['x-internal-seed'] = '1'
+      const resp = await fetch(url, { method: 'POST', headers })
+      const data = await resp.json()
+      setSeedStatus(prev => ({ ...prev, [label]: data.success ? 'done' : `error: ${data.error || 'failed'}` }))
+    } catch (e: any) {
+      setSeedStatus(prev => ({ ...prev, [label]: `error: ${e.message}` }))
+    }
+  }
 
   // Load system data
   const loadSystemData = async () => {
@@ -400,6 +413,68 @@ export default function OperationsPage() {
                     <span>View Full History</span>
                   </Button>
                 </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Data Seeding */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="w-5 h-5" />
+                Data Seeding
+              </CardTitle>
+              <CardDescription>Pre-populate the system with NoChill data</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  {
+                    key: 'stories',
+                    label: 'Seed Story Bank',
+                    desc: '10 proof stories (Bathroom Floors, R10K Month, 445 Emails…)',
+                    url: '/api/story-bank/seed',
+                    internalHeader: true,
+                  },
+                  {
+                    key: 'products',
+                    label: 'Seed Products',
+                    desc: '10 official NoChill products (force reseed)',
+                    url: '/api/products/seed?force=true',
+                    internalHeader: false,
+                  },
+                  {
+                    key: 'icp',
+                    label: 'Seed ICP Pain Library',
+                    desc: 'Called Expert + DNA Creator pain maps',
+                    url: '/api/icp-pain-library/seed',
+                    internalHeader: true,
+                  },
+                ].map((item) => {
+                  const status = seedStatus[item.key]
+                  return (
+                    <div key={item.key} className="border rounded-lg p-4 space-y-3">
+                      <div>
+                        <p className="font-medium text-sm">{item.label}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{item.desc}</p>
+                      </div>
+                      {status && (
+                        <p className={`text-xs font-mono ${status === 'running' ? 'text-yellow-500' : status === 'done' ? 'text-green-500' : 'text-red-500'}`}>
+                          {status === 'running' ? '⏳ Running…' : status === 'done' ? '✅ Done' : `❌ ${status}`}
+                        </p>
+                      )}
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="w-full"
+                        disabled={status === 'running'}
+                        onClick={() => runSeed(item.key, item.url, item.internalHeader)}
+                      >
+                        {status === 'running' ? 'Seeding…' : 'Run Seed'}
+                      </Button>
+                    </div>
+                  )
+                })}
               </div>
             </CardContent>
           </Card>

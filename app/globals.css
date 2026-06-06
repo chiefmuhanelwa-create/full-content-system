@@ -4,56 +4,270 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
-  }
+    /* ─── NoChill Brand System — Dark Mode (Tools/Dashboard) ─── */
+    /* Source: CHKPLT (Christ's Kingdom Platform) + NOCHILL PTY LTD brand guidelines */
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    /* shadcn token bridge */
+    --background: 0 0% 7%;              /* #111111 Tool Black */
+    --foreground: 0 0% 97%;             /* #F8F8F8 Headline */
+    --card: 0 0% 11%;                   /* #1C1C1C Charcoal */
+    --card-foreground: 0 0% 97%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 97%;
+    --primary: 43 55% 53%;              /* #C9A646 Antique Gold (CHKPLT) */
+    --primary-foreground: 0 0% 7%;
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 0 0% 97%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 53%;
+    --accent: 0 0% 14%;
+    --accent-foreground: 0 0% 97%;
+    --destructive: 14 73% 48%;          /* #D4541F Burnt Orange */
+    --destructive-foreground: 0 0% 97%;
+    --border: 0 0% 17%;                 /* #2A2A2A */
+    --input: 0 0% 8%;                   /* #141414 */
+    --ring: 43 55% 53%;                 /* Antique Gold */
+    --radius: 0.75rem;
+
+    /* ─── Gold Spectrum ─── */
+    --gold-deep:     #8C6F1F;
+    --gold-antique:  #C9A646;
+    --gold-heritage: #D4A82F;
+    --gold-mid:      #D4B65C;
+    --gold-mustard:  #D9BC45;
+    --gold-bright:   #E6C871;
+    --gold-email:    #F5C842;
+
+    /* ─── Cream / Light Mode vars (for panels, light cards) ─── */
+    --cream-page:    #FAF7F0;
+    --cream-card:    #FFFFFF;
+    --cream-hi:      #F4EFE3;
+    --cream-paper:   #F8F8F8;
+
+    /* ─── Burnt Orange Accent ─── */
+    --orange-live:   #D4541F;
+    --orange-bright: #F2701E;
+    --orange-deep:   #9A3A12;
+
+    /* ─── Dark surface tones ─── */
+    --surface-1:     #111111;
+    --surface-2:     #141414;
+    --surface-3:     #1C1C1C;
+    --surface-4:     #222222;
+    --border-1:      #2A2A2A;
+    --border-2:      #333333;
+    --text-dim:      #444444;
+    --text-muted:    #888888;
+    --text-body:     #E0E0E0;
+    --text-headline: #F8F8F8;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Gold scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(201, 166, 70, 0.45); }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  /* ─── Gold utilities ─── */
+  .nc-gold         { color: var(--gold-heritage); }
+  .nc-gold-bg      { background-color: var(--gold-heritage); }
+  .nc-gold-border  { border-color: var(--gold-heritage); }
+  .nc-charcoal     { background-color: #1C1C1C; }
+
+  /* ─── Premium card — dark with gold hover ─── */
+  .nc-card {
+    background: #1C1C1C;
+    border: 1px solid #2A2A2A;
+    border-radius: 0.75rem;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+  }
+  .nc-card:hover {
+    border-color: rgba(201, 166, 70, 0.35);
+    box-shadow:
+      0 4px 24px rgba(201, 166, 70, 0.08),
+      0 0 0 0 transparent;
+    transform: translateY(-2px);
+  }
+  .nc-card-active {
+    border-color: rgba(201, 166, 70, 0.50);
+    background: rgba(201, 166, 70, 0.06);
+  }
+
+  /* ─── Gold gradient card (CHKPLT style) ─── */
+  .nc-card-gold {
+    background: #1C1C1C;
+    border: 1px solid rgba(201, 166, 70, 0.25);
+    border-radius: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.25s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .nc-card-gold::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, #C9A646, transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .nc-card-gold:hover {
+    border-color: rgba(201, 166, 70, 0.55);
+    box-shadow:
+      0 0 30px rgba(201, 166, 70, 0.12),
+      0 8px 24px rgba(10, 10, 10, 0.20);
+    transform: translateY(-3px);
+  }
+  .nc-card-gold:hover::before { opacity: 1; }
+
+  /* ─── CTA button — gold gradient (CHKPLT) ─── */
+  .nc-cta {
+    background: linear-gradient(135deg, #E6C871 0%, #C9A646 60%, #8C6F1F 100%);
+    color: #0A0A0A !important;
+    font-weight: 700;
+    border: 1px solid rgba(140, 111, 31, 0.45);
+    border-radius: 10px;
+    box-shadow:
+      0 0 20px rgba(201, 166, 70, 0.30),
+      0 4px 16px rgba(10, 10, 10, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .nc-cta:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 0 35px rgba(201, 166, 70, 0.50),
+      0 10px 28px rgba(10, 10, 10, 0.22);
+  }
+
+  /* ─── Live / active badge (Burnt Orange) ─── */
+  .nc-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    background: rgba(242, 112, 30, 0.10);
+    border: 1px solid rgba(212, 84, 31, 0.28);
+  }
+  .nc-live-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 999px;
+    background: var(--orange-live);
+    animation: nc-live-pulse 1.8s ease-out infinite;
+  }
+  @keyframes nc-live-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(212, 84, 31, 0.55); }
+    70%  { box-shadow: 0 0 0 8px rgba(212, 84, 31, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 84, 31, 0); }
+  }
+
+  /* ─── Gold badge ─── */
+  .nc-badge {
+    font-size: 9px;
+    font-weight: 900;
+    padding: 2px 6px;
+    background: var(--gold-antique);
+    color: #111111;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ─── Gold divider ─── */
+  .nc-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201, 166, 70, 0.30), transparent);
+  }
+
+  /* ─── Cream panel (light insert on dark page) ─── */
+  .nc-cream-panel {
+    background: var(--cream-hi);
+    border: 1px solid rgba(201, 166, 70, 0.20);
+    border-radius: 0.75rem;
+    color: #1F1B16;
+  }
+
+  /* ─── Gold glow hero orb ─── */
+  .nc-hero-orb {
+    position: relative;
+    overflow: hidden;
+  }
+  .nc-hero-orb::before {
+    content: '';
+    position: absolute;
+    top: -150px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle,
+      rgba(201, 166, 70, 0.18) 0%,
+      rgba(230, 200, 113, 0.08) 35%,
+      transparent 65%
+    );
+    pointer-events: none;
+    animation: nc-glow-breathe 5s ease-in-out infinite;
+    z-index: 0;
+  }
+  @keyframes nc-glow-breathe {
+    0%, 100% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+    50%       { opacity: 1;   transform: translateX(-50%) scale(1.06); }
+  }
+
+  /* ─── Smooth nav transition ─── */
+  .nav-item-transition {
+    transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  }
+
+  /* ─── Stat block (big gold number) ─── */
+  .nc-stat {
+    background: #1C1C1C;
+    border: 1px solid #2A2A2A;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+  .nc-stat-number {
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
+    font-weight: 900;
+    font-size: 2rem;
+    color: var(--gold-antique);
+    line-height: 1;
+  }
+  .nc-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #444444;
+    margin-top: 4px;
+  }
+
+  /* ─── Section label / eyebrow ─── */
+  .nc-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--gold-antique);
   }
 }

@@ -24,8 +24,8 @@ export async function GET(request: NextRequest) {
     if (status) where.status = status
     if (isFavorite !== null) where.isFavorite = isFavorite === 'true'
 
-    const products = await prisma!.product.findMany({
-      where,
+    let products = await prisma!.product.findMany({
+      where: { userId: DEFAULT_USER_ID },
       orderBy: [
         { isFavorite: 'desc' },
         { totalRevenue: 'desc' },
@@ -33,7 +33,33 @@ export async function GET(request: NextRequest) {
       ]
     })
 
-    return NextResponse.json({ success: true, products })
+    // Auto-seed NOCHILL products on first access
+    if (products.length === 0) {
+      try {
+        const baseUrl = request.headers.get('x-forwarded-host')
+          ? `https://${request.headers.get('x-forwarded-host')}`
+          : 'http://localhost:3000'
+        await fetch(`${baseUrl}/api/products/seed`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-internal-seed': '1' },
+        })
+        products = await prisma!.product.findMany({
+          where: { userId: DEFAULT_USER_ID },
+          orderBy: [{ isFavorite: 'desc' }, { totalRevenue: 'desc' }, { createdAt: 'desc' }]
+        })
+      } catch (seedErr) {
+        console.warn('Auto-seed failed, continuing with empty products', seedErr)
+      }
+    }
+
+    // Apply filters after potential seed
+    let filtered = products
+    if (productType) filtered = filtered.filter((p: any) => p.productType === productType)
+    if (audienceLevel) filtered = filtered.filter((p: any) => p.audienceLevel === audienceLevel)
+    if (paidsStream) filtered = filtered.filter((p: any) => p.paidsStream === paidsStream)
+    if (status) filtered = filtered.filter((p: any) => p.status === status)
+
+    return NextResponse.json({ success: true, products: filtered })
   } catch (error: any) {
     console.error('Products list error:', error)
     return NextResponse.json(

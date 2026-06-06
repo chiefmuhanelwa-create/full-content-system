@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
+import { checkRateLimit } from '@/lib/rate-limit'
 
 const PITCH_BUILDER_PROMPT = `You are a 5 Pillars Pitch expert helping creators build compelling pitches for brand deals, collaborations, and opportunities.
 
@@ -55,6 +56,8 @@ Return ONLY a JSON object (no markdown):
 `
 
 export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(request)
+  if (rl) return rl
   try {
     const body = await request.json()
     const { person, position, proof, pain, promise } = body

@@ -1,7 +1,10 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
+import { checkRateLimit } from '@/lib/rate-limit'
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(request)
+  if (rl) return rl
   try {
     const { trend, niche, platform } = await request.json()
 
@@ -48,7 +51,7 @@ Return a JSON object with this structure:
 Be specific and immediately actionable. These suggestions should help create content TODAY.`
 
     const message = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: 'claude-sonnet-4-6',
       max_tokens: 2500,
       messages: [
         {

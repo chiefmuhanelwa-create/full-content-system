@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { checkRateLimit } from '@/lib/rate-limit'
+import contentFormulas from '@/lib/knowledge/content-formulas.json'
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
 
 const MODELS = {
-  SONNET: 'claude-sonnet-4-20250514',
+  SONNET: 'claude-sonnet-4-6',
 }
 
 export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(request)
+  if (rl) return rl
   try {
     const body = await request.json()
     const { contentType, formula, platform, topic, keyPoints, personalStory, voiceProfile } = body
@@ -55,34 +59,32 @@ ${voiceProfile.exampleContent.substring(0, 500)}...
 CRITICAL: Write in THEIR voice, not a generic voice. Match their cadence, vocabulary, energy, and perspective exactly.`
     }
 
-    // Load content formulas
-    const fs = require('fs')
-    const path = require('path')
-    const formulasPath = path.join(process.cwd(), 'lib', 'knowledge', 'content-formulas.json')
-    const formulasData = JSON.parse(fs.readFileSync(formulasPath, 'utf-8'))
-
     const formulaType = contentType === 'talking-head' ? 'talkingHeadFormulas' : 'youtubeFormulas'
+    const formulaData = (contentFormulas as any)[formulaType] || {}
 
     // Build system prompt
-    const systemPrompt = `You are an expert video content strategist and scriptwriter. Your expertise is in creating production-ready scripts using proven content formulas that maximize retention and engagement.
+    const systemPrompt = `You are the NOCHILL Formula Writer — expert video content strategist for Ndivhuwo Muhanelwa (NoChill), South African creator.
 
-# YOUR KNOWLEDGE BASE
+Apply the selected content formula to write production-ready scripts in Ndivhuwo's voice.
 
-${JSON.stringify(formulasData[formulaType], null, 2)}
+## NOCHILL VOICE RULES
+- Short punchy sentences. Direct. No fluff. Tough-love tone.
+- Always "you" never "they/people/someone"
+- ZAR currency, SA context (SARS, Mzansi, Ubuntu)
+- Banned: journey, unlock, empower, game-changer
 
-# PLATFORM OPTIMIZATION
+## 4 SCRIPTING PRINCIPLES (apply to every line)
+1. Negativity Wins: Attack the problem, not the person
+2. You Format: Every line says "you" not "they/people"
+3. Short & Simple: Cut every word that doesn't earn its place
+4. Audible Flow: Must sound natural when read aloud
 
-${JSON.stringify(formulasData.platformOptimization, null, 2)}
+## FORMULA LIBRARY (selected formula)
+${JSON.stringify(formulaData, null, 2).substring(0, 3000)}
 
-# YOUR TASK
-
-Create a production-ready script using the selected formula and optimized for the target platform. The script should:
-
-1. **Follow Formula Structure Precisely**: Apply the exact structure/stages of the selected formula
-2. **Platform Optimization**: Adapt pacing, style, and length for the specific platform
-3. **Retention Focus**: Include pattern interrupts, hooks, and engagement tactics
-4. **Production Ready**: Include delivery notes, visual suggestions, and technical details
-5. **Authentic Voice**: Sound natural and conversational, not scripted or corporate
+## YOUR TASK
+Create a production-ready script using the selected formula. Include: hook, body by formula stage, CTA, timestamps, visual directions.
+Return as JSON object.
 
 # OUTPUT FORMAT
 
@@ -210,7 +212,7 @@ Return the complete JSON output as specified in the system prompt.`
     // Call Claude API
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 8000,
+      max_tokens: 3500,
       temperature: 0.8,
       system: systemPrompt,
       messages: [

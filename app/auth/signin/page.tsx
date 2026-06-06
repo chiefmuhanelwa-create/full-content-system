@@ -3,12 +3,6 @@
 import { Suspense, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Loader2 } from 'lucide-react'
 
 function SignInContent() {
@@ -19,160 +13,118 @@ function SignInContent() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const handleCredentialsSignIn = async (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setIsLoading(true)
-
     try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      })
-
+      const result = await signIn('credentials', { email, password, redirect: false })
       if (result?.error) {
-        setError('Invalid email or password')
+        setError('Wrong email or password.')
       } else {
         router.push(callbackUrl)
         router.refresh()
       }
-    } catch (error) {
-      setError('An error occurred. Please try again.')
+    } catch {
+      setError('Something went wrong. Try again.')
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleGoogleSignIn = async () => {
-    setError('')
-    setIsGoogleLoading(true)
-
-    try {
-      await signIn('google', { callbackUrl })
-    } catch (error) {
-      setError('Failed to sign in with Google')
-      setIsGoogleLoading(false)
-    }
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
-          <CardDescription className="text-center">
-            Sign in to access your content and scripts
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+    <div className="min-h-screen bg-[#111111] flex items-center justify-center px-4">
+      {/* Background accent */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#D4A82F] opacity-[0.04] rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative w-full max-w-sm">
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-10">
+          <div className="w-14 h-14 rounded-2xl bg-[#D4A82F] flex items-center justify-center mb-4 shadow-[0_0_40px_rgba(212,168,47,0.25)]">
+            <span className="font-heading font-black text-[#111111] text-2xl">N</span>
+          </div>
+          <h1 className="font-heading font-black text-white text-xl tracking-widest uppercase">NOCHILL</h1>
+          <p className="text-[#444] text-xs mt-1 font-heading tracking-wide">Content Intelligence System</p>
+        </div>
+
+        {/* Form card */}
+        <div className="bg-[#1C1C1C] border border-[#2A2A2A] rounded-2xl p-8">
+          <h2 className="font-heading font-black text-white text-lg mb-1">Welcome back.</h2>
+          <p className="text-[#555] text-sm mb-7">Sign in to your command centre.</p>
+
           {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
+            <div className="mb-5 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+              {error}
+            </div>
           )}
 
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={handleGoogleSignIn}
-            disabled={isGoogleLoading || isLoading}
-          >
-            {isGoogleLoading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
-                <path
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  fill="#4285F4"
-                />
-                <path
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  fill="#34A853"
-                />
-                <path
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                  fill="#FBBC05"
-                />
-                <path
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                  fill="#EA4335"
-                />
-              </svg>
-            )}
-            Continue with Google
-          </Button>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with email
-              </span>
-            </div>
-          </div>
-
-          <form onSubmit={handleCredentialsSignIn} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
+          <form onSubmit={handleSignIn} className="space-y-4">
+            <div>
+              <label className="block text-[#888] text-xs font-heading font-bold uppercase tracking-wider mb-2">
+                Email
+              </label>
+              <input
                 type="email"
-                placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                placeholder="chiefmuhanelwa@gmail.com"
                 required
-                disabled={isLoading || isGoogleLoading}
+                disabled={isLoading}
+                className="w-full bg-[#141414] border border-[#2A2A2A] rounded-xl px-4 py-3 text-white text-sm placeholder-[#333] focus:outline-none focus:border-[#D4A82F] focus:ring-1 focus:ring-[#D4A82F]/30 transition-colors disabled:opacity-50"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
+
+            <div>
+              <label className="block text-[#888] text-xs font-heading font-bold uppercase tracking-wider mb-2">
+                Password
+              </label>
+              <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
                 required
-                disabled={isLoading || isGoogleLoading}
+                disabled={isLoading}
+                className="w-full bg-[#141414] border border-[#2A2A2A] rounded-xl px-4 py-3 text-white text-sm placeholder-[#333] focus:outline-none focus:border-[#D4A82F] focus:ring-1 focus:ring-[#D4A82F]/30 transition-colors disabled:opacity-50"
               />
             </div>
-            <Button
+
+            <button
               type="submit"
-              className="w-full"
-              disabled={isLoading || isGoogleLoading}
+              disabled={isLoading}
+              className="w-full py-3.5 rounded-xl bg-[#D4A82F] text-[#111111] font-heading font-black text-sm tracking-wide hover:bg-[#D9BC45] transition-all hover:shadow-[0_4px_20px_rgba(212,168,47,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" />
                   Signing in...
                 </>
               ) : (
-                'Sign in'
+                'Enter the System →'
               )}
-            </Button>
+            </button>
           </form>
-        </CardContent>
-        <CardFooter className="flex flex-col space-y-2">
-          <div className="text-sm text-center text-muted-foreground">
-            Don't have an account?{' '}
-            <Link href="/auth/signup" className="text-primary hover:underline font-medium">
-              Sign up
-            </Link>
-          </div>
-        </CardFooter>
-      </Card>
+        </div>
+
+        <p className="text-center text-[#333] text-xs mt-6 font-heading">
+          NOCHILL PTY LTD · 2016/507839/07
+        </p>
+      </div>
     </div>
   )
 }
 
 export default function SignInPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#111111] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-[#D4A82F] border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
       <SignInContent />
     </Suspense>
   )

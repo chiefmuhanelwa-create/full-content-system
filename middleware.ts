@@ -12,9 +12,10 @@ export default withAuth(
       authorized: ({ token, req }) => {
         // Public paths that don't require authentication
         const publicPaths = ['/', '/auth/signin', '/auth/signup', '/auth/error']
+        const internalSeedPaths = ['/api/products/seed', '/api/story-bank/seed']
         const isPublicPath = publicPaths.some(path =>
           req.nextUrl.pathname === path || req.nextUrl.pathname.startsWith('/api/auth')
-        )
+        ) || (internalSeedPaths.includes(req.nextUrl.pathname) && req.headers.get('x-internal-seed') === '1')
 
         if (isPublicPath) {
           return true

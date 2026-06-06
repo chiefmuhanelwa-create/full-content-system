@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { checkRateLimit } from '@/lib/rate-limit'
+import storytellingFrameworks from '@/lib/knowledge/storytelling-frameworks.json'
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
 
 const MODELS = {
-  SONNET: 'claude-sonnet-4-20250514',
+  SONNET: 'claude-sonnet-4-6',
 }
 
 export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(request)
+  if (rl) return rl
   try {
     const body = await request.json()
     const { framework, storyType, rawStory, coreMessage, targetEmotion, duration, voiceProfile } = body
@@ -55,31 +59,33 @@ ${voiceProfile.exampleContent.substring(0, 500)}...
 CRITICAL: Write in THEIR voice, not a generic voice. Match their cadence, vocabulary, energy, and perspective exactly.`
     }
 
-    // Load storytelling frameworks
-    const fs = require('fs')
-    const path = require('path')
-    const frameworksPath = path.join(process.cwd(), 'lib', 'knowledge', 'storytelling-frameworks.json')
-    const frameworksData = JSON.parse(fs.readFileSync(frameworksPath, 'utf-8'))
+    // Build system prompt using imported frameworks
+    const frameworkKeys = Object.keys(storytellingFrameworks).filter(k => k !== 'version').slice(0, 3)
+    const systemPrompt = `You are the NOCHILL Storytelling Studio — expert narrative architect for Ndivhuwo Muhanelwa (NoChill), South African creator and brand builder.
 
-    // Build system prompt
-    const systemPrompt = `You are an expert storytelling coach and narrative architect. Your job is to transform raw, unstructured stories into compelling, emotionally resonant narratives using proven storytelling frameworks.
+Your job: Transform raw experiences into compelling stories using the 5 Story Types Framework.
 
-# YOUR EXPERTISE
+## 5 STORY TYPES
+1. Origin Story: "Before I knew anything..." — builds relatability
+2. Struggle Story: The dark moment that created the lesson — creates empathy
+3. Transformation Story: Before/after with the method as bridge — proves it works
+4. Breakthrough Story: The 'aha' moment — teaches through insight
+5. Lesson Story: What you wish you knew — prevents their mistakes
 
-You understand:
-- The psychology of narrative and emotional engagement
-- How to structure stories for maximum impact
-- The principles of show-don't-tell and specificity
-- How to create curiosity gaps and maintain tension
-- How to craft authentic, relatable stories that drive action
+## 7-STAGE STORY ARC
+1. Normal World → 2. Disruption → 3. Resistance → 4. Crisis Point → 5. Decision → 6. Transformation → 7. New World
 
-# STORYTELLING FRAMEWORKS AVAILABLE
+## NOCHILL BRAND VOICE RULES
+- Short punchy sentences. No fluff. Direct. Tough love.
+- Always "you" never "they/people/someone"
+- SA context: ZAR, SARS, Mzansi, Ubuntu
+- Banned words: journey, unlock, empower, game-changer, synergy
 
-${JSON.stringify(frameworksData.masterStorytellingFrameworks, null, 2)}
-
-# STORYTELLING PRINCIPLES TO APPLY
-
-${JSON.stringify(frameworksData.storytellingPrinciples, null, 2)}
+## STORY PRINCIPLES
+- Show don't tell — specific details beat general claims
+- Numbers and names make stories credible
+- The villain is always a situation/system/mindset, never a person
+- End with what changed, not just what happened
 
 # YOUR TASK
 
@@ -198,7 +204,7 @@ Return the complete JSON output as specified in the system prompt.`
     // Call Claude API
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 8000,
+      max_tokens: 3500,
       temperature: 0.8,
       system: systemPrompt,
       messages: [

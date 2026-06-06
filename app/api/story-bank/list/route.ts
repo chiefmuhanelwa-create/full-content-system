@@ -20,8 +20,8 @@ export async function GET(request: NextRequest) {
     if (isQuantifiable !== null) where.isQuantifiable = isQuantifiable === 'true'
     if (isFavorite !== null) where.isFavorite = isFavorite === 'true'
 
-    const stories = await prisma!.storyBankEntry.findMany({
-      where,
+    let stories = await prisma!.storyBankEntry.findMany({
+      where: { userId: DEFAULT_USER_ID },
       orderBy: [
         { isFavorite: 'desc' },
         { avgImpact: 'desc' },
@@ -30,7 +30,32 @@ export async function GET(request: NextRequest) {
       ]
     })
 
-    return NextResponse.json({ success: true, stories })
+    // Auto-seed proof stories on first access
+    if (stories.length === 0) {
+      try {
+        const baseUrl = request.headers.get('x-forwarded-host')
+          ? `https://${request.headers.get('x-forwarded-host')}`
+          : 'http://localhost:3000'
+        await fetch(`${baseUrl}/api/story-bank/seed`, {
+          method: 'POST',
+          headers: { 'x-internal-seed': '1' },
+        })
+        stories = await prisma!.storyBankEntry.findMany({
+          where: { userId: DEFAULT_USER_ID },
+          orderBy: [{ isFavorite: 'desc' }, { avgImpact: 'desc' }, { createdAt: 'desc' }]
+        })
+      } catch (seedErr) {
+        console.warn('Story auto-seed failed', seedErr)
+      }
+    }
+
+    // Apply filters after potential seed
+    let filtered = stories
+    if (storyKey) filtered = filtered.filter((s: any) => s.storyKey === storyKey)
+    if (isQuantifiable !== null) filtered = filtered.filter((s: any) => s.isQuantifiable === (isQuantifiable === 'true'))
+    if (isFavorite !== null) filtered = filtered.filter((s: any) => s.isFavorite === (isFavorite === 'true'))
+
+    return NextResponse.json({ success: true, stories: filtered })
   } catch (error: any) {
     console.error('Story bank list error:', error)
     return NextResponse.json(

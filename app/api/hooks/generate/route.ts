@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { buildSystemPrompt, buildUserContextPrompt } from '@/lib/knowledge-base'
+import { checkRateLimit } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(request)
+  if (rl) return rl
   try {
     const body = await request.json()
     const {

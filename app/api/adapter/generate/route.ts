@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { checkRateLimit } from '@/lib/rate-limit'
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
 
 const MODELS = {
-  SONNET: 'claude-sonnet-4-20250514',
+  SONNET: 'claude-sonnet-4-6',
 }
 
 const platformGuidelines = {
@@ -69,6 +70,8 @@ const platformGuidelines = {
 }
 
 export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(request)
+  if (rl) return rl
   try {
     const body = await request.json()
     const { originalContent, platforms } = body
@@ -206,7 +209,7 @@ Return the complete JSON output as specified in the system prompt.`
     // Call Claude API
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 8000,
+      max_tokens: 3500,
       temperature: 0.8,
       system: systemPrompt,
       messages: [

@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { buildSystemPrompt, buildUserContextPrompt } from '@/lib/knowledge-base'
 import ndivhuwoStories from '@/lib/knowledge/ndivhuwo-stories.json'
+import { checkRateLimit } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(request)
+  if (rl) return rl
   try {
     // Log request for debugging
     console.log('Script generation API called')
@@ -774,11 +777,11 @@ REMEMBER:
     // Call Claude API with extended token limit for scripts
     console.log('Calling Claude API...')
     console.log('Model:', MODELS.SONNET)
-    console.log('Max tokens:', 8000)
+    console.log('Max tokens:', 6000)
 
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 8000, // Increased for longer 10-step scripts
+      max_tokens: 6000,
       system: systemPromptWithStories,
       messages: [
         {

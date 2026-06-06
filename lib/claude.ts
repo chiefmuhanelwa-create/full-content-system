@@ -39,9 +39,9 @@ export const anthropic = new Proxy({} as Anthropic, {
 })
 
 export const MODELS = {
-  SONNET: 'claude-sonnet-4-20250514',
-  HAIKU: 'claude-3-5-haiku-20241022',
-  OPUS: 'claude-opus-4-5-20251101',
+  SONNET: 'claude-sonnet-4-6',
+  HAIKU: 'claude-haiku-4-5-20251001',
+  OPUS: 'claude-opus-4-7',
 } as const
 
 export type ModelName = typeof MODELS[keyof typeof MODELS]

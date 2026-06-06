@@ -1,101 +1,60 @@
-import { PrismaAdapter } from '@auth/prisma-adapter'
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import GoogleProvider from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
 
-// Only import db if DATABASE_URL is configured
-let db: any = null
-if (process.env.DATABASE_URL) {
-  db = require('./db').db
-}
+const OWNER_EMAIL = process.env.OWNER_EMAIL || 'chiefmuhanelwa@gmail.com'
+const OWNER_PASSWORD = process.env.OWNER_PASSWORD || ''
 
-const providers: any[] = [
-  CredentialsProvider({
-    name: 'credentials',
-    credentials: {
-      email: { label: 'Email', type: 'email' },
-      password: { label: 'Password', type: 'password' },
-    },
-    async authorize(credentials) {
-      if (!credentials?.email || !credentials?.password) {
-        throw new Error('Invalid credentials')
-      }
+let prisma: any = null
+try {
+  if (process.env.DATABASE_URL) {
+    prisma = require('./db').db
+  }
+} catch {}
 
-      // If no database is configured, use a demo user for testing
-      if (!db) {
-        // Demo credentials: demo@example.com / demo123
-        if (credentials.email === 'demo@example.com') {
-          const demoPasswordHash = '$2a$10$YourHashedPasswordHere' // This won't match, just for structure
-          // For demo, accept password "demo123"
-          if (credentials.password === 'demo123') {
-            return {
-              id: 'demo-user-id',
-              email: 'demo@example.com',
-              name: 'Demo User',
-              image: null,
-            }
-          }
-        }
-        throw new Error('Invalid credentials - Database not configured')
-      }
-
-      const user = await db.user.findUnique({
-        where: {
-          email: credentials.email,
-        },
-      })
-
-      if (!user || !user.password) {
-        throw new Error('Invalid credentials')
-      }
-
-      const isCorrectPassword = await bcrypt.compare(
-        credentials.password,
-        user.password
-      )
-
-      if (!isCorrectPassword) {
-        throw new Error('Invalid credentials')
-      }
-
-      return {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        image: user.image,
-      }
-    },
-  }),
-]
-
-// Only add Google provider if credentials are configured
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  providers.unshift(
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    })
-  )
-}
-
-// Build auth options with conditional adapter
-const authConfig: NextAuthOptions = {
-  session: {
-    strategy: 'jwt',
-  },
+export const authOptions: NextAuthOptions = {
+  session: { strategy: 'jwt' },
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/auth/signin',
     error: '/auth/error',
   },
-  secret: process.env.NEXTAUTH_SECRET,
-  providers,
+  providers: [
+    CredentialsProvider({
+      name: 'credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null
+
+        // Owner bypass — direct comparison, works without DB
+        if (
+          OWNER_PASSWORD &&
+          credentials.email === OWNER_EMAIL &&
+          credentials.password === OWNER_PASSWORD
+        ) {
+          return { id: 'owner', email: OWNER_EMAIL, name: 'Ndivhuwo', image: null }
+        }
+
+        // DB user lookup
+        if (prisma) {
+          try {
+            const user = await prisma.user.findUnique({ where: { email: credentials.email } })
+            if (user?.password && await bcrypt.compare(credentials.password, user.password)) {
+              return { id: user.id, email: user.email, name: user.name, image: user.image }
+            }
+          } catch {}
+        }
+
+        return null
+      },
+    }),
+  ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id
-        token.email = user.email
-      }
+      if (user) { token.id = user.id; token.email = user.email }
       return token
     },
     async session({ session, token }) {
@@ -107,10 +66,3 @@ const authConfig: NextAuthOptions = {
     },
   },
 }
-
-// Only add adapter if database is configured
-if (db) {
-  authConfig.adapter = PrismaAdapter(db)
-}
-
-export const authOptions = authConfig

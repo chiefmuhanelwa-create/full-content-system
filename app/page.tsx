@@ -1,270 +1,159 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Zap,
-  FileText,
-  BookOpen,
-  Calendar,
-  DollarSign,
-  TrendingUp,
-  Video,
-  Target
-} from 'lucide-react'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
-      <header className="container mx-auto px-4 py-6">
-        <nav className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Zap className="h-8 w-8 text-blue-600" />
-            <span className="text-2xl font-bold">NOCHILL</span>
+    <div className="min-h-screen bg-[#111111] text-[#F8F8F8] overflow-x-hidden">
+
+      {/* Nav */}
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-[#1E1E1E] bg-[#111111]/90 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-[#D4A82F] flex items-center justify-center">
+              <span className="text-[#111111] font-black text-sm">N</span>
+            </div>
+            <span className="font-heading font-black text-white tracking-widest text-sm uppercase">NOCHILL</span>
           </div>
-          <div className="flex items-center space-x-3">
-            <Button variant="ghost" asChild>
-              <Link href="/auth/signin">Sign In</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/auth/signup">Get Started Free</Link>
-            </Button>
-          </div>
-        </nav>
+          <Link
+            href="/auth/signin"
+            className="px-5 py-2 rounded-lg bg-[#D4A82F] text-[#111111] font-heading font-bold text-sm tracking-wide hover:bg-[#D9BC45] transition-colors"
+          >
+            Enter System
+          </Link>
+        </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <h1 className="text-5xl font-bold tracking-tight mb-6">
-          Create Viral Content in <span className="text-blue-600">Minutes</span>, Not Hours
-        </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          AI-powered viral scripting system powered by Claude. Uses R×A×C×U^B Hook Science,
-          7-Act Retention Formula, Genesis Framework, and 4E Content Engine to generate
-          scroll-stopping hooks and complete production-ready scripts.
-        </p>
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-xl mx-auto mb-8">
-          <p className="text-sm text-blue-900 font-medium">
-            ✨ Create an account to save all your work and never lose progress!
+      {/* Hero */}
+      <section className="pt-40 pb-24 px-6 max-w-6xl mx-auto">
+        <div className="max-w-4xl">
+          <p className="text-[#D4A82F] font-heading font-bold text-xs tracking-[0.2em] uppercase mb-6">
+            Ndivhuwo Muhanelwa · NoChill PTY LTD
+          </p>
+          <h1 className="font-heading font-black text-6xl md:text-7xl leading-none tracking-tight mb-8">
+            The Content<br />
+            <span className="text-[#D4A82F]">Intelligence</span><br />
+            System.
+          </h1>
+          <p className="text-[#888] text-xl leading-relaxed max-w-2xl mb-12">
+            Every tool you need to create, plan, pitch, and scale — built around the NoChill frameworks. This is not a generic AI tool. This is your system.
+          </p>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/auth/signin"
+              className="px-8 py-4 rounded-xl bg-[#D4A82F] text-[#111111] font-heading font-black text-sm tracking-wide hover:bg-[#D9BC45] transition-all hover:scale-105 hover:shadow-[0_4px_24px_rgba(212,168,47,0.3)]"
+            >
+              Enter the System →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="py-16 px-6 border-y border-[#1E1E1E]">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-px bg-[#1E1E1E]">
+          {[
+            { number: 'R600K+', label: 'Annual Income' },
+            { number: '50+', label: 'Brand Deals Closed' },
+            { number: '100K+', label: 'Email Subscribers' },
+            { number: '9', label: 'Industry Awards' },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-[#111111] px-8 py-10 text-center">
+              <div className="font-heading font-black text-4xl text-[#D4A82F] mb-2">{stat.number}</div>
+              <div className="text-[#555] text-sm font-heading tracking-wide uppercase text-xs">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Tools Grid */}
+      <section className="py-24 px-6 max-w-6xl mx-auto">
+        <div className="mb-12">
+          <p className="text-[#D4A82F] font-heading font-bold text-xs tracking-[0.2em] uppercase mb-3">What's inside</p>
+          <h2 className="font-heading font-black text-4xl">25 tools. One system.</h2>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { title: 'Hook Generator', desc: 'R×A×C×U^B Formula — fear, curiosity, contrast, data hooks', tag: 'CREATE' },
+            { title: 'Script Writer', desc: '7-Act structure + 10-Step Sales Framework for any duration', tag: 'CREATE' },
+            { title: 'Storytelling Studio', desc: '5 Story Types + 7-Stage Arc mapped to emotional triggers', tag: 'CREATE' },
+            { title: 'Fear Analyzer', desc: '10 Shadow Fears profiled — hooks, angles, objection handlers', tag: 'AUDIENCE' },
+            { title: 'Pitch Builder', desc: '5 Pillars pitch + Ethos-Pathos-Logos for DM, email, VSL', tag: 'REVENUE' },
+            { title: 'Batch Planner', desc: '22-day content plan built around your launch goals', tag: 'PLAN' },
+            { title: 'Brand Voice', desc: 'Analyse and score content against your documented voice', tag: 'AUDIENCE' },
+            { title: 'Competitor Intel', desc: 'Gap analysis, positioning angles, content they are missing', tag: 'AUDIENCE' },
+            { title: 'Platform Adapter', desc: 'One script → LinkedIn, TikTok, X, Instagram native formats', tag: 'CREATE' },
+            { title: 'Story Extractor', desc: 'Raw notes → structured proof story with product links', tag: 'CREATE' },
+            { title: 'CTA Optimizer', desc: '5 CTA variants with psychological trigger breakdown', tag: 'REVENUE' },
+            { title: 'Analytics Insights', desc: 'Paste platform metrics → AI diagnosis + next-30-days plan', tag: 'PLAN' },
+          ].map((tool) => (
+            <div key={tool.title} className="nc-card p-6 group cursor-default">
+              <div className="flex items-start justify-between mb-3">
+                <span className="nc-badge">{tool.tag}</span>
+              </div>
+              <h3 className="font-heading font-bold text-white text-lg mb-2 group-hover:text-[#D4A82F] transition-colors">
+                {tool.title}
+              </h3>
+              <p className="text-[#666] text-sm leading-relaxed">{tool.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* PAIDS section */}
+      <section className="py-20 px-6 border-t border-[#1E1E1E]">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-5 gap-4">
+            {[
+              { letter: 'P', label: 'Products', desc: 'Digital products built around your frameworks' },
+              { letter: 'A', label: 'Affiliates', desc: 'Partner commissions tracked and attributed' },
+              { letter: 'I', label: 'Information', desc: 'Courses, guides, workshops' },
+              { letter: 'D', label: 'Deals', desc: 'Brand partnerships managed end-to-end' },
+              { letter: 'S', label: 'Services', desc: 'Consulting, coaching, speaking' },
+            ].map((stream) => (
+              <div key={stream.letter} className="nc-card p-6 text-center">
+                <div className="w-10 h-10 rounded-lg bg-[#D4A82F] flex items-center justify-center mx-auto mb-3">
+                  <span className="font-heading font-black text-[#111111] text-lg">{stream.letter}</span>
+                </div>
+                <h3 className="font-heading font-bold text-white mb-1">{stream.label}</h3>
+                <p className="text-[#555] text-xs leading-relaxed">{stream.desc}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-[#444] text-sm mt-6 font-heading">
+            PAIDS — the 5 income streams behind the NoChill revenue model
           </p>
         </div>
-        <div className="flex gap-4 justify-center">
-          <Button size="lg" asChild>
-            <Link href="/auth/signup">Start Creating Free →</Link>
-          </Button>
-          <Button size="lg" variant="outline" asChild>
-            <Link href="#features">See Features</Link>
-          </Button>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto mt-16">
-          <div>
-            <div className="text-4xl font-bold text-blue-600">10K+</div>
-            <div className="text-gray-600">Hooks Generated</div>
-          </div>
-          <div>
-            <div className="text-4xl font-bold text-blue-600">5K+</div>
-            <div className="text-gray-600">Scripts Created</div>
-          </div>
-          <div>
-            <div className="text-4xl font-bold text-blue-600">95%</div>
-            <div className="text-gray-600">Engagement Increase</div>
-          </div>
-        </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="container mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Everything You Need to Go Viral</h2>
-          <p className="text-gray-600">8 powerful modules to transform your content creation</p>
+      {/* CTA */}
+      <section className="py-24 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <div className="nc-card p-12">
+            <p className="text-[#D4A82F] font-heading font-bold text-xs tracking-[0.2em] uppercase mb-4">For children's children</p>
+            <h2 className="font-heading font-black text-4xl text-white mb-4">
+              This is your system.<br />Enter it.
+            </h2>
+            <p className="text-[#555] mb-8">Built on the exact frameworks behind R600,000+ in annual income.</p>
+            <Link
+              href="/auth/signin"
+              className="inline-block px-10 py-4 rounded-xl bg-[#D4A82F] text-[#111111] font-heading font-black text-sm tracking-wide hover:bg-[#D9BC45] transition-all hover:scale-105 hover:shadow-[0_4px_24px_rgba(212,168,47,0.3)]"
+            >
+              Enter the System →
+            </Link>
+          </div>
         </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card>
-            <CardHeader>
-              <Zap className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Hook Generator</CardTitle>
-              <CardDescription>
-                Generate scroll-stopping hooks using R×A×C×U^B formula
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <FileText className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Script Writer</CardTitle>
-              <CardDescription>
-                Complete scripts using 7-Act Retention Formula with retention devices and second-by-second breakdowns
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <BookOpen className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Storytelling Studio</CardTitle>
-              <CardDescription>
-                Extract proof stories using Genesis Framework (5 story types) and 7-Stage Story Arc
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <Target className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Pitch Builder</CardTitle>
-              <CardDescription>
-                Craft compelling pitches using the 5 Pillars framework
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <Video className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Fear Analyzer</CardTitle>
-              <CardDescription>
-                Identify and leverage 10 Shadow Fears for deeper emotional connection
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <Calendar className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Content Calendar</CardTitle>
-              <CardDescription>
-                30-day content plans using 4E Engine (30% Entertain, 35% Educate, 20% Encourage, 15% Earn)
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <DollarSign className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Revenue Tracker</CardTitle>
-              <CardDescription>
-                Track PAIDS Framework (Products, Ads/Affiliates, Information, Deals, Services) revenue streams
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <TrendingUp className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>NOCHILL 120 Hooks Bank</CardTitle>
-              <CardDescription>
-                120 proven hooks across 6 categories with R×A×C×U^B breakdowns
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
-      </section>
-
-      {/* Key Features Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">🎯 New: Business System Features</h2>
-          <p className="text-gray-600">Transform your content into revenue</p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <Card className="border-green-500 border-2">
-            <CardHeader>
-              <CardTitle className="text-green-700">💰 Sales Script Mode</CardTitle>
-              <CardDescription>NEW - Product Selling Framework</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm">
-                <li>✓ 10-Step Sales Storytelling Framework</li>
-                <li>✓ Multiple formats (Reel/Email/Thread)</li>
-                <li>✓ 4 Foundational Principles applied</li>
-                <li>✓ Godfather value stacking</li>
-              </ul>
-              <Button className="w-full mt-6 bg-green-600 hover:bg-green-700" asChild>
-                <Link href="/dashboard/scripts">Try Sales Scripts →</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="border-blue-600 border-2">
-            <CardHeader>
-              <CardTitle className="text-blue-700">🗂️ Product Database</CardTitle>
-              <CardDescription>NEW - Manage Your Offers</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm">
-                <li>✓ Store product details</li>
-                <li>✓ Pain points & benefits</li>
-                <li>✓ Bonuses & guarantees</li>
-                <li>✓ Audience level targeting</li>
-              </ul>
-              <Button className="w-full mt-6" asChild>
-                <Link href="/dashboard/products">Manage Products →</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="border-purple-600 border-2">
-            <CardHeader>
-              <CardTitle className="text-purple-700">📚 Story & Content Vault</CardTitle>
-              <CardDescription>110+ Ideas & Story Variations</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm">
-                <li>✓ 4 Awareness Level filtering</li>
-                <li>✓ Genesis Framework story types</li>
-                <li>✓ 4 Hook Type (C-Component) mapping</li>
-                <li>✓ 10 Shadow Fear targeting</li>
-              </ul>
-              <Button className="w-full mt-6 bg-purple-600 hover:bg-purple-700" asChild>
-                <Link href="/dashboard/vault">Browse Vault →</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-lg font-semibold text-gray-700 mb-4">🎉 Completely Free & Your Work is Always Saved</p>
-          <Button size="lg" asChild>
-            <Link href="/auth/signup">Create Free Account →</Link>
-          </Button>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <Card className="max-w-3xl mx-auto bg-blue-600 text-white">
-          <CardHeader>
-            <CardTitle className="text-3xl text-white">Ready to Create Viral Content?</CardTitle>
-            <CardDescription className="text-blue-100">
-              Open-source AI content system powered by Claude. Free forever.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button size="lg" variant="secondary" asChild>
-              <Link href="/auth/signup">Create Free Account →</Link>
-            </Button>
-            <p className="text-sm text-blue-100 mt-4">
-              Free forever. Your work is saved automatically. No credit card required.
-            </p>
-          </CardContent>
-        </Card>
       </section>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-8 border-t">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Zap className="h-6 w-6 text-blue-600" />
-            <span className="font-bold">NOCHILL</span>
+      <footer className="border-t border-[#1E1E1E] py-8 px-6">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-[#D4A82F] flex items-center justify-center">
+              <span className="text-[#111111] font-black text-xs">N</span>
+            </div>
+            <span className="font-heading font-black text-[#555] tracking-widest text-xs uppercase">NOCHILL</span>
           </div>
-          <p className="text-sm text-gray-600">
-            © 2026 NOCHILL. Powered by Claude AI.
-          </p>
+          <p className="text-[#333] text-xs">© 2026 NOCHILL PTY LTD (2016/507839/07)</p>
         </div>
       </footer>
     </div>
