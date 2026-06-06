@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import {
   Zap, FileText, BookOpen, Brain, LayoutDashboard, LogOut, History,
-  Cpu, Mic, Layers, Target, TrendingUp, Video, BarChart2,
-  Calendar, BookMarked, ShoppingBag, Star, Repeat, Users, PenTool,
+  Cpu, Mic, Layers, Target, TrendingUp, BarChart2,
+  Calendar, BookMarked, ShoppingBag, Star, Repeat, PenTool,
   Tv2, Archive, Settings, ChevronDown, ChevronRight, Globe, Heart,
-  Lightbulb, Package, MonitorPlay
+  Package, MonitorPlay
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -32,7 +32,7 @@ const navGroups: NavGroup[] = [
   {
     label: 'Command',
     icon: Cpu,
-    color: 'text-[#D4A82F]',
+    color: 'text-[#C9A646]',
     items: [
       { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, description: 'Overview & quick launch' },
       { name: 'My Algorithm', href: '/dashboard/my-algorithm', icon: Cpu, description: 'Creator DNA + audiences', badge: 'CORE' },
@@ -41,7 +41,7 @@ const navGroups: NavGroup[] = [
   {
     label: 'Create',
     icon: PenTool,
-    color: 'text-blue-400',
+    color: 'text-blue-500',
     items: [
       { name: 'Hook Generator', href: '/dashboard/hooks', icon: Zap, description: 'R×A×C×U^B formula' },
       { name: 'Script Writer', href: '/dashboard/scripts', icon: FileText, description: '7-Act + 10-Step Sales' },
@@ -55,7 +55,7 @@ const navGroups: NavGroup[] = [
   {
     label: 'Audience',
     icon: Brain,
-    color: 'text-purple-400',
+    color: 'text-purple-500',
     items: [
       { name: 'Fear Analyzer', href: '/dashboard/fears', icon: Brain, description: '10 Shadow Fears mapped' },
       { name: 'ICP Pain Library', href: '/dashboard/icp-pain-library', icon: Target, description: 'Audience pain database' },
@@ -67,7 +67,7 @@ const navGroups: NavGroup[] = [
   {
     label: 'Library',
     icon: Archive,
-    color: 'text-emerald-400',
+    color: 'text-emerald-600',
     items: [
       { name: 'Hook Bank', href: '/dashboard/hook-bank', icon: BookMarked, description: 'All saved hooks' },
       { name: 'Story Bank', href: '/dashboard/story-bank', icon: Heart, description: '10 proof stories' },
@@ -79,7 +79,7 @@ const navGroups: NavGroup[] = [
   {
     label: 'Revenue',
     icon: ShoppingBag,
-    color: 'text-orange-400',
+    color: 'text-orange-500',
     items: [
       { name: 'Products', href: '/dashboard/products', icon: Package, description: 'Full product catalogue' },
       { name: 'Godfather Offers', href: '/dashboard/offers', icon: Star, description: 'Offer stack builder' },
@@ -91,7 +91,7 @@ const navGroups: NavGroup[] = [
   {
     label: 'Planning',
     icon: Calendar,
-    color: 'text-indigo-400',
+    color: 'text-indigo-500',
     items: [
       { name: 'Content Calendar', href: '/dashboard/content-calendar-plus', icon: Calendar, description: '4E-balanced schedule' },
       { name: 'Batch Planner', href: '/dashboard/batch-planner', icon: Layers, description: '22-day content plan' },
@@ -101,19 +101,9 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
-    label: 'Visuals',
-    icon: Lightbulb,
-    color: 'text-pink-400',
-    items: [
-      { name: 'Visual Generator', href: '/dashboard/visuals', icon: Lightbulb, description: 'Thumbnails + b-roll' },
-      { name: 'Platform Adapter', href: '/dashboard/adapter', icon: Repeat, description: 'LinkedIn, TikTok, X' },
-      { name: 'Formula Writer', href: '/dashboard/formulas', icon: Layers, description: 'PAS, AIDA, DRIP, BAB' },
-    ],
-  },
-  {
     label: 'System',
     icon: Settings,
-    color: 'text-[#444]',
+    color: 'text-[#8A8071]',
     items: [
       { name: 'Operations', href: '/dashboard/operations', icon: Settings, description: 'Seed data + health' },
       { name: 'Settings', href: '/dashboard/settings', icon: Settings, description: 'Account settings' },
@@ -139,17 +129,17 @@ export function Navigation() {
     group.items.some((item) => pathname === item.href || pathname.startsWith(item.href + '/'))
 
   return (
-    <nav className="w-56 bg-[#111111] border-r border-[#1E1E1E] h-screen flex flex-col flex-shrink-0">
+    <nav className="w-56 bg-white border-r border-[#E8E1D0] h-screen flex flex-col flex-shrink-0 shadow-[1px_0_0_0_#E8E1D0]">
 
       {/* Brand header */}
-      <div className="px-4 py-4 border-b border-[#1E1E1E]">
+      <div className="px-4 py-4 border-b border-[#E8E1D0]">
         <Link href="/dashboard" className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-lg bg-[#D4A82F] flex items-center justify-center flex-shrink-0 group-hover:shadow-[0_0_12px_rgba(212,168,47,0.4)] transition-shadow">
-            <span className="text-[#111111] font-heading font-black text-sm">N</span>
+          <div className="w-7 h-7 rounded-lg bg-[#C9A646] flex items-center justify-center flex-shrink-0 group-hover:shadow-[0_0_12px_rgba(201,166,70,0.45)] transition-shadow">
+            <span className="text-[#0A0A0A] font-heading font-black text-sm">N</span>
           </div>
           <div>
-            <p className="font-heading font-black text-white tracking-widest text-xs uppercase leading-none">NOCHILL</p>
-            <p className="text-[10px] text-[#333] font-heading tracking-wide mt-0.5">Content Intelligence</p>
+            <p className="font-heading font-black text-[#0A0A0A] tracking-widest text-xs uppercase leading-none">NOCHILL</p>
+            <p className="text-[10px] text-[#8A8071] font-heading tracking-wide mt-0.5">Content Intelligence</p>
           </div>
         </Link>
       </div>
@@ -164,34 +154,32 @@ export function Navigation() {
 
             return (
               <div key={group.label} className="mb-0.5">
-                {/* Group toggle */}
                 <button
                   onClick={() => toggleGroup(group.label)}
                   className={cn(
                     'w-full flex items-center justify-between px-2 py-1.5 rounded-lg text-left nav-item-transition',
                     hasActive
-                      ? 'bg-[#1C1C1C]'
-                      : 'hover:bg-[#161616]'
+                      ? 'bg-[#F4EFE3]'
+                      : 'hover:bg-[#FAF7F0]'
                   )}
                 >
                   <div className="flex items-center gap-2">
                     <GroupIcon className={cn('w-3 h-3 flex-shrink-0', group.color)} />
                     <span className={cn(
                       'text-[10px] font-heading font-black uppercase tracking-[0.12em]',
-                      hasActive ? 'text-[#D4A82F]' : 'text-[#444]'
+                      hasActive ? 'text-[#8C6F1F]' : 'text-[#8A8071]'
                     )}>
                       {group.label}
                     </span>
                   </div>
                   {isOpen
-                    ? <ChevronDown className="w-2.5 h-2.5 text-[#333]" />
-                    : <ChevronRight className="w-2.5 h-2.5 text-[#333]" />
+                    ? <ChevronDown className="w-2.5 h-2.5 text-[#C9C0B0]" />
+                    : <ChevronRight className="w-2.5 h-2.5 text-[#C9C0B0]" />
                   }
                 </button>
 
-                {/* Group items */}
                 {isOpen && (
-                  <div className="ml-1.5 mt-0.5 space-y-0.5 border-l border-[#1E1E1E] pl-2">
+                  <div className="ml-1.5 mt-0.5 space-y-0.5 border-l border-[#E8E1D0] pl-2">
                     {group.items.map((item) => {
                       const Icon = item.icon
                       const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
@@ -201,18 +189,18 @@ export function Navigation() {
                           <div className={cn(
                             'flex items-center gap-2 px-2 py-1.5 rounded-lg nav-item-transition',
                             isActive
-                              ? 'bg-[#D4A82F]/10 border border-[#D4A82F]/20'
-                              : 'hover:bg-[#161616] border border-transparent'
+                              ? 'bg-[#C9A646]/12 border border-[#C9A646]/30'
+                              : 'hover:bg-[#FAF7F0] border border-transparent'
                           )}>
                             <Icon className={cn(
                               'h-3 w-3 flex-shrink-0',
-                              isActive ? 'text-[#D4A82F]' : 'text-[#3A3A3A]'
+                              isActive ? 'text-[#8C6F1F]' : 'text-[#C9C0B0]'
                             )} />
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1.5">
                                 <p className={cn(
                                   'text-xs font-heading font-semibold truncate leading-none',
-                                  isActive ? 'text-[#D4A82F]' : 'text-[#999]'
+                                  isActive ? 'text-[#8C6F1F]' : 'text-[#5C5448]'
                                 )}>
                                   {item.name}
                                 </p>
@@ -221,7 +209,7 @@ export function Navigation() {
                                 )}
                               </div>
                               {item.description && (
-                                <p className="text-[10px] text-[#333] truncate mt-0.5 leading-none">{item.description}</p>
+                                <p className="text-[10px] text-[#C9C0B0] truncate mt-0.5 leading-none">{item.description}</p>
                               )}
                             </div>
                           </div>
@@ -237,19 +225,19 @@ export function Navigation() {
       </div>
 
       {/* User + sign out */}
-      <div className="border-t border-[#1E1E1E] p-3">
+      <div className="border-t border-[#E8E1D0] p-3 bg-[#FAF7F0]">
         <div className="flex items-center gap-2.5 mb-2.5">
-          <div className="w-7 h-7 rounded-lg bg-[#1C1C1C] border border-[#2A2A2A] flex items-center justify-center flex-shrink-0">
-            <span className="text-[#D4A82F] font-heading font-black text-xs">N</span>
+          <div className="w-7 h-7 rounded-lg bg-[#F4EFE3] border border-[#E8E1D0] flex items-center justify-center flex-shrink-0">
+            <span className="text-[#C9A646] font-heading font-black text-xs">N</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-heading font-bold text-[#888] truncate">Ndivhuwo</p>
-            <p className="text-[10px] text-[#333] truncate">@nochill_god</p>
+            <p className="text-xs font-heading font-bold text-[#1F1B16] truncate">Ndivhuwo</p>
+            <p className="text-[10px] text-[#8A8071] truncate">@nochill_god</p>
           </div>
         </div>
         <button
           onClick={handleSignOut}
-          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-[#333] hover:text-[#888] hover:bg-[#1C1C1C] nav-item-transition text-[11px] font-heading font-semibold"
+          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-[#8A8071] hover:text-[#5C5448] hover:bg-[#F4EFE3] nav-item-transition text-[11px] font-heading font-semibold border border-transparent hover:border-[#E8E1D0]"
         >
           <LogOut className="h-3 w-3" />
           Sign Out

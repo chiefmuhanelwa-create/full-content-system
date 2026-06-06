@@ -4,67 +4,51 @@
 
 @layer base {
   :root {
-    /* ─── NoChill Brand System — Dark Mode (Tools/Dashboard) ─── */
-    /* Source: CHKPLT (Christ's Kingdom Platform) + NOCHILL PTY LTD brand guidelines */
+    /* ─── CHKPLT Light Theme — Cream / White / Gold ─── */
+    --background:           42 40% 96%;     /* #FAF7F0 Cream page */
+    --foreground:           0 0% 4%;        /* #0A0A0A Near-black */
+    --card:                 0 0% 100%;      /* #FFFFFF White card */
+    --card-foreground:      24 14% 10%;     /* #1F1B16 Body ink */
+    --popover:              0 0% 100%;
+    --popover-foreground:   0 0% 4%;
+    --primary:              43 55% 53%;     /* #C9A646 Antique Gold */
+    --primary-foreground:   0 0% 4%;
+    --secondary:            36 42% 92%;     /* #F4EFE3 Elevated cream */
+    --secondary-foreground: 24 14% 10%;
+    --muted:                36 42% 92%;     /* #F4EFE3 */
+    --muted-foreground:     30 12% 44%;     /* #5C5448 Warm muted */
+    --accent:               36 42% 92%;
+    --accent-foreground:    24 14% 10%;
+    --destructive:          14 73% 48%;     /* #D4541F Burnt orange */
+    --destructive-foreground: 0 0% 100%;
+    --border:               36 25% 88%;     /* #E8E1D0 Warm hairline */
+    --input:                36 25% 91%;     /* slightly lighter */
+    --ring:                 43 55% 53%;     /* gold focus ring */
+    --radius:               0.75rem;
 
-    /* shadcn token bridge */
-    --background: 0 0% 7%;              /* #111111 Tool Black */
-    --foreground: 0 0% 97%;             /* #F8F8F8 Headline */
-    --card: 0 0% 11%;                   /* #1C1C1C Charcoal */
-    --card-foreground: 0 0% 97%;
-    --popover: 0 0% 11%;
-    --popover-foreground: 0 0% 97%;
-    --primary: 43 55% 53%;              /* #C9A646 Antique Gold (CHKPLT) */
-    --primary-foreground: 0 0% 7%;
-    --secondary: 0 0% 16%;
-    --secondary-foreground: 0 0% 97%;
-    --muted: 0 0% 16%;
-    --muted-foreground: 0 0% 53%;
-    --accent: 0 0% 14%;
-    --accent-foreground: 0 0% 97%;
-    --destructive: 14 73% 48%;          /* #D4541F Burnt Orange */
-    --destructive-foreground: 0 0% 97%;
-    --border: 0 0% 17%;                 /* #2A2A2A */
-    --input: 0 0% 8%;                   /* #141414 */
-    --ring: 43 55% 53%;                 /* Antique Gold */
-    --radius: 0.75rem;
-
-    /* ─── Gold Spectrum ─── */
+    /* ─── CHKPLT gold tokens ─── */
     --gold-deep:     #8C6F1F;
     --gold-antique:  #C9A646;
-    --gold-heritage: #D4A82F;
     --gold-mid:      #D4B65C;
-    --gold-mustard:  #D9BC45;
     --gold-bright:   #E6C871;
     --gold-email:    #F5C842;
+    --gold-heritage: #D4A82F;
 
-    /* ─── Cream / Light Mode vars (for panels, light cards) ─── */
-    --cream-page:    #FAF7F0;
-    --cream-card:    #FFFFFF;
-    --cream-hi:      #F4EFE3;
-    --cream-paper:   #F8F8F8;
+    /* ─── Cream surfaces ─── */
+    --cream-page:  #FAF7F0;
+    --cream-card:  #FFFFFF;
+    --cream-hi:    #F4EFE3;
 
-    /* ─── Burnt Orange Accent ─── */
+    /* ─── Accent orange ─── */
     --orange-live:   #D4541F;
     --orange-bright: #F2701E;
     --orange-deep:   #9A3A12;
-
-    /* ─── Dark surface tones ─── */
-    --surface-1:     #111111;
-    --surface-2:     #141414;
-    --surface-3:     #1C1C1C;
-    --surface-4:     #222222;
-    --border-1:      #2A2A2A;
-    --border-2:      #333333;
-    --text-dim:      #444444;
-    --text-muted:    #888888;
-    --text-body:     #E0E0E0;
-    --text-headline: #F8F8F8;
   }
 }
 
 @layer base {
   * { @apply border-border; }
+  html { color-scheme: light; }
   body {
     @apply bg-background text-foreground;
     font-feature-settings: 'kern' 1, 'liga' 1;
@@ -72,54 +56,36 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Gold scrollbar */
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(201, 166, 70, 0.45); }
+  /* Warm gold scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: #F4EFE3; }
+  ::-webkit-scrollbar-thumb { background: rgba(201, 166, 70, 0.45); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #C9A646; }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading, 'Montserrat', sans-serif);
-    letter-spacing: -0.01em;
+    color: #0A0A0A;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer utilities {
   /* ─── Gold utilities ─── */
-  .nc-gold         { color: var(--gold-heritage); }
-  .nc-gold-bg      { background-color: var(--gold-heritage); }
-  .nc-gold-border  { border-color: var(--gold-heritage); }
-  .nc-charcoal     { background-color: #1C1C1C; }
+  .nc-gold         { color: var(--gold-antique); }
+  .nc-gold-deep    { color: var(--gold-deep); }
+  .nc-gold-bg      { background-color: var(--gold-antique); }
+  .nc-gold-border  { border-color: var(--gold-antique); }
 
-  /* ─── Premium card — dark with gold hover ─── */
+  /* ─── Card — white with warm border + gold hover (CHKPLT) ─── */
   .nc-card {
-    background: #1C1C1C;
-    border: 1px solid #2A2A2A;
-    border-radius: 0.75rem;
-    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
-  }
-  .nc-card:hover {
-    border-color: rgba(201, 166, 70, 0.35);
-    box-shadow:
-      0 4px 24px rgba(201, 166, 70, 0.08),
-      0 0 0 0 transparent;
-    transform: translateY(-2px);
-  }
-  .nc-card-active {
-    border-color: rgba(201, 166, 70, 0.50);
-    background: rgba(201, 166, 70, 0.06);
-  }
-
-  /* ─── Gold gradient card (CHKPLT style) ─── */
-  .nc-card-gold {
-    background: #1C1C1C;
-    border: 1px solid rgba(201, 166, 70, 0.25);
+    background: #FFFFFF;
+    border: 1px solid #E8E1D0;
     border-radius: 1rem;
-    transition: border-color 0.2s ease, box-shadow 0.25s ease, transform 0.2s ease;
+    transition: border-color 0.18s ease, box-shadow 0.22s ease, transform 0.18s ease;
     position: relative;
     overflow: hidden;
   }
-  .nc-card-gold::before {
+  .nc-card::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; height: 1px;
@@ -127,35 +93,60 @@
     opacity: 0;
     transition: opacity 0.2s ease;
   }
-  .nc-card-gold:hover {
+  .nc-card:hover {
     border-color: rgba(201, 166, 70, 0.55);
     box-shadow:
       0 0 30px rgba(201, 166, 70, 0.12),
-      0 8px 24px rgba(10, 10, 10, 0.20);
+      0 8px 24px rgba(10, 10, 10, 0.06);
     transform: translateY(-3px);
   }
-  .nc-card-gold:hover::before { opacity: 1; }
+  .nc-card:hover::before { opacity: 1; }
 
-  /* ─── CTA button — gold gradient (CHKPLT) ─── */
+  /* ─── Elevated cream panel ─── */
+  .nc-panel {
+    background: #F4EFE3;
+    border: 1px solid rgba(201, 166, 70, 0.25);
+    border-radius: 1rem;
+  }
+
+  /* ─── CTA button — gold gradient ─── */
   .nc-cta {
     background: linear-gradient(135deg, #E6C871 0%, #C9A646 60%, #8C6F1F 100%);
     color: #0A0A0A !important;
     font-weight: 700;
-    border: 1px solid rgba(140, 111, 31, 0.45);
+    border: 1px solid rgba(140, 111, 31, 0.35);
     border-radius: 10px;
     box-shadow:
-      0 0 20px rgba(201, 166, 70, 0.30),
-      0 4px 16px rgba(10, 10, 10, 0.15);
+      0 0 20px rgba(201, 166, 70, 0.22),
+      0 4px 14px rgba(10, 10, 10, 0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   .nc-cta:hover {
     transform: translateY(-3px);
     box-shadow:
-      0 0 35px rgba(201, 166, 70, 0.50),
-      0 10px 28px rgba(10, 10, 10, 0.22);
+      0 0 35px rgba(201, 166, 70, 0.40),
+      0 10px 24px rgba(10, 10, 10, 0.12);
   }
 
-  /* ─── Live / active badge (Burnt Orange) ─── */
+  /* ─── Gold badge (on cream) ─── */
+  .nc-badge {
+    font-size: 9px;
+    font-weight: 900;
+    padding: 2px 7px;
+    background: #C9A646;
+    color: #0A0A0A;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ─── Gold divider ─── */
+  .nc-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201, 166, 70, 0.40), transparent);
+  }
+
+  /* ─── Live badge — burnt orange ─── */
   .nc-live {
     display: inline-flex;
     align-items: center;
@@ -183,66 +174,19 @@
     100% { box-shadow: 0 0 0 0 rgba(212, 84, 31, 0); }
   }
 
-  /* ─── Gold badge ─── */
-  .nc-badge {
-    font-size: 9px;
-    font-weight: 900;
-    padding: 2px 6px;
-    background: var(--gold-antique);
-    color: #111111;
-    border-radius: 3px;
-    letter-spacing: 0.05em;
+  /* ─── Section eyebrow label ─── */
+  .nc-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.20em;
     text-transform: uppercase;
+    color: var(--gold-antique);
   }
 
-  /* ─── Gold divider ─── */
-  .nc-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(201, 166, 70, 0.30), transparent);
-  }
-
-  /* ─── Cream panel (light insert on dark page) ─── */
-  .nc-cream-panel {
-    background: var(--cream-hi);
-    border: 1px solid rgba(201, 166, 70, 0.20);
-    border-radius: 0.75rem;
-    color: #1F1B16;
-  }
-
-  /* ─── Gold glow hero orb ─── */
-  .nc-hero-orb {
-    position: relative;
-    overflow: hidden;
-  }
-  .nc-hero-orb::before {
-    content: '';
-    position: absolute;
-    top: -150px; left: 50%;
-    transform: translateX(-50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle,
-      rgba(201, 166, 70, 0.18) 0%,
-      rgba(230, 200, 113, 0.08) 35%,
-      transparent 65%
-    );
-    pointer-events: none;
-    animation: nc-glow-breathe 5s ease-in-out infinite;
-    z-index: 0;
-  }
-  @keyframes nc-glow-breathe {
-    0%, 100% { opacity: 0.8; transform: translateX(-50%) scale(1); }
-    50%       { opacity: 1;   transform: translateX(-50%) scale(1.06); }
-  }
-
-  /* ─── Smooth nav transition ─── */
-  .nav-item-transition {
-    transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
-  }
-
-  /* ─── Stat block (big gold number) ─── */
+  /* ─── Stat block ─── */
   .nc-stat {
-    background: #1C1C1C;
-    border: 1px solid #2A2A2A;
+    background: #FFFFFF;
+    border: 1px solid #E8E1D0;
     border-radius: 0.75rem;
     padding: 1.25rem;
   }
@@ -258,16 +202,37 @@
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #444444;
+    color: #8A8071;
     margin-top: 4px;
   }
 
-  /* ─── Section label / eyebrow ─── */
-  .nc-eyebrow {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.20em;
-    text-transform: uppercase;
-    color: var(--gold-antique);
+  /* ─── Hero glow orb ─── */
+  .nc-hero-orb {
+    position: relative;
+    overflow: hidden;
+  }
+  .nc-hero-orb::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle,
+      rgba(201, 166, 70, 0.16) 0%,
+      rgba(230, 200, 113, 0.07) 35%,
+      transparent 65%
+    );
+    pointer-events: none;
+    animation: nc-glow-breathe 5s ease-in-out infinite;
+    z-index: 0;
+  }
+  @keyframes nc-glow-breathe {
+    0%, 100% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+    50%       { opacity: 1;   transform: translateX(-50%) scale(1.06); }
+  }
+
+  /* ─── Nav transition ─── */
+  .nav-item-transition {
+    transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
   }
 }
