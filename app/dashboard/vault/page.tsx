@@ -3,26 +3,20 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import StoryVaultBrowser from '@/components/StoryVaultBrowser'
 import { Database, Lightbulb, BookOpen, Sparkles } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 export default function VaultPage() {
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg">
-              <Database className="h-8 w-8 text-white" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold">Story & Content Vault</h1>
-              <p className="text-gray-600 mt-1">
-                110+ content ideas and story variations mapped to Hook Science frameworks
-              </p>
-            </div>
-          </div>
-
-          <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Database}
+        iconColor="text-purple-600"
+        eyebrow="Explore"
+        title="Story & Content Vault"
+        description="110+ content ideas and story variations mapped to Hook Science frameworks"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200 mb-6">
             <CardContent className="pt-6">
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="flex items-start gap-3">
@@ -57,7 +51,6 @@ export default function VaultPage() {
               </div>
             </CardContent>
           </Card>
-        </div>
 
         {/* Vault Browser */}
         <StoryVaultBrowser />

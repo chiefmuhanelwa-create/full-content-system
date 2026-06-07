@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Users, MessageSquare, CheckCircle, Clock, XCircle } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface ContentItem {
   id: string
@@ -78,14 +79,15 @@ export default function CollaborationPage() {
   }
 
   return (
-    <div className="container mx-auto px-8 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
-          <Users className="h-10 w-10 text-emerald-600" />
-          Collaboration Hub
-        </h1>
-        <p className="text-gray-600">Team workflow & content approval system</p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Users}
+        iconColor="text-emerald-600"
+        eyebrow="Manage"
+        title="Collaboration Hub"
+        description="Team workflow & content approval system"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Content List */}
@@ -215,6 +217,7 @@ export default function CollaborationPage() {
             </Card>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

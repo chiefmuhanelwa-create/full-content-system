@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Calendar, Download, Copy, Check } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface ContentPiece {
   day: number
@@ -83,14 +84,15 @@ export default function BatchPlannerPage() {
   }
 
   return (
-    <div className="container mx-auto px-8 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
-          <Calendar className="h-10 w-10 text-teal-600" />
-          Batch Content Planner
-        </h1>
-        <p className="text-gray-600">Generate 30 days of content ideas in seconds</p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Calendar}
+        iconColor="text-teal-600"
+        eyebrow="Plan"
+        title="Batch Content Planner"
+        description="Generate 30 days of content ideas in seconds"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Input Section */}
@@ -248,6 +250,7 @@ export default function BatchPlannerPage() {
             </Card>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

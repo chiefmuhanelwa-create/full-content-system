@@ -22,6 +22,7 @@ import {
   HardDrive
 } from 'lucide-react';
 import Link from 'next/link';
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface SystemStatus {
   healthy: boolean;
@@ -202,21 +203,20 @@ export default function OperationsPage() {
   };
 
   return (
-    <div className="p-8 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">Operations Center</h1>
-          <p className="text-muted-foreground">
-            Monitor system health, manage backups, and view activity
-          </p>
-        </div>
-
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Server}
+        iconColor="text-[#C9A646]"
+        eyebrow="Manage"
+        title="Operations Center"
+        description="Monitor system health, manage backups, and view activity"
+      >
         <Button onClick={loadSystemData} variant="outline" size="sm">
           <RefreshCw className="w-4 h-4 mr-2" />
           Refresh
         </Button>
-      </div>
+      </ToolPageHeader>
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* System Status Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -599,6 +599,7 @@ export default function OperationsPage() {
           </Card>
         </TabsContent>
       </Tabs>
+    </div>
     </div>
   );
 }

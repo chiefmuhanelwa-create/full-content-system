@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Rocket, Calendar as CalendarIcon, Target, TrendingUp, Copy, CheckCircle, Download } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface Product {
   id: string
@@ -592,16 +593,15 @@ This is for your children's children.
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <Rocket className="h-8 w-8 text-orange-600" />
-          Campaign Planner
-        </h1>
-        <p className="text-gray-600">
-          Plan your product launch with a proven 14-day campaign structure
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Rocket}
+        iconColor="text-orange-600"
+        eyebrow="Plan"
+        title="Campaign Planner"
+        description="Plan your product launch with a proven 14-day campaign structure"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Left Column: Configuration */}
@@ -814,6 +814,7 @@ This is for your children's children.
             </Card>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

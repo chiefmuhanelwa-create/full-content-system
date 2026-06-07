@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Target, Sparkles, Copy, Check, AlertCircle } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface PitchData {
   person: string
@@ -88,17 +89,15 @@ export default function PitchBuilderPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <Target className="h-8 w-8 text-orange-600" />
-          Pitch Builder
-        </h1>
-        <p className="text-gray-600">
-          Build compelling pitches using the 5 Pillars: Person, Position, Proof, Pain, Promise
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Target}
+        iconColor="text-orange-600"
+        eyebrow="Create"
+        title="Pitch Builder"
+        description="Build compelling pitches using the 5 Pillars: Person, Position, Proof, Pain, Promise"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Input Section */}
@@ -375,6 +374,7 @@ export default function PitchBuilderPage() {
           )}
         </div>
       </div>
+    </div>
     </div>
   )
 }

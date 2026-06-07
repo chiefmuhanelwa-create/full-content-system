@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Download, Upload, Save, AlertCircle, CheckCircle, Database, RefreshCw } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 export default function SettingsPage() {
   const [exportStatus, setExportStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -112,17 +113,15 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <Database className="h-8 w-8 text-blue-600" />
-          Data Management
-        </h1>
-        <p className="text-gray-600">
-          Backup and restore your content data
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Database}
+        iconColor="text-blue-500"
+        eyebrow="Settings"
+        title="Data Management"
+        description="Backup and restore your content data"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Backup Reminder */}
       {daysSinceBackup !== null && daysSinceBackup > 7 && (
@@ -276,6 +275,7 @@ export default function SettingsPage() {
           </ul>
         </CardContent>
       </Card>
+    </div>
     </div>
   )
 }

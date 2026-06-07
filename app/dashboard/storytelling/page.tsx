@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sparkles, Copy, Save, FileText, Download, Loader2, BookOpen, Lightbulb, Database } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface StoryOutput {
   title: string
@@ -237,21 +238,17 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl">
-            <Sparkles className="h-6 w-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Storytelling Studio</h1>
-            <p className="text-gray-600">Genesis Framework (5 story types) + 7-Stage Story Arc + Proven narrative frameworks</p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Sparkles}
+        eyebrow="Create"
+        title="Storytelling Studio"
+        description="Genesis Framework (5 story types) + 7-Stage Story Arc + Proven narrative frameworks"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
         {/* Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <Card className="p-4 border-l-4 border-purple-500">
             <div className="flex items-start gap-3">
               <BookOpen className="h-5 w-5 text-purple-600 mt-0.5" />
@@ -288,7 +285,6 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
             </div>
           </Card>
         </div>
-      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Input Section */}
@@ -554,6 +550,7 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
           )}
         </div>
       </div>
+    </div>
     </div>
   )
 }

@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Save, Zap, FileText, BookOpen, Trash2, Eye, Download, Search, Filter } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface SavedHook {
   id: string
@@ -242,17 +243,15 @@ export default function LibraryPage() {
   })
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <Save className="h-8 w-8 text-blue-600" />
-          Saved Library
-        </h1>
-        <p className="text-gray-600">
-          All your saved hooks, scripts, and stories in one place
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Save}
+        iconColor="text-blue-500"
+        eyebrow="Library"
+        title="Saved Library"
+        description="All your saved hooks, scripts, and stories in one place"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -478,6 +477,7 @@ export default function LibraryPage() {
             </Card>
           )
         )}
+      </div>
       </div>
     </div>
   )

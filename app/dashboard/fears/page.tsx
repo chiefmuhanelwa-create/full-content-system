@@ -2,16 +2,9 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
 import { Brain, Sparkles, Copy, Check, AlertCircle, TrendingUp, ArrowRight } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
-
-interface FearHook {
-  hook: string
-}
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface IdentifiedFear {
   fearId: number
@@ -34,6 +27,19 @@ interface FearAnalysis {
   recommendedApproach: string
 }
 
+const SHADOW_FEARS = [
+  'Fear of Invisibility',
+  'Fear of Wasted Potential',
+  'Fear of Being Left Behind',
+  'Fear of Exposure (Impostor Syndrome)',
+  'Fear of Permanent Mediocrity',
+  'Fear of Missed Timing',
+  'Fear of Being Forgotten',
+  'Fear of Financial Dependency',
+  'Fear of Creative Exhaustion',
+  'Fear of Systemic Exclusion',
+]
+
 export default function FearAnalyzerPage() {
   const router = useRouter()
   const { addFear, setPendingAction } = useContent()
@@ -45,48 +51,24 @@ export default function FearAnalyzerPage() {
   const [copiedHook, setCopiedHook] = useState<string | null>(null)
 
   const analyzeFears = async () => {
-    if (!audienceDescription.trim()) {
-      setError('Please describe your target audience')
-      return
-    }
-
+    if (!audienceDescription.trim()) { setError('Describe your target audience first'); return }
     setLoading(true)
     setError('')
     setAnalysis(null)
-
     try {
       const response = await fetch('/api/fears/analyze', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          audienceDescription,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ audienceDescription }),
       })
-
       const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to analyze fears')
-      }
-
-      // Set local state
+      if (!response.ok) throw new Error(data.error || 'Failed to analyze fears')
       setAnalysis(data.analysis)
-
-      // Save identified fears to global context for Hook Generator
       data.analysis.identifiedFears.forEach((fear: IdentifiedFear) => {
-        addFear({
-          id: fear.fearId,
-          name: fear.fearName,
-          relevance: fear.relevanceScore,
-          hooks: fear.hooks,
-          targetAudience: audienceDescription,
-        })
+        addFear({ id: fear.fearId, name: fear.fearName, relevance: fear.relevanceScore, hooks: fear.hooks, targetAudience: audienceDescription })
       })
     } catch (err: any) {
       setError(err.message || 'An error occurred')
-      console.error('Error analyzing fears:', err)
     } finally {
       setLoading(false)
     }
@@ -98,235 +80,160 @@ export default function FearAnalyzerPage() {
     setTimeout(() => setCopiedHook(null), 2000)
   }
 
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-red-600 bg-red-50 border-red-200'
-    if (score >= 60) return 'text-orange-600 bg-orange-50 border-orange-200'
-    return 'text-yellow-600 bg-yellow-50 border-yellow-200'
+  const getScoreBadgeClass = (score: number) => {
+    if (score >= 80) return 'bg-red-100 text-red-700 border-red-200'
+    if (score >= 60) return 'bg-[#FFF3E8] text-[#9A3A12] border-[#F2701E]/30'
+    return 'bg-[#FAF7F0] text-[#8C6F1F] border-[#C9A646]/30'
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <Brain className="h-8 w-8 text-red-600" />
-          Fear Analyzer
-        </h1>
-        <p className="text-gray-600">
-          Identify the 10 Shadow Fears driving your audience and generate fear-targeted hooks
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Brain}
+        iconColor="text-red-500"
+        eyebrow="Audience"
+        title="Fear Analyzer"
+        description="Identify the 10 Shadow Fears driving your audience — then generate fear-targeted hooks and content angles."
+      />
 
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* Input Section */}
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Describe Your Audience</CardTitle>
-              <CardDescription>
-                Tell us about your target audience - their struggles, goals, demographics, pain points
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="audience">Audience Description</Label>
-                <Textarea
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        <div className="grid lg:grid-cols-2 gap-6">
+
+          {/* Input */}
+          <div className="space-y-5">
+            <div className="nc-tool-section space-y-5">
+              <div>
+                <p className="nc-eyebrow mb-0.5">Input</p>
+                <h2 className="font-heading font-black text-[#0A0A0A] text-lg leading-none">Describe Your Audience</h2>
+              </div>
+
+              <div className="nc-form-row">
+                <label htmlFor="audience">Audience Description</label>
+                <textarea
                   id="audience"
-                  placeholder="Example: African creators aged 25-35 who are stuck at 10K followers. They post 3x daily but get no engagement. They've tried courses and coaching but still broke. Working 9-5 jobs they hate, want financial freedom but don't know how to monetize content..."
-                  rows={10}
+                  className="nc-tool-input min-h-[220px] resize-y"
+                  placeholder="African creators aged 25–35 who are stuck at 10K followers. They post daily but get no engagement. They've tried courses and coaching but still broke. Working 9–5 jobs they hate, want financial freedom but don't know how to monetise their knowledge..."
                   value={audienceDescription}
                   onChange={(e) => setAudienceDescription(e.target.value)}
-                  className="font-mono text-sm"
                 />
-                <p className="text-xs text-gray-500">
-                  Include: demographics, pain points, goals, current situation, frustrations
-                </p>
+                <p className="nc-helper">Include: demographics, pain points, goals, current situation, frustrations</p>
               </div>
 
-              <Button
-                onClick={analyzeFears}
-                disabled={loading || !audienceDescription.trim()}
-                className="w-full"
-                size="lg"
-              >
-                {loading ? (
-                  <>
-                    <Sparkles className="mr-2 h-4 w-4 animate-spin" />
-                    Analyzing Shadow Fears...
-                  </>
-                ) : (
-                  <>
-                    <Brain className="mr-2 h-4 w-4" />
-                    Analyze Shadow Fears
-                  </>
-                )}
-              </Button>
+              {error && <div className="nc-error flex items-center gap-2"><AlertCircle className="h-4 w-4 flex-shrink-0" />{error}</div>}
 
-              {/* 10 Shadow Fears Reference */}
-              <div className="p-4 bg-red-50 border border-red-200 rounded-md">
-                <p className="text-sm font-semibold text-red-600 mb-2">
-                  10 Shadow Fears:
-                </p>
-                <ul className="text-xs text-red-700 space-y-1">
-                  <li>1. Fear of Invisibility</li>
-                  <li>2. Fear of Wasted Potential</li>
-                  <li>3. Fear of Being Left Behind</li>
-                  <li>4. Fear of Exposure (Impostor Syndrome)</li>
-                  <li>5. Fear of Permanent Mediocrity</li>
-                  <li>6. Fear of Missed Timing</li>
-                  <li>7. Fear of Being Forgotten</li>
-                  <li>8. Fear of Financial Dependency</li>
-                  <li>9. Fear of Creative Exhaustion</li>
-                  <li>10. Fear of Systemic Exclusion</li>
-                </ul>
-              </div>
+              <button onClick={analyzeFears} disabled={loading || !audienceDescription.trim()} className="nc-generate-btn">
+                {loading ? <><Sparkles className="h-4 w-4 animate-spin" /> Analysing Shadow Fears...</> : <><Brain className="h-4 w-4" /> Analyse Shadow Fears</>}
+              </button>
+            </div>
 
-              {/* Error Display */}
-              {error && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm flex items-start gap-2">
-                  <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                  {error}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Results Section */}
-        <div>
-          {analysis ? (
-            <div className="space-y-4">
-              {/* Primary Fear */}
-              <Card className="border-2 border-red-600 bg-red-50">
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-red-600" />
-                    <CardTitle className="text-red-900">Primary Fear</CardTitle>
+            {/* 10 Shadow Fears reference */}
+            <div className="nc-panel p-5">
+              <p className="nc-eyebrow mb-3">Reference</p>
+              <p className="font-heading font-bold text-[#0A0A0A] text-sm mb-3">The 10 Shadow Fears</p>
+              <div className="space-y-1.5">
+                {SHADOW_FEARS.map((fear, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="w-5 h-5 rounded-full bg-[#C9A646]/15 flex items-center justify-center flex-shrink-0">
+                      <span className="text-[10px] font-heading font-black text-[#8C6F1F]">{i + 1}</span>
+                    </span>
+                    <p className="text-[13px] text-[#3D342A] font-heading font-semibold">{fear}</p>
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="font-bold text-lg text-red-900 mb-2">
-                    {analysis.primaryFear.fearName}
-                  </p>
-                  <p className="text-sm text-red-700">{analysis.primaryFear.reasoning}</p>
-                </CardContent>
-              </Card>
+                ))}
+              </div>
+            </div>
+          </div>
 
-              {/* Recommended Approach */}
-              <Card className="bg-purple-50 border-purple-200">
-                <CardHeader>
-                  <CardTitle className="text-purple-900">Recommended Approach</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-purple-700">{analysis.recommendedApproach}</p>
-                </CardContent>
-              </Card>
-
-              {/* Identified Fears */}
+          {/* Results */}
+          <div>
+            {analysis ? (
               <div className="space-y-4">
-                <h2 className="text-xl font-bold">
-                  Identified Fears ({analysis.identifiedFears.length})
-                </h2>
-                {analysis.identifiedFears
-                  .sort((a, b) => b.relevanceScore - a.relevanceScore)
-                  .map((fear, index) => (
-                    <Card key={index} className={`border-l-4 ${getScoreColor(fear.relevanceScore)}`}>
-                      <CardHeader>
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="flex-1">
-                            <CardTitle className="text-lg">{fear.fearName}</CardTitle>
-                            <CardDescription className="mt-1">
-                              Relevance: {fear.relevanceScore}%
-                            </CardDescription>
-                          </div>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => {
-                              // Save fear and navigate to Hook Generator
-                              const savedFear = addFear({
-                                id: fear.fearId,
-                                name: fear.fearName,
-                                relevance: fear.relevanceScore,
-                                hooks: fear.hooks,
-                                targetAudience: audienceDescription,
-                              })
-                              setPendingAction({
-                                action: 'target-fear-in-hooks',
-                                data: savedFear,
-                              })
-                              router.push('/dashboard/hooks')
-                            }}
-                            className="gap-1"
-                            title="Generate more hooks targeting this fear"
-                          >
-                            <ArrowRight className="h-3 w-3" />
-                            More Hooks
-                          </Button>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {/* Reasoning */}
-                        <div>
-                          <p className="text-xs font-semibold text-gray-600 mb-1">Why This Fear:</p>
-                          <p className="text-sm">{fear.reasoning}</p>
-                        </div>
+                {/* Primary fear */}
+                <div className="nc-result-card border-l-4 border-l-red-500">
+                  <div className="flex items-center gap-2 mb-2">
+                    <TrendingUp className="h-4 w-4 text-red-500" />
+                    <p className="nc-eyebrow text-red-500">Primary Fear</p>
+                  </div>
+                  <p className="font-heading font-black text-[#0A0A0A] text-base mb-2">{analysis.primaryFear.fearName}</p>
+                  <p className="text-[13px] text-[#5C5448] leading-relaxed">{analysis.primaryFear.reasoning}</p>
+                </div>
 
-                        {/* Hooks */}
-                        <div>
-                          <p className="text-xs font-semibold text-gray-600 mb-2">
-                            Fear-Targeted Hooks:
-                          </p>
+                {/* Recommended approach */}
+                <div className="nc-panel p-5">
+                  <p className="nc-eyebrow mb-2">Strategy</p>
+                  <p className="font-heading font-bold text-[#0A0A0A] text-sm mb-2">Recommended Approach</p>
+                  <p className="text-[13px] text-[#5C5448] leading-relaxed">{analysis.recommendedApproach}</p>
+                </div>
+
+                {/* All identified fears */}
+                <div>
+                  <p className="font-heading font-black text-[#0A0A0A] text-base mb-3">
+                    Identified Fears ({analysis.identifiedFears.length})
+                  </p>
+                  <div className="space-y-3">
+                    {analysis.identifiedFears
+                      .sort((a, b) => b.relevanceScore - a.relevanceScore)
+                      .map((fear, index) => (
+                        <div key={index} className="nc-result-card space-y-3">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <p className="font-heading font-bold text-[#0A0A0A] text-sm">{fear.fearName}</p>
+                                <span className={`px-2 py-0.5 rounded-full border text-[10px] font-heading font-black tracking-wide uppercase ${getScoreBadgeClass(fear.relevanceScore)}`}>
+                                  {fear.relevanceScore}%
+                                </span>
+                              </div>
+                              <p className="text-[12px] text-[#8A8071]">{fear.reasoning}</p>
+                            </div>
+                            <button
+                              onClick={() => {
+                                const savedFear = addFear({ id: fear.fearId, name: fear.fearName, relevance: fear.relevanceScore, hooks: fear.hooks, targetAudience: audienceDescription })
+                                setPendingAction({ action: 'target-fear-in-hooks', data: savedFear })
+                                router.push('/dashboard/hooks')
+                              }}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#DED5C2] bg-white text-[#5C5448] hover:border-[#C9A646]/50 hover:text-[#0A0A0A] transition-all text-[11px] font-heading font-bold uppercase tracking-wide flex-shrink-0"
+                            >
+                              <ArrowRight className="h-3 w-3" /> Hooks
+                            </button>
+                          </div>
+
+                          {/* Fear-targeted hooks */}
                           <div className="space-y-2">
+                            <p className="label-nc">Fear-Targeted Hooks</p>
                             {fear.hooks.map((hook, hookIndex) => (
-                              <div
-                                key={hookIndex}
-                                className="p-3 bg-white border rounded-md flex items-start gap-2 group"
-                              >
-                                <p className="text-sm flex-1">{hook}</p>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
+                              <div key={hookIndex} className="flex items-start gap-2 p-3 bg-[#FAF7F0] border border-[#E8E1D0] rounded-lg group">
+                                <p className="text-[13px] text-[#1F1B16] flex-1 leading-relaxed">{hook}</p>
+                                <button
                                   onClick={() => copyHook(hook)}
-                                  className="opacity-0 group-hover:opacity-100 transition-opacity"
+                                  className="p-1 rounded text-[#B0A898] hover:text-[#C9A646] transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100"
                                 >
-                                  {copiedHook === hook ? (
-                                    <Check className="h-4 w-4 text-green-600" />
-                                  ) : (
-                                    <Copy className="h-4 w-4" />
-                                  )}
-                                </Button>
+                                  {copiedHook === hook ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+                                </button>
                               </div>
                             ))}
                           </div>
-                        </div>
 
-                        {/* Content Strategy */}
-                        <div className="p-3 bg-purple-50 border border-purple-100 rounded-md">
-                          <p className="text-xs font-semibold text-purple-600 mb-1">
-                            Content Strategy:
-                          </p>
-                          <p className="text-xs text-purple-700">{fear.contentStrategy}</p>
+                          {/* Content strategy */}
+                          <div className="p-3 bg-[#FAF7F0] border border-[#DED5C2] rounded-lg">
+                            <p className="label-nc mb-1.5">Content Strategy</p>
+                            <p className="text-[12px] text-[#5C5448] leading-relaxed">{fear.contentStrategy}</p>
+                          </div>
                         </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                      ))}
+                  </div>
+                </div>
               </div>
-            </div>
-          ) : (
-            <Card className="border-dashed">
-              <CardContent className="flex flex-col items-center justify-center py-16">
-                <Brain className="h-16 w-16 text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  No analysis yet
-                </h3>
-                <p className="text-gray-500 text-center max-w-md text-sm">
-                  Describe your target audience and click "Analyze Shadow Fears" to identify their
-                  deepest unspoken fears
+            ) : (
+              <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
+                <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
+                  <Brain className="h-6 w-6 text-[#C9A646]" />
+                </div>
+                <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">No analysis yet</h3>
+                <p className="text-[#8A8071] text-sm max-w-xs">
+                  Describe your audience on the left and hit Analyse — the 10 Shadow Fears that drive them will surface.
                 </p>
-              </CardContent>
-            </Card>
-          )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

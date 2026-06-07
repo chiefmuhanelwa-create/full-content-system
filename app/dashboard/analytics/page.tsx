@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { BarChart, TrendingUp, Award, Target, Lightbulb, LineChart } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface PerformanceData {
   contentId: string
@@ -127,14 +128,15 @@ export default function AnalyticsPage() {
     [0]
 
   return (
-    <div className="container mx-auto px-8 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
-          <BarChart className="h-10 w-10 text-blue-600" />
-          Performance Analytics
-        </h1>
-        <p className="text-gray-600">Track, analyze, and learn from your content performance</p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={BarChart}
+        iconColor="text-blue-500"
+        eyebrow="Analyze"
+        title="Performance Analytics"
+        description="Track, analyze, and learn from your content performance"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Stats Overview */}
       <div className="grid md:grid-cols-4 gap-4 mb-8">
@@ -418,6 +420,7 @@ export default function AnalyticsPage() {
             </Card>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

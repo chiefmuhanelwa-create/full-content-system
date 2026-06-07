@@ -19,6 +19,7 @@ import {
   Play
 } from 'lucide-react'
 import Link from 'next/link'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface ContentItem {
   id: string
@@ -141,24 +142,20 @@ export default function WorkflowPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-              🚀 Content Workflow Tracker
-            </h1>
-            <p className="text-gray-600">
-              Track your content from idea to published post
-            </p>
-          </div>
-          <Button onClick={addNewItem} className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            New Content Item
-          </Button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Play}
+        iconColor="text-[#C9A646]"
+        eyebrow="Track"
+        title="Content Workflow Tracker"
+        description="Track your content from idea to published post"
+      >
+        <Button onClick={addNewItem} className="flex items-center gap-2">
+          <Plus className="h-4 w-4" />
+          New Content Item
+        </Button>
+      </ToolPageHeader>
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Workflow Stages Overview */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
@@ -419,6 +416,7 @@ export default function WorkflowPage() {
           </div>
         </CardContent>
       </Card>
+    </div>
     </div>
   )
 }

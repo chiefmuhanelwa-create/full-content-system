@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Target, Copy, Sparkles } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 const CTA_LIBRARY = {
   engagement: [
@@ -72,14 +73,15 @@ export default function CTAOptimizerPage() {
   }
 
   return (
-    <div className="container mx-auto px-8 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
-          <Target className="h-10 w-10 text-rose-600" />
-          CTA Library & Optimizer
-        </h1>
-        <p className="text-gray-600">High-converting CTAs for every situation</p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Target}
+        iconColor="text-rose-600"
+        eyebrow="Optimize"
+        title="CTA Library & Optimizer"
+        description="High-converting CTAs for every situation"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* CTA Library */}
@@ -208,6 +210,7 @@ export default function CTAOptimizerPage() {
           )}
         </div>
       </div>
+    </div>
     </div>
   )
 }

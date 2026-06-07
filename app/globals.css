@@ -295,4 +295,128 @@
     text-transform: uppercase;
     color: #4A3F35;
   }
+
+  /* ─── Tool page header section ─── */
+  .nc-page-header {
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid #E8E1D0;
+    background: #FFFFFF;
+  }
+
+  /* ─── Form row wrapper ─── */
+  .nc-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .nc-form-row label {
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4A3F35;
+  }
+
+  /* ─── Tool input ─── */
+  .nc-tool-input {
+    background: #FAF7F0;
+    border: 1px solid #DED5C2;
+    border-radius: 0.625rem;
+    font-family: var(--font-body, 'Lato', sans-serif);
+    font-size: 14px;
+    color: #1F1B16;
+    padding: 0.625rem 0.875rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    width: 100%;
+    outline: none;
+  }
+  .nc-tool-input:focus {
+    border-color: #C9A646;
+    box-shadow: 0 0 0 3px rgba(201, 166, 70, 0.12);
+  }
+  .nc-tool-input::placeholder { color: #C9C0B0; }
+
+  /* ─── Result / output card ─── */
+  .nc-result-card {
+    background: #FFFFFF;
+    border: 1px solid #DED5C2;
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.18s ease, box-shadow 0.2s ease, transform 0.18s ease;
+  }
+  .nc-result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, #C9A646, #E6C871, #C9A646);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .nc-result-card:hover {
+    border-color: rgba(201, 166, 70, 0.45);
+    box-shadow: 0 4px 20px rgba(201, 166, 70, 0.10), 0 2px 8px rgba(10, 10, 10, 0.04);
+    transform: translateY(-1px);
+  }
+  .nc-result-card:hover::before { opacity: 1; }
+
+  /* ─── Generate button ─── */
+  .nc-generate-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #E6C871 0%, #C9A646 60%, #8C6F1F 100%);
+    color: #0A0A0A !important;
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid rgba(140, 111, 31, 0.30);
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(201, 166, 70, 0.22), 0 4px 14px rgba(10, 10, 10, 0.08);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.15s ease;
+  }
+  .nc-generate-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 0 35px rgba(201, 166, 70, 0.38), 0 8px 20px rgba(10, 10, 10, 0.10);
+  }
+  .nc-generate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ─── Tool section wrapper ─── */
+  .nc-tool-section {
+    background: #FFFFFF;
+    border: 1px solid #DED5C2;
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  /* ─── Muted helper text ─── */
+  .nc-helper {
+    font-size: 12px;
+    color: #8A8071;
+    line-height: 1.5;
+  }
+
+  /* ─── Error state ─── */
+  .nc-error {
+    padding: 0.75rem 1rem;
+    background: rgba(212, 84, 31, 0.06);
+    border: 1px solid rgba(212, 84, 31, 0.25);
+    border-radius: 0.625rem;
+    color: #9A3A12;
+    font-size: 13px;
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
+    font-weight: 600;
+  }
 }

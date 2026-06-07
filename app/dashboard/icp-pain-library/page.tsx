@@ -2,12 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
 import {
   Select,
   SelectContent,
@@ -16,18 +10,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {
-  Heart,
-  Plus,
-  Edit,
-  Trash2,
-  Download,
-  Filter,
-  X,
-  AlertTriangle,
-  TrendingUp,
-  Target,
-  Brain,
+  Heart, Plus, Edit, Trash2, Download, Filter, X, AlertTriangle, TrendingUp, Target, Brain,
 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface ICPPainPoint {
   id: string
@@ -63,54 +48,26 @@ export default function ICPPainLibraryPage() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  // Filters
   const [filterAudienceLevel, setFilterAudienceLevel] = useState<string>('all')
   const [filterPainCategory, setFilterPainCategory] = useState<string>('all')
   const [filterShadowFear, setFilterShadowFear] = useState<string>('all')
   const [filterFavorite, setFilterFavorite] = useState<boolean | null>(null)
   const [showFilters, setShowFilters] = useState(false)
 
-  // Form data
   const [formData, setFormData] = useState<Partial<ICPPainPoint>>({
-    audienceLevel: 'beginner_creator',
-    audienceSegment: '',
-    painPoint: '',
-    painCategory: 'financial',
-    painIntensity: 'medium',
-    shadowFear: '',
-    emotionalTrigger: '',
-    solutionType: '',
-    productMatch: '',
-    contentPillar: '',
-    timesAddressed: 0,
-    avgEngagement: 0,
-    conversionRate: 0,
-    isFavorite: false,
-    notes: '',
+    audienceLevel: 'beginner_creator', audienceSegment: '', painPoint: '', painCategory: 'financial',
+    painIntensity: 'medium', shadowFear: '', emotionalTrigger: '', solutionType: '', productMatch: '',
+    contentPillar: '', timesAddressed: 0, avgEngagement: 0, conversionRate: 0, isFavorite: false, notes: '',
   })
 
-  // Load pain points
-  useEffect(() => {
-    fetchPainPoints()
-  }, [])
+  useEffect(() => { fetchPainPoints() }, [])
 
-  // Apply filters
   useEffect(() => {
     let filtered = [...painPoints]
-
-    if (filterAudienceLevel !== 'all') {
-      filtered = filtered.filter((p) => p.audienceLevel === filterAudienceLevel)
-    }
-    if (filterPainCategory !== 'all') {
-      filtered = filtered.filter((p) => p.painCategory === filterPainCategory)
-    }
-    if (filterShadowFear !== 'all') {
-      filtered = filtered.filter((p) => p.shadowFear === filterShadowFear)
-    }
-    if (filterFavorite !== null) {
-      filtered = filtered.filter((p) => p.isFavorite === filterFavorite)
-    }
-
+    if (filterAudienceLevel !== 'all') filtered = filtered.filter((p) => p.audienceLevel === filterAudienceLevel)
+    if (filterPainCategory !== 'all') filtered = filtered.filter((p) => p.painCategory === filterPainCategory)
+    if (filterShadowFear !== 'all') filtered = filtered.filter((p) => p.shadowFear === filterShadowFear)
+    if (filterFavorite !== null) filtered = filtered.filter((p) => p.isFavorite === filterFavorite)
     setFilteredPainPoints(filtered)
   }, [painPoints, filterAudienceLevel, filterPainCategory, filterShadowFear, filterFavorite])
 
@@ -119,778 +76,347 @@ export default function ICPPainLibraryPage() {
       setLoading(true)
       const response = await fetch('/api/icp-pain-library/list')
       const data = await response.json()
-      if (data.success) {
-        setPainPoints(data.painPoints)
-      }
-    } catch (error) {
-      console.error('Error fetching pain points:', error)
-    } finally {
-      setLoading(false)
-    }
+      if (data.success) setPainPoints(data.painPoints)
+    } catch (error) { console.error('Error fetching pain points:', error) } finally { setLoading(false) }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     try {
       setLoading(true)
       const url = editingId ? '/api/icp-pain-library/update' : '/api/icp-pain-library/create'
       const method = editingId ? 'PUT' : 'POST'
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editingId ? { id: editingId, ...formData } : formData),
-      })
-
+      const response = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editingId ? { id: editingId, ...formData } : formData) })
       const data = await response.json()
-      if (data.success) {
-        await fetchPainPoints()
-        resetForm()
-      }
-    } catch (error) {
-      console.error('Error saving pain point:', error)
-    } finally {
-      setLoading(false)
-    }
+      if (data.success) { await fetchPainPoints(); resetForm() }
+    } catch (error) { console.error('Error saving pain point:', error) } finally { setLoading(false) }
   }
 
   const toggleFavorite = async (id: string, currentFavorite: boolean) => {
     try {
-      const response = await fetch('/api/icp-pain-library/update', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, isFavorite: !currentFavorite }),
-      })
-
+      const response = await fetch('/api/icp-pain-library/update', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, isFavorite: !currentFavorite }) })
       const data = await response.json()
-      if (data.success) {
-        await fetchPainPoints()
-      }
-    } catch (error) {
-      console.error('Error toggling favorite:', error)
-    }
+      if (data.success) await fetchPainPoints()
+    } catch (error) { console.error('Error toggling favorite:', error) }
   }
 
   const deletePainPoint = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this pain point?')) return
-
+    if (!confirm('Delete this pain point?')) return
     try {
-      const response = await fetch(`/api/icp-pain-library/delete?id=${id}`, {
-        method: 'DELETE',
-      })
-
+      const response = await fetch(`/api/icp-pain-library/delete?id=${id}`, { method: 'DELETE' })
       const data = await response.json()
-      if (data.success) {
-        await fetchPainPoints()
-      }
-    } catch (error) {
-      console.error('Error deleting pain point:', error)
-    }
+      if (data.success) await fetchPainPoints()
+    } catch (error) { console.error('Error deleting pain point:', error) }
   }
 
   const editPainPoint = (painPoint: ICPPainPoint) => {
-    setFormData(painPoint)
-    setEditingId(painPoint.id)
-    setIsEditing(true)
+    setFormData(painPoint); setEditingId(painPoint.id); setIsEditing(true)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const resetForm = () => {
-    setFormData({
-      audienceLevel: 'beginner_creator',
-      audienceSegment: '',
-      painPoint: '',
-      painCategory: 'financial',
-      painIntensity: 'medium',
-      shadowFear: '',
-      emotionalTrigger: '',
-      solutionType: '',
-      productMatch: '',
-      contentPillar: '',
-      timesAddressed: 0,
-      avgEngagement: 0,
-      conversionRate: 0,
-      isFavorite: false,
-      notes: '',
-    })
-    setEditingId(null)
-    setIsEditing(false)
+    setFormData({ audienceLevel: 'beginner_creator', audienceSegment: '', painPoint: '', painCategory: 'financial', painIntensity: 'medium', shadowFear: '', emotionalTrigger: '', solutionType: '', productMatch: '', contentPillar: '', timesAddressed: 0, avgEngagement: 0, conversionRate: 0, isFavorite: false, notes: '' })
+    setEditingId(null); setIsEditing(false)
   }
 
-  const clearFilters = () => {
-    setFilterAudienceLevel('all')
-    setFilterPainCategory('all')
-    setFilterShadowFear('all')
-    setFilterFavorite(null)
-  }
+  const clearFilters = () => { setFilterAudienceLevel('all'); setFilterPainCategory('all'); setFilterShadowFear('all'); setFilterFavorite(null) }
 
   const exportToCSV = () => {
-    const headers = [
-      'Audience Level',
-      'Audience Segment',
-      'Pain Point',
-      'Pain Category',
-      'Pain Intensity',
-      'Shadow Fear',
-      'Emotional Trigger',
-      'Solution Type',
-      'Product Match',
-      'Content Pillar',
-      'Times Addressed',
-      'Avg Engagement',
-      'Conversion Rate',
-      'Favorite',
-    ]
-
-    const rows = filteredPainPoints.map((p) => [
-      p.audienceLevel,
-      p.audienceSegment || '',
-      p.painPoint,
-      p.painCategory,
-      p.painIntensity,
-      p.shadowFear || '',
-      p.emotionalTrigger || '',
-      p.solutionType || '',
-      p.productMatch || '',
-      p.contentPillar || '',
-      p.timesAddressed,
-      p.avgEngagement,
-      p.conversionRate,
-      p.isFavorite ? 'Yes' : 'No',
-    ])
-
-    const csvContent =
-      'data:text/csv;charset=utf-8,' +
-      [headers.join(','), ...rows.map((row) => row.map((cell) => `"${cell}"`).join(','))].join('\n')
-
-    const encodedUri = encodeURI(csvContent)
+    const headers = ['Audience Level','Audience Segment','Pain Point','Pain Category','Pain Intensity','Shadow Fear','Emotional Trigger','Solution Type','Product Match','Content Pillar','Times Addressed','Avg Engagement','Conversion Rate','Favorite']
+    const rows = filteredPainPoints.map((p) => [p.audienceLevel,p.audienceSegment||'',p.painPoint,p.painCategory,p.painIntensity,p.shadowFear||'',p.emotionalTrigger||'',p.solutionType||'',p.productMatch||'',p.contentPillar||'',p.timesAddressed,p.avgEngagement,p.conversionRate,p.isFavorite?'Yes':'No'])
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((row) => row.map((cell) => `"${cell}"`).join(','))].join('\n')
     const link = document.createElement('a')
-    link.setAttribute('href', encodedUri)
+    link.setAttribute('href', encodeURI(csvContent))
     link.setAttribute('download', `icp-pain-library-${new Date().toISOString().split('T')[0]}.csv`)
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    document.body.appendChild(link); link.click(); document.body.removeChild(link)
   }
 
-  const getPainIntensityColor = (intensity: string) => {
+  const getPainIntensityClass = (intensity: string) => {
     switch (intensity) {
-      case 'low':
-        return 'bg-green-100 text-green-700 border-green-200'
-      case 'medium':
-        return 'bg-yellow-100 text-yellow-700 border-yellow-200'
-      case 'high':
-        return 'bg-orange-100 text-orange-700 border-orange-200'
-      case 'critical':
-        return 'bg-red-100 text-red-700 border-red-200'
-      default:
-        return 'bg-gray-100 text-gray-700 border-gray-200'
+      case 'low': return 'bg-emerald-100 text-emerald-700 border-emerald-200'
+      case 'medium': return 'bg-[#FAF7F0] text-[#8C6F1F] border-[#C9A646]/30'
+      case 'high': return 'bg-[#FFF3E8] text-[#9A3A12] border-[#F2701E]/30'
+      case 'critical': return 'bg-red-100 text-red-700 border-red-200'
+      default: return 'bg-[#FAF7F0] text-[#8A8071] border-[#DED5C2]'
     }
   }
 
   const getAudienceLevelLabel = (level: string) => {
     switch (level) {
-      case 'beginner_creator':
-        return 'Beginner Creator'
-      case 'established_creator':
-        return 'Established Creator'
-      case 'contentpreneur':
-        return 'Contentpreneur'
-      default:
-        return level
+      case 'beginner_creator': return 'Beginner Creator'
+      case 'established_creator': return 'Established Creator'
+      case 'contentpreneur': return 'Contentpreneur'
+      default: return level
     }
   }
 
   const stats = {
     total: painPoints.length,
     favorites: painPoints.filter((p) => p.isFavorite).length,
-    avgEngagement:
-      painPoints.length > 0
-        ? (painPoints.reduce((sum, p) => sum + p.avgEngagement, 0) / painPoints.length).toFixed(2)
-        : '0.00',
-    avgConversion:
-      painPoints.length > 0
-        ? (painPoints.reduce((sum, p) => sum + p.conversionRate, 0) / painPoints.length).toFixed(2)
-        : '0.00',
+    avgEngagement: painPoints.length > 0 ? (painPoints.reduce((sum, p) => sum + p.avgEngagement, 0) / painPoints.length).toFixed(2) : '0.00',
+    avgConversion: painPoints.length > 0 ? (painPoints.reduce((sum, p) => sum + p.conversionRate, 0) / painPoints.length).toFixed(2) : '0.00',
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-              <Brain className="h-8 w-8 text-purple-600" />
-              ICP Pain Library
-            </h1>
-            <p className="text-gray-600">
-              Deep understanding of your audience&apos;s pain points - what keeps them awake at night
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2"
-            >
-              <Filter className="h-4 w-4" />
-              Filters
-            </Button>
-            <Button variant="outline" onClick={exportToCSV} className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Export CSV
-            </Button>
-            <Button onClick={() => setIsEditing(!isEditing)} className="flex items-center gap-2">
-              {isEditing ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-              {isEditing ? 'Cancel' : 'Add Pain Point'}
-            </Button>
-          </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Target}
+        iconColor="text-[#C9A646]"
+        eyebrow="Audience"
+        title="ICP Pain Library"
+        description="Deep understanding of your audience's pain points — what keeps them awake at night."
+      >
+        <div className="flex gap-2">
+          <button onClick={() => setShowFilters(!showFilters)} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#DED5C2] bg-white text-[#5C5448] hover:border-[#C9A646]/50 text-[11px] font-heading font-bold uppercase tracking-wide transition-all">
+            <Filter className="h-3.5 w-3.5" /> Filters
+          </button>
+          <button onClick={exportToCSV} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#DED5C2] bg-white text-[#5C5448] hover:border-[#C9A646]/50 text-[11px] font-heading font-bold uppercase tracking-wide transition-all">
+            <Download className="h-3.5 w-3.5" /> Export CSV
+          </button>
+          <button onClick={() => setIsEditing(!isEditing)} className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[11px] font-heading font-bold uppercase tracking-wide transition-all ${isEditing ? 'border border-[#DED5C2] bg-white text-[#8A8071]' : 'bg-[#C9A646] text-[#0A0A0A]'}`}>
+            {isEditing ? <><X className="h-3.5 w-3.5" /> Cancel</> : <><Plus className="h-3.5 w-3.5" /> Add Pain Point</>}
+          </button>
         </div>
-      </div>
+      </ToolPageHeader>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Pain Points</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{stats.total}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-purple-600">Favorites</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-purple-600">{stats.favorites}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-blue-600">Avg Engagement</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-blue-600">{stats.avgEngagement}%</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-green-600">Avg Conversion</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-green-600">{stats.avgConversion}%</p>
-          </CardContent>
-        </Card>
-      </div>
+      <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
 
-      {/* Filters */}
-      {showFilters && (
-        <Card className="mb-8">
-          <CardHeader>
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: 'Total Pain Points', value: stats.total, color: 'text-[#C9A646]' },
+            { label: 'Favourites', value: stats.favorites, color: 'text-red-500' },
+            { label: 'Avg Engagement', value: `${stats.avgEngagement}%`, color: 'text-[#C9A646]' },
+            { label: 'Avg Conversion', value: `${stats.avgConversion}%`, color: 'text-emerald-600' },
+          ].map((stat) => (
+            <div key={stat.label} className="nc-stat">
+              <p className="nc-stat-label">{stat.label}</p>
+              <p className={`nc-stat-number ${stat.color}`}>{stat.value}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Filters */}
+        {showFilters && (
+          <div className="nc-tool-section space-y-4">
             <div className="flex items-center justify-between">
-              <CardTitle>Filters</CardTitle>
-              <Button variant="ghost" size="sm" onClick={clearFilters}>
-                Clear All
-              </Button>
+              <p className="nc-eyebrow">Filters</p>
+              <button onClick={clearFilters} className="text-[11px] font-heading font-bold text-[#8A8071] hover:text-[#C9A646] transition-colors uppercase tracking-wide">Clear All</button>
             </div>
-          </CardHeader>
-          <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="space-y-2">
-                <Label>Audience Level</Label>
-                <Select value={filterAudienceLevel} onValueChange={setFilterAudienceLevel}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Levels</SelectItem>
-                    <SelectItem value="beginner_creator">Beginner Creator</SelectItem>
-                    <SelectItem value="established_creator">Established Creator</SelectItem>
-                    <SelectItem value="contentpreneur">Contentpreneur</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Pain Category</Label>
-                <Select value={filterPainCategory} onValueChange={setFilterPainCategory}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="financial">Financial</SelectItem>
-                    <SelectItem value="visibility">Visibility</SelectItem>
-                    <SelectItem value="technical">Technical</SelectItem>
-                    <SelectItem value="confidence">Confidence</SelectItem>
-                    <SelectItem value="time">Time</SelectItem>
-                    <SelectItem value="knowledge">Knowledge</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Shadow Fear</Label>
-                <Select value={filterShadowFear} onValueChange={setFilterShadowFear}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Fears</SelectItem>
-                    <SelectItem value="invisibility">Invisibility</SelectItem>
-                    <SelectItem value="wasted_potential">Wasted Potential</SelectItem>
-                    <SelectItem value="left_behind">Left Behind</SelectItem>
-                    <SelectItem value="exposure">Exposure</SelectItem>
-                    <SelectItem value="poverty_cycle">Poverty Cycle</SelectItem>
-                    <SelectItem value="family_shame">Family Shame</SelectItem>
-                    <SelectItem value="imposter_syndrome">Imposter Syndrome</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Favorite Status</Label>
-                <Select
-                  value={filterFavorite === null ? 'all' : filterFavorite ? 'favorites' : 'not-favorites'}
-                  onValueChange={(value) =>
-                    setFilterFavorite(value === 'all' ? null : value === 'favorites')
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Pain Points</SelectItem>
-                    <SelectItem value="favorites">Favorites Only</SelectItem>
-                    <SelectItem value="not-favorites">Non-Favorites</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              {[
+                { label: 'Audience Level', value: filterAudienceLevel, onChange: setFilterAudienceLevel, options: [['all','All Levels'],['beginner_creator','Beginner Creator'],['established_creator','Established Creator'],['contentpreneur','Contentpreneur']] },
+                { label: 'Pain Category', value: filterPainCategory, onChange: setFilterPainCategory, options: [['all','All Categories'],['financial','Financial'],['visibility','Visibility'],['technical','Technical'],['confidence','Confidence'],['time','Time'],['knowledge','Knowledge']] },
+                { label: 'Shadow Fear', value: filterShadowFear, onChange: setFilterShadowFear, options: [['all','All Fears'],['invisibility','Invisibility'],['wasted_potential','Wasted Potential'],['left_behind','Left Behind'],['exposure','Exposure'],['poverty_cycle','Poverty Cycle'],['family_shame','Family Shame'],['imposter_syndrome','Imposter Syndrome']] },
+                { label: 'Favourite Status', value: filterFavorite === null ? 'all' : filterFavorite ? 'favorites' : 'not-favorites', onChange: (v: string) => setFilterFavorite(v === 'all' ? null : v === 'favorites'), options: [['all','All Pain Points'],['favorites','Favourites Only'],['not-favorites','Non-Favourites']] },
+              ].map((filter) => (
+                <div key={filter.label} className="nc-form-row">
+                  <label>{filter.label}</label>
+                  <Select value={filter.value} onValueChange={filter.onChange}>
+                    <SelectTrigger className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {filter.options.map(([val, label]) => <SelectItem key={val} value={val}>{label}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+              ))}
             </div>
-          </CardContent>
-        </Card>
-      )}
+          </div>
+        )}
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        {/* Form */}
-        {isEditing && (
-          <Card className="lg:col-span-1">
-            <CardHeader>
-              <CardTitle>{editingId ? 'Edit Pain Point' : 'Add New Pain Point'}</CardTitle>
-              <CardDescription>
-                Document what keeps your audience awake at night
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+        <div className={`grid gap-6 ${isEditing ? 'lg:grid-cols-3' : 'lg:grid-cols-1'}`}>
+          {/* Form */}
+          {isEditing && (
+            <div className="nc-tool-section lg:col-span-1 space-y-4">
+              <div>
+                <p className="nc-eyebrow mb-0.5">{editingId ? 'Edit' : 'New'}</p>
+                <h2 className="font-heading font-black text-[#0A0A0A] text-lg leading-none">{editingId ? 'Edit Pain Point' : 'Add Pain Point'}</h2>
+              </div>
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="audienceLevel">Audience Level *</Label>
-                  <Select
-                    value={formData.audienceLevel}
-                    onValueChange={(value) => setFormData({ ...formData, audienceLevel: value })}
-                  >
-                    <SelectTrigger id="audienceLevel">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="beginner_creator">Beginner Creator</SelectItem>
-                      <SelectItem value="established_creator">Established Creator</SelectItem>
-                      <SelectItem value="contentpreneur">Contentpreneur</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="audienceSegment">Audience Segment</Label>
-                  <Input
-                    id="audienceSegment"
-                    value={formData.audienceSegment}
-                    onChange={(e) => setFormData({ ...formData, audienceSegment: e.target.value })}
-                    placeholder="e.g., African fashion creators"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="painPoint">Pain Point *</Label>
-                  <Textarea
-                    id="painPoint"
-                    value={formData.painPoint}
-                    onChange={(e) => setFormData({ ...formData, painPoint: e.target.value })}
-                    placeholder="What keeps them awake at night?"
-                    rows={3}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="painCategory">Pain Category *</Label>
-                  <Select
-                    value={formData.painCategory}
-                    onValueChange={(value) => setFormData({ ...formData, painCategory: value })}
-                  >
-                    <SelectTrigger id="painCategory">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="financial">Financial</SelectItem>
-                      <SelectItem value="visibility">Visibility</SelectItem>
-                      <SelectItem value="technical">Technical</SelectItem>
-                      <SelectItem value="confidence">Confidence</SelectItem>
-                      <SelectItem value="time">Time</SelectItem>
-                      <SelectItem value="knowledge">Knowledge</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="painIntensity">Pain Intensity *</Label>
-                  <Select
-                    value={formData.painIntensity}
-                    onValueChange={(value) => setFormData({ ...formData, painIntensity: value })}
-                  >
-                    <SelectTrigger id="painIntensity">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="low">Low</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="high">High</SelectItem>
-                      <SelectItem value="critical">Critical</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="shadowFear">Shadow Fear</Label>
-                  <Select
-                    value={formData.shadowFear || ''}
-                    onValueChange={(value) => setFormData({ ...formData, shadowFear: value })}
-                  >
-                    <SelectTrigger id="shadowFear">
-                      <SelectValue placeholder="Select shadow fear" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="invisibility">Invisibility</SelectItem>
-                      <SelectItem value="wasted_potential">Wasted Potential</SelectItem>
-                      <SelectItem value="left_behind">Left Behind</SelectItem>
-                      <SelectItem value="exposure">Exposure</SelectItem>
-                      <SelectItem value="poverty_cycle">Poverty Cycle</SelectItem>
-                      <SelectItem value="family_shame">Family Shame</SelectItem>
-                      <SelectItem value="imposter_syndrome">Imposter Syndrome</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="emotionalTrigger">Emotional Trigger</Label>
-                  <Input
-                    id="emotionalTrigger"
-                    value={formData.emotionalTrigger}
-                    onChange={(e) => setFormData({ ...formData, emotionalTrigger: e.target.value })}
-                    placeholder="e.g., Family shame, poverty cycle"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="solutionType">Solution Type</Label>
-                  <Select
-                    value={formData.solutionType || ''}
-                    onValueChange={(value) => setFormData({ ...formData, solutionType: value })}
-                  >
-                    <SelectTrigger id="solutionType">
-                      <SelectValue placeholder="Select solution type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="education">Education</SelectItem>
-                      <SelectItem value="tool">Tool</SelectItem>
-                      <SelectItem value="framework">Framework</SelectItem>
-                      <SelectItem value="mindset_shift">Mindset Shift</SelectItem>
-                      <SelectItem value="system">System</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="productMatch">Product Match</Label>
-                  <Input
-                    id="productMatch"
-                    value={formData.productMatch}
-                    onChange={(e) => setFormData({ ...formData, productMatch: e.target.value })}
-                    placeholder="Which NOCHILL product solves this?"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="contentPillar">Content Pillar</Label>
-                  <Select
-                    value={formData.contentPillar || ''}
-                    onValueChange={(value) => setFormData({ ...formData, contentPillar: value })}
-                  >
-                    <SelectTrigger id="contentPillar">
-                      <SelectValue placeholder="Select content pillar" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="authority">Authority</SelectItem>
-                      <SelectItem value="education">Education</SelectItem>
-                      <SelectItem value="monetization">Monetization</SelectItem>
-                      <SelectItem value="story">Story</SelectItem>
-                      <SelectItem value="conversion">Conversion</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="pt-4 border-t">
-                  <h3 className="text-sm font-semibold mb-3">Performance Metrics</h3>
-
-                  <div className="space-y-3">
-                    <div className="space-y-2">
-                      <Label htmlFor="timesAddressed">Times Addressed</Label>
-                      <Input
-                        id="timesAddressed"
-                        type="number"
-                        value={formData.timesAddressed}
-                        onChange={(e) =>
-                          setFormData({ ...formData, timesAddressed: Number(e.target.value) })
-                        }
-                        placeholder="0"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="avgEngagement">Avg Engagement (%)</Label>
-                      <Input
-                        id="avgEngagement"
-                        type="number"
-                        step="0.01"
-                        value={formData.avgEngagement}
-                        onChange={(e) =>
-                          setFormData({ ...formData, avgEngagement: Number(e.target.value) })
-                        }
-                        placeholder="0.00"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="conversionRate">Conversion Rate (%)</Label>
-                      <Input
-                        id="conversionRate"
-                        type="number"
-                        step="0.01"
-                        value={formData.conversionRate}
-                        onChange={(e) =>
-                          setFormData({ ...formData, conversionRate: Number(e.target.value) })
-                        }
-                        placeholder="0.00"
-                      />
-                    </div>
+                {[
+                  { id: 'audienceLevel', label: 'Audience Level *', value: formData.audienceLevel, key: 'audienceLevel', options: [['beginner_creator','Beginner Creator'],['established_creator','Established Creator'],['contentpreneur','Contentpreneur']] },
+                ].map((field) => (
+                  <div key={field.id} className="nc-form-row">
+                    <label htmlFor={field.id}>{field.label}</label>
+                    <Select value={field.value} onValueChange={(v) => setFormData({ ...formData, [field.key]: v })}>
+                      <SelectTrigger id={field.id} className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
+                      <SelectContent>{field.options.map(([val, label]) => <SelectItem key={val} value={val}>{label}</SelectItem>)}</SelectContent>
+                    </Select>
                   </div>
+                ))}
+
+                <div className="nc-form-row">
+                  <label htmlFor="audienceSegment">Audience Segment</label>
+                  <input id="audienceSegment" className="nc-tool-input" value={formData.audienceSegment} onChange={(e) => setFormData({ ...formData, audienceSegment: e.target.value })} placeholder="e.g. African fashion creators" />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="notes">Notes</Label>
-                  <Textarea
-                    id="notes"
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    placeholder="Additional notes or insights..."
-                    rows={3}
-                  />
+                <div className="nc-form-row">
+                  <label htmlFor="painPoint">Pain Point *</label>
+                  <textarea id="painPoint" className="nc-tool-input min-h-[80px] resize-y" value={formData.painPoint} onChange={(e) => setFormData({ ...formData, painPoint: e.target.value })} placeholder="What keeps them awake at night?" required />
+                </div>
+
+                {[
+                  { id: 'painCategory', label: 'Pain Category *', key: 'painCategory', value: formData.painCategory, options: [['financial','Financial'],['visibility','Visibility'],['technical','Technical'],['confidence','Confidence'],['time','Time'],['knowledge','Knowledge']] },
+                  { id: 'painIntensity', label: 'Pain Intensity *', key: 'painIntensity', value: formData.painIntensity, options: [['low','Low'],['medium','Medium'],['high','High'],['critical','Critical']] },
+                  { id: 'shadowFear', label: 'Shadow Fear', key: 'shadowFear', value: formData.shadowFear || '', options: [['invisibility','Invisibility'],['wasted_potential','Wasted Potential'],['left_behind','Left Behind'],['exposure','Exposure'],['poverty_cycle','Poverty Cycle'],['family_shame','Family Shame'],['imposter_syndrome','Imposter Syndrome']] },
+                  { id: 'solutionType', label: 'Solution Type', key: 'solutionType', value: formData.solutionType || '', options: [['education','Education'],['tool','Tool'],['framework','Framework'],['mindset_shift','Mindset Shift'],['system','System']] },
+                  { id: 'contentPillar', label: 'Content Pillar', key: 'contentPillar', value: formData.contentPillar || '', options: [['authority','Authority'],['education','Education'],['monetization','Monetization'],['story','Story'],['conversion','Conversion']] },
+                ].map((field) => (
+                  <div key={field.id} className="nc-form-row">
+                    <label htmlFor={field.id}>{field.label}</label>
+                    <Select value={field.value} onValueChange={(v) => setFormData({ ...formData, [field.key]: v })}>
+                      <SelectTrigger id={field.id} className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
+                      <SelectContent>{field.options.map(([val, label]) => <SelectItem key={val} value={val}>{label}</SelectItem>)}</SelectContent>
+                    </Select>
+                  </div>
+                ))}
+
+                <div className="nc-form-row">
+                  <label htmlFor="emotionalTrigger">Emotional Trigger</label>
+                  <input id="emotionalTrigger" className="nc-tool-input" value={formData.emotionalTrigger} onChange={(e) => setFormData({ ...formData, emotionalTrigger: e.target.value })} placeholder="e.g. Family shame, poverty cycle" />
+                </div>
+
+                <div className="nc-form-row">
+                  <label htmlFor="productMatch">Product Match</label>
+                  <input id="productMatch" className="nc-tool-input" value={formData.productMatch} onChange={(e) => setFormData({ ...formData, productMatch: e.target.value })} placeholder="Which NOCHILL product solves this?" />
+                </div>
+
+                <div className="border-t border-[#E8E1D0] pt-4 space-y-3">
+                  <p className="label-nc">Performance Metrics</p>
+                  {[
+                    { id: 'timesAddressed', label: 'Times Addressed', value: formData.timesAddressed, key: 'timesAddressed' },
+                    { id: 'avgEngagement', label: 'Avg Engagement (%)', value: formData.avgEngagement, key: 'avgEngagement' },
+                    { id: 'conversionRate', label: 'Conversion Rate (%)', value: formData.conversionRate, key: 'conversionRate' },
+                  ].map((field) => (
+                    <div key={field.id} className="nc-form-row">
+                      <label htmlFor={field.id}>{field.label}</label>
+                      <input id={field.id} type="number" step="0.01" className="nc-tool-input" value={field.value} onChange={(e) => setFormData({ ...formData, [field.key]: Number(e.target.value) })} placeholder="0" />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="nc-form-row">
+                  <label htmlFor="notes">Notes</label>
+                  <textarea id="notes" className="nc-tool-input min-h-[80px] resize-y" value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} placeholder="Additional notes or insights..." />
                 </div>
 
                 <div className="flex gap-2">
-                  <Button type="submit" className="flex-1" disabled={loading}>
+                  <button type="submit" disabled={loading} className="nc-generate-btn flex-1 py-2.5">
                     {loading ? 'Saving...' : editingId ? 'Update Pain Point' : 'Add Pain Point'}
-                  </Button>
+                  </button>
                   {editingId && (
-                    <Button type="button" variant="outline" onClick={resetForm}>
+                    <button type="button" onClick={resetForm} className="px-4 py-2.5 rounded-xl border border-[#DED5C2] bg-white text-[#5C5448] text-[12px] font-heading font-bold uppercase tracking-wide">
                       Cancel
-                    </Button>
+                    </button>
                   )}
                 </div>
               </form>
-            </CardContent>
-          </Card>
-        )}
+            </div>
+          )}
 
-        {/* Pain Points List */}
-        <div className={isEditing ? 'lg:col-span-2' : 'lg:col-span-3'}>
-          <div className="space-y-4">
-            {loading && painPoints.length === 0 ? (
-              <Card>
-                <CardContent className="flex items-center justify-center py-12">
-                  <p className="text-gray-500">Loading pain points...</p>
-                </CardContent>
-              </Card>
-            ) : filteredPainPoints.length > 0 ? (
-              filteredPainPoints.map((painPoint) => (
-                <Card key={painPoint.id} className="hover:shadow-md transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
+          {/* Pain Points List */}
+          <div className={isEditing ? 'lg:col-span-2' : 'lg:col-span-1'}>
+            <div className="space-y-4">
+              {loading && painPoints.length === 0 ? (
+                <div className="nc-tool-section flex items-center justify-center py-12">
+                  <p className="text-[#8A8071] font-heading text-sm">Loading pain points...</p>
+                </div>
+              ) : filteredPainPoints.length > 0 ? (
+                filteredPainPoints.map((painPoint) => (
+                  <div key={painPoint.id} className="nc-result-card">
+                    <div className="flex items-start justify-between gap-4 mb-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <CardTitle className="text-lg">{painPoint.painPoint}</CardTitle>
-                          {painPoint.isFavorite && (
-                            <Heart className="h-4 w-4 fill-red-500 text-red-500" />
-                          )}
+                          <p className="font-heading font-bold text-[#0A0A0A] text-sm leading-snug">{painPoint.painPoint}</p>
+                          {painPoint.isFavorite && <Heart className="h-3.5 w-3.5 fill-red-500 text-red-500 flex-shrink-0" />}
                         </div>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          <Badge
-                            className={`${getPainIntensityColor(painPoint.painIntensity)} border`}
-                          >
-                            {painPoint.painIntensity.toUpperCase()}
-                          </Badge>
-                          <Badge variant="outline">{getAudienceLevelLabel(painPoint.audienceLevel)}</Badge>
-                          <Badge variant="outline">{painPoint.painCategory}</Badge>
+                        <div className="flex flex-wrap gap-1.5">
+                          <span className={`px-2 py-0.5 rounded-full border text-[10px] font-heading font-black tracking-wide uppercase ${getPainIntensityClass(painPoint.painIntensity)}`}>
+                            {painPoint.painIntensity}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full border border-[#DED5C2] bg-[#FAF7F0] text-[10px] font-heading font-bold text-[#5C5448] uppercase tracking-wide">
+                            {getAudienceLevelLabel(painPoint.audienceLevel)}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full border border-[#DED5C2] bg-[#FAF7F0] text-[10px] font-heading font-bold text-[#5C5448] uppercase tracking-wide">
+                            {painPoint.painCategory}
+                          </span>
                           {painPoint.shadowFear && (
-                            <Badge className="bg-purple-100 text-purple-700 border-purple-200 border">
+                            <span className="px-2 py-0.5 rounded-full border border-[#C9A646]/30 bg-[#FAF7F0] text-[10px] font-heading font-bold text-[#8C6F1F] uppercase tracking-wide">
                               {painPoint.shadowFear.replace(/_/g, ' ')}
-                            </Badge>
+                            </span>
                           )}
                         </div>
                       </div>
-                      <div className="flex gap-1 ml-4">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => toggleFavorite(painPoint.id, painPoint.isFavorite)}
-                        >
-                          <Heart
-                            className={`h-4 w-4 ${
-                              painPoint.isFavorite
-                                ? 'fill-red-500 text-red-500'
-                                : 'text-gray-400'
-                            }`}
-                          />
-                        </Button>
-                        <Button variant="ghost" size="sm" onClick={() => editPainPoint(painPoint)}>
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => deletePainPoint(painPoint.id)}
-                          className="text-red-600 hover:text-red-700"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                      <div className="flex gap-1 flex-shrink-0">
+                        <button onClick={() => toggleFavorite(painPoint.id, painPoint.isFavorite)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-red-500 hover:bg-[#FAF7F0] transition-colors">
+                          <Heart className={`h-3.5 w-3.5 ${painPoint.isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
+                        </button>
+                        <button onClick={() => editPainPoint(painPoint)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-[#C9A646] hover:bg-[#FAF7F0] transition-colors">
+                          <Edit className="h-3.5 w-3.5" />
+                        </button>
+                        <button onClick={() => deletePainPoint(painPoint.id)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-red-500 hover:bg-[#FAF7F0] transition-colors">
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
                       </div>
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {/* Performance Metrics */}
-                      <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
-                        <div className="text-center">
-                          <div className="flex items-center justify-center gap-1 text-blue-600 mb-1">
-                            <Target className="h-4 w-4" />
-                            <span className="text-xs font-semibold">Addressed</span>
+
+                    {/* Metrics */}
+                    <div className="grid grid-cols-3 gap-3 p-3.5 bg-[#FAF7F0] border border-[#E8E1D0] rounded-xl mb-4">
+                      {[
+                        { icon: Target, label: 'Addressed', value: painPoint.timesAddressed, color: 'text-[#C9A646]' },
+                        { icon: TrendingUp, label: 'Engagement', value: `${painPoint.avgEngagement.toFixed(2)}%`, color: 'text-emerald-600' },
+                        { icon: AlertTriangle, label: 'Conversion', value: `${painPoint.conversionRate.toFixed(2)}%`, color: 'text-[#D4541F]' },
+                      ].map((metric) => (
+                        <div key={metric.label} className="text-center">
+                          <div className={`flex items-center justify-center gap-1 mb-1 ${metric.color}`}>
+                            <metric.icon className="h-3.5 w-3.5" />
+                            <span className="text-[10px] font-heading font-black uppercase tracking-wide">{metric.label}</span>
                           </div>
-                          <p className="text-xl font-bold">{painPoint.timesAddressed}</p>
+                          <p className={`font-heading font-black text-lg leading-none ${metric.color}`}>{metric.value}</p>
                         </div>
-                        <div className="text-center border-l border-r">
-                          <div className="flex items-center justify-center gap-1 text-green-600 mb-1">
-                            <TrendingUp className="h-4 w-4" />
-                            <span className="text-xs font-semibold">Engagement</span>
-                          </div>
-                          <p className="text-xl font-bold text-green-600">
-                            {painPoint.avgEngagement.toFixed(2)}%
-                          </p>
-                        </div>
-                        <div className="text-center">
-                          <div className="flex items-center justify-center gap-1 text-purple-600 mb-1">
-                            <AlertTriangle className="h-4 w-4" />
-                            <span className="text-xs font-semibold">Conversion</span>
-                          </div>
-                          <p className="text-xl font-bold text-purple-600">
-                            {painPoint.conversionRate.toFixed(2)}%
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Details Grid */}
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {painPoint.audienceSegment && (
-                          <div>
-                            <p className="text-xs font-semibold text-gray-600 mb-1">
-                              Audience Segment:
-                            </p>
-                            <p className="text-sm text-gray-700">{painPoint.audienceSegment}</p>
-                          </div>
-                        )}
-
-                        {painPoint.emotionalTrigger && (
-                          <div>
-                            <p className="text-xs font-semibold text-gray-600 mb-1">
-                              Emotional Trigger:
-                            </p>
-                            <p className="text-sm text-gray-700">{painPoint.emotionalTrigger}</p>
-                          </div>
-                        )}
-
-                        {painPoint.solutionType && (
-                          <div>
-                            <p className="text-xs font-semibold text-gray-600 mb-1">
-                              Solution Type:
-                            </p>
-                            <p className="text-sm text-gray-700 capitalize">
-                              {painPoint.solutionType.replace(/_/g, ' ')}
-                            </p>
-                          </div>
-                        )}
-
-                        {painPoint.productMatch && (
-                          <div>
-                            <p className="text-xs font-semibold text-gray-600 mb-1">
-                              Product Match:
-                            </p>
-                            <p className="text-sm text-gray-700">{painPoint.productMatch}</p>
-                          </div>
-                        )}
-
-                        {painPoint.contentPillar && (
-                          <div>
-                            <p className="text-xs font-semibold text-gray-600 mb-1">
-                              Content Pillar:
-                            </p>
-                            <p className="text-sm text-gray-700 capitalize">
-                              {painPoint.contentPillar}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-
-                      {painPoint.notes && (
-                        <div className="pt-3 border-t">
-                          <p className="text-xs font-semibold text-gray-600 mb-1">Notes:</p>
-                          <p className="text-sm text-gray-700">{painPoint.notes}</p>
-                        </div>
-                      )}
+                      ))}
                     </div>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <Card>
-                <CardContent className="flex flex-col items-center justify-center py-12">
-                  <Brain className="h-12 w-12 text-gray-400 mb-3" />
-                  <p className="text-gray-500 text-sm mb-4">
+
+                    {/* Details */}
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {painPoint.audienceSegment && <div><p className="label-nc mb-1">Audience Segment</p><p className="text-[13px] text-[#3D342A]">{painPoint.audienceSegment}</p></div>}
+                      {painPoint.emotionalTrigger && <div><p className="label-nc mb-1">Emotional Trigger</p><p className="text-[13px] text-[#3D342A]">{painPoint.emotionalTrigger}</p></div>}
+                      {painPoint.solutionType && <div><p className="label-nc mb-1">Solution Type</p><p className="text-[13px] text-[#3D342A] capitalize">{painPoint.solutionType.replace(/_/g, ' ')}</p></div>}
+                      {painPoint.productMatch && <div><p className="label-nc mb-1">Product Match</p><p className="text-[13px] text-[#3D342A]">{painPoint.productMatch}</p></div>}
+                      {painPoint.contentPillar && <div><p className="label-nc mb-1">Content Pillar</p><p className="text-[13px] text-[#3D342A] capitalize">{painPoint.contentPillar}</p></div>}
+                    </div>
+
+                    {painPoint.notes && (
+                      <div className="border-t border-[#E8E1D0] pt-3 mt-3">
+                        <p className="label-nc mb-1">Notes</p>
+                        <p className="text-[13px] text-[#5C5448]">{painPoint.notes}</p>
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div className="nc-tool-section flex flex-col items-center justify-center py-16 text-center">
+                  <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
+                    <Brain className="h-6 w-6 text-[#C9A646]" />
+                  </div>
+                  <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">
                     {painPoints.length === 0 ? 'No pain points yet' : 'No pain points match your filters'}
+                  </h3>
+                  <p className="text-[#8A8071] text-sm max-w-xs mb-5">
+                    {painPoints.length === 0 ? 'Start documenting what keeps your audience awake at night.' : 'Try clearing the filters to see all pain points.'}
                   </p>
                   {painPoints.length === 0 ? (
-                    <Button onClick={() => setIsEditing(true)}>
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Your First Pain Point
-                    </Button>
+                    <button onClick={() => setIsEditing(true)} className="nc-generate-btn w-auto px-6">
+                      <Plus className="h-4 w-4" /> Add Your First Pain Point
+                    </button>
                   ) : (
-                    <Button variant="outline" onClick={clearFilters}>
+                    <button onClick={clearFilters} className="px-5 py-2.5 rounded-xl border border-[#DED5C2] bg-white text-[#5C5448] text-[12px] font-heading font-bold uppercase tracking-wide">
                       Clear Filters
-                    </Button>
+                    </button>
                   )}
-                </CardContent>
-              </Card>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

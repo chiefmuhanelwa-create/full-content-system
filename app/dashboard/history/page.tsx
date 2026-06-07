@@ -25,6 +25,7 @@ import {
   Plus,
   RefreshCw
 } from 'lucide-react';
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface ActivityLog {
   id: string;
@@ -191,14 +192,15 @@ export default function HistoryPage() {
   });
 
   return (
-    <div className="p-8 space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold mb-2">Activity History</h1>
-        <p className="text-muted-foreground">
-          Complete record of all your actions and system events
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={History}
+        iconColor="text-[#C9A646]"
+        eyebrow="History"
+        title="Activity History"
+        description="Complete record of all your actions and system events"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <Tabs defaultValue="timeline" className="space-y-6">
         <TabsList>
@@ -501,6 +503,7 @@ export default function HistoryPage() {
           )}
         </TabsContent>
       </Tabs>
+    </div>
     </div>
   );
 }

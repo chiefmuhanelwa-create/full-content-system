@@ -37,6 +37,7 @@ import {
   ArrowRight
 } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface HookBankEntry {
   id: string
@@ -430,17 +431,15 @@ export default function HookBankPage() {
     searchQuery.trim() !== ''
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <Zap className="h-8 w-8 text-purple-600" />
-          Hook Bank
-        </h1>
-        <p className="text-gray-600">
-          Manage your repository of viral hooks with R×A×C×U^B components
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Zap}
+        iconColor="text-purple-600"
+        eyebrow="Library"
+        title="Hook Bank"
+        description="Manage your repository of viral hooks with R×A×C×U^B components"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Actions Bar */}
       <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
@@ -1056,6 +1055,7 @@ export default function HookBankPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      </div>
     </div>
   )
 }

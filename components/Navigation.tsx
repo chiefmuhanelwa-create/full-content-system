@@ -129,17 +129,17 @@ export function Navigation() {
     group.items.some((item) => pathname === item.href || pathname.startsWith(item.href + '/'))
 
   return (
-    <nav className="w-56 bg-white border-r border-[#E8E1D0] h-screen flex flex-col flex-shrink-0 shadow-[1px_0_0_0_#E8E1D0]">
+    <nav className="w-64 bg-white border-r border-[#E8E1D0] h-screen flex flex-col flex-shrink-0 shadow-[1px_0_0_0_#E8E1D0]">
 
       {/* Brand header */}
       <div className="px-4 py-4 border-b border-[#E8E1D0]">
-        <Link href="/dashboard" className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-lg bg-[#C9A646] flex items-center justify-center flex-shrink-0 group-hover:shadow-[0_0_12px_rgba(201,166,70,0.45)] transition-shadow">
+        <Link href="/dashboard" className="flex items-center gap-3 group">
+          <div className="w-8 h-8 rounded-xl bg-[#C9A646] flex items-center justify-center flex-shrink-0 group-hover:shadow-[0_0_16px_rgba(201,166,70,0.50)] transition-shadow">
             <span className="text-[#0A0A0A] font-heading font-black text-sm">N</span>
           </div>
           <div>
             <p className="font-heading font-black text-[#0A0A0A] tracking-widest text-xs uppercase leading-none">NOCHILL</p>
-            <p className="text-[10px] text-[#8A8071] font-heading tracking-wide mt-0.5">Content Intelligence</p>
+            <p className="text-[11px] text-[#8A8071] font-heading tracking-wide mt-0.5">Content Intelligence</p>
           </div>
         </Link>
       </div>
@@ -153,33 +153,33 @@ export function Navigation() {
             const hasActive = isGroupActive(group)
 
             return (
-              <div key={group.label} className="mb-0.5">
+              <div key={group.label} className="mb-1">
                 <button
                   onClick={() => toggleGroup(group.label)}
                   className={cn(
-                    'w-full flex items-center justify-between px-2 py-1.5 rounded-lg text-left nav-item-transition',
+                    'w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-left nav-item-transition',
                     hasActive
                       ? 'bg-[#F4EFE3]'
                       : 'hover:bg-[#FAF7F0]'
                   )}
                 >
-                  <div className="flex items-center gap-2">
-                    <GroupIcon className={cn('w-3 h-3 flex-shrink-0', group.color)} />
+                  <div className="flex items-center gap-2.5">
+                    <GroupIcon className={cn('w-3.5 h-3.5 flex-shrink-0', group.color)} />
                     <span className={cn(
-                      'text-[10px] font-heading font-black uppercase tracking-[0.12em]',
+                      'text-[11px] font-heading font-black uppercase tracking-[0.12em]',
                       hasActive ? 'text-[#8C6F1F]' : 'text-[#8A8071]'
                     )}>
                       {group.label}
                     </span>
                   </div>
                   {isOpen
-                    ? <ChevronDown className="w-2.5 h-2.5 text-[#C9C0B0]" />
-                    : <ChevronRight className="w-2.5 h-2.5 text-[#C9C0B0]" />
+                    ? <ChevronDown className="w-3 h-3 text-[#C9C0B0]" />
+                    : <ChevronRight className="w-3 h-3 text-[#C9C0B0]" />
                   }
                 </button>
 
                 {isOpen && (
-                  <div className="ml-1.5 mt-0.5 space-y-0.5 border-l border-[#E8E1D0] pl-2">
+                  <div className="ml-2 mt-0.5 space-y-0.5 border-l-2 border-[#E8E1D0] pl-2.5">
                     {group.items.map((item) => {
                       const Icon = item.icon
                       const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
@@ -187,20 +187,20 @@ export function Navigation() {
                       return (
                         <Link key={item.href} href={item.href}>
                           <div className={cn(
-                            'flex items-center gap-2 px-2 py-1.5 rounded-lg nav-item-transition',
+                            'flex items-center gap-2.5 px-2.5 py-2 rounded-lg nav-item-transition',
                             isActive
-                              ? 'bg-[#C9A646]/12 border border-[#C9A646]/30'
+                              ? 'bg-[#C9A646]/15 border border-[#C9A646]/40 border-l-2 border-l-[#C9A646]'
                               : 'hover:bg-[#FAF7F0] border border-transparent'
                           )}>
                             <Icon className={cn(
-                              'h-3 w-3 flex-shrink-0',
-                              isActive ? 'text-[#8C6F1F]' : 'text-[#C9C0B0]'
+                              'h-3.5 w-3.5 flex-shrink-0',
+                              isActive ? 'text-[#8C6F1F]' : 'text-[#B0A898]'
                             )} />
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1.5">
                                 <p className={cn(
-                                  'text-xs font-heading font-semibold truncate leading-none',
-                                  isActive ? 'text-[#8C6F1F]' : 'text-[#5C5448]'
+                                  'text-[13px] font-heading font-semibold truncate leading-none',
+                                  isActive ? 'text-[#7A5F18]' : 'text-[#3D342A]'
                                 )}>
                                   {item.name}
                                 </p>
@@ -209,7 +209,10 @@ export function Navigation() {
                                 )}
                               </div>
                               {item.description && (
-                                <p className="text-[10px] text-[#C9C0B0] truncate mt-0.5 leading-none">{item.description}</p>
+                                <p className={cn(
+                                  'text-[11px] truncate mt-0.5 leading-none',
+                                  isActive ? 'text-[#A07830]' : 'text-[#B0A898]'
+                                )}>{item.description}</p>
                               )}
                             </div>
                           </div>
@@ -225,21 +228,21 @@ export function Navigation() {
       </div>
 
       {/* User + sign out */}
-      <div className="border-t border-[#E8E1D0] p-3 bg-[#FAF7F0]">
-        <div className="flex items-center gap-2.5 mb-2.5">
-          <div className="w-7 h-7 rounded-lg bg-[#F4EFE3] border border-[#E8E1D0] flex items-center justify-center flex-shrink-0">
-            <span className="text-[#C9A646] font-heading font-black text-xs">N</span>
+      <div className="border-t border-[#E8E1D0] p-3.5 bg-[#FAF7F0]">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#E6C871] to-[#C9A646] flex items-center justify-center flex-shrink-0 shadow-sm">
+            <span className="text-[#0A0A0A] font-heading font-black text-xs">N</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-heading font-bold text-[#1F1B16] truncate">Ndivhuwo</p>
-            <p className="text-[10px] text-[#8A8071] truncate">@nochill_god</p>
+            <p className="text-[13px] font-heading font-bold text-[#1F1B16] truncate leading-none">Ndivhuwo</p>
+            <p className="text-[11px] text-[#8A8071] truncate mt-0.5">@nochill_god</p>
           </div>
         </div>
         <button
           onClick={handleSignOut}
-          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-[#8A8071] hover:text-[#5C5448] hover:bg-[#F4EFE3] nav-item-transition text-[11px] font-heading font-semibold border border-transparent hover:border-[#E8E1D0]"
+          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg text-[#8A8071] hover:text-[#5C5448] hover:bg-[#F0E8D8] nav-item-transition text-[11px] font-heading font-semibold border border-transparent hover:border-[#DED5C2]"
         >
-          <LogOut className="h-3 w-3" />
+          <LogOut className="h-3.5 w-3.5" />
           Sign Out
         </button>
       </div>

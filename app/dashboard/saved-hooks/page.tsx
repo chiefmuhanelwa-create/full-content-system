@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Zap, Trash2, FileText, Calendar, Copy, Star, Loader2 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 import { useRouter } from 'next/navigation'
 import { useDatabase } from '@/hooks/useDatabase'
 import { useSession } from 'next-auth/react'
@@ -134,14 +135,15 @@ export default function SavedHooksPage() {
   }
 
   return (
-    <div className="container mx-auto px-8 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
-          <Zap className="h-10 w-10 text-blue-600" />
-          Saved Hooks Library
-        </h1>
-        <p className="text-gray-600">Your collection of scroll-stopping hooks ready to use (saved in database)</p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Zap}
+        iconColor="text-blue-500"
+        eyebrow="Library"
+        title="Saved Hooks"
+        description="Your collection of scroll-stopping hooks ready to use"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Stats */}
       <div className="grid md:grid-cols-4 gap-4 mb-6">
@@ -300,6 +302,7 @@ export default function SavedHooksPage() {
           ))}
         </div>
       )}
+      </div>
     </div>
   )
 }

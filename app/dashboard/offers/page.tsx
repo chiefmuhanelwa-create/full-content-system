@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Gift, DollarSign, Shield, Clock, Copy, Sparkles, Plus, Trash2, Download } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface Product {
   id: string
@@ -285,16 +286,15 @@ Let's build.
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <Gift className="h-8 w-8 text-purple-600" />
-          Smart Offer Constructor
-        </h1>
-        <p className="text-gray-600">
-          Build Godfather offers with value stacking, urgency, and risk reversal
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Gift}
+        iconColor="text-purple-600"
+        eyebrow="Create"
+        title="Smart Offer Constructor"
+        description="Build Godfather offers with value stacking, urgency, and risk reversal"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Left Column: Build Offer */}
@@ -569,6 +569,7 @@ Let's build.
           </Card>
         </div>
       </div>
+    </div>
     </div>
   )
 }

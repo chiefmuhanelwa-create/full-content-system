@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 import {
   Select,
   SelectContent,
@@ -874,32 +875,26 @@ ${scriptToUse.fiveLine.community.script}`
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <FileText className="h-8 w-8 text-blue-600" />
-          Script Writer
-        </h1>
-        <p className="text-gray-600">
-          {scriptMode === 'content'
-            ? '7-Act Retention Formula: Negative Hook → Uncomfortable Truth → Origin Story → Breaking Point → Transformation → Framework Teaching → Mission + CTA'
-            : '💰 Sales Script Generator: 10-Step Storytelling Framework for Product Selling'}
-        </p>
-      </div>
-
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* Input Section */}
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>What's Your Idea?</CardTitle>
-              <CardDescription>
-                {scriptMode === 'content'
-                  ? 'Describe what you want to teach or share. AI will create a complete production-ready script.'
-                  : 'Create a sales script that sells your products using the 10-step storytelling framework.'}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={FileText}
+        iconColor="text-blue-500"
+        eyebrow="Create"
+        title="Script Writer"
+        description={scriptMode === 'content' ? '7-Act Retention Formula — Negative Hook → Truth → Origin → Breaking Point → Transformation → Framework → Mission + CTA' : '10-Step Sales Framework — Story-driven product selling script'}
+      />
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Input Section */}
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle>What&apos;s Your Idea?</CardTitle>
+                <CardDescription>
+                  {scriptMode === 'content' ? 'Describe what you want to teach or share. AI creates a complete production-ready script.' : 'Create a sales script using the 10-step storytelling framework.'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
               {/* Script Mode Toggle */}
               <div className="space-y-2">
                 <Label htmlFor="scriptMode">Script Mode</Label>
@@ -1244,11 +1239,11 @@ ${scriptToUse.fiveLine.community.script}`
                   </>
                 )}
               </Button>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* Output Section */}
+          {/* Output Section */}
         <div>
           {script ? (
             <Card>
@@ -1767,6 +1762,7 @@ ${scriptToUse.fiveLine.community.script}`
           )}
         </div>
       </div>
+    </div>
     </div>
   )
 }

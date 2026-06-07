@@ -30,6 +30,7 @@ import {
   Zap,
   FileText,
 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface PlannedContent {
   id: string
@@ -288,17 +289,15 @@ export default function ContentStudioPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <Video className="h-8 w-8 text-purple-600" />
-          Content Studio
-        </h1>
-        <p className="text-gray-600">
-          Plan, track, and analyze your content from idea to performance
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Video}
+        iconColor="text-purple-600"
+        eyebrow="Create"
+        title="Content Studio"
+        description="Plan, track, and analyze your content from idea to performance"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-8">
@@ -872,6 +871,7 @@ export default function ContentStudioPage() {
           </>
         )}
       </div>
+    </div>
     </div>
   )
 }

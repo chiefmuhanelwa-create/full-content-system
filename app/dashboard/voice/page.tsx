@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Mic, Save, Download, Sparkles, Copy, CheckCircle2 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface VoiceProfile {
   name: string
@@ -160,25 +161,21 @@ ${profile.exampleContent}
   }
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-3 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl">
-            <Mic className="h-6 w-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Voice & Personality Profile</h1>
-            <p className="text-gray-600">Define your unique voice for authentic content creation</p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Mic}
+        iconColor="text-orange-600"
+        eyebrow="Profile"
+        title="Voice & Personality Profile"
+        description="Define your unique voice for authentic content creation"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
-        <Card className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border-orange-200">
+        <Card className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border-orange-200 mb-8">
           <p className="text-sm text-gray-700">
             <strong>Why this matters:</strong> Your voice profile ensures all generated content maintains your authentic style, personality, and perspective. Define it once, use it everywhere.
           </p>
         </Card>
-      </div>
 
       <div className="space-y-6">
         {/* Basic Info */}
@@ -419,6 +416,7 @@ The more examples you provide, the better AI can match your unique voice and sty
           </p>
         )}
       </div>
+    </div>
     </div>
   )
 }

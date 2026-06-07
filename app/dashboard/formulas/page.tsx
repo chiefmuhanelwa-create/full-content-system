@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Wand2, Video, Youtube, Copy, Save, FileText, Download, Loader2, PlayCircle, MonitorPlay } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface FormulaOutput {
   title: string
@@ -198,21 +199,17 @@ ${output.retentionTips.map((r, i) => `${i + 1}. ${r}`).join('\n')}
   const currentFormulas = contentType === 'talking-head' ? talkingHeadFormulas : youtubeFormulas
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl">
-            <Wand2 className="h-6 w-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Content Formulas</h1>
-            <p className="text-gray-600">Proven formulas built on 4 Foundational Principles: Negativity Always Wins, You Format, Short & Simple, Audible Flow</p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Wand2}
+        eyebrow="Create"
+        title="Content Formulas"
+        description="Proven formulas built on 4 Foundational Principles: Negativity Always Wins, You Format, Short & Simple, Audible Flow"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
         {/* Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <Card className="p-4 border-l-4 border-blue-500">
             <div className="flex items-start gap-3">
               <Video className="h-5 w-5 text-blue-600 mt-0.5" />
@@ -249,7 +246,6 @@ ${output.retentionTips.map((r, i) => `${i + 1}. ${r}`).join('\n')}
             </div>
           </Card>
         </div>
-      </div>
 
       {/* Content Type Tabs */}
       <Tabs value={contentType} onValueChange={(v) => setContentType(v as any)} className="mb-8">
@@ -504,6 +500,7 @@ Example: I used to post 3x daily, burnt out completely, hit rock bottom. Then I 
           )}
         </div>
       </div>
+    </div>
     </div>
   )
 }

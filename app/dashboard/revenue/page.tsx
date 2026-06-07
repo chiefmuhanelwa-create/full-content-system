@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface RevenueEntry {
   id: string
@@ -107,17 +108,15 @@ export default function RevenueTrackerPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <DollarSign className="h-8 w-8 text-green-600" />
-          Revenue Tracker
-        </h1>
-        <p className="text-gray-600">
-          Track your income using the PAIDS framework: Products, Ads, Information, Deals, Services
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={DollarSign}
+        iconColor="text-green-600"
+        eyebrow="Track"
+        title="Revenue Tracker"
+        description="Track your income using the PAIDS framework: Products, Ads, Information, Deals, Services"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Total Revenue */}
       <Card className="mb-8 bg-gradient-to-br from-green-50 to-blue-50 border-green-200">
@@ -392,6 +391,7 @@ export default function RevenueTrackerPage() {
           </Card>
         </div>
       </div>
+    </div>
     </div>
   )
 }

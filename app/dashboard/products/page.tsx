@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Package, Plus, Edit, Trash2, DollarSign, Users, Target, Loader2 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface Product {
   id: string
@@ -654,60 +655,55 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-              <Package className="h-8 w-8 text-purple-600" />
-              Product Database
-            </h1>
-            <p className="text-gray-600">
-              Manage your products - powers all sales scripts, offers, and campaigns
-            </p>
-          </div>
-          <Button
-            onClick={() => {
-              setIsEditing(!isEditing)
-              if (!isEditing) {
-                setFormData({
-                  productName: '',
-                  price: 0,
-                  audienceLevel: 'beginner',
-                  productType: 'digital_product',
-                  status: 'active',
-                  paidsStream: 'products',
-                  ladderPosition: 'entry',
-                  painPoints: '',
-                  coreBenefits: '',
-                  description: '',
-                  bonuses: '',
-                  priceAnchor: '',
-                  guarantee: '',
-                  testimonials: '',
-                  step1_callout: '',
-                  step2_attention: '',
-                  step3_problem: '',
-                  step4_intrigue: '',
-                  step5_floodlight: '',
-                  step6_solution: '',
-                  step7_credentials: '',
-                  step8_benefits: '',
-                  step9_proof: '',
-                  step10_offer: '',
-                  contentHooks: [],
-                })
-                setEditingId(null)
-              }
-            }}
-            className="flex items-center gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            {isEditing ? 'Cancel' : 'Add Product'}
-          </Button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Package}
+        iconColor="text-purple-600"
+        eyebrow="Manage"
+        title="Product Database"
+        description="Manage your products — powers all sales scripts, offers, and campaigns"
+      >
+        <Button
+          onClick={() => {
+            setIsEditing(!isEditing)
+            if (!isEditing) {
+              setFormData({
+                productName: '',
+                price: 0,
+                audienceLevel: 'beginner',
+                productType: 'digital_product',
+                status: 'active',
+                paidsStream: 'products',
+                ladderPosition: 'entry',
+                painPoints: '',
+                coreBenefits: '',
+                description: '',
+                bonuses: '',
+                priceAnchor: '',
+                guarantee: '',
+                testimonials: '',
+                step1_callout: '',
+                step2_attention: '',
+                step3_problem: '',
+                step4_intrigue: '',
+                step5_floodlight: '',
+                step6_solution: '',
+                step7_credentials: '',
+                step8_benefits: '',
+                step9_proof: '',
+                step10_offer: '',
+                contentHooks: [],
+              })
+              setEditingId(null)
+            }
+          }}
+          className="flex items-center gap-2"
+        >
+          <Plus className="h-4 w-4" />
+          {isEditing ? 'Cancel' : 'Add Product'}
+        </Button>
+      </ToolPageHeader>
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Error Message */}
       {error && (
@@ -1347,6 +1343,7 @@ export default function ProductsPage() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

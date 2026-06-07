@@ -21,6 +21,7 @@ import {
   Target,
   Clock
 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 import {
   Select,
   SelectContent,
@@ -525,40 +526,35 @@ export default function ContentCalendarPlusPage() {
   const hasActiveFilters = Object.values(filters).some(v => v !== '')
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-              <CalendarIcon className="h-8 w-8 text-purple-600" />
-              Content Calendar Plus
-            </h1>
-            <p className="text-gray-600">
-              Advanced content planning with production tracking and performance goals
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={exportToCSV}
-              className="flex items-center gap-2 bg-green-50 hover:bg-green-100 border-green-300"
-              disabled={entries.length === 0}
-            >
-              <Download className="h-4 w-4" />
-              Export CSV
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-              className="flex items-center gap-2"
-            >
-              {viewMode === 'grid' ? <List className="h-4 w-4" /> : <CalendarIcon className="h-4 w-4" />}
-              {viewMode === 'grid' ? 'List View' : 'Calendar View'}
-            </Button>
-          </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={CalendarIcon}
+        iconColor="text-purple-600"
+        eyebrow="Plan"
+        title="Content Calendar Plus"
+        description="Advanced content planning with production tracking and performance goals"
+      >
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={exportToCSV}
+            className="flex items-center gap-2 bg-green-50 hover:bg-green-100 border-green-300"
+            disabled={entries.length === 0}
+          >
+            <Download className="h-4 w-4" />
+            Export CSV
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+            className="flex items-center gap-2"
+          >
+            {viewMode === 'grid' ? <List className="h-4 w-4" /> : <CalendarIcon className="h-4 w-4" />}
+            {viewMode === 'grid' ? 'List View' : 'Calendar View'}
+          </Button>
         </div>
-      </div>
+      </ToolPageHeader>
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
@@ -1251,6 +1247,7 @@ export default function ContentCalendarPlusPage() {
           </Card>
         </div>
       </div>
+    </div>
     </div>
   )
 }

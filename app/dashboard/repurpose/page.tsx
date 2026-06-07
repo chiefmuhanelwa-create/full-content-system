@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Repeat, FileText, Image, MessageSquare, Mail, Linkedin, Copy, Download } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface RepurposedContent {
   shortClips: string[]
@@ -64,14 +65,15 @@ export default function RepurposePage() {
   }
 
   return (
-    <div className="container mx-auto px-8 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
-          <Repeat className="h-10 w-10 text-purple-600" />
-          Content Repurposing Engine
-        </h1>
-        <p className="text-gray-600">Transform one script into 10+ pieces of content</p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Repeat}
+        iconColor="text-purple-600"
+        eyebrow="Repurpose"
+        title="Content Repurposing Engine"
+        description="Transform one script into 10+ pieces of content"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Input Section */}
@@ -332,6 +334,7 @@ export default function RepurposePage() {
           )}
         </div>
       </div>
+    </div>
     </div>
   )
 }

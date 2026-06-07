@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { BookOpen, Sparkles, Copy, Check, AlertCircle, ArrowRight, Save, Database } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface StoryMetrics {
   before: string
@@ -176,18 +177,15 @@ Use Case: ${story.useCase}
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <BookOpen className="h-8 w-8 text-purple-600" />
-          Story Extractor
-        </h1>
-        <p className="text-gray-600">
-          Extract proof stories using Genesis Framework (Origin, Struggle, Transformation, Breakthrough, Lesson) and 4-Criteria Test
-        </p>
-      </div>
-
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={BookOpen}
+        iconColor="text-purple-600"
+        eyebrow="Extract"
+        title="Story Extractor"
+        description="Extract proof stories using Genesis Framework (Origin, Struggle, Transformation, Breakthrough, Lesson) and 4-Criteria Test"
+      />
+      <div className="max-w-6xl mx-auto px-6 py-8">
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Input Section */}
         <div>
@@ -409,6 +407,7 @@ Use Case: ${story.useCase}
             </Card>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

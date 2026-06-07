@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { FileText, Trash2, Edit, Copy, Download, Eye, Search, Loader2 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
 import { useDatabase } from '@/hooks/useDatabase'
@@ -92,16 +93,15 @@ export default function SavedScriptsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <FileText className="h-8 w-8 text-blue-600" />
-          Saved Scripts
-        </h1>
-        <p className="text-gray-600">
-          Your library of generated scripts - {scripts.length} saved (in database)
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={FileText}
+        iconColor="text-blue-500"
+        eyebrow="Library"
+        title="Saved Scripts"
+        description="Your library of generated scripts — saved in database"
+      />
+      <div className="max-w-6xl mx-auto px-6 py-8">
 
       {/* Search */}
       <div className="mb-6">
@@ -173,6 +173,7 @@ export default function SavedScriptsPage() {
             </Card>
           ))
         )}
+      </div>
       </div>
     </div>
   )

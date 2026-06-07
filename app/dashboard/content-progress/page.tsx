@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus, Filter, Search, Calendar, ExternalLink, Edit, Trash2, CheckCircle2, Loader2 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface ContentProgress {
   id: string
@@ -203,13 +204,15 @@ export default function ContentProgressPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Content Progress Tracker</h1>
-          <p className="text-gray-600">Manage your content pipeline from ideation to posting</p>
-        </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={CheckCircle2}
+        iconColor="text-blue-500"
+        eyebrow="Track"
+        title="Content Progress Tracker"
+        description="Manage your content pipeline from ideation to posting"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">

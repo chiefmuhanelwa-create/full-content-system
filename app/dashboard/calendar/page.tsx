@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { useContent } from '@/contexts/ContentContext'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface ContentEntry {
   id: string
@@ -512,40 +513,35 @@ Built for sustainable content creation and business growth
   )
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-              <CalendarIcon className="h-8 w-8 text-green-600" />
-              Content Calendar
-            </h1>
-            <p className="text-gray-600">
-              Plan your content using the 4E Engine: 30% Entertain, 40% Educate, 20% Encourage, 10% Earn
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={exportCalendarToPDF}
-              className="flex items-center gap-2 bg-green-50 hover:bg-green-100 border-green-300"
-              disabled={calendarEntries.length === 0}
-            >
-              <Download className="h-4 w-4" />
-              Export PDF
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-              className="flex items-center gap-2"
-            >
-              {viewMode === 'grid' ? <List className="h-4 w-4" /> : <CalendarIcon className="h-4 w-4" />}
-              {viewMode === 'grid' ? 'List View' : 'Calendar View'}
-            </Button>
-          </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={CalendarIcon}
+        iconColor="text-green-600"
+        eyebrow="Plan"
+        title="Content Calendar"
+        description="Plan your content using the 4E Engine — 30% Entertain, 40% Educate, 20% Encourage, 10% Earn"
+      >
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={exportCalendarToPDF}
+            className="flex items-center gap-2 bg-green-50 hover:bg-green-100 border-green-300"
+            disabled={calendarEntries.length === 0}
+          >
+            <Download className="h-4 w-4" />
+            Export PDF
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+            className="flex items-center gap-2"
+          >
+            {viewMode === 'grid' ? <List className="h-4 w-4" /> : <CalendarIcon className="h-4 w-4" />}
+            {viewMode === 'grid' ? 'List View' : 'Calendar View'}
+          </Button>
         </div>
-      </div>
+      </ToolPageHeader>
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
@@ -925,6 +921,7 @@ Built for sustainable content creation and business growth
             </CardContent>
           </Card>
         </div>
+      </div>
       </div>
     </div>
   )

@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Share2, Copy, Download, Loader2, Linkedin, Twitter, Facebook, Mail, CheckCircle2 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface AdaptedContent {
   platform: string
@@ -124,18 +125,15 @@ ${content}
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl">
-            <Share2 className="h-6 w-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Multi-Platform Content Adapter</h1>
-            <p className="text-gray-600">Adapt your content for LinkedIn, X, Facebook, and Newsletter</p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Share2}
+        iconColor="text-green-600"
+        eyebrow="Repurpose"
+        title="Multi-Platform Adapter"
+        description="Adapt your content for LinkedIn, X, Facebook, and Newsletter"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
         {/* Info Card */}
         <Card className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
@@ -337,6 +335,6 @@ The adapter will transform it into platform-optimized versions while maintaining
           )}
         </div>
       </div>
-    </div>
+      </div>
   )
 }

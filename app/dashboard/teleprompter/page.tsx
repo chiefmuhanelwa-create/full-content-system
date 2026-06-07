@@ -25,6 +25,7 @@ import {
   Focus,
   Sparkles,
 } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 export default function TeleprompterPage() {
   const router = useRouter()
@@ -469,17 +470,15 @@ export default function TeleprompterPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-2">
-          <MonitorPlay className="h-8 w-8 text-green-600" />
-          Teleprompter
-        </h1>
-        <p className="text-gray-600">
-          Professional teleprompter for recording your scripts
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={MonitorPlay}
+        iconColor="text-green-600"
+        eyebrow="Record"
+        title="Teleprompter"
+        description="Professional teleprompter for recording your scripts"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Controls Panel */}
@@ -1021,6 +1020,7 @@ export default function TeleprompterPage() {
             </CardContent>
           </Card>
         </div>
+      </div>
       </div>
     </div>
   )

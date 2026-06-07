@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Image, Film, Type, MessageCircle, Copy, Download } from 'lucide-react'
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface VisualContent {
   thumbnails: Array<{
@@ -74,14 +75,15 @@ export default function VisualsPage() {
   }
 
   return (
-    <div className="container mx-auto px-8 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
-          <Image className="h-10 w-10 text-pink-600" />
-          Visual Content Generator
-        </h1>
-        <p className="text-gray-600">Generate thumbnails, B-roll, overlays & captions</p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Image}
+        iconColor="text-pink-600"
+        eyebrow="Create"
+        title="Visual Content Generator"
+        description="Generate thumbnails, B-roll, overlays & captions"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Input Section */}
@@ -304,6 +306,7 @@ export default function VisualsPage() {
           )}
         </div>
       </div>
+    </div>
     </div>
   )
 }

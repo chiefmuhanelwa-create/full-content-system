@@ -22,6 +22,7 @@ import {
   clearLocalStorageAfterMigration,
   MigrationResult
 } from '@/lib/migrate-storage';
+import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 export default function MigratePage() {
   const [hasData, setHasData] = useState(false);
@@ -157,14 +158,15 @@ export default function MigratePage() {
   };
 
   return (
-    <div className="p-8 space-y-6 max-w-4xl mx-auto">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold mb-2">Data Migration</h1>
-        <p className="text-muted-foreground">
-          Migrate your data from browser storage to permanent database
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#FAF7F0]">
+      <ToolPageHeader
+        icon={Info}
+        iconColor="text-blue-500"
+        eyebrow="Migrate"
+        title="Data Migration"
+        description="Migrate your data from browser storage to permanent database"
+      />
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
       {/* Info Card */}
       <Card className="border-blue-500/50 bg-blue-500/5">
@@ -469,6 +471,7 @@ export default function MigratePage() {
           </CardContent>
         </Card>
       )}
+    </div>
     </div>
   );
 }
