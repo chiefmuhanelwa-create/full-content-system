@@ -67,9 +67,9 @@ export async function POST(request: NextRequest) {
     } = body
 
     // Validate required fields
-    if (!contentTitle || !platform || !contentType || !contentPillar || !audienceLevel || !icpPainPoint || !hookAwareness) {
+    if (!contentTitle || !platform || !contentType || !contentPillar) {
       return NextResponse.json(
-        { error: 'Missing required fields: contentTitle, platform, contentType, contentPillar, audienceLevel, icpPainPoint, and hookAwareness are required' },
+        { error: 'Missing required fields: contentTitle, platform, contentType, and contentPillar are required' },
         { status: 400 }
       )
     }

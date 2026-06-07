@@ -858,7 +858,7 @@ ${scriptToUse.fiveLine.community.script}`
           contentPillar: scriptMode === 'content' ? 'education' : 'promotion',
           frameworkUsed: scriptToSave.actStructure || '7-Act Retention Formula',
           audienceLevel: 'symptom_aware',
-          icpPainPoint: '',
+          icpPainPoint: idea.slice(0, 120) || 'General audience',
           hookAwareness: 'symptom_aware',
           scriptHook: scriptToSave.hook || '',
           fullScript: scriptToSave.fullScript || '',

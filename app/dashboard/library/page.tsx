@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -13,233 +13,95 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Save, Zap, FileText, BookOpen, Trash2, Eye, Download, Search, Filter } from 'lucide-react'
+import { Save, Zap, FileText, BookOpen, Trash2, Eye, Download, Search, Filter, Loader2 } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
-
-interface SavedHook {
-  id: string
-  content: string
-  type: string
-  platform: string
-  createdAt: string
-}
-
-interface SavedScript {
-  id: string
-  title: string
-  hook: string
-  fullScript?: string
-  content?: string
-  platform?: string
-  duration?: string
-  createdAt: string
-}
-
-interface SavedStory {
-  id: string
-  title: string
-  content: string
-  metrics: {
-    before: string
-    after: string
-    timeframe: string
-  }
-  createdAt: string
-}
+import { useDatabase } from '@/hooks/useDatabase'
 
 export default function LibraryPage() {
   const router = useRouter()
-  const [activeTab, setActiveTab] = useState<'hooks' | 'scripts' | 'stories'>('scripts')
+  const { listHooks, deleteHook: deleteHookDb, listScripts, deleteScript: deleteScriptDb } = useDatabase()
+
+  const [activeTab, setActiveTab] = useState<'scripts' | 'hooks' | 'stories'>('scripts')
   const [searchQuery, setSearchQuery] = useState('')
   const [filterPlatform, setFilterPlatform] = useState('all')
 
-  const [savedHooks, setSavedHooks] = useState<SavedHook[]>([])
-  const [savedScripts, setSavedScripts] = useState<SavedScript[]>([])
-  const [savedStories, setSavedStories] = useState<SavedStory[]>([])
+  const [savedHooks, setSavedHooks] = useState<any[]>([])
+  const [savedScripts, setSavedScripts] = useState<any[]>([])
+  const [savedStories, setSavedStories] = useState<any[]>([])
+  const [loadingData, setLoadingData] = useState(true)
 
-  // Load saved content from localStorage
-  useEffect(() => {
-    loadSavedContent()
-  }, [])
+  useEffect(() => { loadAll() }, [])
 
-  const loadSavedContent = () => {
-    // Load hooks
-    const hooksData = localStorage.getItem('savedHooks')
-    if (hooksData) {
-      try {
-        setSavedHooks(JSON.parse(hooksData))
-      } catch (error) {
-        console.error('Error loading hooks:', error)
-      }
-    }
-
-    // Load scripts
-    const scriptsData = localStorage.getItem('savedScripts')
-    if (scriptsData) {
-      try {
-        setSavedScripts(JSON.parse(scriptsData))
-      } catch (error) {
-        console.error('Error loading scripts:', error)
-      }
-    }
-
-    // Load stories
-    const storiesData = localStorage.getItem('savedStories')
-    if (storiesData) {
-      try {
-        setSavedStories(JSON.parse(storiesData))
-      } catch (error) {
-        console.error('Error loading stories:', error)
-      }
+  const loadAll = async () => {
+    setLoadingData(true)
+    try {
+      const [hooks, scripts, storiesRes] = await Promise.all([
+        listHooks(),
+        listScripts(),
+        fetch('/api/story-bank/list').then(r => r.json()),
+      ])
+      setSavedHooks(hooks || [])
+      setSavedScripts(scripts || [])
+      setSavedStories(storiesRes.storyBankEntries || storiesRes.stories || [])
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoadingData(false)
     }
   }
 
-  const deleteHook = (id: string) => {
-    if (confirm('Delete this hook?')) {
-      const updated = savedHooks.filter(h => h.id !== id)
-      setSavedHooks(updated)
-      localStorage.setItem('savedHooks', JSON.stringify(updated))
-    }
+  const deleteHook = async (id: string) => {
+    await deleteHookDb(id)
+    setSavedHooks(prev => prev.filter(h => h.id !== id))
   }
 
-  const deleteScript = (id: string) => {
-    if (confirm('Delete this script?')) {
-      const updated = savedScripts.filter(s => s.id !== id)
-      setSavedScripts(updated)
-      localStorage.setItem('savedScripts', JSON.stringify(updated))
-    }
+  const deleteScript = async (id: string) => {
+    await deleteScriptDb(id)
+    setSavedScripts(prev => prev.filter(s => s.id !== id))
   }
 
-  const deleteStory = (id: string) => {
-    if (confirm('Delete this story?')) {
-      const updated = savedStories.filter(s => s.id !== id)
-      setSavedStories(updated)
-      localStorage.setItem('savedStories', JSON.stringify(updated))
-    }
-  }
-
-  const viewScript = (script: SavedScript) => {
-    localStorage.setItem('loadScript', JSON.stringify({
-      script: script,
+  const openTeleprompter = (script: any) => {
+    const content = script.content || script.fullScript || script.hook || ''
+    localStorage.setItem('teleprompterScript', JSON.stringify({
       title: script.title,
-      mode: 'content'
+      fullScript: content,
+      content,
+      hook: script.hook,
     }))
-    router.push('/dashboard/scripts')
-  }
-
-  const openTeleprompter = (script: SavedScript) => {
-    const teleprompterData = {
-      title: script.title,
-      fullScript: script.fullScript || script.content || script.hook || '',
-      content: script.fullScript || script.content || script.hook || '',
-      hook: script.hook
-    }
-    localStorage.setItem('teleprompterScript', JSON.stringify(teleprompterData))
     router.push('/dashboard/teleprompter')
   }
 
-  const exportScriptToPDF = (script: SavedScript) => {
+  const exportScriptToPDF = (script: any) => {
     const printWindow = window.open('', '_blank')
-    if (printWindow) {
-      const scriptContent = script.fullScript || script.content || script.hook || 'No script content available'
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>${script.title}</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              padding: 40px;
-              line-height: 1.8;
-              max-width: 800px;
-              margin: 0 auto;
-              color: #2d3748;
-            }
-            .header {
-              text-align: center;
-              margin-bottom: 40px;
-              padding: 30px;
-              background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
-              color: white;
-              border-radius: 15px;
-            }
-            .framework-badge {
-              background: #eff6ff;
-              border-left: 4px solid #3b82f6;
-              padding: 15px;
-              margin-bottom: 30px;
-              border-radius: 5px;
-            }
-            .framework-title {
-              font-weight: bold;
-              color: #1e40af;
-              margin-bottom: 10px;
-            }
-            pre {
-              white-space: pre-wrap;
-              word-wrap: break-word;
-              font-family: Arial, sans-serif;
-              font-size: 13px;
-              line-height: 1.6;
-              background: #f7fafc;
-              padding: 30px;
-              border-radius: 10px;
-              border: 2px solid #e2e8f0;
-            }
-            @media print {
-              body { padding: 20px; }
-              pre { font-size: 11px; padding: 20px; }
-              .header { padding: 20px; }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>🎬 ${script.title}</h1>
-            <p>${script.platform || 'Platform'} • ${script.duration || 'Duration'}</p>
-            <p>Generated: ${new Date(script.createdAt).toLocaleDateString()}</p>
-          </div>
-          <div class="framework-badge">
-            <div class="framework-title">THE 10-STEP STORYTELLING FRAMEWORK</div>
-            <div style="font-size: 11px; color: #1e40af;">
-              1. Call Out → 2. Demand Attention → 3. Back Up Problem → 4. Create Intrigue → 5. Floodlight →
-              6. Provide Solution → 7. Show Credentials → 8. Detail Benefits → 9. Social Proof → 10. Godfather Offer
-            </div>
-          </div>
-          <pre>${scriptContent}</pre>
-          <script>
-            window.onload = function() {
-              window.print();
-              setTimeout(() => window.close(), 100);
-            }
-          </script>
-        </body>
-        </html>
-      `)
-      printWindow.document.close()
-    }
+    if (!printWindow) return
+    const scriptContent = script.content || script.fullScript || script.hook || 'No script content'
+    printWindow.document.write(`<!DOCTYPE html><html><head><title>${script.title}</title>
+      <style>body{font-family:Arial,sans-serif;padding:40px;line-height:1.8;max-width:800px;margin:0 auto;color:#2d3748}
+      h1{font-size:22px;margin-bottom:8px}pre{white-space:pre-wrap;word-wrap:break-word;font-family:Arial,sans-serif;
+      font-size:13px;line-height:1.6;background:#f7fafc;padding:24px;border-radius:8px;border:1px solid #e2e8f0}
+      @media print{pre{font-size:11px;padding:16px}}</style></head>
+      <body><h1>${script.title}</h1><p style="color:#6b7280;margin-bottom:24px">${script.platform || ''} · ${new Date(script.createdAt).toLocaleDateString()}</p>
+      <pre>${scriptContent}</pre><script>window.onload=function(){window.print();setTimeout(()=>window.close(),100)}<\/script></body></html>`)
+    printWindow.document.close()
   }
 
-  // Filter content based on search and platform
-  const filteredScripts = savedScripts.filter(script => {
-    const fullScriptText = script.fullScript || script.content || ''
-    const matchesSearch = script.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          fullScriptText.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesPlatform = filterPlatform === 'all' || script.platform?.toLowerCase() === filterPlatform.toLowerCase()
-    return matchesSearch && matchesPlatform
+  const filteredScripts = savedScripts.filter(s => {
+    const text = (s.title + ' ' + (s.content || s.fullScript || '')).toLowerCase()
+    const matchSearch = !searchQuery || text.includes(searchQuery.toLowerCase())
+    const matchPlatform = filterPlatform === 'all' || (s.platform || '').toLowerCase() === filterPlatform
+    return matchSearch && matchPlatform
   })
 
-  const filteredHooks = savedHooks.filter(hook => {
-    const matchesSearch = hook.content.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesPlatform = filterPlatform === 'all' || hook.platform.toLowerCase() === filterPlatform.toLowerCase()
-    return matchesSearch && matchesPlatform
+  const filteredHooks = savedHooks.filter(h => {
+    const text = (h.content || h.hook || '').toLowerCase()
+    const matchSearch = !searchQuery || text.includes(searchQuery.toLowerCase())
+    const matchPlatform = filterPlatform === 'all' || (h.platform || '').toLowerCase() === filterPlatform
+    return matchSearch && matchPlatform
   })
 
-  const filteredStories = savedStories.filter(story => {
-    const matchesSearch = story.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          story.content.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesSearch
+  const filteredStories = savedStories.filter(s => {
+    const text = (s.title + ' ' + (s.snippet || s.fullVersion || '')).toLowerCase()
+    return !searchQuery || text.includes(searchQuery.toLowerCase())
   })
 
   return (
@@ -249,235 +111,185 @@ export default function LibraryPage() {
         iconColor="text-blue-500"
         eyebrow="Library"
         title="Saved Library"
-        description="All your saved hooks, scripts, and stories in one place"
+        description="All your saved hooks, scripts, and stories — synced to your account"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-5xl mx-auto px-6 py-8">
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-gray-600">Saved Scripts</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-blue-600">{savedScripts.length}</p>
-            <p className="text-xs text-gray-500 mt-1">Production ready</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-gray-600">Saved Hooks</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-purple-600">{savedHooks.length}</p>
-            <p className="text-xs text-gray-500 mt-1">Attention grabbers</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-gray-600">Saved Stories</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-green-600">{savedStories.length}</p>
-            <p className="text-xs text-gray-500 mt-1">Proof stories</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Search and Filter */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="relative">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder="Search your saved content..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          {[
+            { label: 'Scripts', count: savedScripts.length, color: 'text-blue-600' },
+            { label: 'Hooks', count: savedHooks.length, color: 'text-purple-600' },
+            { label: 'Stories', count: savedStories.length, color: 'text-emerald-600' },
+          ].map(({ label, count, color }) => (
+            <Card key={label}>
+              <CardContent className="pt-5 pb-4">
+                <p className={`text-3xl font-bold ${color}`}>{loadingData ? '—' : count}</p>
+                <p className="text-xs text-gray-500 mt-1">{label} saved</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-        <Select value={filterPlatform} onValueChange={setFilterPlatform}>
-          <SelectTrigger>
-            <Filter className="h-4 w-4 mr-2" />
-            <SelectValue placeholder="Filter by platform" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Platforms</SelectItem>
-            <SelectItem value="instagram">Instagram</SelectItem>
-            <SelectItem value="tiktok">TikTok</SelectItem>
-            <SelectItem value="youtube">YouTube</SelectItem>
-            <SelectItem value="linkedin">LinkedIn</SelectItem>
-            <SelectItem value="twitter">Twitter</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
 
-      {/* Tabs */}
-      <div className="flex gap-2 mb-6">
-        <Button
-          variant={activeTab === 'scripts' ? 'default' : 'outline'}
-          onClick={() => setActiveTab('scripts')}
-          className="flex items-center gap-2"
-        >
-          <FileText className="h-4 w-4" />
-          Scripts ({filteredScripts.length})
-        </Button>
-        <Button
-          variant={activeTab === 'hooks' ? 'default' : 'outline'}
-          onClick={() => setActiveTab('hooks')}
-          className="flex items-center gap-2"
-        >
-          <Zap className="h-4 w-4" />
-          Hooks ({filteredHooks.length})
-        </Button>
-        <Button
-          variant={activeTab === 'stories' ? 'default' : 'outline'}
-          onClick={() => setActiveTab('stories')}
-          className="flex items-center gap-2"
-        >
-          <BookOpen className="h-4 w-4" />
-          Stories ({filteredStories.length})
-        </Button>
-      </div>
+        {/* Search + filter */}
+        <div className="flex gap-3 mb-6">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <Input
+              placeholder="Search saved content..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <Select value={filterPlatform} onValueChange={setFilterPlatform}>
+            <SelectTrigger className="w-44">
+              <Filter className="h-4 w-4 mr-2" />
+              <SelectValue placeholder="Platform" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Platforms</SelectItem>
+              <SelectItem value="instagram">Instagram</SelectItem>
+              <SelectItem value="tiktok">TikTok</SelectItem>
+              <SelectItem value="youtube">YouTube</SelectItem>
+              <SelectItem value="linkedin">LinkedIn</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
-      {/* Content Display */}
-      <div className="space-y-4">
-        {activeTab === 'scripts' && (
-          filteredScripts.length > 0 ? (
-            filteredScripts.map((script) => (
-              <Card key={script.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg mb-2">{script.title}</CardTitle>
+        {/* Tabs */}
+        <div className="flex gap-1 bg-white border border-[#E8E1D0] rounded-xl p-1 mb-6 w-fit">
+          {([
+            { key: 'scripts', label: 'Scripts', icon: FileText, count: filteredScripts.length },
+            { key: 'hooks', label: 'Hooks', icon: Zap, count: filteredHooks.length },
+            { key: 'stories', label: 'Story Bank', icon: BookOpen, count: filteredStories.length },
+          ] as const).map(({ key, label, icon: Icon, count }) => (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key)}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-heading font-bold transition-all ${
+                activeTab === key ? 'bg-[#C9A646] text-[#0A0A0A] shadow-sm' : 'text-[#8A8071] hover:text-[#0A0A0A]'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {label} ({count})
+            </button>
+          ))}
+        </div>
+
+        {/* Loading */}
+        {loadingData && (
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="h-8 w-8 animate-spin text-[#C9A646]" />
+          </div>
+        )}
+
+        {/* Scripts */}
+        {!loadingData && activeTab === 'scripts' && (
+          <div className="space-y-4">
+            {filteredScripts.length === 0 ? (
+              <Card><CardContent className="flex flex-col items-center justify-center py-16">
+                <FileText className="h-12 w-12 text-gray-300 mb-4" />
+                <p className="text-gray-500 font-medium">No scripts saved yet</p>
+                <p className="text-gray-400 text-sm mt-1">Generate a script and click Save to Library</p>
+                <Button onClick={() => router.push('/dashboard/scripts')} className="mt-4" variant="outline">Go to Script Writer</Button>
+              </CardContent></Card>
+            ) : filteredScripts.map(script => (
+              <Card key={script.id} className="hover:shadow-md transition-shadow">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-base mb-2">{script.title}</CardTitle>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <Badge variant="outline">{script.platform}</Badge>
-                        <Badge variant="outline">{script.duration}</Badge>
-                        <span className="text-xs text-gray-500">
-                          {new Date(script.createdAt).toLocaleDateString()}
-                        </span>
+                        {script.platform && <Badge variant="outline">{script.platform}</Badge>}
+                        {script.goal && <Badge variant="outline">{script.goal}</Badge>}
+                        <span className="text-xs text-gray-400">{new Date(script.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
+                    <Button size="sm" variant="ghost" onClick={() => deleteScript(script.id)} className="text-red-400 hover:text-red-600 flex-shrink-0">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="mb-4">
-                    <p className="text-sm font-semibold text-gray-700 mb-1">Hook:</p>
-                    <p className="text-sm text-gray-600 line-clamp-2">{script.hook}</p>
-                  </div>
+                  {script.content && (
+                    <p className="text-sm text-gray-600 line-clamp-2 mb-3">{script.content.slice(0, 200)}</p>
+                  )}
                   <div className="flex gap-2 flex-wrap">
-                    <Button size="sm" variant="outline" onClick={() => viewScript(script)}>
-                      <Eye className="mr-2 h-4 w-4" />
-                      View
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={() => openTeleprompter(script)} className="bg-green-50">
-                      <FileText className="mr-2 h-4 w-4" />
-                      Teleprompter
+                    <Button size="sm" variant="outline" onClick={() => openTeleprompter(script)}>
+                      <Eye className="mr-1.5 h-3.5 w-3.5" /> Teleprompter
                     </Button>
                     <Button size="sm" variant="outline" onClick={() => exportScriptToPDF(script)}>
-                      <Download className="mr-2 h-4 w-4" />
-                      PDF
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={() => deleteScript(script.id)} className="text-red-600">
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
+                      <Download className="mr-1.5 h-3.5 w-3.5" /> PDF
                     </Button>
                   </div>
                 </CardContent>
               </Card>
-            ))
-          ) : (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-16">
-                <FileText className="h-16 w-16 text-gray-400 mb-4" />
-                <p className="text-gray-500">No saved scripts found</p>
-                <p className="text-gray-400 text-sm mt-1">
-                  {searchQuery ? 'Try adjusting your search' : 'Start creating scripts to build your library'}
-                </p>
-              </CardContent>
-            </Card>
-          )
+            ))}
+          </div>
         )}
 
-        {activeTab === 'hooks' && (
-          filteredHooks.length > 0 ? (
-            filteredHooks.map((hook) => (
-              <Card key={hook.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
+        {/* Hooks */}
+        {!loadingData && activeTab === 'hooks' && (
+          <div className="space-y-3">
+            {filteredHooks.length === 0 ? (
+              <Card><CardContent className="flex flex-col items-center justify-center py-16">
+                <Zap className="h-12 w-12 text-gray-300 mb-4" />
+                <p className="text-gray-500 font-medium">No hooks saved yet</p>
+                <p className="text-gray-400 text-sm mt-1">Generate hooks and save them to your bank</p>
+                <Button onClick={() => router.push('/dashboard/hooks')} className="mt-4" variant="outline">Go to Hook Generator</Button>
+              </CardContent></Card>
+            ) : filteredHooks.map(hook => (
+              <Card key={hook.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="pt-4 pb-4">
+                  <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
-                      <p className="text-base mb-2">{hook.content}</p>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <Badge variant="outline" className="bg-purple-50">{hook.type}</Badge>
-                        <Badge variant="outline">{hook.platform}</Badge>
-                        <span className="text-xs text-gray-500">
-                          {new Date(hook.createdAt).toLocaleDateString()}
-                        </span>
+                      <p className="text-sm text-gray-800 leading-relaxed">{hook.content}</p>
+                      <div className="flex items-center gap-2 mt-2 flex-wrap">
+                        {hook.hookType && <Badge variant="outline" className="bg-purple-50 text-[10px]">{hook.hookType}</Badge>}
+                        {hook.platform && <Badge variant="outline" className="text-[10px]">{hook.platform}</Badge>}
+                        <span className="text-[10px] text-gray-400">{new Date(hook.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
-                    <Button size="sm" variant="outline" onClick={() => deleteHook(hook.id)} className="text-red-600">
+                    <Button size="sm" variant="ghost" onClick={() => deleteHook(hook.id)} className="text-red-400 hover:text-red-600 flex-shrink-0">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
-                </CardHeader>
+                </CardContent>
               </Card>
-            ))
-          ) : (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-16">
-                <Zap className="h-16 w-16 text-gray-400 mb-4" />
-                <p className="text-gray-500">No saved hooks found</p>
-                <p className="text-gray-400 text-sm mt-1">
-                  {searchQuery ? 'Try adjusting your search' : 'Generate hooks to build your library'}
-                </p>
-              </CardContent>
-            </Card>
-          )
+            ))}
+          </div>
         )}
 
-        {activeTab === 'stories' && (
-          filteredStories.length > 0 ? (
-            filteredStories.map((story) => (
-              <Card key={story.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg mb-2">{story.title}</CardTitle>
-                      <p className="text-sm text-gray-600 line-clamp-3 mb-3">{story.content}</p>
-                      <div className="flex items-center gap-4 text-xs">
-                        <div>
-                          <span className="font-semibold">Before:</span> {story.metrics.before}
-                        </div>
-                        <div>
-                          <span className="font-semibold">After:</span> {story.metrics.after}
-                        </div>
-                        <div>
-                          <span className="font-semibold">Time:</span> {story.metrics.timeframe}
-                        </div>
-                      </div>
-                      <span className="text-xs text-gray-500 mt-2 block">
-                        {new Date(story.createdAt).toLocaleDateString()}
-                      </span>
+        {/* Stories */}
+        {!loadingData && activeTab === 'stories' && (
+          <div className="space-y-3">
+            {filteredStories.length === 0 ? (
+              <Card><CardContent className="flex flex-col items-center justify-center py-16">
+                <BookOpen className="h-12 w-12 text-gray-300 mb-4" />
+                <p className="text-gray-500 font-medium">No stories saved yet</p>
+                <p className="text-gray-400 text-sm mt-1">Extract stories and bank them for reuse</p>
+                <Button onClick={() => router.push('/dashboard/stories')} className="mt-4" variant="outline">Go to Story Extractor</Button>
+              </CardContent></Card>
+            ) : filteredStories.map(story => (
+              <Card key={story.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="pt-4 pb-4">
+                  <p className="font-semibold text-sm text-gray-800 mb-1">{story.title}</p>
+                  <p className="text-sm text-gray-600 line-clamp-3 mb-2">{story.snippet || story.fullVersion}</p>
+                  {(story.beforeState || story.afterState) && (
+                    <div className="flex items-center gap-3 text-[11px] text-gray-500">
+                      {story.beforeState && <span><b>Before:</b> {story.beforeState}</span>}
+                      {story.afterState && <span><b>After:</b> {story.afterState}</span>}
+                      {story.timeframe && <span><b>Time:</b> {story.timeframe}</span>}
                     </div>
-                    <Button size="sm" variant="outline" onClick={() => deleteStory(story.id)} className="text-red-600">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardHeader>
+                  )}
+                  <span className="text-[10px] text-gray-400 mt-1 block">{new Date(story.createdAt).toLocaleDateString()}</span>
+                </CardContent>
               </Card>
-            ))
-          ) : (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-16">
-                <BookOpen className="h-16 w-16 text-gray-400 mb-4" />
-                <p className="text-gray-500">No saved stories found</p>
-                <p className="text-gray-400 text-sm mt-1">
-                  {searchQuery ? 'Try adjusting your search' : 'Extract stories to build your library'}
-                </p>
-              </CardContent>
-            </Card>
-          )
+            ))}
+          </div>
         )}
-      </div>
+
       </div>
     </div>
   )
