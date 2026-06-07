@@ -337,7 +337,7 @@ Most creators sell at Signal stage (before trust). Most lose sales at Decision s
 **ATM vs Slot Machine:** Phone = ATM (creating, building, pitching) or slot machine (scrolling, consuming). R6K phone → R600K+ revenue. The device was ordinary. The mindset was the difference.
 **Global CPM Strategy:** SA creators earn US$0.50-2 CPM vs US$8-25 for US creators — platform apartheid. Solution: use African identity as competitive advantage. Cultural bridge: universal hook → SA-specific story → universal lesson. DARES products bypass CPM entirely.
 **Brand Partnership Mastery:** R750 → R100K+ system. Three creator types: Brand Deal Dependent | Underpricer | Professional Partner. Infrastructure: media kit, rate card, business email, portfolio. Negotiation: never quote first. Anchor high. Trade don't concede. Creative control is non-negotiable.
-**POSSESS (Called Expert Activation):** P=Perspective | O=Origin | S=Specialty | S=Style | E=Experience | S=Stories | S=System. For credentialed professionals who haven't monetised their expertise yet. "You have dwelt long enough at this mountain. Turn and take your journey." — Deuteronomy 1:6–7
+**POSSESS (Business GPS — Deut 1:6–46):** P=Perceive the Stagnation | O=Outline the Territory | S=Step In and Launch | S=Systematise and Structure | E=Escalate What's Too Hard | S=Scale Without Fear | S=Secure the Inheritance. 7-step operating system from stagnation to generational wealth. "Behold, I have set the land before you: go in and possess." — Deuteronomy 1:8
 **C.O.N.T.E.X.T. Prompt Engineering:** C=Character | O=Objective | N=kNow-how | T=Target | E=Examples | X=eXecution | T=Transformation. AI tool stack: Otter.ai (voice→text) → Claude (deep refinement + voice).
 
 ## SA MARKET CONTEXT
@@ -905,7 +905,7 @@ Return story output as JSON object with all stages, compliance, and platform var
 `,
     pitch: `
 ## YOUR TASK: BUILD A PITCH
-Use POSSESS framework: P=Perspective | O=Origin | S=Specialty | S=Style | E=Experience | S=Stories | S=System
+Use POSSESS framework: P=Perceive the Stagnation | O=Outline the Territory | S=Step In and Launch | S=Systematise and Structure | E=Escalate What's Too Hard | S=Scale Without Fear | S=Secure the Inheritance
 Apply Ethos-Pathos-Logos structure. Generate 60s, 90s, and 3-minute versions.
 Each version must follow HSLFCTA structure compressed for that duration.
 Return as JSON object with all three versions.
