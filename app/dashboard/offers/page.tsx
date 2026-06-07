@@ -296,7 +296,7 @@ Let's build.
     <div className="min-h-screen bg-[#FAF7F0]">
       <ToolPageHeader
         icon={Gift}
-        iconColor="text-purple-600"
+        iconColor="text-[#C9A646]"
         eyebrow="Create"
         title="Smart Offer Constructor"
         description="Build Godfather offers with value stacking, urgency, and risk reversal"
@@ -333,12 +333,12 @@ Let's build.
               </Select>
 
               {selectedProduct && (
-                <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <p className="text-sm font-semibold mb-2">Selected Product:</p>
-                  <p className="text-lg font-bold text-blue-900">{selectedProduct.name}</p>
-                  <p className="text-sm text-gray-600 mt-1">{selectedProduct.description}</p>
+                <div className="mt-4 p-4 bg-[#FAF7F0] border border-[#DED5C2] rounded-xl">
+                  <p className="nc-eyebrow mb-2">Selected Product</p>
+                  <p className="font-heading font-black text-lg text-[#0A0A0A]">{selectedProduct.name}</p>
+                  <p className="text-sm text-[#8A8071] mt-1">{selectedProduct.description}</p>
                   <div className="flex items-center gap-4 mt-3">
-                    <Badge className="bg-blue-600">R{selectedProduct.price.toLocaleString()}</Badge>
+                    <Badge className="bg-[#C9A646] text-[#0A0A0A]">R{selectedProduct.price.toLocaleString()}</Badge>
                     <Badge variant="outline">{selectedProduct.audienceLevel}</Badge>
                   </div>
                 </div>
@@ -392,12 +392,12 @@ Let's build.
                   {bonuses.map((bonus) => (
                     <div
                       key={bonus.id}
-                      className="flex items-start justify-between p-3 bg-purple-50 border border-purple-200 rounded-lg"
+                      className="flex items-start justify-between p-3 bg-[#FAF7F0] border border-[#DED5C2] rounded-xl"
                     >
                       <div className="flex-1">
-                        <p className="font-semibold text-sm">{bonus.name}</p>
-                        <p className="text-xs text-gray-600">{bonus.description}</p>
-                        <Badge className="mt-1 bg-purple-600">R{bonus.value.toLocaleString()} value</Badge>
+                        <p className="font-heading font-bold text-sm text-[#0A0A0A]">{bonus.name}</p>
+                        <p className="text-xs text-[#8A8071]">{bonus.description}</p>
+                        <Badge className="mt-1 bg-[#C9A646] text-[#0A0A0A]">R{bonus.value.toLocaleString()} value</Badge>
                       </div>
                       <Button
                         size="sm"
@@ -506,7 +506,7 @@ Let's build.
 
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold">They Pay Today:</span>
-                    <span className="text-2xl font-bold text-blue-600">
+                    <span className="text-2xl font-heading font-black text-[#C9A646]">
                       R{selectedProduct.price.toLocaleString()}
                     </span>
                   </div>
@@ -526,7 +526,7 @@ Let's build.
                   )}
                 </div>
               ) : (
-                <p className="text-center text-gray-500 py-8">
+                <p className="text-center text-[#8A8071] py-8">
                   Select a product to see value calculation
                 </p>
               )}
@@ -535,11 +535,11 @@ Let's build.
 
           {/* Generated Offer Preview */}
           {generatedOffer && (
-            <Card className="border-purple-500 border-2">
+            <Card className="border-[#C9A646] border-2">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
-                    <Gift className="h-5 w-5 text-purple-600" />
+                    <Gift className="h-5 w-5 text-[#C9A646]" />
                     Generated Offer
                   </CardTitle>
                   <div className="flex gap-2">

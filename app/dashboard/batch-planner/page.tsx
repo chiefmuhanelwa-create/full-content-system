@@ -38,14 +38,14 @@ interface ContentPiece {
 
 const FOUR_E_COLORS: Record<string, string> = {
   Educate:   'bg-blue-100 text-blue-800',
-  Entertain: 'bg-purple-100 text-purple-800',
+  Entertain: 'bg-[#C9A646]/15 text-[#7A5F18]',
   Encourage: 'bg-emerald-100 text-emerald-800',
   Earn:      'bg-amber-100 text-amber-800',
 }
 
 const CONTENT_TYPE_COLORS: Record<string, string> = {
   Educational:      'bg-blue-100 text-blue-800',
-  Story:            'bg-purple-100 text-purple-800',
+  Story:            'bg-[#C9A646]/15 text-[#7A5F18]',
   'Behind-the-Scenes': 'bg-amber-100 text-amber-800',
   'Myth-Busting':   'bg-red-100 text-red-800',
   'Case Study':     'bg-emerald-100 text-emerald-800',
@@ -510,11 +510,11 @@ export default function BatchPlannerPage() {
                               <div className="flex items-start gap-2 flex-wrap mb-1">
                                 <p className="font-heading font-bold text-[#0F0F0F] text-[13px] leading-snug flex-1">{item.topic}</p>
                                 {item.fourE && (
-                                  <span className={`text-[9px] font-heading font-black px-2 py-0.5 rounded-full flex-shrink-0 ${FOUR_E_COLORS[item.fourE] || 'bg-gray-100 text-gray-700'}`}>
+                                  <span className={`text-[9px] font-heading font-black px-2 py-0.5 rounded-full flex-shrink-0 ${FOUR_E_COLORS[item.fourE] || 'bg-[#E8E1D0] text-[#4A3F35]'}`}>
                                     {item.fourE}
                                   </span>
                                 )}
-                                <span className={`text-[10px] font-heading font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType] || 'bg-gray-100 text-gray-700'}`}>
+                                <span className={`text-[10px] font-heading font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType] || 'bg-[#E8E1D0] text-[#4A3F35]'}`}>
                                   {item.contentType}
                                 </span>
                               </div>

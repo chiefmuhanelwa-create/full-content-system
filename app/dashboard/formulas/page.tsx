@@ -210,36 +210,36 @@ ${output.retentionTips.map((r, i) => `${i + 1}. ${r}`).join('\n')}
 
         {/* Info Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card className="p-4 border-l-4 border-blue-500">
+          <Card className="p-4 border-l-4 border-[#C9A646]">
             <div className="flex items-start gap-3">
-              <Video className="h-5 w-5 text-blue-600 mt-0.5" />
+              <Video className="h-5 w-5 text-[#C9A646] mt-0.5" />
               <div>
-                <h3 className="font-semibold text-sm text-gray-900">5 Talking Head Formulas</h3>
-                <p className="text-xs text-gray-600 mt-1">
+                <h3 className="font-heading font-bold text-sm text-[#0A0A0A]">5 Talking Head Formulas</h3>
+                <p className="text-xs text-[#8A8071] mt-1">
                   Perfect for Reels, TikTok, Shorts (15-90 seconds)
                 </p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 border-l-4 border-cyan-500">
+          <Card className="p-4 border-l-4 border-[#C9A646]">
             <div className="flex items-start gap-3">
-              <Youtube className="h-5 w-5 text-cyan-600 mt-0.5" />
+              <Youtube className="h-5 w-5 text-[#C9A646] mt-0.5" />
               <div>
-                <h3 className="font-semibold text-sm text-gray-900">5 YouTube Formulas</h3>
-                <p className="text-xs text-gray-600 mt-1">
+                <h3 className="font-heading font-bold text-sm text-[#0A0A0A]">5 YouTube Formulas</h3>
+                <p className="text-xs text-[#8A8071] mt-1">
                   Long-form content (8-30 minutes)
                 </p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 border-l-4 border-purple-500">
+          <Card className="p-4 border-l-4 border-[#C9A646]">
             <div className="flex items-start gap-3">
-              <PlayCircle className="h-5 w-5 text-purple-600 mt-0.5" />
+              <PlayCircle className="h-5 w-5 text-[#C9A646] mt-0.5" />
               <div>
-                <h3 className="font-semibold text-sm text-gray-900">4 Foundational Principles</h3>
-                <p className="text-xs text-gray-600 mt-1">
+                <h3 className="font-heading font-bold text-sm text-[#0A0A0A]">4 Foundational Principles</h3>
+                <p className="text-xs text-[#8A8071] mt-1">
                   Every formula applies: Negativity, You Format, Short & Simple, Audible Flow
                 </p>
               </div>
@@ -265,7 +265,7 @@ ${output.retentionTips.map((r, i) => `${i + 1}. ${r}`).join('\n')}
         {/* Input Section */}
         <div className="space-y-6">
           <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-4 text-gray-900">Formula Configuration</h2>
+            <h2 className="font-heading font-black text-lg mb-4 text-[#0A0A0A]">Formula Configuration</h2>
 
             {/* Formula Selection */}
             <div className="space-y-2 mb-4">
@@ -279,7 +279,7 @@ ${output.retentionTips.map((r, i) => `${i + 1}. ${r}`).join('\n')}
                     <SelectItem key={formula.value} value={formula.value}>
                       <div>
                         <div className="font-medium">{formula.label}</div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-[#8A8071]">
                           {formula.duration} • {formula.bestFor}
                         </div>
                       </div>
@@ -307,7 +307,7 @@ ${output.retentionTips.map((r, i) => `${i + 1}. ${r}`).join('\n')}
                       <SelectItem key={plat.value} value={plat.value}>
                         <div>
                           <div className="font-medium">{plat.label}</div>
-                          <div className="text-xs text-gray-500">Ideal: {plat.idealLength}</div>
+                          <div className="text-xs text-[#8A8071]">Ideal: {plat.idealLength}</div>
                         </div>
                       </SelectItem>
                     ))}
@@ -368,7 +368,7 @@ Example: I used to post 3x daily, burnt out completely, hit rock bottom. Then I 
             <Button
               onClick={generateFormula}
               disabled={loading || !selectedFormula || !platform || !topic}
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
+              className="w-full bg-[#C9A646] hover:bg-[#B8933A] text-[#0A0A0A] font-heading font-black uppercase tracking-widest"
             >
               {loading ? (
                 <>
@@ -391,8 +391,8 @@ Example: I used to post 3x daily, burnt out completely, hit rock bottom. Then I 
             <>
               <Card className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900">{output.title}</h2>
-                  <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                  <h2 className="font-heading font-black text-lg text-[#0A0A0A]">{output.title}</h2>
+                  <span className="text-xs bg-[#C9A646]/15 text-[#7A5F18] px-2 py-1 rounded font-heading font-bold">
                     {output.formula}
                   </span>
                 </div>
@@ -419,9 +419,9 @@ Example: I used to post 3x daily, burnt out completely, hit rock bottom. Then I 
 
                 {/* Full Script */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-2">Full Script</h3>
-                  <div className="bg-gray-50 p-4 rounded-lg border max-h-96 overflow-y-auto">
-                    <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed font-mono">
+                  <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">Full Script</h3>
+                  <div className="bg-[#FAF7F0] p-4 rounded-lg border border-[#E8E1D0] max-h-96 overflow-y-auto">
+                    <p className="text-sm text-[#3D342A] whitespace-pre-wrap leading-relaxed font-mono">
                       {output.fullScript}
                     </p>
                   </div>
@@ -429,16 +429,16 @@ Example: I used to post 3x daily, burnt out completely, hit rock bottom. Then I 
 
                 {/* Script Structure */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-2">Script Breakdown</h3>
+                  <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">Script Breakdown</h3>
                   <div className="space-y-3">
                     {output.structure.map((section, index) => (
-                      <div key={index} className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-lg border">
+                      <div key={index} className="bg-[#FAF7F0] p-4 rounded-lg border border-[#DED5C2]">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-semibold text-blue-700">{section.section}</span>
-                          <span className="text-xs text-gray-500">{section.duration}</span>
+                          <span className="text-xs font-heading font-bold text-[#7A5F18]">{section.section}</span>
+                          <span className="text-xs text-[#8A8071]">{section.duration}</span>
                         </div>
-                        <p className="text-sm text-gray-700 mb-2">{section.content}</p>
-                        <div className="text-xs text-gray-600 bg-white/50 p-2 rounded">
+                        <p className="text-sm text-[#3D342A] mb-2">{section.content}</p>
+                        <div className="text-xs text-[#8A8071] bg-[#FAF7F0]/80 p-2 rounded">
                           <strong>Delivery:</strong> {section.deliveryNotes}
                         </div>
                       </div>
@@ -448,11 +448,11 @@ Example: I used to post 3x daily, burnt out completely, hit rock bottom. Then I 
 
                 {/* Visual Suggestions */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-2">Visual Suggestions</h3>
+                  <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">Visual Suggestions</h3>
                   <ul className="space-y-2">
                     {output.visualSuggestions.map((visual, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
-                        <span className="text-cyan-600 mt-0.5">▸</span>
+                      <li key={index} className="flex items-start gap-2 text-sm text-[#3D342A]">
+                        <span className="text-[#C9A646] mt-0.5">▸</span>
                         {visual}
                       </li>
                     ))}
@@ -462,11 +462,11 @@ Example: I used to post 3x daily, burnt out completely, hit rock bottom. Then I 
                 {/* Thumbnail Ideas (YouTube only) */}
                 {output.thumbnailIdeas && output.thumbnailIdeas.length > 0 && (
                   <div className="mb-6">
-                    <h3 className="text-sm font-semibold text-gray-700 mb-2">Thumbnail Ideas</h3>
+                    <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">Thumbnail Ideas</h3>
                     <div className="space-y-2">
                       {output.thumbnailIdeas.map((thumbnail, index) => (
-                        <div key={index} className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-                          <p className="text-sm text-gray-700">{thumbnail}</p>
+                        <div key={index} className="bg-[#FAF7F0] p-3 rounded-lg border border-[#DED5C2]">
+                          <p className="text-sm text-[#3D342A]">{thumbnail}</p>
                         </div>
                       ))}
                     </div>
@@ -475,12 +475,12 @@ Example: I used to post 3x daily, burnt out completely, hit rock bottom. Then I 
 
                 {/* Retention Tips */}
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-700 mb-2">Retention Tips</h3>
+                  <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">Retention Tips</h3>
                   <ul className="space-y-2">
                     {output.retentionTips.map((tip, index) => (
                       <li key={index} className="flex items-start gap-2">
-                        <span className="text-xs font-medium text-blue-600 mt-0.5">✓</span>
-                        <p className="text-sm text-gray-700">{tip}</p>
+                        <span className="text-xs font-medium text-[#C9A646] mt-0.5">✓</span>
+                        <p className="text-sm text-[#3D342A]">{tip}</p>
                       </li>
                     ))}
                   </ul>
@@ -488,15 +488,13 @@ Example: I used to post 3x daily, burnt out completely, hit rock bottom. Then I 
               </Card>
             </>
           ) : (
-            <Card className="p-12 text-center">
-              <Wand2 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 text-sm">
-                Your production-ready script will appear here
-              </p>
-              <p className="text-gray-400 text-xs mt-2">
-                Select a formula, platform, and topic to get started
-              </p>
-            </Card>
+            <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
+              <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
+                <Wand2 className="h-6 w-6 text-[#C9A646]" />
+              </div>
+              <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">No script generated yet</h3>
+              <p className="text-[#8A8071] text-sm max-w-xs">Select a formula, platform, and topic — then hit Generate Script.</p>
+            </div>
           )}
         </div>
       </div>

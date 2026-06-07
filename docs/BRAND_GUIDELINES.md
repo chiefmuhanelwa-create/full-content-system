@@ -17,7 +17,7 @@
 | **Origin brand** | No Chill in Mzansi (Facebook, 1M+ followers) |
 | **Short link** | chkplt.com |
 | **Email** | info@nochill.co.za |
-| **Proof statement** | From sleeping in university bathrooms → R600,000+ annual income · 50+ brand deals · 9 awards |
+| **Proof statement** | From sleeping in university bathrooms → R600,000+ annual income · 50+ brand deals · 23 agencies · 9 awards · SAMA31 judge · Meta speaker |
 
 ---
 

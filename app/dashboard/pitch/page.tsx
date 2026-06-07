@@ -129,7 +129,7 @@ export default function PitchBuilderPage() {
               {/* Position */}
               <div className="space-y-2">
                 <Label htmlFor="position" className="flex items-center gap-2">
-                  <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">2</span>
+                  <span className="bg-[#C9A646] text-[#0A0A0A] rounded-full w-6 h-6 flex items-center justify-center text-xs font-heading font-black">2</span>
                   Position (What you do) *
                 </Label>
                 <Textarea
@@ -233,7 +233,7 @@ export default function PitchBuilderPage() {
                   {Object.entries(generatedPitch.pitch).map(([key, value], index) => (
                     <div key={key} className="p-3 bg-gray-50 border rounded-md">
                       <div className="flex items-start justify-between mb-1">
-                        <p className="text-xs font-semibold text-gray-600 uppercase">{key}</p>
+                        <p className="nc-eyebrow">{key}</p>
                         <Button
                           variant="ghost"
                           size="sm"
@@ -268,7 +268,7 @@ export default function PitchBuilderPage() {
                     <TabsContent value="elevator" className="mt-4">
                       <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
                         <div className="flex items-start justify-between mb-2">
-                          <p className="text-xs font-semibold text-blue-600">30-SECOND ELEVATOR PITCH</p>
+                          <p className="nc-eyebrow">30-SECOND ELEVATOR PITCH</p>
                           <Button
                             variant="ghost"
                             size="sm"
@@ -285,9 +285,9 @@ export default function PitchBuilderPage() {
                       </div>
                     </TabsContent>
                     <TabsContent value="video" className="mt-4">
-                      <div className="p-4 bg-purple-50 border border-purple-200 rounded-md">
+                      <div className="p-4 bg-[#FAF7F0] border border-[#DED5C2] rounded-xl">
                         <div className="flex items-start justify-between mb-2">
-                          <p className="text-xs font-semibold text-purple-600">60-SECOND VIDEO SCRIPT</p>
+                          <p className="nc-eyebrow">60-SECOND VIDEO SCRIPT</p>
                           <Button
                             variant="ghost"
                             size="sm"
@@ -300,7 +300,7 @@ export default function PitchBuilderPage() {
                             )}
                           </Button>
                         </div>
-                        <p className="text-sm text-purple-900 whitespace-pre-wrap">{generatedPitch.variations.video}</p>
+                        <p className="text-sm text-[#3D342A] whitespace-pre-wrap">{generatedPitch.variations.video}</p>
                       </div>
                     </TabsContent>
                     <TabsContent value="email" className="mt-4">
@@ -349,7 +349,7 @@ export default function PitchBuilderPage() {
                     </ul>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-blue-600 mb-2">🎯 TARGET BRANDS:</p>
+                    <p className="nc-eyebrow mb-2">🎯 TARGET BRANDS:</p>
                     <ul className="text-sm space-y-1">
                       {generatedPitch.recommendations.targetBrands.map((brand, index) => (
                         <li key={index} className="text-blue-700">• {brand}</li>
@@ -360,17 +360,13 @@ export default function PitchBuilderPage() {
               </Card>
             </div>
           ) : (
-            <Card className="border-dashed">
-              <CardContent className="flex flex-col items-center justify-center py-16">
-                <Target className="h-16 w-16 text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  No pitch generated yet
-                </h3>
-                <p className="text-gray-500 text-center max-w-md text-sm">
-                  Fill out at least Person and Position pillars, then click "Build My Pitch"
-                </p>
-              </CardContent>
-            </Card>
+            <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
+              <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
+                <Target className="h-6 w-6 text-[#C9A646]" />
+              </div>
+              <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">No pitch generated yet</h3>
+              <p className="text-[#8A8071] text-sm max-w-xs">Fill out the Person and Position pillars, then hit Build My Pitch.</p>
+            </div>
           )}
         </div>
       </div>

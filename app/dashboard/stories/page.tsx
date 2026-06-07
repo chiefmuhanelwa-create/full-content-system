@@ -222,17 +222,17 @@ Use Case: ${story.useCase}
               </Button>
 
               {/* 4-Criteria Info */}
-              <div className="p-4 bg-purple-50 border border-purple-200 rounded-md">
-                <p className="text-sm font-semibold text-purple-600 mb-2">
-                  4-Criteria Test:
+              <div className="p-4 bg-[#FAF7F0] border border-[#DED5C2] rounded-xl">
+                <p className="text-xs font-heading font-black text-[#8C6F1F] mb-2 uppercase tracking-widest">
+                  4-Criteria Test
                 </p>
-                <ul className="text-xs text-purple-700 space-y-1">
+                <ul className="text-xs text-[#4A3F35] space-y-1">
                   <li>✅ <strong>Special:</strong> Unique, memorable moment</li>
                   <li>✅ <strong>Relevant:</strong> Connects to audience's goals</li>
                   <li>✅ <strong>Quantifiable:</strong> Has specific numbers/metrics</li>
                   <li>✅ <strong>Named:</strong> Includes real names/brands/places</li>
                 </ul>
-                <p className="text-xs text-purple-600 mt-2">
+                <p className="text-xs text-[#8A8071] mt-2">
                   Stories must pass 3 of 4 criteria to be effective
                 </p>
               </div>
@@ -256,7 +256,7 @@ Use Case: ${story.useCase}
                 Extracted Stories ({stories.length})
               </h2>
               {stories.map((story, index) => (
-                <Card key={index} className="border-l-4 border-purple-600">
+                <Card key={index} className="border-l-4 border-[#C9A646]">
                   <CardHeader>
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1">
@@ -281,11 +281,11 @@ Use Case: ${story.useCase}
                           variant="outline"
                           size="sm"
                           onClick={() => saveToStoryBank(story, index)}
-                          className="gap-1 border-purple-300 hover:bg-purple-50"
+                          className="gap-1 border-[#C9A646]/40 hover:bg-[#C9A646]/10"
                           title="Save to Story Bank"
                           disabled={savedBankIndices.has(index)}
                         >
-                          <Database className="h-3 w-3 text-purple-600" />
+                          <Database className="h-3 w-3 text-[#C9A646]" />
                           {savedBankIndices.has(index) ? 'Banked' : 'Bank'}
                         </Button>
                         <Button
@@ -329,20 +329,20 @@ Use Case: ${story.useCase}
                     <p className="text-sm">{story.content}</p>
 
                     {/* Metrics */}
-                    <div className="p-3 bg-gray-50 rounded-md space-y-2">
-                      <p className="text-xs font-semibold text-gray-600">Transformation:</p>
+                    <div className="p-3 bg-[#FAF7F0] rounded-lg border border-[#E8E1D0] space-y-2">
+                      <p className="text-xs font-heading font-bold text-[#8A8071] uppercase tracking-wide">Transformation</p>
                       <div className="grid grid-cols-3 gap-2 text-xs">
                         <div>
-                          <span className="text-gray-500">Before:</span>
-                          <p className="font-medium text-gray-900">{story.metrics.before}</p>
+                          <span className="text-[#8A8071]">Before:</span>
+                          <p className="font-heading font-bold text-[#0A0A0A]">{story.metrics.before}</p>
                         </div>
                         <div>
-                          <span className="text-gray-500">After:</span>
-                          <p className="font-medium text-gray-900">{story.metrics.after}</p>
+                          <span className="text-[#8A8071]">After:</span>
+                          <p className="font-heading font-bold text-[#0A0A0A]">{story.metrics.after}</p>
                         </div>
                         <div>
-                          <span className="text-gray-500">Time:</span>
-                          <p className="font-medium text-gray-900">{story.metrics.timeframe}</p>
+                          <span className="text-[#8A8071]">Time:</span>
+                          <p className="font-heading font-bold text-[#0A0A0A]">{story.metrics.timeframe}</p>
                         </div>
                       </div>
                     </div>
@@ -354,7 +354,7 @@ Use Case: ${story.useCase}
                       </span>
                       <div className="flex gap-2">
                         {story.criteria.special && (
-                          <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">
+                          <span className="text-xs bg-[#C9A646]/15 text-[#7A5F18] px-2 py-1 rounded font-heading font-bold">
                             Special
                           </span>
                         )}
@@ -377,26 +377,24 @@ Use Case: ${story.useCase}
                     </div>
 
                     {/* Use Case */}
-                    <div className="p-3 bg-purple-50 border border-purple-100 rounded-md">
-                      <p className="text-xs font-semibold text-purple-600 mb-1">Best Use:</p>
-                      <p className="text-xs text-purple-700">{story.useCase}</p>
+                    <div className="p-3 bg-[#FAF7F0] border border-[#DED5C2] rounded-lg">
+                      <p className="text-xs font-heading font-bold text-[#8C6F1F] mb-1 uppercase tracking-wide">Best Use</p>
+                      <p className="text-xs text-[#4A3F35]">{story.useCase}</p>
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
           ) : (
-            <Card className="border-dashed">
-              <CardContent className="flex flex-col items-center justify-center py-16">
-                <BookOpen className="h-16 w-16 text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  No stories extracted yet
-                </h3>
-                <p className="text-gray-500 text-center max-w-md text-sm">
-                  Enter your story or experience in the left panel and click "Extract Proof Stories"
-                </p>
-              </CardContent>
-            </Card>
+            <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
+              <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
+                <BookOpen className="h-6 w-6 text-[#C9A646]" />
+              </div>
+              <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">No stories extracted yet</h3>
+              <p className="text-[#8A8071] text-sm max-w-xs">
+                Enter your story or experience on the left and hit Extract.
+              </p>
+            </div>
           )}
         </div>
       </div>
