@@ -8,7 +8,7 @@ import {
   Cpu, Mic, Layers, Target, TrendingUp, BarChart2,
   Calendar, BookMarked, ShoppingBag, Star, Repeat, PenTool,
   Tv2, Archive, Settings, ChevronDown, ChevronRight, Globe,
-  Package, MonitorPlay, User
+  Package, MonitorPlay, User, FlaskConical
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -70,6 +70,7 @@ const navGroups: NavGroup[] = [
     label: 'Revenue',
     items: [
       { name: 'Products', href: '/dashboard/products', icon: Package, description: 'Full product catalogue' },
+      { name: 'Product Lab', href: '/dashboard/product-planning', icon: FlaskConical, description: '55 products — draft to live', badge: 'NEW' },
       { name: 'Godfather Offers', href: '/dashboard/offers', icon: Star, description: 'Offer stack builder' },
       { name: 'Pitch Builder', href: '/dashboard/pitch', icon: Target, description: '5 Pillars pitch system' },
       { name: 'CTA Optimizer', href: '/dashboard/cta-optimizer', icon: Zap, description: 'CTA science + variants' },
