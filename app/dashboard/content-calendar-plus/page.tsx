@@ -22,6 +22,8 @@ import {
   Clock
 } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { useContent } from '@/contexts/ContentContext'
+import { Zap, FileText, ArrowRight } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -103,6 +105,23 @@ const CONTENT_TYPE_OPTIONS = [
 
 export default function ContentCalendarPlusPage() {
   const router = useRouter()
+  const { setPendingAction } = useContent()
+
+  const openHookGenerator = (entry: ContentCalendarEntry) => {
+    setPendingAction({
+      action: 'generate-hooks-from-calendar',
+      data: { title: entry.title, notes: entry.notes || entry.description || '', platform: entry.platform },
+    })
+    router.push('/dashboard/hooks')
+  }
+
+  const openScriptWriter = (entry: ContentCalendarEntry) => {
+    setPendingAction({
+      action: 'generate-script-from-calendar',
+      data: { title: entry.title, notes: entry.notes || entry.description || '', platform: entry.platform },
+    })
+    router.push('/dashboard/scripts')
+  }
   const [entries, setEntries] = useState<ContentCalendarEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -1169,6 +1188,26 @@ export default function ContentCalendarPlusPage() {
                             <p className="text-xs text-gray-600 italic">{entry.notes}</p>
                           </div>
                         )}
+
+                        {/* Integration actions */}
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#F4EFE3]">
+                          <button
+                            onClick={() => openHookGenerator(entry)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C9A646]/10 hover:bg-[#C9A646]/20 text-[#8C6F1F] rounded-lg text-[11px] font-heading font-bold transition-colors"
+                          >
+                            <Zap className="w-3 h-3" />
+                            Generate Hook
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={() => openScriptWriter(entry)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-heading font-bold transition-colors"
+                          >
+                            <FileText className="w-3 h-3" />
+                            Write Script
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>

@@ -827,13 +827,22 @@ ${scriptToUse.fiveLine.community.script}`
     const scriptToSave = isEditing && editedScript ? editedScript : script
     if (!scriptToSave) return
 
+    // Auto-generate title from idea if user hasn't typed one
+    const resolvedTitle =
+      scriptTitle.trim() ||
+      scriptToSave.title ||
+      idea.slice(0, 60).trim() ||
+      'Untitled Script'
+
+    const resolvedPlatform = platform !== 'auto' ? platform : 'instagram'
+
     try {
       const response = await fetch('/api/content-card/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contentTitle: scriptTitle || scriptToSave.title,
-          platform: platform !== 'auto' ? platform : 'instagram',
+          contentTitle: resolvedTitle,
+          platform: resolvedPlatform,
           contentType: scriptMode === 'sales' ? 'sales' : 'educational',
           status: 'drafted',
           contentPillar: scriptMode === 'content' ? 'education' : 'promotion',
@@ -865,11 +874,10 @@ ${scriptToUse.fiveLine.community.script}`
         throw new Error(errorMessage)
       }
 
-      const data = await response.json()
-
-      alert('Script saved to Content Cards!')
+      setSaveSuccess(true)
+      setTimeout(() => setSaveSuccess(false), 2500)
     } catch (err: any) {
-      alert('Error saving to Content Cards: ' + err.message)
+      setError('Could not save to Content Cards: ' + err.message)
       console.error('Error saving to Content Cards:', err)
     }
   }

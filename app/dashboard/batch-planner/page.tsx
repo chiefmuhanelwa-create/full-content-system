@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -13,8 +13,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Calendar, Download, Copy, Check } from 'lucide-react'
+import {
+  Layers, Download, Zap, FileText, CalendarDays,
+  Upload, CheckCircle2, AlertCircle, ArrowRight, Clock
+} from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { useContent } from '@/contexts/ContentContext'
 
 interface ContentPiece {
   day: number
@@ -26,7 +30,56 @@ interface ContentPiece {
   notes: string
 }
 
+const CONTENT_TYPE_COLORS: Record<string, string> = {
+  Educational:      'bg-blue-100 text-blue-800',
+  Story:            'bg-purple-100 text-purple-800',
+  'Behind-the-Scenes': 'bg-amber-100 text-amber-800',
+  'Myth-Busting':   'bg-red-100 text-red-800',
+  'Case Study':     'bg-emerald-100 text-emerald-800',
+  'Trending Topic': 'bg-cyan-100 text-cyan-800',
+  Promotional:      'bg-orange-100 text-orange-800',
+}
+
+function mapContentTypeTo4E(type: string): string {
+  if (type === 'Promotional') return '10% Earn'
+  if (type === 'Story' || type === 'Behind-the-Scenes' || type === 'Trending Topic') return '30% Entertain'
+  if (type === 'Myth-Busting' || type === 'Case Study' || type === 'Educational') return '40% Educate'
+  return '20% Encourage'
+}
+
+function parseCSV(raw: string): ContentPiece[] {
+  const lines = raw.trim().split('\n').filter(Boolean)
+  if (lines.length < 2) return []
+  const header = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/\s+/g, ''))
+  return lines.slice(1).map((line, i) => {
+    // Handle quoted fields
+    const cols: string[] = []
+    let cur = ''
+    let inQuotes = false
+    for (let c = 0; c < line.length; c++) {
+      if (line[c] === '"') { inQuotes = !inQuotes; continue }
+      if (line[c] === ',' && !inQuotes) { cols.push(cur.trim()); cur = ''; continue }
+      cur += line[c]
+    }
+    cols.push(cur.trim())
+    const get = (key: string) => cols[header.indexOf(key)] || ''
+    return {
+      day: parseInt(get('day')) || i + 1,
+      date: get('date'),
+      topic: get('topic'),
+      hookIdea: get('hookidea'),
+      contentType: get('type'),
+      platform: get('platform') || 'instagram',
+      notes: get('notes'),
+    }
+  }).filter(p => p.topic)
+}
+
 export default function BatchPlannerPage() {
+  const router = useRouter()
+  const { setPendingAction } = useContent()
+
+  const [tab, setTab] = useState<'generate' | 'import'>('generate')
   const [niche, setNiche] = useState('')
   const [goals, setGoals] = useState('')
   const [postingFrequency, setPostingFrequency] = useState('daily')
@@ -34,223 +87,334 @@ export default function BatchPlannerPage() {
   const [loading, setLoading] = useState(false)
   const [contentPlan, setContentPlan] = useState<ContentPiece[]>([])
 
-  const handleGenerate = async () => {
-    if (!niche.trim() || !goals.trim()) {
-      alert('Please fill in all fields')
-      return
-    }
+  // Import tab
+  const [csvText, setCsvText] = useState('')
+  const [importError, setImportError] = useState('')
 
+  // Push to calendar
+  const [pushing, setPushing] = useState(false)
+  const [pushResult, setPushResult] = useState<{ success: number; failed: number } | null>(null)
+
+  const handleGenerate = async () => {
+    if (!niche.trim() || !goals.trim()) return
     setLoading(true)
+    setPushResult(null)
     try {
       const response = await fetch('/api/batch/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ niche, goals, postingFrequency, platforms }),
       })
-
       if (response.ok) {
         const data = await response.json()
         setContentPlan(data.plan)
-      } else {
-        alert('Failed to generate content plan')
       }
-    } catch (error) {
-      console.error('Error:', error)
-      alert('An error occurred')
+    } catch (err) {
+      console.error(err)
     } finally {
       setLoading(false)
     }
   }
 
+  const handleImportCSV = () => {
+    setImportError('')
+    if (!csvText.trim()) { setImportError('Paste your CSV content above first.'); return }
+    const parsed = parseCSV(csvText)
+    if (!parsed.length) { setImportError('Could not parse CSV. Check the format: Day, Date, Topic, Hook Idea, Type, Platform, Notes'); return }
+    setContentPlan(parsed)
+    setPushResult(null)
+  }
+
   const exportAsCSV = () => {
     const headers = ['Day', 'Date', 'Topic', 'Hook Idea', 'Type', 'Platform', 'Notes']
     const rows = contentPlan.map(item => [
-      item.day,
-      item.date,
-      item.topic,
-      item.hookIdea,
-      item.contentType,
-      item.platform,
-      item.notes
+      item.day, item.date, `"${item.topic}"`, `"${item.hookIdea}"`,
+      item.contentType, item.platform, `"${item.notes}"`
     ])
-
     const csv = [headers, ...rows].map(row => row.join(',')).join('\n')
     const blob = new Blob([csv], { type: 'text/csv' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
-    a.href = url
-    a.download = '30-day-content-plan.csv'
-    a.click()
+    a.href = url; a.download = '30-day-content-plan.csv'; a.click()
   }
 
+  const pushAllToCalendar = async () => {
+    if (!contentPlan.length) return
+    setPushing(true)
+    setPushResult(null)
+    let success = 0, failed = 0
+    for (const item of contentPlan) {
+      try {
+        const res = await fetch('/api/calendar/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            date: item.date || new Date().toISOString(),
+            title: item.topic,
+            description: item.hookIdea,
+            category: mapContentTypeTo4E(item.contentType),
+            platform: item.platform || 'instagram',
+            status: 'planned',
+          }),
+        })
+        if (res.ok) success++; else failed++
+      } catch { failed++ }
+    }
+    setPushResult({ success, failed })
+    setPushing(false)
+  }
+
+  const openHookGenerator = (item: ContentPiece) => {
+    setPendingAction({
+      action: 'generate-hooks-from-calendar',
+      data: { title: item.topic, notes: item.hookIdea, platform: item.platform },
+    })
+    router.push('/dashboard/hooks')
+  }
+
+  const openScriptWriter = (item: ContentPiece) => {
+    setPendingAction({
+      action: 'generate-script-from-calendar',
+      data: { title: item.topic, notes: item.notes || item.hookIdea, platform: item.platform },
+    })
+    router.push('/dashboard/scripts')
+  }
+
+  const weeks = [1, 2, 3, 4, 5].map(w => ({
+    week: w,
+    items: contentPlan.filter(i => i.day >= (w - 1) * 7 + 1 && i.day <= w * 7),
+  })).filter(w => w.items.length > 0)
+
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-full bg-[#FAF7F0]">
       <ToolPageHeader
-        icon={Calendar}
-        iconColor="text-teal-600"
+        icon={Layers}
+        iconColor="text-indigo-600"
+        iconBg="bg-indigo-500/10"
         eyebrow="Plan"
         title="Batch Content Planner"
-        description="Generate 30 days of content ideas in seconds"
+        description="Generate or import a 30-day content plan, then push it directly to your Calendar, Hook Generator, and Script Writer."
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Input Section */}
-        <Card className="lg:col-span-1">
-          <CardHeader>
-            <CardTitle>Plan Configuration</CardTitle>
-            <CardDescription>Set up your 30-day content plan</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <Label htmlFor="niche">Your Niche</Label>
-              <Input
-                id="niche"
-                value={niche}
-                onChange={(e) => setNiche(e.target.value)}
-                placeholder="e.g., Digital Marketing"
-              />
-            </div>
+      <div className="max-w-5xl mx-auto px-6 py-6">
 
-            <div>
-              <Label htmlFor="goals">Content Goals</Label>
-              <Textarea
-                id="goals"
-                value={goals}
-                onChange={(e) => setGoals(e.target.value)}
-                placeholder="What do you want to achieve? (e.g., grow audience, drive sales, establish authority)"
-                className="min-h-[100px]"
-              />
-            </div>
+        {/* Tabs */}
+        <div className="flex gap-1 bg-white border border-[#E8E1D0] rounded-xl p-1 mb-6 w-fit">
+          {(['generate', 'import'] as const).map(t => (
+            <button
+              key={t}
+              onClick={() => { setTab(t); setContentPlan([]); setPushResult(null) }}
+              className={`px-4 py-2 rounded-lg text-[12px] font-heading font-bold transition-all ${
+                tab === t
+                  ? 'bg-[#C9A646] text-[#0A0A0A] shadow-sm'
+                  : 'text-[#8A8071] hover:text-[#0A0A0A]'
+              }`}
+            >
+              {t === 'generate' ? 'Generate Plan' : 'Import CSV'}
+            </button>
+          ))}
+        </div>
 
-            <div>
-              <Label htmlFor="frequency">Posting Frequency</Label>
-              <Select value={postingFrequency} onValueChange={setPostingFrequency}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="daily">Daily (30 posts)</SelectItem>
-                  <SelectItem value="weekdays">Weekdays Only (20-22 posts)</SelectItem>
-                  <SelectItem value="3x-week">3x per Week (12-13 posts)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Label htmlFor="platforms">Primary Platform</Label>
-              <Select value={platforms} onValueChange={setPlatforms}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="instagram">Instagram</SelectItem>
-                  <SelectItem value="tiktok">TikTok</SelectItem>
-                  <SelectItem value="youtube">YouTube</SelectItem>
-                  <SelectItem value="linkedin">LinkedIn</SelectItem>
-                  <SelectItem value="multi">Multi-Platform</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <Button onClick={handleGenerate} disabled={loading} className="w-full">
-              {loading ? 'Generating Plan...' : 'Generate 30-Day Plan'}
-            </Button>
-
-            {contentPlan.length > 0 && (
-              <Button onClick={exportAsCSV} variant="outline" className="w-full">
-                <Download className="h-4 w-4 mr-2" />
-                Export as CSV
-              </Button>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Output Section */}
-        <div className="lg:col-span-2 space-y-4">
-          {loading && (
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
-                  <p className="text-gray-600">Generating your 30-day content plan...</p>
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Left panel */}
+          <div className="lg:col-span-1 space-y-4">
+            <div className="bg-white border border-[#E8E1D0] rounded-xl p-5">
+              {tab === 'generate' ? (
+                <div className="space-y-4">
+                  <div>
+                    <Label className="nc-label text-[11px]">Your Niche</Label>
+                    <Input value={niche} onChange={e => setNiche(e.target.value)} placeholder="e.g. Contentpreneur" className="mt-1" />
+                  </div>
+                  <div>
+                    <Label className="nc-label text-[11px]">Content Goals</Label>
+                    <Textarea
+                      value={goals}
+                      onChange={e => setGoals(e.target.value)}
+                      placeholder="Grow audience, drive digital product sales, establish authority..."
+                      className="mt-1 min-h-[90px]"
+                    />
+                  </div>
+                  <div>
+                    <Label className="nc-label text-[11px]">Posting Frequency</Label>
+                    <Select value={postingFrequency} onValueChange={setPostingFrequency}>
+                      <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="daily">Daily (30 posts)</SelectItem>
+                        <SelectItem value="weekdays">Weekdays (20-22 posts)</SelectItem>
+                        <SelectItem value="3x-week">3× per Week (12-13 posts)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label className="nc-label text-[11px]">Primary Platform</Label>
+                    <Select value={platforms} onValueChange={setPlatforms}>
+                      <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="instagram">Instagram</SelectItem>
+                        <SelectItem value="tiktok">TikTok</SelectItem>
+                        <SelectItem value="youtube">YouTube</SelectItem>
+                        <SelectItem value="linkedin">LinkedIn</SelectItem>
+                        <SelectItem value="multi">Multi-Platform</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button
+                    onClick={handleGenerate}
+                    disabled={loading || !niche.trim() || !goals.trim()}
+                    className="w-full bg-[#C9A646] hover:bg-[#8C6F1F] text-[#0A0A0A] font-heading font-bold"
+                  >
+                    {loading ? 'Generating...' : 'Generate 30-Day Plan'}
+                  </Button>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              ) : (
+                <div className="space-y-4">
+                  <div>
+                    <Label className="nc-label text-[11px]">Paste CSV Content</Label>
+                    <Textarea
+                      value={csvText}
+                      onChange={e => setCsvText(e.target.value)}
+                      placeholder={`Day,Date,Topic,Hook Idea,Type,Platform,Notes\n1,Jan 11 2026,What is a Contentpreneur?,...`}
+                      className="mt-1 min-h-[180px] font-mono text-xs"
+                    />
+                  </div>
+                  {importError && (
+                    <p className="text-red-600 text-xs flex items-center gap-1">
+                      <AlertCircle className="w-3.5 h-3.5" />{importError}
+                    </p>
+                  )}
+                  <Button
+                    onClick={handleImportCSV}
+                    disabled={!csvText.trim()}
+                    className="w-full bg-[#C9A646] hover:bg-[#8C6F1F] text-[#0A0A0A] font-heading font-bold"
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    Import Plan
+                  </Button>
+                </div>
+              )}
+            </div>
 
-          {contentPlan.length > 0 && !loading && (
-            <>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Your 30-Day Content Calendar</CardTitle>
-                  <CardDescription>{contentPlan.length} pieces of content planned</CardDescription>
-                </CardHeader>
-              </Card>
+            {/* Actions after plan loads */}
+            {contentPlan.length > 0 && (
+              <div className="bg-white border border-[#E8E1D0] rounded-xl p-4 space-y-2">
+                <p className="text-[11px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-3">
+                  Push to System
+                </p>
+                <Button
+                  onClick={pushAllToCalendar}
+                  disabled={pushing}
+                  className="w-full bg-[#0F0F0F] hover:bg-[#1A1A1A] text-white font-heading font-bold text-[12px] flex items-center gap-2"
+                >
+                  <CalendarDays className="w-4 h-4" />
+                  {pushing ? 'Pushing...' : `Push All ${contentPlan.length} Days to Calendar`}
+                </Button>
+                {pushResult && (
+                  <div className={`flex items-center gap-2 text-[12px] font-heading font-semibold px-3 py-2 rounded-lg ${
+                    pushResult.failed === 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                  }`}>
+                    <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+                    {pushResult.success} added to Calendar{pushResult.failed > 0 ? ` · ${pushResult.failed} failed` : ''}
+                  </div>
+                )}
+                <Button onClick={exportAsCSV} variant="outline" className="w-full text-[12px] font-heading font-semibold">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export as CSV
+                </Button>
+              </div>
+            )}
+          </div>
 
-              {/* Week-by-week view */}
-              {[1, 2, 3, 4].map(week => {
-                const weekContent = contentPlan.filter(item =>
-                  item.day >= (week - 1) * 7 + 1 && item.day <= week * 7
-                )
+          {/* Plan output */}
+          <div className="lg:col-span-2 space-y-4">
+            {loading && (
+              <div className="bg-white border border-[#E8E1D0] rounded-xl p-12 text-center">
+                <div className="w-10 h-10 border-2 border-[#C9A646] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-[#8A8071] font-heading font-semibold text-sm">Generating 30-day plan...</p>
+              </div>
+            )}
 
-                if (weekContent.length === 0) return null
+            {contentPlan.length > 0 && !loading && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <p className="font-heading font-black text-[#0F0F0F] text-sm">
+                    {contentPlan.length} content pieces
+                    {pushResult && pushResult.failed === 0 && (
+                      <span className="ml-2 text-emerald-600 font-semibold">· Pushed to Calendar ✓</span>
+                    )}
+                  </p>
+                  <p className="text-[11px] text-[#8A8071] font-heading">Click any row to generate its hook or script</p>
+                </div>
 
-                return (
-                  <Card key={week}>
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg">Week {week}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        {weekContent.map((content, idx) => (
-                          <div key={idx} className="p-4 bg-gradient-to-r from-teal-50 to-blue-50 border-2 border-teal-200 rounded-lg">
-                            <div className="flex justify-between items-start mb-2">
-                              <div className="flex gap-3 items-start">
-                                <div className="bg-teal-600 text-white rounded-lg w-12 h-12 flex flex-col items-center justify-center flex-shrink-0">
-                                  <span className="text-xs font-semibold">DAY</span>
-                                  <span className="text-lg font-bold">{content.day}</span>
-                                </div>
-                                <div>
-                                  <p className="font-bold text-teal-900">{content.topic}</p>
-                                  <p className="text-xs text-gray-600 mt-1">{content.date}</p>
-                                </div>
-                              </div>
-                              <span className="text-xs bg-teal-200 px-2 py-1 rounded">{content.contentType}</span>
+                {weeks.map(({ week, items }) => (
+                  <div key={week} className="bg-white border border-[#E8E1D0] rounded-xl overflow-hidden">
+                    <div className="px-4 py-2.5 bg-[#FAF7F0] border-b border-[#E8E1D0]">
+                      <p className="text-[11px] font-heading font-black uppercase tracking-widest text-[#8A8071]">Week {week}</p>
+                    </div>
+                    <div className="divide-y divide-[#F4EFE3]">
+                      {items.map((item, idx) => (
+                        <div key={idx} className="p-4 hover:bg-[#FAF7F0] transition-colors">
+                          <div className="flex items-start gap-3">
+                            {/* Day badge */}
+                            <div className="w-10 h-10 bg-[#0F0F0F] text-white rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+                              <span className="text-[8px] font-heading font-black uppercase tracking-wide leading-none text-white/50">DAY</span>
+                              <span className="text-[15px] font-heading font-black leading-none">{item.day}</span>
                             </div>
-                            <div className="ml-15 pl-3 border-l-2 border-teal-300">
-                              <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-semibold">Hook:</span> "{content.hookIdea}"
-                              </p>
-                              {content.notes && (
-                                <p className="text-xs text-gray-600">
-                                  <span className="font-semibold">Notes:</span> {content.notes}
-                                </p>
+
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-start gap-2 flex-wrap mb-1">
+                                <p className="font-heading font-bold text-[#0F0F0F] text-[13px] leading-snug flex-1">{item.topic}</p>
+                                <span className={`text-[10px] font-heading font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType] || 'bg-gray-100 text-gray-700'}`}>
+                                  {item.contentType}
+                                </span>
+                              </div>
+                              {item.date && (
+                                <div className="flex items-center gap-1 text-[10px] text-[#8A8071] mb-1.5">
+                                  <Clock className="w-3 h-3" />{item.date} · {item.platform}
+                                </div>
                               )}
+                              <p className="text-[11px] text-[#6B6059] leading-relaxed line-clamp-2">
+                                <span className="font-semibold text-[#8A8071]">Hook:</span> "{item.hookIdea}"
+                              </p>
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                )
-              })}
-            </>
-          )}
 
-          {contentPlan.length === 0 && !loading && (
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-center text-gray-500 py-12">
-                  <Calendar className="h-16 w-16 mx-auto mb-4 text-gray-300" />
-                  <p className="font-medium">30-day content plan will appear here</p>
-                  <p className="text-sm mt-2">Fill in your details and click "Generate 30-Day Plan"</p>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+                          {/* Action row */}
+                          <div className="flex items-center gap-2 mt-3 ml-13 pl-0">
+                            <button
+                              onClick={() => openHookGenerator(item)}
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C9A646]/10 hover:bg-[#C9A646]/20 text-[#8C6F1F] rounded-lg text-[11px] font-heading font-bold transition-colors"
+                            >
+                              <Zap className="w-3 h-3" />
+                              Generate Hook
+                              <ArrowRight className="w-3 h-3" />
+                            </button>
+                            <button
+                              onClick={() => openScriptWriter(item)}
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-heading font-bold transition-colors"
+                            >
+                              <FileText className="w-3 h-3" />
+                              Write Script
+                              <ArrowRight className="w-3 h-3" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {contentPlan.length === 0 && !loading && (
+              <div className="bg-white border border-[#E8E1D0] rounded-xl p-12 text-center">
+                <Layers className="h-12 w-12 mx-auto mb-4 text-[#DED5C2]" />
+                <p className="font-heading font-bold text-[#8A8071] text-sm">
+                  {tab === 'generate' ? 'Fill in your niche and goals, then generate your plan' : 'Paste your CSV and click Import Plan'}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
       </div>
     </div>
   )
