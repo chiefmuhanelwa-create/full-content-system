@@ -186,23 +186,23 @@ Hook: "780,000 followers. Gone overnight." Body: "False copyright claim. Appeal 
 
 ---
 
-## STORY 05 — SARS R285K Tax Debt
+## STORY 05 — SARS R207,869 Tax Debt
 
-**Title:** The R285K Lesson I Couldn't Afford
+**Title:** The R207,869 SARS Lesson I Couldn't Afford
 **Timeframe:** 15-18 seconds (snippet) | 90-120 seconds (full version)
 **Emotion arc:** Ignorance → Wisdom
 **Shadow fear it addresses:** Being exposed as financially incompetent | SARS catching up with you
 
 ### The Snippet (15-18s)
-> "Owed SARS R285,000 because I didn't know brand income needed declarations. Had to do the Voluntary Disclosure Programme. Now I teach creators tax compliance before they learn the hard way."
+> "Owed SARS R207,869 because I didn't know brand income needed declarations. Had to do the Voluntary Disclosure Programme. Now I teach creators tax compliance before they learn the hard way."
 
 ### The Full Story (90-120s delivery)
-> Nobody teaches creators about tax. The courses teach you how to grow. The podcasts teach you how to monetise. Nobody tells you that the R15,000 that just landed in your Payfast account is taxable income. SARS knows. They can see it. I found out the hard way. R285,000 owed. Years of undeclared brand income. VDP — Voluntary Disclosure Programme — saved me from R142,500 in penalties. But I still had to pay the original amount. I'm telling you this not because it's easy to say. Because you need to know before SARS tells you first.
+> Nobody teaches creators about tax. The courses teach you how to grow. The podcasts teach you how to monetise. Nobody tells you that the R15,000 that just landed in your Payfast account is taxable income. SARS knows. They can see it. I found out the hard way. R207,869 owed. Years of undeclared brand income. VDP — Voluntary Disclosure Programme — saved me from R142,500 in penalties. But I still had to pay the original amount. I'm telling you this not because it's easy to say. Because you need to know before SARS tells you first.
 
 ### The Numbers
-- Tax debt: R285,000
+- Tax debt: R207,869
 - Penalty avoided via VDP: R142,500
-- Penalty still paid: R285,000 base amount
+- Penalty still paid: R207,869 base amount
 - Year discovered: After multiple years of undeclared brand income
 
 ### The Lesson
@@ -222,10 +222,10 @@ Hook: "780,000 followers. Gone overnight." Body: "False copyright claim. Appeal 
 
 ### Platform Scripts
 **TikTok (30s):**
-Hook: "I owed SARS R285,000 because nobody told me brand income was taxable." Body: "I'm a content creator. Not an accountant. But SARS doesn't care. Here's what I know now — and what I wish I knew then." CTA: "The guide is on the link in bio. Free. Read it before SARS reads you."
+Hook: "I owed SARS R207,869 because nobody told me brand income was taxable." Body: "I'm a content creator. Not an accountant. But SARS doesn't care. Here's what I know now — and what I wish I knew then." CTA: "The guide is on the link in bio. Free. Read it before SARS reads you."
 
 **LinkedIn (caption):**
-"Creator income and SARS compliance: a conversation nobody is having publicly. I'll start. I owed R285,000 in undeclared brand income. Not because I was trying to avoid it. Because nobody told me it was taxable. VDP saved me from R142,500 in penalties. Still owed the base. If you're earning from content and haven't declared it: the VDP window is open. Use it before SARS opens it for you."
+"Creator income and SARS compliance: a conversation nobody is having publicly. I'll start. I owed R207,869 in undeclared brand income. Not because I was trying to avoid it. Because nobody told me it was taxable. VDP saved me from R142,500 in penalties. Still owed the base. If you're earning from content and haven't declared it: the VDP window is open. Use it before SARS opens it for you."
 
 ---
 
@@ -489,7 +489,7 @@ Hook: "I posted 3 times a day for 6 months and made R0." Body: "2 million views.
 | Pricing / rates | 02 (R750→R100K), 07 (Netflix) |
 | Starting with nothing | 01 (Bathroom Floors), 03 (Huawei R6K) |
 | Platform independence | 04 (780K lost) |
-| Tax / SARS | 05 (R285K debt) |
+| Tax / SARS | 05 (R207,869 debt) |
 | Resilience / not giving up | 01 (Bathroom Floors), 06 (Family Shame) |
 | Systems over hustle | 08 (Burnout) |
 | Long-term partnerships | 09 (Samsung) |
