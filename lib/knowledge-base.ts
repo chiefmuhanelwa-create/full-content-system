@@ -739,11 +739,131 @@ Return as structured JSON with:
 - Full compliance block (Section 13)
 `,
     stories: `
-## YOUR TASK: EXTRACT A PROOF STORY
+## YOUR TASK: EXTRACT OR WRITE A PROOF STORY
 Apply the 4-Criteria Test: Specific (exact numbers/dates) | Relatable (audience sees themselves) | Quantifiable (measurable result) | Named (real brands/people/places).
 A story must pass 3 of 4 to be usable.
 Extract: Genesis type | core transformation arc | specific numbers | villain (system/situation) | lesson extracted | content use cases | platform variations.
-Return as JSON object.
+
+---
+
+## NOCHILL 6-STAGE WRITTEN STORY STRUCTURE
+
+Every long-form story follows this arc. Each stage has a purpose — do not skip or reorder.
+
+### STAGE 1: THE SCENE-SETTING OPENER (100–150 words)
+- Specific time, date, place, circumstances
+- Exact emotional state and mindset
+- Stakes: what was at risk
+- Short punchy sentences, specific numbers, visual imagery
+- End with a callback word showing pattern: "Again."
+
+### STAGE 2: THE CRISIS DEEPENING (200–300 words)
+- Layer the problems — reveal multiple challenges
+- Physical sensory details — what they saw, heard, felt
+- Social media contrast — others' highlight reel vs. real reality
+- Escalate toward breaking point
+- Signature escalation: "But that wasn't even the worst part."
+
+### STAGE 3: THE PIVOTAL MOMENT (150–250 words)
+- Exact triggering event — the moment everything shifted
+- Internal decision process with risk assessment
+- Courageous choice DESPITE logic or fear
+- Physical movement marker: "I walked to..." drives narrative
+- Exact financial numbers and opportunity cost named
+
+### STAGE 4: THE IMPLEMENTATION JOURNEY (400–500 words)
+- Specific daily actions (times, routines, first attempts)
+- Real obstacles with vulnerability: "I felt like a fraud"
+- Incremental progress — small wins build credibility
+- Progressive revelation: "Three weeks in, something shifted"
+- Concrete first outcome: specific number, specific person
+
+### STAGE 5: THE TRANSFORMATION RESULT (200–300 words)
+- Quantifiable outcomes: exact numbers, timeline, brand names
+- Progressive timeline: "Within 6 months... Within a year..."
+- ROI demonstration: investment vs. return in Rand
+- Principle extraction: the universal lesson the story proves
+
+### STAGE 6: THE UNIVERSAL APPLICATION (100–150 words)
+- Bridge to reader's situation: "Your numbers may differ..."
+- Remove barriers: address potential objections
+- Deliver hope without overpromising
+- Close with reframed question: "The question isn't can you afford to — it's can you afford not to."
+
+---
+
+## NOCHILL WRITING MECHANICS
+
+### PARAGRAPH FORMULA
+Hook (1 sentence) → Context (2–3 sentences) → Evidence (1 sentence) → Impact (1 sentence)
+Target: 63–90 words per paragraph. Vary rhythm: Long-Short-Long.
+
+### SENTENCE LENGTH PATTERNS
+- Short impact (3–8 words): "But I bought it anyway."
+- Medium narrative (12–18 words): "I walked to Vodacom the next morning with my last R6,000."
+- Long explanatory (20–30 words): For internal reasoning, lessons, transitions.
+
+### SIGNATURE SENTENCE STARTERS (Ndivhuwo's voice — use these)
+Story progression: "That's when..." | "Here's what happened next..." | "But here's the thing..."
+Emphasis: "Listen to me..." | "Let me be clear..." | "Trust me when I say..."
+Vulnerability: "I was terrified..." | "I felt like a fraud..." | "I almost didn't..."
+Outcome reveals: "Within six months..." | "That decision led to..." | "What happened next..."
+
+### PUNCTUATION AS STORYTELLING
+- **Drama Period** — single sentence paragraph for maximum impact: "I made the purchase." / "Despite everything."
+- **Revelation Colon** — build anticipation: "That's when I discovered the secret: [reveal]"
+- **Contradiction Dash** — opposing realities: "I was supposed to be the expert — but I couldn't afford groceries."
+- **Emphasis Ellipsis** — tension and pause: "I opened the email from Samsung... my hands were shaking..."
+- **Stats formatting**: "Balance: R4,200. / Rent due: R3,800. / Time: 3 days."
+
+### VULNERABILITY INTEGRATION
+**Confession Pattern:** Admission → Context → Impact → Learning
+"I have to be honest. [Admission] For months, I was posting motivational content while avoiding creditor calls. [Context] The disconnect was destroying me from inside. [Impact] That's when I learned authenticity isn't just good for engagement — it's essential for mental health. [Learning]"
+
+**Fear Revelation:** Name the fear → Physical impact → Action despite fear
+"I was terrified. My hands were literally shaking as I entered my PIN. But I typed those four digits anyway."
+
+### CREDIBILITY: THE RECEIPTS METHOD
+Claim → Specific Evidence → Verification available
+"I'm not telling you this from theory. [Claim] In 2023: R600K+ from Meta monetization, R25K/month brand partnerships, 6,000+ books sold. [Evidence] Meta sends payment confirmations. The receipts exist. [Verification]"
+
+### STORY LOOPS
+- **Micro-stories** (2–3 sentences max): Support a point without disrupting main narrative
+- **Callback loops**: Brief reference to earlier story — "Remember the R6,000 phone? This was another one of those moments."
+- **Cliffhanger bridge** (chapter close): Current conclusion + future story preview + identity statement
+
+### TENSION MAINTENANCE
+- Progressive revelation: Never reveal all at once. "But here's what I didn't know yet..."
+- Sentence stacking: Three short sentences building to one long one
+- The 3-2-1 rhythm: 3 medium sentences → 2 short → 1 long explanatory
+
+### SCENE TRANSITIONS
+- **Time jumps**: "That was March 2019. Fast forward eighteen months..." (with emotional bridge)
+- **Location shifts**: Physical movement = internal transformation (Soweto bedroom → Samsung offices)
+- **Perspective evolution**: Before/During/After format shows growth explicitly
+
+### CHAPTER CLOSING PATTERNS
+**Identity Declaration**: "I wasn't just a creator anymore. I was a contentpreneur building wealth systematically. You understand? Because you understand."
+**Universal Application**: "Your R6,000 decision might look different. Your risk might be a course or a business registration. But the principle remains: invest in your future before your present feels ready."
+
+---
+
+## NEGATIVITY ALWAYS WINS — MEASURED DATA
+
+This is not theory. Six examples with real retention measurement:
+
+| Hook Type | Positive Version | Negative Version | Retention Lift |
+|---|---|---|---|
+| Fitness (squats) | "These workouts are better than squats" | "Squats just fucking suck for growing legs" | 23% → 71% (+309%) |
+| Creator pricing | "Try charging higher prices" | "You're charging R750 because you're terrified — brands laugh all the way" | 31% → 68% (+219%) |
+| Platform risk | "Building an email list is a good idea" | "You're one algorithm change from losing everything. I lost 780K overnight" | 19% → 82% (+432%) |
+| Tax compliance | "Track income for tax purposes" | "You owe SARS money right now and you don't even know it. I learned this owing R285K" | 14% → 77% (+550%) |
+| Investment mindset | "Consider investing in equipment when ready" | "Everyone said my R6K phone was stupid. That 'stupid' decision made R600K" | 22% → 74% (+336%) |
+| Action-taking | "You can do it! Believe in yourself" | "You've been 'getting ready' for 2 years. Your notes app is full of ideas you'll never execute" | 11% → 79% (+718%) |
+
+**Rule confirmed by data:** Negativity directed at a PROBLEM (not the person) generates 3–7x more engagement than positivity. Always name the villain (the system, the myth, the behavior) — never attack the viewer's character.
+
+Return story output as JSON object with all stages, compliance, and platform variations.
 `,
     pitch: `
 ## YOUR TASK: BUILD A PITCH
@@ -754,8 +874,20 @@ Return as JSON object with all three versions.
 `,
     fears: `
 ## YOUR TASK: ANALYZE SHADOW FEARS
-The 10 Shadow Fears: Fear of Permanent Failure | Fear of Being Overlooked | Fear of Wasted Potential | Fear of Not Being Enough | Fear of Missing the Window | Fear of Public Failure | Fear of Starting Over | Fear of Being a Fraud | Fear of Disappointment | Fear of the Unknown.
-For each top fear identified, provide: hook examples using R×A×C×U^B | content themes | SEEDS stage where this fear is most activated | objection-handling language.
+The 10 NOCHILL Shadow Fears (with ICP mapping):
+1. Wasted Life — ICP 1+2 — "Spending my best years on someone else's dream"
+2. Generational Poverty Trap — ICP 1 — "I'll repeat my parents' financial story no matter what"
+3. Imposter Syndrome — ICP 1+2 — "I'm not qualified enough to charge / teach / lead"
+4. Wrong Path Terror — ICP 1 — "I chose the wrong career and it's too late to switch"
+5. Invisible Labor — ICP 2 — "Working harder than anyone can see and have nothing to show"
+6. Platform Dependency — ICP 1+2 — "One algorithm change and everything I built disappears"
+7. Time Anxiety — ICP 2 — "I'm already behind. Everyone else figured this out younger"
+8. Relationship Loss — ICP 2 — "Pursuing this dream will cost me the people I love"
+9. Spiritual Crisis — ICP 1 — "Was I called to this, or am I just chasing money?"
+10. Legacy Void — ICP 1+2 — "I'll die without leaving something that outlasts me"
+
+CRITICAL: Never name the shadow fear directly in content. Activate it — make the viewer feel seen without labeling their fear. The fear should be implicit in the hook or story, not stated.
+For each fear: provide hook examples using R×A×C×U^B | content themes | SEEDS stage activated | objection-handling language | ICP match.
 Return as JSON object.
 `,
   }
