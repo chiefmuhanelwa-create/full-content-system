@@ -97,11 +97,16 @@
     line-height: 1.65;
   }
 
-  /* ─── Warm scrollbar ─── */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: #F4EFE3; }
-  ::-webkit-scrollbar-thumb { background: rgba(201, 166, 70, 0.45); border-radius: 4px; }
+  /* ─── Scrollbars — light context ─── */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(201, 166, 70, 0.30); border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: #C9A646; }
+
+  /* ─── Dark sidebar scrollbar override ─── */
+  nav ::-webkit-scrollbar-track { background: transparent; }
+  nav ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.10); border-radius: 4px; }
+  nav ::-webkit-scrollbar-thumb:hover { background: rgba(201, 166, 70, 0.40); }
 }
 
 @layer utilities {

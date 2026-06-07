@@ -2,13 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import {
   Zap, FileText, BookOpen, Brain, LayoutDashboard, LogOut, History,
   Cpu, Mic, Layers, Target, TrendingUp, BarChart2,
   Calendar, BookMarked, ShoppingBag, Star, Repeat, PenTool,
-  Tv2, Archive, Settings, ChevronDown, ChevronRight, Globe, Heart,
-  Package, MonitorPlay
+  Tv2, Archive, Settings, ChevronDown, ChevronRight, Globe,
+  Package, MonitorPlay, User
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -23,16 +23,12 @@ type NavItem = {
 
 type NavGroup = {
   label: string
-  icon: any
-  color: string
   items: NavItem[]
 }
 
 const navGroups: NavGroup[] = [
   {
     label: 'Command',
-    icon: Cpu,
-    color: 'text-[#C9A646]',
     items: [
       { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, description: 'Overview & quick launch' },
       { name: 'My Algorithm', href: '/dashboard/my-algorithm', icon: Cpu, description: 'Creator DNA + audiences', badge: 'CORE' },
@@ -40,8 +36,6 @@ const navGroups: NavGroup[] = [
   },
   {
     label: 'Create',
-    icon: PenTool,
-    color: 'text-blue-500',
     items: [
       { name: 'Hook Generator', href: '/dashboard/hooks', icon: Zap, description: 'R×A×C×U^B formula' },
       { name: 'Script Writer', href: '/dashboard/scripts', icon: FileText, description: '7-Act + 10-Step Sales' },
@@ -54,10 +48,8 @@ const navGroups: NavGroup[] = [
   },
   {
     label: 'Audience',
-    icon: Brain,
-    color: 'text-purple-500',
     items: [
-      { name: 'Fear Analyzer', href: '/dashboard/fears', icon: Brain, description: '10 Shadow Fears mapped' },
+      { name: 'Fear Analyzer', href: '/dashboard/fears', icon: Brain, description: '10 Shadow Fears' },
       { name: 'ICP Pain Library', href: '/dashboard/icp-pain-library', icon: Target, description: 'Audience pain database' },
       { name: 'Competitor Intel', href: '/dashboard/competitor', icon: Globe, description: 'Content gap analysis' },
       { name: 'Trend Scanner', href: '/dashboard/trends', icon: TrendingUp, description: 'What\'s trending now' },
@@ -66,11 +58,9 @@ const navGroups: NavGroup[] = [
   },
   {
     label: 'Library',
-    icon: Archive,
-    color: 'text-emerald-600',
     items: [
       { name: 'Hook Bank', href: '/dashboard/hook-bank', icon: BookMarked, description: 'All saved hooks' },
-      { name: 'Story Bank', href: '/dashboard/story-bank', icon: Heart, description: '10 proof stories' },
+      { name: 'Story Bank', href: '/dashboard/story-bank', icon: BookOpen, description: '10 proof stories' },
       { name: 'Saved Scripts', href: '/dashboard/saved-scripts', icon: FileText, description: 'Script library' },
       { name: 'Content Vault', href: '/dashboard/vault', icon: Archive, description: '110+ pre-built ideas' },
       { name: 'History', href: '/dashboard/history', icon: History, description: 'Activity timeline' },
@@ -78,8 +68,6 @@ const navGroups: NavGroup[] = [
   },
   {
     label: 'Revenue',
-    icon: ShoppingBag,
-    color: 'text-orange-500',
     items: [
       { name: 'Products', href: '/dashboard/products', icon: Package, description: 'Full product catalogue' },
       { name: 'Godfather Offers', href: '/dashboard/offers', icon: Star, description: 'Offer stack builder' },
@@ -90,8 +78,6 @@ const navGroups: NavGroup[] = [
   },
   {
     label: 'Planning',
-    icon: Calendar,
-    color: 'text-indigo-500',
     items: [
       { name: 'Content Calendar', href: '/dashboard/content-calendar-plus', icon: Calendar, description: '4E-balanced schedule' },
       { name: 'Batch Planner', href: '/dashboard/batch-planner', icon: Layers, description: '22-day content plan' },
@@ -102,10 +88,7 @@ const navGroups: NavGroup[] = [
   },
   {
     label: 'System',
-    icon: Settings,
-    color: 'text-[#8A8071]',
     items: [
-      { name: 'Operations', href: '/dashboard/operations', icon: Settings, description: 'Seed data + health' },
       { name: 'Settings', href: '/dashboard/settings', icon: Settings, description: 'Account settings' },
     ],
   },
@@ -113,6 +96,7 @@ const navGroups: NavGroup[] = [
 
 export function Navigation() {
   const pathname = usePathname()
+  const { data: session } = useSession()
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({
     System: true,
   })
@@ -128,119 +112,112 @@ export function Navigation() {
   const isGroupActive = (group: NavGroup) =>
     group.items.some((item) => pathname === item.href || pathname.startsWith(item.href + '/'))
 
-  return (
-    <nav className="w-64 bg-white border-r border-[#E8E1D0] h-screen flex flex-col flex-shrink-0 shadow-[1px_0_0_0_#E8E1D0]">
+  const userName = session?.user?.name?.split(' ')[0] || 'Ndivhuwo'
+  const userHandle = '@nochill_god'
 
-      {/* Brand header */}
-      <div className="px-4 py-4 border-b border-[#E8E1D0]">
+  return (
+    <nav className="w-56 bg-[#0F0F0F] h-full flex flex-col flex-shrink-0 border-r border-white/[0.05]">
+
+      {/* Brand */}
+      <div className="px-4 py-4 border-b border-white/[0.06] flex-shrink-0">
         <Link href="/dashboard" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 rounded-xl bg-[#C9A646] flex items-center justify-center flex-shrink-0 group-hover:shadow-[0_0_16px_rgba(201,166,70,0.50)] transition-shadow">
-            <span className="text-[#0A0A0A] font-heading font-black text-sm">N</span>
+          <div className="w-8 h-8 rounded-xl bg-[#C9A646] flex items-center justify-center flex-shrink-0 shadow-[0_0_14px_rgba(201,166,70,0.35)] group-hover:shadow-[0_0_22px_rgba(201,166,70,0.55)] transition-shadow">
+            <span className="text-[#0A0A0A] font-heading font-black text-sm leading-none">N</span>
           </div>
           <div>
-            <p className="font-heading font-black text-[#0A0A0A] tracking-widest text-xs uppercase leading-none">NOCHILL</p>
-            <p className="text-[11px] text-[#8A8071] font-heading tracking-wide mt-0.5">Content Intelligence</p>
+            <p className="font-heading font-black text-white tracking-[0.18em] text-[11px] uppercase leading-none">NOCHILL</p>
+            <p className="text-[10px] text-white/35 font-heading tracking-wide mt-0.5 leading-none">Content Intelligence</p>
           </div>
         </Link>
       </div>
 
-      {/* Nav groups */}
-      <div className="flex-1 overflow-y-auto py-2">
-        <div className="space-y-0.5 px-2">
-          {navGroups.map((group) => {
-            const GroupIcon = group.icon
-            const isOpen = !collapsed[group.label]
-            const hasActive = isGroupActive(group)
+      {/* Scrollable nav */}
+      <div className="flex-1 overflow-y-auto py-2 px-2 min-h-0">
+        {navGroups.map((group) => {
+          const isOpen = !collapsed[group.label]
+          const hasActive = isGroupActive(group)
 
-            return (
-              <div key={group.label} className="mb-1">
-                <button
-                  onClick={() => toggleGroup(group.label)}
-                  className={cn(
-                    'w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-left nav-item-transition',
-                    hasActive
-                      ? 'bg-[#F4EFE3]'
-                      : 'hover:bg-[#FAF7F0]'
-                  )}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <GroupIcon className={cn('w-3.5 h-3.5 flex-shrink-0', group.color)} />
-                    <span className={cn(
-                      'text-[11px] font-heading font-black uppercase tracking-[0.12em]',
-                      hasActive ? 'text-[#8C6F1F]' : 'text-[#8A8071]'
-                    )}>
-                      {group.label}
-                    </span>
-                  </div>
-                  {isOpen
-                    ? <ChevronDown className="w-3 h-3 text-[#C9C0B0]" />
-                    : <ChevronRight className="w-3 h-3 text-[#C9C0B0]" />
-                  }
-                </button>
+          return (
+            <div key={group.label} className="mb-0.5">
+              <button
+                onClick={() => toggleGroup(group.label)}
+                className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left hover:bg-white/[0.04] transition-colors"
+              >
+                <span className={cn(
+                  'text-[10px] font-heading font-black uppercase tracking-[0.16em]',
+                  hasActive ? 'text-[#C9A646]' : 'text-white/30'
+                )}>
+                  {group.label}
+                </span>
+                {isOpen
+                  ? <ChevronDown className="w-3 h-3 text-white/20" />
+                  : <ChevronRight className="w-3 h-3 text-white/20" />
+                }
+              </button>
 
-                {isOpen && (
-                  <div className="ml-2 mt-0.5 space-y-0.5 border-l-2 border-[#E8E1D0] pl-2.5">
-                    {group.items.map((item) => {
-                      const Icon = item.icon
-                      const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+              {isOpen && (
+                <div className="mt-0.5 space-y-px">
+                  {group.items.map((item) => {
+                    const Icon = item.icon
+                    const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
 
-                      return (
-                        <Link key={item.href} href={item.href}>
-                          <div className={cn(
-                            'flex items-center gap-2.5 px-2.5 py-2 rounded-lg nav-item-transition',
-                            isActive
-                              ? 'bg-[#C9A646]/15 border border-[#C9A646]/40 border-l-2 border-l-[#C9A646]'
-                              : 'hover:bg-[#FAF7F0] border border-transparent'
-                          )}>
-                            <Icon className={cn(
-                              'h-3.5 w-3.5 flex-shrink-0',
-                              isActive ? 'text-[#8C6F1F]' : 'text-[#B0A898]'
-                            )} />
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-1.5">
-                                <p className={cn(
-                                  'text-[13px] font-heading font-semibold truncate leading-none',
-                                  isActive ? 'text-[#7A5F18]' : 'text-[#3D342A]'
-                                )}>
-                                  {item.name}
-                                </p>
-                                {item.badge && (
-                                  <span className="nc-badge flex-shrink-0">{item.badge}</span>
-                                )}
-                              </div>
-                              {item.description && (
-                                <p className={cn(
-                                  'text-[11px] truncate mt-0.5 leading-none',
-                                  isActive ? 'text-[#A07830]' : 'text-[#B0A898]'
-                                )}>{item.description}</p>
+                    return (
+                      <Link key={item.href} href={item.href}>
+                        <div className={cn(
+                          'flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-all',
+                          isActive
+                            ? 'bg-[#C9A646]/[0.12] border-l-2 border-[#C9A646] pl-[9px]'
+                            : 'border-l-2 border-transparent hover:bg-white/[0.05] hover:border-white/10'
+                        )}>
+                          <Icon className={cn(
+                            'h-3.5 w-3.5 flex-shrink-0',
+                            isActive ? 'text-[#C9A646]' : 'text-white/40'
+                          )} />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <p className={cn(
+                                'text-[12.5px] font-heading font-semibold truncate leading-none',
+                                isActive ? 'text-[#C9A646]' : 'text-white/75'
+                              )}>
+                                {item.name}
+                              </p>
+                              {item.badge && (
+                                <span className="text-[8px] font-heading font-black px-1.5 py-0.5 bg-[#C9A646] text-[#0A0A0A] rounded tracking-widest uppercase flex-shrink-0">
+                                  {item.badge}
+                                </span>
                               )}
                             </div>
+                            {item.description && (
+                              <p className="text-[10px] text-white/25 truncate mt-0.5 leading-none font-heading">
+                                {item.description}
+                              </p>
+                            )}
                           </div>
-                        </Link>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            )
-          })}
-        </div>
+                        </div>
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
 
-      {/* User + sign out */}
-      <div className="border-t border-[#E8E1D0] p-3.5 bg-[#FAF7F0]">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#E6C871] to-[#C9A646] flex items-center justify-center flex-shrink-0 shadow-sm">
-            <span className="text-[#0A0A0A] font-heading font-black text-xs">N</span>
+      {/* User + logout — always visible at bottom */}
+      <div className="flex-shrink-0 border-t border-white/[0.06] p-3 bg-[#0A0A0A]">
+        <div className="flex items-center gap-2.5 mb-2.5">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#E6C871] to-[#8C6F1F] flex items-center justify-center flex-shrink-0">
+            <User className="w-4 h-4 text-[#0A0A0A]" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-heading font-bold text-[#1F1B16] truncate leading-none">Ndivhuwo</p>
-            <p className="text-[11px] text-[#8A8071] truncate mt-0.5">@nochill_god</p>
+            <p className="text-[12px] font-heading font-bold text-white/90 truncate leading-none">{userName}</p>
+            <p className="text-[10px] text-white/35 truncate mt-0.5 leading-none">{userHandle}</p>
           </div>
         </div>
         <button
           onClick={handleSignOut}
-          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg text-[#8A8071] hover:text-[#5C5448] hover:bg-[#F0E8D8] nav-item-transition text-[11px] font-heading font-semibold border border-transparent hover:border-[#DED5C2]"
+          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg text-white/40 hover:text-white/80 hover:bg-white/[0.06] transition-all text-[11px] font-heading font-semibold border border-white/[0.06] hover:border-white/[0.12]"
         >
           <LogOut className="h-3.5 w-3.5" />
           Sign Out
