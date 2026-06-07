@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select'
 import {
   Layers, Download, Zap, FileText, CalendarDays,
-  Upload, CheckCircle2, AlertCircle, ArrowRight, Clock
+  Upload, CheckCircle2, AlertCircle, ArrowRight, Clock, Trash2, History
 } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
 import { useContent } from '@/contexts/ContentContext'
@@ -79,7 +79,7 @@ export default function BatchPlannerPage() {
   const router = useRouter()
   const { setPendingAction } = useContent()
 
-  const [tab, setTab] = useState<'generate' | 'import'>('generate')
+  const [tab, setTab] = useState<'generate' | 'import' | 'history'>('generate')
   const [niche, setNiche] = useState('')
   const [goals, setGoals] = useState('')
   const [postingFrequency, setPostingFrequency] = useState('daily')
@@ -95,6 +95,26 @@ export default function BatchPlannerPage() {
   const [pushing, setPushing] = useState(false)
   const [pushResult, setPushResult] = useState<{ success: number; failed: number } | null>(null)
 
+  // Plan history
+  interface SavedPlan { id: string; name: string; createdAt: string; plan: ContentPiece[] }
+  const loadHistory = (): SavedPlan[] => {
+    try { return JSON.parse(localStorage.getItem('batchPlanHistory') || '[]') } catch { return [] }
+  }
+  const [planHistory, setPlanHistory] = useState<SavedPlan[]>(loadHistory)
+
+  const savePlanToHistory = (plan: ContentPiece[], name: string) => {
+    const entry: SavedPlan = { id: Date.now().toString(), name, createdAt: new Date().toISOString(), plan }
+    const updated = [entry, ...loadHistory()].slice(0, 20)
+    localStorage.setItem('batchPlanHistory', JSON.stringify(updated))
+    setPlanHistory(updated)
+  }
+
+  const deletePlanFromHistory = (id: string) => {
+    const updated = loadHistory().filter(p => p.id !== id)
+    localStorage.setItem('batchPlanHistory', JSON.stringify(updated))
+    setPlanHistory(updated)
+  }
+
   const handleGenerate = async () => {
     if (!niche.trim() || !goals.trim()) return
     setLoading(true)
@@ -108,6 +128,7 @@ export default function BatchPlannerPage() {
       if (response.ok) {
         const data = await response.json()
         setContentPlan(data.plan)
+        savePlanToHistory(data.plan, `${niche} — ${new Date().toLocaleDateString()}`)
       }
     } catch (err) {
       console.error(err)
@@ -123,6 +144,7 @@ export default function BatchPlannerPage() {
     if (!parsed.length) { setImportError('Could not parse CSV. Check the format: Day, Date, Topic, Hook Idea, Type, Platform, Notes'); return }
     setContentPlan(parsed)
     setPushResult(null)
+    savePlanToHistory(parsed, `Imported CSV — ${new Date().toLocaleDateString()}`)
   }
 
   const exportAsCSV = () => {
@@ -200,17 +222,17 @@ export default function BatchPlannerPage() {
 
         {/* Tabs */}
         <div className="flex gap-1 bg-white border border-[#E8E1D0] rounded-xl p-1 mb-6 w-fit">
-          {(['generate', 'import'] as const).map(t => (
+          {(['generate', 'import', 'history'] as const).map(t => (
             <button
               key={t}
-              onClick={() => { setTab(t); setContentPlan([]); setPushResult(null) }}
+              onClick={() => { setTab(t); if (t !== 'history') { setContentPlan([]); setPushResult(null) } }}
               className={`px-4 py-2 rounded-lg text-[12px] font-heading font-bold transition-all ${
                 tab === t
                   ? 'bg-[#C9A646] text-[#0A0A0A] shadow-sm'
                   : 'text-[#8A8071] hover:text-[#0A0A0A]'
               }`}
             >
-              {t === 'generate' ? 'Generate Plan' : 'Import CSV'}
+              {t === 'generate' ? 'Generate Plan' : t === 'import' ? 'Import CSV' : `My Plans (${planHistory.length})`}
             </button>
           ))}
         </div>
@@ -405,12 +427,48 @@ export default function BatchPlannerPage() {
               </div>
             )}
 
-            {contentPlan.length === 0 && !loading && (
+            {contentPlan.length === 0 && !loading && tab !== 'history' && (
               <div className="bg-white border border-[#E8E1D0] rounded-xl p-12 text-center">
                 <Layers className="h-12 w-12 mx-auto mb-4 text-[#DED5C2]" />
                 <p className="font-heading font-bold text-[#8A8071] text-sm">
                   {tab === 'generate' ? 'Fill in your niche and goals, then generate your plan' : 'Paste your CSV and click Import Plan'}
                 </p>
+              </div>
+            )}
+
+            {tab === 'history' && (
+              <div className="space-y-3">
+                {planHistory.length === 0 ? (
+                  <div className="bg-white border border-[#E8E1D0] rounded-xl p-12 text-center">
+                    <History className="h-12 w-12 mx-auto mb-4 text-[#DED5C2]" />
+                    <p className="font-heading font-bold text-[#8A8071] text-sm">No saved plans yet. Generate or import a plan first.</p>
+                  </div>
+                ) : (
+                  planHistory.map(saved => (
+                    <div key={saved.id} className="bg-white border border-[#E8E1D0] rounded-xl p-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-heading font-bold text-[#0F0F0F] text-[13px] truncate">{saved.name}</p>
+                          <p className="text-[11px] text-[#8A8071] mt-0.5">{saved.plan.length} days · {new Date(saved.createdAt).toLocaleDateString()}</p>
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <button
+                            onClick={() => { setContentPlan(saved.plan); setTab('generate'); setPushResult(null) }}
+                            className="px-3 py-1.5 bg-[#C9A646]/10 hover:bg-[#C9A646]/20 text-[#8C6F1F] rounded-lg text-[11px] font-heading font-bold transition-colors"
+                          >
+                            Load Plan
+                          </button>
+                          <button
+                            onClick={() => deletePlanFromHistory(saved.id)}
+                            className="p-1.5 hover:bg-red-50 text-[#8A8071] hover:text-red-600 rounded-lg transition-colors"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             )}
           </div>

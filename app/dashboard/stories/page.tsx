@@ -41,6 +41,8 @@ export default function StoryExtractorPage() {
   const [stories, setStories] = useState<ExtractedStory[]>([])
   const [error, setError] = useState('')
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
+  const [savedStoryIndices, setSavedStoryIndices] = useState<Set<number>>(new Set())
+  const [savedBankIndices, setSavedBankIndices] = useState<Set<number>>(new Set())
 
   const extractStories = async () => {
     if (!storyInput.trim()) {
@@ -111,26 +113,15 @@ Use Case: ${story.useCase}
     return Object.values(criteria).filter(Boolean).length
   }
 
-  const saveStory = (story: ExtractedStory) => {
-    const savedStory = {
-      id: Date.now().toString(),
-      content: story.content,
-      source: story.title,
-      timestamp: new Date().toISOString(),
-      category: story.type,
-      isFavorite: false,
-      notes: `${story.metrics.before} → ${story.metrics.after} (${story.metrics.timeframe})`,
+  const saveStory = async (story: ExtractedStory, index: number) => {
+    try {
+      await saveToStoryBank(story, index)
+    } catch {
+      // saveToStoryBank handles its own error state
     }
-
-    const existing = localStorage.getItem('savedStories')
-    const stories = existing ? JSON.parse(existing) : []
-    stories.unshift(savedStory)
-    localStorage.setItem('savedStories', JSON.stringify(stories))
-
-    alert('Story saved to your library!')
   }
 
-  const saveToStoryBank = async (story: ExtractedStory) => {
+  const saveToStoryBank = async (story: ExtractedStory, index: number) => {
     try {
       const response = await fetch('/api/story-bank/create', {
         method: 'POST',
@@ -168,10 +159,9 @@ Use Case: ${story.useCase}
         throw new Error(errorMessage)
       }
 
-      const data = await response.json()
-      alert('Story saved to Story Bank!')
+      setSavedBankIndices(prev => new Set(prev).add(index))
     } catch (err: any) {
-      alert('Error saving to Story Bank: ' + err.message)
+      setError('Error saving to Story Bank: ' + err.message)
       console.error('Error saving to Story Bank:', err)
     }
   }
@@ -279,22 +269,24 @@ Use Case: ${story.useCase}
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => saveStory(story)}
+                          onClick={() => saveStory(story, index)}
                           className="gap-1"
-                          title="Save to Library"
+                          title="Save to Story Bank"
+                          disabled={savedBankIndices.has(index)}
                         >
                           <Save className="h-3 w-3" />
-                          Save
+                          {savedBankIndices.has(index) ? 'Saved' : 'Save'}
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => saveToStoryBank(story)}
+                          onClick={() => saveToStoryBank(story, index)}
                           className="gap-1 border-purple-300 hover:bg-purple-50"
                           title="Save to Story Bank"
+                          disabled={savedBankIndices.has(index)}
                         >
                           <Database className="h-3 w-3 text-purple-600" />
-                          Bank
+                          {savedBankIndices.has(index) ? 'Banked' : 'Bank'}
                         </Button>
                         <Button
                           variant="outline"

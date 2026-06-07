@@ -39,6 +39,7 @@ export default function VoiceProfile() {
   const [signaturePhraseInput, setSignaturePhraseInput] = useState('')
   const [avoidPhraseInput, setAvoidPhraseInput] = useState('')
   const [saved, setSaved] = useState(false)
+  const [profileCopied, setProfileCopied] = useState(false)
 
   // Load existing profile
   useEffect(() => {
@@ -96,7 +97,6 @@ export default function VoiceProfile() {
     setProfile(updatedProfile)
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
-    alert('Voice profile saved! This will be used in all content generation.')
   }
 
   const exportProfile = () => {
@@ -157,7 +157,8 @@ ${profile.exampleContent}
 - Avoid: ${profile.avoidPhrases.join(', ')}`
 
     navigator.clipboard.writeText(prompt)
-    alert('Voice profile copied! You can paste this into any AI tool to maintain your voice.')
+    setProfileCopied(true)
+    setTimeout(() => setProfileCopied(false), 2000)
   }
 
   return (
@@ -406,7 +407,7 @@ The more examples you provide, the better AI can match your unique voice and sty
 
           <Button onClick={copyProfilePrompt} variant="outline">
             <Copy className="h-4 w-4 mr-2" />
-            Copy for AI
+            {profileCopied ? 'Copied!' : 'Copy for AI'}
           </Button>
         </div>
 

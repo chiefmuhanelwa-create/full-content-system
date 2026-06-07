@@ -800,27 +800,37 @@ ${scriptToUse.fiveLine.community.script}`
     }
   }
 
-  const saveScriptToLibrary = () => {
+  const saveScriptToLibrary = async () => {
     const scriptToSave = isEditing && editedScript ? editedScript : script
     if (!scriptToSave) return
 
-    const savedScript = {
-      id: Date.now().toString(),
-      title: scriptTitle || scriptToSave.title,
-      mode: scriptMode,
-      productName: scriptMode === 'sales' ? products.find(p => p.id === selectedProductId)?.name : undefined,
-      platform: platform !== 'auto' ? platform : undefined,
-      createdAt: new Date().toISOString(),
-      script: scriptToSave
+    const resolvedTitle = scriptTitle.trim() || scriptToSave.title || idea.slice(0, 60).trim() || 'Untitled Script'
+    const resolvedPlatform = platform !== 'auto' ? platform : 'instagram'
+    const resolvedContent = typeof scriptToSave === 'string' ? scriptToSave : JSON.stringify(scriptToSave)
+
+    try {
+      const res = await fetch('/api/scripts/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: resolvedTitle,
+          content: resolvedContent,
+          platform: resolvedPlatform,
+          duration: duration || '60',
+          goal: scriptMode || 'content',
+          category: 'generated',
+        }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        setError('Could not save script: ' + (data.error || res.statusText))
+        return
+      }
+      setSaveSuccess(true)
+      setTimeout(() => setSaveSuccess(false), 2000)
+    } catch (err: any) {
+      setError('Could not save script: ' + err.message)
     }
-
-    const existing = localStorage.getItem('savedScripts')
-    const scripts = existing ? JSON.parse(existing) : []
-    scripts.unshift(savedScript)
-    localStorage.setItem('savedScripts', JSON.stringify(scripts))
-
-    setSaveSuccess(true)
-    setTimeout(() => setSaveSuccess(false), 2000)
   }
 
   const saveToContentCards = async () => {

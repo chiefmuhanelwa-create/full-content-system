@@ -387,23 +387,35 @@ export default function TeleprompterPage() {
     }
   }
 
-  const saveScript = () => {
-    const savedScripts = JSON.parse(localStorage.getItem('savedScripts') || '[]')
+  const [scriptSaved, setScriptSaved] = useState(false)
+  const [scriptSaveError, setScriptSaveError] = useState('')
 
-    const newScript = {
-      id: 'script-' + Date.now(),
-      title: scriptTitle,
-      hook: script.split('\n')[0] || 'No hook',
-      fullScript: script,
-      platform: 'Teleprompter',
-      duration: 'Variable',
-      createdAt: new Date().toISOString(),
+  const saveScript = async () => {
+    if (!script.trim()) return
+    setScriptSaveError('')
+    try {
+      const res = await fetch('/api/scripts/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: scriptTitle || 'Untitled Script',
+          content: script,
+          platform: 'instagram',
+          duration: '60',
+          goal: 'content',
+          category: 'teleprompter',
+        }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        setScriptSaveError(data.error || 'Save failed')
+        return
+      }
+      setScriptSaved(true)
+      setTimeout(() => setScriptSaved(false), 2000)
+    } catch (err: any) {
+      setScriptSaveError(err.message)
     }
-
-    savedScripts.unshift(newScript)
-    localStorage.setItem('savedScripts', JSON.stringify(savedScripts))
-
-    alert('Script saved to library!')
   }
 
   const loadFromLibrary = () => {

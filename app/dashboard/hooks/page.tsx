@@ -37,6 +37,8 @@ export default function HookGeneratorPage() {
 
   const [showHookBank, setShowHookBank] = useState(false)
   const [selectedHookCategory, setSelectedHookCategory] = useState('all')
+  const [savedIds, setSavedIds] = useState<Set<string>>(new Set())
+  const [savingId, setSavingId] = useState<string | null>(null)
   const hookBank = get120HooksBank()
 
   useEffect(() => {
@@ -104,16 +106,33 @@ export default function HookGeneratorPage() {
 
   const deleteHook = (id: string) => setHooks((prev) => prev.filter((hook) => hook.id !== id))
 
-  const saveHook = (hook: any) => {
-    const savedHook = { id: Date.now().toString(), content: hook.content, type: hookType, platform, createdAt: new Date().toISOString() }
-    const existing = localStorage.getItem('savedHooks')
-    const hooks = existing ? JSON.parse(existing) : []
-    hooks.unshift(savedHook)
-    localStorage.setItem('savedHooks', JSON.stringify(hooks))
-    alert('Hook saved to your library!')
+  const saveHook = async (hook: Hook) => {
+    setSavingId(hook.id)
+    try {
+      // Save to DB (shows in Saved Hooks page after login on any device)
+      await fetch('/api/hooks/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content: hook.content,
+          topic: topic || '',
+          platform,
+          duration,
+          tone,
+          hookType: hookType !== 'any' ? hookType : 'general',
+          category: 'generated',
+        }),
+      })
+      setSavedIds(prev => new Set(prev).add(hook.id))
+    } catch (err) {
+      setError('Could not save hook. Try again.')
+    } finally {
+      setSavingId(null)
+    }
   }
 
   const saveToHookBank = async (hook: Hook) => {
+    setSavingId(hook.id + '-bank')
     try {
       const response = await fetch('/api/hook-bank/create', {
         method: 'POST',
@@ -122,14 +141,16 @@ export default function HookGeneratorPage() {
       })
       const data = await response.json()
       if (!response.ok) throw new Error(data.details ? `${data.error}: ${data.details}` : data.error || 'Failed to save')
-      alert('Hook saved to Hook Bank!')
+      setSavedIds(prev => new Set(prev).add(hook.id + '-bank'))
     } catch (err: any) {
-      alert('Error saving to Hook Bank:\n\n' + (err.message || 'Unknown error'))
+      setError('Error saving to Hook Bank: ' + (err.message || 'Unknown error'))
+    } finally {
+      setSavingId(null)
     }
   }
 
   const saveAllToHookBank = async () => {
-    if (hooks.length === 0) { alert('No hooks to save!'); return }
+    if (hooks.length === 0) return
     setLoading(true)
     let successCount = 0; let failCount = 0; const errors: string[] = []
     for (const hook of hooks) {
@@ -140,9 +161,11 @@ export default function HookGeneratorPage() {
       } catch (err: any) { failCount++; errors.push(err.message || 'Network error') }
     }
     setLoading(false)
-    if (failCount === 0) alert(`All ${successCount} hooks saved to Hook Bank!`)
-    else if (successCount === 0) alert(`Failed to save hooks.\n\n${errors[0] || ''}`)
-    else alert(`Saved ${successCount} hooks (${failCount} failed)`)
+    if (failCount === 0) {
+      hooks.forEach(h => setSavedIds(prev => new Set(prev).add(h.id + '-bank')))
+    } else {
+      setError(failCount === hooks.length ? `Failed to save hooks: ${errors[0] || ''}` : `Saved ${successCount} hooks (${failCount} failed)`)
+    }
   }
 
   const exportHooksToPDF = () => {
