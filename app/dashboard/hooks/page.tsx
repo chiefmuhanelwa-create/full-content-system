@@ -39,6 +39,8 @@ export default function HookGeneratorPage() {
   const [selectedHookCategory, setSelectedHookCategory] = useState('all')
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set())
   const [savingId, setSavingId] = useState<string | null>(null)
+  const [compliance, setCompliance] = useState<any>(null)
+  const [showCompliance, setShowCompliance] = useState(false)
   const hookBank = get120HooksBank()
 
   useEffect(() => {
@@ -92,6 +94,7 @@ export default function HookGeneratorPage() {
       if (!response.ok) throw new Error(data.error || 'Failed to generate hooks')
       const generatedHooks: Hook[] = data.hooks.map((content: string, index: number) => ({ id: `${Date.now()}-${index}`, content, likes: 0 }))
       setHooks(generatedHooks)
+      if (data.compliance) { setCompliance(data.compliance); setShowCompliance(true) }
       generatedHooks.forEach((hook) => addHook({ content: hook.content, type: hookType !== 'any' ? hookType as any : 'information_gap', platform }))
     } catch (err: any) {
       setError(err.message || 'An error occurred')
@@ -489,6 +492,97 @@ export default function HookGeneratorPage() {
                 Save All to Hook Bank
               </button>
             </div>
+          </div>
+        )}
+
+        {/* Framework Compliance Panel */}
+        {compliance && (
+          <div className="nc-panel overflow-hidden">
+            <button
+              onClick={() => setShowCompliance(!showCompliance)}
+              className="w-full flex items-center justify-between p-5 text-left"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-[#0A0A0A] text-[#C9A646]">
+                  <Sparkles className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="font-heading font-black text-[#0A0A0A] text-sm leading-none">Framework Compliance Report</p>
+                  <p className="text-[12px] text-[#8A8071] mt-1">What the AI followed to generate these hooks</p>
+                </div>
+              </div>
+              <div className="text-[#8A8071]">
+                {showCompliance ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </div>
+            </button>
+
+            {showCompliance && (
+              <div className="px-5 pb-5 border-t border-[#DED5C2] space-y-5 pt-4">
+                {/* Top metadata */}
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: 'ICP Targeted', value: compliance.icp },
+                    { label: 'Shadow Fear', value: compliance.shadowFear },
+                    { label: 'Hook Type', value: compliance.hookType?.replace(/_/g, ' ') },
+                    { label: 'Awareness Level', value: compliance.awarenessLevel?.replace(/_/g, ' ') },
+                    { label: 'Business Outcome', value: compliance.businessOutcome },
+                    { label: 'PAIDS Category', value: compliance.paidsCategory },
+                    { label: '4E Type', value: compliance.fourE },
+                    { label: 'Villain Named', value: compliance.villain },
+                  ].filter(item => item.value).map((item) => (
+                    <div key={item.label} className="p-3 bg-[#FAF7F0] rounded-xl border border-[#DED5C2]">
+                      <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-[#8A8071] mb-1">{item.label}</p>
+                      <p className="text-[12px] font-heading font-semibold text-[#1F1B16] leading-snug">{item.value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Atomic share line */}
+                {compliance.atomicShareLine && (
+                  <div className="p-3.5 bg-[#0A0A0A] rounded-xl">
+                    <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-[#C9A646] mb-2">Atomic Share Line</p>
+                    <p className="text-[13px] font-heading font-semibold text-white leading-relaxed">"{compliance.atomicShareLine}"</p>
+                  </div>
+                )}
+
+                {/* Section 13 checklist */}
+                {compliance.section13 && (
+                  <div>
+                    <p className="text-[11px] font-heading font-black uppercase tracking-wider text-[#0A0A0A] mb-3">Section 13 — Master Framework Checklist</p>
+                    <div className="space-y-1.5">
+                      {Object.entries(compliance.section13).map(([key, value]) => {
+                        const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
+                        const val = value as string
+                        const passed = val.startsWith('✅')
+                        const isNA = val.startsWith('N/A')
+                        return (
+                          <div key={key} className="flex items-start gap-2.5 py-1.5 border-b border-[#DED5C2]/50 last:border-0">
+                            <span className={`text-[13px] flex-shrink-0 mt-0.5 ${passed ? 'text-green-600' : isNA ? 'text-[#B0A898]' : 'text-red-500'}`}>
+                              {passed ? '✅' : isNA ? '—' : '❌'}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <span className="text-[11px] font-heading font-bold text-[#0A0A0A] uppercase tracking-wide">{label}: </span>
+                              <span className="text-[11px] text-[#5C5448]">{val.replace(/^✅\s*|^❌\s*|^N\/A\s*—?\s*/i, '')}</span>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Principles */}
+                {compliance.principlesApplied?.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {compliance.principlesApplied.map((p: string) => (
+                      <span key={p} className="px-2.5 py-1 rounded-full bg-[#C9A646]/10 border border-[#C9A646]/30 text-[11px] font-heading font-bold text-[#7A5F1A] uppercase tracking-wide">
+                        {p}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 

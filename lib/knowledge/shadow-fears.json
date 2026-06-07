@@ -38,6 +38,16 @@
       "power_words": ["Exploited", "Used", "Rigged", "Powerless", "Cheated", "Robbed", "Victim", "Oppressed"],
       "when_to_use": ["Pricing content", "Negotiation teaching", "Empowerment messaging"]
     },
+    "relationship_loss": {
+      "fear": "Success will cost me my relationships. I'll win but lose everyone.",
+      "power_words": ["Balance", "Ubuntu", "Together", "Without sacrificing", "Community", "Still have", "Relationships"],
+      "when_to_use": ["Community framing", "Ubuntu-based content", "Work-life balance messaging"]
+    },
+    "spiritual_crisis": {
+      "fear": "What if this isn't what I was actually called to do?",
+      "power_words": ["Calling", "Purpose", "God-given", "Mission", "Vocation", "Destined", "Chosen"],
+      "when_to_use": ["Called Expert content", "Purpose-driven messaging", "Legacy and meaning content"]
+    },
     "permanent_failure": {
       "fear": "What if I never make it? Forever stuck.",
       "power_words": ["Forever", "Never", "Stuck", "Doomed", "Ceiling", "Hopeless", "Over", "Dead end"],

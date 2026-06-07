@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
-import { STORY_EXTRACTOR_PROMPT } from '@/lib/prompts'
+import { buildSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
@@ -59,7 +59,7 @@ Return a JSON object with this structure:
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
       max_tokens: 4096,
-      system: STORY_EXTRACTOR_PROMPT,
+      system: buildSystemPrompt('stories'),
       messages: [
         {
           role: 'user',

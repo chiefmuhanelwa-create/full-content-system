@@ -26,8 +26,21 @@ interface ContentPiece {
   topic: string
   hookIdea: string
   contentType: string
+  fourE?: string
   platform: string
+  icp?: string
+  shadowFear?: string
+  paidsCategory?: string
+  villain?: string
+  proofStory?: string
   notes: string
+}
+
+const FOUR_E_COLORS: Record<string, string> = {
+  Educate:   'bg-blue-100 text-blue-800',
+  Entertain: 'bg-purple-100 text-purple-800',
+  Encourage: 'bg-emerald-100 text-emerald-800',
+  Earn:      'bg-amber-100 text-amber-800',
 }
 
 const CONTENT_TYPE_COLORS: Record<string, string> = {
@@ -84,8 +97,10 @@ export default function BatchPlannerPage() {
   const [goals, setGoals] = useState('')
   const [postingFrequency, setPostingFrequency] = useState('daily')
   const [platforms, setPlatforms] = useState('instagram')
+  const [targetICP, setTargetICP] = useState('auto')
   const [loading, setLoading] = useState(false)
   const [contentPlan, setContentPlan] = useState<ContentPiece[]>([])
+  const [planCompliance, setPlanCompliance] = useState<any>(null)
 
   // Import tab
   const [csvText, setCsvText] = useState('')
@@ -123,11 +138,12 @@ export default function BatchPlannerPage() {
       const response = await fetch('/api/batch/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ niche, goals, postingFrequency, platforms }),
+        body: JSON.stringify({ niche, goals, postingFrequency, platforms, targetICP }),
       })
       if (response.ok) {
         const data = await response.json()
         setContentPlan(data.plan)
+        if (data.compliance) setPlanCompliance(data.compliance)
         savePlanToHistory(data.plan, `${niche} — ${new Date().toLocaleDateString()}`)
       }
     } catch (err) {
@@ -299,6 +315,18 @@ export default function BatchPlannerPage() {
                       </SelectContent>
                     </Select>
                   </div>
+                  <div>
+                    <Label className="nc-label text-[11px]">Target ICP</Label>
+                    <Select value={targetICP} onValueChange={setTargetICP}>
+                      <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="auto">Auto-detect from niche</SelectItem>
+                        <SelectItem value="icp1">ICP 1 — The Called Expert (28–42, professional)</SelectItem>
+                        <SelectItem value="icp2">ICP 2 — The Content Creator Inspirer (23–28)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-[10px] text-[#8A8071] mt-1">Called Expert: unexploited professional expertise. Creator: aspiring, no system yet.</p>
+                  </div>
                   <Button
                     onClick={handleGenerate}
                     disabled={loading || !niche.trim() || !goals.trim()}
@@ -386,6 +414,83 @@ export default function BatchPlannerPage() {
                   <p className="text-[11px] text-[#8A8071] font-heading">Click any row to generate its hook or script</p>
                 </div>
 
+                {/* NOCHILL DNA Compliance Panel */}
+                {planCompliance && (
+                  <div className="bg-[#0F0F0F] rounded-xl p-5 text-white space-y-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-heading font-black uppercase tracking-widest text-[#C9A646]">NOCHILL DNA — Plan Compliance Report</span>
+                    </div>
+
+                    {/* ICP + Principles row */}
+                    <div className="grid grid-cols-2 gap-3 text-[11px]">
+                      <div className="bg-white/5 rounded-lg p-3">
+                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Target ICP</p>
+                        <p className="font-heading font-bold text-white/90">{planCompliance.icp || '—'}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-lg p-3">
+                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Africa Context</p>
+                        <p className="font-heading font-bold text-white/90">{planCompliance.africaContext || '✅ ZAR, SA context'}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-lg p-3">
+                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Villains</p>
+                        <p className="font-heading font-bold text-white/90">{planCompliance.villainsDefined || '✅ System/situation'}</p>
+                      </div>
+                      <div className="bg-white/5 rounded-lg p-3">
+                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Voice Principles</p>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {(planCompliance.principlesApplied || ['You Format', 'Negativity (indirect)']).map((p: string, i: number) => (
+                            <span key={i} className="text-[9px] bg-[#C9A646]/20 text-[#C9A646] rounded px-1.5 py-0.5 font-heading font-bold">{p}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 4E Distribution */}
+                    {planCompliance.fourEBreakdown && (
+                      <div>
+                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-2">4E Engine Distribution</p>
+                        <div className="grid grid-cols-4 gap-2">
+                          {Object.entries(planCompliance.fourEBreakdown).map(([key, val]) => (
+                            <div key={key} className="bg-white/5 rounded-lg p-2 text-center">
+                              <p className="text-[18px] font-heading font-black text-white">{String(val)}</p>
+                              <p className="text-[9px] font-heading font-bold uppercase tracking-wide text-[#8A8071] capitalize">{key}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* PAIDS Distribution */}
+                    {planCompliance.paidsDistribution && (
+                      <div>
+                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-2">PAIDS Category Coverage</p>
+                        <div className="flex flex-wrap gap-2">
+                          {Object.entries(planCompliance.paidsDistribution).map(([key, val]) => (
+                            Number(val) > 0 && (
+                              <div key={key} className="flex items-center gap-1.5 bg-white/5 rounded-lg px-2.5 py-1.5">
+                                <span className="text-[12px] font-heading font-black text-white">{String(val)}</span>
+                                <span className="text-[9px] font-heading font-bold uppercase tracking-wide text-[#8A8071] capitalize">{key}</span>
+                              </div>
+                            )
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Shadow Fears Used */}
+                    {planCompliance.shadowFearsUsed && planCompliance.shadowFearsUsed.length > 0 && (
+                      <div>
+                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-2">Shadow Fears Activated</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {planCompliance.shadowFearsUsed.map((fear: string, i: number) => (
+                            <span key={i} className="text-[9px] bg-red-900/40 text-red-300 rounded px-2 py-1 font-heading font-bold">{fear}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {weeks.map(({ week, items }) => (
                   <div key={week} className="bg-white border border-[#E8E1D0] rounded-xl overflow-hidden">
                     <div className="px-4 py-2.5 bg-[#FAF7F0] border-b border-[#E8E1D0]">
@@ -404,10 +509,40 @@ export default function BatchPlannerPage() {
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start gap-2 flex-wrap mb-1">
                                 <p className="font-heading font-bold text-[#0F0F0F] text-[13px] leading-snug flex-1">{item.topic}</p>
+                                {item.fourE && (
+                                  <span className={`text-[9px] font-heading font-black px-2 py-0.5 rounded-full flex-shrink-0 ${FOUR_E_COLORS[item.fourE] || 'bg-gray-100 text-gray-700'}`}>
+                                    {item.fourE}
+                                  </span>
+                                )}
                                 <span className={`text-[10px] font-heading font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType] || 'bg-gray-100 text-gray-700'}`}>
                                   {item.contentType}
                                 </span>
                               </div>
+                              {/* ICP + PAIDS + ShadowFear tags */}
+                              {(item.icp || item.paidsCategory || item.shadowFear) && (
+                                <div className="flex flex-wrap gap-1 mb-1.5">
+                                  {item.icp && (
+                                    <span className="text-[9px] bg-[#C9A646]/10 text-[#8C6F1F] font-heading font-bold px-1.5 py-0.5 rounded">
+                                      {item.icp.includes('1') ? 'ICP1 · Expert' : 'ICP2 · Creator'}
+                                    </span>
+                                  )}
+                                  {item.paidsCategory && (
+                                    <span className="text-[9px] bg-blue-50 text-blue-700 font-heading font-bold px-1.5 py-0.5 rounded">
+                                      {item.paidsCategory}
+                                    </span>
+                                  )}
+                                  {item.shadowFear && (
+                                    <span className="text-[9px] bg-red-50 text-red-700 font-heading font-bold px-1.5 py-0.5 rounded">
+                                      {item.shadowFear}
+                                    </span>
+                                  )}
+                                  {item.villain && (
+                                    <span className="text-[9px] bg-[#0F0F0F]/5 text-[#0F0F0F] font-heading font-bold px-1.5 py-0.5 rounded truncate max-w-[140px]" title={item.villain}>
+                                      ⚔ {item.villain}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                               {item.date && (
                                 <div className="flex items-center gap-1 text-[10px] text-[#8A8071] mb-1.5">
                                   <Clock className="w-3 h-3" />{item.date} · {item.platform}

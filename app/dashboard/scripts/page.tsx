@@ -135,6 +135,19 @@ interface GeneratedScript {
   }
   ubuntu_check?: UbuntuCheck
   scripting_principles_check?: ScriptingPrinciplesCheck
+  compliance?: {
+    icp?: string
+    shadowFear?: string
+    proofStory?: string
+    villain?: string
+    atomicShareLine?: string
+    businessOutcome?: string
+    paidsCategory?: string
+    fourE?: string
+    retentionLoop?: string
+    section13?: Record<string, string>
+    principlesApplied?: string[]
+  }
 }
 
 export default function ScriptWriterPage() {
@@ -1729,18 +1742,79 @@ ${scriptToUse.fiveLine.community.script}`
                 </div>
                 )}
 
-                {/* Analysis Sections */}
-                {(script.ubuntu_check || script.scripting_principles_check) && (
+                {/* Framework Compliance Report */}
+                {(script.ubuntu_check || script.scripting_principles_check || script.compliance) && (
                   <div className="pt-6 border-t space-y-4">
-                    <p className="text-sm font-bold text-gray-800 mb-3">📊 QUALITY ANALYSIS</p>
+                    <p className="text-[11px] font-heading font-black uppercase tracking-wider text-[#0A0A0A]">Framework Compliance Report</p>
+                    <p className="text-[11px] text-[#8A8071] -mt-2">What the AI followed to generate this script</p>
+
+                    {/* Key metadata */}
+                    {script.compliance && (
+                      <div className="grid grid-cols-2 gap-2">
+                        {[
+                          { label: 'ICP', value: script.compliance.icp },
+                          { label: 'Shadow Fear', value: script.compliance.shadowFear },
+                          { label: 'Proof Story', value: script.compliance.proofStory },
+                          { label: 'Villain', value: script.compliance.villain },
+                          { label: 'Business Outcome', value: script.compliance.businessOutcome },
+                          { label: 'PAIDS', value: script.compliance.paidsCategory },
+                          { label: '4E', value: script.compliance.fourE },
+                        ].filter(i => i.value).map((item) => (
+                          <div key={item.label} className="p-2.5 bg-[#FAF7F0] rounded-xl border border-[#DED5C2]">
+                            <p className="text-[9px] font-heading font-bold uppercase tracking-wider text-[#8A8071] mb-0.5">{item.label}</p>
+                            <p className="text-[11px] font-heading font-semibold text-[#1F1B16] leading-snug">{item.value}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Atomic share line */}
+                    {script.compliance?.atomicShareLine && (
+                      <div className="p-3.5 bg-[#0A0A0A] rounded-xl">
+                        <p className="text-[9px] font-heading font-bold uppercase tracking-wider text-[#C9A646] mb-1.5">Atomic Share Line</p>
+                        <p className="text-[12px] font-heading font-semibold text-white leading-relaxed">"{script.compliance.atomicShareLine}"</p>
+                      </div>
+                    )}
+
+                    {/* Retention loop */}
+                    {script.compliance?.retentionLoop && (
+                      <div className="p-3 bg-[#FAF7F0] border border-[#C9A646]/30 rounded-xl">
+                        <p className="text-[9px] font-heading font-bold uppercase tracking-wider text-[#C9A646] mb-1">Retention Loop Tease</p>
+                        <p className="text-[12px] font-heading font-semibold text-[#1F1B16]">"{script.compliance.retentionLoop}"</p>
+                      </div>
+                    )}
+
+                    {/* Section 13 checklist */}
+                    {script.compliance?.section13 && (
+                      <div>
+                        <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-[#0A0A0A] mb-2">Section 13 — Master Framework Checklist</p>
+                        <div className="space-y-1.5">
+                          {Object.entries(script.compliance.section13).map(([key, value]) => {
+                            const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
+                            const val = value as string
+                            const passed = val.startsWith('✅')
+                            const isNA = val.startsWith('N/A')
+                            return (
+                              <div key={key} className="flex items-start gap-2 py-1.5 border-b border-[#DED5C2]/50 last:border-0">
+                                <span className={`text-[12px] flex-shrink-0 mt-0.5 ${passed ? 'text-green-600' : isNA ? 'text-[#B0A898]' : 'text-red-500'}`}>
+                                  {passed ? '✅' : isNA ? '—' : '❌'}
+                                </span>
+                                <div className="flex-1 min-w-0">
+                                  <span className="text-[10px] font-heading font-bold text-[#0A0A0A] uppercase tracking-wide">{label}: </span>
+                                  <span className="text-[10px] text-[#5C5448]">{val.replace(/^✅\s*|^❌\s*|^N\/A\s*—?\s*/i, '')}</span>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Ubuntu Check */}
                     {script.ubuntu_check && (
-                      <div className="p-3 bg-amber-50 border border-amber-200 rounded-md">
-                        <p className="text-xs font-semibold text-amber-600 mb-2">
-                          Ubuntu Story Arc Validation
-                        </p>
-                        <div className="space-y-1 text-xs text-amber-700">
+                      <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl">
+                        <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-amber-600 mb-2">Ubuntu Story Arc</p>
+                        <div className="space-y-1 text-[11px] text-amber-700">
                           <p>{script.ubuntu_check.we_over_i}</p>
                           <p>{script.ubuntu_check.system_villain}</p>
                           <p>{script.ubuntu_check.collective_result}</p>
@@ -1748,18 +1822,27 @@ ${scriptToUse.fiveLine.community.script}`
                       </div>
                     )}
 
-                    {/* 4 Scripting Principles Check */}
-                    {script.scripting_principles_check && (
-                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-md">
-                        <p className="text-xs font-semibold text-emerald-600 mb-2">
-                          4 Viral Scripting Principles
-                        </p>
-                        <div className="space-y-1 text-xs text-emerald-700">
-                          <p>{script.scripting_principles_check.negativity}</p>
-                          <p>{script.scripting_principles_check.you_format}</p>
-                          <p>{script.scripting_principles_check.short_simple}</p>
-                          <p>{script.scripting_principles_check.audible_flow}</p>
-                        </div>
+                    {/* 4 Principles Check */}
+                    {(script.scripting_principles_check || script.compliance?.principlesApplied) && (
+                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
+                        <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-emerald-600 mb-2">4 Scripting Principles Applied</p>
+                        {script.scripting_principles_check && (
+                          <div className="space-y-1 text-[11px] text-emerald-700">
+                            <p>{script.scripting_principles_check.negativity}</p>
+                            <p>{script.scripting_principles_check.you_format}</p>
+                            <p>{script.scripting_principles_check.short_simple}</p>
+                            <p>{script.scripting_principles_check.audible_flow}</p>
+                          </div>
+                        )}
+                        {script.compliance?.principlesApplied && (
+                          <div className="flex flex-wrap gap-1.5 mt-2">
+                            {script.compliance.principlesApplied.map((p: string) => (
+                              <span key={p} className="px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-200 text-[10px] font-heading font-bold text-emerald-700">
+                                {p}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

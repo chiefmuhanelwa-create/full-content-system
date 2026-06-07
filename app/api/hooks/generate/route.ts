@@ -133,13 +133,44 @@ ${platform === 'twitter' ? '- Twitter: Controversial takes, strong opinions, thr
 - No generic templates
 - Every hook must pass the R×A×C×U^B checklist
 
-OUTPUT FORMAT: Return ONLY a JSON array of ${count} hook strings, no other text.
-Example: ["Hook 1 here", "Hook 2 here", "Hook 3 here"]`
+OUTPUT FORMAT: Return ONLY a JSON object — not a plain array:
+{
+  "hooks": ["Hook 1", "Hook 2", ...${count} hooks total],
+  "compliance": {
+    "icp": "ICP 1 — The Called Expert | ICP 2 — The Content Creator Inspirer",
+    "shadowFear": "Name + number e.g. Imposter Syndrome (#3)",
+    "hookType": "information_gap | desired_result | undesired_result | a_to_b_transformation",
+    "awarenessLevel": "symptom_aware | problem_aware | solution_aware | product_aware",
+    "businessOutcome": "Lead Generation | Direct Sale | Authority Building",
+    "paidsCategory": "Products | Ads | Information | Deals | Services",
+    "fourE": "Educate | Entertain | Encourage | Earn",
+    "villain": "The named system/situation villain",
+    "atomicShareLine": "The most shareable single hook",
+    "section13": {
+      "hookQuality": "✅ passes R×A×C×U^B — [brief note]",
+      "wStackOrder": "✅ WHAT+WHY leads",
+      "intensity": "✅ 70%+ intensity from word one",
+      "rehooking": "N/A — hooks only",
+      "villainContrast": "✅ [named villain]",
+      "wordEconomy": "✅ all under 25 words",
+      "youFormat": "✅ all YOU format",
+      "audibleFlow": "✅ passes read-aloud test",
+      "emotionalPeak": "✅ Shadow Fear activated",
+      "atomicSharability": "✅ — [the atomic hook]",
+      "visualDirection": "N/A — hooks only",
+      "ctaClarity": "N/A — hooks only",
+      "retentionLoop": "N/A — hooks only",
+      "businessOutcome": "✅ — [which outcome]",
+      "africaContext": "✅ SA context, ZAR"
+    },
+    "principlesApplied": ["Negativity (indirect)", "You Format", "Short & Simple", "Audible Flow"]
+  }
+}`
 
     // Call Claude API
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 1024,
+      max_tokens: 2048,
       system: systemPrompt,
       messages: [
         {
@@ -155,15 +186,19 @@ Example: ["Hook 1 here", "Hook 2 here", "Hook 3 here"]`
       throw new Error('Unexpected response type from Claude')
     }
 
-    // Parse the JSON response
+    // Parse the JSON response — now expects { hooks, compliance }
     let hooks: string[]
+    let compliance: Record<string, any> | undefined
     try {
-      // Try to extract JSON from the response
-      const jsonMatch = content.text.match(/\[[\s\S]*\]/)
+      const jsonMatch = content.text.match(/\{[\s\S]*\}/)
       if (jsonMatch) {
-        hooks = JSON.parse(jsonMatch[0])
+        const parsed = JSON.parse(jsonMatch[0])
+        hooks = parsed.hooks || []
+        compliance = parsed.compliance
       } else {
-        hooks = JSON.parse(content.text)
+        // Fallback: plain array
+        const arrMatch = content.text.match(/\[[\s\S]*\]/)
+        hooks = arrMatch ? JSON.parse(arrMatch[0]) : JSON.parse(content.text)
       }
     } catch (parseError) {
       console.error('Failed to parse Claude response:', content.text)
@@ -173,6 +208,7 @@ Example: ["Hook 1 here", "Hook 2 here", "Hook 3 here"]`
     return NextResponse.json({
       success: true,
       hooks,
+      compliance,
       metadata: {
         topic,
         platform,
