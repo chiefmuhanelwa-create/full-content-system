@@ -21,6 +21,8 @@ export default function RepurposePage() {
   const [originalScript, setOriginalScript] = useState('')
   const [loading, setLoading] = useState(false)
   const [repurposedContent, setRepurposedContent] = useState<RepurposedContent | null>(null)
+  const [error, setError] = useState('')
+  const [copiedKey, setCopiedKey] = useState<string | null>(null)
 
   // Format selection
   const [formats, setFormats] = useState({
@@ -32,8 +34,9 @@ export default function RepurposePage() {
   })
 
   const handleRepurpose = async () => {
+    setError('')
     if (!originalScript.trim()) {
-      alert('Please enter your script')
+      setError('Please enter your script')
       return
     }
 
@@ -49,19 +52,19 @@ export default function RepurposePage() {
         const data = await response.json()
         setRepurposedContent(data.content)
       } else {
-        alert('Failed to repurpose content')
+        setError('Failed to repurpose content. Try again.')
       }
-    } catch (error) {
-      console.error('Error:', error)
-      alert('An error occurred')
+    } catch (err) {
+      setError('An error occurred. Check your connection and try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (key: string, text: string) => {
     navigator.clipboard.writeText(text)
-    alert('Copied to clipboard!')
+    setCopiedKey(key)
+    setTimeout(() => setCopiedKey(null), 2000)
   }
 
   return (
@@ -153,6 +156,7 @@ export default function RepurposePage() {
               </div>
             </div>
 
+            {error && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
             <Button onClick={handleRepurpose} disabled={loading} className="w-full">
               {loading ? 'Repurposing...' : 'Repurpose Content'}
             </Button>
@@ -192,7 +196,7 @@ export default function RepurposePage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => copyToClipboard(clip)}
+                              onClick={() => copyToClipboard(`clip-${idx}`, clip)}
                             >
                               <Copy className="h-4 w-4" />
                             </Button>
@@ -226,7 +230,7 @@ export default function RepurposePage() {
                         variant="outline"
                         size="sm"
                         className="w-full"
-                        onClick={() => copyToClipboard(repurposedContent.carouselPosts.join('\n\n---\n\n'))}
+                        onClick={() => copyToClipboard('carousel', repurposedContent.carouselPosts.join('\n\n---\n\n'))}
                       >
                         <Copy className="h-4 w-4 mr-2" />
                         Copy All Slides
@@ -251,7 +255,7 @@ export default function RepurposePage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => copyToClipboard(repurposedContent.thread)}
+                          onClick={() => copyToClipboard('thread', repurposedContent.thread)}
                         >
                           <Copy className="h-4 w-4" />
                         </Button>
@@ -277,7 +281,7 @@ export default function RepurposePage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => copyToClipboard(repurposedContent.linkedinPost)}
+                          onClick={() => copyToClipboard('linkedin', repurposedContent.linkedinPost)}
                         >
                           <Copy className="h-4 w-4" />
                         </Button>
@@ -306,7 +310,7 @@ export default function RepurposePage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => copyToClipboard(email)}
+                              onClick={() => copyToClipboard(`email-${idx}`, email)}
                             >
                               <Copy className="h-4 w-4" />
                             </Button>

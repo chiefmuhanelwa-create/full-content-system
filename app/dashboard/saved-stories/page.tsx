@@ -5,11 +5,11 @@ export const dynamic = 'force-dynamic'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { BookOpen, Trash2, FileText, Calendar, Copy, Star, Loader2 } from 'lucide-react'
+import { BookOpen, Trash2, FileText, Calendar, Copy, Star, Loader2, Check } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
 import { useRouter } from 'next/navigation'
 import { useDatabase } from '@/hooks/useDatabase'
-import { useSession } from 'next-auth/react'
+import { useContent } from '@/contexts/ContentContext'
 
 interface SavedStory {
   id: string
@@ -24,12 +24,12 @@ interface SavedStory {
 
 export default function SavedStoriesPage() {
   const router = useRouter()
-  // Authentication disabled - will implement later
-  // const sessionHook = useSession()
-  // const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
   const { listStories, deleteStory: deleteStoryDb, loading } = useDatabase()
+  const { setPendingAction } = useContent()
   const [savedStories, setSavedStories] = useState<SavedStory[]>([])
   const [filter, setFilter] = useState<string>('all')
+  const [copiedId, setCopiedId] = useState<string | null>(null)
+  const [scheduledId, setScheduledId] = useState<string | null>(null)
 
   useEffect(() => {
     loadStories()
@@ -66,33 +66,39 @@ export default function SavedStoriesPage() {
   }
 
   const useInScript = (story: SavedStory) => {
-    sessionStorage.setItem('selectedStoryId', story.id)
-    sessionStorage.setItem('selectedStoryContent', story.content)
+    setPendingAction({ action: 'use-story-in-script', data: { content: story.content || story.notes || '', title: story.title } })
     router.push('/dashboard/scripts')
   }
 
-  const scheduleToCalendar = (story: SavedStory) => {
-    const calendarEntry = {
-      id: Date.now().toString(),
-      date: new Date().toISOString().split('T')[0],
-      content: story.content,
-      contentType: 'Story',
-      source: story.source,
-      sourceTools: ['Story Extractor'],
-      status: 'scheduled' as const,
+  const scheduleToCalendar = async (story: SavedStory) => {
+    try {
+      const res = await fetch('/api/content-calendar-plus/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scheduledDate: new Date().toISOString(),
+          title: story.title || story.notes || story.content?.substring(0, 80) || 'Story',
+          notes: story.content,
+          contentPillar: 'storytelling',
+          fourETag: '30% Entertain',
+          platform: 'instagram',
+          contentType: 'Story',
+          status: 'planned',
+        }),
+      })
+      if (res.ok) {
+        setScheduledId(story.id)
+        setTimeout(() => setScheduledId(null), 2500)
+      }
+    } catch (err) {
+      console.error(err)
     }
-
-    const existing = localStorage.getItem('calendarEntries')
-    const entries = existing ? JSON.parse(existing) : []
-    entries.push(calendarEntry)
-    localStorage.setItem('calendarEntries', JSON.stringify(entries))
-
-    alert('Story scheduled to calendar!')
   }
 
-  const copyStory = (content: string) => {
+  const copyStory = (id: string, content: string) => {
     navigator.clipboard.writeText(content)
-    alert('Story copied to clipboard!')
+    setCopiedId(id)
+    setTimeout(() => setCopiedId(null), 2000)
   }
 
   const filteredStories = filter === 'all'
@@ -249,13 +255,13 @@ export default function SavedStoriesPage() {
                     <FileText className="h-4 w-4 mr-2" />
                     Use in Script
                   </Button>
-                  <Button size="sm" variant="outline" onClick={() => scheduleToCalendar(story)}>
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Schedule
+                  <Button size="sm" variant="outline" onClick={() => scheduleToCalendar(story)} disabled={scheduledId === story.id}>
+                    {scheduledId === story.id ? <Check className="h-4 w-4 mr-2 text-green-600" /> : <Calendar className="h-4 w-4 mr-2" />}
+                    {scheduledId === story.id ? 'Scheduled!' : 'Schedule'}
                   </Button>
-                  <Button size="sm" variant="outline" onClick={() => copyStory(story.content)}>
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy
+                  <Button size="sm" variant="outline" onClick={() => copyStory(story.id, story.content)}>
+                    {copiedId === story.id ? <Check className="h-4 w-4 mr-2 text-green-600" /> : <Copy className="h-4 w-4 mr-2" />}
+                    {copiedId === story.id ? 'Copied!' : 'Copy'}
                   </Button>
                   <Button size="sm" variant="outline" onClick={() => deleteStory(story.id)}>
                     <Trash2 className="h-4 w-4 mr-2 text-red-600" />

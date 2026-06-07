@@ -50,13 +50,19 @@ export default function OffersPage() {
   })
   const [generatedOffer, setGeneratedOffer] = useState('')
   const [copySuccess, setCopySuccess] = useState(false)
+  const [offerError, setOfferError] = useState('')
 
-  // Load products from localStorage
+  // Load products from DB
   useEffect(() => {
-    const stored = localStorage.getItem('products')
-    if (stored) {
-      setProducts(JSON.parse(stored))
-    }
+    fetch('/api/products/list')
+      .then(r => r.json())
+      .then(d => { if (d.products) setProducts(d.products) })
+      .catch(() => {
+        try {
+          const stored = localStorage.getItem('products')
+          if (stored) setProducts(JSON.parse(stored))
+        } catch {}
+      })
   }, [])
 
   const selectedProduct = products.find((p) => p.id === selectedProductId)
@@ -89,8 +95,9 @@ export default function OffersPage() {
   }
 
   const generateOffer = () => {
+    setOfferError('')
     if (!selectedProduct) {
-      alert('Please select a product first')
+      setOfferError('Please select a product first')
       return
     }
 
@@ -191,7 +198,7 @@ Let's build.
 
   const exportOfferToPDF = () => {
     if (!selectedProduct || !generatedOffer) {
-      alert('Please generate an offer first')
+      setOfferError('Please generate an offer first')
       return
     }
 
@@ -450,6 +457,9 @@ Let's build.
             </CardContent>
           </Card>
 
+          {offerError && (
+            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{offerError}</p>
+          )}
           {/* Generate Button */}
           <Button
             onClick={generateOffer}

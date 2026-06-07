@@ -166,16 +166,18 @@ export default function ScriptWriterPage() {
   const [storyType, setStoryType] = useState('auto') // Genesis: origin, struggle, transformation, breakthrough, lesson
   const [hookCategory, setHookCategory] = useState('auto') // 120 hooks: origin, transformation, lesson, social_proof, curiosity, controversy
 
-  // Load products from localStorage
+  // Load products from DB
   useEffect(() => {
-    const storedProducts = localStorage.getItem('products')
-    if (storedProducts) {
-      try {
-        setProducts(JSON.parse(storedProducts))
-      } catch (error) {
-        console.error('Error loading products:', error)
-      }
-    }
+    fetch('/api/products/list')
+      .then(r => r.json())
+      .then(d => { if (d.products) setProducts(d.products) })
+      .catch(() => {
+        // Fallback to localStorage if DB unavailable
+        try {
+          const stored = localStorage.getItem('products')
+          if (stored) setProducts(JSON.parse(stored))
+        } catch {}
+      })
   }, [])
 
   // Check for vault data integration

@@ -5,11 +5,11 @@ export const dynamic = 'force-dynamic'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Zap, Trash2, FileText, Calendar, Copy, Star, Loader2 } from 'lucide-react'
+import { Zap, Trash2, FileText, Calendar, Copy, Star, Loader2, Check } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
 import { useRouter } from 'next/navigation'
 import { useDatabase } from '@/hooks/useDatabase'
-import { useSession } from 'next-auth/react'
+import { useContent } from '@/contexts/ContentContext'
 
 interface SavedHook {
   id: string
@@ -25,12 +25,13 @@ interface SavedHook {
 
 export default function SavedHooksPage() {
   const router = useRouter()
-  // Authentication disabled - will implement later
-  // const sessionHook = useSession()
-  // const { data: session, status } = sessionHook ?? { data: null, status: 'loading' as const }
   const { listHooks, deleteHook: deleteHookDb, loading } = useDatabase()
+  const { setPendingAction } = useContent()
   const [savedHooks, setSavedHooks] = useState<SavedHook[]>([])
   const [filter, setFilter] = useState<string>('all')
+  const [copiedId, setCopiedId] = useState<string | null>(null)
+  const [scheduledId, setScheduledId] = useState<string | null>(null)
+  const [scheduleError, setScheduleError] = useState<string | null>(null)
 
   useEffect(() => {
     loadHooks()
@@ -71,43 +72,44 @@ export default function SavedHooksPage() {
   }
 
   const useInScript = (hook: SavedHook) => {
-    // Store hook ID in session storage for cross-page communication
-    sessionStorage.setItem('selectedHookId', hook.id)
-    sessionStorage.setItem('selectedHookContent', hook.content)
+    setPendingAction({ action: 'use-hook-in-script', data: { content: hook.content, platform: hook.platform, hookType: hook.hookType } })
     router.push('/dashboard/scripts')
   }
 
   const scheduleToCalendar = async (hook: SavedHook) => {
-    // Save to database via API
+    setScheduleError(null)
     try {
-      const response = await fetch('/api/calendar/save', {
+      const res = await fetch('/api/content-calendar-plus/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          date: new Date(),
-          title: `Hook: ${hook.content.substring(0, 50)}...`,
-          description: hook.content,
-          category: 'educate',
-          platform: hook.platform,
-          hookId: hook.id,
+          scheduledDate: new Date().toISOString(),
+          title: hook.content.substring(0, 80),
+          notes: hook.content,
+          contentPillar: 'education',
+          fourETag: '40% Educate',
+          platform: hook.platform || 'instagram',
+          contentType: 'Hook',
           status: 'planned',
+          hookId: hook.id,
         }),
       })
-
-      if (response.ok) {
-        alert('Hook scheduled to calendar!')
+      if (res.ok) {
+        setScheduledId(hook.id)
+        setTimeout(() => setScheduledId(null), 2500)
       } else {
-        alert('Failed to schedule hook')
+        const d = await res.json()
+        setScheduleError(d.error || 'Failed to schedule')
       }
-    } catch (error) {
-      console.error('Error scheduling hook:', error)
-      alert('Failed to schedule hook')
+    } catch (err: any) {
+      setScheduleError(err.message)
     }
   }
 
-  const copyHook = (content: string) => {
+  const copyHook = (id: string, content: string) => {
     navigator.clipboard.writeText(content)
-    alert('Hook copied to clipboard!')
+    setCopiedId(id)
+    setTimeout(() => setCopiedId(null), 2000)
   }
 
   const filteredHooks = filter === 'all'
@@ -284,13 +286,13 @@ export default function SavedHooksPage() {
                     <FileText className="h-4 w-4 mr-2" />
                     Use in Script
                   </Button>
-                  <Button size="sm" variant="outline" onClick={() => scheduleToCalendar(hook)}>
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Schedule
+                  <Button size="sm" variant="outline" onClick={() => scheduleToCalendar(hook)} disabled={scheduledId === hook.id}>
+                    {scheduledId === hook.id ? <Check className="h-4 w-4 mr-2 text-green-600" /> : <Calendar className="h-4 w-4 mr-2" />}
+                    {scheduledId === hook.id ? 'Scheduled!' : 'Schedule'}
                   </Button>
-                  <Button size="sm" variant="outline" onClick={() => copyHook(hook.content)}>
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy
+                  <Button size="sm" variant="outline" onClick={() => copyHook(hook.id, hook.content)}>
+                    {copiedId === hook.id ? <Check className="h-4 w-4 mr-2 text-green-600" /> : <Copy className="h-4 w-4 mr-2" />}
+                    {copiedId === hook.id ? 'Copied!' : 'Copy'}
                   </Button>
                   <Button size="sm" variant="outline" onClick={() => deleteHook(hook.id)}>
                     <Trash2 className="h-4 w-4 mr-2 text-red-600" />
