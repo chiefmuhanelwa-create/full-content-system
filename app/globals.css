@@ -12,17 +12,17 @@
     --popover:              0 0% 100%;
     --popover-foreground:   0 0% 4%;
     --primary:              43 55% 53%;     /* #C9A646 Antique Gold */
-    --primary-foreground:   0 0% 4%;
+    --primary-foreground:   0 0% 4%;        /* #0A0A0A on gold */
     --secondary:            36 42% 92%;     /* #F4EFE3 Elevated cream */
     --secondary-foreground: 24 14% 10%;
     --muted:                36 42% 92%;     /* #F4EFE3 */
-    --muted-foreground:     30 12% 44%;     /* #5C5448 Warm muted */
+    --muted-foreground:     30 18% 34%;     /* #4A3F35 — darkened for readability */
     --accent:               36 42% 92%;
     --accent-foreground:    24 14% 10%;
     --destructive:          14 73% 48%;     /* #D4541F Burnt orange */
     --destructive-foreground: 0 0% 100%;
-    --border:               36 25% 88%;     /* #E8E1D0 Warm hairline */
-    --input:                36 25% 91%;     /* slightly lighter */
+    --border:               36 22% 82%;     /* #DED5C2 Warm visible hairline */
+    --input:                36 22% 82%;     /* same as border */
     --ring:                 43 55% 53%;     /* gold focus ring */
     --radius:               0.75rem;
 
@@ -49,24 +49,59 @@
 @layer base {
   * { @apply border-border; }
   html { color-scheme: light; }
+
+  /* ─── Body — Lato, 15px, warm ink ─── */
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body, 'Lato', sans-serif);
+    font-size: 15px;
+    line-height: 1.65;
+    color: #1F1B16;
     font-feature-settings: 'kern' 1, 'liga' 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Warm gold scrollbar */
+  /* ─── Headings — Montserrat, tight tracking ─── */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
+    color: #0A0A0A;
+  }
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 3.25rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  h2 {
+    font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.018em;
+    line-height: 1.2;
+  }
+  h4, h5, h6 {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* ─── Paragraph & body copy ─── */
+  p {
+    color: #1F1B16;
+    line-height: 1.65;
+  }
+
+  /* ─── Warm scrollbar ─── */
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: #F4EFE3; }
   ::-webkit-scrollbar-thumb { background: rgba(201, 166, 70, 0.45); border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: #C9A646; }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading, 'Montserrat', sans-serif);
-    color: #0A0A0A;
-    letter-spacing: -0.02em;
-  }
 }
 
 @layer utilities {
@@ -76,10 +111,10 @@
   .nc-gold-bg      { background-color: var(--gold-antique); }
   .nc-gold-border  { border-color: var(--gold-antique); }
 
-  /* ─── Card — white with warm border + gold hover (CHKPLT) ─── */
+  /* ─── Card — white, warm border, gold hover ─── */
   .nc-card {
     background: #FFFFFF;
-    border: 1px solid #E8E1D0;
+    border: 1px solid #DED5C2;
     border-radius: 1rem;
     transition: border-color 0.18s ease, box-shadow 0.22s ease, transform 0.18s ease;
     position: relative;
@@ -113,7 +148,10 @@
   .nc-cta {
     background: linear-gradient(135deg, #E6C871 0%, #C9A646 60%, #8C6F1F 100%);
     color: #0A0A0A !important;
-    font-weight: 700;
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.04em;
     border: 1px solid rgba(140, 111, 31, 0.35);
     border-radius: 10px;
     box-shadow:
@@ -128,15 +166,16 @@
       0 10px 24px rgba(10, 10, 10, 0.12);
   }
 
-  /* ─── Gold badge (on cream) ─── */
+  /* ─── Gold badge ─── */
   .nc-badge {
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
     font-size: 9px;
     font-weight: 900;
     padding: 2px 7px;
     background: #C9A646;
     color: #0A0A0A;
     border-radius: 4px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
@@ -174,8 +213,9 @@
     100% { box-shadow: 0 0 0 0 rgba(212, 84, 31, 0); }
   }
 
-  /* ─── Section eyebrow label ─── */
+  /* ─── Eyebrow label ─── */
   .nc-eyebrow {
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.20em;
@@ -186,7 +226,7 @@
   /* ─── Stat block ─── */
   .nc-stat {
     background: #FFFFFF;
-    border: 1px solid #E8E1D0;
+    border: 1px solid #DED5C2;
     border-radius: 0.75rem;
     padding: 1.25rem;
   }
@@ -198,8 +238,9 @@
     line-height: 1;
   }
   .nc-stat-label {
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: #8A8071;
@@ -234,5 +275,24 @@
   /* ─── Nav transition ─── */
   .nav-item-transition {
     transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  }
+
+  /* ─── shadcn component overrides — CHKPLT style ─── */
+
+  /* Card title → heading font */
+  .card-title-nc {
+    font-family: var(--font-heading, 'Montserrat', sans-serif) !important;
+    font-weight: 700;
+    color: #0A0A0A;
+  }
+
+  /* Form label — CHKPLT uppercase style */
+  .label-nc {
+    font-family: var(--font-heading, 'Montserrat', sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4A3F35;
   }
 }
