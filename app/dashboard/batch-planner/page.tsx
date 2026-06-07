@@ -165,17 +165,36 @@ export default function BatchPlannerPage() {
     setPushing(true)
     setPushResult(null)
     let success = 0, failed = 0
+
+    // Base date: today, increment by item.day offset
+    const baseDate = new Date()
+    baseDate.setHours(9, 0, 0, 0)
+
     for (const item of contentPlan) {
       try {
-        const res = await fetch('/api/calendar/save', {
+        // Compute scheduled date: use item.date if provided, else base + day offset
+        let scheduledDate: string
+        if (item.date && item.date.trim()) {
+          // Try to parse the date string from CSV (e.g. "2026-06-10" or "June 10")
+          const parsed = new Date(item.date)
+          scheduledDate = isNaN(parsed.getTime())
+            ? new Date(baseDate.getTime() + ((item.day || 1) - 1) * 86400000).toISOString()
+            : parsed.toISOString()
+        } else {
+          scheduledDate = new Date(baseDate.getTime() + ((item.day || 1) - 1) * 86400000).toISOString()
+        }
+
+        const res = await fetch('/api/content-calendar-plus/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            date: item.date || new Date().toISOString(),
+            scheduledDate,
             title: item.topic,
-            description: item.hookIdea,
-            category: mapContentTypeTo4E(item.contentType),
+            notes: item.hookIdea,
+            contentPillar: item.contentType || 'Educational',
+            fourETag: mapContentTypeTo4E(item.contentType),
             platform: item.platform || 'instagram',
+            contentType: item.contentType || 'Educational',
             status: 'planned',
           }),
         })
