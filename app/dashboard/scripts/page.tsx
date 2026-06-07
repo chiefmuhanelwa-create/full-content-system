@@ -178,6 +178,9 @@ export default function ScriptWriterPage() {
   const [paidsStream, setPaidsStream] = useState('auto') // products, ads, information, deals, services
   const [storyType, setStoryType] = useState('auto') // Genesis: origin, struggle, transformation, breakthrough, lesson
   const [hookCategory, setHookCategory] = useState('auto') // 120 hooks: origin, transformation, lesson, social_proof, curiosity, controversy
+  const [icp, setIcp] = useState('auto') // ICP 1 Called Expert / ICP 2 Content Creator Inspirer
+  const [shadowFear, setShadowFear] = useState('auto') // 10 NOCHILL shadow fears
+  const [villain, setVillain] = useState('') // named system/situation villain
 
   // Load products from DB
   useEffect(() => {
@@ -373,6 +376,9 @@ export default function ScriptWriterPage() {
         paidsStream: paidsStream === 'auto' ? undefined : paidsStream,
         storyType: storyType === 'auto' ? undefined : storyType,
         hookCategory: hookCategory === 'auto' ? undefined : hookCategory,
+        icp: icp === 'auto' ? undefined : icp,
+        shadowFear: shadowFear === 'auto' ? undefined : shadowFear,
+        villain: villain.trim() || undefined,
       }
 
       // Add sales mode data
@@ -1207,6 +1213,53 @@ ${scriptToUse.fiveLine.community.script}`
                         <SelectItem value="controversy">🔥 Controversy & Hot Take - Debate & polarization</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+
+                  {/* ICP Selector */}
+                  <div className="space-y-2">
+                    <Label htmlFor="icp" className="text-sm">Target ICP</Label>
+                    <Select value={icp} onValueChange={setIcp}>
+                      <SelectTrigger id="icp" className="bg-white"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="auto">🤖 Auto-detect from idea</SelectItem>
+                        <SelectItem value="icp1">👔 ICP 1 — Called Expert (28–42, unexploited expertise)</SelectItem>
+                        <SelectItem value="icp2">📱 ICP 2 — Content Creator Inspirer (23–28, aspiring)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Shadow Fear */}
+                  <div className="space-y-2">
+                    <Label htmlFor="shadowFear" className="text-sm">Shadow Fear to Activate</Label>
+                    <Select value={shadowFear} onValueChange={setShadowFear}>
+                      <SelectTrigger id="shadowFear" className="bg-white"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="auto">🤖 Auto-detect</SelectItem>
+                        <SelectItem value="wasted_life">Wasted Life (#1) — best years on someone else's dream</SelectItem>
+                        <SelectItem value="generational_poverty">Generational Poverty Trap (#2) — repeating parents' story</SelectItem>
+                        <SelectItem value="imposter_syndrome">Imposter Syndrome (#3) — not qualified enough</SelectItem>
+                        <SelectItem value="wrong_path">Wrong Path Terror (#4) — chose wrong career, too late</SelectItem>
+                        <SelectItem value="invisible_labor">Invisible Labor (#5) — working hard, nothing to show</SelectItem>
+                        <SelectItem value="platform_dependency">Platform Dependency (#6) — algorithm can erase everything</SelectItem>
+                        <SelectItem value="time_anxiety">Time Anxiety (#7) — already behind, everyone else is ahead</SelectItem>
+                        <SelectItem value="relationship_loss">Relationship Loss (#8) — dream will cost loved ones</SelectItem>
+                        <SelectItem value="spiritual_crisis">Spiritual Crisis (#9) — called or just chasing money?</SelectItem>
+                        <SelectItem value="legacy_void">Legacy Void (#10) — dying without leaving anything</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Villain */}
+                  <div className="space-y-2">
+                    <Label htmlFor="villain" className="text-sm">Named Villain (system/situation)</Label>
+                    <input
+                      id="villain"
+                      className="nc-tool-input w-full"
+                      placeholder="e.g. the follower count myth, the salary trap, SARS..."
+                      value={villain}
+                      onChange={(e) => setVillain(e.target.value)}
+                    />
+                    <p className="text-xs text-purple-600">Attack a system or situation — never a person.</p>
                   </div>
 
                   <p className="text-xs text-purple-600 italic">

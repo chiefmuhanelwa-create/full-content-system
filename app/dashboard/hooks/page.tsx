@@ -27,7 +27,9 @@ export default function HookGeneratorPage() {
   const [topic, setTopic] = useState('')
   const [platform, setPlatform] = useState('instagram')
   const [duration, setDuration] = useState('60s')
-  const [tone, setTone] = useState('educational')
+  const [icp, setIcp] = useState('auto')
+  const [shadowFear, setShadowFear] = useState('auto')
+  const [awarenessLevel, setAwarenessLevel] = useState('auto')
   const [hookType, setHookType] = useState('any')
   const [targetAudience, setTargetAudience] = useState('')
   const [loading, setLoading] = useState(false)
@@ -88,7 +90,7 @@ export default function HookGeneratorPage() {
       const response = await fetch('/api/hooks/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, platform, duration, tone, hookType, targetAudience: targetAudience.trim() || undefined, targetFear: targetedFear ? { id: targetedFear.id, name: targetedFear.name, relevance: targetedFear.relevance } : undefined, count: 5 }),
+        body: JSON.stringify({ topic, platform, duration, hookType, icp: icp === 'auto' ? undefined : icp, shadowFear: shadowFear === 'auto' ? undefined : shadowFear, awarenessLevel: awarenessLevel === 'auto' ? undefined : awarenessLevel, targetAudience: targetAudience.trim() || undefined, targetFear: targetedFear ? { id: targetedFear.id, name: targetedFear.name, relevance: targetedFear.relevance } : undefined, count: 5 }),
       })
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || 'Failed to generate hooks')
@@ -121,7 +123,6 @@ export default function HookGeneratorPage() {
           topic: topic || '',
           platform,
           duration,
-          tone,
           hookType: hookType !== 'any' ? hookType : 'general',
           category: 'generated',
         }),
@@ -323,25 +324,46 @@ export default function HookGeneratorPage() {
             />
           </div>
 
-          <div className="nc-form-row">
-            <label htmlFor="targetAudience">Target Audience <span className="text-[#B0A898] normal-case font-normal tracking-normal">(optional)</span></label>
-            <input
-              id="targetAudience"
-              className="nc-tool-input"
-              placeholder="e.g. creators making R0–5K/month"
-              value={targetAudience}
-              onChange={(e) => setTargetAudience(e.target.value)}
-            />
-            <p className="nc-helper">Specific beats generic. Who exactly are you speaking to?</p>
+          {/* ICP + Shadow Fear — Primary targeting */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="nc-form-row">
+              <label htmlFor="icp">Target ICP</label>
+              <Select value={icp} onValueChange={setIcp}>
+                <SelectTrigger id="icp" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="auto">Auto-detect from topic</SelectItem>
+                  <SelectItem value="icp1">ICP 1 — Called Expert (28–42)</SelectItem>
+                  <SelectItem value="icp2">ICP 2 — Content Creator (23–28)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="nc-form-row">
+              <label htmlFor="shadowFear">Shadow Fear</label>
+              <Select value={shadowFear} onValueChange={setShadowFear}>
+                <SelectTrigger id="shadowFear" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="auto">Auto-detect</SelectItem>
+                  <SelectItem value="wasted_life">Wasted Life (#1)</SelectItem>
+                  <SelectItem value="generational_poverty">Generational Poverty Trap (#2)</SelectItem>
+                  <SelectItem value="imposter_syndrome">Imposter Syndrome (#3)</SelectItem>
+                  <SelectItem value="wrong_path">Wrong Path Terror (#4)</SelectItem>
+                  <SelectItem value="invisible_labor">Invisible Labor (#5)</SelectItem>
+                  <SelectItem value="platform_dependency">Platform Dependency (#6)</SelectItem>
+                  <SelectItem value="time_anxiety">Time Anxiety (#7)</SelectItem>
+                  <SelectItem value="relationship_loss">Relationship Loss (#8)</SelectItem>
+                  <SelectItem value="spiritual_crisis">Spiritual Crisis (#9)</SelectItem>
+                  <SelectItem value="legacy_void">Legacy Void (#10)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="nc-form-row">
               <label htmlFor="platform">Platform</label>
               <Select value={platform} onValueChange={setPlatform}>
-                <SelectTrigger id="platform" className="nc-tool-input h-auto">
-                  <SelectValue />
-                </SelectTrigger>
+                <SelectTrigger id="platform" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="instagram">Instagram</SelectItem>
                   <SelectItem value="tiktok">TikTok</SelectItem>
@@ -355,9 +377,7 @@ export default function HookGeneratorPage() {
             <div className="nc-form-row">
               <label htmlFor="duration">Duration</label>
               <Select value={duration} onValueChange={setDuration}>
-                <SelectTrigger id="duration" className="nc-tool-input h-auto">
-                  <SelectValue />
-                </SelectTrigger>
+                <SelectTrigger id="duration" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="15s">15 seconds</SelectItem>
                   <SelectItem value="30s">30 seconds</SelectItem>
@@ -369,27 +389,23 @@ export default function HookGeneratorPage() {
             </div>
 
             <div className="nc-form-row">
-              <label htmlFor="tone">Tone</label>
-              <Select value={tone} onValueChange={setTone}>
-                <SelectTrigger id="tone" className="nc-tool-input h-auto">
-                  <SelectValue />
-                </SelectTrigger>
+              <label htmlFor="awarenessLevel">Awareness Level (A in R×A×C×U^B)</label>
+              <Select value={awarenessLevel} onValueChange={setAwarenessLevel}>
+                <SelectTrigger id="awarenessLevel" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="educational">Educational</SelectItem>
-                  <SelectItem value="entertaining">Entertaining</SelectItem>
-                  <SelectItem value="inspiring">Inspiring</SelectItem>
-                  <SelectItem value="controversial">Controversial</SelectItem>
-                  <SelectItem value="storytelling">Storytelling</SelectItem>
+                  <SelectItem value="auto">Auto-detect</SelectItem>
+                  <SelectItem value="symptom_aware">Symptom Aware — feels pain, doesn't know cause</SelectItem>
+                  <SelectItem value="problem_aware">Problem Aware — knows the problem</SelectItem>
+                  <SelectItem value="solution_aware">Solution Aware — knows solutions exist</SelectItem>
+                  <SelectItem value="product_aware">Product Aware — knows your offer</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="nc-form-row">
-              <label htmlFor="hookType">Hook Type (R×A×C×U^B)</label>
+              <label htmlFor="hookType">Hook Type (C in R×A×C×U^B)</label>
               <Select value={hookType} onValueChange={setHookType}>
-                <SelectTrigger id="hookType" className="nc-tool-input h-auto">
-                  <SelectValue />
-                </SelectTrigger>
+                <SelectTrigger id="hookType" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="any">Any Type</SelectItem>
                   <SelectItem value="information_gap">Information Gap</SelectItem>

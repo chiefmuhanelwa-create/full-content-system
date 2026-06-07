@@ -12,11 +12,11 @@ export async function POST(request: NextRequest) {
       topic,
       platform,
       duration,
-      tone,
       hookType,
-      targetAudience,
+      icp,
+      shadowFear,
       awarenessLevel,
-      clarityType,
+      targetAudience,
       count = 5
     } = body
 
@@ -33,15 +33,16 @@ export async function POST(request: NextRequest) {
 
     // Build user context prompt
     const additionalContextParts = []
-    if (hookType) additionalContextParts.push(`Hook Type Preference: ${hookType}`)
-    if (awarenessLevel) additionalContextParts.push(`Audience Awareness Level: ${awarenessLevel}`)
-    if (clarityType) additionalContextParts.push(`Clarity Type: ${clarityType}`)
+    if (hookType) additionalContextParts.push(`Hook Type (C component): ${hookType}`)
+    if (awarenessLevel) additionalContextParts.push(`Awareness Level (A component): ${awarenessLevel}`)
+    if (icp === 'icp1') additionalContextParts.push(`TARGET ICP: ICP 1 — Called Expert (28–42, professional, unexploited expertise). Shadow fears: Imposter Syndrome, Generational Poverty Trap, Wrong Path Terror, Spiritual Crisis. Language: "your knowledge is worth more than your salary"`)
+    if (icp === 'icp2') additionalContextParts.push(`TARGET ICP: ICP 2 — Content Creator Inspirer (23–28, aspiring, Instagram-first). Shadow fears: Invisible Labor, Time Anxiety, Relationship Loss, Platform Dependency. Language: "you're posting every day and still broke"`)
+    if (shadowFear) additionalContextParts.push(`SHADOW FEAR TO ACTIVATE: ${shadowFear} — embed this fear implicitly in the hook. Never name it directly.`)
 
     const userContext = buildUserContextPrompt({
       topic,
       platform,
       duration,
-      tone,
       targetAudience,
       additionalContext: additionalContextParts.length > 0 ? additionalContextParts.join('\n') : undefined,
     })
@@ -213,9 +214,10 @@ OUTPUT FORMAT: Return ONLY a JSON object — not a plain array:
         topic,
         platform,
         duration,
-        tone,
         hookType,
-        targetAudience,
+        icp,
+        shadowFear,
+        awarenessLevel,
         count: hooks.length,
         generatedAt: new Date().toISOString(),
       },
