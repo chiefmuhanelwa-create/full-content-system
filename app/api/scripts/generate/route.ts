@@ -96,22 +96,22 @@ Revenue streams for creators:
 
 Reference when teaching monetization topics.
 
-## SHADOW FEAR PSYCHOLOGY (10 Categories)
+## SHADOW FEAR PSYCHOLOGY — 10 NOCHILL SHADOW FEARS
 
-What your audience is REALLY afraid of (but won't say):
+What the audience is REALLY afraid of (never name it directly — activate it):
 
-1. **Fear of Invisibility**: "What if nobody ever notices me?"
-2. **Fear of Wasted Potential**: "What if I'm capable of more but never reach it?"
-3. **Fear of Being Left Behind**: "What if everyone else figures it out except me?"
-4. **Fear of Exposure**: "What if they find out I'm not as good as I seem?"
-5. **Fear of Permanent Mediocrity**: "What if this is as good as it gets?"
-6. **Fear of Missed Timing**: "What if I'm too late/too early?"
-7. **Fear of Being Forgotten**: "What if my work doesn't matter long-term?"
-8. **Fear of Financial Dependency**: "What if I never control my own income?"
-9. **Fear of Creative Exhaustion**: "What if I run out of ideas/relevance?"
-10. **Fear of Systemic Exclusion**: "What if the game is rigged against people like me?"
+1. **Wasted Life (#1)** — ICP 1+2 — "I'm spending my best years building someone else's dream"
+2. **Generational Poverty Trap (#2)** — ICP 1 — "I'll repeat my parents' financial story no matter what I do"
+3. **Imposter Syndrome (#3)** — ICP 1+2 — "I'm not qualified enough to charge / teach / lead"
+4. **Wrong Path Terror (#4)** — ICP 1 — "I chose the wrong career and it's too late to switch"
+5. **Invisible Labor (#5)** — ICP 2 — "I'm working harder than anyone can see and have nothing to show"
+6. **Platform Dependency (#6)** — ICP 1+2 — "One algorithm change and everything I built disappears"
+7. **Time Anxiety (#7)** — ICP 2 — "I'm already behind. Everyone else figured this out younger"
+8. **Relationship Loss (#8)** — ICP 2 — "Pursuing this dream will cost me the people I love"
+9. **Spiritual Crisis (#9)** — ICP 1 — "Was I called to this, or am I just chasing money?"
+10. **Legacy Void (#10)** — ICP 1+2 — "I'll die without leaving something that outlasts me"
 
-Target ONE Shadow Fear per script in your hook/collision.
+Target ONE Shadow Fear per script. Activate it — never name it directly.
 
 ## 4 VIRAL SCRIPTING PRINCIPLES (Apply to EVERY line)
 
@@ -679,16 +679,38 @@ Repeat this format for all 7 acts. Direction notes and timing are for production
     "act6": "EDUCATIONAL VALUE",
     "act7": "CRESCENDO + CALL-BACK"
   },
-  "ubuntu_check": {
-    "we_over_i": "✅ WE framing in ACT 1-2, 6-7, I only in ACT 3-5 for origin/story",
-    "system_villain": "✅ System blamed in ACT 2, NOT people",
-    "collective_result": "✅ Community transformation in ACT 7 CTA"
-  },
-  "scripting_principles_check": {
-    "negativity": "✅ Indirect negativity in ACT 1-2 (attacks problems, not viewer)",
-    "you_format": "✅ YOU format used throughout ALL acts (no they/people/someone)",
-    "short_simple": "✅ Concise sentences, simple words, active voice in ALL acts",
-    "audible_flow": "✅ Passes read-aloud test, natural conversational rhythm throughout"
+  "compliance": {
+    "icp": "ICP 1 — The Called Expert | ICP 2 — The Content Creator Inspirer",
+    "shadowFear": "Fear name (#number) from the 10 NOCHILL shadow fears",
+    "villain": "Named system/situation villain — never a person",
+    "atomicShareLine": "The one line viewers can share verbatim",
+    "paidsCategory": "Products | Ads | Information | Deals | Services",
+    "fourE": "Educate | Entertain | Encourage | Earn",
+    "businessOutcome": "Lead Generation | Direct Sale | Authority Building",
+    "retentionLoop": "The exact retention loop tease line at the end",
+    "section13": {
+      "hookQuality": "✅/❌ — R×A×C×U^B check",
+      "wStackOrder": "✅/❌ — WHAT+WHY leads, no backstory first",
+      "intensity": "✅/❌ — 70%+ intensity from word one",
+      "rehooking": "✅/❌ — sub-hook cadence used",
+      "villainContrast": "✅/❌ — [villain named]",
+      "wordEconomy": "✅/❌ — avg sentence under 10 words",
+      "youFormat": "✅/❌ — zero they/people/someone",
+      "audibleFlow": "✅/❌ — passes read-aloud test",
+      "emotionalPeak": "✅/❌ — [the peak moment named]",
+      "atomicSharability": "✅/❌ — [the shareable line]",
+      "visualDirection": "✅/❌ — visual change every 8s minimum",
+      "ctaClarity": "✅/❌ — single CTA to owned channel",
+      "retentionLoop": "✅/❌ — [the tease line]",
+      "businessOutcome": "✅/❌ — [which outcome]",
+      "africaContext": "✅/❌ — ZAR pricing, SA references"
+    },
+    "ubuntuCheck": {
+      "weOverI": "✅/❌ — WE framing in Acts 1-2 and 6-7, I only in Acts 3-5",
+      "systemVillain": "✅/❌ — system/situation blamed, never a person",
+      "collectiveResult": "✅/❌ — CTA frames collective action, not individual glory"
+    },
+    "principlesApplied": ["Negativity (indirect)", "You Format", "Short & Simple", "Audible Flow"]
   }
 }
 
