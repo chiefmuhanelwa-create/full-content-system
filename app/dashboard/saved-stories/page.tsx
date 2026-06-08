@@ -124,7 +124,7 @@ export default function SavedStoriesPage() {
         title="Saved Stories"
         description="Your collection of extracted stories ready to use"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Stats */}
       <div className="grid md:grid-cols-4 gap-4 mb-6">

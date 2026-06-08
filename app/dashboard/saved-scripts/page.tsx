@@ -101,7 +101,7 @@ export default function SavedScriptsPage() {
         title="Saved Scripts"
         description="Your library of generated scripts — saved in database"
       />
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Search */}
       <div className="mb-6">

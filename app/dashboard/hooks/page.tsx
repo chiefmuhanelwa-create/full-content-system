@@ -201,7 +201,7 @@ export default function HookGeneratorPage() {
         description="Generate scroll-stopping hooks using the R×A×C×U^B formula — fear, curiosity, data, contrast."
       />
 
-      <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+      <div className="px-6 py-8 space-y-6">
 
         {/* Hook Bank — 120 proven hooks */}
         <div className="nc-panel">

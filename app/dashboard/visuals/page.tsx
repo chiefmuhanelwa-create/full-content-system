@@ -83,7 +83,7 @@ export default function VisualsPage() {
         title="Visual Content Generator"
         description="Generate thumbnails, B-roll, overlays & captions"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Input Section */}

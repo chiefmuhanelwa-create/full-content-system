@@ -922,7 +922,7 @@ ${scriptToUse.fiveLine.community.script}`
         title="Script Writer"
         description={scriptMode === 'content' ? '7-Act Retention Formula — Negative Hook → Truth → Origin → Breaking Point → Transformation → Framework → Mission + CTA' : '10-Step Sales Framework — Story-driven product selling script'}
       />
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Input Section */}
           <div>

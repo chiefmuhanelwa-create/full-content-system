@@ -96,7 +96,7 @@ export default function FearAnalyzerPage() {
         description="Identify the 10 Shadow Fears driving your audience — then generate fear-targeted hooks and content angles."
       />
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
         <div className="grid lg:grid-cols-2 gap-6">
 
           {/* Input */}

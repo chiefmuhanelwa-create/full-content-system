@@ -601,7 +601,7 @@ This is for your children's children.
         title="Campaign Planner"
         description="Plan your product launch with a proven 14-day campaign structure"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Left Column: Configuration */}
@@ -698,7 +698,7 @@ This is for your children's children.
 
           {/* Campaign Phases Overview */}
           {campaign.length > 0 && (
-            <Card className="bg-gradient-to-br from-orange-50 to-red-50">
+            <Card className="bg-orange-50">
               <CardHeader>
                 <CardTitle className="text-sm">Campaign Phases</CardTitle>
               </CardHeader>

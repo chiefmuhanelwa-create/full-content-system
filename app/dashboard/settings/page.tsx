@@ -121,7 +121,7 @@ export default function SettingsPage() {
         title="Data Management"
         description="Backup and restore your content data"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Backup Reminder */}
       {daysSinceBackup !== null && daysSinceBackup > 7 && (

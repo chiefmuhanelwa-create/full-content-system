@@ -97,7 +97,7 @@ export default function PitchBuilderPage() {
         title="Pitch Builder"
         description="Build compelling pitches using the 5 Pillars: Person, Position, Proof, Pain, Promise"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Input Section */}

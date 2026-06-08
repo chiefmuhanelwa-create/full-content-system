@@ -20,8 +20,8 @@ export function ToolPageHeader({
   children,
 }: ToolPageHeaderProps) {
   return (
-    <div className="bg-white border-b border-[#E4E4E7] px-8 py-5">
-      <div className="max-w-[1400px] mx-auto flex items-start justify-between gap-4">
+    <div className="bg-white border-b border-[#E4E4E7] px-6 py-5">
+      <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-4">
           <div className={`p-3 rounded-xl ${iconBg} ${iconColor} flex-shrink-0 mt-0.5`}>
             <Icon className="w-6 h-6" />
@@ -50,7 +50,7 @@ export function ToolPageHeader({
 
 export function ToolPageContent({ children }: { children: React.ReactNode }) {
   return (
-    <div className="max-w-[1400px] mx-auto px-8 py-6">
+    <div className="px-6 py-6">
       {children}
     </div>
   )

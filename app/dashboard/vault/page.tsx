@@ -15,7 +15,7 @@ export default function VaultPage() {
         title="Story & Content Vault"
         description="110+ content ideas and story variations mapped to Hook Science frameworks"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
         <Card className="bg-blue-50 border-blue-200 mb-6">
             <CardContent className="pt-6">
               <div className="grid md:grid-cols-3 gap-6">

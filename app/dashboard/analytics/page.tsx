@@ -136,7 +136,7 @@ export default function AnalyticsPage() {
         title="Performance Analytics"
         description="Track, analyze, and learn from your content performance"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Stats Overview */}
       <div className="grid md:grid-cols-4 gap-4 mb-8">

@@ -116,10 +116,10 @@ export default function RevenueTrackerPage() {
         title="Revenue Tracker"
         description="Track your income using the PAIDS framework: Products, Ads, Information, Deals, Services"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Total Revenue */}
-      <Card className="mb-8 bg-gradient-to-br from-green-50 to-blue-50 border-green-200">
+      <Card className="mb-8 bg-green-50 border-green-200">
         <CardContent className="pt-6">
           <div className="flex items-center justify-between">
             <div>
@@ -352,7 +352,7 @@ export default function RevenueTrackerPage() {
           </Card>
 
           {/* PAIDS Framework Guide */}
-          <Card className="bg-gradient-to-br from-green-50 to-blue-50 border-green-200">
+          <Card className="bg-green-50 border-green-200">
             <CardHeader>
               <CardTitle className="text-sm">PAIDS Revenue Framework</CardTitle>
             </CardHeader>

@@ -206,7 +206,7 @@ ${output.retentionTips.map((r, i) => `${i + 1}. ${r}`).join('\n')}
         title="Content Formulas"
         description="Proven formulas built on 4 Foundational Principles: Negativity Always Wins, You Format, Short & Simple, Audible Flow"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
         {/* Info Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

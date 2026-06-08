@@ -175,7 +175,7 @@ Use Case: ${story.useCase}
         title="Story Extractor"
         description="Extract proof stories using Genesis Framework (Origin, Struggle, Transformation, Breakthrough, Lesson) and 4-Criteria Test"
       />
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Input Section */}
         <div>

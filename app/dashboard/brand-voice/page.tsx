@@ -56,7 +56,7 @@ export default function BrandVoicePage() {
         description="Score content against your voice profile — then rewrite anything that's off-brand."
       />
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
         <div className="grid lg:grid-cols-2 gap-6">
 
           {/* Input */}

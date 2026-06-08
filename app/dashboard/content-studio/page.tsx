@@ -297,7 +297,7 @@ export default function ContentStudioPage() {
         title="Content Studio"
         description="Plan, track, and analyze your content from idea to performance"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-8">

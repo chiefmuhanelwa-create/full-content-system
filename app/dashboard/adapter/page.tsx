@@ -133,7 +133,7 @@ ${content}
         title="Multi-Platform Adapter"
         description="Adapt your content for LinkedIn, X, Facebook, and Newsletter"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
         {/* Info Card */}
         <Card className="p-4 bg-green-50 border-green-200">

@@ -573,7 +573,7 @@ export default function ContentCalendarPlusPage() {
           </Button>
         </div>
       </ToolPageHeader>
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">

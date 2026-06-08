@@ -490,7 +490,7 @@ export default function TeleprompterPage() {
         title="Teleprompter"
         description="Professional teleprompter for recording your scripts"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Controls Panel */}
@@ -846,7 +846,7 @@ export default function TeleprompterPage() {
           </Card>
 
           {/* Voice Modulation Guide */}
-          <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+          <Card className="bg-amber-50 border-amber-200">
             <CardHeader>
               <CardTitle className="text-sm">🎤 Voice Modulation Guide</CardTitle>
             </CardHeader>
@@ -878,7 +878,7 @@ export default function TeleprompterPage() {
           </Card>
 
           {/* Keyboard Shortcuts */}
-          <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+          <Card className="bg-blue-50 border-blue-200">
             <CardHeader>
               <CardTitle className="text-sm">Keyboard Shortcuts</CardTitle>
             </CardHeader>

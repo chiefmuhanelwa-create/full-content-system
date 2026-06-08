@@ -113,7 +113,7 @@ export default function LibraryPage() {
         title="Saved Library"
         description="All your saved hooks, scripts, and stories — synced to your account"
       />
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">

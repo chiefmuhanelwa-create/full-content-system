@@ -253,7 +253,7 @@ export default function BatchPlannerPage() {
         description="Generate or import a 30-day content plan, then push it directly to your Calendar, Hook Generator, and Script Writer."
       />
 
-      <div className="max-w-5xl mx-auto px-6 py-6">
+      <div className="px-6 py-6">
 
         {/* Tabs */}
         <div className="flex gap-1 bg-white border border-[#E4E4E7] rounded-xl p-1 mb-6 w-fit">

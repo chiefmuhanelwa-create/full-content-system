@@ -155,7 +155,7 @@ export default function WorkflowPage() {
           New Content Item
         </Button>
       </ToolPageHeader>
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Workflow Stages Overview */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">

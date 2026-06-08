@@ -87,7 +87,7 @@ export default function CollaborationPage() {
         title="Collaboration Hub"
         description="Team workflow & content approval system"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Content List */}

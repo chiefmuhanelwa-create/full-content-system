@@ -187,7 +187,7 @@ export default function MyAlgorithmPage() {
     <div className="min-h-screen bg-[#FAFAFA] font-display">
       {/* Hero Header */}
       <div className="border-b border-[#E4E4E7] bg-white">
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="px-6 py-8">
           <div className="flex items-start justify-between">
             <div>
               <div className="flex items-center gap-3 mb-3">
@@ -226,7 +226,7 @@ export default function MyAlgorithmPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-12">
+      <div className="px-6 py-8 space-y-12">
 
         {/* Quick Workflows */}
         <section>

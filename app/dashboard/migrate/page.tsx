@@ -166,7 +166,7 @@ export default function MigratePage() {
         title="Data Migration"
         description="Migrate your data from browser storage to permanent database"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Info Card */}
       <Card className="border-blue-500/50 bg-blue-500/5">

@@ -245,7 +245,7 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
         title="Storytelling Studio"
         description="Genesis Framework (5 story types) + 7-Stage Story Arc + Proven narrative frameworks"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
         {/* Info Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

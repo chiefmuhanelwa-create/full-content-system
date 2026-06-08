@@ -26,26 +26,26 @@ function ToolCard({
 }) {
   return (
     <Link href={href} className="group block h-full">
-      <div className="h-full bg-white border border-[#E4E4E7] rounded-xl p-4 flex flex-col gap-3 hover:border-[#D4D4D8] hover:shadow-sm transition-all duration-150">
+      <div className="h-full bg-white border border-[#E4E4E7] rounded-xl p-5 flex flex-col gap-3 hover:border-blue-300 hover:shadow-sm transition-all duration-150">
         <div className="flex items-start justify-between">
-          <div className="p-2 rounded-lg transition-opacity" style={{ backgroundColor: `${accent}15`, color: accent }}>
-            <Icon className="w-4 h-4" />
+          <div className="p-3 rounded-xl transition-opacity" style={{ backgroundColor: `${accent}15`, color: accent }}>
+            <Icon className="w-5 h-5" />
           </div>
           {badge && (
-            <span className="text-[9px] font-display font-bold px-1.5 py-0.5 bg-blue-600 text-white rounded-md tracking-widest uppercase">
+            <span className="text-[10px] font-display font-bold px-2 py-0.5 bg-blue-600 text-white rounded-md tracking-widest uppercase">
               {badge}
             </span>
           )}
         </div>
         <div className="flex-1">
-          <h3 className="font-display font-semibold text-[#18181B] text-[14px] leading-snug mb-1 group-hover:text-blue-600 transition-colors">
+          <h3 className="font-display font-semibold text-[#18181B] text-[15px] leading-snug mb-1.5 group-hover:text-blue-600 transition-colors">
             {name}
           </h3>
-          <p className="text-[12px] text-[#A1A1AA] leading-relaxed font-display">{desc}</p>
+          <p className="text-[13px] text-[#71717A] leading-relaxed font-display">{desc}</p>
         </div>
-        <div className="flex items-center gap-1 text-[#D4D4D8] group-hover:text-blue-500 transition-colors">
-          <span className="text-[10px] font-display font-semibold">Open</span>
-          <ArrowRight className="w-3 h-3" />
+        <div className="flex items-center gap-1.5 text-[#A1A1AA] group-hover:text-blue-600 transition-colors">
+          <span className="text-[12px] font-display font-semibold">Open</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </div>
       </div>
     </Link>
@@ -59,7 +59,7 @@ function SectionHeader({ title, sub }: { title: string; sub?: string }) {
         <h2 className="font-display font-semibold text-[#18181B] text-[17px] leading-none whitespace-nowrap">{title}</h2>
         <div className="flex-1 h-px bg-[#F4F4F5]" />
       </div>
-      {sub && <p className="text-[#A1A1AA] text-[11px] mt-1 font-display">{sub}</p>}
+      {sub && <p className="text-[#71717A] text-[13px] mt-1 font-display">{sub}</p>}
     </div>
   )
 }
@@ -87,7 +87,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-full bg-[#FAFAFA] font-display">
-      <div className="max-w-[1400px] mx-auto px-8 py-8">
+      <div className="px-6 py-8">
 
         {/* Header — Mondays style */}
         <div className="flex items-start justify-between mb-5">
@@ -131,7 +131,7 @@ export default function DashboardPage() {
               <div className="flex items-center gap-2">
                 <span className="text-base font-display font-semibold text-[#18181B]">Content Pipeline</span>
               </div>
-              <button className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-[#E4E4E7] text-[11px] font-display font-medium text-[#71717A] hover:border-[#D4D4D8] transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <button className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-[#E4E4E7] text-[13px] font-display font-medium text-[#71717A] hover:border-[#D4D4D8] transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
                 This Week <ChevronDown className="w-3 h-3" />
               </button>
             </div>
@@ -143,12 +143,12 @@ export default function DashboardPage() {
           <div className="bg-white border border-[#E4E4E7] rounded-xl overflow-hidden shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
             {/* Column headers */}
             <div className="grid grid-cols-[1fr_auto_auto] gap-4 px-5 py-2.5 border-b border-[#F4F4F5] bg-[#FAFAFA]">
-              <div className="flex items-center gap-1.5 text-[11px] font-display font-semibold text-[#A1A1AA]">
+              <div className="flex items-center gap-1.5 text-[13px] font-display font-semibold text-[#A1A1AA]">
                 <span>✏️</span>
                 <span>Tool Name</span>
               </div>
-              <span className="text-[11px] font-display font-semibold text-[#A1A1AA]">Category</span>
-              <span className="text-[11px] font-display font-semibold text-[#A1A1AA] pr-1">Status</span>
+              <span className="text-[13px] font-display font-semibold text-[#A1A1AA]">Category</span>
+              <span className="text-[13px] font-display font-semibold text-[#A1A1AA] pr-1">Status</span>
             </div>
 
             {pipeline.map((item) => (
@@ -163,11 +163,11 @@ export default function DashboardPage() {
                   </div>
                   <div className="min-w-0">
                     <p className="font-display font-medium text-[13px] text-[#18181B] group-hover:text-blue-600 transition-colors truncate">{item.tool}</p>
-                    <p className="text-[10px] text-[#A1A1AA] font-display hidden sm:block truncate">{item.desc}</p>
+                    <p className="text-[12px] text-[#A1A1AA] font-display hidden sm:block truncate">{item.desc}</p>
                   </div>
                 </div>
                 <span
-                  className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-display font-bold uppercase tracking-wider whitespace-nowrap"
+                  className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-display font-bold uppercase tracking-widest whitespace-nowrap"
                   style={{ backgroundColor: `${item.color}12`, color: item.color }}
                 >
                   {item.category}

@@ -439,7 +439,7 @@ export default function HookBankPage() {
         title="Hook Bank"
         description="Manage your repository of viral hooks with R×A×C×U^B components"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Actions Bar */}
       <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">

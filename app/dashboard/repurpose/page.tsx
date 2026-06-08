@@ -76,7 +76,7 @@ export default function RepurposePage() {
         title="Content Repurposing Engine"
         description="Transform one script into 10+ pieces of content"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Input Section */}

@@ -170,7 +170,7 @@ ${profile.exampleContent}
         title="Voice & Personality Profile"
         description="Define your unique voice for authentic content creation"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
         <Card className="p-4 bg-orange-50 border-orange-200 mb-8">
           <p className="text-sm text-gray-700">

@@ -430,7 +430,7 @@ export default function ContentCardsPage() {
         title="Content Cards"
         description="Manage your content creation workflow from ideation to publishing"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Stats Cards */}
       {stats && (

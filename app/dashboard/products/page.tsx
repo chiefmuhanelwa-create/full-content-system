@@ -703,7 +703,7 @@ export default function ProductsPage() {
           {isEditing ? 'Cancel' : 'Add Product'}
         </Button>
       </ToolPageHeader>
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Error Message */}
       {error && (

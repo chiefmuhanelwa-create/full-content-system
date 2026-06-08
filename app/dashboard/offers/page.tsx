@@ -301,7 +301,7 @@ Let's build.
         title="Smart Offer Constructor"
         description="Build Godfather offers with value stacking, urgency, and risk reversal"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Left Column: Build Offer */}

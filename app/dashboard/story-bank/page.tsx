@@ -429,7 +429,7 @@ export default function StoryBankPage() {
         title="Story Bank"
         description="Manage your personal stories and proof moments for authentic content"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">

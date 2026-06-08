@@ -260,7 +260,7 @@ export default function ProductPlanningPage() {
         description="Track all 55 NOCHILL products from draft to live Shopify listing"
       />
 
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
+      <div className="px-6 py-8 space-y-6">
 
         {/* ─── Stats Bar ─── */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -284,7 +284,7 @@ export default function ProductPlanningPage() {
                   filterStatus === status && 'ring-2 ring-[#2563EB]'
                 )}
               >
-                <p className={cn('text-[10px] font-display font-black uppercase tracking-widest', cfg.color)}>{label}</p>
+                <p className={cn('text-[12px] font-display font-bold uppercase tracking-wider', cfg.color)}>{label}</p>
                 <p className={cn('text-2xl font-display font-black mt-1', cfg.color)}>{value}</p>
               </button>
             )
@@ -363,14 +363,14 @@ export default function ProductPlanningPage() {
                   <div className="flex items-start justify-between gap-3">
                     {/* Left: Code + Name */}
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <span className="text-[10px] font-display font-black bg-[#2D2D2D] text-white px-2 py-1 rounded-lg flex-shrink-0">
+                      <span className="text-[12px] font-display font-black bg-[#18181B] text-white px-2 py-1 rounded-lg flex-shrink-0">
                         {product.code}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-display font-black text-[#2D2D2D] leading-tight truncate">
+                        <h3 className="font-display font-black text-[#18181B] text-[15px] leading-tight truncate">
                           {product.name}
                         </h3>
-                        <p className="text-xs text-[#71717A] truncate mt-0.5">{product.subtitle}</p>
+                        <p className="text-[13px] text-[#71717A] truncate mt-0.5">{product.subtitle}</p>
                       </div>
                     </div>
 
@@ -380,7 +380,7 @@ export default function ProductPlanningPage() {
                         {product.priceRange ?? `R${product.price.toLocaleString()}`}
                       </span>
                       <span className={cn(
-                        'flex items-center gap-1 text-[10px] font-display font-black px-2 py-1 rounded-full border',
+                        'flex items-center gap-1 text-[12px] font-display font-black px-2 py-1 rounded-full border',
                         cfg.bg, cfg.color, cfg.border
                       )}>
                         <StatusIcon className="h-3 w-3" />
@@ -390,7 +390,7 @@ export default function ProductPlanningPage() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="h-7 text-xs border-[#2563EB]/40 text-[#7A5F18] hover:bg-[#2563EB]/10"
+                          className="h-8 text-[13px] border-[#2563EB]/40 text-[#2563EB] hover:bg-blue-50"
                           onClick={() => advanceStatus(product.code)}
                         >
                           → {STATUS_CONFIG[nextStatus].label}
@@ -412,17 +412,17 @@ export default function ProductPlanningPage() {
                   {/* Badges row */}
                   <div className="flex flex-wrap gap-1.5 mt-2 pb-3">
                     <span className={cn(
-                      'text-[9px] font-display font-black px-2 py-0.5 rounded-full border uppercase tracking-wider',
+                      'text-[11px] font-display font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider',
                       product.icp === '1' ? 'bg-amber-50 text-amber-700 border-amber-200' :
                       product.icp === '2' ? 'bg-sky-50 text-sky-700 border-sky-200' :
                       'bg-purple-50 text-purple-700 border-purple-200'
                     )}>
                       {product.icpLabel}
                     </span>
-                    <span className="text-[9px] font-display font-black px-2 py-0.5 rounded-full bg-[#E4E4E7] text-[#52525B] border border-[#E4E4E7] uppercase tracking-wider">
+                    <span className="text-[11px] font-display font-bold px-2 py-0.5 rounded-full bg-[#E4E4E7] text-[#52525B] border border-[#E4E4E7] uppercase tracking-wider">
                       {TRACK_LABELS[product.track]}
                     </span>
-                    <span className="text-[9px] font-display font-black px-2 py-0.5 rounded-full bg-[#E4E4E7] text-[#52525B] border border-[#E4E4E7] uppercase tracking-wider">
+                    <span className="text-[11px] font-display font-bold px-2 py-0.5 rounded-full bg-[#E4E4E7] text-[#52525B] border border-[#E4E4E7] uppercase tracking-wider">
                       {product.paidsStream.toUpperCase()}
                     </span>
                     {isPromoted && (
@@ -439,7 +439,7 @@ export default function ProductPlanningPage() {
                     <div className="grid md:grid-cols-2 gap-4 mt-4">
                       {/* Pain Points */}
                       <div>
-                        <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">Pain Points</p>
+                        <p className="text-[12px] font-display font-semibold uppercase tracking-wider text-[#71717A] mb-2">Pain Points</p>
                         <ul className="space-y-1">
                           {product.painPoints.map((pp, i) => (
                             <li key={i} className="text-sm text-[#18181B] flex gap-2">
@@ -453,18 +453,18 @@ export default function ProductPlanningPage() {
                       {/* Problem + Transformation */}
                       <div className="space-y-3">
                         <div>
-                          <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Problem Solved</p>
+                          <p className="text-[12px] font-display font-semibold uppercase tracking-wider text-[#71717A] mb-1">Problem Solved</p>
                           <p className="text-sm text-[#18181B]">{product.problemSolved}</p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Transformation</p>
+                          <p className="text-[12px] font-display font-semibold uppercase tracking-wider text-[#71717A] mb-1">Transformation</p>
                           <p className="text-sm text-[#18181B]">{product.transformation}</p>
                         </div>
                       </div>
 
                       {/* Shadow Fears */}
                       <div>
-                        <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">Shadow Fears Activated</p>
+                        <p className="text-[12px] font-display font-semibold uppercase tracking-wider text-[#71717A] mb-2">Shadow Fears Activated</p>
                         <div className="flex flex-wrap gap-1">
                           {product.shadowFears.map((sf) => (
                             <span key={sf} className="text-[9px] px-2 py-0.5 bg-red-50 text-red-700 border border-red-200 rounded-full font-display font-bold">
@@ -476,7 +476,7 @@ export default function ProductPlanningPage() {
 
                       {/* Description */}
                       <div>
-                        <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">What\'s Inside</p>
+                        <p className="text-[12px] font-display font-semibold uppercase tracking-wider text-[#71717A] mb-1">What\'s Inside</p>
                         <p className="text-sm text-[#18181B]">{product.description}</p>
                       </div>
                     </div>
@@ -484,7 +484,7 @@ export default function ProductPlanningPage() {
                     {/* Shopify Copy Preview */}
                     <div className="mt-4 p-3 bg-[#F0EBE0] border border-[#E4E4E7] rounded-xl">
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A]">Shopify Copy (Ready)</p>
+                        <p className="text-[12px] font-display font-semibold uppercase tracking-wider text-[#71717A]">Shopify Copy (Ready)</p>
                         <button
                           onClick={() => copyShopifyCopy(product.shopifyCopy, product.code)}
                           className="flex items-center gap-1 text-[10px] font-display font-bold text-[#7A5F18] hover:text-[#2563EB] transition-colors"
@@ -495,7 +495,7 @@ export default function ProductPlanningPage() {
                           }
                         </button>
                       </div>
-                      <p className="text-xs text-[#52525B] whitespace-pre-wrap line-clamp-4">{product.shopifyCopy}</p>
+                      <p className="text-[13px] text-[#52525B] whitespace-pre-wrap line-clamp-4">{product.shopifyCopy}</p>
                     </div>
 
                     {/* Action Buttons */}
@@ -618,7 +618,7 @@ export default function ProductPlanningPage() {
               </div>
 
               <div>
-                <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">Shopify Copy Preview</p>
+                <p className="text-[12px] font-display font-semibold uppercase tracking-wider text-[#71717A] mb-2">Shopify Copy Preview</p>
                 <div className="p-3 bg-[#F0EBE0] border border-[#E4E4E7] rounded-xl text-sm text-[#18181B] whitespace-pre-wrap">
                   {selectedProduct.shopifyCopy}
                 </div>

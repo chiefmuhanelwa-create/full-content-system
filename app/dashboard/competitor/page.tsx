@@ -47,7 +47,7 @@ export default function CompetitorPage() {
         description="Analyse competitor content — find content gaps and positioning angles they missed."
       />
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
         <div className="grid lg:grid-cols-2 gap-6">
 
           {/* Input */}

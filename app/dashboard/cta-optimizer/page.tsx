@@ -81,7 +81,7 @@ export default function CTAOptimizerPage() {
         title="CTA Library & Optimizer"
         description="High-converting CTAs for every situation"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* CTA Library */}

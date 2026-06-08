@@ -212,7 +212,7 @@ export default function ContentProgressPage() {
         title="Content Progress Tracker"
         description="Manage your content pipeline from ideation to posting"
       />
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">

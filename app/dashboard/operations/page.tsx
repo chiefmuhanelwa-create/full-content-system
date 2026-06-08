@@ -216,7 +216,7 @@ export default function OperationsPage() {
           Refresh
         </Button>
       </ToolPageHeader>
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="px-6 py-8">
 
       {/* System Status Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
