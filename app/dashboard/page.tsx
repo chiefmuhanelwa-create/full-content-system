@@ -5,12 +5,8 @@ import {
   Zap, FileText, BookOpen, Brain, Target, Calendar,
   TrendingUp, MonitorPlay, Repeat, BarChart2, Package,
   Layers, Globe, Mic, BookMarked,
-  ArrowRight, Tv2, PenTool, Star, Archive
+  ArrowRight, Tv2, PenTool, Star, Archive, Plus, Cpu, FlaskConical
 } from 'lucide-react'
-
-function cn(...classes: (string | undefined | false)[]) {
-  return classes.filter(Boolean).join(' ')
-}
 
 function ToolCard({
   href,
@@ -67,43 +63,117 @@ function SectionHeader({ title, sub }: { title: string; sub?: string }) {
   )
 }
 
+const systemStats = [
+  { icon: Cpu, value: '42', label: 'AI Tools', color: '#C9A646', bg: '#FEF9EC' },
+  { icon: BookOpen, value: '20', label: 'Proof Stories', color: '#059669', bg: '#F0FDF4' },
+  { icon: Zap, value: '120', label: 'Hook Patterns', color: '#3B82F6', bg: '#EFF6FF' },
+  { icon: Brain, value: '10', label: 'Shadow Fears', color: '#EF4444', bg: '#FEF2F2' },
+]
+
+const pipeline = [
+  { tool: 'Hook Generator', href: '/dashboard/hooks', category: 'CREATE', color: '#C9A646', icon: Zap, desc: 'R×A×C×U^B formula — write your daily hook' },
+  { tool: 'Script Writer', href: '/dashboard/scripts', category: 'SCRIPT', color: '#3B82F6', icon: FileText, desc: '7-Act + 10-Step Sales Framework' },
+  { tool: 'Storytelling Studio', href: '/dashboard/storytelling', category: 'STORY', color: '#8B5CF6', icon: Tv2, desc: '5 Story Types + 7-Stage Arc' },
+  { tool: 'Fear Analyzer', href: '/dashboard/fears', category: 'AUDIENCE', color: '#EF4444', icon: Brain, desc: '10 Shadow Fears — angles and CTAs per fear' },
+  { tool: 'Batch Planner', href: '/dashboard/batch-planner', category: 'PLAN', color: '#6366F1', icon: Layers, desc: '22-day plan around your launch goals' },
+]
+
 export default function DashboardPage() {
-  const hour = new Date().getHours()
+  const now = new Date()
+  const hour = now.getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+  const formattedDate = now.toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 
   return (
     <div className="min-h-full bg-[#FAF7F0]">
       <div className="max-w-5xl mx-auto px-6 py-8">
 
-        {/* Header */}
-        <div className="mb-8">
-          <p className="text-[#C9A646] font-heading font-bold text-[10px] tracking-[0.25em] uppercase mb-2">
-            {greeting}, Ndivhuwo
-          </p>
-          <h1 className="font-heading font-black text-[#0F0F0F] text-3xl leading-none tracking-tight">
-            NoChill Command
-          </h1>
-          <p className="text-[#6B6059] text-sm mt-2 font-heading">
-            Every tool you need. One system.
-          </p>
+        {/* Header — Mondays style with date + action button */}
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <p className="text-[#8A8071] text-sm font-heading mb-1">{formattedDate}</p>
+            <h1 className="font-heading font-black text-[#0F0F0F] text-3xl leading-none tracking-tight">
+              {greeting}, Ndivhuwo.
+            </h1>
+          </div>
+          <div className="flex items-center gap-2.5 flex-shrink-0">
+            <Link
+              href="/dashboard/hooks"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#C9A646] text-[#0A0A0A] font-heading font-bold text-sm hover:bg-[#8C6F1F] hover:text-white transition-all shadow-[0_2px_8px_rgba(201,166,70,0.25)]"
+            >
+              <Plus className="w-4 h-4" />
+              New Content
+            </Link>
+          </div>
         </div>
 
-        {/* Quick actions */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-10">
-          {[
-            { href: '/dashboard/hooks', icon: Zap, label: 'Write a Hook', color: '#C9A646' },
-            { href: '/dashboard/scripts', icon: FileText, label: 'Write a Script', color: '#3B82F6' },
-            { href: '/dashboard/pitch', icon: Target, label: 'Build a Pitch', color: '#F97316' },
-            { href: '/dashboard/batch-planner', icon: Layers, label: 'Plan 22 Days', color: '#6366F1' },
-          ].map((item) => (
-            <Link key={item.href} href={item.href}>
-              <div className="bg-white border border-[#E8E1D0] rounded-xl p-3.5 flex items-center gap-2.5 group cursor-pointer hover:border-[#C9A646]/40 hover:shadow-[0_2px_12px_rgba(201,166,70,0.08)] transition-all">
-                <item.icon className="w-4 h-4 flex-shrink-0" style={{ color: item.color }} />
-                <span className="font-heading font-bold text-[12px] text-[#3D342A] group-hover:text-[#0F0F0F] transition-colors leading-tight">{item.label}</span>
-                <ArrowRight className="w-3 h-3 text-[#C9C0B0] group-hover:text-[#C9A646] ml-auto flex-shrink-0 transition-colors" />
+        {/* Stats row — Mondays pill style */}
+        <div className="flex items-center gap-3 mb-8 flex-wrap">
+          {systemStats.map((stat) => (
+            <div
+              key={stat.label}
+              className="flex items-center gap-2 px-3 py-2 rounded-full bg-white border border-[#E8E1D0] shadow-sm"
+            >
+              <div className="p-1 rounded-full" style={{ backgroundColor: stat.bg }}>
+                <stat.icon className="w-3 h-3" style={{ color: stat.color }} />
               </div>
-            </Link>
+              <span className="font-heading font-black text-[#0F0F0F] text-[13px]">{stat.value}</span>
+              <span className="font-heading text-[#8A8071] text-[11px]">{stat.label}</span>
+            </div>
           ))}
+        </div>
+
+        {/* Content Pipeline — Mondays-style table */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <h2 className="font-heading font-black text-[#0F0F0F] text-base leading-none whitespace-nowrap">Content Pipeline</h2>
+              <div className="flex-1 h-px bg-[#E8E1D0] w-16" />
+            </div>
+            <Link href="/dashboard/batch-planner" className="text-[11px] text-[#C9A646] font-heading font-bold hover:underline flex items-center gap-1">
+              Plan 22 Days <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+          <div className="bg-white border border-[#E8E1D0] rounded-xl overflow-hidden">
+            {/* Table header */}
+            <div className="hidden sm:grid sm:grid-cols-[1fr_auto_auto] gap-4 px-4 py-2.5 border-b border-[#F0EBE0] bg-[#FAF7F0]">
+              <span className="text-[10px] font-heading font-black text-[#8A8071] uppercase tracking-widest">Tool</span>
+              <span className="text-[10px] font-heading font-black text-[#8A8071] uppercase tracking-widest">Category</span>
+              <span className="text-[10px] font-heading font-black text-[#8A8071] uppercase tracking-widest pr-2">Action</span>
+            </div>
+
+            {pipeline.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto] gap-3 sm:gap-4 px-4 py-3 hover:bg-[#FDFBF7] transition-colors items-center border-b border-[#F8F5EF] last:border-0 group"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="p-2 rounded-lg flex-shrink-0"
+                    style={{ backgroundColor: `${item.color}18` }}
+                  >
+                    <item.icon className="w-3.5 h-3.5" style={{ color: item.color }} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-heading font-bold text-[13px] text-[#0F0F0F] group-hover:text-[#8C6F1F] transition-colors truncate">{item.tool}</p>
+                    <p className="text-[10px] text-[#8A8071] truncate hidden sm:block">{item.desc}</p>
+                  </div>
+                </div>
+                <span
+                  className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-heading font-black uppercase tracking-widest whitespace-nowrap"
+                  style={{ backgroundColor: `${item.color}15`, color: item.color }}
+                >
+                  {item.category}
+                </span>
+                <div className="flex items-center gap-1 text-[#C9C0B0] group-hover:text-[#C9A646] transition-colors flex-shrink-0">
+                  <span className="text-[10px] font-heading font-semibold">Open</span>
+                  <ArrowRight className="w-3 h-3" />
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
 
         {/* Create Content */}
@@ -138,10 +208,10 @@ export default function DashboardPage() {
           <SectionHeader title="Products & Revenue" sub="PAIDS — 5 income streams" />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
             <ToolCard href="/dashboard/products" icon={Package} name="Products" desc="Full product catalogue — 10 NoChill products" accent="#C9A646" />
+            <ToolCard href="/dashboard/product-planning" icon={FlaskConical} name="Product Lab" desc="55 products — draft to live" accent="#C9A646" badge="NEW" />
             <ToolCard href="/dashboard/pitch" icon={Target} name="Pitch Builder" desc="5 Pillars + Ethos-Pathos-Logos by format" accent="#F97316" />
             <ToolCard href="/dashboard/offers" icon={Star} name="Godfather Offers" desc="Core + bonuses + guarantee + urgency stacked" accent="#D97706" />
             <ToolCard href="/dashboard/cta-optimizer" icon={Zap} name="CTA Optimizer" desc="5 CTA variants with trigger breakdown" accent="#CA8A04" />
-            <ToolCard href="/dashboard/revenue" icon={TrendingUp} name="Revenue Tracker" desc="PAIDS stream income over time" accent="#16A34A" />
           </div>
         </div>
 
