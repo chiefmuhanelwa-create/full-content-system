@@ -39,7 +39,7 @@
 | Meta Platform Payouts (12 months) | ~R600,000 |
 | **Total confirmed receipted income (campaigns)** | **R45,000 (campaigns) + R600,000 (Meta) + ongoing retainer** |
 
-**⚠ SARS FIGURE NOTE:** The verified SARS debt figure is **R207,869** (from receipts/NOCHILL SARS tax story). Some sales scripts and marketing content use "R285,000" — this is unverified. Use R207,869 only in all content and copy.
+**⚠ SARS FIGURE NOTE:** The verified SARS debt figure is **R207,879** (from receipts/NOCHILL SARS tax story). Some sales scripts and marketing content use "R285,000" — this is unverified. Use R207,879 only in all content and copy.
 
 ---
 
@@ -112,7 +112,7 @@
 | Capitec campaign | R10,500 | 2026 |
 | SA Tourism campaign | R10,000 | — |
 | Meta platform payouts (12 months) | ~R600,000 | 2023 |
-| SARS tax debt (verified — use this figure only) | R207,869 | — |
+| SARS tax debt (verified — use this figure only) | R207,879 | — |
 | Playa Bets retainer | R12,500/month | 2025–2026 |
 | Claimed monthly revenue (2026 — from sales content) | R300,000+/month | 2026 |
 

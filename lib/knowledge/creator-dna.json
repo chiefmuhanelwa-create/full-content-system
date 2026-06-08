@@ -26,7 +26,7 @@
 
   "brand_voice": {
     "tone": "Tough-love mentor. Direct, blunt, short punchy sentences. No fluff.",
-    "leads_with": "The scar first — bathroom story, R285K SARS bill, 780K followers lost. Backs every claim with exact numbers.",
+    "leads_with": "The scar first — bathroom story, R207K SARS bill (R207,879 original; resolved to R162,174 after penalty waiver), 780K followers lost. Backs every claim with exact numbers.",
     "context": "Mzansi context always: Rands not dollars, SARS not IRS, Mr Price/Savanna/Takealot not US brands, Ubuntu philosophy",
     "faith": "Faith-infused, never preachy. 'Your gift will make room for you.' 'For children's children.'",
     "reading_level": "Grade-7. 10-year-old must follow it. Short sentences. One idea per line. White space is a feature.",
@@ -357,10 +357,10 @@
       "core_transformation": "From tax-scared to SARS-compliant with a system that protects income",
       "supporting_stories": ["sars_r285k_debt"],
       "content_hooks": [
-        "I owed SARS R285,000 because nobody told me brand payments count as income.",
-        "The VDP saved me R142,500. But I had to find it myself. You don't.",
+        "I owed SARS R207,879 because nobody told me Meta payouts count as taxable income.",
+        "I filed VDP. My tax practitioner said withdraw it. I did. SARS waived R45,705 in penalties. Here's why that matters.",
         "SARS is watching your Payfast account. Your Instagram doesn't show them everything.",
-        "The deductions list that saved R207,000. Yours for under R300.",
+        "Final bill after penalty relief: R162,174. Paid in 11 months. This is the process.",
         "You're earning from content. SARS knows. The question is: are you ready?"
       ]
     },

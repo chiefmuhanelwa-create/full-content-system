@@ -232,7 +232,7 @@
             "description": "Promise to avoid negative outcome",
             "examples": [
               "Stop wasting money on ads that don't convert",
-              "Avoid the tax mistakes that cost me R285K"
+              "Avoid the tax mistakes that cost me R207K"
             ]
           },
           {
@@ -456,12 +456,12 @@
           }
         },
         {
-          "hook": "SARS sent me a letter. R285,000 owed. Penalties. Interest. Nightmare. I thought taxes were optional. They're not. Here's what happens when SARS catches you—and the system I built so it never happens again...",
+          "hook": "SARS assessed me R207,879 for undeclared Meta income. I came forward myself — filed VDP, then withdrew it on my practitioner's advice. SARS waived R45,705 in penalties. Final bill R162,174. Here's the system I built so this never happens to you...",
           "breakdown": {
             "R": "African creators making money but ignoring taxes",
             "A": "Problem Aware - They know they should handle taxes, don't know how",
             "C": "Undesired Result - 'SARS is coming. Here's what happens...'",
-            "U": "Personal Nightmare - 'R285K owed to SARS'",
+            "U": "Personal Nightmare - 'R207K original assessment; resolved to R162K after penalty waiver'",
             "B": "'Anyone making money online' (not just 'influencers')"
           }
         },
@@ -516,7 +516,7 @@
           }
         },
         {
-          "hook": "You're making R300K a month and heading straight to jail. SARS doesn't forget. I owed R285K. Here's the compliance system that keeps you out of trouble...",
+          "hook": "You're making R300K a month and heading straight to jail. SARS doesn't forget. I owed R207K. Here's the compliance system that keeps you out of trouble...",
           "breakdown": {
             "R": "Successful creators ignoring tax obligations",
             "A": "Symptom Aware - Making money but not considering tax consequences",
@@ -651,7 +651,7 @@
             "examples": [
               "R400/month for family of 4 = R13/day",
               "780,000 followers lost overnight",
-              "R285K owed to SARS"
+              "R207K owed to SARS"
             ]
           }
         ],
@@ -686,7 +686,7 @@
             "examples": [
               "From university acceptance → failed one module → lost everything",
               "From 780K followers → false copyright claim → account deleted",
-              "From making money → SARS letter → R285K debt"
+              "From making money → SARS letter → R207K debt"
             ]
           }
         ],

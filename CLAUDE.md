@@ -27,7 +27,7 @@ All AI-generated content must lock onto one ICP before writing. Never mix them i
 - Direct. No filler. No AI slop ("delve," "certainly," "I'd be happy to").
 - SA/African context first — ZAR pricing, Supabase/Vercel not AWS, WhatsApp as primary commerce channel.
 - Framework-first: 80% of every AI output must apply NOCHILL protocols (R×A×C×U^B, 4E, PAIDS, Shadow Fears, 7-Act Arc). 20% is contextual adaptation.
-- Proof is sacred: only use real numbers from S001–S015 story bank (R750→R100K, 780K followers, R207,869 SARS debt, R6K phone→R600K). Never fabricate outcomes. ⚠ Do NOT use "R285K SARS" or "Netflix R100K" — both unverified.
+- Proof is sacred: only use real numbers from S001–S015 story bank (R750→R100K, 780K followers, R207,879 SARS debt, R6K phone→R600K). Never fabricate outcomes. ⚠ Do NOT use "R285K SARS" or "Netflix R100K" — both unverified.
 - Ndivhuwo's signature transitions: "That's when..." / "But here's the thing..." / "You understand? Because you understand." — use these, not generic AI connectors.
 
 ### System Memory

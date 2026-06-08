@@ -108,7 +108,7 @@ export const contentIdeas: ContentIdea[] = [
     id: 'fin-006',
     category: 'financial',
     title: 'The SARS Tax Trap Every Creator Falls Into',
-    description: 'How I owed R285K because I didn\'t declare brand income - and how to avoid it',
+    description: 'How I owed SARS R207,879 in undeclared Meta income — filed VDP, withdrew it on expert advice, got R45K in penalties waived, resolved to R162K',
     hookType: 'undesired_result',
     frameworks: ['DARES', '4E-Educate'],
     shadowFear: ['Financial Insecurity', 'Failure'],
@@ -1038,18 +1038,20 @@ export const storyVariations: StoryVariation[] = [
     id: 'turn-004',
     theme: 'turning_points',
     title: 'SARS Tax Debt Wake-Up',
-    snippet: 'Owed SARS R285,000 because I didn\'t know brand income needed declarations. That mistake taught me more than any business course.',
+    snippet: 'Owed SARS R207,879 because I didn\'t declare Meta payouts for 2020-2022. Filed VDP, then withdrew it on expert advice. SARS waived R45,705 in penalties. Final debt: R162,174 — paid in 11-month instalments.',
     timeframe: '15-18 seconds',
     hookType: 'undesired_result',
     frameworks: ['DARES', 'Genesis'],
     shadowFear: ['Financial Ruin', 'Legal Trouble'],
-    emotion: 'Ignorance → Wisdom',
-    lesson: 'Track everything from day one. SARS will find you.',
+    emotion: 'Ignorance → Expert Guidance → Resolution',
+    lesson: 'Come forward before SARS finds you. Get a practitioner who knows VDP vs eFiling correction — the right route saves thousands.',
     audienceLevel: 'Established',
     numbers: {
-      before: 'No tax tracking',
-      after: 'R285,000 debt',
-      timeline: '3 years of undeclared income'
+      before: 'No tax tracking — undeclared Meta income 2020-2022',
+      original_assessment: 'R207,879.20',
+      penalties_waived: 'R45,705.06',
+      after: 'R162,174.14 final debt',
+      timeline: 'Resolved via standard eFiling amended returns + 11-month payment plan'
     }
   },
   {

@@ -53,16 +53,23 @@
       }
     },
     "sars_r285k_debt": {
-      "title": "SARS R285K Tax Debt",
-      "snippet": "Owed SARS R285,000 because I didn't know brand income needed declarations. Had to do Voluntary Disclosure Programme. Now I teach creators tax compliance before they learn the hard way.",
+      "title": "SARS R207K Tax Debt",
+      "snippet": "Owed SARS R207,879 in undeclared Meta income for 2020-2022. Filed VDP, then withdrew it on expert advice. Went standard eFiling route. SARS waived R45,705 in penalties. Final debt R162,174, paid in 11-month instalments.",
       "timeframe": "15-18 seconds",
-      "use_for": ["Tax education", "Financial systems", "Compliance", "Preventing mistakes"],
-      "emotion": "Ignorance → Wisdom",
-      "lesson": "Track everything from day one. SARS will find you.",
+      "use_for": ["Tax education", "Financial systems", "Compliance", "Expert trust", "Preventing mistakes"],
+      "emotion": "Ignorance → Expert Guidance → Resolution",
+      "lesson": "Come forward before SARS finds you. Get a tax practitioner who knows the difference between VDP and eFiling correction. The system rewards voluntary disclosure — but only if you play it right.",
       "numbers": {
-        "debt_amount": "R285,000",
-        "vdp_penalty": "R142,500 (50% penalty avoided)",
-        "lesson_cost": "Worth it to help others avoid"
+        "original_assessment": "R207,879.20",
+        "base_tax": "R146,185.51",
+        "penalties_waived": "R45,705.06",
+        "final_debt": "R162,174.14",
+        "payment_plan": "~R17,000/month x 11 months",
+        "professional_fees": "R30,000",
+        "tax_years": "2020, 2021, 2022 (2018/2019 rolled into 2020)",
+        "sars_reference": "2990409167",
+        "vdp_reference": "VDP1059030 (filed then withdrawn)",
+        "practitioner": "Thome-Lee Wright, wrightbizz.co.za"
       }
     },
     "family_shame_dropout": {
