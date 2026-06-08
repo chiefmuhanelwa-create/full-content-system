@@ -136,7 +136,7 @@ ${content}
       <div className="max-w-7xl mx-auto px-6 py-8">
 
         {/* Info Card */}
-        <Card className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
+        <Card className="p-4 bg-green-50 border-green-200">
           <p className="text-sm text-gray-700">
             <strong>How it works:</strong> Paste your video script or content, select target platforms, and get perfectly adapted versions optimized for each platform's format, style, and audience expectations.
           </p>
@@ -212,7 +212,7 @@ The adapter will transform it into platform-optimized versions while maintaining
             <Button
               onClick={adaptContent}
               disabled={loading || !originalContent || selectedPlatforms.length === 0}
-              className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+              className="w-full bg-green-600 hover:bg-green-700"
             >
               {loading ? (
                 <>

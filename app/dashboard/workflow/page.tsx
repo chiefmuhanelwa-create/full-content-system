@@ -378,7 +378,7 @@ export default function WorkflowPage() {
       </div>
 
       {/* Quick Actions */}
-      <Card className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200">
+      <Card className="mt-8 bg-blue-50 border-2 border-blue-200">
         <CardHeader>
           <CardTitle className="text-blue-900">🎯 Quick Actions</CardTitle>
           <CardDescription>Jump to any part of your content creation process</CardDescription>

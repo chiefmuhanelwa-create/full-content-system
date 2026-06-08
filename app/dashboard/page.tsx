@@ -38,10 +38,10 @@ function ToolCard({
           )}
         </div>
         <div className="flex-1">
-          <h3 className="font-display font-semibold text-[#18181B] text-[13px] leading-snug mb-1 group-hover:text-blue-600 transition-colors">
+          <h3 className="font-display font-semibold text-[#18181B] text-[14px] leading-snug mb-1 group-hover:text-blue-600 transition-colors">
             {name}
           </h3>
-          <p className="text-[11px] text-[#A1A1AA] leading-relaxed font-display">{desc}</p>
+          <p className="text-[12px] text-[#A1A1AA] leading-relaxed font-display">{desc}</p>
         </div>
         <div className="flex items-center gap-1 text-[#D4D4D8] group-hover:text-blue-500 transition-colors">
           <span className="text-[10px] font-display font-semibold">Open</span>
@@ -56,7 +56,7 @@ function SectionHeader({ title, sub }: { title: string; sub?: string }) {
   return (
     <div className="mb-4">
       <div className="flex items-center gap-3">
-        <h2 className="font-display font-semibold text-[#18181B] text-[15px] leading-none whitespace-nowrap">{title}</h2>
+        <h2 className="font-display font-semibold text-[#18181B] text-[17px] leading-none whitespace-nowrap">{title}</h2>
         <div className="flex-1 h-px bg-[#F4F4F5]" />
       </div>
       {sub && <p className="text-[#A1A1AA] text-[11px] mt-1 font-display">{sub}</p>}
@@ -87,13 +87,13 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-full bg-[#FAFAFA] font-display">
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="max-w-[1400px] mx-auto px-8 py-8">
 
         {/* Header — Mondays style */}
         <div className="flex items-start justify-between mb-5">
           <div>
-            <p className="text-[#A1A1AA] text-sm font-display mb-1.5">{formattedDate}</p>
-            <h1 className="font-display font-bold text-[#18181B] leading-none tracking-tight" style={{ fontSize: '38px' }}>
+            <p className="text-[#A1A1AA] text-[15px] font-display mb-1.5">{formattedDate}</p>
+            <h1 className="font-display font-bold text-[#18181B] leading-none tracking-tight" style={{ fontSize: '42px' }}>
               {greeting}! Ndivhuwo,
             </h1>
           </div>
@@ -118,8 +118,8 @@ export default function DashboardPage() {
               <div className="p-1 rounded-full" style={{ backgroundColor: stat.bg }}>
                 <stat.icon className="w-3 h-3" style={{ color: stat.color }} />
               </div>
-              <span className="font-display font-bold text-[#18181B] text-[13px]">{stat.value}</span>
-              <span className="font-display text-[#A1A1AA] text-[11px]">{stat.label}</span>
+              <span className="font-display font-bold text-[#18181B] text-[15px]">{stat.value}</span>
+              <span className="font-display text-[#A1A1AA] text-[13px]">{stat.label}</span>
             </div>
           ))}
         </div>
@@ -183,7 +183,7 @@ export default function DashboardPage() {
         {/* Create Content */}
         <div className="mb-8">
           <SectionHeader title="Create Content" sub="AI-powered writing tools" />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-3">
             <ToolCard href="/dashboard/hooks" icon={Zap} name="Hook Generator" desc="R×A×C×U^B formula — fear, curiosity, data, contrast" accent="#D97706" />
             <ToolCard href="/dashboard/scripts" icon={FileText} name="Script Writer" desc="7-Act structure + 10-Step Sales Framework" accent="#2563EB" />
             <ToolCard href="/dashboard/storytelling" icon={Tv2} name="Storytelling Studio" desc="5 Story Types + 7-Stage Arc mapped to emotion" accent="#7C3AED" />

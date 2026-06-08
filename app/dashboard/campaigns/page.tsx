@@ -497,7 +497,7 @@ This is for your children's children.
               text-align: center;
               margin-bottom: 40px;
               padding: 30px;
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              background: #2563EB;
               color: white;
               border-radius: 15px;
             }

@@ -172,7 +172,7 @@ ${profile.exampleContent}
       />
       <div className="max-w-7xl mx-auto px-6 py-8">
 
-        <Card className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border-orange-200 mb-8">
+        <Card className="p-4 bg-orange-50 border-orange-200 mb-8">
           <p className="text-sm text-gray-700">
             <strong>Why this matters:</strong> Your voice profile ensures all generated content maintains your authentic style, personality, and perspective. Define it once, use it everywhere.
           </p>
@@ -385,7 +385,7 @@ The more examples you provide, the better AI can match your unique voice and sty
         <div className="flex gap-3">
           <Button
             onClick={saveProfile}
-            className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700"
+            className="flex-1 bg-orange-600 hover:bg-orange-700"
           >
             {saved ? (
               <>

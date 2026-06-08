@@ -151,7 +151,7 @@ export default function VisualsPage() {
                 <CardContent>
                   <div className="space-y-4">
                     {visualContent.thumbnails.map((thumb, idx) => (
-                      <div key={idx} className="p-4 bg-gradient-to-r from-pink-50 to-purple-50 border-2 border-pink-200 rounded-lg">
+                      <div key={idx} className="p-4 bg-pink-50 border-2 border-pink-200 rounded-lg">
                         <div className="flex justify-between items-start mb-3">
                           <span className="font-bold text-pink-900">Concept {idx + 1}</span>
                           <span className="text-xs bg-pink-200 px-2 py-1 rounded">{thumb.colors}</span>
@@ -244,7 +244,7 @@ export default function VisualsPage() {
                 <CardContent>
                   <div className="space-y-4">
                     {/* Instagram */}
-                    <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg">
+                    <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
                       <div className="flex justify-between items-start mb-2">
                         <span className="font-semibold text-sm text-purple-900">Instagram Caption</span>
                         <Button
@@ -259,7 +259,7 @@ export default function VisualsPage() {
                     </div>
 
                     {/* TikTok */}
-                    <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg">
+                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                       <div className="flex justify-between items-start mb-2">
                         <span className="font-semibold text-sm text-blue-900">TikTok Caption</span>
                         <Button
@@ -274,7 +274,7 @@ export default function VisualsPage() {
                     </div>
 
                     {/* YouTube */}
-                    <div className="p-4 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg">
+                    <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                       <div className="flex justify-between items-start mb-2">
                         <span className="font-semibold text-sm text-red-900">YouTube Description</span>
                         <Button

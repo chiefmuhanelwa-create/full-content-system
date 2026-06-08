@@ -180,12 +180,12 @@ export function Navigation() {
                             : 'text-[#71717A] hover:bg-[#F4F4F8] hover:text-[#18181B]'
                         )}>
                           <Icon className={cn(
-                            'h-3.5 w-3.5 flex-shrink-0',
+                            'h-4 w-4 flex-shrink-0',
                             isActive ? 'text-blue-600' : 'text-[#A1A1AA]'
                           )} />
                           <div className="flex-1 min-w-0 flex items-center gap-1.5">
                             <p className={cn(
-                              'text-[13px] font-display truncate leading-none',
+                              'text-[14px] font-display truncate leading-none',
                               isActive ? 'font-semibold text-blue-600' : 'font-medium text-[#52525B]'
                             )}>
                               {item.name}

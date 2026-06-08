@@ -374,7 +374,7 @@ Built for sustainable content creation and business growth
               text-align: center;
               margin-bottom: 30px;
               padding: 20px;
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              background: #2563EB;
               color: white;
               border-radius: 10px;
             }
@@ -865,7 +865,7 @@ Built for sustainable content creation and business growth
           )}
 
           {/* 4E Framework Guide */}
-          <Card className="bg-gradient-to-r from-blue-50 to-purple-50">
+          <Card className="bg-blue-50">
             <CardHeader>
               <CardTitle className="text-lg">4E Content Framework</CardTitle>
               <CardDescription>Balance your content for maximum engagement and revenue</CardDescription>

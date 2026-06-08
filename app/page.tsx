@@ -195,12 +195,13 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* PAIDS — dark section like Codename CRM dark panels */}
-      <section className="py-20 px-6 bg-[#18181B]">
+      {/* PAIDS */}
+      <section className="py-20 px-6 bg-white border-t border-[#E4E4E7]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
-            <p className="text-blue-400 font-display font-semibold text-xs uppercase tracking-widest mb-2">Revenue model</p>
-            <h2 className="text-[28px] font-display font-black text-white">PAIDS — 5 income streams</h2>
+            <p className="text-blue-600 font-display font-semibold text-xs uppercase tracking-widest mb-2">Revenue model</p>
+            <h2 className="text-[28px] font-display font-black text-[#18181B]">PAIDS — 5 income streams</h2>
+            <p className="text-[#71717A] font-display text-sm mt-2">Every rand you earn runs through one of these five channels.</p>
           </div>
           <div className="grid md:grid-cols-5 gap-3">
             {[
@@ -210,16 +211,16 @@ export default function LandingPage() {
               { letter: 'D', label: 'Deals', desc: 'Brand partnerships managed end-to-end' },
               { letter: 'S', label: 'Services', desc: 'Consulting, coaching, speaking' },
             ].map((stream) => (
-              <div key={stream.letter} className="bg-[#27272A] border border-[#3F3F46] rounded-xl p-5 text-center hover:border-[#52525B] transition-colors">
+              <div key={stream.letter} className="bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl p-5 text-center hover:border-blue-300 hover:shadow-sm transition-all">
                 <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center mx-auto mb-3">
                   <span className="font-display font-black text-white text-sm">{stream.letter}</span>
                 </div>
-                <h3 className="font-display font-semibold text-white mb-1 text-[13px]">{stream.label}</h3>
+                <h3 className="font-display font-semibold text-[#18181B] mb-1 text-[13px]">{stream.label}</h3>
                 <p className="text-[#71717A] text-xs leading-relaxed font-display">{stream.desc}</p>
               </div>
             ))}
           </div>
-          <p className="text-center text-[#52525B] text-xs mt-6 font-display">
+          <p className="text-center text-[#A1A1AA] text-xs mt-6 font-display">
             PAIDS · SEEDS · DARES · POSSESS · Five Books of Moses
           </p>
         </div>

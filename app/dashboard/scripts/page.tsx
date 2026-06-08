@@ -1396,10 +1396,10 @@ ${scriptToUse.fiveLine.community.script}`
               <CardContent className="space-y-6">
                 {/* Hook Science Section - Only show if hook exists */}
                 {script.hook && (
-                  <div className="p-5 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-300 rounded-lg">
+                  <div className="p-5 bg-purple-50 border-2 border-purple-300 rounded-lg">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-2xl">🎣</span>
-                      <h3 className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                      <h3 className="text-lg font-bold text-purple-600">
                         Hook Science (R×A×C×U^B Formula)
                       </h3>
                     </div>
@@ -1448,10 +1448,10 @@ ${scriptToUse.fiveLine.community.script}`
 
                 {/* Full Script Display (7-Act Retention Formula or 10-Step Framework) */}
                 {script.fullScript && (
-                  <div className="p-5 bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-400 rounded-lg">
+                  <div className="p-5 bg-green-50 border-2 border-green-400 rounded-lg">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-2xl">🎬</span>
-                      <h3 className="text-lg font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                      <h3 className="text-lg font-bold text-green-700">
                         {script.actStructure ? '7-ACT RETENTION FORMULA' : 'THE 10-STEP STORYTELLING FRAMEWORK'}
                       </h3>
                     </div>

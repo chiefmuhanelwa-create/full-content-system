@@ -222,7 +222,7 @@ Let's build.
               text-align: center;
               margin-bottom: 40px;
               padding: 30px;
-              background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+              background: #db2777;
               color: white;
               border-radius: 15px;
             }

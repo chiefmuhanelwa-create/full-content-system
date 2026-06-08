@@ -443,7 +443,7 @@ export default function TeleprompterPage() {
               text-align: center;
               margin-bottom: 40px;
               padding: 30px;
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              background: #2563EB;
               color: white;
               border-radius: 15px;
             }
@@ -933,7 +933,7 @@ export default function TeleprompterPage() {
                   {script.trim() && (
                     <div className="mb-2 bg-gray-200 rounded-full h-2 overflow-hidden">
                       <div
-                        className="bg-gradient-to-r from-blue-600 to-cyan-600 h-full transition-all duration-300"
+                        className="bg-blue-600 h-full transition-all duration-300"
                         style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
                       />
                     </div>

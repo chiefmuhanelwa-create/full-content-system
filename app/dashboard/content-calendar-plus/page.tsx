@@ -1225,7 +1225,7 @@ export default function ContentCalendarPlusPage() {
           )}
 
           {/* Status Guide */}
-          <Card className="bg-gradient-to-r from-purple-50 to-blue-50">
+          <Card className="bg-blue-50">
             <CardHeader>
               <CardTitle className="text-lg">Production Pipeline Guide</CardTitle>
               <CardDescription>Track your content through each stage</CardDescription>

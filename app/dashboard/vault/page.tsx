@@ -16,7 +16,7 @@ export default function VaultPage() {
         description="110+ content ideas and story variations mapped to Hook Science frameworks"
       />
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200 mb-6">
+        <Card className="bg-blue-50 border-blue-200 mb-6">
             <CardContent className="pt-6">
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="flex items-start gap-3">
