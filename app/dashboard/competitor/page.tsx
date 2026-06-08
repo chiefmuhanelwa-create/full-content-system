@@ -38,7 +38,7 @@ export default function CompetitorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Users}
         iconColor="text-indigo-500"
@@ -54,7 +54,7 @@ export default function CompetitorPage() {
           <div className="nc-tool-section space-y-5">
             <div>
               <p className="nc-eyebrow mb-0.5">Input</p>
-              <h2 className="font-heading font-black text-[#0A0A0A] text-lg leading-none">Competitor Content</h2>
+              <h2 className="font-display font-black text-[#18181B] text-lg leading-none">Competitor Content</h2>
             </div>
 
             <div className="nc-form-row">
@@ -91,11 +91,11 @@ export default function CompetitorPage() {
                 <div className="nc-result-card space-y-2">
                   <p className="nc-eyebrow mb-1">Hook Patterns They Use</p>
                   {analysis.topHookPatterns.map((pattern, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 p-3 bg-[#FAF7F0] border border-[#E8E1D0] rounded-lg">
-                      <span className="w-5 h-5 rounded-full bg-[#C9A646]/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-[9px] font-heading font-black text-[#8C6F1F]">{idx + 1}</span>
+                    <div key={idx} className="flex items-start gap-2.5 p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
+                      <span className="w-5 h-5 rounded-full bg-[#2563EB]/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-[9px] font-display font-black text-[#1D4ED8]">{idx + 1}</span>
                       </span>
-                      <p className="text-[13px] text-[#1F1B16] leading-relaxed">{pattern}</p>
+                      <p className="text-[13px] text-[#18181B] leading-relaxed">{pattern}</p>
                     </div>
                   ))}
                 </div>
@@ -103,12 +103,12 @@ export default function CompetitorPage() {
                 {/* Content gaps */}
                 <div className="nc-result-card space-y-2">
                   <div className="flex items-center gap-2 mb-1">
-                    <Lightbulb className="h-4 w-4 text-[#C9A646]" />
+                    <Lightbulb className="h-4 w-4 text-[#2563EB]" />
                     <p className="nc-eyebrow">Content Gaps You Can Own</p>
                   </div>
                   {analysis.contentGaps.map((gap, idx) => (
-                    <div key={idx} className="p-3 bg-[#FAF7F0] border border-[#DED5C2] rounded-lg">
-                      <p className="text-[13px] font-heading font-semibold text-[#0A0A0A]">{gap}</p>
+                    <div key={idx} className="p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
+                      <p className="text-[13px] font-display font-semibold text-[#18181B]">{gap}</p>
                     </div>
                   ))}
                 </div>
@@ -118,13 +118,13 @@ export default function CompetitorPage() {
                   <div className="nc-result-card space-y-2">
                     <p className="nc-eyebrow text-emerald-600 mb-1">Their Strengths</p>
                     {analysis.strengthsWeaknesses.strengths.map((s, idx) => (
-                      <p key={idx} className="text-[12px] text-[#3D342A] leading-relaxed p-2 bg-[#FAF7F0] rounded-lg">{s}</p>
+                      <p key={idx} className="text-[12px] text-[#18181B] leading-relaxed p-2 bg-[#F9FAFB] rounded-lg">{s}</p>
                     ))}
                   </div>
                   <div className="nc-result-card space-y-2">
                     <p className="nc-eyebrow text-red-500 mb-1">Their Weaknesses</p>
                     {analysis.strengthsWeaknesses.weaknesses.map((w, idx) => (
-                      <p key={idx} className="text-[12px] text-[#3D342A] leading-relaxed p-2 bg-[#FAF7F0] rounded-lg">{w}</p>
+                      <p key={idx} className="text-[12px] text-[#18181B] leading-relaxed p-2 bg-[#F9FAFB] rounded-lg">{w}</p>
                     ))}
                   </div>
                 </div>
@@ -132,24 +132,24 @@ export default function CompetitorPage() {
                 {/* Opportunities */}
                 <div className="nc-result-card space-y-2">
                   <div className="flex items-center gap-2 mb-1">
-                    <Target className="h-4 w-4 text-[#C9A646]" />
+                    <Target className="h-4 w-4 text-[#2563EB]" />
                     <p className="nc-eyebrow">Your Opportunities</p>
                   </div>
                   {analysis.opportunities.map((opp, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 p-3 border border-[#C9A646]/20 bg-[#FAF7F0] rounded-lg">
-                      <TrendingUp className="h-3.5 w-3.5 text-[#C9A646] flex-shrink-0 mt-0.5" />
-                      <p className="text-[13px] font-heading font-semibold text-[#1F1B16]">{opp}</p>
+                    <div key={idx} className="flex items-start gap-2.5 p-3 border border-[#2563EB]/20 bg-[#F9FAFB] rounded-lg">
+                      <TrendingUp className="h-3.5 w-3.5 text-[#2563EB] flex-shrink-0 mt-0.5" />
+                      <p className="text-[13px] font-display font-semibold text-[#18181B]">{opp}</p>
                     </div>
                   ))}
                 </div>
               </>
             ) : (
               <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
-                  <Users className="h-6 w-6 text-[#C9A646]" />
+                <div className="w-14 h-14 rounded-2xl bg-[#F9FAFB] border border-[#E4E4E7] flex items-center justify-center mb-5">
+                  <Users className="h-6 w-6 text-[#2563EB]" />
                 </div>
-                <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">No analysis yet</h3>
-                <p className="text-[#8A8071] text-sm max-w-xs">Paste competitor content on the left and hit Analyse — gaps and opportunities surface immediately.</p>
+                <h3 className="font-display font-black text-[#18181B] text-lg mb-2">No analysis yet</h3>
+                <p className="text-[#71717A] text-sm max-w-xs">Paste competitor content on the left and hit Analyse — gaps and opportunities surface immediately.</p>
               </div>
             )}
           </div>

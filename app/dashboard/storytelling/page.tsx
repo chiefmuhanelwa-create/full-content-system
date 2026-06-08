@@ -238,7 +238,7 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Sparkles}
         eyebrow="Create"
@@ -249,36 +249,36 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
 
         {/* Info Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card className="p-4 border-l-4 border-[#C9A646]">
+          <Card className="p-4 border-l-4 border-[#2563EB]">
             <div className="flex items-start gap-3">
-              <BookOpen className="h-5 w-5 text-[#C9A646] mt-0.5" />
+              <BookOpen className="h-5 w-5 text-[#2563EB] mt-0.5" />
               <div>
-                <h3 className="font-heading font-bold text-sm text-[#0A0A0A]">Genesis Framework</h3>
-                <p className="text-xs text-[#8A8071] mt-1">
+                <h3 className="font-display font-bold text-sm text-[#18181B]">Genesis Framework</h3>
+                <p className="text-xs text-[#71717A] mt-1">
                   5 story types: Origin, Struggle, Transformation, Breakthrough, Lesson + 7-Stage Story Arc
                 </p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 border-l-4 border-[#C9A646]">
+          <Card className="p-4 border-l-4 border-[#2563EB]">
             <div className="flex items-start gap-3">
-              <Sparkles className="h-5 w-5 text-[#C9A646] mt-0.5" />
+              <Sparkles className="h-5 w-5 text-[#2563EB] mt-0.5" />
               <div>
-                <h3 className="font-heading font-bold text-sm text-[#0A0A0A]">Your Voice, Enhanced</h3>
-                <p className="text-xs text-[#8A8071] mt-1">
+                <h3 className="font-display font-bold text-sm text-[#18181B]">Your Voice, Enhanced</h3>
+                <p className="text-xs text-[#71717A] mt-1">
                   Maintains your authentic voice while structuring your story
                 </p>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 border-l-4 border-[#C9A646]">
+          <Card className="p-4 border-l-4 border-[#2563EB]">
             <div className="flex items-start gap-3">
-              <Lightbulb className="h-5 w-5 text-[#C9A646] mt-0.5" />
+              <Lightbulb className="h-5 w-5 text-[#2563EB] mt-0.5" />
               <div>
-                <h3 className="font-heading font-bold text-sm text-[#0A0A0A]">Full Integration</h3>
-                <p className="text-xs text-[#8A8071] mt-1">
+                <h3 className="font-display font-bold text-sm text-[#18181B]">Full Integration</h3>
+                <p className="text-xs text-[#71717A] mt-1">
                   Export to Script Writer, generate hooks, save to library
                 </p>
               </div>
@@ -290,7 +290,7 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
         {/* Input Section */}
         <div className="space-y-6">
           <Card className="p-6">
-            <h2 className="font-heading font-black text-lg mb-4 text-[#0A0A0A]">Story Configuration</h2>
+            <h2 className="font-display font-black text-lg mb-4 text-[#18181B]">Story Configuration</h2>
 
             {/* Framework Selection */}
             <div className="space-y-2 mb-4">
@@ -304,14 +304,14 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
                     <SelectItem key={fw.value} value={fw.value}>
                       <div>
                         <div className="font-medium">{fw.label}</div>
-                        <div className="text-xs text-[#8A8071]">{fw.description}</div>
+                        <div className="text-xs text-[#71717A]">{fw.description}</div>
                       </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               {selectedFramework && (
-                <p className="text-xs text-[#8A8071] mt-1">
+                <p className="text-xs text-[#71717A] mt-1">
                   <strong>Best for:</strong> {frameworks.find(f => f.value === selectedFramework)?.bestFor}
                 </p>
               )}
@@ -410,7 +410,7 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
             <Button
               onClick={generateStory}
               disabled={loading || !selectedFramework || !storyInput || !coreMessage}
-              className="w-full bg-[#C9A646] hover:bg-[#B8933A] text-[#0A0A0A] font-heading font-black uppercase tracking-widest"
+              className="w-full bg-[#2563EB] hover:bg-[#B8933A] text-[#18181B] font-display font-black uppercase tracking-widest"
             >
               {loading ? (
                 <>
@@ -433,8 +433,8 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
             <>
               <Card className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-heading font-black text-lg text-[#0A0A0A]">{output.title}</h2>
-                  <span className="text-xs bg-[#C9A646]/15 text-[#7A5F18] px-2 py-1 rounded font-heading font-bold">
+                  <h2 className="font-display font-black text-lg text-[#18181B]">{output.title}</h2>
+                  <span className="text-xs bg-[#2563EB]/15 text-[#7A5F18] px-2 py-1 rounded font-display font-bold">
                     {output.framework}
                   </span>
                 </div>
@@ -449,8 +449,8 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
                     <Save className="h-3 w-3 mr-1" />
                     Save to Library
                   </Button>
-                  <Button size="sm" variant="outline" onClick={saveToStoryBank} className="border-[#C9A646]/40 hover:bg-[#C9A646]/10">
-                    <Database className="h-3 w-3 mr-1 text-[#C9A646]" />
+                  <Button size="sm" variant="outline" onClick={saveToStoryBank} className="border-[#2563EB]/40 hover:bg-[#2563EB]/10">
+                    <Database className="h-3 w-3 mr-1 text-[#2563EB]" />
                     Save to Story Bank
                   </Button>
                   <Button size="sm" variant="outline" onClick={useInScriptWriter}>
@@ -465,9 +465,9 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
 
                 {/* Full Story */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">Complete Story</h3>
-                  <div className="bg-[#FAF7F0] p-4 rounded-lg border border-[#E8E1D0] max-h-96 overflow-y-auto">
-                    <p className="text-sm text-[#3D342A] whitespace-pre-wrap leading-relaxed">
+                  <h3 className="text-sm font-display font-bold text-[#52525B] mb-2">Complete Story</h3>
+                  <div className="bg-[#F9FAFB] p-4 rounded-lg border border-[#E4E4E7] max-h-96 overflow-y-auto">
+                    <p className="text-sm text-[#18181B] whitespace-pre-wrap leading-relaxed">
                       {output.fullStory}
                     </p>
                   </div>
@@ -475,15 +475,15 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
 
                 {/* Story Breakdown */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">Story Arc Breakdown</h3>
+                  <h3 className="text-sm font-display font-bold text-[#52525B] mb-2">Story Arc Breakdown</h3>
                   <div className="space-y-3">
                     {output.breakdown.map((section, index) => (
-                      <div key={index} className="bg-[#FAF7F0] p-3 rounded-lg border border-[#DED5C2]">
+                      <div key={index} className="bg-[#F9FAFB] p-3 rounded-lg border border-[#E4E4E7]">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs font-heading font-bold text-[#7A5F18]">{section.stage}</span>
-                          <span className="text-xs text-[#8A8071]">{section.duration}</span>
+                          <span className="text-xs font-display font-bold text-[#7A5F18]">{section.stage}</span>
+                          <span className="text-xs text-[#71717A]">{section.duration}</span>
                         </div>
-                        <p className="text-sm text-[#3D342A]">{section.content}</p>
+                        <p className="text-sm text-[#18181B]">{section.content}</p>
                       </div>
                     ))}
                   </div>
@@ -491,12 +491,12 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
 
                 {/* Emotional Beats */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">Emotional Journey</h3>
+                  <h3 className="text-sm font-display font-bold text-[#52525B] mb-2">Emotional Journey</h3>
                   <div className="space-y-2">
                     {output.emotionalBeats.map((beat, index) => (
                       <div key={index} className="flex items-start gap-2">
-                        <span className="text-xs font-heading font-bold text-[#C9A646] mt-0.5">→</span>
-                        <p className="text-sm text-[#3D342A]">{beat}</p>
+                        <span className="text-xs font-display font-bold text-[#2563EB] mt-0.5">→</span>
+                        <p className="text-sm text-[#18181B]">{beat}</p>
                       </div>
                     ))}
                   </div>
@@ -504,11 +504,11 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
 
                 {/* Suggested Hooks */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">Hook Variations</h3>
+                  <h3 className="text-sm font-display font-bold text-[#52525B] mb-2">Hook Variations</h3>
                   <div className="space-y-2">
                     {output.hooks.map((hook, index) => (
-                      <div key={index} className="bg-[#FAF7F0] p-3 rounded-lg border border-[#DED5C2]">
-                        <p className="text-sm text-[#3D342A] italic">{hook}</p>
+                      <div key={index} className="bg-[#F9FAFB] p-3 rounded-lg border border-[#E4E4E7]">
+                        <p className="text-sm text-[#18181B] italic">{hook}</p>
                         <Button
                           size="sm"
                           variant="ghost"
@@ -525,12 +525,12 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
 
                 {/* Application Tips */}
                 <div>
-                  <h3 className="text-sm font-heading font-bold text-[#4A3F35] mb-2">How to Use This Story</h3>
+                  <h3 className="text-sm font-display font-bold text-[#52525B] mb-2">How to Use This Story</h3>
                   <ul className="space-y-2">
                     {output.applicationTips.map((tip, index) => (
                       <li key={index} className="flex items-start gap-2">
-                        <span className="text-xs font-heading font-bold text-[#C9A646] mt-0.5">✓</span>
-                        <p className="text-sm text-[#3D342A]">{tip}</p>
+                        <span className="text-xs font-display font-bold text-[#2563EB] mt-0.5">✓</span>
+                        <p className="text-sm text-[#18181B]">{tip}</p>
                       </li>
                     ))}
                   </ul>
@@ -539,11 +539,11 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
             </>
           ) : (
             <Card className="p-12 text-center bg-white">
-              <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mx-auto mb-5">
-                <Sparkles className="h-6 w-6 text-[#C9A646]" />
+              <div className="w-14 h-14 rounded-2xl bg-[#F9FAFB] border border-[#E4E4E7] flex items-center justify-center mx-auto mb-5">
+                <Sparkles className="h-6 w-6 text-[#2563EB]" />
               </div>
-              <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">Your story will appear here</h3>
-              <p className="text-[#8A8071] text-sm max-w-xs mx-auto">
+              <h3 className="font-display font-black text-[#18181B] text-lg mb-2">Your story will appear here</h3>
+              <p className="text-[#71717A] text-sm max-w-xs mx-auto">
                 Fill in the story details, select a framework, and hit Generate.
               </p>
             </Card>

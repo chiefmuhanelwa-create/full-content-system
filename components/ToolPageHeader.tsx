@@ -12,30 +12,30 @@ interface ToolPageHeaderProps {
 
 export function ToolPageHeader({
   icon: Icon,
-  iconColor = 'text-[#C9A646]',
-  iconBg = 'bg-[#C9A646]/10',
+  iconColor = 'text-[#2563EB]',
+  iconBg = 'bg-[#2563EB]/10',
   eyebrow,
   title,
   description,
   children,
 }: ToolPageHeaderProps) {
   return (
-    <div className="bg-white border-b border-[#E8E1D0] px-6 py-5">
+    <div className="bg-white border-b border-[#E4E4E7] px-6 py-5">
       <div className="max-w-5xl mx-auto flex items-start justify-between gap-4">
         <div className="flex items-start gap-4">
-          <div className={`p-2.5 rounded-xl ${iconBg} ${iconColor} flex-shrink-0 mt-0.5`}>
-            <Icon className="w-5 h-5" />
+          <div className={`p-3 rounded-xl ${iconBg} ${iconColor} flex-shrink-0 mt-0.5`}>
+            <Icon className="w-6 h-6" />
           </div>
           <div>
             {eyebrow && (
-              <p className="text-[10px] font-heading font-black uppercase tracking-[0.22em] text-[#C9A646] mb-1">
+              <p className="text-[11px] font-display font-semibold uppercase tracking-[0.16em] text-[#2563EB] mb-1">
                 {eyebrow}
               </p>
             )}
-            <h1 className="font-heading font-black text-[#0F0F0F] text-xl leading-none tracking-tight">
+            <h1 className="font-display font-bold text-[#18181B] text-[22px] leading-none tracking-tight">
               {title}
             </h1>
-            <p className="text-[#6B6059] text-[12px] font-heading mt-1.5 leading-relaxed max-w-lg">
+            <p className="text-[#71717A] text-[13px] font-display mt-1.5 leading-relaxed max-w-lg">
               {description}
             </p>
           </div>

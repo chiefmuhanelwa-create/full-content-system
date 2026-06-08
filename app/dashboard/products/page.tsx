@@ -594,9 +594,9 @@ export default function ProductsPage() {
       case 'established':
         return 'bg-blue-100 text-blue-700 border-blue-200'
       case 'contentpreneur':
-        return 'bg-[#C9A646]/15 text-[#7A5F18] border-[#C9A646]/30'
+        return 'bg-[#2563EB]/15 text-[#7A5F18] border-[#2563EB]/30'
       default:
-        return 'bg-[#E8E1D0] text-[#4A3F35] border-[#DED5C2]'
+        return 'bg-[#E4E4E7] text-[#52525B] border-[#E4E4E7]'
     }
   }
 
@@ -607,11 +607,11 @@ export default function ProductsPage() {
       case 'coming_soon':
         return 'bg-yellow-100 text-yellow-700'
       case 'archived':
-        return 'bg-[#E8E1D0] text-[#4A3F35]'
+        return 'bg-[#E4E4E7] text-[#52525B]'
       case 'sold_out':
         return 'bg-red-100 text-red-700'
       default:
-        return 'bg-[#E8E1D0] text-[#4A3F35]'
+        return 'bg-[#E4E4E7] text-[#52525B]'
     }
   }
 
@@ -655,10 +655,10 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Package}
-        iconColor="text-[#C9A646]"
+        iconColor="text-[#2563EB]"
         eyebrow="Manage"
         title="Product Database"
         description="Manage your products — powers all sales scripts, offers, and campaigns"
@@ -715,8 +715,8 @@ export default function ProductsPage() {
       {/* Loading State */}
       {isLoading && (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-[#C9A646]" />
-          <p className="ml-3 text-[#8A8071]">Loading products...</p>
+          <Loader2 className="h-8 w-8 animate-spin text-[#2563EB]" />
+          <p className="ml-3 text-[#71717A]">Loading products...</p>
         </div>
       )}
 
@@ -725,7 +725,7 @@ export default function ProductsPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-heading font-black uppercase tracking-widest text-[#8A8071]">Total Products</CardTitle>
+            <CardTitle className="text-xs font-display font-black uppercase tracking-widest text-[#71717A]">Total Products</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold">{stats.total}</p>
@@ -741,15 +741,15 @@ export default function ProductsPage() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-heading font-black uppercase tracking-widest text-[#8A8071]">Total Value</CardTitle>
+            <CardTitle className="text-xs font-display font-black uppercase tracking-widest text-[#71717A]">Total Value</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-heading font-black text-[#C9A646]">R{stats.totalValue.toLocaleString()}</p>
+            <p className="text-2xl font-display font-black text-[#2563EB]">R{stats.totalValue.toLocaleString()}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-heading font-black uppercase tracking-widest text-[#8A8071]">By Audience</CardTitle>
+            <CardTitle className="text-xs font-display font-black uppercase tracking-widest text-[#71717A]">By Audience</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xs space-y-1">
@@ -860,7 +860,7 @@ export default function ProductsPage() {
                       <SelectItem value="services">Services</SelectItem>
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-[#8A8071]">Which revenue stream does this belong to?</p>
+                  <p className="text-xs text-[#71717A]">Which revenue stream does this belong to?</p>
                 </div>
 
                 <div className="space-y-2">
@@ -882,7 +882,7 @@ export default function ProductsPage() {
                       <SelectItem value="elite">Elite (R50K+)</SelectItem>
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-[#8A8071]">Where does this sit in your product ladder?</p>
+                  <p className="text-xs text-[#71717A]">Where does this sit in your product ladder?</p>
                 </div>
 
                 <div className="space-y-2">
@@ -930,7 +930,7 @@ export default function ProductsPage() {
                     required
                     disabled={isSaving}
                   />
-                  <p className="text-xs text-[#8A8071]">What problems does this solve?</p>
+                  <p className="text-xs text-[#71717A]">What problems does this solve?</p>
                 </div>
 
                 <div className="space-y-2">
@@ -944,7 +944,7 @@ export default function ProductsPage() {
                     required
                     disabled={isSaving}
                   />
-                  <p className="text-xs text-[#8A8071]">What outcomes do they get?</p>
+                  <p className="text-xs text-[#71717A]">What outcomes do they get?</p>
                 </div>
 
                 <div className="space-y-2">
@@ -968,7 +968,7 @@ export default function ProductsPage() {
                     placeholder="Accountant costs R3,500+"
                     disabled={isSaving}
                   />
-                  <p className="text-xs text-[#8A8071]">What's the expensive alternative?</p>
+                  <p className="text-xs text-[#71717A]">What's the expensive alternative?</p>
                 </div>
 
                 <div className="space-y-2">
@@ -1143,7 +1143,7 @@ export default function ProductsPage() {
                         rows={5}
                         disabled={isSaving}
                       />
-                      <p className="text-xs text-[#8A8071]">Ideas for creating content about this product</p>
+                      <p className="text-xs text-[#71717A]">Ideas for creating content about this product</p>
                     </div>
                   </details>
                 </div>
@@ -1213,10 +1213,10 @@ export default function ProductsPage() {
                             <Users className="h-3 w-3 inline mr-1" />
                             {getAudienceLabelForDisplay(product.audienceLevel)}
                           </span>
-                          <span className="text-xs px-3 py-1 rounded-full border bg-[#E8E1D0] text-[#4A3F35]">
+                          <span className="text-xs px-3 py-1 rounded-full border bg-[#E4E4E7] text-[#52525B]">
                             {product.productType.replace('_', ' ')}
                           </span>
-                          <span className="text-xs px-3 py-1 rounded-full border bg-[#C9A646]/15 text-[#7A5F18]">
+                          <span className="text-xs px-3 py-1 rounded-full border bg-[#2563EB]/15 text-[#7A5F18]">
                             {product.paidsStream.toUpperCase()}
                           </span>
                         </div>
@@ -1224,39 +1224,39 @@ export default function ProductsPage() {
                       <div className="grid md:grid-cols-2 gap-4 pt-4 border-t">
                         <div>
                           <p className="nc-eyebrow mb-1">Pain Points:</p>
-                          <p className="text-sm text-[#3D342A]">{product.painPoints}</p>
+                          <p className="text-sm text-[#18181B]">{product.painPoints}</p>
                         </div>
                         <div>
                           <p className="nc-eyebrow mb-1">Core Benefits:</p>
-                          <p className="text-sm text-[#3D342A]">{product.coreBenefits}</p>
+                          <p className="text-sm text-[#18181B]">{product.coreBenefits}</p>
                         </div>
                       </div>
 
                       {product.bonuses && (
                         <div className="pt-2 border-t">
                           <p className="nc-eyebrow mb-1">Bonuses:</p>
-                          <p className="text-sm text-[#3D342A]">{product.bonuses}</p>
+                          <p className="text-sm text-[#18181B]">{product.bonuses}</p>
                         </div>
                       )}
 
                       {product.priceAnchor && (
                         <div className="pt-2 border-t">
                           <p className="nc-eyebrow mb-1">Price Anchor:</p>
-                          <p className="text-sm text-[#3D342A]">{product.priceAnchor}</p>
+                          <p className="text-sm text-[#18181B]">{product.priceAnchor}</p>
                         </div>
                       )}
 
                       {product.guarantee && (
                         <div className="pt-2 border-t">
                           <p className="nc-eyebrow mb-1">Guarantee:</p>
-                          <p className="text-sm text-[#3D342A]">{product.guarantee}</p>
+                          <p className="text-sm text-[#18181B]">{product.guarantee}</p>
                         </div>
                       )}
 
                       {product.testimonials && (
                         <div className="pt-2 border-t">
                           <p className="nc-eyebrow mb-1">Social Proof:</p>
-                          <p className="text-sm text-[#3D342A]">{product.testimonials}</p>
+                          <p className="text-sm text-[#18181B]">{product.testimonials}</p>
                         </div>
                       )}
 

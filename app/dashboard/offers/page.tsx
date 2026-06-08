@@ -293,10 +293,10 @@ Let's build.
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Gift}
-        iconColor="text-[#C9A646]"
+        iconColor="text-[#2563EB]"
         eyebrow="Create"
         title="Smart Offer Constructor"
         description="Build Godfather offers with value stacking, urgency, and risk reversal"
@@ -333,12 +333,12 @@ Let's build.
               </Select>
 
               {selectedProduct && (
-                <div className="mt-4 p-4 bg-[#FAF7F0] border border-[#DED5C2] rounded-xl">
+                <div className="mt-4 p-4 bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl">
                   <p className="nc-eyebrow mb-2">Selected Product</p>
-                  <p className="font-heading font-black text-lg text-[#0A0A0A]">{selectedProduct.name}</p>
-                  <p className="text-sm text-[#8A8071] mt-1">{selectedProduct.description}</p>
+                  <p className="font-display font-black text-lg text-[#18181B]">{selectedProduct.name}</p>
+                  <p className="text-sm text-[#71717A] mt-1">{selectedProduct.description}</p>
                   <div className="flex items-center gap-4 mt-3">
-                    <Badge className="bg-[#C9A646] text-[#0A0A0A]">R{selectedProduct.price.toLocaleString()}</Badge>
+                    <Badge className="bg-[#2563EB] text-[#18181B]">R{selectedProduct.price.toLocaleString()}</Badge>
                     <Badge variant="outline">{selectedProduct.audienceLevel}</Badge>
                   </div>
                 </div>
@@ -392,12 +392,12 @@ Let's build.
                   {bonuses.map((bonus) => (
                     <div
                       key={bonus.id}
-                      className="flex items-start justify-between p-3 bg-[#FAF7F0] border border-[#DED5C2] rounded-xl"
+                      className="flex items-start justify-between p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl"
                     >
                       <div className="flex-1">
-                        <p className="font-heading font-bold text-sm text-[#0A0A0A]">{bonus.name}</p>
-                        <p className="text-xs text-[#8A8071]">{bonus.description}</p>
-                        <Badge className="mt-1 bg-[#C9A646] text-[#0A0A0A]">R{bonus.value.toLocaleString()} value</Badge>
+                        <p className="font-display font-bold text-sm text-[#18181B]">{bonus.name}</p>
+                        <p className="text-xs text-[#71717A]">{bonus.description}</p>
+                        <Badge className="mt-1 bg-[#2563EB] text-[#18181B]">R{bonus.value.toLocaleString()} value</Badge>
                       </div>
                       <Button
                         size="sm"
@@ -506,7 +506,7 @@ Let's build.
 
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold">They Pay Today:</span>
-                    <span className="text-2xl font-heading font-black text-[#C9A646]">
+                    <span className="text-2xl font-display font-black text-[#2563EB]">
                       R{selectedProduct.price.toLocaleString()}
                     </span>
                   </div>
@@ -526,7 +526,7 @@ Let's build.
                   )}
                 </div>
               ) : (
-                <p className="text-center text-[#8A8071] py-8">
+                <p className="text-center text-[#71717A] py-8">
                   Select a product to see value calculation
                 </p>
               )}
@@ -535,11 +535,11 @@ Let's build.
 
           {/* Generated Offer Preview */}
           {generatedOffer && (
-            <Card className="border-[#C9A646] border-2">
+            <Card className="border-[#2563EB] border-2">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
-                    <Gift className="h-5 w-5 text-[#C9A646]" />
+                    <Gift className="h-5 w-5 text-[#2563EB]" />
                     Generated Offer
                   </CardTitle>
                   <div className="flex gap-2">

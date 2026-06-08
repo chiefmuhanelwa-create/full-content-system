@@ -83,11 +83,11 @@ export default function FearAnalyzerPage() {
   const getScoreBadgeClass = (score: number) => {
     if (score >= 80) return 'bg-red-100 text-red-700 border-red-200'
     if (score >= 60) return 'bg-[#FFF3E8] text-[#9A3A12] border-[#F2701E]/30'
-    return 'bg-[#FAF7F0] text-[#8C6F1F] border-[#C9A646]/30'
+    return 'bg-[#F9FAFB] text-[#1D4ED8] border-[#2563EB]/30'
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Brain}
         iconColor="text-red-500"
@@ -104,7 +104,7 @@ export default function FearAnalyzerPage() {
             <div className="nc-tool-section space-y-5">
               <div>
                 <p className="nc-eyebrow mb-0.5">Input</p>
-                <h2 className="font-heading font-black text-[#0A0A0A] text-lg leading-none">Describe Your Audience</h2>
+                <h2 className="font-display font-black text-[#18181B] text-lg leading-none">Describe Your Audience</h2>
               </div>
 
               <div className="nc-form-row">
@@ -129,14 +129,14 @@ export default function FearAnalyzerPage() {
             {/* 10 Shadow Fears reference */}
             <div className="nc-panel p-5">
               <p className="nc-eyebrow mb-3">Reference</p>
-              <p className="font-heading font-bold text-[#0A0A0A] text-sm mb-3">The 10 Shadow Fears</p>
+              <p className="font-display font-bold text-[#18181B] text-sm mb-3">The 10 Shadow Fears</p>
               <div className="space-y-1.5">
                 {SHADOW_FEARS.map((fear, i) => (
                   <div key={i} className="flex items-center gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-[#C9A646]/15 flex items-center justify-center flex-shrink-0">
-                      <span className="text-[10px] font-heading font-black text-[#8C6F1F]">{i + 1}</span>
+                    <span className="w-5 h-5 rounded-full bg-[#2563EB]/15 flex items-center justify-center flex-shrink-0">
+                      <span className="text-[10px] font-display font-black text-[#1D4ED8]">{i + 1}</span>
                     </span>
-                    <p className="text-[13px] text-[#3D342A] font-heading font-semibold">{fear}</p>
+                    <p className="text-[13px] text-[#18181B] font-display font-semibold">{fear}</p>
                   </div>
                 ))}
               </div>
@@ -153,20 +153,20 @@ export default function FearAnalyzerPage() {
                     <TrendingUp className="h-4 w-4 text-red-500" />
                     <p className="nc-eyebrow text-red-500">Primary Fear</p>
                   </div>
-                  <p className="font-heading font-black text-[#0A0A0A] text-base mb-2">{analysis.primaryFear.fearName}</p>
-                  <p className="text-[13px] text-[#5C5448] leading-relaxed">{analysis.primaryFear.reasoning}</p>
+                  <p className="font-display font-black text-[#18181B] text-base mb-2">{analysis.primaryFear.fearName}</p>
+                  <p className="text-[13px] text-[#52525B] leading-relaxed">{analysis.primaryFear.reasoning}</p>
                 </div>
 
                 {/* Recommended approach */}
                 <div className="nc-panel p-5">
                   <p className="nc-eyebrow mb-2">Strategy</p>
-                  <p className="font-heading font-bold text-[#0A0A0A] text-sm mb-2">Recommended Approach</p>
-                  <p className="text-[13px] text-[#5C5448] leading-relaxed">{analysis.recommendedApproach}</p>
+                  <p className="font-display font-bold text-[#18181B] text-sm mb-2">Recommended Approach</p>
+                  <p className="text-[13px] text-[#52525B] leading-relaxed">{analysis.recommendedApproach}</p>
                 </div>
 
                 {/* All identified fears */}
                 <div>
-                  <p className="font-heading font-black text-[#0A0A0A] text-base mb-3">
+                  <p className="font-display font-black text-[#18181B] text-base mb-3">
                     Identified Fears ({analysis.identifiedFears.length})
                   </p>
                   <div className="space-y-3">
@@ -177,12 +177,12 @@ export default function FearAnalyzerPage() {
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-1">
-                                <p className="font-heading font-bold text-[#0A0A0A] text-sm">{fear.fearName}</p>
-                                <span className={`px-2 py-0.5 rounded-full border text-[10px] font-heading font-black tracking-wide uppercase ${getScoreBadgeClass(fear.relevanceScore)}`}>
+                                <p className="font-display font-bold text-[#18181B] text-sm">{fear.fearName}</p>
+                                <span className={`px-2 py-0.5 rounded-full border text-[10px] font-display font-black tracking-wide uppercase ${getScoreBadgeClass(fear.relevanceScore)}`}>
                                   {fear.relevanceScore}%
                                 </span>
                               </div>
-                              <p className="text-[12px] text-[#8A8071]">{fear.reasoning}</p>
+                              <p className="text-[12px] text-[#71717A]">{fear.reasoning}</p>
                             </div>
                             <button
                               onClick={() => {
@@ -190,7 +190,7 @@ export default function FearAnalyzerPage() {
                                 setPendingAction({ action: 'target-fear-in-hooks', data: savedFear })
                                 router.push('/dashboard/hooks')
                               }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#DED5C2] bg-white text-[#5C5448] hover:border-[#C9A646]/50 hover:text-[#0A0A0A] transition-all text-[11px] font-heading font-bold uppercase tracking-wide flex-shrink-0"
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 hover:text-[#18181B] transition-all text-[11px] font-display font-bold uppercase tracking-wide flex-shrink-0"
                             >
                               <ArrowRight className="h-3 w-3" /> Hooks
                             </button>
@@ -200,11 +200,11 @@ export default function FearAnalyzerPage() {
                           <div className="space-y-2">
                             <p className="label-nc">Fear-Targeted Hooks</p>
                             {fear.hooks.map((hook, hookIndex) => (
-                              <div key={hookIndex} className="flex items-start gap-2 p-3 bg-[#FAF7F0] border border-[#E8E1D0] rounded-lg group">
-                                <p className="text-[13px] text-[#1F1B16] flex-1 leading-relaxed">{hook}</p>
+                              <div key={hookIndex} className="flex items-start gap-2 p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg group">
+                                <p className="text-[13px] text-[#18181B] flex-1 leading-relaxed">{hook}</p>
                                 <button
                                   onClick={() => copyHook(hook)}
-                                  className="p-1 rounded text-[#B0A898] hover:text-[#C9A646] transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100"
+                                  className="p-1 rounded text-[#B0A898] hover:text-[#2563EB] transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100"
                                 >
                                   {copiedHook === hook ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                                 </button>
@@ -213,9 +213,9 @@ export default function FearAnalyzerPage() {
                           </div>
 
                           {/* Content strategy */}
-                          <div className="p-3 bg-[#FAF7F0] border border-[#DED5C2] rounded-lg">
+                          <div className="p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
                             <p className="label-nc mb-1.5">Content Strategy</p>
-                            <p className="text-[12px] text-[#5C5448] leading-relaxed">{fear.contentStrategy}</p>
+                            <p className="text-[12px] text-[#52525B] leading-relaxed">{fear.contentStrategy}</p>
                           </div>
                         </div>
                       ))}
@@ -224,11 +224,11 @@ export default function FearAnalyzerPage() {
               </div>
             ) : (
               <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
-                  <Brain className="h-6 w-6 text-[#C9A646]" />
+                <div className="w-14 h-14 rounded-2xl bg-[#F9FAFB] border border-[#E4E4E7] flex items-center justify-center mb-5">
+                  <Brain className="h-6 w-6 text-[#2563EB]" />
                 </div>
-                <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">No analysis yet</h3>
-                <p className="text-[#8A8071] text-sm max-w-xs">
+                <h3 className="font-display font-black text-[#18181B] text-lg mb-2">No analysis yet</h3>
+                <p className="text-[#71717A] text-sm max-w-xs">
                   Describe your audience on the left and hit Analyse — the 10 Shadow Fears that drive them will surface.
                 </p>
               </div>

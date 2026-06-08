@@ -431,7 +431,7 @@ export default function HookBankPage() {
     searchQuery.trim() !== ''
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Zap}
         iconColor="text-purple-600"

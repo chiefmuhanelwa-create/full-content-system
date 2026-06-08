@@ -137,7 +137,7 @@ export default function SavedHooksPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Zap}
         iconColor="text-blue-500"

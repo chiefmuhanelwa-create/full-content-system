@@ -38,14 +38,14 @@ interface ContentPiece {
 
 const FOUR_E_COLORS: Record<string, string> = {
   Educate:   'bg-blue-100 text-blue-800',
-  Entertain: 'bg-[#C9A646]/15 text-[#7A5F18]',
+  Entertain: 'bg-[#2563EB]/15 text-[#7A5F18]',
   Encourage: 'bg-emerald-100 text-emerald-800',
   Earn:      'bg-amber-100 text-amber-800',
 }
 
 const CONTENT_TYPE_COLORS: Record<string, string> = {
   Educational:      'bg-blue-100 text-blue-800',
-  Story:            'bg-[#C9A646]/15 text-[#7A5F18]',
+  Story:            'bg-[#2563EB]/15 text-[#7A5F18]',
   'Behind-the-Scenes': 'bg-amber-100 text-amber-800',
   'Myth-Busting':   'bg-red-100 text-red-800',
   'Case Study':     'bg-emerald-100 text-emerald-800',
@@ -243,7 +243,7 @@ export default function BatchPlannerPage() {
   })).filter(w => w.items.length > 0)
 
   return (
-    <div className="min-h-full bg-[#FAF7F0]">
+    <div className="min-h-full bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Layers}
         iconColor="text-indigo-600"
@@ -256,15 +256,15 @@ export default function BatchPlannerPage() {
       <div className="max-w-5xl mx-auto px-6 py-6">
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-white border border-[#E8E1D0] rounded-xl p-1 mb-6 w-fit">
+        <div className="flex gap-1 bg-white border border-[#E4E4E7] rounded-xl p-1 mb-6 w-fit">
           {(['generate', 'import', 'history'] as const).map(t => (
             <button
               key={t}
               onClick={() => { setTab(t); if (t !== 'history') { setContentPlan([]); setPushResult(null) } }}
-              className={`px-4 py-2 rounded-lg text-[12px] font-heading font-bold transition-all ${
+              className={`px-4 py-2 rounded-lg text-[12px] font-display font-bold transition-all ${
                 tab === t
-                  ? 'bg-[#C9A646] text-[#0A0A0A] shadow-sm'
-                  : 'text-[#8A8071] hover:text-[#0A0A0A]'
+                  ? 'bg-[#2563EB] text-[#18181B] shadow-sm'
+                  : 'text-[#71717A] hover:text-[#18181B]'
               }`}
             >
               {t === 'generate' ? 'Generate Plan' : t === 'import' ? 'Import CSV' : `My Plans (${planHistory.length})`}
@@ -275,7 +275,7 @@ export default function BatchPlannerPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left panel */}
           <div className="lg:col-span-1 space-y-4">
-            <div className="bg-white border border-[#E8E1D0] rounded-xl p-5">
+            <div className="bg-white border border-[#E4E4E7] rounded-xl p-5">
               {tab === 'generate' ? (
                 <div className="space-y-4">
                   <div>
@@ -325,12 +325,12 @@ export default function BatchPlannerPage() {
                         <SelectItem value="icp2">ICP 2 — The Content Creator Inspirer (18–35)</SelectItem>
                       </SelectContent>
                     </Select>
-                    <p className="text-[10px] text-[#8A8071] mt-1">Called Expert: unexploited professional expertise. Creator: aspiring, no system yet.</p>
+                    <p className="text-[10px] text-[#71717A] mt-1">Called Expert: unexploited professional expertise. Creator: aspiring, no system yet.</p>
                   </div>
                   <Button
                     onClick={handleGenerate}
                     disabled={loading || !niche.trim() || !goals.trim()}
-                    className="w-full bg-[#C9A646] hover:bg-[#8C6F1F] text-[#0A0A0A] font-heading font-bold"
+                    className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold"
                   >
                     {loading ? 'Generating...' : 'Generate 30-Day Plan'}
                   </Button>
@@ -354,7 +354,7 @@ export default function BatchPlannerPage() {
                   <Button
                     onClick={handleImportCSV}
                     disabled={!csvText.trim()}
-                    className="w-full bg-[#C9A646] hover:bg-[#8C6F1F] text-[#0A0A0A] font-heading font-bold"
+                    className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold"
                   >
                     <Upload className="w-4 h-4 mr-2" />
                     Import Plan
@@ -365,27 +365,27 @@ export default function BatchPlannerPage() {
 
             {/* Actions after plan loads */}
             {contentPlan.length > 0 && (
-              <div className="bg-white border border-[#E8E1D0] rounded-xl p-4 space-y-2">
-                <p className="text-[11px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-3">
+              <div className="bg-white border border-[#E4E4E7] rounded-xl p-4 space-y-2">
+                <p className="text-[11px] font-display font-black uppercase tracking-widest text-[#71717A] mb-3">
                   Push to System
                 </p>
                 <Button
                   onClick={pushAllToCalendar}
                   disabled={pushing}
-                  className="w-full bg-[#0F0F0F] hover:bg-[#1A1A1A] text-white font-heading font-bold text-[12px] flex items-center gap-2"
+                  className="w-full bg-[#18181B] hover:bg-[#1A1A1A] text-white font-display font-bold text-[12px] flex items-center gap-2"
                 >
                   <CalendarDays className="w-4 h-4" />
                   {pushing ? 'Pushing...' : `Push All ${contentPlan.length} Days to Calendar`}
                 </Button>
                 {pushResult && (
-                  <div className={`flex items-center gap-2 text-[12px] font-heading font-semibold px-3 py-2 rounded-lg ${
+                  <div className={`flex items-center gap-2 text-[12px] font-display font-semibold px-3 py-2 rounded-lg ${
                     pushResult.failed === 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
                   }`}>
                     <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                     {pushResult.success} added to Calendar{pushResult.failed > 0 ? ` · ${pushResult.failed} failed` : ''}
                   </div>
                 )}
-                <Button onClick={exportAsCSV} variant="outline" className="w-full text-[12px] font-heading font-semibold">
+                <Button onClick={exportAsCSV} variant="outline" className="w-full text-[12px] font-display font-semibold">
                   <Download className="w-4 h-4 mr-2" />
                   Export as CSV
                 </Button>
@@ -396,50 +396,50 @@ export default function BatchPlannerPage() {
           {/* Plan output */}
           <div className="lg:col-span-2 space-y-4">
             {loading && (
-              <div className="bg-white border border-[#E8E1D0] rounded-xl p-12 text-center">
-                <div className="w-10 h-10 border-2 border-[#C9A646] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                <p className="text-[#8A8071] font-heading font-semibold text-sm">Generating 30-day plan...</p>
+              <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
+                <div className="w-10 h-10 border-2 border-[#2563EB] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-[#71717A] font-display font-semibold text-sm">Generating 30-day plan...</p>
               </div>
             )}
 
             {contentPlan.length > 0 && !loading && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <p className="font-heading font-black text-[#0F0F0F] text-sm">
+                  <p className="font-display font-black text-[#18181B] text-sm">
                     {contentPlan.length} content pieces
                     {pushResult && pushResult.failed === 0 && (
                       <span className="ml-2 text-emerald-600 font-semibold">· Pushed to Calendar ✓</span>
                     )}
                   </p>
-                  <p className="text-[11px] text-[#8A8071] font-heading">Click any row to generate its hook or script</p>
+                  <p className="text-[11px] text-[#71717A] font-display">Click any row to generate its hook or script</p>
                 </div>
 
                 {/* NOCHILL DNA Compliance Panel */}
                 {planCompliance && (
-                  <div className="bg-[#0F0F0F] rounded-xl p-5 text-white space-y-4">
+                  <div className="bg-[#18181B] rounded-xl p-5 text-white space-y-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-heading font-black uppercase tracking-widest text-[#C9A646]">NOCHILL DNA — Plan Compliance Report</span>
+                      <span className="text-[10px] font-display font-black uppercase tracking-widest text-[#2563EB]">NOCHILL DNA — Plan Compliance Report</span>
                     </div>
 
                     {/* ICP + Principles row */}
                     <div className="grid grid-cols-2 gap-3 text-[11px]">
                       <div className="bg-white/5 rounded-lg p-3">
-                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Target ICP</p>
-                        <p className="font-heading font-bold text-white/90">{planCompliance.icp || '—'}</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Target ICP</p>
+                        <p className="font-display font-bold text-white/90">{planCompliance.icp || '—'}</p>
                       </div>
                       <div className="bg-white/5 rounded-lg p-3">
-                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Africa Context</p>
-                        <p className="font-heading font-bold text-white/90">{planCompliance.africaContext || '✅ ZAR, SA context'}</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Africa Context</p>
+                        <p className="font-display font-bold text-white/90">{planCompliance.africaContext || '✅ ZAR, SA context'}</p>
                       </div>
                       <div className="bg-white/5 rounded-lg p-3">
-                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Villains</p>
-                        <p className="font-heading font-bold text-white/90">{planCompliance.villainsDefined || '✅ System/situation'}</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Villains</p>
+                        <p className="font-display font-bold text-white/90">{planCompliance.villainsDefined || '✅ System/situation'}</p>
                       </div>
                       <div className="bg-white/5 rounded-lg p-3">
-                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Voice Principles</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Voice Principles</p>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {(planCompliance.principlesApplied || ['You Format', 'Negativity (indirect)']).map((p: string, i: number) => (
-                            <span key={i} className="text-[9px] bg-[#C9A646]/20 text-[#C9A646] rounded px-1.5 py-0.5 font-heading font-bold">{p}</span>
+                            <span key={i} className="text-[9px] bg-[#2563EB]/20 text-[#2563EB] rounded px-1.5 py-0.5 font-display font-bold">{p}</span>
                           ))}
                         </div>
                       </div>
@@ -448,12 +448,12 @@ export default function BatchPlannerPage() {
                     {/* 4E Distribution */}
                     {planCompliance.fourEBreakdown && (
                       <div>
-                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-2">4E Engine Distribution</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">4E Engine Distribution</p>
                         <div className="grid grid-cols-4 gap-2">
                           {Object.entries(planCompliance.fourEBreakdown).map(([key, val]) => (
                             <div key={key} className="bg-white/5 rounded-lg p-2 text-center">
-                              <p className="text-[18px] font-heading font-black text-white">{String(val)}</p>
-                              <p className="text-[9px] font-heading font-bold uppercase tracking-wide text-[#8A8071] capitalize">{key}</p>
+                              <p className="text-[18px] font-display font-black text-white">{String(val)}</p>
+                              <p className="text-[9px] font-display font-bold uppercase tracking-wide text-[#71717A] capitalize">{key}</p>
                             </div>
                           ))}
                         </div>
@@ -463,13 +463,13 @@ export default function BatchPlannerPage() {
                     {/* PAIDS Distribution */}
                     {planCompliance.paidsDistribution && (
                       <div>
-                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-2">PAIDS Category Coverage</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">PAIDS Category Coverage</p>
                         <div className="flex flex-wrap gap-2">
                           {Object.entries(planCompliance.paidsDistribution).map(([key, val]) => (
                             Number(val) > 0 && (
                               <div key={key} className="flex items-center gap-1.5 bg-white/5 rounded-lg px-2.5 py-1.5">
-                                <span className="text-[12px] font-heading font-black text-white">{String(val)}</span>
-                                <span className="text-[9px] font-heading font-bold uppercase tracking-wide text-[#8A8071] capitalize">{key}</span>
+                                <span className="text-[12px] font-display font-black text-white">{String(val)}</span>
+                                <span className="text-[9px] font-display font-bold uppercase tracking-wide text-[#71717A] capitalize">{key}</span>
                               </div>
                             )
                           ))}
@@ -480,10 +480,10 @@ export default function BatchPlannerPage() {
                     {/* Shadow Fears Used */}
                     {planCompliance.shadowFearsUsed && planCompliance.shadowFearsUsed.length > 0 && (
                       <div>
-                        <p className="text-[9px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-2">Shadow Fears Activated</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">Shadow Fears Activated</p>
                         <div className="flex flex-wrap gap-1.5">
                           {planCompliance.shadowFearsUsed.map((fear: string, i: number) => (
-                            <span key={i} className="text-[9px] bg-red-900/40 text-red-300 rounded px-2 py-1 font-heading font-bold">{fear}</span>
+                            <span key={i} className="text-[9px] bg-red-900/40 text-red-300 rounded px-2 py-1 font-display font-bold">{fear}</span>
                           ))}
                         </div>
                       </div>
@@ -492,29 +492,29 @@ export default function BatchPlannerPage() {
                 )}
 
                 {weeks.map(({ week, items }) => (
-                  <div key={week} className="bg-white border border-[#E8E1D0] rounded-xl overflow-hidden">
-                    <div className="px-4 py-2.5 bg-[#FAF7F0] border-b border-[#E8E1D0]">
-                      <p className="text-[11px] font-heading font-black uppercase tracking-widest text-[#8A8071]">Week {week}</p>
+                  <div key={week} className="bg-white border border-[#E4E4E7] rounded-xl overflow-hidden">
+                    <div className="px-4 py-2.5 bg-[#F9FAFB] border-b border-[#E4E4E7]">
+                      <p className="text-[11px] font-display font-black uppercase tracking-widest text-[#71717A]">Week {week}</p>
                     </div>
-                    <div className="divide-y divide-[#F4EFE3]">
+                    <div className="divide-y divide-[#F4F4F5]">
                       {items.map((item, idx) => (
-                        <div key={idx} className="p-4 hover:bg-[#FAF7F0] transition-colors">
+                        <div key={idx} className="p-4 hover:bg-[#F9FAFB] transition-colors">
                           <div className="flex items-start gap-3">
                             {/* Day badge */}
-                            <div className="w-10 h-10 bg-[#0F0F0F] text-white rounded-xl flex flex-col items-center justify-center flex-shrink-0">
-                              <span className="text-[8px] font-heading font-black uppercase tracking-wide leading-none text-white/50">DAY</span>
-                              <span className="text-[15px] font-heading font-black leading-none">{item.day}</span>
+                            <div className="w-10 h-10 bg-[#18181B] text-white rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+                              <span className="text-[8px] font-display font-black uppercase tracking-wide leading-none text-white/50">DAY</span>
+                              <span className="text-[15px] font-display font-black leading-none">{item.day}</span>
                             </div>
 
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start gap-2 flex-wrap mb-1">
-                                <p className="font-heading font-bold text-[#0F0F0F] text-[13px] leading-snug flex-1">{item.topic}</p>
+                                <p className="font-display font-bold text-[#18181B] text-[13px] leading-snug flex-1">{item.topic}</p>
                                 {item.fourE && (
-                                  <span className={`text-[9px] font-heading font-black px-2 py-0.5 rounded-full flex-shrink-0 ${FOUR_E_COLORS[item.fourE] || 'bg-[#E8E1D0] text-[#4A3F35]'}`}>
+                                  <span className={`text-[9px] font-display font-black px-2 py-0.5 rounded-full flex-shrink-0 ${FOUR_E_COLORS[item.fourE] || 'bg-[#E4E4E7] text-[#52525B]'}`}>
                                     {item.fourE}
                                   </span>
                                 )}
-                                <span className={`text-[10px] font-heading font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType] || 'bg-[#E8E1D0] text-[#4A3F35]'}`}>
+                                <span className={`text-[10px] font-display font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType] || 'bg-[#E4E4E7] text-[#52525B]'}`}>
                                   {item.contentType}
                                 </span>
                               </div>
@@ -522,34 +522,34 @@ export default function BatchPlannerPage() {
                               {(item.icp || item.paidsCategory || item.shadowFear) && (
                                 <div className="flex flex-wrap gap-1 mb-1.5">
                                   {item.icp && (
-                                    <span className="text-[9px] bg-[#C9A646]/10 text-[#8C6F1F] font-heading font-bold px-1.5 py-0.5 rounded">
+                                    <span className="text-[9px] bg-[#2563EB]/10 text-[#1D4ED8] font-display font-bold px-1.5 py-0.5 rounded">
                                       {item.icp.includes('1') ? 'ICP1 · Expert' : 'ICP2 · Creator'}
                                     </span>
                                   )}
                                   {item.paidsCategory && (
-                                    <span className="text-[9px] bg-blue-50 text-blue-700 font-heading font-bold px-1.5 py-0.5 rounded">
+                                    <span className="text-[9px] bg-blue-50 text-blue-700 font-display font-bold px-1.5 py-0.5 rounded">
                                       {item.paidsCategory}
                                     </span>
                                   )}
                                   {item.shadowFear && (
-                                    <span className="text-[9px] bg-red-50 text-red-700 font-heading font-bold px-1.5 py-0.5 rounded">
+                                    <span className="text-[9px] bg-red-50 text-red-700 font-display font-bold px-1.5 py-0.5 rounded">
                                       {item.shadowFear}
                                     </span>
                                   )}
                                   {item.villain && (
-                                    <span className="text-[9px] bg-[#0F0F0F]/5 text-[#0F0F0F] font-heading font-bold px-1.5 py-0.5 rounded truncate max-w-[140px]" title={item.villain}>
+                                    <span className="text-[9px] bg-[#18181B]/5 text-[#18181B] font-display font-bold px-1.5 py-0.5 rounded truncate max-w-[140px]" title={item.villain}>
                                       ⚔ {item.villain}
                                     </span>
                                   )}
                                 </div>
                               )}
                               {item.date && (
-                                <div className="flex items-center gap-1 text-[10px] text-[#8A8071] mb-1.5">
+                                <div className="flex items-center gap-1 text-[10px] text-[#71717A] mb-1.5">
                                   <Clock className="w-3 h-3" />{item.date} · {item.platform}
                                 </div>
                               )}
-                              <p className="text-[11px] text-[#6B6059] leading-relaxed line-clamp-2">
-                                <span className="font-semibold text-[#8A8071]">Hook:</span> "{item.hookIdea}"
+                              <p className="text-[11px] text-[#52525B] leading-relaxed line-clamp-2">
+                                <span className="font-semibold text-[#71717A]">Hook:</span> "{item.hookIdea}"
                               </p>
                             </div>
                           </div>
@@ -558,7 +558,7 @@ export default function BatchPlannerPage() {
                           <div className="flex items-center gap-2 mt-3 ml-13 pl-0">
                             <button
                               onClick={() => openHookGenerator(item)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C9A646]/10 hover:bg-[#C9A646]/20 text-[#8C6F1F] rounded-lg text-[11px] font-heading font-bold transition-colors"
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#2563EB]/10 hover:bg-[#2563EB]/20 text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
                             >
                               <Zap className="w-3 h-3" />
                               Generate Hook
@@ -566,7 +566,7 @@ export default function BatchPlannerPage() {
                             </button>
                             <button
                               onClick={() => openScriptWriter(item)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-heading font-bold transition-colors"
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-display font-bold transition-colors"
                             >
                               <FileText className="w-3 h-3" />
                               Write Script
@@ -582,9 +582,9 @@ export default function BatchPlannerPage() {
             )}
 
             {contentPlan.length === 0 && !loading && tab !== 'history' && (
-              <div className="bg-white border border-[#E8E1D0] rounded-xl p-12 text-center">
-                <Layers className="h-12 w-12 mx-auto mb-4 text-[#DED5C2]" />
-                <p className="font-heading font-bold text-[#8A8071] text-sm">
+              <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
+                <Layers className="h-12 w-12 mx-auto mb-4 text-[#E4E4E7]" />
+                <p className="font-display font-bold text-[#71717A] text-sm">
                   {tab === 'generate' ? 'Fill in your niche and goals, then generate your plan' : 'Paste your CSV and click Import Plan'}
                 </p>
               </div>
@@ -593,28 +593,28 @@ export default function BatchPlannerPage() {
             {tab === 'history' && (
               <div className="space-y-3">
                 {planHistory.length === 0 ? (
-                  <div className="bg-white border border-[#E8E1D0] rounded-xl p-12 text-center">
-                    <History className="h-12 w-12 mx-auto mb-4 text-[#DED5C2]" />
-                    <p className="font-heading font-bold text-[#8A8071] text-sm">No saved plans yet. Generate or import a plan first.</p>
+                  <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
+                    <History className="h-12 w-12 mx-auto mb-4 text-[#E4E4E7]" />
+                    <p className="font-display font-bold text-[#71717A] text-sm">No saved plans yet. Generate or import a plan first.</p>
                   </div>
                 ) : (
                   planHistory.map(saved => (
-                    <div key={saved.id} className="bg-white border border-[#E8E1D0] rounded-xl p-4">
+                    <div key={saved.id} className="bg-white border border-[#E4E4E7] rounded-xl p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
-                          <p className="font-heading font-bold text-[#0F0F0F] text-[13px] truncate">{saved.name}</p>
-                          <p className="text-[11px] text-[#8A8071] mt-0.5">{saved.plan.length} days · {new Date(saved.createdAt).toLocaleDateString()}</p>
+                          <p className="font-display font-bold text-[#18181B] text-[13px] truncate">{saved.name}</p>
+                          <p className="text-[11px] text-[#71717A] mt-0.5">{saved.plan.length} days · {new Date(saved.createdAt).toLocaleDateString()}</p>
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
                           <button
                             onClick={() => { setContentPlan(saved.plan); setTab('generate'); setPushResult(null) }}
-                            className="px-3 py-1.5 bg-[#C9A646]/10 hover:bg-[#C9A646]/20 text-[#8C6F1F] rounded-lg text-[11px] font-heading font-bold transition-colors"
+                            className="px-3 py-1.5 bg-[#2563EB]/10 hover:bg-[#2563EB]/20 text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             Load Plan
                           </button>
                           <button
                             onClick={() => deletePlanFromHistory(saved.id)}
-                            className="p-1.5 hover:bg-red-50 text-[#8A8071] hover:text-red-600 rounded-lg transition-colors"
+                            className="p-1.5 hover:bg-red-50 text-[#71717A] hover:text-red-600 rounded-lg transition-colors"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>

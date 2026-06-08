@@ -545,7 +545,7 @@ export default function ContentCalendarPlusPage() {
   const hasActiveFilters = Object.values(filters).some(v => v !== '')
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={CalendarIcon}
         iconColor="text-purple-600"
@@ -1190,10 +1190,10 @@ export default function ContentCalendarPlusPage() {
                         )}
 
                         {/* Integration actions */}
-                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#F4EFE3]">
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#F4F4F5]">
                           <button
                             onClick={() => openHookGenerator(entry)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C9A646]/10 hover:bg-[#C9A646]/20 text-[#8C6F1F] rounded-lg text-[11px] font-heading font-bold transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#2563EB]/10 hover:bg-[#2563EB]/20 text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             <Zap className="w-3 h-3" />
                             Generate Hook
@@ -1201,7 +1201,7 @@ export default function ContentCalendarPlusPage() {
                           </button>
                           <button
                             onClick={() => openScriptWriter(entry)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-heading font-bold transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             <FileText className="w-3 h-3" />
                             Write Script

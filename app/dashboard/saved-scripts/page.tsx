@@ -93,7 +93,7 @@ export default function SavedScriptsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={FileText}
         iconColor="text-blue-500"

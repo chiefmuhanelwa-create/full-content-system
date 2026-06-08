@@ -68,10 +68,10 @@ export default function RepurposePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Repeat}
-        iconColor="text-[#C9A646]"
+        iconColor="text-[#2563EB]"
         eyebrow="Repurpose"
         title="Content Repurposing Engine"
         description="Transform one script into 10+ pieces of content"
@@ -169,8 +169,8 @@ export default function RepurposePage() {
             <Card>
               <CardContent className="pt-6">
                 <div className="text-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C9A646] mx-auto mb-4"></div>
-                  <p className="text-[#8A8071]">Repurposing your content into multiple formats...</p>
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB] mx-auto mb-4"></div>
+                  <p className="text-[#71717A]">Repurposing your content into multiple formats...</p>
                 </div>
               </CardContent>
             </Card>
@@ -183,7 +183,7 @@ export default function RepurposePage() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-lg">
-                      <FileText className="h-5 w-5 text-[#C9A646]" />
+                      <FileText className="h-5 w-5 text-[#2563EB]" />
                       3 Short Clips
                     </CardTitle>
                   </CardHeader>
@@ -328,8 +328,8 @@ export default function RepurposePage() {
           {!repurposedContent && !loading && (
             <Card>
               <CardContent className="pt-6">
-                <div className="text-center text-[#8A8071] py-12">
-                  <Repeat className="h-16 w-16 mx-auto mb-4 text-[#C9A646]/30" />
+                <div className="text-center text-[#71717A] py-12">
+                  <Repeat className="h-16 w-16 mx-auto mb-4 text-[#2563EB]/30" />
                   <p className="font-medium">Repurposed content will appear here</p>
                   <p className="text-sm mt-2">Paste your script and click "Repurpose Content"</p>
                 </div>

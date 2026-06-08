@@ -142,10 +142,10 @@ export default function WorkflowPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Play}
-        iconColor="text-[#C9A646]"
+        iconColor="text-[#2563EB]"
         eyebrow="Track"
         title="Content Workflow Tracker"
         description="Track your content from idea to published post"

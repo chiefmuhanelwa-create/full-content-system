@@ -79,7 +79,7 @@ export default function CollaborationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Users}
         iconColor="text-emerald-600"

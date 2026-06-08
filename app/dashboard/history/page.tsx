@@ -192,10 +192,10 @@ export default function HistoryPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={History}
-        iconColor="text-[#C9A646]"
+        iconColor="text-[#2563EB]"
         eyebrow="History"
         title="Activity History"
         description="Complete record of all your actions and system events"

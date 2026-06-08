@@ -105,7 +105,7 @@ export default function LibraryPage() {
   })
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Save}
         iconColor="text-blue-500"
@@ -158,7 +158,7 @@ export default function LibraryPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-white border border-[#E8E1D0] rounded-xl p-1 mb-6 w-fit">
+        <div className="flex gap-1 bg-white border border-[#E4E4E7] rounded-xl p-1 mb-6 w-fit">
           {([
             { key: 'scripts', label: 'Scripts', icon: FileText, count: filteredScripts.length },
             { key: 'hooks', label: 'Hooks', icon: Zap, count: filteredHooks.length },
@@ -167,8 +167,8 @@ export default function LibraryPage() {
             <button
               key={key}
               onClick={() => setActiveTab(key)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-heading font-bold transition-all ${
-                activeTab === key ? 'bg-[#C9A646] text-[#0A0A0A] shadow-sm' : 'text-[#8A8071] hover:text-[#0A0A0A]'
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-display font-bold transition-all ${
+                activeTab === key ? 'bg-[#2563EB] text-[#18181B] shadow-sm' : 'text-[#71717A] hover:text-[#18181B]'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -180,7 +180,7 @@ export default function LibraryPage() {
         {/* Loading */}
         {loadingData && (
           <div className="flex items-center justify-center py-16">
-            <Loader2 className="h-8 w-8 animate-spin text-[#C9A646]" />
+            <Loader2 className="h-8 w-8 animate-spin text-[#2563EB]" />
           </div>
         )}
 

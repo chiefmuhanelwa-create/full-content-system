@@ -251,10 +251,10 @@ export default function ProductPlanningPage() {
   // ─── Render ─────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={FlaskConical}
-        iconColor="text-[#C9A646]"
+        iconColor="text-[#2563EB]"
         eyebrow="Product Lab"
         title="Product Planning"
         description="Track all 55 NOCHILL products from draft to live Shopify listing"
@@ -272,20 +272,20 @@ export default function ProductPlanningPage() {
             { label: 'Live', value: stats.live, status: 'live' },
           ] as const).map(({ label, value, status }) => {
             const cfg = status === 'all'
-              ? { bg: 'bg-[#E8E1D0]', color: 'text-[#4A3F35]', border: 'border-[#DED5C2]' }
+              ? { bg: 'bg-[#E4E4E7]', color: 'text-[#52525B]', border: 'border-[#E4E4E7]' }
               : STATUS_CONFIG[status]
             return (
               <button
                 key={label}
                 onClick={() => setFilterStatus(filterStatus === status ? 'all' : status)}
                 className={cn(
-                  'rounded-xl border px-4 py-3 text-left transition-all hover:ring-2 hover:ring-[#C9A646]/40',
+                  'rounded-xl border px-4 py-3 text-left transition-all hover:ring-2 hover:ring-[#2563EB]/40',
                   cfg.bg, cfg.border,
-                  filterStatus === status && 'ring-2 ring-[#C9A646]'
+                  filterStatus === status && 'ring-2 ring-[#2563EB]'
                 )}
               >
-                <p className={cn('text-[10px] font-heading font-black uppercase tracking-widest', cfg.color)}>{label}</p>
-                <p className={cn('text-2xl font-heading font-black mt-1', cfg.color)}>{value}</p>
+                <p className={cn('text-[10px] font-display font-black uppercase tracking-widest', cfg.color)}>{label}</p>
+                <p className={cn('text-2xl font-display font-black mt-1', cfg.color)}>{value}</p>
               </button>
             )
           })}
@@ -293,29 +293,29 @@ export default function ProductPlanningPage() {
 
         {/* Revenue potential */}
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-[#8A8071]">Total catalogue value:</span>
-          <span className="font-heading font-black text-[#C9A646]">
+          <span className="text-[#71717A]">Total catalogue value:</span>
+          <span className="font-display font-black text-[#2563EB]">
             R{stats.totalValue.toLocaleString()}
           </span>
-          <span className="text-[#8A8071]">•</span>
-          <span className="text-[#8A8071]">{stats.live} live</span>
-          <span className="text-[#8A8071]">•</span>
-          <span className="text-[#8A8071]">{stats.built} ready to push</span>
+          <span className="text-[#71717A]">•</span>
+          <span className="text-[#71717A]">{stats.live} live</span>
+          <span className="text-[#71717A]">•</span>
+          <span className="text-[#71717A]">{stats.built} ready to push</span>
         </div>
 
         {/* ─── Filters ─── */}
         <div className="flex flex-wrap gap-3 items-end">
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8A8071]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#71717A]" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search products, pain points..."
-              className="pl-9 bg-white border-[#DED5C2]"
+              className="pl-9 bg-white border-[#E4E4E7]"
             />
           </div>
           <Select value={filterTrack} onValueChange={setFilterTrack}>
-            <SelectTrigger className="w-44 bg-white border-[#DED5C2]">
+            <SelectTrigger className="w-44 bg-white border-[#E4E4E7]">
               <SelectValue placeholder="Track" />
             </SelectTrigger>
             <SelectContent>
@@ -326,7 +326,7 @@ export default function ProductPlanningPage() {
             </SelectContent>
           </Select>
           <Select value={filterICP} onValueChange={setFilterICP}>
-            <SelectTrigger className="w-36 bg-white border-[#DED5C2]">
+            <SelectTrigger className="w-36 bg-white border-[#E4E4E7]">
               <SelectValue placeholder="ICP" />
             </SelectTrigger>
             <SelectContent>
@@ -335,7 +335,7 @@ export default function ProductPlanningPage() {
               <SelectItem value="2">ICP 2 — Creator</SelectItem>
             </SelectContent>
           </Select>
-          <p className="text-sm text-[#8A8071] whitespace-nowrap">{filtered.length} products</p>
+          <p className="text-sm text-[#71717A] whitespace-nowrap">{filtered.length} products</p>
         </div>
 
         {/* ─── Product List ─── */}
@@ -355,32 +355,32 @@ export default function ProductPlanningPage() {
                   'border transition-all',
                   status === 'live' ? 'border-blue-200' :
                   status === 'built' ? 'border-emerald-200' :
-                  status === 'building' ? 'border-[#C9A646]/40' :
-                  'border-[#DED5C2]'
+                  status === 'building' ? 'border-[#2563EB]/40' :
+                  'border-[#E4E4E7]'
                 )}
               >
                 <CardHeader className="p-4 pb-0">
                   <div className="flex items-start justify-between gap-3">
                     {/* Left: Code + Name */}
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <span className="text-[10px] font-heading font-black bg-[#2D2D2D] text-white px-2 py-1 rounded-lg flex-shrink-0">
+                      <span className="text-[10px] font-display font-black bg-[#2D2D2D] text-white px-2 py-1 rounded-lg flex-shrink-0">
                         {product.code}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-heading font-black text-[#2D2D2D] leading-tight truncate">
+                        <h3 className="font-display font-black text-[#2D2D2D] leading-tight truncate">
                           {product.name}
                         </h3>
-                        <p className="text-xs text-[#8A8071] truncate mt-0.5">{product.subtitle}</p>
+                        <p className="text-xs text-[#71717A] truncate mt-0.5">{product.subtitle}</p>
                       </div>
                     </div>
 
                     {/* Right: Price + Status + Actions */}
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className="font-heading font-black text-[#C9A646] text-sm">
+                      <span className="font-display font-black text-[#2563EB] text-sm">
                         {product.priceRange ?? `R${product.price.toLocaleString()}`}
                       </span>
                       <span className={cn(
-                        'flex items-center gap-1 text-[10px] font-heading font-black px-2 py-1 rounded-full border',
+                        'flex items-center gap-1 text-[10px] font-display font-black px-2 py-1 rounded-full border',
                         cfg.bg, cfg.color, cfg.border
                       )}>
                         <StatusIcon className="h-3 w-3" />
@@ -390,7 +390,7 @@ export default function ProductPlanningPage() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="h-7 text-xs border-[#C9A646]/40 text-[#7A5F18] hover:bg-[#C9A646]/10"
+                          className="h-7 text-xs border-[#2563EB]/40 text-[#7A5F18] hover:bg-[#2563EB]/10"
                           onClick={() => advanceStatus(product.code)}
                         >
                           → {STATUS_CONFIG[nextStatus].label}
@@ -402,7 +402,7 @@ export default function ProductPlanningPage() {
                           next.has(product.code) ? next.delete(product.code) : next.add(product.code)
                           return next
                         })}
-                        className="p-1 rounded hover:bg-[#E8E1D0] text-[#8A8071]"
+                        className="p-1 rounded hover:bg-[#E4E4E7] text-[#71717A]"
                       >
                         {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                       </button>
@@ -412,21 +412,21 @@ export default function ProductPlanningPage() {
                   {/* Badges row */}
                   <div className="flex flex-wrap gap-1.5 mt-2 pb-3">
                     <span className={cn(
-                      'text-[9px] font-heading font-black px-2 py-0.5 rounded-full border uppercase tracking-wider',
+                      'text-[9px] font-display font-black px-2 py-0.5 rounded-full border uppercase tracking-wider',
                       product.icp === '1' ? 'bg-amber-50 text-amber-700 border-amber-200' :
                       product.icp === '2' ? 'bg-sky-50 text-sky-700 border-sky-200' :
                       'bg-purple-50 text-purple-700 border-purple-200'
                     )}>
                       {product.icpLabel}
                     </span>
-                    <span className="text-[9px] font-heading font-black px-2 py-0.5 rounded-full bg-[#E8E1D0] text-[#4A3F35] border border-[#DED5C2] uppercase tracking-wider">
+                    <span className="text-[9px] font-display font-black px-2 py-0.5 rounded-full bg-[#E4E4E7] text-[#52525B] border border-[#E4E4E7] uppercase tracking-wider">
                       {TRACK_LABELS[product.track]}
                     </span>
-                    <span className="text-[9px] font-heading font-black px-2 py-0.5 rounded-full bg-[#E8E1D0] text-[#4A3F35] border border-[#DED5C2] uppercase tracking-wider">
+                    <span className="text-[9px] font-display font-black px-2 py-0.5 rounded-full bg-[#E4E4E7] text-[#52525B] border border-[#E4E4E7] uppercase tracking-wider">
                       {product.paidsStream.toUpperCase()}
                     </span>
                     {isPromoted && (
-                      <span className="text-[9px] font-heading font-black px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wider">
+                      <span className="text-[9px] font-display font-black px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wider">
                         ✓ In Products DB
                       </span>
                     )}
@@ -435,15 +435,15 @@ export default function ProductPlanningPage() {
 
                 {/* ─── Expanded Details ─── */}
                 {isExpanded && (
-                  <CardContent className="px-4 pb-4 pt-0 border-t border-[#E8E1D0]">
+                  <CardContent className="px-4 pb-4 pt-0 border-t border-[#E4E4E7]">
                     <div className="grid md:grid-cols-2 gap-4 mt-4">
                       {/* Pain Points */}
                       <div>
-                        <p className="text-[10px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-2">Pain Points</p>
+                        <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">Pain Points</p>
                         <ul className="space-y-1">
                           {product.painPoints.map((pp, i) => (
-                            <li key={i} className="text-sm text-[#3D342A] flex gap-2">
-                              <span className="text-[#C9A646] flex-shrink-0">•</span>
+                            <li key={i} className="text-sm text-[#18181B] flex gap-2">
+                              <span className="text-[#2563EB] flex-shrink-0">•</span>
                               {pp}
                             </li>
                           ))}
@@ -453,21 +453,21 @@ export default function ProductPlanningPage() {
                       {/* Problem + Transformation */}
                       <div className="space-y-3">
                         <div>
-                          <p className="text-[10px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Problem Solved</p>
-                          <p className="text-sm text-[#3D342A]">{product.problemSolved}</p>
+                          <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Problem Solved</p>
+                          <p className="text-sm text-[#18181B]">{product.problemSolved}</p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">Transformation</p>
-                          <p className="text-sm text-[#3D342A]">{product.transformation}</p>
+                          <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Transformation</p>
+                          <p className="text-sm text-[#18181B]">{product.transformation}</p>
                         </div>
                       </div>
 
                       {/* Shadow Fears */}
                       <div>
-                        <p className="text-[10px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-2">Shadow Fears Activated</p>
+                        <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">Shadow Fears Activated</p>
                         <div className="flex flex-wrap gap-1">
                           {product.shadowFears.map((sf) => (
-                            <span key={sf} className="text-[9px] px-2 py-0.5 bg-red-50 text-red-700 border border-red-200 rounded-full font-heading font-bold">
+                            <span key={sf} className="text-[9px] px-2 py-0.5 bg-red-50 text-red-700 border border-red-200 rounded-full font-display font-bold">
                               {sf}
                             </span>
                           ))}
@@ -476,18 +476,18 @@ export default function ProductPlanningPage() {
 
                       {/* Description */}
                       <div>
-                        <p className="text-[10px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-1">What\'s Inside</p>
-                        <p className="text-sm text-[#3D342A]">{product.description}</p>
+                        <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">What\'s Inside</p>
+                        <p className="text-sm text-[#18181B]">{product.description}</p>
                       </div>
                     </div>
 
                     {/* Shopify Copy Preview */}
-                    <div className="mt-4 p-3 bg-[#F0EBE0] border border-[#DED5C2] rounded-xl">
+                    <div className="mt-4 p-3 bg-[#F0EBE0] border border-[#E4E4E7] rounded-xl">
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-[10px] font-heading font-black uppercase tracking-widest text-[#8A8071]">Shopify Copy (Ready)</p>
+                        <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A]">Shopify Copy (Ready)</p>
                         <button
                           onClick={() => copyShopifyCopy(product.shopifyCopy, product.code)}
-                          className="flex items-center gap-1 text-[10px] font-heading font-bold text-[#7A5F18] hover:text-[#C9A646] transition-colors"
+                          className="flex items-center gap-1 text-[10px] font-display font-bold text-[#7A5F18] hover:text-[#2563EB] transition-colors"
                         >
                           {copiedCode === product.code
                             ? <><Check className="h-3 w-3" /> Copied</>
@@ -495,7 +495,7 @@ export default function ProductPlanningPage() {
                           }
                         </button>
                       </div>
-                      <p className="text-xs text-[#4A3F35] whitespace-pre-wrap line-clamp-4">{product.shopifyCopy}</p>
+                      <p className="text-xs text-[#52525B] whitespace-pre-wrap line-clamp-4">{product.shopifyCopy}</p>
                     </div>
 
                     {/* Action Buttons */}
@@ -504,7 +504,7 @@ export default function ProductPlanningPage() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="gap-1.5 border-[#C9A646]/40 text-[#7A5F18] hover:bg-[#C9A646]/10"
+                          className="gap-1.5 border-[#2563EB]/40 text-[#7A5F18] hover:bg-[#2563EB]/10"
                           onClick={() => {
                             setSelectedProduct(product)
                             setShowPromoteModal(true)
@@ -529,7 +529,7 @@ export default function ProductPlanningPage() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="gap-1.5 border-[#DED5C2] text-[#8A8071] hover:bg-[#E8E1D0]"
+                        className="gap-1.5 border-[#E4E4E7] text-[#71717A] hover:bg-[#E4E4E7]"
                         onClick={() => copyShopifyCopy(product.shopifyCopy, product.code + '-full')}
                       >
                         {copiedCode === product.code + '-full'
@@ -545,9 +545,9 @@ export default function ProductPlanningPage() {
           })}
 
           {filtered.length === 0 && (
-            <div className="text-center py-16 text-[#8A8071]">
+            <div className="text-center py-16 text-[#71717A]">
               <FlaskConical className="h-12 w-12 mx-auto mb-3 opacity-30" />
-              <p className="font-heading font-bold">No products match this filter.</p>
+              <p className="font-display font-bold">No products match this filter.</p>
             </div>
           )}
         </div>
@@ -557,7 +557,7 @@ export default function ProductPlanningPage() {
       <Dialog open={showPromoteModal} onOpenChange={setShowPromoteModal}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="font-heading font-black text-[#2D2D2D]">
+            <DialogTitle className="font-display font-black text-[#2D2D2D]">
               Add to Products DB
             </DialogTitle>
             <DialogDescription>
@@ -566,9 +566,9 @@ export default function ProductPlanningPage() {
           </DialogHeader>
           {selectedProduct && (
             <div className="space-y-4 mt-2">
-              <div className="p-3 bg-[#FAF7F0] border border-[#DED5C2] rounded-xl">
-                <p className="font-heading font-black text-[#2D2D2D]">{selectedProduct.code} — {selectedProduct.name}</p>
-                <p className="text-sm text-[#8A8071]">{selectedProduct.icpLabel} • R{selectedProduct.price.toLocaleString()}</p>
+              <div className="p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl">
+                <p className="font-display font-black text-[#2D2D2D]">{selectedProduct.code} — {selectedProduct.name}</p>
+                <p className="text-sm text-[#71717A]">{selectedProduct.icpLabel} • R{selectedProduct.price.toLocaleString()}</p>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -580,7 +580,7 @@ export default function ProductPlanningPage() {
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1 bg-[#C9A646] hover:bg-[#B8963D] text-white font-heading font-black"
+                  className="flex-1 bg-[#2563EB] hover:bg-[#B8963D] text-white font-display font-black"
                   onClick={() => promoteToProducts(selectedProduct)}
                   disabled={promoteLoading}
                 >
@@ -600,7 +600,7 @@ export default function ProductPlanningPage() {
       <Dialog open={showShopifyModal} onOpenChange={setShowShopifyModal}>
         <DialogContent className="max-w-xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="font-heading font-black text-[#2D2D2D]">
+            <DialogTitle className="font-display font-black text-[#2D2D2D]">
               Push to Shopify
             </DialogTitle>
             <DialogDescription>
@@ -609,17 +609,17 @@ export default function ProductPlanningPage() {
           </DialogHeader>
           {selectedProduct && (
             <div className="space-y-4 mt-2">
-              <div className="p-3 bg-[#FAF7F0] border border-[#DED5C2] rounded-xl">
-                <p className="font-heading font-black text-[#2D2D2D]">{selectedProduct.code} — {selectedProduct.name}</p>
-                <p className="text-sm text-[#8A8071]">{selectedProduct.subtitle}</p>
-                <p className="text-sm font-bold text-[#C9A646] mt-1">
+              <div className="p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl">
+                <p className="font-display font-black text-[#2D2D2D]">{selectedProduct.code} — {selectedProduct.name}</p>
+                <p className="text-sm text-[#71717A]">{selectedProduct.subtitle}</p>
+                <p className="text-sm font-bold text-[#2563EB] mt-1">
                   {selectedProduct.priceRange ?? `R${selectedProduct.price.toLocaleString()}`}
                 </p>
               </div>
 
               <div>
-                <p className="text-[10px] font-heading font-black uppercase tracking-widest text-[#8A8071] mb-2">Shopify Copy Preview</p>
-                <div className="p-3 bg-[#F0EBE0] border border-[#DED5C2] rounded-xl text-sm text-[#3D342A] whitespace-pre-wrap">
+                <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">Shopify Copy Preview</p>
+                <div className="p-3 bg-[#F0EBE0] border border-[#E4E4E7] rounded-xl text-sm text-[#18181B] whitespace-pre-wrap">
                   {selectedProduct.shopifyCopy}
                 </div>
               </div>
@@ -642,14 +642,14 @@ export default function ProductPlanningPage() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="gap-1.5 border-[#DED5C2]"
+                  className="gap-1.5 border-[#E4E4E7]"
                   onClick={() => copyShopifyCopy(selectedProduct.shopifyCopy, 'modal')}
                   disabled={shopifyLoading}
                 >
                   {copiedCode === 'modal' ? <><Check className="h-4 w-4" /> Copied</> : <><Copy className="h-4 w-4" /> Copy Copy</>}
                 </Button>
                 <Button
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-heading font-black"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-display font-black"
                   onClick={() => pushToShopify(selectedProduct)}
                   disabled={shopifyLoading}
                 >
@@ -668,7 +668,7 @@ export default function ProductPlanningPage() {
       {/* ─── Toast ─── */}
       {toast && (
         <div className={cn(
-          'fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-sm font-heading font-bold z-50 transition-all',
+          'fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-sm font-display font-bold z-50 transition-all',
           toast.type === 'success' ? 'bg-emerald-900 text-emerald-100' : 'bg-red-900 text-red-100'
         )}>
           {toast.type === 'success' ? <Check className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}

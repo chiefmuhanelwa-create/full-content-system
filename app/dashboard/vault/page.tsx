@@ -7,7 +7,7 @@ import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 export default function VaultPage() {
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Database}
         iconColor="text-purple-600"

@@ -44,10 +44,10 @@ export default function BrandVoicePage() {
 
   const scoreColor = analysis
     ? analysis.alignmentScore >= 70 ? '#16a34a' : '#D4541F'
-    : '#C9A646'
+    : '#2563EB'
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Mic}
         iconColor="text-purple-500"
@@ -63,7 +63,7 @@ export default function BrandVoicePage() {
           <div className="nc-tool-section space-y-5">
             <div>
               <p className="nc-eyebrow mb-0.5">Input</p>
-              <h2 className="font-heading font-black text-[#0A0A0A] text-lg leading-none">Define Your Voice</h2>
+              <h2 className="font-display font-black text-[#18181B] text-lg leading-none">Define Your Voice</h2>
             </div>
 
             <div className="nc-form-row">
@@ -108,16 +108,16 @@ export default function BrandVoicePage() {
                     }
                     <p className="nc-eyebrow">Alignment Score</p>
                   </div>
-                  <div className="font-heading font-black text-6xl leading-none mb-2" style={{ color: scoreColor }}>
+                  <div className="font-display font-black text-6xl leading-none mb-2" style={{ color: scoreColor }}>
                     {analysis.alignmentScore}%
                   </div>
-                  <p className="text-[#8A8071] text-sm">Voice alignment with your brand</p>
+                  <p className="text-[#71717A] text-sm">Voice alignment with your brand</p>
                 </div>
 
                 {/* Detected tone */}
                 <div className="nc-result-card">
                   <p className="nc-eyebrow mb-2">Detected Tone</p>
-                  <p className="font-heading font-bold text-[#0A0A0A] text-sm leading-relaxed p-3 bg-[#FAF7F0] border border-[#E8E1D0] rounded-lg">
+                  <p className="font-display font-bold text-[#18181B] text-sm leading-relaxed p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
                     {analysis.tone}
                   </p>
                 </div>
@@ -126,22 +126,22 @@ export default function BrandVoicePage() {
                 <div className="nc-result-card space-y-3">
                   <p className="nc-eyebrow">Improvement Suggestions</p>
                   {analysis.suggestions.map((s, i) => (
-                    <div key={i} className="flex items-start gap-3 p-3 bg-[#FAF7F0] border border-[#DED5C2] rounded-lg">
-                      <span className="w-5 h-5 rounded-full bg-[#C9A646]/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-[10px] font-heading font-black text-[#8C6F1F]">{i + 1}</span>
+                    <div key={i} className="flex items-start gap-3 p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
+                      <span className="w-5 h-5 rounded-full bg-[#2563EB]/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-[10px] font-display font-black text-[#1D4ED8]">{i + 1}</span>
                       </span>
-                      <p className="text-[13px] text-[#3D342A] leading-relaxed">{s}</p>
+                      <p className="text-[13px] text-[#18181B] leading-relaxed">{s}</p>
                     </div>
                   ))}
                 </div>
               </>
             ) : (
               <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
-                  <Mic className="h-6 w-6 text-[#C9A646]" />
+                <div className="w-14 h-14 rounded-2xl bg-[#F9FAFB] border border-[#E4E4E7] flex items-center justify-center mb-5">
+                  <Mic className="h-6 w-6 text-[#2563EB]" />
                 </div>
-                <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">Voice analysis will appear here</h3>
-                <p className="text-[#8A8071] text-sm max-w-xs">
+                <h3 className="font-display font-black text-[#18181B] text-lg mb-2">Voice analysis will appear here</h3>
+                <p className="text-[#71717A] text-sm max-w-xs">
                   Describe your brand voice, paste content to check, and hit Analyse.
                 </p>
               </div>

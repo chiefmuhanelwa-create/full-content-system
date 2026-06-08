@@ -203,10 +203,10 @@ export default function OperationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Server}
-        iconColor="text-[#C9A646]"
+        iconColor="text-[#2563EB]"
         eyebrow="Manage"
         title="Operations Center"
         description="Monitor system health, manage backups, and view activity"

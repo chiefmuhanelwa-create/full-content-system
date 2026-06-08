@@ -73,7 +73,7 @@ export default function CTAOptimizerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Target}
         iconColor="text-rose-600"
@@ -119,7 +119,7 @@ export default function CTAOptimizerPage() {
               <div>
                 <p className="font-semibold text-sm mb-2">Community CTAs</p>
                 {CTA_LIBRARY.community.map((cta, i) => (
-                  <div key={i} className="flex justify-between items-center p-2 bg-[#FAF7F0] border border-[#E8E1D0] rounded-lg mb-2 text-xs">
+                  <div key={i} className="flex justify-between items-center p-2 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg mb-2 text-xs">
                     <span>{cta}</span>
                     <Button variant="ghost" size="sm" onClick={() => copy(cta)}>
                       <Copy className="h-3 w-3" />
@@ -190,8 +190,8 @@ export default function CTAOptimizerPage() {
                 </CardHeader>
                 <CardContent>
                   {Object.entries(suggestions.platformSpecific).map(([platform, cta]) => (
-                    <div key={platform} className="mb-3 p-3 bg-[#FAF7F0] border border-[#E8E1D0] rounded-lg">
-                      <p className="font-heading font-bold text-xs text-[#8A8071] mb-1">{platform.toUpperCase()}</p>
+                    <div key={platform} className="mb-3 p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
+                      <p className="font-display font-bold text-xs text-[#71717A] mb-1">{platform.toUpperCase()}</p>
                       <p className="text-sm">{cta}</p>
                     </div>
                   ))}

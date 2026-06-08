@@ -134,10 +134,10 @@ export default function ICPPainLibraryPage() {
   const getPainIntensityClass = (intensity: string) => {
     switch (intensity) {
       case 'low': return 'bg-emerald-100 text-emerald-700 border-emerald-200'
-      case 'medium': return 'bg-[#FAF7F0] text-[#8C6F1F] border-[#C9A646]/30'
+      case 'medium': return 'bg-[#F9FAFB] text-[#1D4ED8] border-[#2563EB]/30'
       case 'high': return 'bg-[#FFF3E8] text-[#9A3A12] border-[#F2701E]/30'
       case 'critical': return 'bg-red-100 text-red-700 border-red-200'
-      default: return 'bg-[#FAF7F0] text-[#8A8071] border-[#DED5C2]'
+      default: return 'bg-[#F9FAFB] text-[#71717A] border-[#E4E4E7]'
     }
   }
 
@@ -158,22 +158,22 @@ export default function ICPPainLibraryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Target}
-        iconColor="text-[#C9A646]"
+        iconColor="text-[#2563EB]"
         eyebrow="Audience"
         title="ICP Pain Library"
         description="Deep understanding of your audience's pain points — what keeps them awake at night."
       >
         <div className="flex gap-2">
-          <button onClick={() => setShowFilters(!showFilters)} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#DED5C2] bg-white text-[#5C5448] hover:border-[#C9A646]/50 text-[11px] font-heading font-bold uppercase tracking-wide transition-all">
+          <button onClick={() => setShowFilters(!showFilters)} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 text-[11px] font-display font-bold uppercase tracking-wide transition-all">
             <Filter className="h-3.5 w-3.5" /> Filters
           </button>
-          <button onClick={exportToCSV} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#DED5C2] bg-white text-[#5C5448] hover:border-[#C9A646]/50 text-[11px] font-heading font-bold uppercase tracking-wide transition-all">
+          <button onClick={exportToCSV} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 text-[11px] font-display font-bold uppercase tracking-wide transition-all">
             <Download className="h-3.5 w-3.5" /> Export CSV
           </button>
-          <button onClick={() => setIsEditing(!isEditing)} className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[11px] font-heading font-bold uppercase tracking-wide transition-all ${isEditing ? 'border border-[#DED5C2] bg-white text-[#8A8071]' : 'bg-[#C9A646] text-[#0A0A0A]'}`}>
+          <button onClick={() => setIsEditing(!isEditing)} className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[11px] font-display font-bold uppercase tracking-wide transition-all ${isEditing ? 'border border-[#E4E4E7] bg-white text-[#71717A]' : 'bg-[#2563EB] text-[#18181B]'}`}>
             {isEditing ? <><X className="h-3.5 w-3.5" /> Cancel</> : <><Plus className="h-3.5 w-3.5" /> Add Pain Point</>}
           </button>
         </div>
@@ -184,9 +184,9 @@ export default function ICPPainLibraryPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Total Pain Points', value: stats.total, color: 'text-[#C9A646]' },
+            { label: 'Total Pain Points', value: stats.total, color: 'text-[#2563EB]' },
             { label: 'Favourites', value: stats.favorites, color: 'text-red-500' },
-            { label: 'Avg Engagement', value: `${stats.avgEngagement}%`, color: 'text-[#C9A646]' },
+            { label: 'Avg Engagement', value: `${stats.avgEngagement}%`, color: 'text-[#2563EB]' },
             { label: 'Avg Conversion', value: `${stats.avgConversion}%`, color: 'text-emerald-600' },
           ].map((stat) => (
             <div key={stat.label} className="nc-stat">
@@ -201,7 +201,7 @@ export default function ICPPainLibraryPage() {
           <div className="nc-tool-section space-y-4">
             <div className="flex items-center justify-between">
               <p className="nc-eyebrow">Filters</p>
-              <button onClick={clearFilters} className="text-[11px] font-heading font-bold text-[#8A8071] hover:text-[#C9A646] transition-colors uppercase tracking-wide">Clear All</button>
+              <button onClick={clearFilters} className="text-[11px] font-display font-bold text-[#71717A] hover:text-[#2563EB] transition-colors uppercase tracking-wide">Clear All</button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {[
@@ -230,7 +230,7 @@ export default function ICPPainLibraryPage() {
             <div className="nc-tool-section lg:col-span-1 space-y-4">
               <div>
                 <p className="nc-eyebrow mb-0.5">{editingId ? 'Edit' : 'New'}</p>
-                <h2 className="font-heading font-black text-[#0A0A0A] text-lg leading-none">{editingId ? 'Edit Pain Point' : 'Add Pain Point'}</h2>
+                <h2 className="font-display font-black text-[#18181B] text-lg leading-none">{editingId ? 'Edit Pain Point' : 'Add Pain Point'}</h2>
               </div>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {[
@@ -281,7 +281,7 @@ export default function ICPPainLibraryPage() {
                   <input id="productMatch" className="nc-tool-input" value={formData.productMatch} onChange={(e) => setFormData({ ...formData, productMatch: e.target.value })} placeholder="Which NOCHILL product solves this?" />
                 </div>
 
-                <div className="border-t border-[#E8E1D0] pt-4 space-y-3">
+                <div className="border-t border-[#E4E4E7] pt-4 space-y-3">
                   <p className="label-nc">Performance Metrics</p>
                   {[
                     { id: 'timesAddressed', label: 'Times Addressed', value: formData.timesAddressed, key: 'timesAddressed' },
@@ -305,7 +305,7 @@ export default function ICPPainLibraryPage() {
                     {loading ? 'Saving...' : editingId ? 'Update Pain Point' : 'Add Pain Point'}
                   </button>
                   {editingId && (
-                    <button type="button" onClick={resetForm} className="px-4 py-2.5 rounded-xl border border-[#DED5C2] bg-white text-[#5C5448] text-[12px] font-heading font-bold uppercase tracking-wide">
+                    <button type="button" onClick={resetForm} className="px-4 py-2.5 rounded-xl border border-[#E4E4E7] bg-white text-[#52525B] text-[12px] font-display font-bold uppercase tracking-wide">
                       Cancel
                     </button>
                   )}
@@ -319,7 +319,7 @@ export default function ICPPainLibraryPage() {
             <div className="space-y-4">
               {loading && painPoints.length === 0 ? (
                 <div className="nc-tool-section flex items-center justify-center py-12">
-                  <p className="text-[#8A8071] font-heading text-sm">Loading pain points...</p>
+                  <p className="text-[#71717A] font-display text-sm">Loading pain points...</p>
                 </div>
               ) : filteredPainPoints.length > 0 ? (
                 filteredPainPoints.map((painPoint) => (
@@ -327,82 +327,82 @@ export default function ICPPainLibraryPage() {
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <p className="font-heading font-bold text-[#0A0A0A] text-sm leading-snug">{painPoint.painPoint}</p>
+                          <p className="font-display font-bold text-[#18181B] text-sm leading-snug">{painPoint.painPoint}</p>
                           {painPoint.isFavorite && <Heart className="h-3.5 w-3.5 fill-red-500 text-red-500 flex-shrink-0" />}
                         </div>
                         <div className="flex flex-wrap gap-1.5">
-                          <span className={`px-2 py-0.5 rounded-full border text-[10px] font-heading font-black tracking-wide uppercase ${getPainIntensityClass(painPoint.painIntensity)}`}>
+                          <span className={`px-2 py-0.5 rounded-full border text-[10px] font-display font-black tracking-wide uppercase ${getPainIntensityClass(painPoint.painIntensity)}`}>
                             {painPoint.painIntensity}
                           </span>
-                          <span className="px-2 py-0.5 rounded-full border border-[#DED5C2] bg-[#FAF7F0] text-[10px] font-heading font-bold text-[#5C5448] uppercase tracking-wide">
+                          <span className="px-2 py-0.5 rounded-full border border-[#E4E4E7] bg-[#F9FAFB] text-[10px] font-display font-bold text-[#52525B] uppercase tracking-wide">
                             {getAudienceLevelLabel(painPoint.audienceLevel)}
                           </span>
-                          <span className="px-2 py-0.5 rounded-full border border-[#DED5C2] bg-[#FAF7F0] text-[10px] font-heading font-bold text-[#5C5448] uppercase tracking-wide">
+                          <span className="px-2 py-0.5 rounded-full border border-[#E4E4E7] bg-[#F9FAFB] text-[10px] font-display font-bold text-[#52525B] uppercase tracking-wide">
                             {painPoint.painCategory}
                           </span>
                           {painPoint.shadowFear && (
-                            <span className="px-2 py-0.5 rounded-full border border-[#C9A646]/30 bg-[#FAF7F0] text-[10px] font-heading font-bold text-[#8C6F1F] uppercase tracking-wide">
+                            <span className="px-2 py-0.5 rounded-full border border-[#2563EB]/30 bg-[#F9FAFB] text-[10px] font-display font-bold text-[#1D4ED8] uppercase tracking-wide">
                               {painPoint.shadowFear.replace(/_/g, ' ')}
                             </span>
                           )}
                         </div>
                       </div>
                       <div className="flex gap-1 flex-shrink-0">
-                        <button onClick={() => toggleFavorite(painPoint.id, painPoint.isFavorite)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-red-500 hover:bg-[#FAF7F0] transition-colors">
+                        <button onClick={() => toggleFavorite(painPoint.id, painPoint.isFavorite)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-red-500 hover:bg-[#F9FAFB] transition-colors">
                           <Heart className={`h-3.5 w-3.5 ${painPoint.isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
                         </button>
-                        <button onClick={() => editPainPoint(painPoint)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-[#C9A646] hover:bg-[#FAF7F0] transition-colors">
+                        <button onClick={() => editPainPoint(painPoint)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-[#2563EB] hover:bg-[#F9FAFB] transition-colors">
                           <Edit className="h-3.5 w-3.5" />
                         </button>
-                        <button onClick={() => deletePainPoint(painPoint.id)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-red-500 hover:bg-[#FAF7F0] transition-colors">
+                        <button onClick={() => deletePainPoint(painPoint.id)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-red-500 hover:bg-[#F9FAFB] transition-colors">
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     </div>
 
                     {/* Metrics */}
-                    <div className="grid grid-cols-3 gap-3 p-3.5 bg-[#FAF7F0] border border-[#E8E1D0] rounded-xl mb-4">
+                    <div className="grid grid-cols-3 gap-3 p-3.5 bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl mb-4">
                       {[
-                        { icon: Target, label: 'Addressed', value: painPoint.timesAddressed, color: 'text-[#C9A646]' },
+                        { icon: Target, label: 'Addressed', value: painPoint.timesAddressed, color: 'text-[#2563EB]' },
                         { icon: TrendingUp, label: 'Engagement', value: `${painPoint.avgEngagement.toFixed(2)}%`, color: 'text-emerald-600' },
                         { icon: AlertTriangle, label: 'Conversion', value: `${painPoint.conversionRate.toFixed(2)}%`, color: 'text-[#D4541F]' },
                       ].map((metric) => (
                         <div key={metric.label} className="text-center">
                           <div className={`flex items-center justify-center gap-1 mb-1 ${metric.color}`}>
                             <metric.icon className="h-3.5 w-3.5" />
-                            <span className="text-[10px] font-heading font-black uppercase tracking-wide">{metric.label}</span>
+                            <span className="text-[10px] font-display font-black uppercase tracking-wide">{metric.label}</span>
                           </div>
-                          <p className={`font-heading font-black text-lg leading-none ${metric.color}`}>{metric.value}</p>
+                          <p className={`font-display font-black text-lg leading-none ${metric.color}`}>{metric.value}</p>
                         </div>
                       ))}
                     </div>
 
                     {/* Details */}
                     <div className="grid md:grid-cols-2 gap-3">
-                      {painPoint.audienceSegment && <div><p className="label-nc mb-1">Audience Segment</p><p className="text-[13px] text-[#3D342A]">{painPoint.audienceSegment}</p></div>}
-                      {painPoint.emotionalTrigger && <div><p className="label-nc mb-1">Emotional Trigger</p><p className="text-[13px] text-[#3D342A]">{painPoint.emotionalTrigger}</p></div>}
-                      {painPoint.solutionType && <div><p className="label-nc mb-1">Solution Type</p><p className="text-[13px] text-[#3D342A] capitalize">{painPoint.solutionType.replace(/_/g, ' ')}</p></div>}
-                      {painPoint.productMatch && <div><p className="label-nc mb-1">Product Match</p><p className="text-[13px] text-[#3D342A]">{painPoint.productMatch}</p></div>}
-                      {painPoint.contentPillar && <div><p className="label-nc mb-1">Content Pillar</p><p className="text-[13px] text-[#3D342A] capitalize">{painPoint.contentPillar}</p></div>}
+                      {painPoint.audienceSegment && <div><p className="label-nc mb-1">Audience Segment</p><p className="text-[13px] text-[#18181B]">{painPoint.audienceSegment}</p></div>}
+                      {painPoint.emotionalTrigger && <div><p className="label-nc mb-1">Emotional Trigger</p><p className="text-[13px] text-[#18181B]">{painPoint.emotionalTrigger}</p></div>}
+                      {painPoint.solutionType && <div><p className="label-nc mb-1">Solution Type</p><p className="text-[13px] text-[#18181B] capitalize">{painPoint.solutionType.replace(/_/g, ' ')}</p></div>}
+                      {painPoint.productMatch && <div><p className="label-nc mb-1">Product Match</p><p className="text-[13px] text-[#18181B]">{painPoint.productMatch}</p></div>}
+                      {painPoint.contentPillar && <div><p className="label-nc mb-1">Content Pillar</p><p className="text-[13px] text-[#18181B] capitalize">{painPoint.contentPillar}</p></div>}
                     </div>
 
                     {painPoint.notes && (
-                      <div className="border-t border-[#E8E1D0] pt-3 mt-3">
+                      <div className="border-t border-[#E4E4E7] pt-3 mt-3">
                         <p className="label-nc mb-1">Notes</p>
-                        <p className="text-[13px] text-[#5C5448]">{painPoint.notes}</p>
+                        <p className="text-[13px] text-[#52525B]">{painPoint.notes}</p>
                       </div>
                     )}
                   </div>
                 ))
               ) : (
                 <div className="nc-tool-section flex flex-col items-center justify-center py-16 text-center">
-                  <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
-                    <Brain className="h-6 w-6 text-[#C9A646]" />
+                  <div className="w-14 h-14 rounded-2xl bg-[#F9FAFB] border border-[#E4E4E7] flex items-center justify-center mb-5">
+                    <Brain className="h-6 w-6 text-[#2563EB]" />
                   </div>
-                  <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">
+                  <h3 className="font-display font-black text-[#18181B] text-lg mb-2">
                     {painPoints.length === 0 ? 'No pain points yet' : 'No pain points match your filters'}
                   </h3>
-                  <p className="text-[#8A8071] text-sm max-w-xs mb-5">
+                  <p className="text-[#71717A] text-sm max-w-xs mb-5">
                     {painPoints.length === 0 ? 'Start documenting what keeps your audience awake at night.' : 'Try clearing the filters to see all pain points.'}
                   </p>
                   {painPoints.length === 0 ? (
@@ -410,7 +410,7 @@ export default function ICPPainLibraryPage() {
                       <Plus className="h-4 w-4" /> Add Your First Pain Point
                     </button>
                   ) : (
-                    <button onClick={clearFilters} className="px-5 py-2.5 rounded-xl border border-[#DED5C2] bg-white text-[#5C5448] text-[12px] font-heading font-bold uppercase tracking-wide">
+                    <button onClick={clearFilters} className="px-5 py-2.5 rounded-xl border border-[#E4E4E7] bg-white text-[#52525B] text-[12px] font-display font-bold uppercase tracking-wide">
                       Clear Filters
                     </button>
                   )}

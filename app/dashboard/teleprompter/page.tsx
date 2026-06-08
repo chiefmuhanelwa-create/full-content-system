@@ -482,7 +482,7 @@ export default function TeleprompterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={MonitorPlay}
         iconColor="text-green-600"

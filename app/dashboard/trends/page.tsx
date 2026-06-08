@@ -81,7 +81,7 @@ export default function TrendsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={TrendingUp}
         iconColor="text-emerald-600"
@@ -97,7 +97,7 @@ export default function TrendsPage() {
           <div className="nc-tool-section space-y-5">
             <div>
               <p className="nc-eyebrow mb-0.5">Discover</p>
-              <h2 className="font-heading font-black text-[#0A0A0A] text-lg leading-none">Find Trends</h2>
+              <h2 className="font-display font-black text-[#18181B] text-lg leading-none">Find Trends</h2>
             </div>
 
             <div className="nc-form-row">
@@ -138,13 +138,13 @@ export default function TrendsPage() {
                   <button
                     key={idx}
                     onClick={() => handleGetSuggestions(trend.topic)}
-                    className={`w-full text-left p-3.5 rounded-xl border transition-all ${selectedTrend === trend.topic ? 'border-[#C9A646] bg-[#FAF7F0] shadow-sm' : 'border-[#DED5C2] bg-white hover:border-[#C9A646]/50'}`}
+                    className={`w-full text-left p-3.5 rounded-xl border transition-all ${selectedTrend === trend.topic ? 'border-[#2563EB] bg-[#F9FAFB] shadow-sm' : 'border-[#E4E4E7] bg-white hover:border-[#2563EB]/50'}`}
                   >
                     <div className="flex justify-between items-start mb-1.5">
-                      <span className="font-heading font-bold text-[#0A0A0A] text-sm">{trend.topic}</span>
+                      <span className="font-display font-bold text-[#18181B] text-sm">{trend.topic}</span>
                       <span className="nc-badge">{trend.volume}</span>
                     </div>
-                    <div className="flex gap-3 text-[11px] text-[#8A8071] font-heading">
+                    <div className="flex gap-3 text-[11px] text-[#71717A] font-display">
                       <span>Relevance {trend.relevance}%</span>
                       <span>{trend.platform}</span>
                     </div>
@@ -158,32 +158,32 @@ export default function TrendsPage() {
           <div className="space-y-4">
             {loadingSuggestions && (
               <div className="nc-tool-section flex flex-col items-center justify-center py-16">
-                <Sparkles className="h-8 w-8 text-[#C9A646] animate-spin mb-4" />
-                <p className="text-[#8A8071] font-heading text-sm">Generating content suggestions...</p>
+                <Sparkles className="h-8 w-8 text-[#2563EB] animate-spin mb-4" />
+                <p className="text-[#71717A] font-display text-sm">Generating content suggestions...</p>
               </div>
             )}
 
             {suggestions && !loadingSuggestions && (
               <div className="space-y-4">
                 {/* Selected trend */}
-                <div className="nc-result-card border-l-4 border-l-[#C9A646]">
+                <div className="nc-result-card border-l-4 border-l-[#2563EB]">
                   <div className="flex items-center gap-2 mb-2">
-                    <Target className="h-4 w-4 text-[#C9A646]" />
+                    <Target className="h-4 w-4 text-[#2563EB]" />
                     <p className="nc-eyebrow">Selected Trend</p>
                   </div>
-                  <p className="font-heading font-black text-[#0A0A0A] text-base mb-1">{selectedTrend}</p>
-                  <p className="text-[13px] text-[#5C5448]">{suggestions.timingSuggestion}</p>
+                  <p className="font-display font-black text-[#18181B] text-base mb-1">{selectedTrend}</p>
+                  <p className="text-[13px] text-[#52525B]">{suggestions.timingSuggestion}</p>
                 </div>
 
                 {/* Content angles */}
                 <div className="nc-result-card space-y-2">
                   <div className="flex items-center gap-2 mb-1">
-                    <Lightbulb className="h-4 w-4 text-[#C9A646]" />
+                    <Lightbulb className="h-4 w-4 text-[#2563EB]" />
                     <p className="nc-eyebrow">Content Angles</p>
                   </div>
                   {suggestions.contentAngles.map((angle, idx) => (
-                    <div key={idx} className="p-3 bg-[#FAF7F0] border border-[#E8E1D0] rounded-lg">
-                      <p className="text-[13px] font-heading font-semibold text-[#1F1B16]">{angle}</p>
+                    <div key={idx} className="p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
+                      <p className="text-[13px] font-display font-semibold text-[#18181B]">{angle}</p>
                     </div>
                   ))}
                 </div>
@@ -191,12 +191,12 @@ export default function TrendsPage() {
                 {/* Hook ideas */}
                 <div className="nc-result-card space-y-2">
                   <div className="flex items-center gap-2 mb-1">
-                    <Zap className="h-4 w-4 text-[#C9A646]" />
+                    <Zap className="h-4 w-4 text-[#2563EB]" />
                     <p className="nc-eyebrow">Hook Ideas</p>
                   </div>
                   {suggestions.hookIdeas.map((hook, idx) => (
-                    <div key={idx} className="p-3 bg-[#FAF7F0] border border-[#E8E1D0] rounded-lg">
-                      <p className="text-[13px] text-[#1F1B16] italic leading-relaxed">"{hook}"</p>
+                    <div key={idx} className="p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
+                      <p className="text-[13px] text-[#18181B] italic leading-relaxed">"{hook}"</p>
                     </div>
                   ))}
                 </div>
@@ -204,12 +204,12 @@ export default function TrendsPage() {
                 {/* Hashtags */}
                 <div className="nc-result-card">
                   <div className="flex items-center gap-2 mb-3">
-                    <Hash className="h-4 w-4 text-[#C9A646]" />
+                    <Hash className="h-4 w-4 text-[#2563EB]" />
                     <p className="nc-eyebrow">Recommended Hashtags</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {suggestions.hashtags.map((tag, idx) => (
-                      <span key={idx} className="px-3 py-1.5 bg-[#FAF7F0] border border-[#DED5C2] rounded-full text-[12px] font-heading font-bold text-[#4A3F35]">
+                      <span key={idx} className="px-3 py-1.5 bg-[#F9FAFB] border border-[#E4E4E7] rounded-full text-[12px] font-display font-bold text-[#52525B]">
                         #{tag}
                       </span>
                     ))}
@@ -220,11 +220,11 @@ export default function TrendsPage() {
 
             {!suggestions && !loadingSuggestions && (
               <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
-                  <TrendingUp className="h-6 w-6 text-[#C9A646]" />
+                <div className="w-14 h-14 rounded-2xl bg-[#F9FAFB] border border-[#E4E4E7] flex items-center justify-center mb-5">
+                  <TrendingUp className="h-6 w-6 text-[#2563EB]" />
                 </div>
-                <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">Content ideas will appear here</h3>
-                <p className="text-[#8A8071] text-sm max-w-xs">Click on a trend on the left to get angles, hooks, and hashtags instantly.</p>
+                <h3 className="font-display font-black text-[#18181B] text-lg mb-2">Content ideas will appear here</h3>
+                <p className="text-[#71717A] text-sm max-w-xs">Click on a trend on the left to get angles, hooks, and hashtags instantly.</p>
               </div>
             )}
           </div>

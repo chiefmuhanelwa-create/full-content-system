@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <ErrorBoundary>
       <ContentProvider>
-        <div className="flex h-screen overflow-hidden bg-[#FAF7F0]">
+        <div className="flex h-screen overflow-hidden bg-[#F9FAFB]">
           <Navigation />
           <main className="flex-1 overflow-y-auto">
             {children}

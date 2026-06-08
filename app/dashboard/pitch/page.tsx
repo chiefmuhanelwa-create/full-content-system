@@ -89,7 +89,7 @@ export default function PitchBuilderPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
         icon={Target}
         iconColor="text-orange-600"
@@ -129,7 +129,7 @@ export default function PitchBuilderPage() {
               {/* Position */}
               <div className="space-y-2">
                 <Label htmlFor="position" className="flex items-center gap-2">
-                  <span className="bg-[#C9A646] text-[#0A0A0A] rounded-full w-6 h-6 flex items-center justify-center text-xs font-heading font-black">2</span>
+                  <span className="bg-[#2563EB] text-[#18181B] rounded-full w-6 h-6 flex items-center justify-center text-xs font-display font-black">2</span>
                   Position (What you do) *
                 </Label>
                 <Textarea
@@ -285,7 +285,7 @@ export default function PitchBuilderPage() {
                       </div>
                     </TabsContent>
                     <TabsContent value="video" className="mt-4">
-                      <div className="p-4 bg-[#FAF7F0] border border-[#DED5C2] rounded-xl">
+                      <div className="p-4 bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl">
                         <div className="flex items-start justify-between mb-2">
                           <p className="nc-eyebrow">60-SECOND VIDEO SCRIPT</p>
                           <Button
@@ -300,7 +300,7 @@ export default function PitchBuilderPage() {
                             )}
                           </Button>
                         </div>
-                        <p className="text-sm text-[#3D342A] whitespace-pre-wrap">{generatedPitch.variations.video}</p>
+                        <p className="text-sm text-[#18181B] whitespace-pre-wrap">{generatedPitch.variations.video}</p>
                       </div>
                     </TabsContent>
                     <TabsContent value="email" className="mt-4">
@@ -361,11 +361,11 @@ export default function PitchBuilderPage() {
             </div>
           ) : (
             <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
-              <div className="w-14 h-14 rounded-2xl bg-[#FAF7F0] border border-[#DED5C2] flex items-center justify-center mb-5">
-                <Target className="h-6 w-6 text-[#C9A646]" />
+              <div className="w-14 h-14 rounded-2xl bg-[#F9FAFB] border border-[#E4E4E7] flex items-center justify-center mb-5">
+                <Target className="h-6 w-6 text-[#2563EB]" />
               </div>
-              <h3 className="font-heading font-black text-[#0A0A0A] text-lg mb-2">No pitch generated yet</h3>
-              <p className="text-[#8A8071] text-sm max-w-xs">Fill out the Person and Position pillars, then hit Build My Pitch.</p>
+              <h3 className="font-display font-black text-[#18181B] text-lg mb-2">No pitch generated yet</h3>
+              <p className="text-[#71717A] text-sm max-w-xs">Fill out the Person and Position pillars, then hit Build My Pitch.</p>
             </div>
           )}
         </div>
