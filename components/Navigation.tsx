@@ -8,7 +8,8 @@ import {
   Cpu, Mic, Layers, Target, TrendingUp, BarChart2,
   Calendar, BookMarked, ShoppingBag, Star, Repeat, PenTool,
   Tv2, Archive, Settings, ChevronDown, ChevronRight, Globe,
-  Package, MonitorPlay, User, FlaskConical, Search
+  Package, MonitorPlay, FlaskConical, Search,
+  LayoutGrid, Megaphone, Wallet
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -73,7 +74,7 @@ const navGroups: NavGroup[] = [
       { name: 'Godfather Offers', href: '/dashboard/offers', icon: Star },
       { name: 'Pitch Builder', href: '/dashboard/pitch', icon: Target },
       { name: 'CTA Optimizer', href: '/dashboard/cta-optimizer', icon: Zap },
-      { name: 'Revenue Tracker', href: '/dashboard/revenue', icon: TrendingUp },
+      { name: 'Revenue Tracker', href: '/dashboard/revenue', icon: Wallet },
     ],
   },
   {
@@ -82,8 +83,8 @@ const navGroups: NavGroup[] = [
       { name: 'Content Calendar', href: '/dashboard/content-calendar-plus', icon: Calendar },
       { name: 'Batch Planner', href: '/dashboard/batch-planner', icon: Layers },
       { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart2 },
-      { name: 'Content Cards', href: '/dashboard/content-cards', icon: BarChart2 },
-      { name: 'Campaigns', href: '/dashboard/campaigns', icon: Target },
+      { name: 'Content Cards', href: '/dashboard/content-cards', icon: LayoutGrid },
+      { name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone },
     ],
   },
   {
@@ -136,7 +137,6 @@ export function Navigation() {
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#F4F4F8] border border-[#E4E4E7]">
           <Search className="w-3.5 h-3.5 text-[#A1A1AA] flex-shrink-0" />
           <span className="text-[12px] font-display text-[#A1A1AA]">Search tools...</span>
-          <span className="ml-auto text-[10px] font-display text-[#D4D4D8] bg-white border border-[#E4E4E7] px-1.5 py-0.5 rounded">⌘F</span>
         </div>
       </div>
 
@@ -211,7 +211,7 @@ export function Navigation() {
       <div className="flex-shrink-0 border-t border-[#F4F4F5] p-3">
         <div className="flex items-center gap-2.5 mb-2">
           <div className="w-7 h-7 rounded-full bg-[#18181B] flex items-center justify-center flex-shrink-0">
-            <User className="w-3.5 h-3.5 text-white" />
+            <span className="text-white font-display font-black text-[11px] leading-none">{userName.charAt(0).toUpperCase()}</span>
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-display font-semibold text-[#18181B] truncate leading-none">{userName}</p>

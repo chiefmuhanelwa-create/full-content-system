@@ -6,7 +6,7 @@ import {
   TrendingUp, MonitorPlay, Repeat, BarChart2, Package,
   Layers, Globe, Mic, BookMarked,
   ArrowRight, Tv2, PenTool, Star, Archive, Plus, Cpu,
-  ChevronDown, FlaskConical
+  FlaskConical
 } from 'lucide-react'
 
 function ToolCard({
@@ -105,9 +105,6 @@ export default function DashboardPage() {
               <Plus className="w-4 h-4" />
               New Content
             </Link>
-            <button className="p-2.5 rounded-xl border border-[#E4E4E7] bg-white text-[#71717A] hover:border-[#D4D4D8] hover:text-[#18181B] transition-colors">
-              <ChevronDown className="w-4 h-4" />
-            </button>
           </div>
         </div>
 
@@ -131,9 +128,9 @@ export default function DashboardPage() {
               <div className="flex items-center gap-2">
                 <span className="text-base font-display font-semibold text-[#18181B]">Content Pipeline</span>
               </div>
-              <button className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-[#E4E4E7] text-[13px] font-display font-medium text-[#71717A] hover:border-[#D4D4D8] transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-                This Week <ChevronDown className="w-3 h-3" />
-              </button>
+              <span className="px-2.5 py-1 rounded-lg bg-white border border-[#E4E4E7] text-[12px] font-display font-medium text-[#A1A1AA] shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                This Week
+              </span>
             </div>
             <Link href="/dashboard/batch-planner" className="text-[12px] font-display font-medium text-[#71717A] hover:text-[#18181B] transition-colors">
               See All

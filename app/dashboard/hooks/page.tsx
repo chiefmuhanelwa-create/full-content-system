@@ -238,7 +238,7 @@ export default function HookGeneratorPage() {
               <div className="flex items-center gap-2 flex-wrap">
                 <button
                   onClick={() => setSelectedHookCategory('all')}
-                  className={`px-3 py-1.5 rounded-lg text-[11px] font-display font-bold uppercase tracking-wide transition-all ${selectedHookCategory === 'all' ? 'bg-[#2563EB] text-[#18181B]' : 'bg-white border border-[#E4E4E7] text-[#52525B] hover:border-[#2563EB]/50'}`}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-display font-bold uppercase tracking-wide transition-all ${selectedHookCategory === 'all' ? 'bg-[#2563EB] text-white' : 'bg-white border border-[#E4E4E7] text-[#52525B] hover:border-[#2563EB]/50'}`}
                 >
                   All (120)
                 </button>
@@ -246,7 +246,7 @@ export default function HookGeneratorPage() {
                   <button
                     key={category.id}
                     onClick={() => setSelectedHookCategory(category.id.toString())}
-                    className={`px-3 py-1.5 rounded-lg text-[11px] font-display font-bold uppercase tracking-wide transition-all ${selectedHookCategory === category.id.toString() ? 'bg-[#2563EB] text-[#18181B]' : 'bg-white border border-[#E4E4E7] text-[#52525B] hover:border-[#2563EB]/50'}`}
+                    className={`px-3 py-1.5 rounded-lg text-[11px] font-display font-bold uppercase tracking-wide transition-all ${selectedHookCategory === category.id.toString() ? 'bg-[#2563EB] text-white' : 'bg-white border border-[#E4E4E7] text-[#52525B] hover:border-[#2563EB]/50'}`}
                   >
                     {category.category.split(' & ')[0]} ({category.count})
                   </button>

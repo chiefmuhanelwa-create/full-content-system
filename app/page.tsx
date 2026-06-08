@@ -15,8 +15,12 @@ export default function LandingPage() {
             <span className="font-display font-black text-[#18181B] text-[15px] tracking-tight">NOCHILL</span>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            {['Tools', 'Frameworks', 'Proof', 'Pricing'].map((link) => (
-              <span key={link} className="text-[#71717A] text-sm font-display font-medium hover:text-[#18181B] transition-colors cursor-default">{link}</span>
+            {[
+              { label: 'Tools', href: '#tools' },
+              { label: 'Frameworks', href: '#frameworks' },
+              { label: 'Proof', href: '#proof' },
+            ].map((link) => (
+              <a key={link.label} href={link.href} className="text-[#71717A] text-sm font-display font-medium hover:text-[#18181B] transition-colors">{link.label}</a>
             ))}
           </nav>
           <div className="flex items-center gap-3">
@@ -125,7 +129,7 @@ export default function LandingPage() {
 
               <h1 className="font-display font-black leading-[0.92] tracking-tight mb-6">
                 <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 84px)', color: '#18181B' }}>Create. Plan.</span>
-                <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 84px)', color: '#D4D4D8' }}>Sell more.</span>
+                <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 84px)', color: '#2563EB' }}>Sell more.</span>
               </h1>
 
               <p className="text-[#71717A] text-lg font-display font-normal mb-9 leading-relaxed max-w-lg mx-auto">
@@ -145,7 +149,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats bar */}
-      <section className="py-10 px-6 bg-white border-y border-[#E4E4E7]">
+      <section id="proof" className="py-10 px-6 bg-white border-y border-[#E4E4E7]">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { value: 'R600K+', label: 'Annual income' },
@@ -162,7 +166,7 @@ export default function LandingPage() {
       </section>
 
       {/* Tools grid */}
-      <section className="py-20 px-6 max-w-5xl mx-auto">
+      <section id="tools" className="py-20 px-6 max-w-5xl mx-auto">
         <div className="mb-10">
           <p className="text-blue-600 font-display font-semibold text-xs uppercase tracking-widest mb-2">What's inside</p>
           <h2 className="text-[32px] font-display font-black text-[#18181B] leading-tight">42 tools. One system.</h2>
@@ -196,7 +200,7 @@ export default function LandingPage() {
       </section>
 
       {/* PAIDS */}
-      <section className="py-20 px-6 bg-white border-t border-[#E4E4E7]">
+      <section id="frameworks" className="py-20 px-6 bg-white border-t border-[#E4E4E7]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
             <p className="text-blue-600 font-display font-semibold text-xs uppercase tracking-widest mb-2">Revenue model</p>

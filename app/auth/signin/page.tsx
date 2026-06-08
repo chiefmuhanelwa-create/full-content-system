@@ -3,7 +3,7 @@
 import { Suspense, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Loader2, ArrowRight } from 'lucide-react'
+import { Loader2, ArrowRight, Eye, EyeOff } from 'lucide-react'
 
 function SignInContent() {
   const router = useRouter()
@@ -14,6 +14,7 @@ function SignInContent() {
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,7 +36,7 @@ function SignInContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F4F8] flex items-center justify-center px-4 font-display">
+    <div className="relative min-h-screen bg-[#F4F4F8] flex items-center justify-center px-4 font-display">
       {/* Dot grid background */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -47,6 +48,11 @@ function SignInContent() {
       />
 
       <div className="relative w-full max-w-sm">
+        {/* Back link */}
+        <a href="/" className="flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#71717A] transition-colors text-[12px] font-display mb-6">
+          ← Back to home
+        </a>
+
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <div className="w-12 h-12 rounded-2xl bg-[#18181B] flex items-center justify-center mb-4 shadow-[0_4px_16px_rgba(0,0,0,0.12)]">
@@ -76,7 +82,7 @@ function SignInContent() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="chiefmuhanelwa@gmail.com"
+                placeholder="your@email.com"
                 required
                 disabled={isLoading}
                 className="w-full bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl px-4 py-3 text-[#18181B] text-sm font-display placeholder-[#A1A1AA] focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-colors disabled:opacity-50"
@@ -87,15 +93,25 @@ function SignInContent() {
               <label className="block text-[#71717A] text-[11px] font-display font-semibold uppercase tracking-wider mb-1.5">
                 Password
               </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                disabled={isLoading}
-                className="w-full bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl px-4 py-3 text-[#18181B] text-sm font-display placeholder-[#A1A1AA] focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-colors disabled:opacity-50"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  disabled={isLoading}
+                  className="w-full bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl px-4 py-3 pr-11 text-[#18181B] text-sm font-display placeholder-[#A1A1AA] focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-colors disabled:opacity-50"
+                />
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A1A1AA] hover:text-[#71717A] transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <button

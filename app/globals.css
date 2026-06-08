@@ -43,7 +43,7 @@
 
 @layer base {
   * { @apply border-border; }
-  html { color-scheme: light; }
+  html { color-scheme: light; scroll-behavior: smooth; }
 
   body {
     @apply bg-background text-foreground;
