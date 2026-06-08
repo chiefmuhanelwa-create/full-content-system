@@ -8,7 +8,7 @@ import {
   Cpu, Mic, Layers, Target, TrendingUp, BarChart2,
   Calendar, BookMarked, ShoppingBag, Star, Repeat, PenTool,
   Tv2, Archive, Settings, ChevronDown, ChevronRight, Globe,
-  Package, MonitorPlay, FlaskConical, Search,
+  Package, MonitorPlay, FlaskConical, Search, X,
   LayoutGrid, Megaphone, Wallet
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -95,7 +95,13 @@ const navGroups: NavGroup[] = [
   },
 ]
 
-export function Navigation() {
+interface NavigationProps {
+  isOpen?: boolean
+  onClose?: () => void
+  onSearchOpen?: () => void
+}
+
+export function Navigation({ isOpen = false, onClose, onSearchOpen }: NavigationProps) {
   const pathname = usePathname()
   const { data: session } = useSession()
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({
@@ -117,11 +123,16 @@ export function Navigation() {
   const userHandle = '@nochill_god'
 
   return (
-    <nav className="w-64 bg-white h-full flex flex-col flex-shrink-0 border-r border-[#E4E4E7]">
+    <nav className={cn(
+      "w-64 bg-white flex flex-col border-r border-[#E4E4E7]",
+      "fixed inset-y-0 left-0 z-50 transition-transform duration-300 ease-in-out",
+      "lg:static lg:translate-x-0 lg:z-auto lg:flex-shrink-0",
+      isOpen ? "translate-x-0" : "-translate-x-full"
+    )}>
 
       {/* Brand */}
-      <div className="px-5 py-4 border-b border-[#F4F4F5] flex-shrink-0">
-        <Link href="/dashboard" className="flex items-center gap-2.5 group">
+      <div className="px-5 py-4 border-b border-[#F4F4F5] flex-shrink-0 flex items-center justify-between">
+        <Link href="/dashboard" onClick={onClose} className="flex items-center gap-2.5 group">
           <div className="w-7 h-7 rounded-lg bg-[#18181B] flex items-center justify-center flex-shrink-0">
             <span className="text-white font-display font-black text-xs leading-none">N</span>
           </div>
@@ -130,14 +141,25 @@ export function Navigation() {
             <p className="text-[10px] text-[#A1A1AA] font-display mt-0.5 leading-none">Content Intelligence</p>
           </div>
         </Link>
+        <button
+          onClick={onClose}
+          aria-label="Close navigation"
+          className="lg:hidden p-1.5 rounded-lg text-[#A1A1AA] hover:text-[#71717A] hover:bg-[#F4F4F8] transition-colors"
+        >
+          <X className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Search */}
       <div className="px-3 py-2.5 border-b border-[#F4F4F5] flex-shrink-0">
-        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#F4F4F8] border border-[#E4E4E7]">
+        <button
+          onClick={onSearchOpen}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#F4F4F8] border border-[#E4E4E7] w-full text-left hover:border-[#D4D4D8] transition-colors"
+        >
           <Search className="w-3.5 h-3.5 text-[#A1A1AA] flex-shrink-0" />
-          <span className="text-[12px] font-display text-[#A1A1AA]">Search tools...</span>
-        </div>
+          <span className="text-[12px] font-display text-[#A1A1AA] flex-1">Search tools...</span>
+          <kbd className="text-[9px] font-display text-[#D4D4D8] bg-white border border-[#E4E4E7] px-1.5 py-0.5 rounded hidden sm:block">⌘K</kbd>
+        </button>
       </div>
 
       {/* Scrollable nav */}
@@ -172,7 +194,7 @@ export function Navigation() {
                       || (item.href === '/dashboard' && pathname === '/dashboard')
 
                     return (
-                      <Link key={item.href} href={item.href}>
+                      <Link key={item.href} href={item.href} onClick={onClose}>
                         <div className={cn(
                           'flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg transition-all',
                           isActive

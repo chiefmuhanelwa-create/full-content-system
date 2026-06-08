@@ -438,6 +438,35 @@ export default function HookGeneratorPage() {
           </button>
         </div>
 
+        {/* Loading skeleton — shown while generation is in progress */}
+        {loading && hooks.length === 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="h-2.5 w-14 bg-[#F4F4F5] rounded animate-pulse mb-2" />
+                <div className="h-5 w-44 bg-[#F4F4F5] rounded animate-pulse" />
+              </div>
+            </div>
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} className="nc-result-card animate-pulse">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 space-y-2">
+                    <div className="h-2.5 w-10 bg-[#F4F4F5] rounded" />
+                    <div className="h-4 bg-[#F4F4F5] rounded w-full" />
+                    <div className="h-4 bg-[#F4F4F5] rounded w-5/6" />
+                    <div className="h-4 bg-[#F4F4F5] rounded w-3/4" />
+                  </div>
+                  <div className="flex gap-1 flex-shrink-0 mt-1">
+                    {[1, 2, 3, 4, 5].map(j => (
+                      <div key={j} className="w-7 h-7 rounded-lg bg-[#F4F4F5]" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Generated hooks */}
         {hooks.length > 0 && (
           <div className="space-y-4">

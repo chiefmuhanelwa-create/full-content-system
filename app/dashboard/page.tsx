@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { RecentActivity } from '@/components/RecentActivity'
 import {
   Zap, FileText, BookOpen, Brain, Target, Calendar,
   TrendingUp, MonitorPlay, Repeat, BarChart2, Package,
@@ -120,6 +121,9 @@ export default function DashboardPage() {
             </div>
           ))}
         </div>
+
+        {/* Continue where you left off */}
+        <RecentActivity />
 
         {/* My Content — Mondays "My Projects" table */}
         <div className="mb-8">

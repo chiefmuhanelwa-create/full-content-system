@@ -75,3 +75,37 @@ These answers are the foundation for every preference below. Update them if prio
 - **Never add error handling for scenarios that can't happen.** Only validate at real system boundaries (user input, external APIs). Don't add fallbacks for internal code that is guaranteed by the framework.
 - **Never hardcode model strings** like `"claude-sonnet-4-6"` in routes — always use `MODELS.*` from `lib/claude.ts` so model updates happen in one place.
 - **Never prompt the user to run `/clear` or recaps past context** — keep responses tight and pick up from where work left off without narrating what happened.
+
+---
+
+## UX/UI Design Standards — From June 2026 Full System Audit
+
+### Contrast failures to never repeat
+- `#D4D4D8` (zinc-300) is near-invisible on white backgrounds. Never use it for display text, hero payoff lines, or any meaningful text. It reads as disabled.
+- Active filter/tab buttons with `bg-blue-600` must use `text-white`, not `text-[#18181B]`. Dark text on blue fails WCAG 4.5:1 at normal font sizes.
+
+### Dead interactive elements — the #1 trust killer
+- Never ship a `<button>` without an `onClick`. Remove dead buttons (ChevronDown menus with no action, dropdown chevrons that don't open anything).
+- Never use `<span>` with `hover:text-*` if the element doesn't do anything — hover signals clickability.
+- Never ship a keyboard shortcut badge (⌘F, ⌘K) on a non-functional element. Experienced users try it once, fail, and mark the product as broken.
+
+### Navigation icon uniqueness — non-negotiable
+- Every sidebar nav item must have a unique icon. Duplicate icons within the same group or nearby groups create cognitive confusion when scanning.
+- Current icon assignments (June 2026): Content Cards→LayoutGrid, Campaigns→Megaphone, Revenue Tracker→Wallet, Analytics→BarChart2. When adding new tools, pick unused icons.
+
+### Auth UX minimums
+- Password field must have show/hide toggle (Eye/EyeOff). Table stakes.
+- Sign-in page must have a "← Back to home" link.
+- Never use a real personal email as placeholder text.
+- Outer wrapper div for sign-in page must have `relative` class so dot grid background positions correctly.
+
+### Scroll and anchor nav
+- `scroll-behavior: smooth` on `html` element in globals.css — always.
+- Landing page nav links must be working scroll anchors with matching section `id` attributes. Dead nav links destroy first impressions.
+
+### User avatar
+- A generic `User` icon from lucide in a user avatar looks amateur. Use the first letter of the user's name: `{userName.charAt(0).toUpperCase()}`.
+
+### Hero design law
+- The payoff/climax line of a hero headline must be the most high-contrast element — NOT the softest. If the second line of your headline is the value delivery ("Sell more."), make it the most prominent visually (blue, bold) not the least (grey).
+- The eye should naturally flow: headline payoff → CTA button. If they share a color (both blue), the connection is immediate.
