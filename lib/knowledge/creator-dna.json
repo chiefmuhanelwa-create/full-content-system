@@ -61,9 +61,13 @@
   },
 
   "key_market_data": {
-    "african_creator_economy": "$17.84 billion by 2032 at 25.6% CAGR",
-    "creator_income_stat": "96% of creators earn under $100K/year",
-    "window_framing": "The window is open NOW — African creator economy is in its fastest growth phase",
+    "african_creator_economy": "$5.1B (2025), growing to $29.84B by 2032 — 28.7% CAGR (faster than global average)",
+    "global_creator_economy": "$117–160B (2024–2025), projected $1.14T by 2034",
+    "african_creator_count": "36 million content creators in Africa — most earning nothing",
+    "creator_income_stat": "Most African creators earn under R1,000/month from content. 79.7% of NOCHILL audience are beginners.",
+    "sars_threshold": "R95,750/year — income above this requires SARS registration. Most creators don't know this.",
+    "sa_cpms": "R18–R120/1,000 impressions (Finance/Tech R90–R120). African CPM is 1/10th of Western rates — ad revenue alone will not sustain a creator business.",
+    "window_framing": "The window is open NOW — $29.84B by 2032. 28.7% CAGR. Africa is the fastest-growing creator economy on earth.",
     "sa_context": {
       "currency": "ZAR (South African Rand)",
       "tax_authority": "SARS",
@@ -165,8 +169,99 @@
         "Information Gap — the brand deal secrets they don't teach you"
       ],
       "products_for_this_audience": ["03", "04", "05", "11", "13", "tax"],
-      "tone_for_this_audience": "Peer-to-peer. Vulnerable. Receipt-backed. 'I've been you' energy. Mzansi references."
+      "tone_for_this_audience": "Peer-to-peer. Vulnerable. Receipt-backed. 'I've been you' energy. Mzansi references.",
+      "sub_segments": {
+        "struggling_starter": {
+          "pct": "35%",
+          "age": "18–32",
+          "profile": "Female-dominant, township/suburban SA, first-time or early creator",
+          "budget": "R350 max — a stretch",
+          "language": "I'm scared people will laugh at me",
+          "hook_angle": "Camera fear, starting small, 'it's okay to start bad'"
+        },
+        "the_dreamer": {
+          "pct": "20%",
+          "age": "16–28",
+          "profile": "NOT yet posting — block is perfectionism + no equipment",
+          "budget": "R0–R350",
+          "language": "I want to start but I don't know how",
+          "hook_angle": "Permission to start imperfect, phone is enough, 'start where you are'"
+        },
+        "stuck_grower": {
+          "pct": "20%",
+          "age": "20–35",
+          "profile": "3–12 months creating, small following, ZERO income despite consistency",
+          "budget": "R150–R500",
+          "language": "I post every day and nothing is working",
+          "hook_angle": "Monetisation confusion, strategy vs volume, 'you have followers, not customers'"
+        },
+        "student_youth": {
+          "pct": "8%",
+          "age": "15–24",
+          "profile": "Facebook-dominant, still in school, zero income",
+          "budget": "R0–R200",
+          "language": "I'm still at school but I want to build something",
+          "hook_angle": "Starting before you're ready, phone-first income, 'your peers will catch up to you'"
+        },
+        "professional_pivotter": {
+          "pct": "4%",
+          "age": "25–40",
+          "profile": "Employed, won't leave job until income proven — 'test mode'",
+          "budget": "R350–R1,500",
+          "language": "I want to do this but I need to see it work first",
+          "hook_angle": "Side income first, proof before leap, '90-minute-a-day system'"
+        },
+        "faith_driven_creator": {
+          "pct": "6%",
+          "age": "22–45",
+          "profile": "Ministry/mission-driven — content = stewardship of their calling",
+          "budget": "R350–R2,000",
+          "language": "God gave me this gift. I want to steward it well.",
+          "hook_angle": "Kingdom business, calling over career, NEVER 'sell' to them — CALL them"
+        }
+      }
     }
+  },
+
+  "pain_priority_matrix": {
+    "source": "1,643 survey respondents across 5 surveys + 66-response Tell Me The Truth survey",
+    "note": "Score = 0.4×Frequency + 0.4×Intensity + 0.2×WTP. Write to top-ranked pains first.",
+    "pains": [
+      { "rank": 1, "pain": "Monetisation Confusion", "score": 0.84, "pct": "71%", "angle": "PAIDS, 5 income streams, posting but not earning" },
+      { "rank": 2, "pain": "Niche & Content Clarity", "score": 0.76, "pct": "70%", "angle": "I don't know what to post, niche formula, clarity" },
+      { "rank": 3, "pain": "Audience Growth Stagnation", "score": 0.73, "pct": "69%", "angle": "Platform dependency, email list, owned audience" },
+      { "rank": 4, "pain": "Fear & Imposter Syndrome", "score": 0.72, "pct": "46%", "angle": "Post scared, camera fear, fear of being seen" },
+      { "rank": 5, "pain": "Mentorship & Isolation", "score": 0.70, "pct": "60%", "angle": "Doing things alone is quite hurtful, community" },
+      { "rank": 6, "pain": "Tech & Tools Confusion", "score": 0.67, "pct": "60%", "angle": "Which tools to use, decision fatigue" },
+      { "rank": 7, "pain": "Consistency & Systems", "score": 0.67, "pct": "51%", "angle": "Batch content, calendar, consistent inconsistent" }
+    ]
+  },
+
+  "live_subscriber_replies": {
+    "note": "Real replies from real subscribers — these are the most powerful verbatims in any copy because they are NOT survey data, they are people who already trust Ndivhuwo.",
+    "replies": [
+      {
+        "name": "Andiswa Tau",
+        "message": "I have deactivated all my social media accounts due to a lack of inspiration. Brands don't want to pay — they want to give freebies. I don't know whether to rebrand or just quit.",
+        "cluster": "Brand Freebie Shame (#2)",
+        "pain_rank": 1,
+        "use_in": "Brand deal copy, burnout content, ICP 2 empathy hooks"
+      },
+      {
+        "name": "Freedom BORNGREAT",
+        "message": "Please kindly send me your WhatsApp number.",
+        "cluster": "Career Doubt Loop (#5) + Isolation",
+        "pain_rank": 5,
+        "use_in": "Community content, WhatsApp offers, isolation empathy"
+      },
+      {
+        "name": "empresstallowah",
+        "message": "I know you said one challenge but I have 2: monetization and the fear of being seen.",
+        "cluster": "Pain rank #1 + #4 simultaneously",
+        "pain_rank": 1,
+        "use_in": "Perfect opening for any hook combining monetisation + camera fear. Most common combination in the entire audience."
+      }
+    ]
   },
 
   "three_feeler_triggers": [
