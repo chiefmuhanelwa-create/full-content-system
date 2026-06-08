@@ -174,7 +174,7 @@ export default function FearAnalyzerPage() {
                       .sort((a, b) => b.relevanceScore - a.relevanceScore)
                       .map((fear, index) => (
                         <div key={index} className="nc-result-card space-y-3">
-                          <div className="flex items-start justify-between gap-3">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-1">
                                 <p className="font-display font-bold text-[#18181B] text-sm">{fear.fearName}</p>

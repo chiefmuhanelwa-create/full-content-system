@@ -637,7 +637,7 @@ export default function ContentCalendarPlusPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="scheduledDate">Date *</Label>
                 <Input
@@ -680,7 +680,7 @@ export default function ContentCalendarPlusPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="contentPillar">Content Pillar *</Label>
                 <Select
@@ -720,7 +720,7 @@ export default function ContentCalendarPlusPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="platform">Platform *</Label>
                 <Select
@@ -760,7 +760,7 @@ export default function ContentCalendarPlusPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="status">Status</Label>
                 <Select
@@ -803,7 +803,7 @@ export default function ContentCalendarPlusPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="targetViews">Target Views</Label>
                 <Input

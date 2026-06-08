@@ -1352,11 +1352,29 @@ ${scriptToUse.fiveLine.community.script}`
 
           {/* Output Section */}
         <div>
+          {loading && !script && (
+            <Card>
+              <CardHeader>
+                <div className="animate-pulse space-y-3">
+                  <div className="h-5 bg-gray-200 rounded w-1/2" />
+                  <div className="h-3 bg-gray-100 rounded w-1/4" />
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="animate-pulse space-y-4">
+                  <div className="h-24 bg-purple-50 border-2 border-purple-200 rounded-lg" />
+                  <div className="h-48 bg-green-50 border-2 border-green-200 rounded-lg" />
+                  <div className="h-16 bg-blue-50 border-l-4 border-blue-300 rounded" />
+                </div>
+                <p className="text-center text-sm text-gray-400 animate-pulse">Building your script...</p>
+              </CardContent>
+            </Card>
+          )}
           {script ? (
             <Card>
               <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1 mr-4">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                  <div className="flex-1">
                     {isEditing ? (
                       <Input
                         value={scriptTitle || script.title}
@@ -1369,7 +1387,7 @@ ${scriptToUse.fiveLine.community.script}`
                     )}
                     <CardDescription>Production-ready script</CardDescription>
                   </div>
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex gap-2 flex-wrap justify-start sm:justify-end">
                     {isEditing ? (
                       <>
                         <Button size="sm" onClick={saveEdits} className="bg-green-600 hover:bg-green-700">
@@ -1481,7 +1499,7 @@ ${scriptToUse.fiveLine.community.script}`
                     <div className="mb-4 p-3 bg-blue-100 border-l-4 border-blue-600 rounded text-xs">
                       <p className="font-semibold text-blue-900 mb-2">Framework Structure:</p>
                       {script.actStructure ? (
-                        <div className="grid grid-cols-2 gap-1 text-blue-800">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-blue-800">
                           <div>Act 1: Negative Hook</div>
                           <div>Act 5: Transformation</div>
                           <div>Act 2: Uncomfortable Truth</div>
@@ -1492,7 +1510,7 @@ ${scriptToUse.fiveLine.community.script}`
                           <div className="text-purple-600 font-semibold">R×A×C×U^B Hook Science</div>
                         </div>
                       ) : (
-                        <div className="grid grid-cols-2 gap-1 text-blue-800">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-blue-800">
                           <div>1. Call Out Audience</div>
                           <div>6. Provide Solution</div>
                           <div>2. Demand Attention</div>
@@ -1511,7 +1529,7 @@ ${scriptToUse.fiveLine.community.script}`
                     {script.retentionDevicesUsed && (
                       <div className="mb-4 p-3 bg-purple-100 border-l-4 border-purple-600 rounded text-xs">
                         <p className="font-semibold text-purple-900 mb-2">🎯 Retention Devices Deployed:</p>
-                        <div className="grid grid-cols-2 gap-1 text-purple-800">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-purple-800">
                           {script.retentionDevicesUsed.act1 && <div>Act 1: {script.retentionDevicesUsed.act1}</div>}
                           {script.retentionDevicesUsed.act2 && <div>Act 2: {script.retentionDevicesUsed.act2}</div>}
                           {script.retentionDevicesUsed.act3 && <div>Act 3: {script.retentionDevicesUsed.act3}</div>}

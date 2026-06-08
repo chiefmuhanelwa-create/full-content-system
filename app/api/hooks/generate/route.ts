@@ -168,9 +168,9 @@ OUTPUT FORMAT: Return ONLY a JSON object — not a plain array:
   }
 }`
 
-    // Call Claude API
+    // Call Claude API — HAIKU: 3-4× faster than SONNET for short creative outputs
     const message = await anthropic.messages.create({
-      model: MODELS.SONNET,
+      model: MODELS.HAIKU,
       max_tokens: 2048,
       system: systemPrompt,
       messages: [

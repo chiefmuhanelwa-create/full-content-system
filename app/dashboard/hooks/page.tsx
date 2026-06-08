@@ -335,7 +335,7 @@ export default function HookGeneratorPage() {
           </div>
 
           {/* ICP + Shadow Fear — Primary targeting */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="nc-form-row">
               <label htmlFor="icp">Target ICP</label>
               <Select value={icp} onValueChange={setIcp}>
@@ -369,7 +369,7 @@ export default function HookGeneratorPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="nc-form-row">
               <label htmlFor="platform">Platform</label>
               <Select value={platform} onValueChange={setPlatform}>
@@ -449,14 +449,14 @@ export default function HookGeneratorPage() {
             </div>
             {[1, 2, 3, 4, 5].map(i => (
               <div key={i} className="nc-result-card animate-pulse">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 space-y-2">
+                <div className="flex flex-col gap-3">
+                  <div className="space-y-2">
                     <div className="h-2.5 w-10 bg-[#F4F4F5] rounded" />
                     <div className="h-4 bg-[#F4F4F5] rounded w-full" />
                     <div className="h-4 bg-[#F4F4F5] rounded w-5/6" />
                     <div className="h-4 bg-[#F4F4F5] rounded w-3/4" />
                   </div>
-                  <div className="flex gap-1 flex-shrink-0 mt-1">
+                  <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map(j => (
                       <div key={j} className="w-7 h-7 rounded-lg bg-[#F4F4F5]" />
                     ))}
@@ -483,12 +483,12 @@ export default function HookGeneratorPage() {
 
             {hooks.map((hook, index) => (
               <div key={hook.id} className="nc-result-card">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
+                <div className="flex flex-col gap-3">
+                  <div>
                     <p className="nc-eyebrow mb-2">Hook {index + 1}</p>
                     <p className="font-display font-semibold text-[#18181B] text-[15px] leading-relaxed">{hook.content}</p>
                   </div>
-                  <div className="flex flex-col gap-1.5 flex-shrink-0">
+                  <div className="flex flex-wrap items-center gap-1.5">
                     <div className="flex gap-1">
                       <button onClick={() => likeHook(hook.id)} className="p-1.5 rounded-lg text-[#71717A] hover:text-red-500 hover:bg-[#F9FAFB] transition-colors" title="Like">
                         <Heart className={`h-3.5 w-3.5 ${hook.likes > 0 ? 'fill-red-500 text-red-500' : ''}`} />
