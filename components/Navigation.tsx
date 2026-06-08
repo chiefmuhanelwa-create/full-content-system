@@ -8,7 +8,7 @@ import {
   Cpu, Mic, Layers, Target, TrendingUp, BarChart2,
   Calendar, BookMarked, ShoppingBag, Star, Repeat, PenTool,
   Tv2, Archive, Settings, ChevronDown, ChevronRight, Globe,
-  Package, MonitorPlay, User, FlaskConical
+  Package, MonitorPlay, User, FlaskConical, Search
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -17,7 +17,6 @@ type NavItem = {
   name: string
   href: string
   icon: any
-  description?: string
   badge?: string
 }
 
@@ -30,67 +29,67 @@ const navGroups: NavGroup[] = [
   {
     label: 'Command',
     items: [
-      { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, description: 'Overview & quick launch' },
-      { name: 'My Algorithm', href: '/dashboard/my-algorithm', icon: Cpu, description: 'Creator DNA + audiences', badge: 'CORE' },
+      { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+      { name: 'My Algorithm', href: '/dashboard/my-algorithm', icon: Cpu, badge: 'CORE' },
     ],
   },
   {
     label: 'Create',
     items: [
-      { name: 'Hook Generator', href: '/dashboard/hooks', icon: Zap, description: 'R×A×C×U^B formula' },
-      { name: 'Script Writer', href: '/dashboard/scripts', icon: FileText, description: '7-Act + 10-Step Sales' },
-      { name: 'Storytelling Studio', href: '/dashboard/storytelling', icon: Tv2, description: '5 Story Types + Arc' },
-      { name: 'Story Extractor', href: '/dashboard/stories', icon: BookOpen, description: 'Raw notes → proof story' },
-      { name: 'Teleprompter', href: '/dashboard/teleprompter', icon: MonitorPlay, description: 'Record to camera' },
-      { name: 'Repurpose', href: '/dashboard/repurpose', icon: Repeat, description: 'Cross-platform adapt' },
-      { name: 'Content Studio', href: '/dashboard/content-studio', icon: PenTool, description: 'Full editing suite' },
+      { name: 'Hook Generator', href: '/dashboard/hooks', icon: Zap },
+      { name: 'Script Writer', href: '/dashboard/scripts', icon: FileText },
+      { name: 'Storytelling Studio', href: '/dashboard/storytelling', icon: Tv2 },
+      { name: 'Story Extractor', href: '/dashboard/stories', icon: BookOpen },
+      { name: 'Teleprompter', href: '/dashboard/teleprompter', icon: MonitorPlay },
+      { name: 'Repurpose', href: '/dashboard/repurpose', icon: Repeat },
+      { name: 'Content Studio', href: '/dashboard/content-studio', icon: PenTool },
     ],
   },
   {
     label: 'Audience',
     items: [
-      { name: 'Fear Analyzer', href: '/dashboard/fears', icon: Brain, description: '10 Shadow Fears' },
-      { name: 'ICP Pain Library', href: '/dashboard/icp-pain-library', icon: Target, description: 'Audience pain database' },
-      { name: 'Competitor Intel', href: '/dashboard/competitor', icon: Globe, description: 'Content gap analysis' },
-      { name: 'Trend Scanner', href: '/dashboard/trends', icon: TrendingUp, description: 'What\'s trending now' },
-      { name: 'Brand Voice', href: '/dashboard/brand-voice', icon: Mic, description: 'Voice score + rewrite' },
+      { name: 'Fear Analyzer', href: '/dashboard/fears', icon: Brain },
+      { name: 'ICP Pain Library', href: '/dashboard/icp-pain-library', icon: Target },
+      { name: 'Competitor Intel', href: '/dashboard/competitor', icon: Globe },
+      { name: 'Trend Scanner', href: '/dashboard/trends', icon: TrendingUp },
+      { name: 'Brand Voice', href: '/dashboard/brand-voice', icon: Mic },
     ],
   },
   {
     label: 'Library',
     items: [
-      { name: 'Hook Bank', href: '/dashboard/hook-bank', icon: BookMarked, description: 'All saved hooks' },
-      { name: 'Story Bank', href: '/dashboard/story-bank', icon: BookOpen, description: '10 proof stories' },
-      { name: 'Saved Scripts', href: '/dashboard/saved-scripts', icon: FileText, description: 'Script library' },
-      { name: 'Content Vault', href: '/dashboard/vault', icon: Archive, description: '110+ pre-built ideas' },
-      { name: 'History', href: '/dashboard/history', icon: History, description: 'Activity timeline' },
+      { name: 'Hook Bank', href: '/dashboard/hook-bank', icon: BookMarked },
+      { name: 'Story Bank', href: '/dashboard/story-bank', icon: BookOpen },
+      { name: 'Saved Scripts', href: '/dashboard/saved-scripts', icon: FileText },
+      { name: 'Content Vault', href: '/dashboard/vault', icon: Archive },
+      { name: 'History', href: '/dashboard/history', icon: History },
     ],
   },
   {
     label: 'Revenue',
     items: [
-      { name: 'Products', href: '/dashboard/products', icon: Package, description: 'Full product catalogue' },
-      { name: 'Product Lab', href: '/dashboard/product-planning', icon: FlaskConical, description: '55 products — draft to live', badge: 'NEW' },
-      { name: 'Godfather Offers', href: '/dashboard/offers', icon: Star, description: 'Offer stack builder' },
-      { name: 'Pitch Builder', href: '/dashboard/pitch', icon: Target, description: '5 Pillars pitch system' },
-      { name: 'CTA Optimizer', href: '/dashboard/cta-optimizer', icon: Zap, description: 'CTA science + variants' },
-      { name: 'Revenue Tracker', href: '/dashboard/revenue', icon: TrendingUp, description: 'PAIDS income tracking' },
+      { name: 'Products', href: '/dashboard/products', icon: Package },
+      { name: 'Product Lab', href: '/dashboard/product-planning', icon: FlaskConical, badge: 'NEW' },
+      { name: 'Godfather Offers', href: '/dashboard/offers', icon: Star },
+      { name: 'Pitch Builder', href: '/dashboard/pitch', icon: Target },
+      { name: 'CTA Optimizer', href: '/dashboard/cta-optimizer', icon: Zap },
+      { name: 'Revenue Tracker', href: '/dashboard/revenue', icon: TrendingUp },
     ],
   },
   {
     label: 'Planning',
     items: [
-      { name: 'Content Calendar', href: '/dashboard/content-calendar-plus', icon: Calendar, description: '4E-balanced schedule' },
-      { name: 'Batch Planner', href: '/dashboard/batch-planner', icon: Layers, description: '22-day content plan' },
-      { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart2, description: 'Performance diagnosis' },
-      { name: 'Content Cards', href: '/dashboard/content-cards', icon: BarChart2, description: 'Per-post metric cards' },
-      { name: 'Campaigns', href: '/dashboard/campaigns', icon: Target, description: 'Launch management' },
+      { name: 'Content Calendar', href: '/dashboard/content-calendar-plus', icon: Calendar },
+      { name: 'Batch Planner', href: '/dashboard/batch-planner', icon: Layers },
+      { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart2 },
+      { name: 'Content Cards', href: '/dashboard/content-cards', icon: BarChart2 },
+      { name: 'Campaigns', href: '/dashboard/campaigns', icon: Target },
     ],
   },
   {
     label: 'System',
     items: [
-      { name: 'Settings', href: '/dashboard/settings', icon: Settings, description: 'Account settings' },
+      { name: 'Settings', href: '/dashboard/settings', icon: Settings },
     ],
   },
 ]
@@ -117,19 +116,28 @@ export function Navigation() {
   const userHandle = '@nochill_god'
 
   return (
-    <nav className="w-56 bg-[#0F0F0F] h-full flex flex-col flex-shrink-0 border-r border-white/[0.05]">
+    <nav className="w-64 bg-white h-full flex flex-col flex-shrink-0 border-r border-[#E4E4E7]">
 
       {/* Brand */}
-      <div className="px-4 py-4 border-b border-white/[0.06] flex-shrink-0">
-        <Link href="/dashboard" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 rounded-xl bg-[#C9A646] flex items-center justify-center flex-shrink-0 shadow-[0_0_14px_rgba(201,166,70,0.35)] group-hover:shadow-[0_0_22px_rgba(201,166,70,0.55)] transition-shadow">
-            <span className="text-[#0A0A0A] font-heading font-black text-sm leading-none">N</span>
+      <div className="px-5 py-4 border-b border-[#F4F4F5] flex-shrink-0">
+        <Link href="/dashboard" className="flex items-center gap-2.5 group">
+          <div className="w-7 h-7 rounded-lg bg-[#18181B] flex items-center justify-center flex-shrink-0">
+            <span className="text-white font-display font-black text-xs leading-none">N</span>
           </div>
           <div>
-            <p className="font-heading font-black text-white tracking-[0.18em] text-[11px] uppercase leading-none">NOCHILL</p>
-            <p className="text-[10px] text-white/35 font-heading tracking-wide mt-0.5 leading-none">Content Intelligence</p>
+            <p className="font-display font-black text-[#18181B] text-[15px] tracking-tight leading-none">NOCHILL</p>
+            <p className="text-[10px] text-[#A1A1AA] font-display mt-0.5 leading-none">Content Intelligence</p>
           </div>
         </Link>
+      </div>
+
+      {/* Search */}
+      <div className="px-3 py-2.5 border-b border-[#F4F4F5] flex-shrink-0">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#F4F4F8] border border-[#E4E4E7]">
+          <Search className="w-3.5 h-3.5 text-[#A1A1AA] flex-shrink-0" />
+          <span className="text-[12px] font-display text-[#A1A1AA]">Search tools...</span>
+          <span className="ml-auto text-[10px] font-display text-[#D4D4D8] bg-white border border-[#E4E4E7] px-1.5 py-0.5 rounded">⌘F</span>
+        </div>
       </div>
 
       {/* Scrollable nav */}
@@ -142,17 +150,17 @@ export function Navigation() {
             <div key={group.label} className="mb-0.5">
               <button
                 onClick={() => toggleGroup(group.label)}
-                className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left hover:bg-white/[0.04] transition-colors"
+                className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left hover:bg-[#F4F4F8] transition-colors"
               >
                 <span className={cn(
-                  'text-[10px] font-heading font-black uppercase tracking-[0.16em]',
-                  hasActive ? 'text-[#C9A646]' : 'text-white/30'
+                  'text-[10px] font-display font-semibold uppercase tracking-widest',
+                  hasActive ? 'text-[#71717A]' : 'text-[#A1A1AA]'
                 )}>
                   {group.label}
                 </span>
                 {isOpen
-                  ? <ChevronDown className="w-3 h-3 text-white/20" />
-                  : <ChevronRight className="w-3 h-3 text-white/20" />
+                  ? <ChevronDown className="w-3 h-3 text-[#D4D4D8]" />
+                  : <ChevronRight className="w-3 h-3 text-[#D4D4D8]" />
                 }
               </button>
 
@@ -160,38 +168,32 @@ export function Navigation() {
                 <div className="mt-0.5 space-y-px">
                   {group.items.map((item) => {
                     const Icon = item.icon
-                    const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+                    const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href + '/'))
+                      || (item.href === '/dashboard' && pathname === '/dashboard')
 
                     return (
                       <Link key={item.href} href={item.href}>
                         <div className={cn(
-                          'flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-all',
+                          'flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg transition-all',
                           isActive
-                            ? 'bg-[#C9A646]/[0.12] border-l-2 border-[#C9A646] pl-[9px]'
-                            : 'border-l-2 border-transparent hover:bg-white/[0.05] hover:border-white/10'
+                            ? 'bg-blue-50 text-blue-600'
+                            : 'text-[#71717A] hover:bg-[#F4F4F8] hover:text-[#18181B]'
                         )}>
                           <Icon className={cn(
                             'h-3.5 w-3.5 flex-shrink-0',
-                            isActive ? 'text-[#C9A646]' : 'text-white/40'
+                            isActive ? 'text-blue-600' : 'text-[#A1A1AA]'
                           )} />
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-1.5">
-                              <p className={cn(
-                                'text-[12.5px] font-heading font-semibold truncate leading-none',
-                                isActive ? 'text-[#C9A646]' : 'text-white/75'
-                              )}>
-                                {item.name}
-                              </p>
-                              {item.badge && (
-                                <span className="text-[8px] font-heading font-black px-1.5 py-0.5 bg-[#C9A646] text-[#0A0A0A] rounded tracking-widest uppercase flex-shrink-0">
-                                  {item.badge}
-                                </span>
-                              )}
-                            </div>
-                            {item.description && (
-                              <p className="text-[10px] text-white/25 truncate mt-0.5 leading-none font-heading">
-                                {item.description}
-                              </p>
+                          <div className="flex-1 min-w-0 flex items-center gap-1.5">
+                            <p className={cn(
+                              'text-[13px] font-display truncate leading-none',
+                              isActive ? 'font-semibold text-blue-600' : 'font-medium text-[#52525B]'
+                            )}>
+                              {item.name}
+                            </p>
+                            {item.badge && (
+                              <span className="text-[8px] font-display font-bold px-1.5 py-0.5 bg-blue-600 text-white rounded tracking-widest uppercase flex-shrink-0">
+                                {item.badge}
+                              </span>
                             )}
                           </div>
                         </div>
@@ -205,23 +207,23 @@ export function Navigation() {
         })}
       </div>
 
-      {/* User + logout — always visible at bottom */}
-      <div className="flex-shrink-0 border-t border-white/[0.06] p-3 bg-[#0A0A0A]">
-        <div className="flex items-center gap-2.5 mb-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#E6C871] to-[#8C6F1F] flex items-center justify-center flex-shrink-0">
-            <User className="w-4 h-4 text-[#0A0A0A]" />
+      {/* User + logout */}
+      <div className="flex-shrink-0 border-t border-[#F4F4F5] p-3">
+        <div className="flex items-center gap-2.5 mb-2">
+          <div className="w-7 h-7 rounded-full bg-[#18181B] flex items-center justify-center flex-shrink-0">
+            <User className="w-3.5 h-3.5 text-white" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[12px] font-heading font-bold text-white/90 truncate leading-none">{userName}</p>
-            <p className="text-[10px] text-white/35 truncate mt-0.5 leading-none">{userHandle}</p>
+            <p className="text-[13px] font-display font-semibold text-[#18181B] truncate leading-none">{userName}</p>
+            <p className="text-[11px] font-display text-[#A1A1AA] truncate mt-0.5 leading-none">{userHandle}</p>
           </div>
         </div>
         <button
           onClick={handleSignOut}
-          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg text-white/40 hover:text-white/80 hover:bg-white/[0.06] transition-all text-[11px] font-heading font-semibold border border-white/[0.06] hover:border-white/[0.12]"
+          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg text-[#A1A1AA] hover:text-[#71717A] hover:bg-[#F4F4F8] transition-all text-[12px] font-display font-medium"
         >
           <LogOut className="h-3.5 w-3.5" />
-          Sign Out
+          Sign out
         </button>
       </div>
     </nav>

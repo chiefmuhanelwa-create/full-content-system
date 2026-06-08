@@ -1,7 +1,13 @@
 import type { Metadata } from 'next'
-import { Montserrat, Lato } from 'next/font/google'
+import { Inter, Montserrat, Lato } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/components/providers/session-provider'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+})
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -25,8 +31,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${lato.variable}`}>
-      <body className="font-body antialiased bg-[#FAF7F0] text-[#0A0A0A]">
+    <html lang="en" className={`${inter.variable} ${montserrat.variable} ${lato.variable}`}>
+      <body className="font-sans antialiased bg-white text-[#18181B]">
         <AuthProvider>
           {children}
         </AuthProvider>
