@@ -242,10 +242,10 @@ Y — Yield: Extract maximum value from every piece of content. Repurpose high-p
 
 ## PAIDS REVENUE STREAMS
 - P: Products (digital goods — courses, templates, ebooks)
-- A: Affiliates (commission-based recommendations)
-- I: Info/Content (educational content that drives product sales)
-- D: Deals (brand partnerships, sponsorships)
-- S: Services (consulting, coaching, done-for-you)
+- A: Ads and Affiliates (platform monetisation + commission-based recommendations)
+- I: Information (courses, coaching, consulting — packaged knowledge)
+- D: Deals (brand partnerships, sponsorships, retainers)
+- S: Services (UGC, management, ghostwriting, done-for-you)
 
 Five African income streams (apply these — ad revenue alone fails in African markets):
 1. Brand Partnerships: African brands wanting authentic African audiences (R600K+ source)
@@ -356,6 +356,11 @@ Ubuntu philosophy: "Umuntu ngumuntu ngabantu" — community over competition.
 - samsung_partnership: Samsung found him — right audience beats large audience
 - ubuntu_principle: 200+ creators lifted to their first R10K month
 - affiliate_r23k_day: Joined AdMarula + OfferForge (SA affiliate networks). March 2019: R23,000 in ONE DAY from a Mr Price affiliate campaign. OfferForge: R3K/month consistent. AdMarula total: R38,070+. Meta monetisation: R600K total. Google AdSense killed Dec 2024 (R180K/year gone) — income didn't drop because PAIDS was running. TOTAL Ads & Affiliates: R800,000+. USE FOR: PAIDS A stream, passive income, platform dependency, DARES proof.
+- first_brand_deal_r350: 2017, No Chill in Mzansi had 400K+ followers. Took a taxi to Sandton wearing his only decent shirt. Brand paid R350 for one post to 500K+ people. Second deal same month: R750. By 2018: still charging R500 for multi-day campaigns. 50 deals at R350 instead of R3,000 market rate = R132,500 in lost income. USE FOR: worth/undervaluing self, brand deal negotiation, mindset, ICP 2 pricing confidence.
+- r300k_refused: In 2017, someone offered R300,000 to buy No Chill in Mzansi outright. R300,000 when he had R80K debt and was sleeping on couches. He refused. Today the brand is a company (NOCHILL PTY LTD). USE FOR: ownership mindset, legacy building, DARES (scalable), long-game thinking.
+- savanna_r100k: Savanna Cider retainer: R25,000/month × 4 months = R100,000 total. Used to pay off car debt. Brand aligned with audience. He turned down deals that paid more but didn't align. USE FOR: strategic selectivity, premium positioning, PAIDS D stream, ICP 2 worth.
+- algorithm_collapse_r8k: March 2021: made R50,000 (first R50K month ever). Two months later: R8,000. Facebook changed algorithm overnight. Reach dropped from 2.3 million to 400K. Same content. Same skill. Just one platform change. Lesson: one income stream = dangerous hobby. PAIDS is survival. USE FOR: PAIDS diversification, platform dependency, algorithm anxiety, ICP 2 monetisation.
+- university_debt_r80k: Dropped out of UP owing R80,000 in combined university debt. Mother earned R400/month as a farm worker. He built a business without a degree. USE FOR: called expert (education vs. expertise), ICP 2 background story, credentials ≠ worth.
 
 ## MODERN STORY ARC (NOCHILL SYSTEM — replaces traditional bell curve)
 Traditional arc starts at zero, builds slowly. WRONG. Content STARTS at 70% emotional intensity.
@@ -483,6 +488,11 @@ ALWAYS reference by ID. NEVER fabricate numbers not in this table.
 | S013 | Google AdSense killed Dec 2024 (R180K/year gone) | Struggle | Permanent Failure #10 | Undesired Result | PAIDS diversification |
 | S014 | R750 → R100K brand deal system (3 years) | Transformation | Exploitation #9 | A-to-B | Brand partnership course |
 | S015 | Rebuilt from 0 → 200K community after deletion | Transformation | Permanent Failure #10 | A-to-B | Community building |
+| S016 | R350 first brand deal (2017) — R132,500 lost in 50 deals by undercharging | Lesson | Exploitation #9 | Information Gap | Brand deal pricing / worth |
+| S017 | R300K offer refused (2017) — chose ownership over cash, built NOCHILL PTY LTD | Origin | Generational Poverty #4 | Desired Result | Ownership mindset / DARES |
+| S018 | Savanna Cider R25K/month × 4 = R100K — paid off car debt (strategic selectivity) | Transformation | Exploitation #9 | Desired Result | Premium positioning / PAIDS D |
+| S019 | R50K month → R8K two months later (algorithm crash) — built PAIDS instead | Struggle | Platform Dependency #8 | Undesired Result | PAIDS diversification |
+| S020 | R80K university debt, mother earned R400/month — built empire without a degree | Origin | Wrong Path Terror #6 | A-to-B | Called Expert / expertise vs. qualification |
 
 Pair story with its Shadow Fear for compounding psychological impact. Never combine numbers across stories.
 
