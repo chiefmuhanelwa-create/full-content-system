@@ -229,6 +229,27 @@ export default function ScriptWriterPage() {
     }
   }, [])
 
+  // Consume My Algorithm cross-tool preloads
+  useEffect(() => {
+    const storyPreload = localStorage.getItem('algorithmStoryPreload')
+    if (storyPreload) {
+      setIdea(`Build a script around this proof story: ${storyPreload}`)
+      localStorage.removeItem('algorithmStoryPreload')
+    }
+  }, [])
+
+  useEffect(() => {
+    const productPreload = localStorage.getItem('algorithmProductPreload')
+    if (productPreload && products.length > 0) {
+      const product = products.find(p => p.id === productPreload)
+      if (product) {
+        setSelectedProductId(product.id)
+        setScriptMode('sales')
+      }
+      localStorage.removeItem('algorithmProductPreload')
+    }
+  }, [products])
+
   // Check for pending action (hook from Hook Generator or Calendar)
   useEffect(() => {
     if (pendingAction.action === 'use-hook-in-script' && pendingAction.data) {

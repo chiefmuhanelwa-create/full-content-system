@@ -59,6 +59,16 @@ export default function HookGeneratorPage() {
     }
   }, [pendingAction, setPendingAction])
 
+  // Consume My Algorithm audience preload
+  useEffect(() => {
+    const audiencePreload = localStorage.getItem('algorithmAudiencePreload')
+    if (audiencePreload) {
+      if (audiencePreload === 'called_expert') setIcp('icp1')
+      if (audiencePreload === 'content_creator_inspirer') setIcp('icp2')
+      localStorage.removeItem('algorithmAudiencePreload')
+    }
+  }, [])
+
   useEffect(() => {
     const vaultData = localStorage.getItem('vaultToHookGenerator')
     if (vaultData) {

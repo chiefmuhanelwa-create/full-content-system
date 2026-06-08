@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { anthropic } from '@/lib/claude'
+import { anthropic, MODELS } from '@/lib/claude'
 import { buildSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
 
@@ -109,8 +109,8 @@ Return a JSON object:
 Only include keys for formats that were requested.`
 
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 4000,
+      model: MODELS.SONNET,
+      max_tokens: 3500,
       system: systemPrompt,
       messages: [{ role: 'user', content: prompt }],
     })

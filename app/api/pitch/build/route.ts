@@ -91,7 +91,7 @@ Create a complete pitch with all 5 pillars filled out professionally, plus 3 var
     // Call Claude API
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 4096,
+      max_tokens: 3500,
       system: PITCH_BUILDER_PROMPT,
       messages: [
         {

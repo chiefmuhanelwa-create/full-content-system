@@ -58,7 +58,7 @@ Return a JSON object with this structure:
     // Call Claude API
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 4096,
+      max_tokens: 3500,
       system: buildSystemPrompt('stories'),
       messages: [
         {
