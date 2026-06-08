@@ -80,7 +80,7 @@
       "tagline": "You know your field. You just don't know how to turn it into content that pays.",
       "description": "Professionals with deep expertise who struggle to package and monetise their knowledge through content",
       "demographics": {
-        "age": "28-42",
+        "age": "32-50",
         "income": "R15K-R60K/month from their job or practice",
         "employment": "Employed professional, consultant, coach, teacher, trainer, accountant, doctor, lawyer, therapist",
         "following": "0-5,000 (just starting or stuck)",
@@ -124,7 +124,7 @@
       "tagline": "You're creating. You're just not getting paid for it.",
       "description": "Aspiring and active creators who post consistently but haven't cracked monetisation. The undermonetised, not the unskilled.",
       "demographics": {
-        "age_core": "23-28",
+        "age_core": "18-35",
         "age_range": "18-35",
         "income": "R0-R10K/month content-related; R8K-R25K from job",
         "employment": "Employed but unhappy, student, side-hustler, unemployed",
@@ -311,7 +311,7 @@
       "status": "planned",
       "core_pain": "Signing contracts without understanding the clauses that quietly cost money",
       "core_transformation": "From signing blind to reading contracts like a lawyer (without needing one)",
-      "supporting_stories": ["sars_r285k_debt"],
+      "supporting_stories": ["sars_debt"],
       "content_hooks": [
         "The contract clause that blocked R200K worth of deals for 12 months. And nobody told me.",
         "Exclusivity doesn't just mean one brand. It can mean an entire category. For a year.",
@@ -355,7 +355,7 @@
       "status": "live",
       "core_pain": "Not knowing brand income needs to be declared until SARS arrives",
       "core_transformation": "From tax-scared to SARS-compliant with a system that protects income",
-      "supporting_stories": ["sars_r285k_debt"],
+      "supporting_stories": ["sars_debt"],
       "content_hooks": [
         "I owed SARS R207,879 because nobody told me Meta payouts count as taxable income.",
         "I filed VDP. My tax practitioner said withdraw it. I did. SARS waived R45,705 in penalties. Here's why that matters.",
@@ -416,7 +416,7 @@
     "r750_to_r100k": ["03", "04", "05", "paids_course_starter", "paids_course_pro"],
     "huawei_r6000_investment": ["01", "paids_course_starter"],
     "instagram_780k_loss": ["02", "paids_course_pro"],
-    "sars_r285k_debt": ["tax"],
+    "sars_debt": ["tax"],
     "family_shame_dropout": ["01", "02"],
     "first_netflix_deal": ["03", "05", "13", "paids_course_pro"],
     "content_burnout": ["01", "02", "paids_course_starter"],
@@ -435,7 +435,7 @@
       "format": "15-45s sweet spot, fast cuts, trending sound friendly",
       "best_story_use": "POV format, first person, rapid delivery",
       "cta_placement": "Last 5s + duet/stitch invitation",
-      "recommended_stories": ["sars_r285k_debt", "instagram_780k_loss", "family_shame_dropout"]
+      "recommended_stories": ["sars_debt", "instagram_780k_loss", "family_shame_dropout"]
     },
     "youtube_shorts": {
       "format": "30-60s, strong hook, loop-worthy end",
@@ -453,7 +453,7 @@
       "format": "300-1500 chars, professional hook, thought leadership, 3-5 hashtags",
       "best_story_use": "Business credibility stories with exact numbers",
       "cta_placement": "End with question or insight invitation",
-      "recommended_stories": ["samsung_partnership", "first_netflix_deal", "sars_r285k_debt"]
+      "recommended_stories": ["samsung_partnership", "first_netflix_deal", "sars_debt"]
     }
   },
 
@@ -499,7 +499,7 @@
       "products": ["tax", "11"],
       "opening_context": "Financial ignorance in a formal economy",
       "villain": "The creator education system that teaches posting but not business",
-      "proof_story": "sars_r285k_debt",
+      "proof_story": "sars_debt",
       "cta_direction": "Direct to contentcreatorhub.online"
     }
   },

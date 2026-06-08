@@ -458,7 +458,7 @@ export default function ScriptWriterPage() {
       'R750 to R100K Brand Evolution': 'r750_to_r100k',
       'R6,000 Huawei Investment': 'huawei_r6000_investment',
       '780K Instagram Followers Lost Overnight': 'instagram_780k_loss',
-      'SARS R285K Tax Debt': 'sars_r285k_debt',
+      'SARS R207,879 Tax Debt': 'sars_debt',
       'University Dropout Family Shame': 'family_shame_dropout',
       'First Netflix R100K Deal': 'first_netflix_deal',
       'Daily Posting Nearly Killed Me': 'content_burnout',

@@ -81,7 +81,7 @@ const STORIES = [
   { key: 'r750_to_r100k', title: 'R750 to R100K Brand Evolution', time: '10-12s', arc: 'Mistake → Mastery', products: ['03', '04', '05', 'paids_course_pro'], icon: '💰' },
   { key: 'huawei_r6000_investment', title: 'R6,000 Huawei Investment', time: '10-15s', arc: 'Risk → Reward', products: ['01', 'paids_course_starter'], icon: '📱' },
   { key: 'instagram_780k_loss', title: '780K Followers Lost Overnight', time: '12-15s', arc: 'Devastation → Liberation', products: ['02', 'paids_course_pro'], icon: '📉' },
-  { key: 'sars_r285k_debt', title: 'SARS R285K Tax Debt', time: '15-18s', arc: 'Ignorance → Wisdom', products: ['tax'], icon: '🧾' },
+  { key: 'sars_debt', title: 'SARS R207,879 Tax Debt', time: '15-18s', arc: 'Ignorance → Wisdom', products: ['tax'], icon: '🧾' },
   { key: 'family_shame_dropout', title: 'University Dropout Family Shame', time: '12-15s', arc: 'Shame → Pride', products: ['01', '02'], icon: '🎓' },
   { key: 'first_netflix_deal', title: 'First Netflix R100K Deal', time: '15-18s', arc: 'Doubt → Confidence', products: ['03', '05', '13', 'paids_course_pro'], icon: '🎬' },
   { key: 'content_burnout', title: 'Daily Posting Nearly Killed Me', time: '18-20s', arc: 'Exhaustion → Liberation', products: ['01', '02', 'paids_course_starter'], icon: '🔥' },
@@ -155,9 +155,9 @@ const WORKFLOWS = [
 
 const PLATFORM_QUICK = [
   { platform: 'Instagram Reels', format: '15-60s', hook: '1st second', stories: ['bathroom_floors', 'content_burnout', 'r750_to_r100k'], icon: '📸' },
-  { platform: 'TikTok', format: '15-45s', hook: '2nd second', stories: ['sars_r285k_debt', 'instagram_780k_loss', 'family_shame_dropout'], icon: '🎵' },
+  { platform: 'TikTok', format: '15-45s', hook: '2nd second', stories: ['sars_debt', 'instagram_780k_loss', 'family_shame_dropout'], icon: '🎵' },
   { platform: 'YouTube Shorts', format: '30-60s', hook: '3rd second', stories: ['huawei_r6000_investment', 'samsung_partnership', 'first_netflix_deal'], icon: '▶️' },
-  { platform: 'LinkedIn', format: '300-1,500 chars', hook: 'First line', stories: ['samsung_partnership', 'first_netflix_deal', 'sars_r285k_debt'], icon: '💼' },
+  { platform: 'LinkedIn', format: '300-1,500 chars', hook: 'First line', stories: ['samsung_partnership', 'first_netflix_deal', 'sars_debt'], icon: '💼' },
 ]
 
 const CONTENT_FORMULA = [
