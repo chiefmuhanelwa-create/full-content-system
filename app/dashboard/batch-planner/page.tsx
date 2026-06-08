@@ -321,8 +321,8 @@ export default function BatchPlannerPage() {
                       <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="auto">Auto-detect from niche</SelectItem>
-                        <SelectItem value="icp1">ICP 1 — The Called Expert (28–42, professional)</SelectItem>
-                        <SelectItem value="icp2">ICP 2 — The Content Creator Inspirer (23–28)</SelectItem>
+                        <SelectItem value="icp1">ICP 1 — The Called Expert (32–50, professional)</SelectItem>
+                        <SelectItem value="icp2">ICP 2 — The Content Creator Inspirer (18–35)</SelectItem>
                       </SelectContent>
                     </Select>
                     <p className="text-[10px] text-[#8A8071] mt-1">Called Expert: unexploited professional expertise. Creator: aspiring, no system yet.</p>

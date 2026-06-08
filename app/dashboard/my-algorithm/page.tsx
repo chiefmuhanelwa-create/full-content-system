@@ -23,7 +23,7 @@ const AUDIENCES = [
     tagline: 'You know your field. You just don\'t know how to turn it into content that pays.',
     color: 'from-amber-500 to-orange-600',
     badge: 'bg-amber-100 text-amber-800',
-    demographics: 'Age 28-42 · Professionals, coaches, consultants',
+    demographics: 'Age 32-50 · Professionals, coaches, consultants',
     painPoints: [
       'Expert but invisible online',
       'Can\'t be "cringe" — I have a reputation',
@@ -41,7 +41,7 @@ const AUDIENCES = [
     tagline: 'You\'re creating. You\'re just not getting paid for it.',
     color: 'from-purple-500 to-indigo-600',
     badge: 'bg-purple-100 text-purple-800',
-    demographics: 'Age 23-28 core · SA primary · 500-50K following',
+    demographics: 'Age 18-35 · SA primary · 500-50K following',
     painPoints: [
       'Posting but earning nothing',
       'Brands ghost or lowball me',

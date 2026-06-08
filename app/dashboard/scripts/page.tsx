@@ -1222,8 +1222,8 @@ ${scriptToUse.fiveLine.community.script}`
                       <SelectTrigger id="icp" className="bg-white"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="auto">🤖 Auto-detect from idea</SelectItem>
-                        <SelectItem value="icp1">👔 ICP 1 — Called Expert (28–42, unexploited expertise)</SelectItem>
-                        <SelectItem value="icp2">📱 ICP 2 — Content Creator Inspirer (23–28, aspiring)</SelectItem>
+                        <SelectItem value="icp1">👔 ICP 1 — Called Expert (32–50, unexploited expertise)</SelectItem>
+                        <SelectItem value="icp2">📱 ICP 2 — Content Creator Inspirer (18–35, aspiring)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

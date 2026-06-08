@@ -16,10 +16,10 @@ export async function POST(request: NextRequest) {
     const numPosts = postingFrequency === 'daily' ? 30 : postingFrequency === 'weekdays' ? 22 : 13
 
     const icpContext = targetICP === 'icp1'
-      ? 'ICP 1 — THE CALLED EXPERT (ages 28–42, professional, unexploited expertise, shadow fears: Imposter Syndrome, Generational Poverty, Wrong Path Terror, Spiritual Crisis). Language: "your knowledge is worth more than your salary", "you don\'t need another certification"'
+      ? 'ICP 1 — THE CALLED EXPERT (ages 32–50, professional, unexploited expertise, shadow fears: Imposter Syndrome, Generational Poverty, Wrong Path Terror, Spiritual Crisis). Language: "your knowledge is worth more than your salary", "you don\'t need another certification"'
       : targetICP === 'icp2'
-      ? 'ICP 2 — THE CONTENT CREATOR INSPIRER (ages 23–28, aspiring creator, Instagram-first, shadow fears: Time Anxiety, Relationship Loss, Invisible Labor). Language: "you\'re posting every day and still broke", "your content is working — your strategy isn\'t"'
-      : 'Determine the best ICP fit based on the niche and goals provided. Choose ONE: ICP 1 (Called Expert, 28–42) or ICP 2 (Content Creator Inspirer, 23–28).'
+      ? 'ICP 2 — THE CONTENT CREATOR INSPIRER (ages 18–35, aspiring creator, Instagram/TikTok/FB-first, shadow fears: Time Anxiety, Relationship Loss, Invisible Labor). Language: "you\'re posting every day and still broke", "your content is working — your strategy isn\'t"'
+      : 'Determine the best ICP fit based on the niche and goals provided. Choose ONE: ICP 1 (Called Expert, 32–50) or ICP 2 (Content Creator Inspirer, 18–35).'
 
     const systemPrompt = buildSystemPrompt('scripts')
 
@@ -42,7 +42,7 @@ Generate a ${numPosts}-day NOCHILL content plan. Every post must serve ONE ICP, 
 4. Shadow Fear must be one of the 10 (implicit — activate but never name it)
 5. PAIDS category must be identified
 6. Hook idea must apply: You Format, Negativity (indirect), W-Stack (WHAT+WHY first)
-7. Where relevant, reference Ndivhuwo's real proof stories (S001–S015)
+7. Where relevant, reference Ndivhuwo's real proof stories (S001–S020)
 8. Use SA African context: ZAR pricing, SARS references, WhatsApp delivery, data cost awareness
 
 ## 4E DISTRIBUTION FOR ${numPosts} POSTS:

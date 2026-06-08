@@ -415,7 +415,7 @@ Generate the sales script now following the 10-step framework for ${salesFormat}
 
 ${platform ? `Platform: ${platform}` : 'Platform: Auto-detect best fit'}
 Duration: ${targetDuration}
-${icp === 'icp1' ? 'TARGET ICP: ICP 1 — The Called Expert (28–42, professional, unexploited expertise). Language: "your knowledge is worth more than your salary", "you don\'t need another certification"' : icp === 'icp2' ? 'TARGET ICP: ICP 2 — The Content Creator Inspirer (23–28, aspiring creator, Instagram-first). Language: "you\'re posting every day and still broke", "your content is working — your strategy isn\'t"' : ''}
+${icp === 'icp1' ? 'TARGET ICP: ICP 1 — The Called Expert (32–50, professional, unexploited expertise). Language: "your knowledge is worth more than your salary", "you don\'t need another certification"' : icp === 'icp2' ? 'TARGET ICP: ICP 2 — The Content Creator Inspirer (18–35, aspiring creator, Instagram/TikTok/FB-first). Language: "you\'re posting every day and still broke", "your content is working — your strategy isn\'t"' : ''}
 ${shadowFear ? `SHADOW FEAR TO ACTIVATE: ${shadowFear} — activate this fear implicitly. Never name it directly. Make the viewer feel seen.` : ''}
 ${villain ? `NAMED VILLAIN: "${villain}" — this is the system/situation to attack. Never attack a person.` : ''}
 ${contentType ? `4E TYPE: ${contentType}` : ''}

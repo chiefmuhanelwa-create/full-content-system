@@ -27,8 +27,8 @@ These answers are the foundation for every preference below. Update them if prio
 - **Building stage, not scaling stage.** Revenue is not yet consistent. Prioritise getting existing products live and converting over building new features.
 - Company is **NOCHILL PTY LTD** — trading as "No Chill in Mzansi Co." Owner: Ndivhuwo Muhanelwa (chiefmuhanelwa@gmail.com). SA-registered. ZAR only.
 - This app is a **personal content OS** — it is not a SaaS product for the public. The owner logs in with `OWNER_EMAIL` + `OWNER_PASSWORD`. Everything is scoped to a single authenticated user.
-- There are **two ICPs** and every AI output must lock onto one before writing: **ICP 1** (Called Expert, 28–42, unexploited expertise) or **ICP 2** (Content Creator Inspirer, 23–28, posting but not earning). Never mix them in one output.
-- **Proof numbers are sacred.** Only use real figures from S001–S015 (e.g. R750→R100K, 780K followers, R285K SARS debt, R6K phone→R600K, Netflix R100K). Never fabricate outcomes, estimates, or hypothetical results.
+- There are **two ICPs** and every AI output must lock onto one before writing: **ICP 1** (Called Expert, **32–50**, unexploited expertise) or **ICP 2** (Content Creator Inspirer, **18–35**, posting but not earning). Never mix them in one output.
+- **Proof numbers are sacred.** Only use real figures from S001–S020 (e.g. R750→R100K, 780K followers, R207,879 SARS debt, R6K phone→R600K). ⚠ NEVER use "R285K SARS" (unverified). Netflix R100K: use with "from published book" attribution only. Never fabricate outcomes.
 - The **80/20 framework rule** is non-negotiable for all AI-generated content: 80% must apply NOCHILL protocols (R×A×C×U^B, 4E, PAIDS, Shadow Fears, 7-Act Arc). 20% is contextual adaptation. No generic AI output.
 - **WhatsApp is the primary SA commerce channel.** Any feature touching payments, outreach, or selling should account for WhatsApp-first behaviour — not email-first assumptions.
 - The **wider product ecosystem** (34 digital products — PDFs, web tools, 1:1 sessions) lives in `/Users/NOCHILLGOD/Desktop/product-lab/`. It is separate from this app and not deployed here. Do not conflate the two.
@@ -58,7 +58,7 @@ These answers are the foundation for every preference below. Update them if prio
 - The AI output is currently **too polished and corporate.** This is the primary voice failure mode. Before finalising any generated content, ask: would this get past a LinkedIn editor? If yes, it's probably too safe.
 - **Raw and direct beats refined and safe every time.** NOCHILL content should make someone feel like Ndivhuwo is talking directly at them — not presenting to them.
 - **No motivational speaker energy.** Avoid: "You've got this," "The journey starts with one step," "Believe in yourself." These are banned phrases.
-- **Real stories > generic examples.** If the AI reaches for a hypothetical ("imagine a creator who..."), replace it with a real S001–S015 story. Hypotheticals signal the voice is drifting.
+- **Real stories > generic examples.** If the AI reaches for a hypothetical ("imagine a creator who..."), replace it with a real S001–S020 story. Hypotheticals signal the voice is drifting.
 - **SA vernacular is natural, not performative.** Don't force slang, but don't scrub it either. "Mzansi," "bra," "heita" — use them where they fit naturally.
 - When reviewing AI output for voice compliance, the test is: **would Ndivhuwo send this as-is, or would he rewrite it?** If the answer is rewrite — flag the specific lines and explain why.
 

@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     const additionalContextParts = []
     if (hookType) additionalContextParts.push(`Hook Type (C component): ${hookType}`)
     if (awarenessLevel) additionalContextParts.push(`Awareness Level (A component): ${awarenessLevel}`)
-    if (icp === 'icp1') additionalContextParts.push(`TARGET ICP: ICP 1 — Called Expert (28–42, professional, unexploited expertise). Shadow fears: Imposter Syndrome, Generational Poverty Trap, Wrong Path Terror, Spiritual Crisis. Language: "your knowledge is worth more than your salary"`)
+    if (icp === 'icp1') additionalContextParts.push(`TARGET ICP: ICP 1 — Called Expert (32–50, professional, unexploited expertise). Shadow fears: Imposter Syndrome, Generational Poverty Trap, Wrong Path Terror, Spiritual Crisis. Language: "your knowledge is worth more than your salary"`)
     if (icp === 'icp2') additionalContextParts.push(`TARGET ICP: ICP 2 — Content Creator Inspirer (23–28, aspiring, Instagram-first). Shadow fears: Invisible Labor, Time Anxiety, Relationship Loss, Platform Dependency. Language: "you're posting every day and still broke"`)
     if (shadowFear) additionalContextParts.push(`SHADOW FEAR TO ACTIVATE: ${shadowFear} — embed this fear implicitly in the hook. Never name it directly.`)
 

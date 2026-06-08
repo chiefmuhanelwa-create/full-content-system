@@ -27,7 +27,7 @@ All AI-generated content must lock onto one ICP before writing. Never mix them i
 - Direct. No filler. No AI slop ("delve," "certainly," "I'd be happy to").
 - SA/African context first — ZAR pricing, Supabase/Vercel not AWS, WhatsApp as primary commerce channel.
 - Framework-first: 80% of every AI output must apply NOCHILL protocols (R×A×C×U^B, 4E, PAIDS, Shadow Fears, 7-Act Arc). 20% is contextual adaptation.
-- Proof is sacred: only use real numbers from S001–S015 story bank (R750→R100K, 780K followers, R207,879 SARS debt, R6K phone→R600K). Never fabricate outcomes. ⚠ Do NOT use "R285K SARS" or "Netflix R100K" — both unverified.
+- Proof is sacred: only use real numbers from S001–S020 story bank (R750→R100K, 780K followers, R207,879 SARS debt, R6K phone→R600K, R350 first deal, R23K affiliate day, R100K Savanna). Never fabricate outcomes. ⚠ Do NOT use "R285K SARS" — unverified. Netflix R100K: use with "from published book" attribution only.
 - Ndivhuwo's signature transitions: "That's when..." / "But here's the thing..." / "You understand? Because you understand." — use these, not generic AI connectors.
 
 ### System Memory
@@ -113,7 +113,7 @@ lib/knowledge/
 ├── nochill-frameworks.json  # NOCHILL-specific ICP/framework overlays
 ├── nochill-120-hooks.json   # 120 example hook structures (patterns, not templates)
 ├── creator-dna.json         # Ndivhuwo's voice and story DNA
-├── ndivhuwo-stories.json    # S001–S015 proof stories (real numbers only)
+├── ndivhuwo-stories.json    # S001–S020 proof stories (real numbers only)
 └── example-patterns.json    # Structural patterns for AI to learn from
 ```
 

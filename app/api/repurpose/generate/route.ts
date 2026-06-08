@@ -82,7 +82,7 @@ Generate the following formats:
    - Email 1: Problem awareness — mirror their pain back (use verbatim language style)
    - Email 2: Agitate the problem — deepen the villain, the system keeping them stuck
    - Email 3: Introduce the solution — NOCHILL framework, specific and named
-   - Email 4: Proof — real story from S001–S015 with exact numbers
+   - Email 4: Proof — real story from S001–S020 with exact numbers
    - Email 5: CTA — single clear offer or next step
    - Each email 150–250 words. Subject line included. SA context.
 `

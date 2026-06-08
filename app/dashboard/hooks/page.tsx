@@ -332,8 +332,8 @@ export default function HookGeneratorPage() {
                 <SelectTrigger id="icp" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="auto">Auto-detect from topic</SelectItem>
-                  <SelectItem value="icp1">ICP 1 — Called Expert (28–42)</SelectItem>
-                  <SelectItem value="icp2">ICP 2 — Content Creator (23–28)</SelectItem>
+                  <SelectItem value="icp1">ICP 1 — Called Expert (32–50)</SelectItem>
+                  <SelectItem value="icp2">ICP 2 — Content Creator (18–35)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

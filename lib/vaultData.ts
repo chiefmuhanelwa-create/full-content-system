@@ -1047,11 +1047,10 @@ export const storyVariations: StoryVariation[] = [
     lesson: 'Come forward before SARS finds you. Get a practitioner who knows VDP vs eFiling correction — the right route saves thousands.',
     audienceLevel: 'Established',
     numbers: {
-      before: 'No tax tracking — undeclared Meta income 2020-2022',
-      original_assessment: 'R207,879.20',
-      penalties_waived: 'R45,705.06',
-      after: 'R162,174.14 final debt',
-      timeline: 'Resolved via standard eFiling amended returns + 11-month payment plan'
+      before: 'R207,879.20 SARS assessment (undeclared Meta income 2020-2022)',
+      after: 'R162,174.14 final debt (R45,705.06 penalties waived)',
+      timeline: 'Resolved via standard eFiling amended returns + 11-month payment plan',
+      roi: 'Professional fees: R30,000 (Thome-Lee Wright)'
     }
   },
   {

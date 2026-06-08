@@ -52,7 +52,7 @@
         "new_strategy": "Email list (50K+)"
       }
     },
-    "sars_r285k_debt": {
+    "sars_debt": {
       "title": "SARS R207K Tax Debt",
       "snippet": "Owed SARS R207,879 in undeclared Meta income for 2020-2022. Filed VDP, then withdrew it on expert advice. Went standard eFiling route. SARS waived R45,705 in penalties. Final debt R162,174, paid in 11-month instalments.",
       "timeframe": "15-18 seconds",
@@ -150,7 +150,7 @@
     "brand_deals": ["r750_to_r100k", "first_netflix_deal", "samsung_partnership"],
     "pricing": ["r750_to_r100k", "first_netflix_deal"],
     "platform_independence": ["instagram_780k_loss"],
-    "tax_compliance": ["sars_r285k_debt"],
+    "tax_compliance": ["sars_debt"],
     "resilience": ["bathroom_floors", "family_shame_dropout"],
     "investment": ["huawei_r6000_investment"],
     "systems_over_hustle": ["content_burnout"],
