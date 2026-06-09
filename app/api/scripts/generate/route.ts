@@ -587,6 +587,12 @@ Create a COMPLETE production-ready script following the **RETENTION FORMULA - 7-
 
 ### OUTPUT FORMAT:
 
+CRITICAL JSON RULES — FAILURE TO FOLLOW = BROKEN RESPONSE:
+1. Return ONLY a raw JSON object — NO markdown fences (no \`\`\`json), NO extra text before or after
+2. ALL newlines inside string values MUST be escaped as \\n — NEVER literal newlines inside strings
+3. ALL double quotes inside string values MUST be escaped as \\"
+4. The fullScript field is one single string — use \\n for line breaks, NOT actual line breaks
+
 Return ONLY a JSON object (no markdown, no extra text):
 {
   "title": "Compelling script title",
@@ -652,24 +658,7 @@ Return ONLY a JSON object (no markdown, no extra text):
       "collectiveAction": "What WE will do together"
     }
   },
-  "fullScript": "Complete formatted script with CLEAR ACT DIVISIONS. Use this exact format for EACH of the 7 acts:
-
-⏱ [TIMING] ACT X: [ACT NAME]
-[DIRECTION] Direction notes for energy/camera/music
-
-[YOU]: Actual script content to be spoken on camera, including [PAUSE] markers, [TEXT OVERLAY: content] markers, and all delivery notes.
-
-Example for Act 1:
-⏱ 0:00 - 0:15 ACT 1: THE NEGATIVE HOOK
-[DIRECTION] Camera tight on face. Low, intense energy. Almost a whisper. No music yet.
-
-[YOU]: 96% of content creators in Africa will never make a living from their content.
-
-[DIRECTION] PAUSE. 2 full seconds of silence. Stare into camera.
-
-[YOU]: Not because they're not talented. Not because the algorithm hates them. But because they're building like employees... on platforms they will never own.
-
-Repeat this format for all 7 acts. Direction notes and timing are for production - only [YOU] lines are spoken on camera.",
+  "fullScript": "⏱ 0:00 - 0:15 ACT 1: THE NEGATIVE HOOK\\n[DIRECTION] Camera tight on face. Low, intense energy. Almost a whisper. No music yet.\\n\\n[YOU]: 96% of content creators in Africa will never make a living from their content.\\n\\n[DIRECTION] PAUSE. 2 full seconds of silence. Stare into camera.\\n\\n[YOU]: Not because they are not talented. But because they are building like employees on platforms they will never own.\\n\\n⏱ 0:15 - 1:00 ACT 2: THE UNCOMFORTABLE TRUTH\\n[DIRECTION] Cut wider. Music begins low.\\n\\n[YOU]: You have been lied to. Continue all 7 acts in this same format using \\\\n for all line breaks.",
   "bRoll": [
     "B-roll suggestion 1 (specific to content)",
     "B-roll suggestion 2 (specific to content)",
@@ -790,7 +779,7 @@ REMEMBER:
 
     const stream = anthropic.messages.stream({
       model: MODELS.SONNET,
-      max_tokens: 6000,
+      max_tokens: 8000,
       system: systemPromptWithStories,
       messages: [{ role: 'user', content: userPrompt }],
     })

@@ -173,6 +173,33 @@ export default function ScriptWriterPage() {
   const [salesFormat, setSalesFormat] = useState('reel')
   const [products, setProducts] = useState<any[]>([])
 
+  // Loading progress
+  const [streamingText, setStreamingText] = useState('')
+  const [loadingStep, setLoadingStep] = useState(0)
+
+  const LOADING_STEPS = [
+    { icon: '🎯', text: 'Locking onto your ICP...', detail: 'Identifying your target audience and shadow fears' },
+    { icon: '🔬', text: 'Applying R×A×C×U^B formula...', detail: 'Building hook science — Relevance, Awareness, Clarity, Unique, Broadened' },
+    { icon: '📖', text: 'Writing Act 1: The Negative Hook...', detail: 'Stopping the scroll — the first 3 seconds are everything' },
+    { icon: '💡', text: 'Writing Acts 2–3: Truth + Origin Story...', detail: 'Challenging beliefs and embedding your proof story' },
+    { icon: '🔥', text: 'Writing Acts 4–5: Breaking Point + Transformation...', detail: 'The emotional core — lowest point to breakthrough' },
+    { icon: '⚡', text: 'Writing Acts 6–7: Framework + Mission CTA...', detail: 'Teaching the system and building the collective call to action' },
+    { icon: '✅', text: 'Running Section 13 compliance check...', detail: 'Verifying all 15 NOCHILL content protocols' },
+    { icon: '🎬', text: 'Finalising your full script...', detail: 'Packaging everything for teleprompter and production' },
+  ]
+
+  useEffect(() => {
+    if (!loading) {
+      setLoadingStep(0)
+      setStreamingText('')
+      return
+    }
+    const timer = setInterval(() => {
+      setLoadingStep(prev => Math.min(prev + 1, LOADING_STEPS.length - 1))
+    }, 4500)
+    return () => clearInterval(timer)
+  }, [loading])
+
   // NOCHILL Framework Selectors
   const [contentType, setContentType] = useState('auto') // 4E: entertain, educate, encourage, earn
   const [paidsStream, setPaidsStream] = useState('auto') // products, ads, information, deals, services
@@ -441,14 +468,38 @@ export default function ScriptWriterPage() {
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
-        fullText += decoder.decode(value, { stream: true })
+        const chunk = decoder.decode(value, { stream: true })
+        fullText += chunk
+        setStreamingText(prev => (prev + chunk).slice(-400))
       }
 
       // Parse the accumulated JSON
       let parsedScript: any
       try {
-        const jsonMatch = fullText.match(/\{[\s\S]*\}/)
-        parsedScript = JSON.parse(jsonMatch ? jsonMatch[0] : fullText)
+        // Strip markdown code fences the AI may add despite instructions
+        const cleaned = fullText
+          .replace(/^```json\s*/m, '')
+          .replace(/^```\s*/m, '')
+          .replace(/\s*```$/m, '')
+          .trim()
+
+        const jsonMatch = cleaned.match(/\{[\s\S]*\}/)
+        const jsonStr = jsonMatch ? jsonMatch[0] : cleaned
+
+        try {
+          parsedScript = JSON.parse(jsonStr)
+        } catch {
+          // The AI may have output literal newlines inside JSON string values.
+          // Fix: escape literal newlines/tabs that appear inside quoted strings.
+          const fixed = jsonStr.replace(
+            /("(?:[^"\\]|\\.)*")/g,
+            (match) => match
+              .replace(/\n/g, '\\n')
+              .replace(/\r/g, '\\r')
+              .replace(/\t/g, '\\t')
+          )
+          parsedScript = JSON.parse(fixed)
+        }
       } catch {
         throw new Error('Failed to parse script response. Try again.')
       }
@@ -1353,20 +1404,64 @@ ${scriptToUse.fiveLine.community.script}`
           {/* Output Section */}
         <div>
           {loading && !script && (
-            <Card>
-              <CardHeader>
-                <div className="animate-pulse space-y-3">
-                  <div className="h-5 bg-gray-200 rounded w-1/2" />
-                  <div className="h-3 bg-gray-100 rounded w-1/4" />
+            <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-indigo-50">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-purple-600 animate-pulse" />
+                    Building your script...
+                  </CardTitle>
+                  <span className="text-xs text-purple-500 font-mono bg-purple-100 px-2 py-0.5 rounded-full">~30s</span>
+                </div>
+                <div className="h-1.5 bg-purple-100 rounded-full overflow-hidden mt-3">
+                  <div
+                    className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full transition-all duration-1000 ease-out"
+                    style={{ width: `${Math.min(((loadingStep + 1) / LOADING_STEPS.length) * 100, 92)}%` }}
+                  />
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="animate-pulse space-y-4">
-                  <div className="h-24 bg-purple-50 border-2 border-purple-200 rounded-lg" />
-                  <div className="h-48 bg-green-50 border-2 border-green-200 rounded-lg" />
-                  <div className="h-16 bg-blue-50 border-l-4 border-blue-300 rounded" />
+              <CardContent className="space-y-3">
+                {/* Current active step */}
+                <div className="bg-white rounded-xl p-3 border border-purple-100 shadow-sm">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl leading-none mt-0.5">{LOADING_STEPS[loadingStep]?.icon}</span>
+                    <div>
+                      <p className="font-semibold text-gray-900 text-sm">{LOADING_STEPS[loadingStep]?.text}</p>
+                      <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{LOADING_STEPS[loadingStep]?.detail}</p>
+                    </div>
+                    <div className="ml-auto flex items-center gap-1 shrink-0">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce [animation-delay:0ms]" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce [animation-delay:150ms]" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce [animation-delay:300ms]" />
+                    </div>
+                  </div>
                 </div>
-                <p className="text-center text-sm text-gray-400 animate-pulse">Building your script...</p>
+
+                {/* Completed steps */}
+                {loadingStep > 0 && (
+                  <div className="space-y-1">
+                    {LOADING_STEPS.slice(0, loadingStep).map((step, i) => (
+                      <div key={i} className="flex items-center gap-2 text-xs text-green-600 bg-green-50 rounded-lg px-3 py-1.5">
+                        <span className="font-bold text-green-500">✓</span>
+                        <span className="font-medium">{step.text.replace('...', '')}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Live stream preview */}
+                {streamingText.length > 20 && (
+                  <div className="bg-gray-900 rounded-xl p-3 font-mono overflow-hidden">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                      <span className="text-gray-400 text-xs">live output</span>
+                    </div>
+                    <p className="text-green-400 text-xs leading-relaxed break-all opacity-90 line-clamp-4">
+                      {streamingText}
+                      <span className="animate-pulse text-green-300">▋</span>
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           )}
