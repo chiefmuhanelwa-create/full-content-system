@@ -4,55 +4,55 @@
 
 @layer base {
   :root {
-    /* ─── NOCHILL Dark Theme — ViralFlow-inspired, Heritage Gold accents ─── */
-    --background:           0 0% 6%;          /* #0f0f0f — near black */
-    --foreground:           36 57% 95%;       /* #FAF7F0 — Cream */
-    --card:                 0 0% 10%;         /* #1a1a1a */
-    --card-foreground:      36 57% 95%;       /* Cream */
-    --popover:              0 0% 12%;         /* #1e1e1e */
-    --popover-foreground:   36 57% 95%;
-    --primary:              40 52% 55%;       /* #C9A84C — Heritage Gold */
-    --primary-foreground:   0 0% 6%;          /* dark on gold */
-    --secondary:            0 0% 14%;         /* #242424 */
-    --secondary-foreground: 36 57% 95%;
-    --muted:                0 0% 16%;         /* #292929 */
-    --muted-foreground:     240 5% 58%;       /* #8a8a96 */
-    --accent:               40 52% 55%;       /* Heritage Gold */
+    /* ─── NOCHILL Light Theme — Heritage Gold accents ─── */
+    --background:           0 0% 98%;           /* #FAFAFA */
+    --foreground:           240 10% 10%;        /* #18181B */
+    --card:                 0 0% 100%;          /* #FFFFFF */
+    --card-foreground:      240 10% 10%;
+    --popover:              0 0% 100%;
+    --popover-foreground:   240 10% 10%;
+    --primary:              40 52% 55%;         /* #C9A84C — Heritage Gold */
+    --primary-foreground:   0 0% 6%;
+    --secondary:            240 5% 96%;         /* #F4F4F5 */
+    --secondary-foreground: 240 10% 10%;
+    --muted:                240 5% 96%;
+    --muted-foreground:     240 4% 46%;         /* #71717A */
+    --accent:               40 52% 55%;
     --accent-foreground:    0 0% 6%;
-    --destructive:          0 72% 51%;        /* red */
+    --destructive:          0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --border:               0 0% 17%;         /* #2b2b2b */
-    --input:                0 0% 14%;         /* #242424 */
-    --ring:                 40 52% 55%;       /* Gold focus ring */
+    --border:               240 6% 90%;         /* #E4E4E7 */
+    --input:                240 6% 90%;
+    --ring:                 40 52% 55%;
     --radius:               0.75rem;
 
     /* ─── NOCHILL Brand Tokens ─── */
     --gold:           #C9A84C;
     --gold-hover:     #B8943D;
-    --gold-dim:       rgba(201, 168, 76, 0.15);
+    --gold-dim:       rgba(201, 168, 76, 0.12);
     --gold-border:    rgba(201, 168, 76, 0.3);
-    --tool-black:     #111111;
-    --charcoal:       #1C1C1C;
+    --tool-black:     #18181B;
+    --charcoal:       #3F3F46;
     --cream:          #FAF7F0;
-    --surface-0:      #0f0f0f;
-    --surface-1:      #1a1a1a;
-    --surface-2:      #222222;
-    --surface-3:      #2a2a2a;
-    --border-subtle:  #2b2b2b;
-    --border-mid:     #383838;
-    --text-primary:   #FAF7F0;
-    --text-secondary: #D4D4D8;
-    --text-muted:     #8a8a96;
-    --text-dim:       #5a5a6a;
+    --surface-0:      #FAFAFA;
+    --surface-1:      #FFFFFF;
+    --surface-2:      #F4F4F5;
+    --surface-3:      #E4E4E7;
+    --border-subtle:  #E4E4E7;
+    --border-mid:     #D4D4D8;
+    --text-primary:   #18181B;
+    --text-secondary: #3F3F46;
+    --text-muted:     #71717A;
+    --text-dim:       #A1A1AA;
   }
 }
 
 @layer base {
   * { @apply border-border; }
   html {
-    color-scheme: dark;
+    color-scheme: light;
     scroll-behavior: smooth;
-    background: #0f0f0f;
+    background: #FAFAFA;
   }
 
   body {
@@ -60,8 +60,8 @@
     font-family: var(--font-display, 'Inter', 'ui-sans-serif', system-ui, sans-serif);
     font-size: 15px;
     line-height: 1.65;
-    color: #FAF7F0;
-    background: #0f0f0f;
+    color: #18181B;
+    background: #FAFAFA;
     font-feature-settings: 'kern' 1, 'liga' 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -69,7 +69,7 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display, 'Inter', sans-serif);
-    color: #FAF7F0;
+    color: #18181B;
     font-weight: 700;
   }
   h1 { font-size: clamp(1.9rem, 5vw, 3.25rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
@@ -77,93 +77,37 @@
   h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; }
   h4, h5, h6 { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
 
-  p { color: #D4D4D8; line-height: 1.65; }
+  p { color: #71717A; line-height: 1.65; }
 
-  /* ─── Scrollbars — dark ─── */
+  /* ─── Scrollbars — light ─── */
   ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: #111111; }
-  ::-webkit-scrollbar-thumb { background: #383838; border-radius: 4px; }
+  ::-webkit-scrollbar-track { background: #F4F4F5; }
+  ::-webkit-scrollbar-thumb { background: #D4D4D8; border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: #C9A84C; }
 
+  nav ::-webkit-scrollbar-track { background: #111; }
   nav ::-webkit-scrollbar-thumb { background: #2b2b2b; }
   nav ::-webkit-scrollbar-thumb:hover { background: #C9A84C; }
 }
-
-/* ─── Global dark overrides for hardcoded Tailwind classes ─── */
-
-/* Page backgrounds */
-.bg-\[#F9FAFB\]  { background-color: #0f0f0f !important; }
-.bg-\[#FAFAFA\]  { background-color: #0f0f0f !important; }
-.min-h-screen    { background-color: #0f0f0f; }
-.min-h-full      { background-color: #0f0f0f; }
-
-/* White surfaces → dark cards */
-.bg-white        { background-color: #1a1a1a !important; }
-.bg-\[#FFFFFF\]  { background-color: #1a1a1a !important; }
-.bg-\[#F4F4F5\]  { background-color: #222222 !important; }
-.bg-\[#F4F4F8\]  { background-color: #222222 !important; }
-.bg-\[#F3F4F6\]  { background-color: #1e1e1e !important; }
-
-/* Hover states */
-.hover\:bg-\[#F4F4F8\]:hover  { background-color: #2a2a2a !important; }
-.hover\:bg-\[#F4F4F5\]:hover  { background-color: #242424 !important; }
-.hover\:bg-white:hover        { background-color: #222222 !important; }
-
-/* Borders */
-.border-\[#E4E4E7\]   { border-color: #2b2b2b !important; }
-.border-\[#F4F4F5\]   { border-color: #222222 !important; }
-.border-\[#D4D4D8\]   { border-color: #383838 !important; }
-.hover\:border-\[#D4D4D8\]:hover { border-color: #C9A84C !important; }
-
-/* Text colours */
-.text-\[#18181B\]   { color: #FAF7F0 !important; }
-.text-\[#3F3F46\]   { color: #D4D4D8 !important; }
-.text-\[#52525B\]   { color: #C4C4C8 !important; }
-.text-\[#71717A\]   { color: #8a8a96 !important; }
-.text-\[#A1A1AA\]   { color: #5a5a6a !important; }
-.text-\[#D4D4D8\]   { color: #8a8a96 !important; }
-
-/* Blue primary → Gold */
-.text-blue-600    { color: #C9A84C !important; }
-.bg-blue-600      { background-color: #C9A84C !important; }
-.bg-blue-50       { background-color: rgba(201, 168, 76, 0.08) !important; }
-.bg-blue-100      { background-color: rgba(201, 168, 76, 0.12) !important; }
-.border-blue-200  { border-color: rgba(201, 168, 76, 0.3) !important; }
-.border-blue-300  { border-color: rgba(201, 168, 76, 0.4) !important; }
-.text-blue-700    { color: #C9A84C !important; }
-.text-blue-800    { color: #E8C96A !important; }
-.hover\:bg-blue-700:hover { background-color: #B8943D !important; }
-.hover\:bg-blue-50:hover  { background-color: rgba(201, 168, 76, 0.12) !important; }
-.focus\:ring-blue-500:focus { ring-color: #C9A84C !important; }
-
-/* Shadow overrides */
-.shadow-\[0_1px_4px_rgba\(0\2c 0\2c 0\2c 0\.04\)\] { box-shadow: 0 1px 4px rgba(0,0,0,0.4) !important; }
-.shadow-sm  { box-shadow: 0 1px 3px rgba(0,0,0,0.4) !important; }
-.shadow     { box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important; }
-.shadow-md  { box-shadow: 0 4px 16px rgba(0,0,0,0.5) !important; }
-.shadow-lg  { box-shadow: 0 8px 32px rgba(0,0,0,0.6) !important; }
-
-/* Mobile top bar */
-.lg\:hidden.sticky { background-color: #111111 !important; border-color: #2b2b2b !important; }
 
 @layer utilities {
 
   /* ─── Card ─── */
   .nc-card {
-    background: #1a1a1a;
-    border: 1px solid #2b2b2b;
+    background: #FFFFFF;
+    border: 1px solid #E4E4E7;
     border-radius: 0.75rem;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
   .nc-card:hover {
     border-color: rgba(201, 168, 76, 0.4);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
 
   /* ─── Panel ─── */
   .nc-panel {
-    background: #222222;
-    border: 1px solid #2b2b2b;
+    background: #F4F4F5;
+    border: 1px solid #E4E4E7;
     border-radius: 0.75rem;
   }
 
@@ -213,7 +157,7 @@
   /* ─── Divider ─── */
   .nc-divider {
     height: 1px;
-    background: #2b2b2b;
+    background: #E4E4E7;
   }
 
   /* ─── Live badge ─── */
@@ -228,8 +172,8 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: #C9A84C;
-    background: rgba(201, 168, 76, 0.08);
-    border: 1px solid rgba(201, 168, 76, 0.25);
+    background: rgba(201, 168, 76, 0.1);
+    border: 1px solid rgba(201, 168, 76, 0.3);
   }
   .nc-live-dot {
     display: inline-block;
@@ -246,8 +190,8 @@
 
   /* ─── Stat block ─── */
   .nc-stat {
-    background: #1a1a1a;
-    border: 1px solid #2b2b2b;
+    background: #FFFFFF;
+    border: 1px solid #E4E4E7;
     border-radius: 0.75rem;
     padding: 1.25rem;
   }
@@ -264,18 +208,18 @@
     font-weight: 600;
     letter-spacing: 0.10em;
     text-transform: uppercase;
-    color: #5a5a6a;
+    color: #A1A1AA;
     margin-top: 4px;
   }
 
   /* ─── Tool input ─── */
   .nc-tool-input {
-    background: #222222;
-    border: 1px solid #2b2b2b;
+    background: #FFFFFF;
+    border: 1px solid #E4E4E7;
     border-radius: 0.625rem;
     font-family: var(--font-display, 'Inter', sans-serif);
     font-size: 15px;
-    color: #FAF7F0;
+    color: #18181B;
     padding: 0.7rem 0.9rem;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
     width: 100%;
@@ -285,12 +229,12 @@
     border-color: #C9A84C;
     box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12);
   }
-  .nc-tool-input::placeholder { color: #5a5a6a; }
+  .nc-tool-input::placeholder { color: #A1A1AA; }
 
   /* ─── Result / output card ─── */
   .nc-result-card {
-    background: #1a1a1a;
-    border: 1px solid #2b2b2b;
+    background: #FFFFFF;
+    border: 1px solid #E4E4E7;
     border-radius: 0.75rem;
     padding: 1.25rem 1.5rem;
     position: relative;
@@ -309,7 +253,7 @@
   }
   .nc-result-card:hover {
     border-color: rgba(201, 168, 76, 0.4);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
   .nc-result-card:hover::before { opacity: 1; }
 
@@ -346,8 +290,8 @@
 
   /* ─── Tool section wrapper ─── */
   .nc-tool-section {
-    background: #1a1a1a;
-    border: 1px solid #2b2b2b;
+    background: #FFFFFF;
+    border: 1px solid #E4E4E7;
     border-radius: 0.75rem;
     padding: 1.5rem;
   }
@@ -355,17 +299,17 @@
   /* ─── Helper text ─── */
   .nc-helper {
     font-size: 13px;
-    color: #8a8a96;
+    color: #A1A1AA;
     line-height: 1.55;
   }
 
   /* ─── Error state ─── */
   .nc-error {
     padding: 0.75rem 1rem;
-    background: rgba(220, 38, 38, 0.08);
-    border: 1px solid rgba(220, 38, 38, 0.25);
+    background: rgba(220, 38, 38, 0.06);
+    border: 1px solid rgba(220, 38, 38, 0.2);
     border-radius: 0.625rem;
-    color: #f87171;
+    color: #DC2626;
     font-size: 14px;
     font-family: var(--font-display, 'Inter', sans-serif);
     font-weight: 500;
@@ -374,8 +318,8 @@
   /* ─── Page header section ─── */
   .nc-page-header {
     padding: 1.5rem 2rem;
-    border-bottom: 1px solid #2b2b2b;
-    background: #111111;
+    border-bottom: 1px solid #E4E4E7;
+    background: #FFFFFF;
   }
 
   /* ─── Form row wrapper ─── */
@@ -390,14 +334,14 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #8a8a96;
+    color: #71717A;
   }
 
   /* ─── Card title ─── */
   .card-title-nc {
     font-family: var(--font-display, 'Inter', sans-serif) !important;
     font-weight: 600;
-    color: #FAF7F0;
+    color: #18181B;
   }
 
   /* ─── Form label ─── */
@@ -407,7 +351,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #8a8a96;
+    color: #71717A;
   }
 
   /* ─── Nav transition ─── */
@@ -443,25 +387,25 @@
 
   /* ─── Kanban column ─── */
   .kanban-col {
-    background: #141414;
-    border: 1px solid #2b2b2b;
+    background: #F4F4F5;
+    border: 1px solid #E4E4E7;
     border-radius: 0.75rem;
     min-height: 200px;
     transition: border-color 0.15s ease;
   }
-  .kanban-col:hover { border-color: #383838; }
+  .kanban-col:hover { border-color: #D4D4D8; }
 
   /* ─── Pipeline card ─── */
   .pipeline-card {
-    background: #1e1e1e;
-    border: 1px solid #2b2b2b;
+    background: #FFFFFF;
+    border: 1px solid #E4E4E7;
     border-radius: 0.625rem;
     transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
     cursor: pointer;
   }
   .pipeline-card:hover {
-    border-color: rgba(201, 168, 76, 0.35);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    border-color: rgba(201, 168, 76, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transform: translateY(-1px);
   }
 
@@ -483,13 +427,13 @@
   /* ─── Ghost button ─── */
   .nc-btn-ghost {
     background: transparent;
-    color: #8a8a96;
-    border: 1px solid #2b2b2b;
+    color: #71717A;
+    border: 1px solid #E4E4E7;
     border-radius: 0.625rem;
     padding: 0.5rem 1rem;
     font-size: 13px;
     cursor: pointer;
     transition: all 0.15s ease;
   }
-  .nc-btn-ghost:hover { background: #222; color: #FAF7F0; border-color: #383838; }
+  .nc-btn-ghost:hover { background: #F4F4F5; color: #18181B; border-color: #D4D4D8; }
 }
