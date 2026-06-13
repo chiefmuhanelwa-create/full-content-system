@@ -23,6 +23,7 @@ import { useContent } from '@/contexts/ContentContext'
 interface ContentPiece {
   day: number
   date: string
+  seriesEpisode?: string
   topic: string
   hookIdea: string
   contentType: string
@@ -33,7 +34,15 @@ interface ContentPiece {
   paidsCategory?: string
   villain?: string
   proofStory?: string
+  ctaSuggestion?: string
   notes: string
+}
+
+interface WeeklyArc {
+  week: number
+  title: string
+  theme: string
+  awarenessLevel: string
 }
 
 const FOUR_E_COLORS: Record<string, string> = {
@@ -95,12 +104,16 @@ export default function BatchPlannerPage() {
   const [tab, setTab] = useState<'generate' | 'import' | 'history'>('generate')
   const [niche, setNiche] = useState('')
   const [goals, setGoals] = useState('')
+  const [leadMagnet, setLeadMagnet] = useState('')
+  const [seriesName, setSeriesName] = useState('')
   const [postingFrequency, setPostingFrequency] = useState('daily')
   const [platforms, setPlatforms] = useState('instagram')
   const [targetICP, setTargetICP] = useState('auto')
   const [loading, setLoading] = useState(false)
   const [contentPlan, setContentPlan] = useState<ContentPiece[]>([])
   const [planCompliance, setPlanCompliance] = useState<any>(null)
+  const [weeklyArcs, setWeeklyArcs] = useState<WeeklyArc[]>([])
+  const [planSeriesName, setPlanSeriesName] = useState('')
 
   // Import tab
   const [csvText, setCsvText] = useState('')
@@ -141,7 +154,7 @@ export default function BatchPlannerPage() {
       const response = await fetch('/api/batch/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ niche, goals, postingFrequency, platforms, targetICP }),
+        body: JSON.stringify({ niche, goals, postingFrequency, platforms, targetICP, leadMagnet, seriesName }),
       })
       const data = await response.json()
       if (!response.ok) {
@@ -151,7 +164,9 @@ export default function BatchPlannerPage() {
       } else {
         setContentPlan(data.plan)
         if (data.compliance) setPlanCompliance(data.compliance)
-        savePlanToHistory(data.plan, `${niche} — ${new Date().toLocaleDateString()}`)
+        if (data.weeklyArcs) setWeeklyArcs(data.weeklyArcs)
+        if (data.seriesName) setPlanSeriesName(data.seriesName)
+        savePlanToHistory(data.plan, `${data.seriesName || niche} — ${new Date().toLocaleDateString()}`)
       }
     } catch (err) {
       setGenerateError('Network error. Check your connection and try again.')
@@ -300,6 +315,26 @@ export default function BatchPlannerPage() {
                     />
                   </div>
                   <div>
+                    <Label className="nc-label text-[11px]">Lead Magnet (for email CTA)</Label>
+                    <Input
+                      value={leadMagnet}
+                      onChange={e => setLeadMagnet(e.target.value)}
+                      placeholder="e.g. Free PAIDS Workbook, 30-Day Content Calendar..."
+                      className="mt-1"
+                    />
+                    <p className="text-[10px] text-[#71717A] mt-1">Every post will CTA to email capture using this. Leave blank for AI to decide.</p>
+                  </div>
+                  <div>
+                    <Label className="nc-label text-[11px]">Series Name (optional)</Label>
+                    <Input
+                      value={seriesName}
+                      onChange={e => setSeriesName(e.target.value)}
+                      placeholder="e.g. The Contentpreneur Foundation Series"
+                      className="mt-1"
+                    />
+                    <p className="text-[10px] text-[#71717A] mt-1">AI will structure all 30 posts as episodes in this series.</p>
+                  </div>
+                  <div>
                     <Label className="nc-label text-[11px]">Posting Frequency</Label>
                     <Select value={postingFrequency} onValueChange={setPostingFrequency}>
                       <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
@@ -434,14 +469,35 @@ export default function BatchPlannerPage() {
             {contentPlan.length > 0 && !loading && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <p className="font-display font-black text-[#18181B] text-sm">
-                    {contentPlan.length} content pieces
-                    {pushResult && pushResult.failed === 0 && (
-                      <span className="ml-2 text-emerald-600 font-semibold">· Pushed to Calendar ✓</span>
+                  <div>
+                    {planSeriesName && (
+                      <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#C9A84C] mb-0.5">{planSeriesName}</p>
                     )}
-                  </p>
+                    <p className="font-display font-black text-[#18181B] text-sm">
+                      {contentPlan.length} content pieces
+                      {pushResult && pushResult.failed === 0 && (
+                        <span className="ml-2 text-emerald-600 font-semibold">· Pushed to Calendar ✓</span>
+                      )}
+                    </p>
+                  </div>
                   <p className="text-[11px] text-[#71717A] font-display">Click any row to generate its hook or script</p>
                 </div>
+
+                {/* Weekly Arcs */}
+                {weeklyArcs.length > 0 && (
+                  <div className="grid grid-cols-2 gap-2">
+                    {weeklyArcs.map(arc => (
+                      <div key={arc.week} className="bg-white border border-[#E4E4E7] rounded-xl p-3">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-[9px] font-display font-black uppercase tracking-widest text-[#C9A84C]">Week {arc.week}</span>
+                          <span className="text-[9px] font-display font-semibold text-[#71717A] bg-[#F4F4F5] rounded px-1.5 py-0.5">{arc.awarenessLevel}</span>
+                        </div>
+                        <p className="font-display font-bold text-[#18181B] text-[11px]">{arc.title}</p>
+                        <p className="text-[10px] text-[#71717A] mt-0.5 leading-relaxed">{arc.theme}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 {/* NOCHILL DNA Compliance Panel */}
                 {planCompliance && (
@@ -536,6 +592,9 @@ export default function BatchPlannerPage() {
                             </div>
 
                             <div className="flex-1 min-w-0">
+                              {item.seriesEpisode && (
+                                <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#C9A84C] mb-0.5">{item.seriesEpisode}</p>
+                              )}
                               <div className="flex items-start gap-2 flex-wrap mb-1">
                                 <p className="font-display font-bold text-[#18181B] text-[13px] leading-snug flex-1">{item.topic}</p>
                                 {item.fourE && (
@@ -580,6 +639,11 @@ export default function BatchPlannerPage() {
                               <p className="text-[11px] text-[#52525B] leading-relaxed line-clamp-2">
                                 <span className="font-semibold text-[#71717A]">Hook:</span> "{item.hookIdea}"
                               </p>
+                              {item.ctaSuggestion && (
+                                <p className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-lg px-2 py-1.5 mt-1.5 leading-relaxed">
+                                  <span className="font-bold">CTA →</span> {item.ctaSuggestion}
+                                </p>
+                              )}
                             </div>
                           </div>
 
