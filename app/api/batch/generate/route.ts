@@ -89,7 +89,7 @@ Return a JSON object with this structure:
 
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 6000,
+      max_tokens: 16000,
       system: systemPrompt,
       messages: [{ role: 'user', content: userPrompt }],
     })

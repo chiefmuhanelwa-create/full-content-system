@@ -106,6 +106,8 @@ export default function BatchPlannerPage() {
   const [csvText, setCsvText] = useState('')
   const [importError, setImportError] = useState('')
 
+  const [generateError, setGenerateError] = useState('')
+
   // Push to calendar
   const [pushing, setPushing] = useState(false)
   const [pushResult, setPushResult] = useState<{ success: number; failed: number } | null>(null)
@@ -133,6 +135,7 @@ export default function BatchPlannerPage() {
   const handleGenerate = async () => {
     if (!niche.trim() || !goals.trim()) return
     setLoading(true)
+    setGenerateError('')
     setPushResult(null)
     try {
       const response = await fetch('/api/batch/generate', {
@@ -140,13 +143,18 @@ export default function BatchPlannerPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ niche, goals, postingFrequency, platforms, targetICP }),
       })
-      if (response.ok) {
-        const data = await response.json()
+      const data = await response.json()
+      if (!response.ok) {
+        setGenerateError(data.error || 'Generation failed. Try again.')
+      } else if (!data.plan || data.plan.length === 0) {
+        setGenerateError('AI returned an empty plan. Try again.')
+      } else {
         setContentPlan(data.plan)
         if (data.compliance) setPlanCompliance(data.compliance)
         savePlanToHistory(data.plan, `${niche} — ${new Date().toLocaleDateString()}`)
       }
     } catch (err) {
+      setGenerateError('Network error. Check your connection and try again.')
       console.error(err)
     } finally {
       setLoading(false)
@@ -263,7 +271,7 @@ export default function BatchPlannerPage() {
               onClick={() => { setTab(t); if (t !== 'history') { setContentPlan([]); setPushResult(null) } }}
               className={`px-4 py-2 rounded-lg text-[12px] font-display font-bold transition-all ${
                 tab === t
-                  ? 'bg-[#2563EB] text-[#18181B] shadow-sm'
+                  ? 'bg-[#C9A84C] text-[#18181B] shadow-sm'
                   : 'text-[#71717A] hover:text-[#18181B]'
               }`}
             >
@@ -330,7 +338,7 @@ export default function BatchPlannerPage() {
                   <Button
                     onClick={handleGenerate}
                     disabled={loading || !niche.trim() || !goals.trim()}
-                    className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold"
+                    className="w-full bg-[#C9A84C] hover:bg-[#b8963e] text-[#18181B] font-display font-bold"
                   >
                     {loading ? 'Generating...' : 'Generate 30-Day Plan'}
                   </Button>
@@ -354,7 +362,7 @@ export default function BatchPlannerPage() {
                   <Button
                     onClick={handleImportCSV}
                     disabled={!csvText.trim()}
-                    className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold"
+                    className="w-full bg-[#C9A84C] hover:bg-[#b8963e] text-[#18181B] font-display font-bold"
                   >
                     <Upload className="w-4 h-4 mr-2" />
                     Import Plan
@@ -406,9 +414,19 @@ export default function BatchPlannerPage() {
 
           {/* Plan output */}
           <div className="lg:col-span-2 space-y-4">
+            {generateError && !loading && (
+              <div className="bg-white border border-red-200 rounded-xl p-5 flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-display font-bold text-[#18181B] text-sm">Generation failed</p>
+                  <p className="text-[#71717A] text-sm mt-0.5">{generateError}</p>
+                </div>
+              </div>
+            )}
+
             {loading && (
               <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
-                <div className="w-10 h-10 border-2 border-[#2563EB] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <div className="w-10 h-10 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                 <p className="text-[#71717A] font-display font-semibold text-sm">Generating 30-day plan...</p>
               </div>
             )}
@@ -429,7 +447,7 @@ export default function BatchPlannerPage() {
                 {planCompliance && (
                   <div className="bg-[#18181B] rounded-xl p-5 text-white space-y-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-display font-black uppercase tracking-widest text-[#2563EB]">NOCHILL DNA — Plan Compliance Report</span>
+                      <span className="text-[10px] font-display font-black uppercase tracking-widest text-[#C9A84C]">NOCHILL DNA — Plan Compliance Report</span>
                     </div>
 
                     {/* ICP + Principles row */}
@@ -450,7 +468,7 @@ export default function BatchPlannerPage() {
                         <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Voice Principles</p>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {(planCompliance.principlesApplied || ['You Format', 'Negativity (indirect)']).map((p: string, i: number) => (
-                            <span key={i} className="text-[9px] bg-[#2563EB]/20 text-[#2563EB] rounded px-1.5 py-0.5 font-display font-bold">{p}</span>
+                            <span key={i} className="text-[9px] bg-[#C9A84C]/20 text-[#7A5F18] rounded px-1.5 py-0.5 font-display font-bold">{p}</span>
                           ))}
                         </div>
                       </div>
@@ -533,7 +551,7 @@ export default function BatchPlannerPage() {
                               {(item.icp || item.paidsCategory || item.shadowFear) && (
                                 <div className="flex flex-wrap gap-1 mb-1.5">
                                   {item.icp && (
-                                    <span className="text-[9px] bg-[#2563EB]/10 text-[#1D4ED8] font-display font-bold px-1.5 py-0.5 rounded">
+                                    <span className="text-[9px] bg-[#C9A84C]/10 text-[#7A5F18] font-display font-bold px-1.5 py-0.5 rounded">
                                       {item.icp.includes('1') ? 'ICP1 · Expert' : 'ICP2 · Creator'}
                                     </span>
                                   )}
@@ -569,7 +587,7 @@ export default function BatchPlannerPage() {
                           <div className="flex items-center gap-2 mt-3 ml-13 pl-0">
                             <button
                               onClick={() => openHookGenerator(item)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#2563EB]/10 hover:bg-[#2563EB]/20 text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C9A84C]/10 hover:bg-[#C9A84C]/20 text-[#7A5F18] rounded-lg text-[11px] font-display font-bold transition-colors"
                             >
                               <Zap className="w-3 h-3" />
                               Generate Hook
@@ -619,7 +637,7 @@ export default function BatchPlannerPage() {
                         <div className="flex items-center gap-2 flex-shrink-0">
                           <button
                             onClick={() => { setContentPlan(saved.plan); setTab('generate'); setPushResult(null) }}
-                            className="px-3 py-1.5 bg-[#2563EB]/10 hover:bg-[#2563EB]/20 text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
+                            className="px-3 py-1.5 bg-[#C9A84C]/10 hover:bg-[#C9A84C]/20 text-[#7A5F18] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             Load Plan
                           </button>
