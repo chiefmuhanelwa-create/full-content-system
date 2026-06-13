@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { Zap, BarChart2, Layers, Brain, ArrowRight } from 'lucide-react'
 
