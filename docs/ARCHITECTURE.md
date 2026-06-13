@@ -182,6 +182,30 @@ user_scripts (user_id, script_content, hook_id, created_at)
 user_stories (user_id, story, numbers, method, created_at)
 ```
 
+### Prisma Models (June 2026 — current)
+| Model | Table | Key fields |
+|-------|-------|-----------|
+| User | users | id, email, name, password |
+| Hook | hooks | userId, content, type, platform |
+| Script | scripts | userId, title, content, mode |
+| Story | stories | userId, content, lesson |
+| Product | products | userId, name, price, audienceLevel |
+| StoryBankEntry | story_bank | userId, storyKey, content |
+| ContentCalendarPlus | content_calendar_plus | userId, title, platform, date |
+| HookBank | hook_bank | userId, hookText, hookType, timesUsed |
+| ICPPainLibrary | icp_pain_library | userId, icp, pain, shadowFear |
+| **ContentPipeline** | **content_pipeline** | userId, title, platform, icp, status, interestPeak, hook, visualHook, value, cta, rawFootageLink, checkStrong, checkVisual, checkActionable, checkWorthy |
+
+`ContentPipeline` added June 2026 — requires `npm run db:push` (with `DATABASE_URL` + `DIRECT_URL` set) to create the table.
+
+### New API Routes (June 2026)
+| Route | Methods | Purpose |
+|-------|---------|---------|
+| `/api/pipeline` | GET, POST | Fetch all cards / create card |
+| `/api/pipeline/[id]` | PATCH, DELETE | Update / delete card (ownership-checked) |
+| `/api/captions/generate` | POST | Caption + hashtag generation (Haiku) |
+| `/api/runsheet/generate` | POST | Shoot runsheet generation (Haiku) |
+
 ## 🎨 How to Add New Knowledge
 
 ### Adding a New Framework

@@ -9,7 +9,7 @@
 
 | Document | Location | Contents |
 |----------|----------|---------|
-| Features reference | `docs/FEATURES.md` | All 42 tools, routes, inputs/outputs |
+| Features reference | `docs/FEATURES.md` | All 45 tools, routes, inputs/outputs |
 | Frameworks (AI context) | `docs/FRAMEWORKS.md` | All 18 frameworks for AI generation |
 | Story bank | `docs/STORY_BANK.md` | All 11 proof stories with scripts |
 | System assessment | `docs/SYSTEM-ASSESSMENT.md` | DARES scores, gaps, roadmap |

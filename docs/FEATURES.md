@@ -2,8 +2,8 @@
 
 **System:** full-content-system (full-content-system.vercel.app)
 **Owner:** Ndivhuwo Muhanelwa (NoChill)
-**Last updated:** 2026-06-06
-**Total features:** 42 dashboard tools across 8 groups
+**Last updated:** 2026-06-13
+**Total features:** 45 dashboard tools across 8 groups
 
 ---
 
@@ -38,11 +38,11 @@
 ### 2.1 Hook Generator ⚡ CORE
 **Route:** `/dashboard/hooks`
 **API:** `POST /api/hooks/generate`
-**Function:** Generates hooks using the R×A×C×U^B formula (Relevant × Aware × Clear × Unique^Broadened). Takes topic, audience, platform, and hook type as inputs. Generates 5–10 hooks per request, ranked by viral potential. Reads `algorithmAudiencePreload` from localStorage to auto-select audience from My Algorithm.
-**Inputs:** Topic, platform (IG/TikTok/YouTube/LinkedIn/X), hook type (curiosity/fear/social proof/contrast/data), audience
-**Outputs:** 5–10 ranked hooks with type labels and save buttons
-**Connects to:** Hook Bank (save), My Algorithm (audience pre-fill), Fear Analyzer (fear-type hooks auto-suggested)
-**AI model:** Claude claude-haiku-4-5 (speed-optimised)
+**Function:** Generates hooks using the R×A×C×U^B formula (Relevant × Aware × Clear × Unique^Broadened). Every hook is now a **dual output** — verbal hook (what to say) + visual hook (opening frame concept — what to show). Takes topic, audience, platform, hook type, and Interest Peak type as inputs. Generates 5 hook pairs per request. Reads `algorithmAudiencePreload` from localStorage to auto-select audience from My Algorithm.
+**Inputs:** Topic, platform (IG/TikTok/YouTube/LinkedIn/X), hook type, Interest Peak type (7 types: Risk Reversal / Authority / Controversial / Personal Story / Negative Assumption / Hype Up / Call Out), ICP, Shadow Fear, Awareness Level
+**Outputs:** 5 `{verbal, visual}` hook pairs. Verbal = the spoken opening line. Visual = the opening frame concept (text overlay, prop, action, environment, etc). Compliance block with `interestPeak` field.
+**Connects to:** Hook Bank (save), Pipeline Board (hook preload), My Algorithm (audience pre-fill), Fear Analyzer (fear-type hooks auto-suggested), Script Writer (hook → script bridge)
+**AI model:** Claude Haiku 4.5 (speed-optimised)
 **Rate limit:** 20 req/hr
 **DARES:** Digital ✓, Automation ✓
 
@@ -51,11 +51,11 @@
 ### 2.2 Script Writer ⚡ CORE
 **Route:** `/dashboard/scripts`
 **API:** `POST /api/scripts/generate`
-**Function:** Writes full video scripts using the 7-Act Story Arc + 10-Step Sales Framework. Applies all 4 scripting principles: Negativity Wins, You Format, Short & Simple, Audible Flow. Reads `algorithmStoryPreload` and product context from localStorage. Can write for organic (5 Story Types framework) or sales (10-Step) mode.
-**Inputs:** Topic/product, script type (educational/sales/story), platform, duration (60s/3min/10min), tone
-**Outputs:** Full script with timestamps, hook section, body, CTA, platform-optimised cuts
-**Connects to:** Storytelling Studio, Saved Scripts, Products (product → script), Teleprompter (auto-loads script), My Algorithm
-**AI model:** Claude claude-sonnet-4-6 (quality-optimised)
+**Function:** Writes full video scripts using the 7-Act Story Arc + 10-Step Sales Framework. Applies all 4 scripting principles: Negativity Wins, You Format, Short & Simple, Audible Flow. Three NOCHILL signature script templates available: "Never Ever Ever" (contrast authority / Risk Reversal), "Important V/S Not Important" (priority reframe / Controversial), "Don't Do This" (warning + rescue / Negative Assumption). R50 Quality Gate checklist (Strong Hook / Visual Hook / Actionable in 24hrs / Worth R50) displayed after every generated script. Reads `algorithmStoryPreload` and product context from localStorage.
+**Inputs:** Topic/product, script mode (content/sales), script template (auto/never_ever/important_vs/dont_do_this), platform, duration, ICP, Shadow Fear, villain
+**Outputs:** Full script with 7-Act structure, REHOOK markers, Section 13 compliance block, R50 quality gate checklist
+**Connects to:** Storytelling Studio, Saved Scripts, Products (product → script), Teleprompter, Caption Generator, Repurpose, Pipeline Board, My Algorithm
+**AI model:** Claude Sonnet 4.6 (quality-optimised)
 **Rate limit:** 20 req/hr
 **DARES:** Digital ✓, Automation ✓
 
@@ -310,6 +310,19 @@
 
 ## 6. PLANNING & SCALE
 
+### 6.0 Pipeline Board 🆕
+**Route:** `/dashboard/pipeline`
+**API:** `GET/POST /api/pipeline` · `PATCH/DELETE /api/pipeline/[id]`
+**Function:** 6-column Kanban board tracking every content piece through its full production lifecycle. Columns: Idea → Scripting → Ready to Record → Editing → Ready to Post → Posted. Each card stores title, platform, ICP tag, Interest Peak type, hook (verbal), visual hook (opening frame), value/core content, CTA, raw footage link, and R50 Quality Gate checklist (4 checkboxes). Quick-action buttons on each card bridge to Script Writer, Caption Generator, and Teleprompter with context preloaded. Card detail panel with full field editing. Stage movement via PATCH API.
+**Inputs:** Title, platform, ICP, Interest Peak type, hook, visual hook, value, CTA, raw footage link
+**Outputs:** Visual Kanban board with cards in stage columns. Card panel with R50 gate score (0/4–4/4). LocalStorage bridges on quick-action buttons.
+**Connects to:** Script Writer (`scriptWriterPreload`), Teleprompter (`teleprompterScript`), Caption Generator (`captionScriptPreload`)
+**DB model:** `ContentPipeline` (Supabase/PostgreSQL) — requires `npm run db:push` to activate
+**AI model:** None (CRUD only)
+**DARES:** Digital ✓, Automation ✓
+
+---
+
 ### 6.1 Content Calendar+
 **Route:** `/dashboard/content-calendar-plus`
 **API:** `GET/POST /api/content-calendar-plus`
@@ -332,6 +345,32 @@
 **AI model:** Claude claude-sonnet-4-6
 **Rate limit:** 20 req/hr
 **DARES:** Digital ✓, Automation ✓✓, Scalable ✓
+
+---
+
+### 6.2b Caption + Hashtag Generator 🆕
+**Route:** `/dashboard/captions`
+**API:** `POST /api/captions/generate`
+**Function:** Generates platform-optimised captions with hashtag sets from a script or content idea. Applies NOCHILL caption structure: hook line → value body → CTA line → hashtag block. Reads `captionScriptPreload` from localStorage (set by Script Writer, Pipeline Board). Returns caption (full and short variants) + 15–30 hashtags split by reach tier (broad/niche/micro).
+**Inputs:** Script or content idea, platform, ICP, tone
+**Outputs:** Caption (long + short), hashtag set (broad/niche/micro tiers), copy buttons
+**Connects to:** Script Writer (script → caption bridge), Pipeline Board (card → caption), Repurpose
+**AI model:** Claude Haiku 4.5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
+
+---
+
+### 6.2c Shoot Runsheet 🆕
+**Route:** `/dashboard/runsheet`
+**API:** `POST /api/runsheet/generate`
+**Function:** Generates a production-ready shoot runsheet for a batch recording session. Reads `runsheetPreload` from localStorage (set by Batch Planner). Outputs a timed schedule: setup, lighting/audio check, recording order, buffer time, wrap. Each shot slot includes content title, hook prompt, visual hook note, estimated duration.
+**Inputs:** Number of shots, available hours, platform, location type, content list
+**Outputs:** Timed runsheet (JSON + display), shot-by-shot breakdown, total session time estimate
+**Connects to:** Batch Planner (batch plan → runsheet bridge), Pipeline Board (pieces in Ready to Record stage)
+**AI model:** Claude Haiku 4.5
+**Rate limit:** 20 req/hr
+**DARES:** Digital ✓, Automation ✓
 
 ---
 
@@ -433,12 +472,36 @@
 
 | Model | Used For | Why |
 |-------|----------|-----|
-| claude-haiku-4-5 | Hook gen, Fear, ICP, Brand Voice, CTA, Visual, Formula, Repurpose, Adapter, Trends | Speed (< 2s response) |
+| claude-haiku-4-5 | Hook gen, Caption, Runsheet, Fear, ICP, Brand Voice, CTA, Visual, Formula, Repurpose, Adapter, Trends | Speed (< 2s response) |
 | claude-sonnet-4-6 | Script Writer, Storytelling, Batch Planner, Pitch Builder | Quality (complex structured output) |
 
 ---
 
 ## RATE LIMITS
 
-All 17 AI-powered routes: **20 requests per hour per IP**
+All AI-powered routes: **20 requests per hour per IP**
 Implementation: in-memory Map, sliding window, HTTP 429 with retry message
+
+---
+
+## INTEREST PEAK TYPES (Knowledge Base — June 2026)
+
+7 emotional mechanisms used by Hook Generator + Pipeline Board + Script Writer templates:
+
+| Type | Mechanism | Best ICP |
+|------|-----------|---------|
+| risk_reversal | Nothing to lose framing | Both |
+| authority | Borrow external credibility | ICP 1 |
+| controversial | Take a polarising position | Both |
+| personal_story | Social proof via lived numbers | Both |
+| negative_assumption | Pre-empt and shatter their excuse | Both |
+| hype_up | Maximum anticipation build | ICP 2 |
+| call_out | Name exactly who they are | Both |
+
+---
+
+## VISUAL HOOK OUTPUT FORMAT (Hook Generator — June 2026)
+
+Every hook returned from `/api/hooks/generate` is a `{verbal, visual}` object:
+- `verbal` — the spoken opening line (max 25 words, R×A×C×U^B compliant)
+- `visual` — the opening frame concept: what appears on screen in the first 1–3 seconds (achievable with a phone)
