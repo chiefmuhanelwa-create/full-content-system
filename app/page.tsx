@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import { Zap, BarChart2, Layers, Brain, ArrowRight } from 'lucide-react'
 
@@ -17,24 +15,16 @@ export default function LandingPage() {
             <span className="font-display font-black text-[15px] tracking-tight" style={{ color: '#18181B' }}>NOCHILL</span>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            {['Tools', 'Frameworks', 'Proof'].map((label) => (
-              <a key={label} href={`#${label.toLowerCase()}`}
-                className="text-sm font-display font-medium transition-colors"
-                style={{ color: '#71717A' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#18181B')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#71717A')}>
-                {label}
-              </a>
-            ))}
+            <a href="#tools" className="text-sm font-display font-medium transition-colors text-[#71717A] hover:text-[#18181B]">Tools</a>
+            <a href="#frameworks" className="text-sm font-display font-medium transition-colors text-[#71717A] hover:text-[#18181B]">Frameworks</a>
+            <a href="#proof" className="text-sm font-display font-medium transition-colors text-[#71717A] hover:text-[#18181B]">Proof</a>
           </nav>
           <div className="flex items-center gap-3">
-            <Link href="/auth/signin"
-              className="text-sm font-display font-semibold transition-colors hidden sm:block"
-              style={{ color: '#71717A' }}>
+            <Link href="/auth/signin" className="text-sm font-display font-semibold text-[#71717A] hover:text-[#18181B] transition-colors hidden sm:block">
               Sign in
             </Link>
             <Link href="/auth/signin"
-              className="px-4 py-2 rounded-xl text-sm font-display font-bold transition-all"
+              className="px-4 py-2 rounded-xl text-sm font-display font-bold transition-all hover:opacity-90"
               style={{ background: '#C9A84C', color: '#0a0a0a', boxShadow: '0 2px 12px rgba(201,168,76,0.25)' }}>
               Enter System
             </Link>
@@ -127,12 +117,10 @@ export default function LandingPage() {
           {/* Hero container */}
           <div className="rounded-3xl overflow-hidden relative flex flex-col items-center text-center px-8 py-24 md:py-32"
             style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
-            {/* Dot grid */}
             <div className="absolute inset-0 pointer-events-none" style={{
               backgroundImage: 'radial-gradient(#E4E4E7 1px, transparent 1px)',
               backgroundSize: '22px 22px',
             }} />
-            {/* Gold glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-48 pointer-events-none" style={{
               background: 'radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 70%)',
             }} />
@@ -142,21 +130,16 @@ export default function LandingPage() {
                 <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#C9A84C' }} />
                 <span className="font-display font-medium text-xs" style={{ color: '#71717A' }}>AI-powered · NoChill frameworks · Built for SA creators</span>
               </div>
-
               <h1 className="font-display font-black leading-[0.92] tracking-tight mb-6">
                 <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 84px)', color: '#18181B' }}>Create. Plan.</span>
                 <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 84px)', color: '#C9A84C' }}>Sell more.</span>
               </h1>
-
               <p className="text-lg font-display font-normal mb-9 leading-relaxed max-w-lg mx-auto" style={{ color: '#71717A' }}>
                 45 AI tools built on the NoChill frameworks. The exact system behind R600K+ in annual income.
               </p>
-
-              <Link
-                href="/auth/signin"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-display font-bold text-sm transition-all"
-                style={{ background: '#C9A84C', color: '#0a0a0a', boxShadow: '0 4px 20px rgba(201,168,76,0.3)' }}
-              >
+              <Link href="/auth/signin"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-display font-bold text-sm transition-all hover:opacity-90"
+                style={{ background: '#C9A84C', color: '#0a0a0a', boxShadow: '0 4px 20px rgba(201,168,76,0.3)' }}>
                 Enter the System
                 <ArrowRight className="w-4 h-4" />
               </Link>
@@ -203,19 +186,9 @@ export default function LandingPage() {
             { title: 'Shoot Runsheet', desc: 'Timed production schedule for batch recording sessions', tag: 'PLAN', accent: '#f59e0b' },
             { title: 'Analytics Insights', desc: 'Paste platform metrics → AI diagnosis + next-30-days plan', tag: 'PLAN', accent: '#0ea5e9' },
           ].map((tool) => (
-            <div key={tool.title} className="rounded-xl p-5 transition-all cursor-default"
-              style={{ background: '#FFFFFF', border: '1px solid #E4E4E7' }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLDivElement
-                el.style.borderColor = `${tool.accent}40`
-                el.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLDivElement
-                el.style.borderColor = '#E4E4E7'
-                el.style.boxShadow = 'none'
-              }}
-            >
+            <div key={tool.title}
+              className="rounded-xl p-5 transition-all cursor-default border border-[#E4E4E7] hover:shadow-md"
+              style={{ background: '#FFFFFF' }}>
               <div className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-display font-bold uppercase tracking-wider mb-3"
                 style={{ background: `${tool.accent}12`, color: tool.accent, border: `1px solid ${tool.accent}20` }}>
                 {tool.tag}
@@ -243,18 +216,9 @@ export default function LandingPage() {
               { letter: 'D', label: 'Deals', desc: 'Brand partnerships managed end-to-end' },
               { letter: 'S', label: 'Services', desc: 'Consulting, coaching, speaking' },
             ].map((stream) => (
-              <div key={stream.letter} className="rounded-xl p-5 text-center transition-all"
-                style={{ background: '#FAFAFA', border: '1px solid #E4E4E7' }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget as HTMLDivElement
-                  el.style.borderColor = 'rgba(201,168,76,0.4)'
-                  el.style.background = '#FFFFFF'
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget as HTMLDivElement
-                  el.style.borderColor = '#E4E4E7'
-                  el.style.background = '#FAFAFA'
-                }}>
+              <div key={stream.letter}
+                className="rounded-xl p-5 text-center border border-[#E4E4E7] hover:border-[#C9A84C]/40 hover:bg-white transition-all"
+                style={{ background: '#FAFAFA' }}>
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-3" style={{ background: '#C9A84C' }}>
                   <span className="font-display font-black text-sm" style={{ color: '#0a0a0a' }}>{stream.letter}</span>
                 </div>
@@ -284,11 +248,9 @@ export default function LandingPage() {
             <p className="font-display text-sm mb-8 leading-relaxed" style={{ color: '#71717A' }}>
               Built on the exact frameworks behind R600,000+ in annual income.
             </p>
-            <Link
-              href="/auth/signin"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-display font-bold text-sm transition-all"
-              style={{ background: '#C9A84C', color: '#0a0a0a', boxShadow: '0 4px 20px rgba(201,168,76,0.3)' }}
-            >
+            <Link href="/auth/signin"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-display font-bold text-sm transition-all hover:opacity-90"
+              style={{ background: '#C9A84C', color: '#0a0a0a', boxShadow: '0 4px 20px rgba(201,168,76,0.3)' }}>
               Enter the System
               <ArrowRight className="w-4 h-4" />
             </Link>
