@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { anthropic, MODELS } from '@/lib/claude'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { buildSystemPrompt } from '@/lib/knowledge-base'
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)
@@ -101,8 +99,8 @@ Return ONLY a JSON object:
 }`
 
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 3500,
+      model: MODELS.HAIKU,
+      max_tokens: 2000,
       temperature: 0.8,
       system: systemPrompt,
       messages: [{ role: 'user', content: userPrompt }],

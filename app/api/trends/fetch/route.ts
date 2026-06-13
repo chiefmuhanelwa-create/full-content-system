@@ -41,8 +41,8 @@ Return a JSON array with this structure:
 Only return trends that are happening NOW (2026). Be specific and actionable.`
 
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 2000,
+      model: MODELS.HAIKU,
+      max_tokens: 1500,
       messages: [
         {
           role: 'user',

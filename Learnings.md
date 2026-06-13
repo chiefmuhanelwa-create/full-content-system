@@ -42,7 +42,9 @@ These answers are the foundation for every preference below. Update them if prio
 - **Type-check before and after every change:** `npx tsc --noEmit`. There are no automated tests — this is the primary correctness gate.
 - `checkRateLimit(request)` must be the **first line** of every API route handler. No exceptions.
 - Always use `MODELS.SONNET` / `MODELS.HAIKU` / `MODELS.OPUS` from `lib/claude.ts`. **Never hardcode model strings.**
-- `max_tokens` split: script routes use **6000**, all other AI routes use **3500**. Do not raise non-script routes.
+- `max_tokens` split: scripts route = **8000**, batch/generate = **16000** (large structured JSON), all other AI routes = **3500**. Do not raise non-batch/script routes.
+- **Batch generator: never use `buildSystemPrompt('scripts')`** — it consumes ~4000-6000 input tokens, leaving insufficient output budget for 30-post JSON. Use a compact inline system prompt (~200 tokens) specific to batch generation.
+- **Add brevity rules to any prompt generating large JSON arrays** ("all fields max 20 words") — prevents truncation mid-array that causes `JSON.parse` to throw "Expected ',' or ']' after array element".
 - **No `fs.readFileSync` at runtime.** All knowledge files in `lib/knowledge/` must be statically imported at the top of `knowledge-base.ts` — bundled at build time, not read from disk at runtime (Vercel serverless limitation).
 - All prompts live in `lib/knowledge-base.ts` (`buildSystemPrompt`). `lib/prompts.ts` is a **stub for import compatibility only** — do not add prompts there.
 - DB access in API routes must go through `lib/db-helper.ts` helpers (graceful degradation when Supabase sleeps), not raw `db` calls from `lib/db.ts`.
@@ -174,6 +176,32 @@ The "Failed to parse script response" error had THREE causes:
 - The `useEffect` that drives the timer depends on `[loading]` — it starts when loading begins and clears the interval when loading ends
 - The live output dark terminal box only renders when `streamingText.length > 20` — avoids showing an empty box on first tick
 - The `[animation-delay:Xms]` pattern for the bouncing dots requires Tailwind's arbitrary value support — works in this codebase
+
+---
+
+## Session 2026-06-13 — Batch Fix, DB Persistence, Pipeline Push
+
+### JSON truncation root cause (SOLVED)
+- Error: `Expected ',' or ']' after array element in JSON at position 11425`
+- Root cause: `buildSystemPrompt('scripts')` consumed ~5000 input tokens, leaving only ~11000 tokens for 30-post output needing ~14000+
+- Fix: replaced with 200-token compact inline system prompt. Added "max 20 words per field" brevity rule. Added graceful recovery: extract partial plan array from truncated output using regex
+
+### BatchPlan DB model added to prisma/schema.prisma
+- Fields: `name`, `seriesName`, `leadMagnet`, `niche`, `goals`, `platform`, `targetICP`, `plan` (Json), `weeklyArcs` (Json), `compliance` (Json)
+- User relation: `batchPlans BatchPlan[]` added to User model
+- API routes: `POST /api/batch-plans` (save), `GET /api/batch-plans` (list), `DELETE /api/batch-plans/[id]`
+- After adding new Prisma models: always run `npx prisma generate` before `tsc --noEmit` to avoid "Property X does not exist on PrismaClient" type errors
+
+### DB push to Supabase
+- Supabase project sleeping (free tier): direct port 5432 unreachable — `ECONNREFUSED`
+- Fix: go to supabase.com → project → (if paused, click Restore) → then locally run: `set -a && source .env.local && set +a && npx prisma db push --accept-data-loss`
+- `batch_plans` table and `content_pipeline` table are NOT yet created in Supabase — must do manual restore + push
+- Both API routes degrade gracefully (return empty array / 503) until DB is restored
+
+### One-click Pipeline push
+- Batch Planner: `pushAllToPipeline()` — loops contentPlan, POSTs each to `/api/pipeline` with title/platform/hook/cta
+- Calendar Plus: `pushEntryToPipeline(entry)` — single-entry push, then navigates to `/dashboard/pipeline`
+- Button: Heritage Gold for batch bulk push, emerald for calendar single-entry
 
 ### Deployment verification pattern
 When a user says "I can't see the changes":

@@ -109,8 +109,8 @@ Return a JSON object:
 Only include keys for formats that were requested.`
 
     const message = await anthropic.messages.create({
-      model: MODELS.SONNET,
-      max_tokens: 3500,
+      model: MODELS.HAIKU,
+      max_tokens: 2500,
       system: systemPrompt,
       messages: [{ role: 'user', content: prompt }],
     })

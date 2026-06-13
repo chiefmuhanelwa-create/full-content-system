@@ -142,7 +142,7 @@ Identify the top 3-5 most relevant Shadow Fears from the 10 categories. For each
 
     // Call Claude API
     const message = await anthropic.messages.create({
-      model: MODELS.SONNET,
+      model: MODELS.HAIKU,
       max_tokens: 3500,
       system: SYSTEM_PROMPT,
       messages: [

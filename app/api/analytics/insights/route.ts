@@ -40,7 +40,7 @@ Return a JSON object with this structure:
 Be specific and actionable. Use the actual data provided.`
 
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
+      model: MODELS.HAIKU,
       max_tokens: 1500,
       messages: [
         {

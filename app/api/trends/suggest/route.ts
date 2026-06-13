@@ -51,8 +51,8 @@ Return a JSON object with this structure:
 Be specific and immediately actionable. These suggestions should help create content TODAY.`
 
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 2500,
+      model: MODELS.HAIKU,
+      max_tokens: 1800,
       messages: [
         {
           role: 'user',
