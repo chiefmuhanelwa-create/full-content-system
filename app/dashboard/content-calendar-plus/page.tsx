@@ -23,7 +23,7 @@ import {
 } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
 import { useContent } from '@/contexts/ContentContext'
-import { Zap, FileText, ArrowRight } from 'lucide-react'
+import { Zap, FileText, ArrowRight, GitBranch } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -122,6 +122,26 @@ export default function ContentCalendarPlusPage() {
     })
     router.push('/dashboard/scripts')
   }
+
+  const pushEntryToPipeline = async (entry: ContentCalendarEntry) => {
+    try {
+      await fetch('/api/pipeline', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: entry.title,
+          platform: entry.platform || 'instagram',
+          icp: 'auto',
+          status: 'idea',
+          hook: entry.notes || '',
+          value: entry.description || '',
+          cta: '',
+        }),
+      })
+      router.push('/dashboard/pipeline')
+    } catch { /* silently fail */ }
+  }
+
   const [entries, setEntries] = useState<ContentCalendarEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -1190,10 +1210,10 @@ export default function ContentCalendarPlusPage() {
                         )}
 
                         {/* Integration actions */}
-                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#F4F4F5]">
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#F4F4F5] flex-wrap">
                           <button
                             onClick={() => openHookGenerator(entry)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#2563EB]/10 hover:bg-[#2563EB]/20 text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C9A84C]/10 hover:bg-[#C9A84C]/20 text-[#7A5F18] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             <Zap className="w-3 h-3" />
                             Generate Hook
@@ -1201,11 +1221,18 @@ export default function ContentCalendarPlusPage() {
                           </button>
                           <button
                             onClick={() => openScriptWriter(entry)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-display font-bold transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#18181B]/8 hover:bg-[#18181B]/15 text-[#18181B] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             <FileText className="w-3 h-3" />
                             Write Script
                             <ArrowRight className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={() => pushEntryToPipeline(entry)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg text-[11px] font-display font-bold transition-colors"
+                          >
+                            <GitBranch className="w-3 h-3" />
+                            → Pipeline
                           </button>
                         </div>
                       </div>

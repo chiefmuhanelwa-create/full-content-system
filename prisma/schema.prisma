@@ -47,6 +47,7 @@ model User {
   products            Product[]
   contentCalendarPlus ContentCalendarPlus[]
   pipeline            ContentPipeline[]
+  batchPlans          BatchPlan[]
 
   @@map("users")
 }
@@ -853,4 +854,30 @@ model ContentPipeline {
   @@index([status])
   @@index([platform])
   @@map("content_pipeline")
+}
+
+// Batch Plans — persistent storage for 30-day content plans
+model BatchPlan {
+  id        String @id @default(cuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name        String
+  seriesName  String  @default("")
+  leadMagnet  String  @default("")
+  niche       String  @default("")
+  goals       String  @default("")
+  platform    String  @default("instagram")
+  targetICP   String  @default("")
+
+  plan        Json // Array of ContentPiece objects
+  weeklyArcs  Json @default("[]")
+  compliance  Json @default("{}")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("batch_plans")
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select'
 import {
   Layers, Download, Zap, FileText, CalendarDays,
-  Upload, CheckCircle2, AlertCircle, ArrowRight, Clock, Trash2, History
+  Upload, CheckCircle2, AlertCircle, ArrowRight, Clock, Trash2, History, GitBranch
 } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
 import { useContent } from '@/contexts/ContentContext'
@@ -46,15 +46,15 @@ interface WeeklyArc {
 }
 
 const FOUR_E_COLORS: Record<string, string> = {
-  Educate:   'bg-blue-100 text-blue-800',
-  Entertain: 'bg-[#2563EB]/15 text-[#7A5F18]',
+  Educate:   'bg-[#C9A84C]/15 text-[#7A5F18]',
+  Entertain: 'bg-purple-100 text-purple-800',
   Encourage: 'bg-emerald-100 text-emerald-800',
   Earn:      'bg-amber-100 text-amber-800',
 }
 
 const CONTENT_TYPE_COLORS: Record<string, string> = {
-  Educational:      'bg-blue-100 text-blue-800',
-  Story:            'bg-[#2563EB]/15 text-[#7A5F18]',
+  Educational:      'bg-[#C9A84C]/15 text-[#7A5F18]',
+  Story:            'bg-purple-100 text-purple-800',
   'Behind-the-Scenes': 'bg-amber-100 text-amber-800',
   'Myth-Busting':   'bg-red-100 text-red-800',
   'Case Study':     'bg-emerald-100 text-emerald-800',
@@ -121,28 +121,92 @@ export default function BatchPlannerPage() {
 
   const [generateError, setGenerateError] = useState('')
 
-  // Push to calendar
+  // Push to calendar / pipeline
   const [pushing, setPushing] = useState(false)
+  const [pushingPipeline, setPushingPipeline] = useState(false)
   const [pushResult, setPushResult] = useState<{ success: number; failed: number } | null>(null)
+  const [pipelineResult, setPipelineResult] = useState<{ success: number; failed: number } | null>(null)
 
-  // Plan history
-  interface SavedPlan { id: string; name: string; createdAt: string; plan: ContentPiece[] }
-  const loadHistory = (): SavedPlan[] => {
-    try { return JSON.parse(localStorage.getItem('batchPlanHistory') || '[]') } catch { return [] }
+  // Plan history — DB-backed, localStorage fallback
+  interface SavedPlan { id: string; name: string; createdAt: string; plan: ContentPiece[]; seriesName?: string }
+  const [planHistory, setPlanHistory] = useState<SavedPlan[]>([])
+  const [historyLoading, setHistoryLoading] = useState(true)
+
+  useEffect(() => {
+    const loadFromDB = async () => {
+      try {
+        const res = await fetch('/api/batch-plans')
+        if (res.ok) {
+          const data = await res.json()
+          if (data.plans && data.plans.length > 0) {
+            setPlanHistory(data.plans.map((p: any) => ({
+              id: p.id,
+              name: p.name,
+              createdAt: p.createdAt,
+              plan: p.plan as ContentPiece[],
+              seriesName: p.seriesName,
+            })))
+          } else {
+            // Fallback: load from localStorage
+            try {
+              const local = JSON.parse(localStorage.getItem('batchPlanHistory') || '[]')
+              setPlanHistory(local)
+            } catch { /* ignore */ }
+          }
+        }
+      } catch {
+        try {
+          const local = JSON.parse(localStorage.getItem('batchPlanHistory') || '[]')
+          setPlanHistory(local)
+        } catch { /* ignore */ }
+      } finally {
+        setHistoryLoading(false)
+      }
+    }
+    loadFromDB()
+  }, [])
+
+  const savePlanToHistory = async (
+    plan: ContentPiece[],
+    name: string,
+    meta?: { seriesName?: string; leadMagnet?: string; weeklyArcs?: WeeklyArc[]; compliance?: any }
+  ) => {
+    // Optimistic local state
+    const tempId = Date.now().toString()
+    const entry: SavedPlan = { id: tempId, name, createdAt: new Date().toISOString(), plan, seriesName: meta?.seriesName }
+    setPlanHistory(prev => [entry, ...prev].slice(0, 20))
+
+    // Persist to DB
+    try {
+      const res = await fetch('/api/batch-plans', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          seriesName: meta?.seriesName || '',
+          leadMagnet: meta?.leadMagnet || '',
+          niche,
+          goals,
+          platform: platforms,
+          targetICP,
+          plan,
+          weeklyArcs: meta?.weeklyArcs || [],
+          compliance: meta?.compliance || {},
+        }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        // Replace temp ID with real DB id
+        setPlanHistory(prev => prev.map(p => p.id === tempId ? { ...p, id: data.id } : p))
+      }
+    } catch { /* keep local state, DB save failed silently */ }
   }
-  const [planHistory, setPlanHistory] = useState<SavedPlan[]>(loadHistory)
 
-  const savePlanToHistory = (plan: ContentPiece[], name: string) => {
-    const entry: SavedPlan = { id: Date.now().toString(), name, createdAt: new Date().toISOString(), plan }
-    const updated = [entry, ...loadHistory()].slice(0, 20)
-    localStorage.setItem('batchPlanHistory', JSON.stringify(updated))
-    setPlanHistory(updated)
-  }
-
-  const deletePlanFromHistory = (id: string) => {
-    const updated = loadHistory().filter(p => p.id !== id)
-    localStorage.setItem('batchPlanHistory', JSON.stringify(updated))
-    setPlanHistory(updated)
+  const deletePlanFromHistory = async (id: string) => {
+    setPlanHistory(prev => prev.filter(p => p.id !== id))
+    try {
+      await fetch(`/api/batch-plans/${id}`, { method: 'DELETE' })
+    } catch { /* ignore */ }
   }
 
   const handleGenerate = async () => {
@@ -166,7 +230,12 @@ export default function BatchPlannerPage() {
         if (data.compliance) setPlanCompliance(data.compliance)
         if (data.weeklyArcs) setWeeklyArcs(data.weeklyArcs)
         if (data.seriesName) setPlanSeriesName(data.seriesName)
-        savePlanToHistory(data.plan, `${data.seriesName || niche} — ${new Date().toLocaleDateString()}`)
+        savePlanToHistory(data.plan, `${data.seriesName || niche} — ${new Date().toLocaleDateString()}`, {
+          seriesName: data.seriesName,
+          leadMagnet,
+          weeklyArcs: data.weeklyArcs,
+          compliance: data.compliance,
+        })
       }
     } catch (err) {
       setGenerateError('Network error. Check your connection and try again.')
@@ -242,6 +311,34 @@ export default function BatchPlannerPage() {
     }
     setPushResult({ success, failed })
     setPushing(false)
+  }
+
+  const pushAllToPipeline = async () => {
+    if (!contentPlan.length) return
+    setPushingPipeline(true)
+    setPipelineResult(null)
+    let success = 0, failed = 0
+
+    for (const item of contentPlan) {
+      try {
+        const res = await fetch('/api/pipeline', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: item.topic,
+            platform: item.platform || 'instagram',
+            icp: item.icp || 'auto',
+            status: 'idea',
+            hook: item.hookIdea || '',
+            value: item.notes || '',
+            cta: item.ctaSuggestion || '',
+          }),
+        })
+        if (res.ok) success++; else failed++
+      } catch { failed++ }
+    }
+    setPipelineResult({ success, failed })
+    setPushingPipeline(false)
   }
 
   const openHookGenerator = (item: ContentPiece) => {
@@ -414,7 +511,7 @@ export default function BatchPlannerPage() {
                 </p>
                 <Button
                   onClick={pushAllToCalendar}
-                  disabled={pushing}
+                  disabled={pushing || pushingPipeline}
                   className="w-full bg-[#18181B] hover:bg-[#1A1A1A] text-white font-display font-bold text-[12px] flex items-center gap-2"
                 >
                   <CalendarDays className="w-4 h-4" />
@@ -426,6 +523,22 @@ export default function BatchPlannerPage() {
                   }`}>
                     <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                     {pushResult.success} added to Calendar{pushResult.failed > 0 ? ` · ${pushResult.failed} failed` : ''}
+                  </div>
+                )}
+                <Button
+                  onClick={pushAllToPipeline}
+                  disabled={pushing || pushingPipeline}
+                  className="w-full bg-[#C9A84C] hover:bg-[#b8963e] text-[#18181B] font-display font-bold text-[12px] flex items-center gap-2"
+                >
+                  <GitBranch className="w-4 h-4" />
+                  {pushingPipeline ? 'Pushing...' : `Push All ${contentPlan.length} Days to Pipeline`}
+                </Button>
+                {pipelineResult && (
+                  <div className={`flex items-center gap-2 text-[12px] font-display font-semibold px-3 py-2 rounded-lg ${
+                    pipelineResult.failed === 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                  }`}>
+                    <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+                    {pipelineResult.success} added to Pipeline{pipelineResult.failed > 0 ? ` · ${pipelineResult.failed} failed` : ''}
                   </div>
                 )}
                 <Button
@@ -685,7 +798,12 @@ export default function BatchPlannerPage() {
 
             {tab === 'history' && (
               <div className="space-y-3">
-                {planHistory.length === 0 ? (
+                {historyLoading ? (
+                  <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
+                    <div className="w-8 h-8 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                    <p className="font-display font-semibold text-[#71717A] text-sm">Loading saved plans...</p>
+                  </div>
+                ) : planHistory.length === 0 ? (
                   <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
                     <History className="h-12 w-12 mx-auto mb-4 text-[#E4E4E7]" />
                     <p className="font-display font-bold text-[#71717A] text-sm">No saved plans yet. Generate or import a plan first.</p>

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
-import { buildSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
@@ -21,7 +20,19 @@ export async function POST(request: NextRequest) {
       ? 'ICP 2 — THE CONTENT CREATOR INSPIRER (ages 18–35, aspiring creator, Instagram/TikTok/FB-first, shadow fears: Time Anxiety, Relationship Loss, Invisible Labor). Language: "you\'re posting every day and still broke", "your content is working — your strategy isn\'t"'
       : 'Determine the best ICP fit based on the niche and goals provided. Choose ONE: ICP 1 (Called Expert, 32–50) or ICP 2 (Content Creator Inspirer, 18–35).'
 
-    const systemPrompt = buildSystemPrompt('scripts')
+    // Compact system prompt — keeps input tokens low to maximise JSON output budget
+    const systemPrompt = `You are Ndivhuwo Muhanelwa's AI content strategist for NOCHILL PTY LTD (South Africa).
+NOCHILL frameworks you must apply:
+- R×A×C×U^B: every hook must be Relevant × Awareness × Clarity × Unique^Broadened
+- 4E engine: Educate (40%) | Entertain (30%) | Encourage (20%) | Earn (10%)
+- PAIDS: Products | Ads & Affiliates | Information | Deals | Services
+- 7-Act Arc: Hook → Uncomfortable Truth → Origin → Breaking Point → Transformation → Framework → CTA
+- Shadow Fears (activate implicitly, never name): Invisible Labour, Imposter Syndrome, Generational Poverty, Time Anxiety, Wrong Path Terror, Spiritual Crisis, Relationship Loss
+- SA context always: ZAR pricing, WhatsApp delivery, SARS references, loadshedding awareness
+- Villain = system/situation, never the person
+- Proof numbers (use exactly): R750 first deal, R23K affiliate day, R600K from R6K phone, 780K followers, R207K SARS debt, R50K month → R8K crash, Savanna R25K/month retainer
+- Voice: Direct. Raw. No filler. SA slang OK. "You understand? Because you understand." "That's when..." "But here's the thing..."
+CRITICAL: Return ONLY valid raw JSON. No markdown. No code fences. Every field max 20 words. Output must be complete — never truncate.`
 
     const ctaInstruction = leadMagnet
       ? `EMAIL CTA (MANDATORY ON EVERY POST): Every single post must end with a CTA that drives to email capture. Lead magnet: "${leadMagnet}". CTA format: "Comment [KEYWORD] and I'll send you [lead magnet] free" → ManyChat automation → email opt-in. Vary the keyword per week (week 1: PAIDS, week 2: SYSTEM, week 3: GUIDE, week 4: START). The CTA must feel earned — never beg, always frame the lead magnet as the next logical step after the lesson.`
@@ -53,6 +64,16 @@ The 4-week knowledge formation arc:
 
 ## YOUR TASK
 Generate a ${numPosts}-day NOCHILL content plan. Every post must serve ONE ICP, ONE PAIDS category, and ONE 4E type. No generic content.
+
+## BREVITY RULES (CRITICAL — output must fit in a single response):
+- topic: max 12 words
+- hookIdea: max 20 words (spoken hook text only)
+- notes: max 25 words
+- ctaSuggestion: max 15 words
+- seriesEpisode: max 8 words
+- All other string fields: max 10 words
+- weeklyArcs theme: max 12 words
+- No verbose explanations — keywords and fragments OK
 
 ## MANDATORY REQUIREMENTS FOR EACH DAY:
 1. Topic must address a REAL root pain from the ICP (not surface symptoms — go two levels deeper)
@@ -122,8 +143,37 @@ CRITICAL: Return ONLY a raw JSON object. No markdown. No code fences. No explana
 
     const responseText = message.content[0].type === 'text' ? message.content[0].text : ''
 
+    let result: { plan: unknown[]; weeklyArcs?: unknown[]; compliance?: unknown; seriesName?: string }
+
+    // Try clean parse first
     const jsonMatch = responseText.match(/\{[\s\S]*\}/)
-    const result = jsonMatch ? JSON.parse(jsonMatch[0]) : { plan: [], compliance: {} }
+    if (jsonMatch) {
+      try {
+        result = JSON.parse(jsonMatch[0])
+      } catch {
+        // JSON was truncated — extract partial plan array and recover what we can
+        const planMatch = responseText.match(/"plan"\s*:\s*\[([\s\S]*?)(?:\]\s*,|\]\s*\})/)
+        let partialItems: unknown[] = []
+        if (planMatch) {
+          // Try to parse each complete object from the partial array
+          const raw = planMatch[1]
+          const objects = raw.match(/\{[^{}]*\}/g) || []
+          for (const obj of objects) {
+            try { partialItems.push(JSON.parse(obj)) } catch { /* skip malformed */ }
+          }
+        }
+        if (partialItems.length === 0) {
+          return NextResponse.json({ error: 'AI returned malformed JSON. Please try again.' }, { status: 500 })
+        }
+        result = { plan: partialItems, seriesName: niche }
+      }
+    } else {
+      return NextResponse.json({ error: 'No JSON found in AI response. Please try again.' }, { status: 500 })
+    }
+
+    if (!result.plan || (result.plan as unknown[]).length === 0) {
+      return NextResponse.json({ error: 'AI returned an empty plan. Please try again.' }, { status: 500 })
+    }
 
     return NextResponse.json(result)
   } catch (error) {
