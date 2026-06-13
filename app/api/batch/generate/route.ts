@@ -1,6 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
+import { buildBatchSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
+
+// Two-pass JSON parse — escapes literal newlines inside string values
+function safeParseJSON(raw: string): any {
+  try {
+    return JSON.parse(raw)
+  } catch {
+    // Escape literal newlines and tabs inside JSON string values
+    const escaped = raw.replace(/("(?:[^"\\]|\\.)*")/g, (match) =>
+      match.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t')
+    )
+    try {
+      return JSON.parse(escaped)
+    } catch {
+      return null
+    }
+  }
+}
+
+// Extract whatever complete plan items exist from truncated/malformed JSON
+function extractPartialPlan(raw: string): any[] {
+  const items: any[] = []
+  // Match complete JSON objects in the plan array
+  const objRegex = /\{(?:[^{}]|\{[^{}]*\})*\}/g
+  const matches = raw.match(objRegex) || []
+  for (const m of matches) {
+    try {
+      const obj = JSON.parse(m)
+      // Only include objects that look like plan items (have day + topic)
+      if (obj.day && (obj.topic || obj.hookIdea || obj.hook)) {
+        items.push(obj)
+      }
+    } catch { /* skip malformed */ }
+  }
+  return items
+}
 
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)
@@ -15,169 +51,134 @@ export async function POST(request: NextRequest) {
     const numPosts = postingFrequency === 'daily' ? 30 : postingFrequency === 'weekdays' ? 22 : 13
 
     const icpContext = targetICP === 'icp1'
-      ? 'ICP 1 — THE CALLED EXPERT (ages 32–50, professional, unexploited expertise, shadow fears: Imposter Syndrome, Generational Poverty, Wrong Path Terror, Spiritual Crisis). Language: "your knowledge is worth more than your salary", "you don\'t need another certification"'
+      ? 'ICP 1 — CALLED EXPERT. Target: 32–50, professional with unexploited expertise. Language: "your knowledge is worth more than your salary". Shadow fears: Imposter Syndrome, Generational Poverty, Wrong Path Terror, Spiritual Crisis.'
       : targetICP === 'icp2'
-      ? 'ICP 2 — THE CONTENT CREATOR INSPIRER (ages 18–35, aspiring creator, Instagram/TikTok/FB-first, shadow fears: Time Anxiety, Relationship Loss, Invisible Labor). Language: "you\'re posting every day and still broke", "your content is working — your strategy isn\'t"'
-      : 'Determine the best ICP fit based on the niche and goals provided. Choose ONE: ICP 1 (Called Expert, 32–50) or ICP 2 (Content Creator Inspirer, 18–35).'
+      ? 'ICP 2 — CONTENT CREATOR INSPIRER. Target: 18–35, posting daily with no income. Language: "you\'re posting every day and still broke". Shadow fears: Invisible Labour, Time Anxiety, Relationship Loss, Platform Dependency.'
+      : 'Choose ICP 1 (Called Expert, 32–50) or ICP 2 (Content Creator Inspirer, 18–35) based on niche and goals. Lock onto ONE — never mix.'
 
-    // Compact system prompt — keeps input tokens low to maximise JSON output budget
-    const systemPrompt = `You are Ndivhuwo Muhanelwa's AI content strategist for NOCHILL PTY LTD (South Africa).
-NOCHILL frameworks you must apply:
-- R×A×C×U^B: every hook must be Relevant × Awareness × Clarity × Unique^Broadened
-- 4E engine: Educate (40%) | Entertain (30%) | Encourage (20%) | Earn (10%)
-- PAIDS: Products | Ads & Affiliates | Information | Deals | Services
-- 7-Act Arc: Hook → Uncomfortable Truth → Origin → Breaking Point → Transformation → Framework → CTA
-- Shadow Fears (activate implicitly, never name): Invisible Labour, Imposter Syndrome, Generational Poverty, Time Anxiety, Wrong Path Terror, Spiritual Crisis, Relationship Loss
-- SA context always: ZAR pricing, WhatsApp delivery, SARS references, loadshedding awareness
-- Villain = system/situation, never the person
-- Proof numbers (use exactly): R750 first deal, R23K affiliate day, R600K from R6K phone, 780K followers, R207K SARS debt, R50K month → R8K crash, Savanna R25K/month retainer
-- Voice: Direct. Raw. No filler. SA slang OK. "You understand? Because you understand." "That's when..." "But here's the thing..."
-CRITICAL: Return ONLY valid raw JSON. No markdown. No code fences. Every field max 20 words. Output must be complete — never truncate.`
+    const systemPrompt = buildBatchSystemPrompt()
 
-    const ctaInstruction = leadMagnet
-      ? `EMAIL CTA (MANDATORY ON EVERY POST): Every single post must end with a CTA that drives to email capture. Lead magnet: "${leadMagnet}". CTA format: "Comment [KEYWORD] and I'll send you [lead magnet] free" → ManyChat automation → email opt-in. Vary the keyword per week (week 1: PAIDS, week 2: SYSTEM, week 3: GUIDE, week 4: START). The CTA must feel earned — never beg, always frame the lead magnet as the next logical step after the lesson.`
-      : `EMAIL CTA (MANDATORY ON EVERY POST): Every post must drive to email capture via a lead magnet exchange. Use ManyChat keywords in the CTA. Frame it as value delivery, not selling. Pattern: "Comment [KEYWORD] and I'll DM you [something free and specific]".`
+    const ctaLine = leadMagnet
+      ? `CTA on every post: "Comment [KEYWORD] and I'll send you ${leadMagnet} free" — vary keyword per week: week 1 PAIDS, week 2 SYSTEM, week 3 GUIDE, week 4 START. CTA must feel earned, not begged.`
+      : 'CTA on every post: drive to email list via ManyChat keyword. Pattern: "Comment [KEYWORD] and I\'ll DM you [something specific and free]". Never sell without giving first.'
 
-    const seriesInstruction = seriesName
-      ? `SERIES NAME: "${seriesName}" — Structure the 30 posts as a formal knowledge series with episode numbers. Every post is an episode in the formation. Use "Episode X of 30" or "Part X" framing in the notes field. Each week should have a mini-arc sub-title that builds on the previous week.`
-      : `SERIES STRUCTURE: Design this as a knowledge formation series — not isolated posts. Each week is a named arc that builds on the last. Name the series and the weekly arcs. Posts should reference each other like episodes. A viewer who watches all 30 should go from Symptom Aware → Problem Aware → Solution Aware → Product Aware.`
+    const seriesContext = seriesName
+      ? `SERIES: "${seriesName}". Every post is a numbered episode. Build episode-to-episode. Viewer watching all 30 should move: Symptom Aware → Problem Aware → Solution Aware → Product Aware.`
+      : 'NAME this series. Design it as a knowledge formation journey — not isolated posts. Each week is a named arc. Posts reference each other like episodes.'
 
-    const userPrompt = `## BATCH CONTENT PLAN GENERATION
+    const userPrompt = `Generate a ${numPosts}-day NOCHILL content plan.
 
 NICHE: ${niche}
 GOALS: ${goals}
 PLATFORM: ${platforms}
-POSTING FREQUENCY: ${postingFrequency}
-NUMBER OF POSTS: ${numPosts}
-TARGET ICP: ${icpContext}
+ICP LOCK: ${icpContext}
+${seriesContext}
+${ctaLine}
 
-## SERIES ARCHITECTURE (CRITICAL — NOT OPTIONAL)
-${seriesInstruction}
+4E DISTRIBUTION — strictly enforce:
+Educate: ${Math.round(numPosts * 0.40)} posts | Entertain: ${Math.round(numPosts * 0.30)} posts | Encourage: ${Math.round(numPosts * 0.20)} posts | Earn: ${Math.round(numPosts * 0.10)} posts
 
-The 4-week knowledge formation arc:
-- WEEK 1 (Days 1–7): DIAGNOSIS — Name the problem they didn't know they had. Symptom Aware content. Hook: attack the symptom. CTA: email opt-in for free diagnostic resource.
-- WEEK 2 (Days 8–14): EDUCATION — Introduce the framework. PAIDS, 4E, SEEDS. Problem Aware → Solution Aware. Each post teaches one component of the system. CTA: email opt-in for the workbook or template.
-- WEEK 3 (Days 15–21): PROOF + COMMUNITY — Show it works. Origin stories, student wins, SA proof moments. Encourage heavily. Ubuntu. Legacy. CTA: email opt-in for a community or challenge.
-- WEEK 4 (Days 22–30): TRANSFORMATION + CONVERSION — The call. Direct sell is earned here because trust is built. 70% encourage/educate, 30% earn. CTA: email → paid product offer.
+WEEKLY ARC:
+Week 1 (Days 1–${Math.min(7, numPosts)}): DIAGNOSIS — name the hidden problem. Symptom Aware hooks.
+Week 2 (Days 8–${Math.min(14, numPosts)}): EDUCATION — teach PAIDS/4E/framework. One component per post.
+Week 3 (Days 15–${Math.min(21, numPosts)}): PROOF — origin stories, SA proof moments, Ubuntu, legacy.
+Week 4 (Days 22–${numPosts}): CONVERSION — trust is earned, direct sell is now appropriate.
 
-## ${ctaInstruction}
+EVERY POST MUST:
+1. Address a root ICP pain — not surface symptom (go 2 levels deeper)
+2. Activate ONE shadow fear implicitly (never name it)
+3. Name ONE villain (system/situation — never a person)
+4. Reference Ndivhuwo's proof where relevant (R750 first deal, R23K affiliate day, bathroom floors, 780K followers lost, SARS R207K)
+5. Include exact CTA keyword and lead magnet action
+6. Use SA context naturally (ZAR, SARS, WhatsApp, loadshedding, Ubuntu)
 
-## YOUR TASK
-Generate a ${numPosts}-day NOCHILL content plan. Every post must serve ONE ICP, ONE PAIDS category, and ONE 4E type. No generic content.
+BREVITY MANDATE — all fields max 15 words. JSON must be complete. NEVER truncate.
+NEVER put literal newlines inside string values — write everything on one line per field.
 
-## BREVITY RULES (CRITICAL — output must fit in a single response):
-- topic: max 12 words
-- hookIdea: max 20 words (spoken hook text only)
-- notes: max 25 words
-- ctaSuggestion: max 15 words
-- seriesEpisode: max 8 words
-- All other string fields: max 10 words
-- weeklyArcs theme: max 12 words
-- No verbose explanations — keywords and fragments OK
-
-## MANDATORY REQUIREMENTS FOR EACH DAY:
-1. Topic must address a REAL root pain from the ICP (not surface symptoms — go two levels deeper)
-2. Hook idea must use ONE of the 52 hook templates (curiosity, comparison, shock, question, authority, FOMO)
-3. Content type from 4E engine: Educate (40%) | Entertain (30%) | Encourage (20%) | Earn (10%)
-4. Shadow Fear activated implicitly — activate but NEVER name it directly
-5. PAIDS category identified
-6. Hook: You Format + Negativity (indirect) + W-Stack (WHAT+WHY first) — max 25 words spoken
-7. Where relevant, reference Ndivhuwo's real proof stories (R600K from R6K phone, 780K followers lost but revenue held, R23K affiliate day, sleeping in UP bathrooms, SARS R207K debt)
-8. SA African context: ZAR pricing, SARS references, WhatsApp delivery, data cost awareness, loadshedding
-9. seriesEpisode field: "Episode X — [Series Arc Name]" — every post has one
-10. ctaSuggestion field: The exact CTA line for this post — specific keyword, specific lead magnet, specific action
-
-## 4E DISTRIBUTION FOR ${numPosts} POSTS:
-- Educate: ${Math.round(numPosts * 0.40)} posts
-- Entertain: ${Math.round(numPosts * 0.30)} posts
-- Encourage: ${Math.round(numPosts * 0.20)} posts
-- Earn: ${Math.round(numPosts * 0.10)} posts
-
-CRITICAL: Return ONLY a raw JSON object. No markdown. No code fences. No explanation. Start with { and end with }.
-
+Return ONLY this JSON structure, nothing else:
 {
-  "seriesName": "The 30-day series name",
+  "seriesName": "Series name (max 10 words)",
   "weeklyArcs": [
-    { "week": 1, "title": "Arc name", "theme": "What this week teaches", "awarenessLevel": "Symptom Aware" },
-    { "week": 2, "title": "Arc name", "theme": "What this week teaches", "awarenessLevel": "Problem Aware" },
-    { "week": 3, "title": "Arc name", "theme": "What this week teaches", "awarenessLevel": "Solution Aware" },
-    { "week": 4, "title": "Arc name", "theme": "What this week teaches", "awarenessLevel": "Product Aware" }
+    {"week": 1, "title": "Arc title", "theme": "What this week builds", "awarenessLevel": "Symptom Aware"},
+    {"week": 2, "title": "Arc title", "theme": "What this week builds", "awarenessLevel": "Problem Aware"},
+    {"week": 3, "title": "Arc title", "theme": "What this week builds", "awarenessLevel": "Solution Aware"},
+    {"week": 4, "title": "Arc title", "theme": "What this week builds", "awarenessLevel": "Product Aware"}
   ],
   "plan": [
     {
       "day": 1,
-      "date": "YYYY-MM-DD",
-      "seriesEpisode": "Episode 1 — [Arc Name]",
-      "topic": "Specific actionable topic aligned to root ICP pain",
-      "hookIdea": "Hook — max 25 words spoken, You Format, indirect negativity, WHAT+WHY first",
-      "contentType": "Educational | Story | Encouraging | Promotional",
-      "fourE": "Educate | Entertain | Encourage | Earn",
-      "platform": "${platforms}",
-      "icp": "ICP 1 — Called Expert | ICP 2 — Content Creator Inspirer",
-      "shadowFear": "Fear name e.g. Invisible Labour",
-      "paidsCategory": "Products | Ads | Information | Deals | Services",
-      "villain": "The system/situation villain — never the person",
-      "proofStory": "Specific story reference or null",
-      "ctaSuggestion": "Exact CTA line for this post — keyword + lead magnet + action",
-      "notes": "Episode purpose: what the viewer learns, what awareness level shifts, why this position in the series"
+      "topic": "Post topic max 12 words",
+      "hook": "Spoken hook max 18 words You Format indirect negativity",
+      "fourE": "Educate",
+      "paids": "Information",
+      "shadowFear": "Fear name",
+      "villain": "System villain max 5 words",
+      "cta": "Comment PAIDS for free kit",
+      "notes": "Episode purpose and awareness shift max 15 words"
     }
   ],
   "compliance": {
-    "icp": "Which ICP this plan targets",
-    "fourEBreakdown": { "educate": 0, "entertain": 0, "encourage": 0, "earn": 0 },
-    "paidsDistribution": { "products": 0, "ads": 0, "information": 0, "deals": 0, "services": 0 },
-    "shadowFearsUsed": ["list"],
-    "principlesApplied": ["Negativity (indirect)", "You Format", "Short & Simple", "Audible Flow"],
-    "africaContext": "✅ ZAR pricing, SA references, WhatsApp-native delivery",
-    "villainsDefined": "✅ System/situation villains assigned — no personal attacks",
-    "emailCtaCoverage": "✅ All 30 posts have email CTA"
+    "icp": "ICP targeted",
+    "fourEBreakdown": {"educate": 0, "entertain": 0, "encourage": 0, "earn": 0},
+    "shadowFearsActivated": ["fear1", "fear2"],
+    "villainsDefined": true,
+    "emailCtaOnAll": true
   }
 }`
 
     const message = await anthropic.messages.create({
       model: MODELS.SONNET,
-      max_tokens: 16000,
+      max_tokens: 12000,
       system: systemPrompt,
       messages: [{ role: 'user', content: userPrompt }],
     })
 
     const responseText = message.content[0].type === 'text' ? message.content[0].text : ''
 
-    let result: { plan: unknown[]; weeklyArcs?: unknown[]; compliance?: unknown; seriesName?: string }
-
-    // Try clean parse first
+    // Extract JSON from response
     const jsonMatch = responseText.match(/\{[\s\S]*\}/)
-    if (jsonMatch) {
-      try {
-        result = JSON.parse(jsonMatch[0])
-      } catch {
-        // JSON was truncated — extract partial plan array and recover what we can
-        const planMatch = responseText.match(/"plan"\s*:\s*\[([\s\S]*?)(?:\]\s*,|\]\s*\})/)
-        let partialItems: unknown[] = []
-        if (planMatch) {
-          // Try to parse each complete object from the partial array
-          const raw = planMatch[1]
-          const objects = raw.match(/\{[^{}]*\}/g) || []
-          for (const obj of objects) {
-            try { partialItems.push(JSON.parse(obj)) } catch { /* skip malformed */ }
-          }
-        }
-        if (partialItems.length === 0) {
-          return NextResponse.json({ error: 'AI returned malformed JSON. Please try again.' }, { status: 500 })
-        }
-        result = { plan: partialItems, seriesName: niche }
-      }
-    } else {
-      return NextResponse.json({ error: 'No JSON found in AI response. Please try again.' }, { status: 500 })
+    if (!jsonMatch) {
+      return NextResponse.json({ error: 'AI returned no JSON. Please try again.' }, { status: 500 })
     }
 
-    if (!result.plan || (result.plan as unknown[]).length === 0) {
-      return NextResponse.json({ error: 'AI returned an empty plan. Please try again.' }, { status: 500 })
+    // Two-pass parse with literal newline escape
+    const parsed = safeParseJSON(jsonMatch[0])
+
+    if (parsed && Array.isArray(parsed.plan) && parsed.plan.length > 0) {
+      // Normalise field names — model may use hookIdea vs hook
+      parsed.plan = parsed.plan.map((item: any) => ({
+        ...item,
+        hookIdea: item.hookIdea || item.hook || '',
+        hook: item.hook || item.hookIdea || '',
+        paidsCategory: item.paidsCategory || item.paids || '',
+        ctaSuggestion: item.ctaSuggestion || item.cta || '',
+        contentType: item.contentType || item.fourE || 'Educational',
+      }))
+      return NextResponse.json(parsed)
     }
 
-    return NextResponse.json(result)
+    // Fallback: extract partial plan items from malformed JSON
+    const partial = extractPartialPlan(responseText)
+    if (partial.length > 0) {
+      return NextResponse.json({
+        plan: partial.map((item: any) => ({
+          ...item,
+          hookIdea: item.hookIdea || item.hook || '',
+          hook: item.hook || item.hookIdea || '',
+          paidsCategory: item.paidsCategory || item.paids || '',
+          ctaSuggestion: item.ctaSuggestion || item.cta || '',
+          contentType: item.contentType || item.fourE || 'Educational',
+        })),
+        seriesName: niche,
+        _partial: true,
+        _recovered: partial.length,
+      })
+    }
+
+    return NextResponse.json({ error: 'AI returned malformed JSON. Please try again.' }, { status: 500 })
+
   } catch (error) {
-    console.error('Error generating batch plan:', error)
-    return NextResponse.json({ error: 'Failed to generate content plan' }, { status: 500 })
+    console.error('Batch generate error:', error)
+    return NextResponse.json({ error: 'Failed to generate content plan. Please try again.' }, { status: 500 })
   }
 }

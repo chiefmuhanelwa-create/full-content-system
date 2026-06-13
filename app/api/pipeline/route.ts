@@ -54,7 +54,15 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json({ card })
-  } catch (err) {
+  } catch (err: any) {
+    // Prisma P2021 = table does not exist (schema not pushed to DB yet)
+    if (err?.code === 'P2021' || err?.message?.includes('does not exist')) {
+      return NextResponse.json({
+        error: 'Pipeline table not set up. Go to supabase.com → restore project → run: npx prisma db push --accept-data-loss',
+        code: 'DB_SCHEMA_MISSING',
+      }, { status: 503 })
+    }
+    console.error('Pipeline POST error:', err)
     return NextResponse.json({ error: 'Failed to create card' }, { status: 500 })
   }
 }

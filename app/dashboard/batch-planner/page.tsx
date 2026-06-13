@@ -22,20 +22,23 @@ import { useContent } from '@/contexts/ContentContext'
 
 interface ContentPiece {
   day: number
-  date: string
+  date?: string
   seriesEpisode?: string
   topic: string
-  hookIdea: string
-  contentType: string
+  hookIdea?: string
+  hook?: string          // compact schema alias
+  contentType?: string
   fourE?: string
-  platform: string
+  platform?: string
   icp?: string
   shadowFear?: string
   paidsCategory?: string
+  paids?: string         // compact schema alias
   villain?: string
   proofStory?: string
   ctaSuggestion?: string
-  notes: string
+  cta?: string           // compact schema alias
+  notes?: string
 }
 
 interface WeeklyArc {
@@ -125,7 +128,7 @@ export default function BatchPlannerPage() {
   const [pushing, setPushing] = useState(false)
   const [pushingPipeline, setPushingPipeline] = useState(false)
   const [pushResult, setPushResult] = useState<{ success: number; failed: number } | null>(null)
-  const [pipelineResult, setPipelineResult] = useState<{ success: number; failed: number } | null>(null)
+  const [pipelineResult, setPipelineResult] = useState<{ success: number; failed: number; dbMissing?: boolean } | null>(null)
 
   // Plan history — DB-backed, localStorage fallback
   interface SavedPlan { id: string; name: string; createdAt: string; plan: ContentPiece[]; seriesName?: string }
@@ -300,7 +303,7 @@ export default function BatchPlannerPage() {
             title: item.topic,
             notes: item.hookIdea,
             contentPillar: item.contentType || 'Educational',
-            fourETag: mapContentTypeTo4E(item.contentType),
+            fourETag: mapContentTypeTo4E(item.contentType || ''),
             platform: item.platform || 'instagram',
             contentType: item.contentType || 'Educational',
             status: 'planned',
@@ -318,6 +321,7 @@ export default function BatchPlannerPage() {
     setPushingPipeline(true)
     setPipelineResult(null)
     let success = 0, failed = 0
+    let dbMissing = false
 
     for (const item of contentPlan) {
       try {
@@ -329,15 +333,25 @@ export default function BatchPlannerPage() {
             platform: item.platform || 'instagram',
             icp: item.icp || 'auto',
             status: 'idea',
-            hook: item.hookIdea || '',
+            hook: item.hookIdea || item.hook || '',
             value: item.notes || '',
-            cta: item.ctaSuggestion || '',
+            cta: item.ctaSuggestion || item.cta || '',
           }),
         })
-        if (res.ok) success++; else failed++
+        if (res.ok) {
+          success++
+        } else {
+          const errData = await res.json().catch(() => ({}))
+          if (errData?.code === 'DB_SCHEMA_MISSING' || res.status === 503) {
+            dbMissing = true
+            failed += contentPlan.length - success
+            break // No point continuing — all will fail
+          }
+          failed++
+        }
       } catch { failed++ }
     }
-    setPipelineResult({ success, failed })
+    setPipelineResult({ success, failed, dbMissing })
     setPushingPipeline(false)
   }
 
@@ -534,12 +548,19 @@ export default function BatchPlannerPage() {
                   {pushingPipeline ? 'Pushing...' : `Push All ${contentPlan.length} Days to Pipeline`}
                 </Button>
                 {pipelineResult && (
-                  <div className={`flex items-center gap-2 text-[12px] font-display font-semibold px-3 py-2 rounded-lg ${
-                    pipelineResult.failed === 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
-                  }`}>
-                    <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                    {pipelineResult.success} added to Pipeline{pipelineResult.failed > 0 ? ` · ${pipelineResult.failed} failed` : ''}
-                  </div>
+                  pipelineResult.dbMissing ? (
+                    <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-[11px] font-display font-semibold text-red-700 space-y-1">
+                      <p>Pipeline database not set up yet.</p>
+                      <p className="font-normal text-red-600">Go to supabase.com → restore your project → run: <code className="bg-red-100 px-1 rounded">npx prisma db push</code></p>
+                    </div>
+                  ) : (
+                    <div className={`flex items-center gap-2 text-[12px] font-display font-semibold px-3 py-2 rounded-lg ${
+                      pipelineResult.failed === 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                    }`}>
+                      <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+                      {pipelineResult.success} added to Pipeline{pipelineResult.failed > 0 ? ` · ${pipelineResult.failed} failed` : ''}
+                    </div>
+                  )
                 )}
                 <Button
                   onClick={() => {
@@ -715,7 +736,7 @@ export default function BatchPlannerPage() {
                                     {item.fourE}
                                   </span>
                                 )}
-                                <span className={`text-[10px] font-display font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType] || 'bg-[#E4E4E7] text-[#52525B]'}`}>
+                                <span className={`text-[10px] font-display font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType || ''] || 'bg-[#E4E4E7] text-[#52525B]'}`}>
                                   {item.contentType}
                                 </span>
                               </div>
