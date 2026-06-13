@@ -36,46 +36,49 @@ function SignInContent() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[#F4F4F8] flex items-center justify-center px-4 font-display">
-      {/* Dot grid background */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(#D4D4D8 1px, transparent 1px)',
-          backgroundSize: '22px 22px',
-          opacity: 0.45,
-        }}
-      />
+    <div className="relative min-h-screen flex items-center justify-center px-4 font-display" style={{ background: '#0a0a0a' }}>
+      {/* Dot grid */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: 'radial-gradient(rgba(201,168,76,0.07) 1px, transparent 1px)',
+        backgroundSize: '22px 22px',
+      }} />
+      {/* Gold glow top */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-32 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse at top, rgba(201,168,76,0.06) 0%, transparent 70%)',
+      }} />
 
       <div className="relative w-full max-w-sm">
         {/* Back link */}
-        <a href="/" className="flex items-center gap-1.5 text-[#A1A1AA] hover:text-[#71717A] transition-colors text-[12px] font-display mb-6">
+        <a href="/" className="flex items-center gap-1.5 text-sm font-display mb-6 transition-colors"
+          style={{ color: '#3a3a4a' }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#5a5a6a')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#3a3a4a')}>
           ← Back to home
         </a>
 
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-[#18181B] flex items-center justify-center mb-4 shadow-[0_4px_16px_rgba(0,0,0,0.12)]">
-            <span className="font-display font-black text-white text-xl">N</span>
+          <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4" style={{ background: '#C9A84C', boxShadow: '0 4px 24px rgba(201,168,76,0.25)' }}>
+            <span className="font-display font-black text-xl" style={{ color: '#0a0a0a' }}>N</span>
           </div>
-          <h1 className="font-display font-black text-[#18181B] text-lg tracking-tight">NOCHILL</h1>
-          <p className="text-[#A1A1AA] text-xs mt-1 font-display">Content Intelligence System</p>
+          <h1 className="font-display font-black text-lg tracking-tight" style={{ color: '#FAF7F0' }}>NOCHILL</h1>
+          <p className="text-xs mt-1 font-display" style={{ color: '#5a5a6a' }}>Content Intelligence System</p>
         </div>
 
         {/* Form card */}
-        <div className="bg-white border border-[#E4E4E7] rounded-2xl p-8 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
-          <h2 className="font-display font-bold text-[#18181B] text-xl mb-1">Welcome back.</h2>
-          <p className="text-[#71717A] text-sm font-display mb-7">Sign in to your command centre.</p>
+        <div className="rounded-2xl p-8" style={{ background: '#141414', border: '1px solid #2b2b2b', boxShadow: '0 8px 40px rgba(0,0,0,0.5)' }}>
+          <h2 className="font-display font-bold text-xl mb-1" style={{ color: '#FAF7F0' }}>Welcome back.</h2>
+          <p className="text-sm font-display mb-7" style={{ color: '#5a5a6a' }}>Sign in to your command centre.</p>
 
           {error && (
-            <div className="mb-5 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm font-display">
+            <div className="mb-5 px-4 py-3 rounded-xl text-sm font-display" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#f87171' }}>
               {error}
             </div>
           )}
 
           <form onSubmit={handleSignIn} className="space-y-4">
             <div>
-              <label className="block text-[#71717A] text-[11px] font-display font-semibold uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-display font-semibold uppercase tracking-wider mb-1.5" style={{ color: '#5a5a6a' }}>
                 Email
               </label>
               <input
@@ -85,12 +88,19 @@ function SignInContent() {
                 placeholder="your@email.com"
                 required
                 disabled={isLoading}
-                className="w-full bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl px-4 py-3 text-[#18181B] text-sm font-display placeholder-[#A1A1AA] focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-colors disabled:opacity-50"
+                className="w-full rounded-xl px-4 py-3 text-sm font-display transition-all disabled:opacity-50 outline-none"
+                style={{
+                  background: '#0f0f0f',
+                  border: '1px solid #2b2b2b',
+                  color: '#FAF7F0',
+                }}
+                onFocus={e => (e.currentTarget.style.borderColor = 'rgba(201,168,76,0.5)')}
+                onBlur={e => (e.currentTarget.style.borderColor = '#2b2b2b')}
               />
             </div>
 
             <div>
-              <label className="block text-[#71717A] text-[11px] font-display font-semibold uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-display font-semibold uppercase tracking-wider mb-1.5" style={{ color: '#5a5a6a' }}>
                 Password
               </label>
               <div className="relative">
@@ -101,13 +111,23 @@ function SignInContent() {
                   placeholder="••••••••"
                   required
                   disabled={isLoading}
-                  className="w-full bg-[#F9FAFB] border border-[#E4E4E7] rounded-xl px-4 py-3 pr-11 text-[#18181B] text-sm font-display placeholder-[#A1A1AA] focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-colors disabled:opacity-50"
+                  className="w-full rounded-xl px-4 py-3 pr-11 text-sm font-display transition-all disabled:opacity-50 outline-none"
+                  style={{
+                    background: '#0f0f0f',
+                    border: '1px solid #2b2b2b',
+                    color: '#FAF7F0',
+                  }}
+                  onFocus={e => (e.currentTarget.style.borderColor = 'rgba(201,168,76,0.5)')}
+                  onBlur={e => (e.currentTarget.style.borderColor = '#2b2b2b')}
                 />
                 <button
                   type="button"
                   tabIndex={-1}
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A1A1AA] hover:text-[#71717A] transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                  style={{ color: '#3a3a4a' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#5a5a6a')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#3a3a4a')}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -117,7 +137,8 @@ function SignInContent() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 rounded-xl bg-blue-600 text-white font-display font-semibold text-sm hover:bg-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2 shadow-[0_2px_8px_rgba(37,99,235,0.28)]"
+              className="w-full py-3.5 rounded-xl font-display font-bold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
+              style={{ background: '#C9A84C', color: '#0a0a0a', boxShadow: '0 4px 20px rgba(201,168,76,0.25)' }}
             >
               {isLoading ? (
                 <>
@@ -134,7 +155,7 @@ function SignInContent() {
           </form>
         </div>
 
-        <p className="text-center text-[#A1A1AA] text-xs mt-6 font-display">
+        <p className="text-center text-xs mt-6 font-display" style={{ color: '#2b2b2b' }}>
           NOCHILL PTY LTD · 2016/507839/07
         </p>
       </div>
@@ -145,8 +166,8 @@ function SignInContent() {
 export default function SignInPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#F4F4F8] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a0a0a' }}>
+        <div className="w-8 h-8 rounded-full animate-spin" style={{ border: '2px solid #2b2b2b', borderTopColor: '#C9A84C' }} />
       </div>
     }>
       <SignInContent />
