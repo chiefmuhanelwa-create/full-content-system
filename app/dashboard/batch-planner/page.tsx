@@ -385,6 +385,17 @@ export default function BatchPlannerPage() {
                     {pushResult.success} added to Calendar{pushResult.failed > 0 ? ` · ${pushResult.failed} failed` : ''}
                   </div>
                 )}
+                <Button
+                  onClick={() => {
+                    localStorage.setItem('runsheetPreload', JSON.stringify(contentPlan.slice(0, 10)))
+                    router.push('/dashboard/runsheet')
+                  }}
+                  variant="outline"
+                  className="w-full text-[12px] font-display font-semibold border-purple-300 text-purple-800 hover:bg-purple-50"
+                >
+                  <Zap className="w-4 h-4 mr-2 text-purple-600" />
+                  Build Shoot Day Runsheet
+                </Button>
                 <Button onClick={exportAsCSV} variant="outline" className="w-full text-[12px] font-display font-semibold">
                   <Download className="w-4 h-4 mr-2" />
                   Export as CSV

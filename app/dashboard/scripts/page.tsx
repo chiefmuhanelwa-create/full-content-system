@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen, Monitor, Edit, Save, Layers } from 'lucide-react'
+import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen, Monitor, Edit, Save, Layers, Hash, Repeat } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 import { useRouter } from 'next/navigation'
 
@@ -166,9 +166,18 @@ export default function ScriptWriterPage() {
   const [editedScript, setEditedScript] = useState<GeneratedScript | null>(null)
   const [saveSuccess, setSaveSuccess] = useState(false)
   const [scriptTitle, setScriptTitle] = useState('')
+  const [captionLoading, setCaptionLoading] = useState(false)
+  const [repurposeLoading, setRepurposeLoading] = useState(false)
 
   // Sales Script Mode
   const [scriptMode, setScriptMode] = useState<'content' | 'sales'>('content')
+  const [scriptTemplate, setScriptTemplate] = useState<'auto' | 'never_ever' | 'important_vs' | 'dont_do_this'>('auto')
+
+  // R50 quality gate
+  const [r50Strong, setR50Strong] = useState(false)
+  const [r50Visual, setR50Visual] = useState(false)
+  const [r50Actionable, setR50Actionable] = useState(false)
+  const [r50Worthy, setR50Worthy] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState('')
   const [salesFormat, setSalesFormat] = useState('reel')
   const [products, setProducts] = useState<any[]>([])
@@ -427,6 +436,7 @@ export default function ScriptWriterPage() {
         icp: icp === 'auto' ? undefined : icp,
         shadowFear: shadowFear === 'auto' ? undefined : shadowFear,
         villain: villain.trim() || undefined,
+        scriptTemplate: scriptTemplate === 'auto' ? undefined : scriptTemplate,
       }
 
       // Add sales mode data
@@ -985,6 +995,21 @@ ${scriptToUse.fiveLine.community.script}`
     }
   }
 
+  const generateCaption = () => {
+    if (!script) return
+    const scriptContent = script.fullScript || script.fiveLine?.context?.script || ''
+    localStorage.setItem('captionScriptPreload', scriptContent)
+    router.push('/dashboard/captions')
+  }
+
+  const repurposeAll = () => {
+    if (!script) return
+    const scriptContent = script.fullScript || ''
+    if (!scriptContent) return
+    localStorage.setItem('repurposeScript', scriptContent)
+    router.push('/dashboard/repurpose')
+  }
+
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
       <ToolPageHeader
@@ -1024,6 +1049,29 @@ ${scriptToUse.fiveLine.community.script}`
                   </p>
                 )}
               </div>
+
+              {/* Script Template */}
+              {scriptMode === 'content' && (
+                <div className="space-y-2">
+                  <Label htmlFor="scriptTemplate">NOCHILL Script Template</Label>
+                  <Select value={scriptTemplate} onValueChange={(v: any) => setScriptTemplate(v)}>
+                    <SelectTrigger id="scriptTemplate"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="auto">Auto — AI chooses best structure</SelectItem>
+                      <SelectItem value="never_ever">Never Ever Ever — destroy the wrong, replace with right</SelectItem>
+                      <SelectItem value="important_vs">Important V/S Not Important — reframe priorities</SelectItem>
+                      <SelectItem value="dont_do_this">Don&apos;t Do This — warning + rescue arc</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {scriptTemplate !== 'auto' && (
+                    <p className="text-[11px] font-display px-2 py-1.5 rounded" style={{ background: 'rgba(201,168,76,0.08)', color: '#C9A84C', border: '1px solid rgba(201,168,76,0.2)' }}>
+                      {scriptTemplate === 'never_ever' && '⚡ Risk Reversal template — Contrast-based authority. Destroy the mistake, install the correct system.'}
+                      {scriptTemplate === 'important_vs' && '🔥 Controversial template — Reframe what actually matters. Takes a position against conventional wisdom.'}
+                      {scriptTemplate === 'dont_do_this' && '🚨 Warning template — Urgency + rescue. Starts mid-consequence. Highest emotional pull.'}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* Sales Mode: Product Selector */}
               {scriptMode === 'sales' && (
@@ -1522,6 +1570,16 @@ ${scriptToUse.fiveLine.community.script}`
                           <Monitor className="h-4 w-4 mr-2" />
                           Teleprompter
                         </Button>
+                        <Button size="sm" variant="outline" onClick={generateCaption} disabled={captionLoading} className="bg-orange-50 hover:bg-orange-100 border-orange-300">
+                          <Hash className="h-4 w-4 mr-2 text-orange-600" />
+                          {captionLoading ? 'Loading...' : 'Caption'}
+                        </Button>
+                        {script?.fullScript && (
+                          <Button size="sm" variant="outline" onClick={repurposeAll} disabled={repurposeLoading} className="bg-indigo-50 hover:bg-indigo-100 border-indigo-300">
+                            <Repeat className="h-4 w-4 mr-2 text-indigo-600" />
+                            {repurposeLoading ? 'Loading...' : 'Repurpose'}
+                          </Button>
+                        )}
                       </>
                     )}
                   </div>
@@ -2034,6 +2092,44 @@ ${scriptToUse.fiveLine.community.script}`
                     )}
                   </div>
                 )}
+
+                {/* R50 Quality Gate */}
+                <div className="rounded-xl p-5 mt-2" style={{ background: '#1a1a1a', border: '1px solid #2b2b2b' }}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span style={{ fontSize: 16 }}>⚡</span>
+                    <span className="text-sm font-display font-bold uppercase tracking-wider" style={{ color: '#C9A84C' }}>R50 Quality Gate</span>
+                    <span className="ml-auto text-[10px] font-display px-1.5 py-0.5 rounded font-bold"
+                      style={{
+                        background: [r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length === 4 ? 'rgba(34,197,94,0.12)' : 'rgba(201,168,76,0.1)',
+                        color: [r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length === 4 ? '#22c55e' : '#C9A84C',
+                        border: `1px solid ${[r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length === 4 ? 'rgba(34,197,94,0.3)' : 'rgba(201,168,76,0.25)'}`,
+                      }}>
+                      {[r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length}/4 — {[r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length === 4 ? 'Ready to post' : 'Keep refining'}
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    {([
+                      { checked: r50Strong, setChecked: setR50Strong, label: 'Strong Hook', desc: 'Does the first line stop the scroll cold?' },
+                      { checked: r50Visual, setChecked: setR50Visual, label: 'Visual Hook', desc: 'Is there a clear opening frame concept — what they see before you speak?' },
+                      { checked: r50Actionable, setChecked: setR50Actionable, label: 'Actionable in 24 Hours', desc: 'Can they apply something from this today without buying anything?' },
+                      { checked: r50Worthy, setChecked: setR50Worthy, label: 'Worth R50', desc: 'Would someone genuinely pay R50 to watch or read this?' },
+                    ] as const).map(({ checked, setChecked, label, desc }) => (
+                      <button
+                        key={label}
+                        onClick={() => setChecked(!checked)}
+                        className="w-full flex items-start gap-3 py-2.5 px-3 rounded-lg text-left transition-all"
+                        style={{ background: checked ? 'rgba(34,197,94,0.06)' : 'transparent', border: `1px solid ${checked ? 'rgba(34,197,94,0.2)' : '#2b2b2b'}` }}
+                      >
+                        <span className="flex-shrink-0 mt-0.5 text-sm">{checked ? '✅' : '⬜'}</span>
+                        <div>
+                          <p className="text-xs font-display font-semibold" style={{ color: checked ? '#22c55e' : '#D4D4D8' }}>{label}</p>
+                          <p className="text-[10px] font-display" style={{ color: '#5a5a6a' }}>{desc}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
               </CardContent>
             </Card>
           ) : (

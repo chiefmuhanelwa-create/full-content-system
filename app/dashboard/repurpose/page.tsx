@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
@@ -23,6 +23,15 @@ export default function RepurposePage() {
   const [repurposedContent, setRepurposedContent] = useState<RepurposedContent | null>(null)
   const [error, setError] = useState('')
   const [copiedKey, setCopiedKey] = useState<string | null>(null)
+
+  // Load from Script Writer one-click repurpose
+  useEffect(() => {
+    const preload = localStorage.getItem('repurposeScript')
+    if (preload) {
+      setOriginalScript(preload)
+      localStorage.removeItem('repurposeScript')
+    }
+  }, [])
 
   // Format selection
   const [formats, setFormats] = useState({

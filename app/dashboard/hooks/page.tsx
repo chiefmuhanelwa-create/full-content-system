@@ -16,7 +16,9 @@ import { ToolPageHeader } from '@/components/ToolPageHeader'
 
 interface Hook {
   id: string
-  content: string
+  verbal: string
+  visual: string
+  content: string  // kept for backward compat (= verbal)
   likes: number
 }
 
@@ -31,6 +33,7 @@ export default function HookGeneratorPage() {
   const [shadowFear, setShadowFear] = useState('auto')
   const [awarenessLevel, setAwarenessLevel] = useState('auto')
   const [hookType, setHookType] = useState('any')
+  const [interestPeak, setInterestPeak] = useState('auto')
   const [targetAudience, setTargetAudience] = useState('')
   const [loading, setLoading] = useState(false)
   const [hooks, setHooks] = useState<Hook[]>([])
@@ -100,14 +103,18 @@ export default function HookGeneratorPage() {
       const response = await fetch('/api/hooks/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, platform, duration, hookType, icp: icp === 'auto' ? undefined : icp, shadowFear: shadowFear === 'auto' ? undefined : shadowFear, awarenessLevel: awarenessLevel === 'auto' ? undefined : awarenessLevel, targetAudience: targetAudience.trim() || undefined, targetFear: targetedFear ? { id: targetedFear.id, name: targetedFear.name, relevance: targetedFear.relevance } : undefined, count: 5 }),
+        body: JSON.stringify({ topic, platform, duration, hookType, icp: icp === 'auto' ? undefined : icp, shadowFear: shadowFear === 'auto' ? undefined : shadowFear, awarenessLevel: awarenessLevel === 'auto' ? undefined : awarenessLevel, interestPeak: interestPeak === 'auto' ? undefined : interestPeak, targetAudience: targetAudience.trim() || undefined, targetFear: targetedFear ? { id: targetedFear.id, name: targetedFear.name, relevance: targetedFear.relevance } : undefined, count: 5 }),
       })
       const data = await response.json()
       if (!response.ok) throw new Error(data.error || 'Failed to generate hooks')
-      const generatedHooks: Hook[] = data.hooks.map((content: string, index: number) => ({ id: `${Date.now()}-${index}`, content, likes: 0 }))
+      const generatedHooks: Hook[] = data.hooks.map((h: any, index: number) => {
+        const verbal = typeof h === 'string' ? h : (h.verbal || h.content || '')
+        const visual = typeof h === 'string' ? '' : (h.visual || '')
+        return { id: `${Date.now()}-${index}`, verbal, visual, content: verbal, likes: 0 }
+      })
       setHooks(generatedHooks)
       if (data.compliance) { setCompliance(data.compliance); setShowCompliance(true) }
-      generatedHooks.forEach((hook) => addHook({ content: hook.content, type: hookType !== 'any' ? hookType as any : 'information_gap', platform }))
+      generatedHooks.forEach((hook) => addHook({ content: hook.verbal, type: hookType !== 'any' ? hookType as any : 'information_gap', platform }))
     } catch (err: any) {
       setError(err.message || 'An error occurred')
     } finally {
@@ -425,6 +432,23 @@ export default function HookGeneratorPage() {
                 </SelectContent>
               </Select>
             </div>
+
+            <div className="nc-form-row">
+              <label htmlFor="interestPeak">Interest Peak Type</label>
+              <Select value={interestPeak} onValueChange={setInterestPeak}>
+                <SelectTrigger id="interestPeak" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="auto">Auto-detect</SelectItem>
+                  <SelectItem value="risk_reversal">Risk Reversal — nothing to lose</SelectItem>
+                  <SelectItem value="authority">Authority Endorsement — borrow credibility</SelectItem>
+                  <SelectItem value="controversial">Controversial — trigger an emotion</SelectItem>
+                  <SelectItem value="personal_story">Personal Story — social proof</SelectItem>
+                  <SelectItem value="negative_assumption">Negative Assumption — shatter their excuse</SelectItem>
+                  <SelectItem value="hype_up">Hype Up — maximum anticipation</SelectItem>
+                  <SelectItem value="call_out">Call Out — name who they are</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {error && <div className="nc-error">{error}</div>}
@@ -485,15 +509,21 @@ export default function HookGeneratorPage() {
               <div key={hook.id} className="nc-result-card">
                 <div className="flex flex-col gap-3">
                   <div>
-                    <p className="nc-eyebrow mb-2">Hook {index + 1}</p>
-                    <p className="font-display font-semibold text-[#18181B] text-[15px] leading-relaxed">{hook.content}</p>
+                    <p className="nc-eyebrow mb-2">Hook {index + 1} — Verbal</p>
+                    <p className="font-display font-semibold text-[#18181B] text-[15px] leading-relaxed">{hook.verbal || hook.content}</p>
                   </div>
+                  {hook.visual && (
+                    <div className="px-3 py-2.5 rounded-xl" style={{ background: 'rgba(201,168,76,0.07)', border: '1px solid rgba(201,168,76,0.2)' }}>
+                      <p className="text-[9px] font-display font-bold uppercase tracking-widest mb-1" style={{ color: '#C9A84C' }}>Visual Hook — Opening Frame</p>
+                      <p className="text-[13px] font-display leading-relaxed" style={{ color: '#D4A843' }}>{hook.visual}</p>
+                    </div>
+                  )}
                   <div className="flex flex-wrap items-center gap-1.5">
                     <div className="flex gap-1">
                       <button onClick={() => likeHook(hook.id)} className="p-1.5 rounded-lg text-[#71717A] hover:text-red-500 hover:bg-[#F9FAFB] transition-colors" title="Like">
                         <Heart className={`h-3.5 w-3.5 ${hook.likes > 0 ? 'fill-red-500 text-red-500' : ''}`} />
                       </button>
-                      <button onClick={() => copyHook(hook.content)} className="p-1.5 rounded-lg text-[#71717A] hover:text-[#2563EB] hover:bg-[#F9FAFB] transition-colors" title="Copy">
+                      <button onClick={() => copyHook(hook.verbal || hook.content)} className="p-1.5 rounded-lg text-[#71717A] hover:text-[#2563EB] hover:bg-[#F9FAFB] transition-colors" title="Copy verbal hook">
                         <Copy className="h-3.5 w-3.5" />
                       </button>
                       <button onClick={() => saveHook(hook)} className="p-1.5 rounded-lg text-[#71717A] hover:text-[#2563EB] hover:bg-[#F9FAFB] transition-colors" title="Save">
@@ -509,7 +539,7 @@ export default function HookGeneratorPage() {
                     <div className="flex gap-1">
                       <button
                         onClick={() => {
-                          const savedHook = addHook({ content: hook.content, type: hookType !== 'any' ? hookType as any : 'information_gap', platform })
+                          const savedHook = addHook({ content: hook.verbal || hook.content, type: hookType !== 'any' ? hookType as any : 'information_gap', platform })
                           setPendingAction({ action: 'use-hook-in-script', data: savedHook })
                           router.push('/dashboard/scripts')
                         }}
@@ -519,7 +549,7 @@ export default function HookGeneratorPage() {
                       </button>
                       <button
                         onClick={() => {
-                          addContentToCalendar({ title: hook.content.substring(0, 50) + '...', platform, sourceTools: ['Hook Generator'] })
+                          addContentToCalendar({ title: (hook.verbal || hook.content).substring(0, 50) + '...', platform, sourceTools: ['Hook Generator'] })
                         }}
                         className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 transition-all text-[11px] font-display font-bold uppercase tracking-wide"
                       >

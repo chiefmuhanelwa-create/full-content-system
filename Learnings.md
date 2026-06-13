@@ -78,6 +78,50 @@ These answers are the foundation for every preference below. Update them if prio
 
 ---
 
+## Session 2026-06-09 — MASTER-INTELLIGENCE Brain Injection
+
+### What was done
+The AI brain received the biggest single upgrade since the system was built. Files changed: `lib/knowledge-base.ts` + `lib/knowledge/creator-dna.json`.
+
+**New in system prompt (knowledge-base.ts):**
+1. **Sentence Architecture section** — 9 micro-patterns from the published books. This is what makes the AI write like Ndivhuwo at the SENTENCE level, not just at the framework level. Includes: short declarative → context; repetition for weight; present tense for past scenes; date+amount+event; question as pivot; admission before flex; callback loops; time-chunk closing; scripture closer pattern.
+2. **Full signature phrase bank** — "You're too quiet." / "Boom, sanamabish." / "That's why you're broke." etc.
+3. **Data section** — Corrected market data: $29.84B by 2032 at 28.7% CAGR (was $17.84B at 25.6%), 36M African creators, SARS R95,750 threshold, SA CPM range.
+4. **Pain Priority Matrix** — 7 data-ranked pains with scores and copy angles. Monetisation Confusion 0.84 is #1.
+5. **Live subscriber verbatims** — Andiswa Tau + Freedom BORNGREAT + empresstallowah. empresstallowah's "monetization and the fear of being seen" = most common pain combination in entire audience.
+6. **ICP 2 sub-segments** — 6 sub-profiles with percentages, language, and hook angles.
+
+**New in creator-dna.json:**
+- `pain_priority_matrix` key — full ranked matrix
+- `live_subscriber_replies` key — 3 verbatims with context on how to use each
+- `sub_segments` key added inside `content_creator_inspirer`
+- Market data keys updated/added
+
+### The most impactful change
+The sentence architecture patterns. Before this, the AI knew Ndivhuwo's frameworks but wrote in generic AI English. Now it has the micro-patterns to sound like the person. Test: generate a hook and see if the first sentence sounds like it was written by a human who's been through it.
+
+---
+
+## Session 2026-06-09 — Mobile Responsiveness + Generation Speed
+
+### What was done
+1. **Hooks API → HAIKU** (`app/api/hooks/generate/route.ts`) — switched from SONNET to HAIKU for 3-4× speed gain. Hook generation was taking 8-12 seconds. HAIKU handles short creative structured JSON output just as well. This is intentional — do not revert to SONNET without a reason.
+2. **Mobile layout pattern** — the standard responsive pattern for all result cards is now `flex flex-col gap-3` (NOT `flex items-start justify-between gap-4`). Text on top, action buttons below, all in a horizontal `flex flex-wrap` row. Applied to: hooks result cards, hooks skeleton, scripts output header.
+3. **Form field pair grids** — always `grid-cols-1 sm:grid-cols-2 gap-4` (never bare `grid-cols-2`). Applied to hooks form + content-calendar-plus (5 form grids).
+4. **Scripts loading skeleton** — added `loading && !script` skeleton block showing before the output Card renders. Shows animate-pulse shaped blocks matching the expected output sections.
+5. **Fear analyzer** — result card `flex flex-col sm:flex-row sm:items-start` applied.
+
+### Pages still needing mobile audit
+batch-planner, storytelling, pitch, repurpose, formula-writer, analytics, campaigns.
+
+### New components added (session 2026-06-08 — from previous context)
+- `components/CommandPalette.tsx` — ⌘K search over all 31 tools, keyboard nav (↑↓ Enter Esc)
+- `components/RecentActivity.tsx` — "Continue where you left off" section on dashboard
+- `app/api/dashboard/recent/route.ts` — fetches last 3 hooks + 2 scripts for RecentActivity
+- Mobile nav: hamburger drawer pattern, backdrop overlay, auto-close on resize to lg+
+
+---
+
 ## UX/UI Design Standards — From June 2026 Full System Audit
 
 ### Contrast failures to never repeat
@@ -109,3 +153,30 @@ These answers are the foundation for every preference below. Update them if prio
 ### Hero design law
 - The payoff/climax line of a hero headline must be the most high-contrast element — NOT the softest. If the second line of your headline is the value delivery ("Sell more."), make it the most prominent visually (blue, bold) not the least (grey).
 - The eye should naturally flow: headline payoff → CTA button. If they share a color (both blue), the connection is immediate.
+
+---
+
+## Session 2026-06-09 — Script Generator Fix + Loading Progress UI
+
+### Script parse error — root cause and fix
+The "Failed to parse script response" error had THREE causes:
+
+1. **Prompt template had literal newlines inside a JSON string.** The `fullScript` field in the output format example (line ~655 of the scripts API route) showed the multiline script format WITH actual newlines inside the JSON string. The AI copied this format, producing invalid JSON that breaks `JSON.parse`. Fix: rewrote the `fullScript` example to use `\n` escape sequences. Also added explicit "CRITICAL JSON RULES" block at the top of the OUTPUT FORMAT section.
+
+2. **`max_tokens: 6000` was borderline for the full structure.** The 7-act JSON (actStructure × 7 + fullScript + bRoll + compliance with 15 section13 sub-fields) was hitting or exceeding 6000 tokens on longer content. Fix: raised to 8000 for the content mode. **Note: CLAUDE.md says 6000 for script routes — this is now 8000. Update CLAUDE.md if you rewrite it.**
+
+3. **Client had no fallback for literal-newline JSON.** Fix: added two-pass parsing — first try clean JSON, then escape literal newlines inside string values using `/("(?:[^"\\]|\\.)*")/g` regex and `.replace(/\n/g, '\\n')`.
+
+### Loading progress card — how it works
+- `streamingText` state: each chunk from the reader is appended AND the last 400 chars are kept in state for display
+- `loadingStep` state: advances on a `setInterval` of 4500ms while `loading === true`, reset to 0 when loading ends
+- `LOADING_STEPS` array: 8 steps with icon, label, and detail text describing what the AI is doing in that phase
+- The `useEffect` that drives the timer depends on `[loading]` — it starts when loading begins and clears the interval when loading ends
+- The live output dark terminal box only renders when `streamingText.length > 20` — avoids showing an empty box on first tick
+- The `[animation-delay:Xms]` pattern for the bouncing dots requires Tailwind's arbitrary value support — works in this codebase
+
+### Deployment verification pattern
+When a user says "I can't see the changes":
+1. Check Vercel MCP `list_deployments` to confirm latest commit is `state: "READY"` on production
+2. If READY: the issue is browser cache — tell user to hard refresh (Cmd+Shift+R Mac / Ctrl+Shift+R Windows)
+3. Also check: is the feature state-conditional? (loading card only shows during generation, not on page load) — user may be looking at the page in the wrong state

@@ -11,7 +11,21 @@
       "timeframe": "5-8 seconds",
       "use_for": ["Resilience", "Transformation", "Origin story", "Motivational content"],
       "emotion": "Vulnerability → Triumph",
-      "lesson": "Your starting point doesn't determine your destination"
+      "lesson": "Your starting point doesn't determine your destination",
+      "verified_timeline": {
+        "note": "CANONICAL — do not deviate from this sequence",
+        "2011_nmmu": "NMMU Gqeberha, BSc Pharmacy. DOH Limpopo bursary never came through. Stuck in city with no money.",
+        "2011_helen": "Helen (Red Lion Hotel manager, Gqeberha) gave free room + food for 6 months. She had dreamt of him. Act of God.",
+        "2011_june": "Deregistered NMMU June 2011. Owes R25,000. Returns home to Tshikwarani, Venda.",
+        "2011_gap": "Mother Florah passes away during this gap — AFTER NMMU deregistration, BEFORE UP enrollment. NOT while at UP.",
+        "2012": "Applied to UP late 2011. Accepted — BSc Geoinformatics. REAP bursary covers EVERYTHING (tuition, accommodation, living). Good first year.",
+        "2013_fail": "First semester 2013: Failed 1 module. REAP dropped him immediately. No grace period.",
+        "2013_april": "April 2013: Started sleeping in UP bathrooms. 2–4 months (April–June/July). Applied for call centre, security jobs.",
+        "2013_atns": "Found ATNS bursary while in bathrooms. Applied.",
+        "2013_august": "August 2013: ATNS accepted. Left University of Pretoria.",
+        "2014": "Deployed to OR Tambo. Bought R6,000 phone from ATNS salary. Started content on night shifts.",
+        "2026": "Still works at ATNS today (2026)."
+      }
     },
     "r750_to_r100k": {
       "title": "R750 to R100K Brand Evolution",

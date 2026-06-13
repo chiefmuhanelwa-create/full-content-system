@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
       shadowFear,
       awarenessLevel,
       targetAudience,
+      interestPeak,
       count = 5
     } = body
 
@@ -38,6 +39,7 @@ export async function POST(request: NextRequest) {
     if (icp === 'icp1') additionalContextParts.push(`TARGET ICP: ICP 1 — Called Expert (32–50, professional, unexploited expertise). Shadow fears: Imposter Syndrome, Generational Poverty Trap, Wrong Path Terror, Spiritual Crisis. Language: "your knowledge is worth more than your salary"`)
     if (icp === 'icp2') additionalContextParts.push(`TARGET ICP: ICP 2 — Content Creator Inspirer (18–35, aspiring, Instagram/TikTok/FB-first). Shadow fears: Invisible Labor, Time Anxiety, Relationship Loss, Platform Dependency. Language: "you're posting every day and still broke"`)
     if (shadowFear) additionalContextParts.push(`SHADOW FEAR TO ACTIVATE: ${shadowFear} — embed this fear implicitly in the hook. Never name it directly.`)
+    if (interestPeak) additionalContextParts.push(`INTEREST PEAK TYPE: ${interestPeak} — every hook in this set must use this Interest Peak mechanism as its emotional engine.`)
 
     const userContext = buildUserContextPrompt({
       topic,
@@ -134,11 +136,15 @@ ${platform === 'twitter' ? '- Twitter: Controversial takes, strong opinions, thr
 - No generic templates
 - Every hook must pass the R×A×C×U^B checklist
 
-OUTPUT FORMAT: Return ONLY a JSON object — not a plain array:
+OUTPUT FORMAT: Return ONLY a valid JSON object. Each hook is an object with "verbal" (what to say — under 25 words) and "visual" (opening frame concept — what they see on screen, specific and achievable with a phone).
 {
-  "hooks": ["Hook 1", "Hook 2", ...${count} hooks total],
+  "hooks": [
+    {"verbal": "Hook text", "visual": "Opening frame concept — specific, achievable, creates unanswered question in 1.5s"},
+    ...${count} hooks total
+  ],
   "compliance": {
     "icp": "ICP 1 — The Called Expert | ICP 2 — The Content Creator Inspirer",
+    "interestPeak": "risk_reversal | authority | controversial | personal_story | negative_assumption | hype_up | call_out",
     "shadowFear": "Name + number e.g. Imposter Syndrome (#3)",
     "hookType": "information_gap | desired_result | undesired_result | a_to_b_transformation",
     "awarenessLevel": "symptom_aware | problem_aware | solution_aware | product_aware",
@@ -158,7 +164,7 @@ OUTPUT FORMAT: Return ONLY a JSON object — not a plain array:
       "audibleFlow": "✅ passes read-aloud test",
       "emotionalPeak": "✅ Shadow Fear activated",
       "atomicSharability": "✅ — [the atomic hook]",
-      "visualDirection": "N/A — hooks only",
+      "visualDirection": "✅ — [each hook has specific visual opening frame]",
       "ctaClarity": "N/A — hooks only",
       "retentionLoop": "N/A — hooks only",
       "businessOutcome": "✅ — [which outcome]",
@@ -187,8 +193,8 @@ OUTPUT FORMAT: Return ONLY a JSON object — not a plain array:
       throw new Error('Unexpected response type from Claude')
     }
 
-    // Parse the JSON response — now expects { hooks, compliance }
-    let hooks: string[]
+    // Parse the JSON response — expects { hooks: [{verbal, visual}], compliance }
+    let hooks: Array<{ verbal: string; visual: string } | string>
     let compliance: Record<string, any> | undefined
     try {
       const jsonMatch = content.text.match(/\{[\s\S]*\}/)
@@ -197,18 +203,24 @@ OUTPUT FORMAT: Return ONLY a JSON object — not a plain array:
         hooks = parsed.hooks || []
         compliance = parsed.compliance
       } else {
-        // Fallback: plain array
         const arrMatch = content.text.match(/\[[\s\S]*\]/)
-        hooks = arrMatch ? JSON.parse(arrMatch[0]) : JSON.parse(content.text)
+        const raw = arrMatch ? JSON.parse(arrMatch[0]) : JSON.parse(content.text)
+        // normalise plain string arrays from older fallback responses
+        hooks = raw
       }
     } catch (parseError) {
       console.error('Failed to parse Claude response:', content.text)
       throw new Error('Failed to parse hooks from Claude response')
     }
 
+    // Normalise: ensure every hook is {verbal, visual}
+    const normalisedHooks: Array<{ verbal: string; visual: string }> = hooks.map(h =>
+      typeof h === 'string' ? { verbal: h, visual: '' } : h
+    )
+
     return NextResponse.json({
       success: true,
-      hooks,
+      hooks: normalisedHooks,
       compliance,
       metadata: {
         topic,
@@ -218,7 +230,8 @@ OUTPUT FORMAT: Return ONLY a JSON object — not a plain array:
         icp,
         shadowFear,
         awarenessLevel,
-        count: hooks.length,
+        interestPeak,
+        count: normalisedHooks.length,
         generatedAt: new Date().toISOString(),
       },
     })

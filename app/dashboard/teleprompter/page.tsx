@@ -58,6 +58,9 @@ export default function TeleprompterPage() {
   const [wordsPerMinute, setWordsPerMinute] = useState(150)
   const [highlightColor, setHighlightColor] = useState('#3b82f6') // Blue
   const [backgroundColor, setBackgroundColor] = useState('#000000') // Black
+  const [linePerLine, setLinePerLine] = useState(false) // Hook-first line-per-line mode
+  const [showCaptionPanel, setShowCaptionPanel] = useState(false)
+  const [captionPanelData, setCaptionPanelData] = useState<{ caption: string; hashtags: string[] } | null>(null)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -69,17 +72,23 @@ export default function TeleprompterPage() {
     const teleprompterData = localStorage.getItem('teleprompterScript')
     if (teleprompterData) {
       try {
-        // Try to parse as JSON first (new format)
         const data = JSON.parse(teleprompterData)
         setScript(data.fullScript || data.content || '')
         setScriptTitle(data.title || 'Untitled Script')
-      } catch (error) {
-        // If parsing fails, treat as plain string (backward compatibility)
+      } catch {
         setScript(teleprompterData)
         setScriptTitle('Imported Script')
       }
-      // Clean up after loading
       localStorage.removeItem('teleprompterScript')
+    }
+
+    // Load caption panel data if available
+    const captionData = localStorage.getItem('teleprompterCaption')
+    if (captionData) {
+      try {
+        setCaptionPanelData(JSON.parse(captionData))
+        setShowCaptionPanel(true)
+      } catch {}
     }
   }, [])
 
@@ -358,6 +367,81 @@ export default function TeleprompterPage() {
 
       // Regular word
       return <span key={index}>{word} </span>
+    })
+  }
+
+  // NOCHILL rehook phrase detection
+  const REHOOK_PHRASES = [
+    "that's when", "but here's the thing", "you understand?", "boom, sanamabish",
+    "but here's what", "and that's when", "that changed everything",
+    "here's what nobody", "this is the part nobody", "let me take you back",
+    "let me show you", "from [state] to", "that's why you're", "start with your",
+  ]
+
+  const isRehookLine = (line: string) => {
+    const lower = line.toLowerCase()
+    return REHOOK_PHRASES.some(phrase => lower.includes(phrase))
+  }
+
+  // Line-per-line renderer — hook first, then one sentence/line per block with spacing
+  const renderLinePerLine = (text: string) => {
+    // Split into paragraphs first (double newline or section headers)
+    const paragraphs = text.split(/\n{2,}|(?=ACT \d|HOOK:|LINE \d|Step \d)/i).filter(p => p.trim())
+
+    return paragraphs.map((para, pIdx) => {
+      // Split paragraph into individual lines/sentences
+      const lines = para
+        .split(/\n|(?<=\.)\s+(?=[A-Z])|(?<=\?)\s+(?=[A-Z])|(?<=!)\s+(?=[A-Z])/)
+        .map(l => l.trim())
+        .filter(l => l.length > 0)
+
+      const isHookPara = pIdx === 0 // First paragraph = hook — biggest treatment
+
+      return (
+        <div
+          key={pIdx}
+          style={{
+            marginBottom: `${fontSize * 1.5}px`,
+            paddingBottom: `${fontSize * 0.5}px`,
+            borderBottom: pIdx < paragraphs.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+          }}
+        >
+          {lines.map((line, lIdx) => {
+            const isHookLine = isHookPara && lIdx === 0
+            const isRehook = isRehookLine(line)
+
+            return (
+              <div
+                key={lIdx}
+                style={{
+                  marginBottom: `${fontSize * lineSpacing * 0.6}px`,
+                  padding: isRehook ? '6px 12px' : '0',
+                  borderLeft: isRehook ? `4px solid #C9A84C` : 'none',
+                  borderRadius: isRehook ? '4px' : '0',
+                  backgroundColor: isRehook ? 'rgba(201,168,76,0.1)' : 'transparent',
+                }}
+              >
+                {isRehook && (
+                  <div style={{ fontSize: `${Math.max(10, fontSize * 0.35)}px`, color: '#C9A84C', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>
+                    ↺ REHOOK
+                  </div>
+                )}
+                <div
+                  style={{
+                    fontSize: isHookLine ? `${fontSize * 1.2}px` : `${fontSize}px`,
+                    fontWeight: isHookLine ? 700 : 500,
+                    color: isHookLine ? '#fbbf24' : 'white',
+                    textShadow: isHookLine ? '0 0 15px rgba(251,191,36,0.4)' : '0 2px 4px rgba(0,0,0,0.5)',
+                    opacity: textOpacity / 100,
+                  }}
+                >
+                  {renderScriptWithModulation(processScriptWithMarkers(line))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )
     })
   }
 
@@ -681,6 +765,24 @@ export default function TeleprompterPage() {
                 <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
+                    id="line-per-line"
+                    checked={linePerLine}
+                    onChange={(e) => setLinePerLine(e.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="line-per-line" className="text-sm font-semibold text-amber-800">
+                    ↺ Line-per-Line + Rehook Mode
+                  </Label>
+                </div>
+                {linePerLine && (
+                  <p className="text-xs text-amber-700 bg-amber-50 p-2 rounded ml-6">
+                    Hook highlighted. Each sentence on its own line. NOCHILL transition phrases marked as REHOOK points.
+                  </p>
+                )}
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
                     id="breathing-markers"
                     checked={showBreathingMarkers}
                     onChange={(e) => setShowBreathingMarkers(e.target.checked)}
@@ -842,6 +944,15 @@ export default function TeleprompterPage() {
                 <Download className="mr-2 h-4 w-4" />
                 Export PDF
               </Button>
+              {captionPanelData && (
+                <Button
+                  onClick={() => setShowCaptionPanel(p => !p)}
+                  variant="outline"
+                  className={`w-full ${showCaptionPanel ? 'bg-amber-50 border-amber-400' : ''}`}
+                >
+                  # {showCaptionPanel ? 'Hide Caption Panel' : 'Show Caption + Hashtags'}
+                </Button>
+              )}
             </CardContent>
           </Card>
 
@@ -1002,16 +1113,43 @@ export default function TeleprompterPage() {
                         transform: isMirrored ? 'scaleX(-1)' : 'none',
                         fontFamily: 'Arial, sans-serif',
                         fontWeight: 500,
-                        whiteSpace: 'pre-wrap',
+                        whiteSpace: linePerLine ? 'normal' : 'pre-wrap',
                         lineHeight: lineSpacing.toString(),
                         color: 'white',
                         opacity: textOpacity / 100,
                         textShadow: '0 2px 4px rgba(0,0,0,0.5)',
                       }}
                     >
-                      {script ? renderScriptWithModulation(processScriptWithMarkers(script)) : 'No script loaded. Enter text or load from library.'}
+                      {script
+                        ? (linePerLine
+                            ? renderLinePerLine(script)
+                            : renderScriptWithModulation(processScriptWithMarkers(script)))
+                        : 'No script loaded. Enter text or load from library.'}
                     </div>
                   </div>
+
+                  {/* Caption + Hashtag Panel */}
+                  {showCaptionPanel && captionPanelData && (
+                    <div className="mt-3 p-4 bg-[#111111] border border-[#C9A84C]/40 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[#C9A84C] text-xs font-bold uppercase tracking-widest"># Caption + Hashtags</span>
+                        <button
+                          onClick={() => setShowCaptionPanel(false)}
+                          className="text-gray-500 hover:text-gray-300 text-xs"
+                        >
+                          hide
+                        </button>
+                      </div>
+                      <p className="text-gray-300 text-xs leading-relaxed mb-2 whitespace-pre-wrap">
+                        {captionPanelData.caption}
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {captionPanelData.hashtags?.slice(0, 15).map((tag: string, i: number) => (
+                          <span key={i} className="text-[#C9A84C] text-xs font-medium">#{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

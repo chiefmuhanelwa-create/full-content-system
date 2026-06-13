@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { idea, platform, duration, recentStories = [], salesMode = false, product, salesFormat, icp, shadowFear, villain, contentType, paidsStream } = body
+    const { idea, platform, duration, recentStories = [], salesMode = false, product, salesFormat, icp, shadowFear, villain, contentType, paidsStream, scriptTemplate } = body
 
     console.log('Request body:', { idea: idea?.substring(0, 50), platform, duration, salesMode })
 
@@ -420,6 +420,9 @@ ${shadowFear ? `SHADOW FEAR TO ACTIVATE: ${shadowFear} — activate this fear im
 ${villain ? `NAMED VILLAIN: "${villain}" — this is the system/situation to attack. Never attack a person.` : ''}
 ${contentType ? `4E TYPE: ${contentType}` : ''}
 ${paidsStream ? `PAIDS STREAM: ${paidsStream}` : ''}
+${scriptTemplate === 'never_ever' ? 'NOCHILL TEMPLATE: "NEVER EVER EVER" — Use the contrast-based authority template from the knowledge base. Destroy the wrong action, then install the correct system. Risk Reversal interest peak.' : ''}
+${scriptTemplate === 'important_vs' ? 'NOCHILL TEMPLATE: "IMPORTANT V/S NOT IMPORTANT" — Use the priority clarification template. Controversial interest peak. Compare what people obsess over vs what actually matters.' : ''}
+${scriptTemplate === 'dont_do_this' ? 'NOCHILL TEMPLATE: "DON\'T DO THIS" — Use the warning + rescue template. Start mid-consequence. Highest urgency. Negative Assumption interest peak.' : ''}
 
 ${isYouTubeLongForm ? `
 🎬 YOUTUBE LONG-FORM REQUIREMENTS:

@@ -765,12 +765,53 @@ Select the most appropriate template based on content topic and target ICP.
 
 **ATOMIC SHARABILITY:** One line in every output must be so tight the viewer can share it verbatim after one watch. Four words beats forty. Write the atomic line, then build around it.
 
+## VISUAL HOOK SCIENCE (MANDATORY — every verbal hook MUST have a visual hook pair)
+
+A hook is TWO signals firing simultaneously: what they HEAR (verbal hook) + what they SEE (visual hook). The first frame — before a single word is spoken — can stop or lose the viewer. Most creators nail the verbal hook and throw away the visual. NOCHILL never does.
+
+**Visual Hook = the opening frame concept: what appears on screen in the first 1–3 seconds.**
+
+### Visual Hook Categories
+1. **Text Overlay Hook** — Bold text on screen that contradicts, shocks, or completes the verbal hook. e.g. "YOU'RE DOING IT WRONG" appears while creator says "Listen..."
+2. **Object/Prop Hook** — Hold something visual that creates instant curiosity. e.g. hold up a phone showing R0 balance, a printed SARS letter, a screenshot of R23,000 notification
+3. **Action Hook** — Start mid-action. e.g. tearing up a receipt, writing on a whiteboard, pointing at something off-screen
+4. **Environment Hook** — The setting itself tells the story. e.g. recording in a car at 4am, standing in front of a blank wall with a single chair, outdoors in SA context
+5. **Contrast Hook** — Split frame or before/after visual. e.g. old screenshot vs new screenshot, cracked phone vs new phone
+6. **Caption Hook** — Closed-caption text on screen that contradicts the spoken audio (pattern interrupt). Different from what they hear.
+7. **Face/Reaction Hook** — Extreme expression before speaking: shock, grief, laughter, pointing. The face communicates before the voice does.
+
+### Visual Hook Rules
+- Must relate to the verbal hook — they work together, not independently
+- Must be achievable with a phone and natural environment (no studio required)
+- Must create an unanswered question in the first 1.5 seconds
+- SA context: load shedding candle light, township background, office lunch break — all valid
+- If visual hook can stand alone without audio, it's strong. If it needs the audio to make sense, iterate.
+
+## INTEREST PEAK TYPES — 7 Categories (apply ONE per hook set)
+
+Interest Peak = the emotional mechanism that makes the viewer feel they MUST keep watching. Every hook targets one. Name it in compliance output.
+
+1. **RISK REVERSAL** — "You have nothing to lose." Removes fear of action. e.g. "The only way this fails is if you do nothing"
+2. **AUTHORITY ENDORSEMENT** — Borrow external credibility. e.g. "This is what [Meta / Capitec / SARS] actually wants from creators"
+3. **CONTROVERSIAL** — Take a position that triggers an emotion. Disagree with accepted wisdom. e.g. "Consistency is overrated — here's what actually matters"
+4. **PERSONAL STORY** — Social proof from lived experience. Numbers anchor it. e.g. "I made R23,000 in one day with one link — here's exactly what I did"
+5. **NEGATIVE ASSUMPTION** — Pre-empt and shatter their excuse. e.g. "If you think you need a big following to make money, you're wrong"
+6. **HYPE UP** — Build maximum anticipation. Promise a peak experience. e.g. "This is the most important thing I will ever share about content monetisation"
+7. **CALL OUT** — Name exactly who they are and what they're doing. e.g. "This is for the creator who has been posting for 2 years and still hasn't made R1,000"
+
+### Matching Interest Peak to ICP
+- ICP 1 (Called Expert): Authority Endorsement, Personal Story, Negative Assumption (they think they need more credentials), Call Out ("For the professional who...")
+- ICP 2 (Content Creator): Risk Reversal, Controversial, Hype Up, Call Out ("For the creator posting every day but...")
+- Both ICPs respond to Personal Story and Negative Assumption equally
+
 ## SECTION 13 — COMPLIANCE OUTPUT (MANDATORY)
-Return a JSON object (NOT a plain array):
+Return a JSON object (NOT a plain array).
+Each hook is an object with "verbal" (what to say) and "visual" (opening frame concept — specific, achievable):
 {
-  "hooks": ["Hook 1", "Hook 2", "Hook 3", ...],
+  "hooks": [{"verbal": "Hook text", "visual": "Opening frame concept — specific and achievable"}, ...],
   "compliance": {
     "icp": "ICP 1 — The Called Expert | ICP 2 — The Content Creator Inspirer",
+    "interestPeak": "risk_reversal | authority | controversial | personal_story | negative_assumption | hype_up | call_out",
     "shadowFear": "Name + number e.g. Imposter Syndrome (#3)",
     "hookType": "information_gap | desired_result | undesired_result | a_to_b_transformation",
     "awarenessLevel": "symptom_aware | problem_aware | solution_aware | product_aware",
@@ -790,7 +831,7 @@ Return a JSON object (NOT a plain array):
       "audibleFlow": "✅ passes read-aloud test",
       "emotionalPeak": "✅ Shadow Fear activated implicitly",
       "atomicSharability": "✅ — [the atomic line]",
-      "visualDirection": "N/A — hooks only",
+      "visualDirection": "✅ — [each hook has a specific visual opening frame]",
       "ctaClarity": "N/A — hooks only",
       "retentionLoop": "N/A — hooks only",
       "businessOutcome": "✅ — [which outcome served]",
@@ -860,19 +901,45 @@ All 6 must be decided. Then write.
 
 **RETENTION LOOP (mandatory — every script must end with this):** Last 1-2 seconds: tease the NEXT piece of content. Example: "In the next video I'm showing you the exact system…" — drives follows and returns. This is non-negotiable.
 
-## DURATION-BASED TEMPLATES (Master Framework Section 12)
+## NOCHILL SIGNATURE SCRIPT TEMPLATES (apply when requested — these are proven structures)
 
-**15s (~40-50 words):**
-[HOOK 0-3s] Negative pattern interrupt → [TENSION 3-7s] Stakes/what's wrong → [PAYOFF 7-12s] One key insight → [CTA 12-15s] Single action
+### Template 1: "NEVER EVER EVER"
+Purpose: Contrast-based authority. Destroy the wrong thing, replace with the right thing. Triggers RISK REVERSAL interest peak.
+Structure:
+- HOOK: Start with the forbidden action. "Never [common mistake]. Ever."
+- TENSION: Give 2–3 reasons WHY it fails (specific, proof-backed)
+- PATTERN INTERRUPT: "But here's what they don't tell you..."
+- REPLACEMENT: Give the correct alternative (specific, named system)
+- PROOF: One proof story from S001–S020 with exact rand/date/result
+- CTA: Single action connected to the lesson
+Example opening: "Never post without a CTA. Ever. I'll show you exactly why — and what to do instead."
+Tone: Firm. Direct. Like someone who learned this the hard way.
 
-**30s (~80-100 words):**
-[HOOK 0-3s] → [PROBLEM 3-10s] → [REHOOK 10-12s: "But here's what nobody tells you…"] → [SOLUTION 12-25s] → [CTA 25-30s]
+### Template 2: "IMPORTANT V/S NOT IMPORTANT"
+Purpose: Priority clarification. Reframe what actually matters. Triggers CONTROVERSIAL interest peak.
+Structure:
+- HOOK: Name the thing most people obsess over. "Everyone's talking about [thing]."
+- PULL: Acknowledge it sounds important. "And honestly? I get it."
+- PATTERN INTERRUPT: "But it's not what you think it is."
+- CONTRAST TABLE: List 3–4 "Not Important" things vs 3–4 "Actually Important" things (specific, named)
+- PROOF: Real story showing the pivot from not-important to important
+- FRAMEWORK: Named system or principle that settles the hierarchy
+- CTA: Save this / DM a keyword
+Example opening: "Everyone's obsessing about their follower count. Let me show you why that's the least important metric in your business."
+Tone: Educational. Slightly provocative. Not arrogant — just clear.
 
-**60s (~160-200 words):**
-[HOOK 0-3s] → [VALUE PROMISE 3-8s] → [CONFLICT 8-15s Villain intro] → [REHOOK #1 15-18s] → [BUILD 18-35s Core content + proof] → [REHOOK #2 35-38s] → [EMOTIONAL PEAK 38-50s Story moment] → [CTA 50-57s Single action to owned channel] → [RETENTION LOOP 57-60s "Next video…"]
-
-**90s (~240-280 words):**
-[HOOK 0-3s] → [VALUE PROMISE 3-8s] → [CONFLICT 8-20s] → [REHOOK #1 20-23s] → [BUILD #1 23-40s] → [REHOOK #2 40-43s] → [BUILD #2 43-60s] → [REHOOK #3 60-63s] → [EMOTIONAL PEAK 63-78s] → [SUMMARY 78-85s Atomic shareable line] → [CTA 85-90s] → [RETENTION LOOP last 2s]
+### Template 3: "DON'T DO THIS"
+Purpose: Warning + rescue. Activates NEGATIVE ASSUMPTION interest peak. Highest urgency template.
+Structure:
+- HOOK: Start mid-consequence. "I watched someone lose [specific thing] because of this one mistake."
+- PAIN: Name the mistake clearly and specifically. No softening.
+- EXPANSION: Show how common it is. "Most of you are doing this right now."
+- CALL OUT: Name the ICP specifically. "If you're a [professional/creator] and you're doing [X]..."
+- RESCUE: The fix. Specific. Step-by-step if needed.
+- PROOF: How fixing it changed something (numbers, result, timeline)
+- CTA: Stop, comment your situation, or DM keyword
+Example opening: "Don't build your entire business on Instagram. I learned this the hard way at 780,000 followers."
+Tone: Urgent. Protective. Big brother who's already been through it.
 
 ## SECTION 13 COMPLIANCE OUTPUT (MANDATORY — Include in every script JSON)
 Every generated script must return a "compliance" block:

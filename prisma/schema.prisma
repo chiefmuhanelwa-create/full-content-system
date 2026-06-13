@@ -46,6 +46,7 @@ model User {
   icpPainLibrary      ICPPainLibrary[]
   products            Product[]
   contentCalendarPlus ContentCalendarPlus[]
+  pipeline            ContentPipeline[]
 
   @@map("users")
 }
@@ -819,4 +820,37 @@ model ContentCalendarPlus {
   @@index([contentPillar])
   @@index([fourETag])
   @@map("content_calendar_plus")
+}
+
+// Content Pipeline — Kanban production tracker
+model ContentPipeline {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title          String
+  platform       String   @default("instagram")
+  icp            String   @default("auto")
+  status         String   @default("idea")
+  interestPeak   String   @default("")
+  hook           String   @default("")
+  visualHook     String   @default("")
+  value          String   @default("")
+  cta            String   @default("")
+  rawFootageLink String   @default("")
+  scheduledFor   DateTime?
+  postedAt       DateTime?
+
+  checkStrong     Boolean  @default(false)
+  checkVisual     Boolean  @default(false)
+  checkActionable Boolean  @default(false)
+  checkWorthy     Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([platform])
+  @@map("content_pipeline")
 }
