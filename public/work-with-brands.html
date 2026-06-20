@@ -15,63 +15,100 @@
 </script>
 <!-- End MailerLite Universal -->
 <style>
+  :root {
+    --bg: #FAF7F0;        /* cream */
+    --card: #ffffff;
+    --ink: #1C1C1C;       /* near-black text */
+    --muted: #6b6b6b;
+    --soft: #8a8a8a;
+    --line: #e7e3d9;      /* light borders */
+    --gold: #C9A84C;      /* heritage gold */
+    --gold-dark: #b1923c;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background-color: #111111; font-family: Arial, sans-serif; color: #ffffff; -webkit-text-size-adjust: 100%; }
-  .page-wrapper { min-height: 100vh; background-color: #111111; display: flex; flex-direction: column; align-items: center; padding: 48px 24px 72px; }
-  .brand-bar { width: 100%; max-width: 1100px; text-align: center; margin-bottom: 40px; }
-  .brand-bar img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #F5C842; display: inline-block; }
-  .brand-bar p { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #888888; margin-top: 10px; }
-  .gold-badge { display: inline-block; background-color: #F5C842; color: #111111; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 8px 20px; border-radius: 4px; margin-bottom: 20px; align-self: center; }
-  .layout { width: 100%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; gap: 48px; }
-  .content-col { width: 100%; display: flex; flex-direction: column; align-items: center; }
-  .form-col { width: 100%; display: flex; flex-direction: column; align-items: center; }
-  .headline { font-size: 42px; font-weight: 900; color: #ffffff; line-height: 1.1; text-align: center; margin-bottom: 18px; }
-  .headline span { color: #F5C842; }
-  .subheadline { font-size: 17px; color: #aaaaaa; line-height: 1.75; text-align: center; max-width: 520px; margin-bottom: 36px; }
-  .what-you-get { width: 100%; max-width: 580px; margin-bottom: 36px; }
-  .what-you-get h3 { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #F5C842; font-weight: 700; margin-bottom: 18px; text-align: center; }
-  .get-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
-  .get-dot { width: 8px; height: 8px; min-width: 8px; background-color: #F5C842; border-radius: 50%; margin-top: 8px; }
-  .get-text { font-size: 15px; color: #cccccc; line-height: 1.65; }
-  .proof-bar { background-color: #1c1c1c; border-top: 2px solid #F5C842; border-bottom: 1px solid #333333; width: 100%; padding: 18px 24px; text-align: center; border-radius: 8px; }
-  .proof-bar p { font-size: 13px; color: #888888; line-height: 1.7; }
-  .proof-bar strong { color: #F5C842; }
-  .form-card { background-color: #ffffff; border-radius: 10px; padding: 40px 36px; width: 100%; max-width: 480px; }
-  .form-card h2 { font-size: 22px; font-weight: 700; color: #111111; margin-bottom: 8px; }
-  .form-card p.form-intro { font-size: 14px; color: #666666; margin-bottom: 24px; line-height: 1.6; }
-  .ml-embedded .ml-btn-primary { background-color: #F5C842 !important; color: #111111 !important; font-weight: 700 !important; }
-  .ml-embedded .ml-btn-primary:hover { background-color: #e6b83a !important; }
-  .form-disclaimer { font-size: 12px; color: #aaaaaa; text-align: center; margin-top: 16px; line-height: 1.6; }
-  .bottom-trust { width: 100%; max-width: 600px; text-align: center; margin-top: 48px; }
-  .bottom-trust p { font-size: 13px; color: #555555; line-height: 1.8; }
-  .page-footer { margin-top: 40px; text-align: center; }
-  .page-footer p { font-size: 11px; color: #444444; letter-spacing: 2px; text-transform: uppercase; }
+  body { background-color: var(--bg); font-family: Arial, Helvetica, sans-serif; color: var(--ink); -webkit-text-size-adjust: 100%; }
+
+  .page-wrapper { min-height: 100vh; background-color: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 32px 24px 64px; }
+
+  .brand-bar { width: 100%; max-width: 1100px; text-align: center; margin-bottom: 24px; }
+  .brand-bar img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); display: inline-block; }
+  .brand-bar p { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--soft); margin-top: 8px; }
+
+  .gold-badge { display: inline-block; background-color: var(--gold); color: #1C1C1C; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 8px 18px; border-radius: 4px; margin-bottom: 16px; }
+
+  /* mobile-first: hero → FORM → details */
+  .layout { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 32px; }
+  .hero { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .form-col { display: flex; flex-direction: column; align-items: center; }
+  .details { display: flex; flex-direction: column; align-items: center; }
+
+  .headline { font-size: 34px; font-weight: 900; color: var(--ink); line-height: 1.1; margin-bottom: 14px; }
+  .headline span { color: var(--gold-dark); }
+  .subheadline { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 540px; }
+
+  .form-card { background-color: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px 28px; width: 100%; max-width: 480px; box-shadow: 0 8px 28px rgba(28,28,28,0.08); }
+  .form-card h2 { font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
+  .form-card p.form-intro { font-size: 14px; color: var(--muted); margin-bottom: 22px; line-height: 1.6; }
+  .form-disclaimer { font-size: 12px; color: var(--soft); text-align: center; margin-top: 14px; line-height: 1.6; }
+  .ml-embedded .ml-btn-primary { background-color: var(--gold) !important; color: #1C1C1C !important; font-weight: 700 !important; }
+  .ml-embedded .ml-btn-primary:hover { background-color: var(--gold-dark) !important; }
+
+  .what-you-get { width: 100%; max-width: 580px; }
+  .what-you-get h3 { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-dark); font-weight: 700; margin-bottom: 16px; text-align: center; }
+  .get-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .get-dot { width: 8px; height: 8px; min-width: 8px; background-color: var(--gold); border-radius: 50%; margin-top: 7px; }
+  .get-text { font-size: 15px; color: #3f3f3f; line-height: 1.6; }
+
+  .proof-bar { background-color: var(--card); border: 1px solid var(--line); border-top: 2px solid var(--gold); width: 100%; padding: 18px 22px; text-align: center; border-radius: 10px; }
+  .proof-bar p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .proof-bar strong { color: var(--gold-dark); }
+
+  .bottom-trust { width: 100%; max-width: 600px; text-align: center; margin-top: 40px; }
+  .bottom-trust p { font-size: 13px; color: var(--soft); line-height: 1.8; }
+  .page-footer { margin-top: 32px; text-align: center; }
+  .page-footer p { font-size: 11px; color: #aaa395; letter-spacing: 2px; text-transform: uppercase; }
+
+  /* TABLET 768+ */
   @media (min-width: 768px) {
-    .page-wrapper { padding: 56px 40px 80px; }
-    .headline { font-size: 52px; }
+    .page-wrapper { padding: 48px 40px 72px; }
+    .headline { font-size: 44px; }
     .subheadline { font-size: 18px; max-width: 600px; }
     .what-you-get { max-width: 640px; }
     .get-text { font-size: 16px; }
-    .proof-bar p { font-size: 14px; }
   }
+
+  /* DESKTOP 1024+ — two columns, form sticky right */
   @media (min-width: 1024px) {
-    .page-wrapper { padding: 64px 48px 96px; }
-    .layout { flex-direction: row; align-items: flex-start; gap: 64px; }
-    .content-col { flex: 0 0 58%; align-items: flex-start; }
-    .form-col { flex: 1; align-items: stretch; position: sticky; top: 32px; }
-    .form-card { max-width: 100%; width: 100%; }
-    .headline { text-align: left; font-size: 56px; }
-    .subheadline { text-align: left; max-width: 100%; }
+    .page-wrapper { padding: 56px 48px 88px; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      grid-template-areas: "hero form" "details form";
+      column-gap: 56px;
+      row-gap: 40px;
+      align-items: start;
+    }
+    .hero { grid-area: hero; align-items: flex-start; text-align: left; }
+    .details { grid-area: details; align-items: flex-start; }
+    .form-col { grid-area: form; align-items: stretch; position: sticky; top: 32px; }
+    .form-card { max-width: 100%; }
+    .headline { font-size: 52px; }
+    .subheadline { max-width: 100%; }
     .what-you-get { max-width: 100%; }
     .what-you-get h3 { text-align: left; }
     .proof-bar p { text-align: left; }
-    .proof-bar { border-radius: 8px; }
   }
+
+  /* MOBILE under 600 — tighten so the form is above the fold */
   @media (max-width: 599px) {
-    .headline { font-size: 32px; }
-    .subheadline { font-size: 15px; }
-    .form-card { padding: 28px 20px; }
-    .layout { gap: 36px; }
+    .page-wrapper { padding: 22px 18px 56px; }
+    .brand-bar { margin-bottom: 16px; }
+    .brand-bar img { width: 56px; height: 56px; }
+    .headline { font-size: 27px; }
+    .subheadline { display: none; } /* removed on phone to lift the form up */
+    .gold-badge { margin-bottom: 12px; }
+    .layout { gap: 28px; }
+    .form-card { padding: 26px 20px; }
   }
 </style>
 </head>
@@ -85,17 +122,30 @@
     <p>NOCHILL PTY LTD &nbsp;·&nbsp; contentcreatorhub.online</p>
   </div>
 
-  <!-- TWO-COLUMN LAYOUT -->
   <div class="layout">
 
-    <!-- LEFT: CONTENT -->
-    <div class="content-col">
-
+    <!-- HERO (compact, always on top) -->
+    <div class="hero">
       <div class="gold-badge">Free · Get on brands' radar</div>
-
       <h1 class="headline">Get <span>paid by brands</span> — not just seen.</h1>
+      <p class="subheadline">Webfluential is the platform I use to get matched with paying campaigns. It's free to join — drop your email and I'll send you straight there, plus how to set your profile up so brands pick you.</p>
+    </div>
 
-      <p class="subheadline">Brands aren't going to find you by accident. Webfluential is the platform I use to get matched with paying campaigns — Capitec, Savanna, SA Tourism and more. It's free to join. Drop your email and I'll send you straight there, plus how to set your profile up so brands actually pick you.</p>
+    <!-- FORM (right under the hero on mobile = above the fold) -->
+    <div class="form-col">
+      <div class="form-card">
+        <h2>Where should I send the link?</h2>
+        <p class="form-intro">Enter your email — you'll go straight to the brand platform, and the setup cheat-sheet lands in your inbox.</p>
+
+        <!-- MailerLite Embedded Form — "Work With Brands" (redirects to Webfluential on signup) -->
+        <div class="ml-embedded" data-form="9CIUlG"></div>
+
+        <p class="form-disclaimer">No spam. Unsubscribe any time. Free to join — brands pay you, never the other way around.</p>
+      </div>
+    </div>
+
+    <!-- DETAILS (below the form) -->
+    <div class="details">
 
       <div class="what-you-get">
         <h3>What you'll get</h3>
@@ -118,23 +168,10 @@
       </div>
 
       <div class="proof-bar">
-        <p>From a R6,000 phone to <strong>50+ brand deals</strong> · <strong>R600,000 from Meta in 12 months</strong> · <strong>3M+ followers across platforms</strong> · still working a 9–5 at ATNS. If it worked for me, it works for you.</p>
+        <p>From a R6,000 phone to <strong>50+ brand deals</strong> · <strong>R600,000 from Meta in 12 months</strong> · <strong>3M+ followers</strong> · still working a 9–5 at ATNS. If it worked for me, it works for you.</p>
       </div>
 
-    </div><!-- end content-col -->
-
-    <!-- RIGHT: FORM -->
-    <div class="form-col">
-      <div class="form-card">
-        <h2>Where should I send the link?</h2>
-        <p class="form-intro">Enter your email — you'll go straight to the brand platform, and the setup cheat-sheet lands in your inbox.</p>
-
-        <!-- MailerLite Embedded Form — "Work With Brands" (redirects to Webfluential on signup) -->
-        <div class="ml-embedded" data-form="9CIUlG"></div>
-
-        <p class="form-disclaimer">No spam. Unsubscribe any time. Free to join — brands pay you, never the other way around.</p>
-      </div>
-    </div><!-- end form-col -->
+    </div><!-- end details -->
 
   </div><!-- end layout -->
 
