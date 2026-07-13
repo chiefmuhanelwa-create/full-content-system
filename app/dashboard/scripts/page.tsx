@@ -192,6 +192,8 @@ export default function ScriptWriterPage() {
   const [scriptTitle, setScriptTitle] = useState('')
   const [captionLoading, setCaptionLoading] = useState(false)
   const [repurposeLoading, setRepurposeLoading] = useState(false)
+  const [isEditingFullScript, setIsEditingFullScript] = useState(false)
+  const [editableFullScript, setEditableFullScript] = useState('')
 
   // Sales Script Mode
   const [scriptMode, setScriptMode] = useState<'content' | 'sales'>('content')
@@ -847,6 +849,92 @@ ${script.scripting_principles_check ? `
       .map(line => line.replace(/^\[YOU\]:\s*/i, '').replace(/^\[STEP (\d+):\s*([^\]]+)\]/i, 'STEP $1 — $2'))
       .join('\n')
 
+  const REHOOK_PHRASES = [
+    "that's when", "but here's the thing", "you understand?", "boom, sanamabish",
+    "but here's what", "and that's when", "that changed everything",
+    "here's what nobody", "this is the part nobody", "let me take you back",
+    "let me show you", "here's the thing",
+  ]
+
+  const renderFullScriptKallaway = (text: string) => {
+    if (!text) return null
+    const lines = text.split('\n')
+    return lines.map((line, i) => {
+      const trimmed = line.trim()
+      if (!trimmed) return <div key={i} style={{ height: 10 }} />
+
+      const stepMatch = trimmed.match(/^\[STEP (\d+):\s*(.+?)\]/) || trimmed.match(/^STEP (\d+)\s*[—-]\s*(.+)/)
+      if (stepMatch) {
+        const stepNum = stepMatch[1]
+        const stepName = stepMatch[2].trim()
+        const sectionColor: Record<string, string> = {
+          '1': '#3b82f6', '2': '#8b5cf6', '3': '#8b5cf6',
+          '4': '#C9A84C', '5': '#8b5cf6', '6': '#C9A84C',
+          '7': '#10b981', '8': '#ef4444', '9': '#f59e0b',
+        }
+        const color = sectionColor[stepNum] || '#6b7280'
+        return (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '20px 0 8px 0' }}>
+            <div style={{ width: 26, height: 26, borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: 'white', flexShrink: 0 }}>
+              {stepNum}
+            </div>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: '#6b7280', textTransform: 'uppercase' as const }}>
+              {stepName}
+            </span>
+            <div style={{ flex: 1, height: 1, background: '#e5e7eb' }} />
+          </div>
+        )
+      }
+
+      if (/^\[DIRECTION\]/i.test(trimmed)) {
+        const dir = trimmed.replace(/^\[DIRECTION\]\s*/i, '').trim()
+        return <div key={i} style={{ fontSize: 11, color: '#9ca3af', fontStyle: 'italic', marginBottom: 4, paddingLeft: 8 }}>{dir}</div>
+      }
+
+      const overlayMatch = trimmed.match(/^\[TEXT OVERLAY:\s*(.+?)\]/i)
+      if (overlayMatch) {
+        return (
+          <div key={i} style={{ display: 'inline-block', background: '#fef3c7', border: '1px solid #f59e0b', borderRadius: 4, padding: '2px 8px', fontSize: 11, color: '#92400e', marginBottom: 6 }}>
+            📱 {overlayMatch[1]}
+          </div>
+        )
+      }
+
+      if (/^\[PAUSE\]$/i.test(trimmed)) {
+        return <div key={i} style={{ fontSize: 10, color: '#d1d5db', textAlign: 'center' as const, margin: '4px 0', letterSpacing: '0.3em' }}>· · ·</div>
+      }
+
+      let spoken = trimmed
+        .replace(/^\[YOU\]:\s*/i, '')
+        .replace(/^\[SHORT\]\s*/i, '')
+        .replace(/^\[LONG\]\s*/i, '')
+        .replace(/\[SHORT\]/gi, '')
+        .replace(/\[LONG\]/gi, '')
+      if (!spoken) return null
+
+      const wordCount = spoken.trim().split(/\s+/).filter(Boolean).length
+      const isShortLine = /^\[SHORT\]/i.test(trimmed) || wordCount <= 6
+      const isLongLine = /^\[LONG\]/i.test(trimmed) || wordCount > 18
+      const isRehook = REHOOK_PHRASES.some(p => spoken.toLowerCase().includes(p))
+
+      return (
+        <div key={i} style={{
+          marginBottom: isShortLine ? 3 : isLongLine ? 10 : 6,
+          paddingLeft: isRehook ? 12 : 0,
+          borderLeft: isRehook ? '3px solid #C9A84C' : 'none',
+          fontSize: isLongLine ? 13 : 14,
+          fontWeight: isShortLine ? 700 : isLongLine ? 400 : 500,
+          color: isRehook ? '#92400e' : '#111111',
+          lineHeight: isLongLine ? 1.6 : 1.4,
+          fontFamily: "'Inter', system-ui, sans-serif",
+          letterSpacing: isShortLine ? '-0.01em' : 'normal',
+        }}>
+          {spoken}
+        </div>
+      )
+    })
+  }
+
   const loadToTeleprompter = () => {
     if (!script) return
 
@@ -924,6 +1012,21 @@ ${scriptToUse.fiveLine.community.script}`
   const cancelEdits = () => {
     setEditedScript(null)
     setIsEditing(false)
+  }
+
+  const startEditingFullScript = () => {
+    setEditableFullScript(script?.fullScript || '')
+    setIsEditingFullScript(true)
+  }
+
+  const applyFullScriptEdit = () => {
+    if (script) setScript({ ...script, fullScript: editableFullScript })
+    setIsEditingFullScript(false)
+  }
+
+  const cancelFullScriptEdit = () => {
+    setIsEditingFullScript(false)
+    setEditableFullScript('')
   }
 
   const updateHookText = (text: string) => {
@@ -1753,34 +1856,68 @@ ${scriptToUse.fiveLine.community.script}`
                   </div>
                 )}
 
-                {/* Full Script Display (7-Act Retention Formula or 10-Step Framework) */}
+                {/* Full Script Display — Kallaway Rhythm Renderer */}
                 {script.fullScript && (
-                  <div className="p-5 bg-green-50 border-2 border-green-400 rounded-lg">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-2xl">🎬</span>
-                      <h3 className="text-lg font-bold text-green-700">
-                        {script.fullScript?.includes('[STEP 1:') ? '9-STEP NOCHILL SIGNATURE FORMULA' : script.actStructure ? '7-ACT RETENTION FORMULA' : 'THE 10-STEP STORYTELLING FRAMEWORK'}
-                      </h3>
+                  <div className="border border-[#C9A84C]/30 rounded-lg overflow-hidden mt-4">
+                    {/* Header */}
+                    <div className="bg-[#111111] px-5 py-3 flex items-center justify-between flex-wrap gap-2">
+                      <span className="text-[#C9A84C] font-bold text-xs tracking-widest uppercase">
+                        {script.fullScript?.includes('[STEP 1:') ? 'NOCHILL Signature Script — 9-Step Kallaway Shell' : script.actStructure ? '7-Act Retention Formula' : '10-Step Storytelling Framework'}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        {!isEditingFullScript ? (
+                          <button
+                            onClick={startEditingFullScript}
+                            className="px-3 py-1 text-xs font-bold rounded border border-white/20 text-white/70 hover:text-white hover:border-white/50 transition-all"
+                          >
+                            Edit Script
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              onClick={applyFullScriptEdit}
+                              className="px-3 py-1 text-xs font-bold rounded bg-[#C9A84C] text-[#111] hover:bg-[#b8973d] transition-all"
+                            >
+                              Apply Changes
+                            </button>
+                            <button
+                              onClick={cancelFullScriptEdit}
+                              className="px-3 py-1 text-xs font-bold rounded border border-white/20 text-white/70 hover:text-white transition-all"
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Framework Overview Badge */}
-                    <div className="mb-4 p-3 bg-blue-100 border-l-4 border-blue-600 rounded text-xs">
-                      <p className="font-semibold text-blue-900 mb-2">Framework Structure:</p>
-                      {script.fullScript?.includes('[STEP 1:') ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-blue-800">
-                          <div>Step 1: Hook (R×A×C×U^B)</div>
-                          <div>Step 6: Rehook</div>
-                          <div>Step 2: Introduce Myself</div>
-                          <div>Step 7: Solution</div>
-                          <div>Step 3: Problem</div>
-                          <div>Step 8: Cost of Not Acting</div>
-                          <div>Step 4: Rehook</div>
-                          <div>Step 9: CTA</div>
-                          <div>Step 5: Personal Story</div>
-                          <div className="text-purple-600 font-semibold">Shadow Fear + Proof Story</div>
+                    {/* 9-step map (for new-style scripts) */}
+                    {script.fullScript?.includes('[STEP 1:') && (
+                      <div className="bg-[#1C1C1C] px-5 py-3">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1 text-xs">
+                          <div className="text-blue-400">1 · Hook (R×A×C×U^B)</div>
+                          <div className="text-purple-400">2 · Introduce Myself</div>
+                          <div className="text-purple-400">3 · Problem</div>
+                          <div className="text-[#C9A84C]">4 · Rehook</div>
+                          <div className="text-purple-400">5 · Personal Story</div>
+                          <div className="text-[#C9A84C]">6 · Rehook</div>
+                          <div className="text-emerald-400">7 · Education (WHAT+WHY)</div>
+                          <div className="text-red-400">8 · Cost of Not Acting</div>
+                          <div className="text-amber-400">9 · CTA (One Product)</div>
                         </div>
-                      ) : script.actStructure ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-blue-800">
+                        <div className="mt-2 flex flex-wrap gap-3 text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                          <span><span className="text-[#C9A84C]">●</span> Rehook = gold border</span>
+                          <span><span className="font-bold text-white/50">BOLD</span> = short punch (≤6 words)</span>
+                          <span><span className="text-white/30">thin</span> = long roll (&gt;18 words)</span>
+                          <span>Direction notes = grey italic</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 7-Act map (legacy) */}
+                    {script.actStructure && (
+                      <div className="bg-[#1C1C1C] px-5 py-3">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1 text-xs text-white/60">
                           <div>Act 1: Negative Hook</div>
                           <div>Act 5: Transformation</div>
                           <div>Act 2: Uncomfortable Truth</div>
@@ -1788,27 +1925,24 @@ ${scriptToUse.fiveLine.community.script}`
                           <div>Act 3: Origin Story</div>
                           <div>Act 7: Mission + CTA</div>
                           <div>Act 4: Breaking Point</div>
-                          <div className="text-purple-600 font-semibold">R×A×C×U^B Hook Science</div>
+                          <div className="text-purple-400">R×A×C×U^B Hook Science</div>
                         </div>
-                      ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-blue-800">
-                          <div>1. Call Out Audience</div>
-                          <div>6. Provide Solution</div>
-                          <div>2. Demand Attention</div>
-                          <div>7. Show Credentials</div>
-                          <div>3. Back Up Problem</div>
-                          <div>8. Detail Benefits</div>
-                          <div>4. Create Intrigue</div>
-                          <div>9. Social Proof</div>
-                          <div>5. Floodlight Problem</div>
-                          <div>10. Godfather Offer</div>
-                        </div>
-                      )}
-                    </div>
+                      </div>
+                    )}
 
-                    {/* Retention Devices Used (if available) */}
-                    {script.retentionDevicesUsed && (
-                      <div className="mb-4 p-3 bg-purple-100 border-l-4 border-purple-600 rounded text-xs">
+                    {/* Warnings */}
+                    {scriptWarnings.length > 0 && (
+                      <div className="mx-5 my-3 p-3 rounded border border-amber-300 bg-amber-50">
+                        <p className="text-xs font-bold text-amber-700 mb-1">⚠️ Formula check</p>
+                        {scriptWarnings.map((w, i) => (
+                          <p key={i} className="text-xs text-amber-700">• {w}</p>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Retention devices (7-act legacy) */}
+                    {script.retentionDevicesUsed && script.actStructure && (
+                      <div className="mx-5 my-3 p-3 bg-purple-50 border-l-4 border-purple-400 rounded text-xs">
                         <p className="font-semibold text-purple-900 mb-2">🎯 Retention Devices Deployed:</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-purple-800">
                           {script.retentionDevicesUsed.act1 && <div>Act 1: {script.retentionDevicesUsed.act1}</div>}
@@ -1822,42 +1956,31 @@ ${scriptToUse.fiveLine.community.script}`
                       </div>
                     )}
 
-                    {scriptWarnings.length > 0 && (
-                      <div className="mb-3 p-3 rounded-md border border-amber-300 bg-amber-50">
-                        <p className="text-xs font-bold text-amber-700 mb-1">⚠️ Formula check</p>
-                        {scriptWarnings.map((w, i) => (
-                          <p key={i} className="text-xs text-amber-700">• {w}</p>
-                        ))}
+                    {/* Script body */}
+                    {isEditingFullScript ? (
+                      <div className="p-4 bg-gray-50">
+                        <p className="text-xs text-gray-500 mb-2">Edit raw script — all markers visible ([STEP N: NAME], [SHORT], [LONG], [YOU]:, [DIRECTION], etc.)</p>
+                        <textarea
+                          value={editableFullScript}
+                          onChange={(e) => setEditableFullScript(e.target.value)}
+                          className="w-full h-[600px] font-mono text-xs leading-relaxed border border-gray-300 rounded p-3 resize-none focus:outline-none focus:border-[#C9A84C] bg-white text-gray-800"
+                          spellCheck={false}
+                        />
+                      </div>
+                    ) : (
+                      <div className="p-6 bg-white max-h-[640px] overflow-y-auto">
+                        {renderFullScriptKallaway(script.fullScript)}
                       </div>
                     )}
 
-                    <div className="flex items-center gap-2 mb-3">
-                      <button
-                        onClick={() => setScriptViewMode('words')}
-                        className={`px-3 py-1 text-xs font-bold rounded-full border transition-all ${scriptViewMode === 'words' ? 'bg-[#2563EB] border-[#2563EB] text-black' : 'bg-white border-gray-300 text-gray-600 hover:border-[#2563EB] hover:text-[#2563EB]'}`}
-                      >
-                        WORDS ONLY
-                      </button>
-                      <button
-                        onClick={() => setScriptViewMode('full')}
-                        className={`px-3 py-1 text-xs font-bold rounded-full border transition-all ${scriptViewMode === 'full' ? 'bg-gray-800 border-gray-800 text-white' : 'bg-white border-gray-300 text-gray-600 hover:border-gray-800 hover:text-gray-800'}`}
-                      >
-                        FULL SCRIPT
-                      </button>
-                      <span className="text-xs text-gray-400 ml-1">
-                        {scriptViewMode === 'words' ? 'Spoken words only — ready to record' : 'Director view with camera notes'}
+                    {/* Footer */}
+                    <div className="bg-gray-50 border-t border-gray-100 px-5 py-2">
+                      <span className="text-xs text-gray-400">
+                        {isEditingFullScript
+                          ? 'Apply changes then Save to Library — edits persist across logins.'
+                          : 'Click "Edit Script" to tweak before recording. Save to Library persists across logins.'}
                       </span>
                     </div>
-                    <div className="bg-white p-4 rounded-md border border-green-200 max-h-[600px] overflow-y-auto">
-                      <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-gray-800">
-                        {scriptViewMode === 'words'
-                          ? ((script as any).cleanScript || getCleanScript(script.fullScript || ''))
-                          : script.fullScript}
-                      </pre>
-                    </div>
-                    <p className="text-xs text-green-700 mt-3">
-                      ✅ This script follows the 9-Step NOCHILL Signature Shell. Click "Teleprompter" above to load the clean version for recording.
-                    </p>
                   </div>
                 )}
 
