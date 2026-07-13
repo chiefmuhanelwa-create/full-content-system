@@ -42,8 +42,8 @@ export default function TeleprompterPage() {
   const [showTimer, setShowTimer] = useState(false)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [isPreparing, setIsPreparing] = useState(false)
-  const [countdown, setCountdown] = useState(15)
-  const [countdownDuration, setCountdownDuration] = useState(15)
+  const [countdown, setCountdown] = useState(5)
+  const [countdownDuration, setCountdownDuration] = useState(5)
 
   // New rhythm and flow features
   const [showFocusLine, setShowFocusLine] = useState(true)
@@ -56,7 +56,9 @@ export default function TeleprompterPage() {
   const [currentSpeed, setCurrentSpeed] = useState(2)
   const [targetSpeed, setTargetSpeed] = useState(2)
   const [speedPreset, setSpeedPreset] = useState<'slow' | 'normal' | 'fast' | 'custom'>('normal')
-  const [wordsPerMinute, setWordsPerMinute] = useState(150)
+  const [wordsPerMinute, setWordsPerMinute] = useState(130)
+  const [showFloatingControls, setShowFloatingControls] = useState(true)
+  const [showTapHint, setShowTapHint] = useState(false)
   const [highlightColor, setHighlightColor] = useState('#3b82f6') // Blue
   const [backgroundColor, setBackgroundColor] = useState('#000000') // Black
   const [linePerLine, setLinePerLine] = useState(true) // Kallaway rhythm mode — default on
@@ -67,9 +69,12 @@ export default function TeleprompterPage() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const floatingTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   // Load script from localStorage if coming from library or script generator
   useEffect(() => {
+    let autoLaunchTimer: NodeJS.Timeout | null = null
+
     const teleprompterData = localStorage.getItem('teleprompterScript')
     if (teleprompterData) {
       try {
@@ -81,6 +86,8 @@ export default function TeleprompterPage() {
         setScriptTitle('Imported Script')
       }
       localStorage.removeItem('teleprompterScript')
+      // Auto-enter recording mode after 1.5s — script came from generator, skip setup friction
+      autoLaunchTimer = setTimeout(() => setShowControls(false), 1500)
     }
 
     // Load caption panel data if available
@@ -90,6 +97,10 @@ export default function TeleprompterPage() {
         setCaptionPanelData(JSON.parse(captionData))
         setShowCaptionPanel(true)
       } catch {}
+    }
+
+    return () => {
+      if (autoLaunchTimer) clearTimeout(autoLaunchTimer)
     }
   }, [])
 
@@ -149,6 +160,21 @@ export default function TeleprompterPage() {
       // ESC = show controls
       if (e.code === 'Escape' && !showControls) {
         setShowControls(true)
+      }
+      // + / = = speed up 0.5
+      if ((e.code === 'Equal' || e.code === 'NumpadAdd') && !showControls) {
+        e.preventDefault()
+        setSpeed(p => { const n = Math.min(10, p + 0.5); setTargetSpeed(n); setSpeedPreset('custom'); return n })
+      }
+      // - = slow down 0.5
+      if (e.code === 'Minus' && !showControls) {
+        e.preventDefault()
+        setSpeed(p => { const n = Math.max(0.1, p - 0.5); setTargetSpeed(n); setSpeedPreset('custom'); return n })
+      }
+      // F = fullscreen toggle
+      if (e.code === 'KeyF' && !showControls) {
+        e.preventDefault()
+        toggleFullscreen()
       }
     }
 
@@ -282,9 +308,13 @@ export default function TeleprompterPage() {
 
   // Calculate stats
   const wordCount = script.trim().split(/\s+/).filter(word => word.length > 0).length
-  const estimatedMinutes = Math.ceil(wordCount / 150) // Average speaking pace: 150 words/minute
+  const estimatedMinutes = Math.ceil(wordCount / 130)
   const progress = scrollRef.current
     ? (scrollPosition / (scrollRef.current.scrollHeight - scrollRef.current.clientHeight)) * 100
+    : 0
+  const scriptStepCount = (script.match(/\[STEP \d+:|STEP \d+ —/gi) || []).length || 0
+  const currentStep = scriptStepCount > 0
+    ? Math.min(scriptStepCount, Math.ceil((progress / 100) * scriptStepCount + 0.5))
     : 0
 
   const formatTime = (seconds: number) => {
@@ -493,6 +523,73 @@ export default function TeleprompterPage() {
     setSpeedPreset('custom')
   }
 
+  // Auto-hide floating controls: reset the 3s timer on any activity
+  const resetAutoHideTimer = () => {
+    setShowFloatingControls(true)
+    if (floatingTimerRef.current) clearTimeout(floatingTimerRef.current)
+    floatingTimerRef.current = setTimeout(() => setShowFloatingControls(false), 3000)
+  }
+
+  // Start the auto-hide timer when entering/leaving recording mode
+  useEffect(() => {
+    if (!showControls) {
+      resetAutoHideTimer()
+      setShowTapHint(true)
+      const hintTimer = setTimeout(() => setShowTapHint(false), 2500)
+      return () => {
+        clearTimeout(hintTimer)
+        if (floatingTimerRef.current) clearTimeout(floatingTimerRef.current)
+      }
+    } else {
+      if (floatingTimerRef.current) clearTimeout(floatingTimerRef.current)
+      setShowFloatingControls(true)
+    }
+  }, [showControls])
+
+  // Touch/click gesture handler on the recording display
+  const handleDisplayTap = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isPreparing) return
+    resetAutoHideTimer()
+    const rect = e.currentTarget.getBoundingClientRect()
+    const relY = (e.clientY - rect.top) / rect.height
+    if (relY < 0.33) {
+      setSpeed(p => { const n = Math.min(10, p + 0.5); setTargetSpeed(n); setSpeedPreset('custom'); return n })
+    } else if (relY > 0.67) {
+      setSpeed(p => { const n = Math.max(0.1, p - 0.5); setTargetSpeed(n); setSpeedPreset('custom'); return n })
+    } else {
+      setIsPlaying(p => !p)
+    }
+  }
+
+  // WPM-based speed calibration
+  const calibrateSpeed = () => {
+    if (!scrollRef.current || wordCount === 0) return
+    const totalScrollPx = scrollRef.current.scrollHeight - scrollRef.current.clientHeight
+    if (totalScrollPx <= 0) return
+    const durationSeconds = (wordCount / wordsPerMinute) * 60
+    const pxPerTick = totalScrollPx / durationSeconds / 20
+    handleSpeedChange(Math.max(0.1, Math.round(pxPerTick * 10) / 10))
+  }
+
+  // Single-button recording launch (hides controls + starts countdown immediately)
+  const startRecording = () => {
+    if (!script.trim()) return
+    setShowControls(false)
+    setIsPreparing(true)
+    setCountdown(countdownDuration)
+    const iv = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(iv)
+          setIsPreparing(false)
+          setIsPlaying(true)
+          return countdownDuration
+        }
+        return prev - 1
+      })
+    }, 1000)
+  }
+
   const toggleFullscreen = () => {
     if (!isFullscreen) {
       if (containerRef.current?.requestFullscreen) {
@@ -601,6 +698,169 @@ export default function TeleprompterPage() {
     }
   }
 
+  // ── RECORDING MODE — full-viewport takeover ──────────────────────────────
+  if (!showControls) {
+    return (
+      <div
+        ref={containerRef}
+        style={{ position: 'fixed', inset: 0, zIndex: 50, background: backgroundColor }}
+        onMouseMove={resetAutoHideTimer}
+        onTouchStart={resetAutoHideTimer}
+      >
+        {/* Countdown overlay */}
+        {isPreparing && (
+          <div style={{
+            position: 'absolute', inset: 0, zIndex: 20,
+            background: 'rgba(0,0,0,0.95)', display: 'flex',
+            alignItems: 'center', justifyContent: 'center',
+          }}>
+            <div style={{
+              fontSize: '9rem', fontWeight: 700, color: '#C9A84C',
+              animation: 'pulse 1s ease-in-out infinite',
+            }}>
+              {countdown}
+            </div>
+          </div>
+        )}
+
+        {/* Tap zone hint — fades after 2.5s */}
+        {showTapHint && (
+          <div style={{
+            position: 'absolute', inset: 0, zIndex: 15, pointerEvents: 'none',
+            display: 'flex', flexDirection: 'column',
+            animation: 'fadeOut 0.6s ease 1.9s forwards',
+          }}>
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px dashed rgba(255,255,255,0.1)' }}>
+              <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, fontFamily: "'Inter', system-ui, sans-serif" }}>↑ Tap to speed up</span>
+            </div>
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px dashed rgba(255,255,255,0.1)' }}>
+              <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, fontFamily: "'Inter', system-ui, sans-serif" }}>Tap to pause / play</span>
+            </div>
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, fontFamily: "'Inter', system-ui, sans-serif" }}>↓ Tap to slow down</span>
+            </div>
+          </div>
+        )}
+
+        {/* Timer display */}
+        {showTimer && elapsedTime > 0 && (
+          <div style={{
+            position: 'absolute', top: 20, right: 20, zIndex: 10,
+            background: 'rgba(0,0,0,0.7)', color: 'white',
+            padding: '6px 14px', borderRadius: 8, fontSize: 20, fontFamily: 'monospace',
+          }}>
+            {formatTime(elapsedTime)}
+          </div>
+        )}
+
+        {/* Script scroll area */}
+        <div
+          ref={scrollRef}
+          style={{ height: '100vh', overflow: 'hidden', position: 'relative' }}
+          onClick={handleDisplayTap}
+        >
+          {/* Focus/Reading Guide Line */}
+          {showFocusLine && (
+            <div
+              style={{ position: 'absolute', left: 0, right: 0, zIndex: 10, pointerEvents: 'none', top: `${focusLinePosition}%` }}
+            >
+              <div style={{
+                width: '100%', height: 3,
+                background: `linear-gradient(90deg, transparent 0%, ${highlightColor} 50%, transparent 100%)`,
+                boxShadow: `0 0 10px ${highlightColor}`,
+              }} />
+            </div>
+          )}
+
+          {/* Script text */}
+          <div
+            style={{
+              padding: '8vh 10vw',
+              fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+              fontSize: fontSize + 'px',
+              transform: isMirrored ? 'scaleX(-1)' : 'none',
+              fontWeight: 500,
+              whiteSpace: linePerLine ? 'normal' : 'pre-wrap',
+              lineHeight: lineSpacing.toString(),
+              color: 'white',
+              opacity: textOpacity / 100,
+              textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+            }}
+          >
+            {script
+              ? (linePerLine
+                  ? renderLinePerLine(script)
+                  : renderScriptWithModulation(processScriptWithMarkers(script)))
+              : 'No script loaded. Tap ESC to return to settings.'}
+          </div>
+        </div>
+
+        {/* Section progress dots — right rail */}
+        {scriptStepCount > 0 && (
+          <div style={{
+            position: 'fixed', right: 16, top: '50%', transform: 'translateY(-50%)',
+            display: 'flex', flexDirection: 'column', gap: 8, zIndex: 10,
+          }}>
+            {Array.from({ length: scriptStepCount }).map((_, i) => (
+              <div key={i} style={{
+                width: 6, height: 6, borderRadius: '50%',
+                background: i < currentStep ? '#C9A84C' : 'rgba(255,255,255,0.25)',
+                transition: 'background 0.3s',
+              }} />
+            ))}
+          </div>
+        )}
+
+        {/* Floating controls pill — auto-hides after 3s */}
+        <div style={{
+          position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)',
+          background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255,255,255,0.15)', borderRadius: 50,
+          padding: '10px 20px', display: 'flex', gap: 16, alignItems: 'center',
+          zIndex: 30,
+          opacity: showFloatingControls ? 1 : 0, transition: 'opacity 0.4s ease',
+          pointerEvents: showFloatingControls ? 'auto' : 'none',
+        }}>
+          <span style={{ color: '#9ca3af', fontSize: 13, minWidth: 34, textAlign: 'center' }}>
+            {Math.round(Math.min(100, Math.max(0, progress)))}%
+          </span>
+          <button
+            onClick={(e) => { e.stopPropagation(); setIsPlaying(p => !p) }}
+            style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+          >
+            {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); resetScroll() }}
+            style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+          >
+            <RotateCcw size={18} />
+          </button>
+          <span style={{ color: '#9ca3af', fontSize: 13 }}>{speed.toFixed(1)}x</span>
+          <button
+            onClick={(e) => { e.stopPropagation(); handleSpeedChange(Math.max(0.1, speed - 0.5)) }}
+            style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}
+          >−</button>
+          <button
+            onClick={(e) => { e.stopPropagation(); handleSpeedChange(Math.min(10, speed + 0.5)) }}
+            style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}
+          >+</button>
+          <button
+            onClick={(e) => { e.stopPropagation(); setShowControls(true) }}
+            style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+          >
+            <Settings size={18} />
+          </button>
+        </div>
+
+        {/* CSS keyframes for tap hint fade-out */}
+        <style>{`
+          @keyframes fadeOut { from { opacity: 1 } to { opacity: 0 } }
+        `}</style>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
       <div className="px-6 pt-4"><BackButton /></div>
@@ -622,6 +882,18 @@ export default function TeleprompterPage() {
               <CardDescription>Configure your teleprompter</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Start Recording — primary action, one tap to go */}
+              <Button
+                onClick={startRecording}
+                disabled={!script.trim()}
+                className="w-full"
+                size="lg"
+                style={{ background: script.trim() ? '#16a34a' : undefined, color: script.trim() ? 'white' : undefined, fontWeight: 700 }}
+              >
+                <Play className="mr-2 h-5 w-5" />
+                Start Recording
+              </Button>
+
               <div className="space-y-2">
                 <Label htmlFor="title">Script Title</Label>
                 <Input
@@ -688,6 +960,33 @@ export default function TeleprompterPage() {
                   <span>0.1x (Very Slow)</span>
                   <span>10x (Very Fast)</span>
                 </div>
+              </div>
+
+              {/* WPM calibration */}
+              <div className="space-y-2">
+                <Label>Speaking Pace: {wordsPerMinute} WPM</Label>
+                <input
+                  type="range"
+                  value={wordsPerMinute}
+                  onChange={(e) => setWordsPerMinute(Number(e.target.value))}
+                  min={80}
+                  max={220}
+                  step={5}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                />
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span>80 (slow)</span>
+                  <span>220 (fast)</span>
+                </div>
+                <Button
+                  onClick={calibrateSpeed}
+                  size="sm"
+                  variant="outline"
+                  className="w-full text-xs"
+                  disabled={!script.trim()}
+                >
+                  Set Speed to {wordsPerMinute} WPM
+                </Button>
               </div>
 
               <div className="flex items-center gap-2">
@@ -1046,6 +1345,14 @@ export default function TeleprompterPage() {
               <div className="flex justify-between">
                 <span className="text-gray-600">Fast Speed ±0.5</span>
                 <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">Shift+↑/↓</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Speed ±0.5</span>
+                <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">+ / −</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Fullscreen</span>
+                <kbd className="px-2 py-1 bg-white rounded border text-gray-900 font-mono">F</kbd>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Show Controls</span>
