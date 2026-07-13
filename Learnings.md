@@ -344,3 +344,72 @@ This is a permanent strategic decision — not a campaign decision, not a quarte
 - `lib/knowledge/creator-dna.json`: `strategic_priority` block added at top level, `called_expert.sub_segments` (6 types), `buying_trigger`, `monopoly_position`, `primary_proof_hook` added to called_expert, `three_feeler_triggers` restructured with ICP 1 triggers first, `creator.positioning` updated to lead with Called Expert
 - `Learnings.md`: this entry
 - `CLAUDE.md` (project): ICP section updated to reflect ICP 1 = Revenue Engine, ICP 2 = Traffic Engine
+
+---
+
+## Teleprompter 100x: Recording-Mode Architecture (2026-07-14)
+
+### What broke / what was wrong
+- Recording mode was a `70vh` Card inside a 3-column grid — NOT full-screen. Phone recording was clipped/boxed.
+- Two steps to start: "Hide Controls" → "Play" → then wait for countdown. Too slow.
+- `wordsPerMinute` state existed at line 59 but was **never wired to anything** — scroll speed was in arbitrary px-per-50ms units with no relationship to how fast you actually speak.
+- Countdown default was 15s — way too long.
+- No touch gestures — essential for phone recording.
+- No floating controls during recording — the button row below the display was distracting during filming.
+
+### What was built
+**Full-viewport recording mode** — when `!showControls`, the component returns EARLY with a completely separate JSX tree: `position: fixed; inset: 0; z-index: 50`. NOT a modified grid layout — a full replacement. The grid layout (settings view) is now only rendered when `showControls = true`. Pattern: conditional early return before the main `return (`.
+
+**Touch/click tap zones on the display** (`handleDisplayTap`):
+- Top 33% of display → speed +0.5
+- Middle 33% → pause/play toggle
+- Bottom 33% → speed -0.5
+- Click events bubble up from the scroll container; `e.stopPropagation()` on floating pill buttons prevents them from triggering the tap handler.
+
+**WPM speed calibration** (`calibrateSpeed`):
+```
+pxPerTick = (scrollRef.scrollHeight - scrollRef.clientHeight) / (wordCount / wpm * 60) / 20
+```
+20 ticks/sec because the scroll interval fires every 50ms. This converts a reading pace (words/min) into the exact px-per-tick that will complete the full script in that time at that pace.
+
+**Auto-hide floating pill**: `floatingTimerRef` timeout resets on any `mousemove` or `touchstart` on the recording overlay. Pill uses `opacity: 0; pointerEvents: none` rather than `display: none` so the transition is smooth.
+
+**Auto-launch from generator**: localStorage useEffect now sets a `setTimeout(() => setShowControls(false), 1500)` when a script is loaded — stored in a local variable and cleaned up in the effect's return. Pattern: cleanup function at the end of the effect, not in the `if` block.
+
+**"Start Recording" button** — directly calls countdown + `setShowControls(false)` inline (avoids depending on `togglePlay` which checks `!isPlaying && !showControls` with stale closures).
+
+### Defaults changed
+- `countdown` / `countdownDuration`: 15 → 5
+- `wordsPerMinute`: 150 → 130 (deliberate SA paced delivery)
+- Font: `Arial` → `'Inter', system-ui, -apple-system, sans-serif`
+- `estimatedMinutes`: divided by 150 → 130 to match WPM default
+
+### TypeScript: zero errors (confirmed with `npx tsc --noEmit` after all changes)
+
+---
+
+## Scripts Page: Kallaway Display + Inline Edit (2026-07-14)
+
+### What changed
+
+Replaced the raw `<pre>` green card (lines 1756–1862) with a Kallaway rhythm renderer and inline edit mode. Zero logic changes to generation, save, or teleprompter bridge.
+
+**`renderFullScriptKallaway(text)`** — renders `fullScript` line by line:
+- `[STEP N: NAME]` → coloured numbered circle + horizontal divider rule. Colours: step 1=blue, 2-3=purple, 4=gold, 5=purple, 6=gold, 7=green, 8=red, 9=amber.
+- `[DIRECTION]` → grey italic note (not spoken aloud).
+- `[TEXT OVERLAY: ...]` → amber badge with 📱.
+- `[PAUSE]` → centre-aligned `· · ·` breath indicator.
+- Spoken lines: strip `[YOU]:`, `[SHORT]`, `[LONG]` prefixes. Word count proxy: ≤6 words = bold/tight (isShortLine), >18 words = light/spaced (isLongLine). Rehook phrases (REHOOK_PHRASES array) get Heritage Gold `#C9A84C` left border + warm brown text.
+- 7-Act legacy scripts (`script.actStructure` but no `[STEP 1:`) still get their act map and retention devices panel, not the 9-step map.
+
+**Inline fullScript edit** — three new state vars (`isEditingFullScript`, `editableFullScript`) and three functions (`startEditingFullScript`, `applyFullScriptEdit`, `cancelFullScriptEdit`). "Apply Changes" updates `script.fullScript` in state. The existing `saveScriptToLibrary` then correctly persists the edited `fullScript` in the JSON blob to Prisma DB — no route changes needed.
+
+**Step 7 label** corrected from "Solution" to "Education (WHAT+WHY)" in the 9-step map.
+
+### Patterns to reuse
+- **TypeScript gotcha in JSX style objects**: `textTransform: 'uppercase' as const` — TypeScript needs the `as const` cast when setting CSS string union properties inside inline style objects or it flags a type error.
+- **Conditional renderer pattern**: do the early-return parsing FIRST (stepMatch, DIRECTION, TEXT OVERLAY, PAUSE), THEN fall through to the spoken-line rendering. Order matters — a line can match multiple patterns.
+- **`renderFullScriptKallaway` defined as a `const` inside the component** — this means it's a fresh function on every render. Fine for a display function; if perf becomes a concern, wrap in `useCallback`.
+- **Edit-then-save flow for AI output**: state = `script`, edit = `editableFullScript` → `applyFullScriptEdit` updates `script.fullScript` in place → existing save route picks it up with no changes. No need for a separate "edited" state or a separate save API.
+
+### TypeScript: zero errors confirmed
