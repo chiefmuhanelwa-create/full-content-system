@@ -357,12 +357,34 @@ Apply the UNIVERSAL 9-STEP NOCHILL SIGNATURE SHELL (full spec in system prompt) 
 1. **WE Over I**: Collective experience first, personal proof later
 2. **System Villains**: Blame systems/structures, not people
 3. **Collective Results**: Frame success as community win
-4. **But/Therefore Dance**: see THE DANCE — BEAT CONNECTION LAW in system prompt. Never "and then."
+4. **But/Therefore Dance**: every beat-to-beat transition is BUT (reversal) or THEREFORE (consequence). Never "and then." See THE DANCE in system prompt.
+
+### KALLAWAY LAYER — Apply per step before writing any line:
+
+**Step 1 (Hook):** Run R×A×C×U^B + 3-part alignment (verbal/visual/onScreenText all say the same thing in second 0–2). The hook IS the opening line — zero preamble.
+
+**Step 2 (Introduce):** Use Bullseye Proof — escalate specificity as high as the story bank supports: amount → amount+date → amount+date+ref# → amount+date+ref#+name. Tag the level in the 'bullseyeProofLevel' field.
+
+**Step 3→4 transition (The Dance):** Step 3 ends on pain. Step 4 opens with BUT or THEREFORE — the reversal that deepens the problem or introduces the consequence. Never "and then I realised..."
+
+**Step 4 (Rehook):** Opens a NEW loop. Does NOT close the current one. ICP 1 rule: promise a credibility/compliance reveal — "what SARS actually said," "here's what the contract required" — not manufactured drama. ICP 2: emotional tension allowed if the reveal justifies it. Tag the 'rehookType' field.
+
+**Step 5 (Story):** This is the emotional peak. Apply SHORT/LONG rhythm: one sentence per line. ONE [LONG] sentence (20+ words) at the moment of maximum vulnerability. If the topic is "boring expertise" (tax, compliance, governance, finance): apply Illusion of Novelty — open with the outcome reveal, not the topic; deliver with calm, lowered-register specificity (gossip-whisperer). Tag 'rhythmPeak' and 'illusionOfNoveltyApplied'.
+
+**Step 5→6 transition (The Dance):** Step 5 story ends at the turning point. Step 6 opens with THEREFORE — the consequence that demands the solution.
+
+**Step 6 (Rehook):** Teases the framework/solution without delivering it. Specific promise, not vague tension. "Here's exactly how I built the system that survived it" — not "it gets better."
+
+**Step 7 (Solution):** If Illusion of Novelty was applied in Step 5, continue the calm specificity here — named system, real reference points, Bullseye Proof at the framework level.
+
+**Step 9 (CTA):** Closing line/image must bookend Step 1. Use a verified pair: rented→owned (780K suspended → CHKPLT/email list) | R200→R18K (offer content only) | bathroom floor→built house. Tag the 'loopCloseBookend' field.
+
+**fullScript formatting rule:** one sentence per line throughout. At least one [LONG] sentence at Step 5. Every line tagged [SHORT] or [LONG].
 
 ### RETENTION & RHYTHM (mandatory):
 - Rehooking cadence: apply the system-prompt cadence table (15s/30s/60s/90s) at Steps 4 and 6.
-- [SHORT]/[LONG] tags: tag every fullScript line per Pattern 10 (Sentence Architecture in system prompt).
-- Dance check: every beat transition uses BUT/THEREFORE (or a valid equivalent), never "and then."
+- [SHORT]/[LONG] tags: tag every fullScript line — [SHORT] for punchy lines, [LONG] for the emotional peak at Step 5.
+- Dance check: every step transition uses BUT/THEREFORE. Zero "and then" connectors anywhere in the script.
 
 ### OUTPUT FORMAT:
 
@@ -383,9 +405,10 @@ Return ONLY a JSON object (no markdown, no extra text):
       "racubScore": "R✅ A✅ C✅ U✅ B✅"
     },
     "step2_introduce": {
-      "script": "[DIRECTION] Slight pull back. [YOU]: One credibility sentence + one proof number.",
+      "script": "[DIRECTION] Slight pull back. [YOU]: One credibility sentence + Bullseye Proof — escalate specificity as high as the story bank supports.",
       "visual": "What viewer sees",
-      "proofNumber": "The exact verified number used (from S001–S020)"
+      "proofNumber": "The exact verified number used (from S001–S020)",
+      "bullseyeProofLevel": "amount | amount+date | amount+date+ref | amount+date+ref+name — [the exact proof string, e.g. R45,705 (SARS ref 2990409167), practitioner Thome-Lee Wright, 2025]"
     },
     "step3_problem": {
       "script": "[DIRECTION] Direct to camera. [YOU]: Pain named in YOU format. Style approach active here.",
@@ -394,20 +417,24 @@ Return ONLY a JSON object (no markdown, no extra text):
       "shadowFearActivated": "SF number and name"
     },
     "step4_rehook": {
-      "script": "[DIRECTION] Slight lean. [YOU]: Specific tension sentence — NEVER 'stay with me'.",
+      "script": "[DIRECTION] Slight lean. [YOU]: Opens a NEW loop — names what's coming without giving it. NEVER 'stay with me' / 'keep watching' / 'it gets better'.",
       "visual": "What viewer sees",
-      "retentionDevice": "SUB-HOOK — the specific tease"
+      "retentionDevice": "SUB-HOOK — the specific new loop opened",
+      "rehookType": "ICP1: credibility/compliance reveal tease ('here's what SARS actually said') | ICP2: emotional tension tease ('and it got so much worse') — state which and why"
     },
     "step5_story": {
-      "script": "[DIRECTION] Vulnerable energy. [YOU]: Before → After → Number. Must mirror Step 3 pain.",
+      "script": "[DIRECTION] Vulnerable energy, slower pace. [YOU]: Before → After → Number. Mirrors Step 3 pain. SHORT/LONG rhythm: one sentence per line, include ONE [LONG] sentence (20+ words) at the emotional peak of this step.",
       "visual": "What viewer sees",
       "storyCode": "S0XX",
-      "numbers": "Exact verified Before → After numbers"
+      "numbers": "Exact verified Before → After numbers (from S001–S020 only)",
+      "rhythmPeak": "The exact [LONG] sentence used at the emotional peak of Step 5",
+      "illusionOfNoveltyApplied": "yes — [which of the 5 IoN steps applied: Outcome Reveal / Contrast / Bullseye Proof / Gossip-whisperer delivery] | no — topic already dramatic, IoN not needed"
     },
     "step6_rehook": {
-      "script": "[DIRECTION] Energy builds. [YOU]: Teases the solution. Builds anticipation.",
+      "script": "[DIRECTION] Energy builds. [YOU]: Opens a NEW loop pointing at the solution/framework — names what's coming, does not deliver it yet. NEVER 'stay with me'.",
       "visual": "What viewer sees",
-      "retentionDevice": "PROOF POINT or EDUCATIONAL VALUE tease"
+      "retentionDevice": "PROOF POINT or EDUCATIONAL VALUE tease — the specific promise",
+      "rehookType": "ICP1: credibility reveal ('here's the exact system that changed it') | ICP2: result tease ('here's what happened when I applied it') — state which and why"
     },
     "step7_solution": {
       "script": "[DIRECTION] Teaching energy. [YOU]: Framework or steps — actionable today. Style approach active here.",
@@ -421,10 +448,11 @@ Return ONLY a JSON object (no markdown, no extra text):
       "implicitFear": "How the cost statement activates the shadow fear without naming it"
     },
     "step9_cta": {
-      "script": "[DIRECTION] Highest energy. Point at camera. [YOU]: Single action. ManyChat keyword if applicable.",
+      "script": "[DIRECTION] Highest energy. Point at camera. [YOU]: Single action. ManyChat keyword if applicable. Closing line MUST bookend Step 1 opening.",
       "visual": "What viewer sees",
       "ctaType": "Lead | Sale | Engagement | Sign-up",
-      "manychatKeyword": "PAIDS | SYSTEM | GUIDE | START | FREE | MEDIA | none"
+      "manychatKeyword": "PAIDS | SYSTEM | GUIDE | START | FREE | MEDIA | none",
+      "loopCloseBookend": "Step 1 opened with: [X] | Step 9 closes with: [Y] | pair used: rented→owned | R200→R18K | bathroom floor→built house | custom — [explain]"
     }
   },
   "fullScript": "[STEP 1: HOOK]\\n[DIRECTION] Camera tight on face. Direct eye contact.\\n\\n[YOU]: Your exact hook line here — R×A×C×U^B scored.\\n\\n[STEP 2: INTRODUCE MYSELF]\\n[DIRECTION] Same shot or slight pull back.\\n\\n[YOU]: One credibility sentence + one proof number.\\n\\n[STEP 3: PROBLEM]\\n[DIRECTION] Direct to camera.\\n\\n[YOU]: Pain named in YOU format. Style approach governs this step.\\n\\n[STEP 4: REHOOK]\\n[DIRECTION] Slight lean forward.\\n\\n[YOU]: Specific tension sentence. NEVER 'stay with me'.\\n\\n[STEP 5: PERSONAL STORY]\\n[DIRECTION] Vulnerable energy, slower pace.\\n\\n[YOU]: Before → After → Number. Continue all 9 steps in this exact format using \\\\n for all line breaks.",
