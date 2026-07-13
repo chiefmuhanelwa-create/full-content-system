@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Repeat, FileText, Image, MessageSquare, Mail, Linkedin, Copy, Download } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { BackButton } from '@/components/BackButton'
 
 interface RepurposedContent {
   shortClips: string[]
@@ -78,6 +79,7 @@ export default function RepurposePage() {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
+      <div className="px-6 pt-4"><BackButton /></div>
       <ToolPageHeader
         icon={Repeat}
         iconColor="text-[#2563EB]"

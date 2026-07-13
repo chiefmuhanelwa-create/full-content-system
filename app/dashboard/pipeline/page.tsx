@@ -7,6 +7,7 @@ import {
   Camera, Edit3, CheckSquare, Square, ExternalLink, Trash2,
   Save, AlertCircle, Zap
 } from 'lucide-react'
+import { BackButton } from '@/components/BackButton'
 
 interface PipelineCard {
   id: string
@@ -29,8 +30,8 @@ interface PipelineCard {
 }
 
 const STAGES = [
-  { id: 'idea',      label: 'Idea',            color: '#4a4a5a', bg: '#1a1a1a',                 dot: '#4a4a5a' },
-  { id: 'scripting', label: 'Scripting',        color: '#C9A84C', bg: 'rgba(201,168,76,0.08)',   dot: '#C9A84C' },
+  { id: 'idea',      label: 'Idea',            color: '#A1A1AA', bg: '#F4F4F5',                 dot: '#A1A1AA' },
+  { id: 'scripting', label: 'Scripting',        color: '#2563EB', bg: 'rgba(37,99,235,0.08)',   dot: '#2563EB' },
   { id: 'recording', label: 'Ready to Record',  color: '#3b82f6', bg: 'rgba(59,130,246,0.08)',   dot: '#3b82f6' },
   { id: 'editing',   label: 'Editing',          color: '#f97316', bg: 'rgba(249,115,22,0.08)',   dot: '#f97316' },
   { id: 'ready',     label: 'Ready to Post',    color: '#a855f7', bg: 'rgba(168,85,247,0.08)',   dot: '#a855f7' },
@@ -196,21 +197,24 @@ export default function PipelinePage() {
   const stage = (stageId: string) => STAGES.find(s => s.id === stageId) || STAGES[0]
 
   return (
-    <div className="min-h-full" style={{ background: '#0f0f0f' }}>
+    <div className="min-h-full" style={{ background: '#F8F9FA' }}>
+      <div className="px-6 pt-4 pb-2" style={{ background: '#FFFFFF', borderBottom: '1px solid #E4E4E7' }}>
+        <BackButton />
+      </div>
 
       {/* Header */}
-      <div className="px-6 py-5" style={{ borderBottom: '1px solid #1e1e1e', background: '#111' }}>
+      <div className="px-6 py-5" style={{ borderBottom: '1px solid #E4E4E7', background: '#111' }}>
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.25)' }}>
-              <Kanban className="w-5 h-5" style={{ color: '#C9A84C' }} />
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.25)' }}>
+              <Kanban className="w-5 h-5" style={{ color: '#2563EB' }} />
             </div>
             <div>
-              <p className="text-[10px] font-display font-semibold uppercase tracking-widest mb-0.5" style={{ color: '#C9A84C' }}>Planning</p>
-              <h1 className="text-xl font-display font-black tracking-tight leading-none" style={{ color: '#FAF7F0' }}>Pipeline Board</h1>
+              <p className="text-[10px] font-display font-semibold uppercase tracking-widest mb-0.5" style={{ color: '#2563EB' }}>Planning</p>
+              <h1 className="text-xl font-display font-black tracking-tight leading-none" style={{ color: '#18181B' }}>Pipeline Board</h1>
             </div>
           </div>
-          <p className="text-sm" style={{ color: '#5a5a6a' }}>
+          <p className="text-sm" style={{ color: '#71717A' }}>
             {cards.length} piece{cards.length !== 1 ? 's' : ''} in production
           </p>
         </div>
@@ -223,13 +227,13 @@ export default function PipelinePage() {
             onKeyDown={e => e.key === 'Enter' && createCard()}
             placeholder="New content piece title..."
             className="flex-1 min-w-[200px] px-3 py-2 rounded-lg text-sm font-display outline-none"
-            style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#FAF7F0' }}
+            style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#18181B' }}
           />
           <select
             value={newStatus}
             onChange={e => setNewStatus(e.target.value)}
             className="px-3 py-2 rounded-lg text-sm font-display outline-none"
-            style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#FAF7F0' }}
+            style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#18181B' }}
           >
             {STAGES.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
           </select>
@@ -237,7 +241,7 @@ export default function PipelinePage() {
             onClick={createCard}
             disabled={creating || !newTitle.trim()}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-display font-bold transition-all"
-            style={{ background: '#C9A84C', color: '#0f0f0f', opacity: creating || !newTitle.trim() ? 0.4 : 1 }}
+            style={{ background: '#2563EB', color: '#0f0f0f', opacity: creating || !newTitle.trim() ? 0.4 : 1 }}
           >
             <Plus className="w-4 h-4" />
             Add Card
@@ -257,24 +261,24 @@ export default function PipelinePage() {
                   <div className="w-2 h-2 rounded-full" style={{ background: s.dot }} />
                   <span className="text-xs font-display font-bold uppercase tracking-wider" style={{ color: s.dot }}>{s.label}</span>
                   <span className="text-[10px] font-display ml-auto px-1.5 py-0.5 rounded"
-                    style={{ background: '#222', color: '#5a5a6a', border: '1px solid #2b2b2b' }}>
+                    style={{ background: '#F4F4F5', color: '#71717A', border: '1px solid #E4E4E7' }}>
                     {stageCards.length}
                   </span>
                 </div>
 
                 {/* Cards */}
-                <div className="space-y-2 min-h-[120px] rounded-xl p-2" style={{ background: '#141414', border: '1px solid #1e1e1e' }}>
+                <div className="space-y-2 min-h-[120px] rounded-xl p-2" style={{ background: '#F4F4F5', border: '1px solid #E4E4E7' }}>
                   {loading && (
-                    <div className="py-8 text-center text-xs" style={{ color: '#3a3a4a' }}>Loading...</div>
+                    <div className="py-8 text-center text-xs" style={{ color: '#A1A1AA' }}>Loading...</div>
                   )}
 
                   {!loading && stageCards.length === 0 && (
-                    <div className="py-8 text-center text-xs" style={{ color: '#3a3a4a' }}>Empty</div>
+                    <div className="py-8 text-center text-xs" style={{ color: '#A1A1AA' }}>Empty</div>
                   )}
 
                   {stageCards.map(card => {
                     const score = qualityScore(card)
-                    const scoreColor = score === 4 ? '#22c55e' : score >= 2 ? '#C9A84C' : '#4a4a5a'
+                    const scoreColor = score === 4 ? '#22c55e' : score >= 2 ? '#2563EB' : '#4a4a5a'
                     return (
                       <div
                         key={card.id}
@@ -282,13 +286,13 @@ export default function PipelinePage() {
                         onClick={() => openCard(card)}
                       >
                         <div className="flex items-start justify-between gap-1 mb-2">
-                          <p className="text-xs font-display font-semibold leading-tight line-clamp-2" style={{ color: '#FAF7F0' }}>
+                          <p className="text-xs font-display font-semibold leading-tight line-clamp-2" style={{ color: '#18181B' }}>
                             {card.title}
                           </p>
                           <button
                             onClick={e => { e.stopPropagation(); deleteCard(card.id) }}
                             className="flex-shrink-0 p-0.5 rounded transition-colors"
-                            style={{ color: '#3a3a4a' }}
+                            style={{ color: '#A1A1AA' }}
                           >
                             <X className="w-3 h-3" />
                           </button>
@@ -297,12 +301,12 @@ export default function PipelinePage() {
                         {/* Platform + ICP tags */}
                         <div className="flex flex-wrap gap-1 mb-2">
                           <span className="text-[9px] font-display font-bold px-1.5 py-0.5 rounded uppercase tracking-wider"
-                            style={{ background: '#222', color: '#8a8a96', border: '1px solid #2b2b2b' }}>
+                            style={{ background: '#F4F4F5', color: '#52525B', border: '1px solid #E4E4E7' }}>
                             {card.platform}
                           </span>
                           {card.interestPeak && (
                             <span className="text-[9px] font-display font-bold px-1.5 py-0.5 rounded uppercase tracking-wider"
-                              style={{ background: 'rgba(201,168,76,0.1)', color: '#C9A84C', border: '1px solid rgba(201,168,76,0.2)' }}>
+                              style={{ background: 'rgba(37,99,235,0.08)', color: '#2563EB', border: '1px solid rgba(37,99,235,0.2)' }}>
                               {card.interestPeak.replace(/_/g, ' ')}
                             </span>
                           )}
@@ -323,7 +327,7 @@ export default function PipelinePage() {
                           <button
                             onClick={() => openInScriptWriter(card)}
                             className="flex-1 flex items-center justify-center gap-1 py-1 rounded text-[9px] font-display font-bold transition-all"
-                            style={{ background: '#1e1e1e', color: '#8a8a96', border: '1px solid #2b2b2b' }}
+                            style={{ background: '#1e1e1e', color: '#52525B', border: '1px solid #E4E4E7' }}
                             title="Open in Script Writer"
                           >
                             <FileText className="w-2.5 h-2.5" /> Script
@@ -331,7 +335,7 @@ export default function PipelinePage() {
                           <button
                             onClick={() => openCaptionGenerator(card)}
                             className="flex-1 flex items-center justify-center gap-1 py-1 rounded text-[9px] font-display font-bold transition-all"
-                            style={{ background: '#1e1e1e', color: '#8a8a96', border: '1px solid #2b2b2b' }}
+                            style={{ background: '#1e1e1e', color: '#52525B', border: '1px solid #E4E4E7' }}
                             title="Generate Caption"
                           >
                             <Hash className="w-2.5 h-2.5" /> Caption
@@ -340,7 +344,7 @@ export default function PipelinePage() {
                             <button
                               onClick={() => moveToNext(card)}
                               className="flex items-center justify-center py-1 px-1.5 rounded text-[9px] font-display font-bold transition-all"
-                              style={{ background: 'rgba(201,168,76,0.1)', color: '#C9A84C', border: '1px solid rgba(201,168,76,0.2)' }}
+                              style={{ background: 'rgba(37,99,235,0.08)', color: '#2563EB', border: '1px solid rgba(37,99,235,0.2)' }}
                               title="Move to next stage"
                             >
                               <ChevronRight className="w-3 h-3" />
@@ -361,10 +365,10 @@ export default function PipelinePage() {
       {activeCard && (
         <div className="fixed inset-0 z-50 flex">
           <div className="flex-1 bg-black/60 backdrop-blur-sm" onClick={() => setActiveCard(null)} />
-          <div className="w-full max-w-lg overflow-y-auto" style={{ background: '#111', borderLeft: '1px solid #2b2b2b' }}>
+          <div className="w-full max-w-lg overflow-y-auto" style={{ background: '#FFFFFF', borderLeft: '1px solid #E4E4E7' }}>
 
             {/* Panel header */}
-            <div className="sticky top-0 z-10 px-6 py-4 flex items-center justify-between" style={{ background: '#111', borderBottom: '1px solid #1e1e1e' }}>
+            <div className="sticky top-0 z-10 px-6 py-4 flex items-center justify-between" style={{ background: '#FFFFFF', borderBottom: '1px solid #E4E4E7' }}>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full" style={{ background: stage(activeCard.status).dot }} />
                 <span className="text-xs font-display font-bold uppercase tracking-wider" style={{ color: stage(activeCard.status).dot }}>
@@ -376,12 +380,12 @@ export default function PipelinePage() {
                   onClick={saveCard}
                   disabled={saving}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-display font-bold transition-all"
-                  style={{ background: '#C9A84C', color: '#0f0f0f', opacity: saving ? 0.6 : 1 }}
+                  style={{ background: '#2563EB', color: '#0f0f0f', opacity: saving ? 0.6 : 1 }}
                 >
                   <Save className="w-3.5 h-3.5" />
                   {saving ? 'Saving...' : 'Save'}
                 </button>
-                <button onClick={() => setActiveCard(null)} className="p-1.5 rounded-lg transition-colors" style={{ color: '#5a5a6a' }}>
+                <button onClick={() => setActiveCard(null)} className="p-1.5 rounded-lg transition-colors" style={{ color: '#71717A' }}>
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -391,12 +395,12 @@ export default function PipelinePage() {
 
               {/* Title */}
               <div>
-                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#5a5a6a' }}>Title</label>
+                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#71717A' }}>Title</label>
                 <input
                   value={editDraft.title || ''}
                   onChange={e => setEditDraft(p => ({ ...p, title: e.target.value }))}
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display font-semibold outline-none"
-                  style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#FAF7F0' }}
+                  style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#18181B' }}
                 />
               </div>
 
@@ -408,12 +412,12 @@ export default function PipelinePage() {
                   { label: 'Stage', key: 'status', opts: STAGES.map(s => ({ value: s.id, label: s.label })) },
                 ].map(({ label, key, opts }) => (
                   <div key={key}>
-                    <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#5a5a6a' }}>{label}</label>
+                    <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#71717A' }}>{label}</label>
                     <select
                       value={(editDraft as any)[key] || ''}
                       onChange={e => setEditDraft(p => ({ ...p, [key]: e.target.value }))}
                       className="w-full px-2 py-2 rounded-lg text-xs font-display outline-none"
-                      style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#FAF7F0' }}
+                      style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#18181B' }}
                     >
                       {opts.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
@@ -423,12 +427,12 @@ export default function PipelinePage() {
 
               {/* Interest Peak */}
               <div>
-                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#5a5a6a' }}>Interest Peak Type</label>
+                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#71717A' }}>Interest Peak Type</label>
                 <select
                   value={editDraft.interestPeak || ''}
                   onChange={e => setEditDraft(p => ({ ...p, interestPeak: e.target.value }))}
                   className="w-full px-3 py-2 rounded-lg text-xs font-display outline-none"
-                  style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#FAF7F0' }}
+                  style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#18181B' }}
                 >
                   {INTEREST_PEAKS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
@@ -436,8 +440,8 @@ export default function PipelinePage() {
 
               {/* Hook */}
               <div>
-                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#5a5a6a' }}>
-                  Hook <span style={{ color: '#3a3a4a' }}>— verbal opening line</span>
+                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#71717A' }}>
+                  Hook <span style={{ color: '#A1A1AA' }}>— verbal opening line</span>
                 </label>
                 <textarea
                   value={editDraft.hook || ''}
@@ -445,15 +449,15 @@ export default function PipelinePage() {
                   rows={2}
                   placeholder="The first sentence that stops the scroll..."
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display outline-none resize-none"
-                  style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#FAF7F0' }}
+                  style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#18181B' }}
                 />
               </div>
 
               {/* Visual Hook */}
               <div>
                 <div className="flex items-center gap-1.5 mb-1.5">
-                  <label className="text-[10px] font-display font-bold uppercase tracking-wider" style={{ color: '#C9A84C' }}>Visual Hook</label>
-                  <span className="text-[9px] font-display px-1.5 py-0.5 rounded" style={{ background: 'rgba(201,168,76,0.1)', color: '#C9A84C', border: '1px solid rgba(201,168,76,0.2)' }}>Opening frame concept</span>
+                  <label className="text-[10px] font-display font-bold uppercase tracking-wider" style={{ color: '#2563EB' }}>Visual Hook</label>
+                  <span className="text-[9px] font-display px-1.5 py-0.5 rounded" style={{ background: 'rgba(37,99,235,0.08)', color: '#2563EB', border: '1px solid rgba(37,99,235,0.2)' }}>Opening frame concept</span>
                 </div>
                 <textarea
                   value={editDraft.visualHook || ''}
@@ -461,45 +465,45 @@ export default function PipelinePage() {
                   rows={2}
                   placeholder="What the viewer SEES in the first frame — text overlay, action, thumbnail concept..."
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display outline-none resize-none"
-                  style={{ background: '#1a1a1a', border: '1px solid rgba(201,168,76,0.25)', color: '#FAF7F0' }}
+                  style={{ background: '#FFFFFF', border: '1px solid rgba(37,99,235,0.25)', color: '#18181B' }}
                 />
               </div>
 
               {/* Value */}
               <div>
-                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#5a5a6a' }}>Value / Core Content</label>
+                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#71717A' }}>Value / Core Content</label>
                 <textarea
                   value={editDraft.value || ''}
                   onChange={e => setEditDraft(p => ({ ...p, value: e.target.value }))}
                   rows={3}
                   placeholder="The lesson, framework, or story being taught..."
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display outline-none resize-none"
-                  style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#FAF7F0' }}
+                  style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#18181B' }}
                 />
               </div>
 
               {/* CTA */}
               <div>
-                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#5a5a6a' }}>CTA</label>
+                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#71717A' }}>CTA</label>
                 <input
                   value={editDraft.cta || ''}
                   onChange={e => setEditDraft(p => ({ ...p, cta: e.target.value }))}
                   placeholder="What should they do? Save, DM, click the link..."
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display outline-none"
-                  style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#FAF7F0' }}
+                  style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#18181B' }}
                 />
               </div>
 
               {/* Quality Gate */}
-              <div className="rounded-xl p-4" style={{ background: '#1a1a1a', border: '1px solid #2b2b2b' }}>
+              <div className="rounded-xl p-4" style={{ background: '#FFFFFF', border: '1px solid #E4E4E7' }}>
                 <div className="flex items-center gap-2 mb-3">
-                  <Zap className="w-4 h-4" style={{ color: '#C9A84C' }} />
-                  <span className="text-xs font-display font-bold uppercase tracking-wider" style={{ color: '#C9A84C' }}>R50 Quality Gate</span>
+                  <Zap className="w-4 h-4" style={{ color: '#2563EB' }} />
+                  <span className="text-xs font-display font-bold uppercase tracking-wider" style={{ color: '#2563EB' }}>R50 Quality Gate</span>
                   <span className="text-[9px] font-display ml-auto px-1.5 py-0.5 rounded"
                     style={{
-                      background: qualityScore(activeCard) === 4 ? 'rgba(34,197,94,0.1)' : 'rgba(201,168,76,0.1)',
-                      color: qualityScore(activeCard) === 4 ? '#22c55e' : '#C9A84C',
-                      border: `1px solid ${qualityScore(activeCard) === 4 ? 'rgba(34,197,94,0.3)' : 'rgba(201,168,76,0.25)'}`,
+                      background: qualityScore(activeCard) === 4 ? 'rgba(34,197,94,0.1)' : 'rgba(37,99,235,0.08)',
+                      color: qualityScore(activeCard) === 4 ? '#22c55e' : '#2563EB',
+                      border: `1px solid ${qualityScore(activeCard) === 4 ? 'rgba(34,197,94,0.3)' : 'rgba(37,99,235,0.25)'}`,
                     }}>
                     {qualityScore(activeCard)}/4
                   </span>
@@ -524,11 +528,11 @@ export default function PipelinePage() {
                     >
                       {checked
                         ? <CheckSquare className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#22c55e' }} />
-                        : <Square className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#3a3a4a' }} />
+                        : <Square className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#A1A1AA' }} />
                       }
                       <div>
                         <p className="text-xs font-display font-semibold" style={{ color: checked ? '#22c55e' : '#D4D4D8' }}>{label}</p>
-                        <p className="text-[10px] font-display" style={{ color: '#5a5a6a' }}>{desc}</p>
+                        <p className="text-[10px] font-display" style={{ color: '#71717A' }}>{desc}</p>
                       </div>
                     </button>
                   )
@@ -537,24 +541,24 @@ export default function PipelinePage() {
 
               {/* Raw footage link */}
               <div>
-                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#5a5a6a' }}>Raw Footage Link</label>
+                <label className="text-[10px] font-display font-bold uppercase tracking-wider block mb-1.5" style={{ color: '#71717A' }}>Raw Footage Link</label>
                 <input
                   value={editDraft.rawFootageLink || ''}
                   onChange={e => setEditDraft(p => ({ ...p, rawFootageLink: e.target.value }))}
                   placeholder="Drive / Dropbox / Frame.io link..."
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display outline-none"
-                  style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#FAF7F0' }}
+                  style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#18181B' }}
                 />
               </div>
 
               {/* Cross-tool actions */}
-              <div className="rounded-xl p-4" style={{ background: '#141414', border: '1px solid #1e1e1e' }}>
-                <p className="text-[10px] font-display font-bold uppercase tracking-wider mb-3" style={{ color: '#5a5a6a' }}>Open In</p>
+              <div className="rounded-xl p-4" style={{ background: '#F4F4F5', border: '1px solid #E4E4E7' }}>
+                <p className="text-[10px] font-display font-bold uppercase tracking-wider mb-3" style={{ color: '#71717A' }}>Open In</p>
                 <div className="grid grid-cols-3 gap-2">
                   <button
                     onClick={() => openInScriptWriter(activeCard)}
                     className="flex flex-col items-center gap-1.5 py-3 rounded-lg transition-all"
-                    style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#8a8a96' }}
+                    style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#52525B' }}
                   >
                     <FileText className="w-4 h-4" />
                     <span className="text-[10px] font-display font-bold">Script Writer</span>
@@ -562,7 +566,7 @@ export default function PipelinePage() {
                   <button
                     onClick={() => openInTeleprompter(activeCard)}
                     className="flex flex-col items-center gap-1.5 py-3 rounded-lg transition-all"
-                    style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#8a8a96' }}
+                    style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#52525B' }}
                   >
                     <MonitorPlay className="w-4 h-4" />
                     <span className="text-[10px] font-display font-bold">Teleprompter</span>
@@ -570,7 +574,7 @@ export default function PipelinePage() {
                   <button
                     onClick={() => openCaptionGenerator(activeCard)}
                     className="flex flex-col items-center gap-1.5 py-3 rounded-lg transition-all"
-                    style={{ background: '#1a1a1a', border: '1px solid #2b2b2b', color: '#8a8a96' }}
+                    style={{ background: '#FFFFFF', border: '1px solid #E4E4E7', color: '#52525B' }}
                   >
                     <Hash className="w-4 h-4" />
                     <span className="text-[10px] font-display font-bold">Caption</span>

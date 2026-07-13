@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
-import { buildSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
@@ -21,7 +20,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Content pieces array is required' }, { status: 400 })
     }
 
-    const systemPrompt = buildSystemPrompt('hooks')
+    const systemPrompt = `You are the NOCHILL Content Intelligence System for Ndivhuwo Muhanelwa (@nochill_god), South African content creator.
+
+Your job here is to generate professional shoot day runsheets for batch content creation. Apply NOCHILL principles:
+- Energy sequencing: high-intensity content (hooks, raw stories) first when creator energy peaks
+- Batching: group by outfit/setup to minimise transitions
+- SA creator context: phone-first production, ring light, data-conscious editing
+- NOCHILL voice in hook suggestions: direct, YOU format, max 25 words
+- Every content block gets a strong hook suggestion and 2-3 punchy key points`
 
     const piecesText = contentPieces
       .map(
@@ -92,15 +98,8 @@ RUNSHEET RULES:
     const response = await anthropic.messages.create({
       model: MODELS.HAIKU,
       max_tokens: 3500,
-      messages: [
-        {
-          role: 'user',
-          content: [
-            { type: 'text', text: systemPrompt },
-            { type: 'text', text: userPrompt },
-          ],
-        },
-      ],
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt }],
     })
 
     const raw = response.content[0].type === 'text' ? response.content[0].text : ''

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
-import { buildSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
@@ -15,7 +14,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Script is required' }, { status: 400 })
     }
 
-    const systemPrompt = buildSystemPrompt('hooks')
+    const systemPrompt = `You are the NOCHILL Content Intelligence System for Ndivhuwo Muhanelwa (@nochill_god), South African content creator and business founder.
+
+BRAND VOICE: Direct. Raw. Tough-love mentor. No filler, no AI slop. SA/African context first — ZAR not dollars, Mzansi not Africa. Short punchy sentences. YOU format (never they/people/someone).
+BANNED WORDS: journey, unlock, game-changer, empower, synergy, leverage, guru, hustle, grind, crush it, seamless, robust, delve, certainly.
+ICP 1 — Called Expert (32–50, professional with unexploited expertise): "your knowledge is worth more than your salary"
+ICP 2 — Content Creator Inspirer (18–35, posting daily but not earning): "you're posting every day and still broke"
+PROOF NUMBERS (use exactly when relevant): R750 first deal → R100K retainer | R23K affiliate day | R600K Meta payouts | 780K followers suspended | R207,879 SARS debt | R50K month → R8K crash`
 
     const platformRules: Record<string, string> = {
       instagram: '2200 chars max, 30 hashtags max. Mix niche + broad tags. First line must be hook.',
@@ -58,15 +63,8 @@ Return ONLY valid JSON. No markdown fences.`
     const response = await anthropic.messages.create({
       model: MODELS.HAIKU,
       max_tokens: 3500,
-      messages: [
-        {
-          role: 'user',
-          content: [
-            { type: 'text', text: systemPrompt },
-            { type: 'text', text: userPrompt },
-          ],
-        },
-      ],
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt }],
     })
 
     const raw = response.content[0].type === 'text' ? response.content[0].text : ''

@@ -100,7 +100,7 @@ Return ONLY a JSON object:
 
     const message = await anthropic.messages.create({
       model: MODELS.HAIKU,
-      max_tokens: 2500,
+      max_tokens: 3500,
       temperature: 0.8,
       system: systemPrompt,
       messages: [{ role: 'user', content: userPrompt }],

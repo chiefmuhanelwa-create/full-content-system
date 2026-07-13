@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { ensureDefaultUser, DEFAULT_USER_ID } from '@/lib/ensure-user'
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,7 +11,7 @@ export async function GET(request: NextRequest) {
     if (!db) return NextResponse.json({ cards: [] })
 
     const cards = await db.contentPipeline.findMany({
-      where: { userId: session.user.id },
+      where: { userId: DEFAULT_USER_ID },
       orderBy: { createdAt: 'desc' },
     })
 
@@ -27,6 +28,8 @@ export async function POST(request: NextRequest) {
 
     if (!db) return NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
 
+    await ensureDefaultUser()
+
     const body = await request.json()
     const {
       title, platform = 'instagram', icp = 'auto', status = 'idea',
@@ -38,7 +41,7 @@ export async function POST(request: NextRequest) {
 
     const card = await db.contentPipeline.create({
       data: {
-        userId: session.user.id,
+        userId: DEFAULT_USER_ID,
         title: title.trim(),
         platform,
         icp,

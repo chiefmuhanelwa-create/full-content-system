@@ -1,123 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
+import { buildSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
 
-const SHADOW_FEARS = [
-  {
-    id: 1,
-    name: 'Fear of Invisibility',
-    description: 'What if nobody ever notices me?',
-    indicators: ['ignored', 'unnoticed', 'invisible', 'overlooked', 'forgotten'],
-  },
-  {
-    id: 2,
-    name: 'Fear of Wasted Potential',
-    description: 'What if I\'m capable of more but never reach it?',
-    indicators: ['potential', 'capable', 'talent', 'wasting', 'unfulfilled'],
-  },
-  {
-    id: 3,
-    name: 'Fear of Being Left Behind',
-    description: 'What if everyone else figures it out except me?',
-    indicators: ['left behind', 'everyone else', 'missed out', 'late', 'falling behind'],
-  },
-  {
-    id: 4,
-    name: 'Fear of Exposure',
-    description: 'What if they find out I\'m not as good as I seem?',
-    indicators: ['impostor', 'fake', 'fraud', 'exposed', 'not good enough'],
-  },
-  {
-    id: 5,
-    name: 'Fear of Permanent Mediocrity',
-    description: 'What if this is as good as it gets?',
-    indicators: ['stuck', 'plateau', 'mediocre', 'average', 'settling'],
-  },
-  {
-    id: 6,
-    name: 'Fear of Missed Timing',
-    description: 'What if I\'m too late/too early?',
-    indicators: ['too late', 'too early', 'timing', 'missed opportunity', 'wrong time'],
-  },
-  {
-    id: 7,
-    name: 'Fear of Being Forgotten',
-    description: 'What if my work doesn\'t matter long-term?',
-    indicators: ['forgotten', 'legacy', 'lasting impact', 'remembered', 'irrelevant'],
-  },
-  {
-    id: 8,
-    name: 'Fear of Financial Dependency',
-    description: 'What if I never control my own income?',
-    indicators: ['broke', 'dependent', 'paycheck', 'financial freedom', 'money control'],
-  },
-  {
-    id: 9,
-    name: 'Fear of Creative Exhaustion',
-    description: 'What if I run out of ideas/relevance?',
-    indicators: ['running out', 'dried up', 'burnout', 'no ideas', 'creative block'],
-  },
-  {
-    id: 10,
-    name: 'Fear of Systemic Exclusion',
-    description: 'What if the game is rigged against people like me?',
-    indicators: ['rigged', 'unfair', 'excluded', 'system', 'gatekeeping'],
-  },
-]
+const SYSTEM_PROMPT = buildSystemPrompt('fears') + `
 
-const SYSTEM_PROMPT = `You are a Shadow Fear Psychology expert analyzing audience descriptions to identify their deepest unspoken fears.
+## FEAR ANALYZER — OUTPUT RULES
 
-## THE 10 SHADOW FEARS:
-
-${SHADOW_FEARS.map(
-  (fear) =>
-    `${fear.id}. **${fear.name}**: "${fear.description}"\nIndicators: ${fear.indicators.join(', ')}`
-).join('\n\n')}
-
-## YOUR TASK:
-
-1. Analyze the audience description
-2. Identify which Shadow Fears are MOST relevant (rank top 3-5)
-3. Explain WHY each fear applies to this specific audience
-4. Generate 3 fear-targeted hook examples for EACH identified fear
-5. Suggest content strategies that address these fears
-
-## OUTPUT FORMAT:
+Your task: analyze the audience description, identify which of the 10 NOCHILL Shadow Fears are MOST relevant, and generate R×A×C×U^B hooks for each.
 
 Return ONLY a JSON object (no markdown):
 {
   "identifiedFears": [
     {
       "fearId": 1,
-      "fearName": "Fear of Invisibility",
+      "fearName": "Wasted Life",
       "relevanceScore": 95,
-      "reasoning": "This audience explicitly mentions feeling overlooked...",
+      "reasoning": "This audience explicitly mentions...",
       "hooks": [
-        "We've all been told to post more, but you're still invisible on the algorithm",
-        "Your family thinks you're wasting time, but nobody's watching your content anyway",
-        "Stop posting into the void. Here's how to get noticed."
+        "Hook 1 (max 25 words, YOU format, R×A×C×U^B compliant)",
+        "Hook 2",
+        "Hook 3"
       ],
-      "contentStrategy": "Create content about getting attention, standing out, pattern interrupts"
+      "contentStrategy": "Content angle that activates this fear without naming it"
     }
   ],
   "primaryFear": {
-    "fearId": 8,
-    "fearName": "Fear of Financial Dependency",
-    "reasoning": "Money anxiety is the dominant theme in this audience description"
+    "fearId": 1,
+    "fearName": "Wasted Life",
+    "reasoning": "Dominant theme in this audience description"
   },
-  "recommendedApproach": "Lead with financial freedom hooks, transition to skill-building content"
+  "recommendedApproach": "Lead hook strategy based on primary fear"
 }
 
-## CRITICAL RULES:
-
-1. Identify 3-5 fears maximum (most relevant only)
-2. Rank by relevance score (0-100)
-3. Generate 3 unique hooks per fear
-4. All hooks must use R×A×C×U^B formula
-5. All hooks must use indirect negativity (attack system, not person)
-6. All hooks must use YOU format
-7. Provide actionable content strategy
-`
+RULES:
+1. Use NOCHILL Shadow Fear names (Wasted Life, Generational Poverty Trap, Imposter Syndrome, Wrong Path Terror, Invisible Labor, Platform Dependency, Time Anxiety, Relationship Loss, Spiritual Crisis, Legacy Void)
+2. Identify 3-5 fears maximum (most relevant only), ranked by relevance score
+3. All hooks ≤ 25 words, YOU format, indirect negativity (attack system not person)
+4. Never name the shadow fear directly in the hook — activate it
+5. Match fears to correct ICP (ICP 1 vs ICP 2) from the knowledge base`
 
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)

@@ -1,8 +1,18 @@
 {
   "meta": {
-    "version": "1.0",
+    "version": "2.0",
     "description": "Ndivhuwo Muhanelwa personal brand DNA — injected into every AI generation for authentic, audience-specific content",
-    "last_updated": "2026-06-06"
+    "last_updated": "2026-06-15"
+  },
+
+  "strategic_priority": {
+    "primary_icp": "icp1",
+    "rationale": "Revenue math: 6-10 ICP1 sales at R9,997-R18,000 = R100K/month (one cohort). vs 400 ICP2 sales at R250 for same result. ICP1 is monopoly position — only SA creator with ATNS shift worker + institutional employment + faith-integrated + R207,879 SARS proof combination.",
+    "icp1_role": "REVENUE ENGINE — R100K/month target, Called Expert cohort sales, CHKPLT platform",
+    "icp2_role": "TRAFFIC ENGINE — builds audience and email list, low-ticket buyers upgrade to ICP1",
+    "john21_frame": "Left side = rented platforms (Instagram suspended, AdSense disabled). Right side = CHKPLT (owned platform), products, email list, Called Expert cohort. Cast on the right side.",
+    "primary_proof_hook": "I still work at ATNS. I built R600K in 4-hour shift windows between night shifts at OR Tambo. I never quit first. I built first. You don't have to quit either.",
+    "monopoly_position": "Only SA creator who: (a) still employed at institution while earning R600K+ from content, (b) shift worker testimony (ATNS, OR Tambo, night shifts, 4-hour windows), (c) faith-integrated platform (CHKPLT = Christ's Kingdom Platform), (d) paid R207,879 SARS from professional + content dual income. No competitor replicates this combination."
   },
 
   "creator": {
@@ -19,7 +29,7 @@
     "tiktok": "@nochillgod",
     "youtube": "@NoChill God",
     "category": "Creator-economy education for African contentpreneurs",
-    "positioning": "Helping struggling African creators build platform-independent wealth through proven, God-centered, receipt-backed systems",
+    "positioning": "Helping SA professionals (Called Experts) monetise their expertise without quitting their jobs — and helping aspiring creators build platform-independent income. God-centered. Receipt-backed. Shift-worker proven.",
     "signature_proof": "From sleeping in university bathrooms to R600,000+ annual income, 50+ brand deals, 9 awards",
     "origin": "SA — primary market Mzansi, secondary broader Africa, tertiary diaspora"
   },
@@ -119,8 +129,49 @@
         "A-to-B Transformation — show the path from expert to recognized authority",
         "Undesired Result — the cost of staying invisible"
       ],
-      "products_for_this_audience": ["01", "02", "paids_course"],
-      "tone_for_this_audience": "Professional but direct. No fluff. Respect their intelligence. Show ROI."
+      "products_for_this_audience": ["01", "02", "paids_course", "P1", "P2", "P3", "P4", "P5"],
+      "tone_for_this_audience": "Professional but direct. No fluff. Respect their intelligence. Show ROI. Lead with ATNS shift worker proof — they need permission, not inspiration.",
+      "buying_trigger": "PERMISSION from someone with receipts who never quit their job first. 'I still work at ATNS while making R600K from content' — that sentence opens wallets.",
+      "monopoly_position": "Only SA creator who: (a) still employed at institution while earning R600K+ from content, (b) shift worker testimony (ATNS, OR Tambo, night shifts, 4-hour windows), (c) faith-integrated platform (CHKPLT), (d) paid R207,879 SARS from professional + content dual income.",
+      "primary_proof_hook": "I still work at ATNS. I built R600K in 4-hour shift windows between night shifts at OR Tambo. I never quit first. I built first. You don't have to quit either.",
+      "sub_segments": {
+        "shift_worker": {
+          "pct": "primary",
+          "profile": "Healthcare, security, aviation, transport, mining. Works irregular hours in 4-hour windows. Has income, no time system.",
+          "buying_trigger": "I built R600K between ATNS night shifts. If I can do it in 4-hour windows, I can teach you.",
+          "hook_angle": "4-hour window system, shift pattern scheduling, parallel income while employed"
+        },
+        "corporate_trapped": {
+          "pct": "largest_segment",
+          "profile": "Manager, analyst, accountant, HR professional. Earns R25K-R60K/month. Teaches colleagues everything for free.",
+          "buying_trigger": "The knowledge you give away free in your company is being sold online for R5,000 by someone else.",
+          "hook_angle": "Expertise packaging, knowledge monetisation, corporate-to-contentpreneur"
+        },
+        "teacher_lecturer": {
+          "pct": "high_volume",
+          "profile": "Primary, high school, university educator. Deep expertise, chronically undervalued salary.",
+          "buying_trigger": "Your classroom is too small. What if 10,000 students could learn from you instead of 30?",
+          "hook_angle": "Scale argument, curriculum packaging, digital classroom"
+        },
+        "healthcare_worker": {
+          "pct": "premium_buyer",
+          "profile": "Nurse, doctor, physio, pharmacist. Carries knowledge people Google at midnight.",
+          "buying_trigger": "People pay R1,500 for consultations you give free on WhatsApp.",
+          "hook_angle": "Knowledge packaging, consultation-to-product, healthcare expertise monetisation"
+        },
+        "faith_professional": {
+          "pct": "faith_aligned",
+          "profile": "Pastor, worship leader, ministry worker. Spiritual assignment without income structure.",
+          "buying_trigger": "God did not call you to poverty. He called you to purpose. Your message can fund your mission.",
+          "hook_angle": "Kingdom business, calling and income, ministry sustainability"
+        },
+        "freelancer_at_capacity": {
+          "pct": "leverage_seeker",
+          "profile": "Designer, developer, writer. Fully booked. Trading hours for money with no leverage.",
+          "buying_trigger": "You cannot clone yourself. But you can clone your knowledge.",
+          "hook_angle": "Productised service, knowledge packaging, time leverage"
+        }
+      }
     },
     "content_creator_inspirer": {
       "id": "content_creator_inspirer",
@@ -266,19 +317,41 @@
 
   "three_feeler_triggers": [
     {
-      "name": "Fear of Missing the Window",
-      "hook": "African creator economy to $17.84B by 2032 — the window is open NOW",
-      "use_for": "Growth, monetisation, urgency products"
+      "name": "The Salary Trap (ICP 1 — REVENUE TRIGGER)",
+      "hook": "You earn R40K a month. Your employer earns R400K from what you know. That gap is your monetisation opportunity.",
+      "icp": "icp1",
+      "use_for": "Called Expert product sales, knowledge monetisation content, ICP1 hooks"
     },
     {
-      "name": "Shame of Stagnation",
+      "name": "The Quit-First Lie (ICP 1 — REVENUE TRIGGER)",
+      "hook": "I still work at ATNS. I built R600K in content income between shifts. You don't have to quit first — build first.",
+      "icp": "icp1",
+      "use_for": "Called Expert product sales, employment + content proof, shift worker angle"
+    },
+    {
+      "name": "The Wrong Mountain (ICP 1 — SPIRITUAL TRIGGER)",
+      "hook": "You have dwelt long enough at this mountain. Your expertise was never meant to stay inside your employer's building.",
+      "icp": "icp1",
+      "scripture": "Deuteronomy 1:6",
+      "use_for": "Faith-integrated Called Expert content, kingdom business angle, spiritual crisis shadow fear"
+    },
+    {
+      "name": "Fear of Missing the Window (ICP 2 — TRAFFIC TRIGGER)",
+      "hook": "African creator economy to $29.84B by 2032 — the window is open NOW",
+      "icp": "icp2",
+      "use_for": "Creator growth content, urgency products, ICP2 audience building"
+    },
+    {
+      "name": "Shame of Stagnation (ICP 2 — TRAFFIC TRIGGER)",
       "hook": "You've been saying you're a creator for 2 years. Your family is starting to wonder.",
-      "use_for": "Motivation, transformation, action-triggering products"
+      "icp": "icp2",
+      "use_for": "Motivation, transformation, action-triggering ICP2 products"
     },
     {
-      "name": "Hunger for Proof It's Possible for Me",
+      "name": "Hunger for Proof It's Possible for Me (Both ICPs)",
       "hook": "Show me someone from where I'm from who did it. Not an American. Me.",
-      "use_for": "Credibility, case studies, origin story content"
+      "icp": "both",
+      "use_for": "Credibility content, case studies, origin story — works for both ICPs"
     }
   ],
 

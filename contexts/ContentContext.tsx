@@ -109,10 +109,10 @@ interface ContentContextType {
 
   // Cross-tool navigation state
   pendingAction: {
-    action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | null
+    action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | 'use-fear-in-batch' | null
     data: any
   }
-  setPendingAction: (action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | null; data: any } | null) => void
+  setPendingAction: (action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | 'use-fear-in-batch' | null; data: any } | null) => void
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined)
@@ -142,7 +142,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   // Pending actions for cross-tool navigation
   const [pendingAction, setPendingAction] = useState<{
-    action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | null
+    action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | 'use-fear-in-batch' | null
     data: any
   }>({ action: null, data: null })
 
@@ -277,7 +277,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   }, [addToCalendar])
 
   // Wrapper for setPendingAction to match interface
-  const handleSetPendingAction = useCallback((action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | null; data: any } | null) => {
+  const handleSetPendingAction = useCallback((action: { action: 'use-hook-in-script' | 'use-story-in-script' | 'target-fear-in-hooks' | 'generate-hooks-from-calendar' | 'generate-script-from-calendar' | 'use-fear-in-batch' | null; data: any } | null) => {
     if (action === null) {
       setPendingAction({ action: null, data: null })
     } else {

@@ -150,6 +150,27 @@ export default function ICPPainLibraryPage() {
     }
   }
 
+  const generateHookFromPain = (pain: ICPPainPoint) => {
+    localStorage.setItem('painToHookPreload', JSON.stringify({
+      topic: pain.painPoint,
+      shadowFear: pain.shadowFear || '',
+      icp: pain.audienceLevel,
+      emotionalTrigger: pain.emotionalTrigger || '',
+    }))
+    router.push('/dashboard/hooks')
+  }
+
+  const generateScriptFromPain = (pain: ICPPainPoint) => {
+    localStorage.setItem('pendingAction', JSON.stringify({
+      action: 'use-story-in-script',
+      data: {
+        content: `Pain point: ${pain.painPoint}. Shadow fear: ${pain.shadowFear || ''}. Emotional trigger: ${pain.emotionalTrigger || ''}. Audience: ${pain.audienceLevel}.`,
+        title: pain.painPoint,
+      },
+    }))
+    router.push('/dashboard/scripts')
+  }
+
   const stats = {
     total: painPoints.length,
     favorites: painPoints.filter((p) => p.isFavorite).length,
@@ -348,6 +369,12 @@ export default function ICPPainLibraryPage() {
                         </div>
                       </div>
                       <div className="flex gap-1 flex-shrink-0">
+                        <button onClick={() => generateHookFromPain(painPoint)} title="Generate Hook" className="p-1.5 rounded-lg text-[#B0A898] hover:text-purple-600 hover:bg-purple-50 transition-colors">
+                          <TrendingUp className="h-3.5 w-3.5" />
+                        </button>
+                        <button onClick={() => generateScriptFromPain(painPoint)} title="Generate Script" className="p-1.5 rounded-lg text-[#B0A898] hover:text-[#2563EB] hover:bg-[#EFF6FF] transition-colors">
+                          <Target className="h-3.5 w-3.5" />
+                        </button>
                         <button onClick={() => toggleFavorite(painPoint.id, painPoint.isFavorite)} className="p-1.5 rounded-lg text-[#B0A898] hover:text-red-500 hover:bg-[#F9FAFB] transition-colors">
                           <Heart className={`h-3.5 w-3.5 ${painPoint.isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
                         </button>

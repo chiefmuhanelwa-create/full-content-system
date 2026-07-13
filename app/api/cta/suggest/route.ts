@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
+import { buildSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
@@ -8,26 +9,39 @@ export async function POST(request: NextRequest) {
   try {
     const { contentContext, goal } = await request.json()
 
-    const prompt = `Generate custom CTAs for this content:
+    const systemPrompt = buildSystemPrompt('scripts') + `
+
+## CTA OPTIMIZER — SPECIFIC RULES
+Generate CTAs that follow the NOCHILL system:
+- Each CTA must map to ONE of the PAIDS revenue streams (Products/Ads & Affiliates/Information/Deals/Services)
+- CTAs must use shadow fear psychology — the CTA is the resolution to the fear activated in the content
+- SA-first language: "DM me", "comment GUIDE below", "link in bio", "drop your question" — not generic "click here"
+- ManyChat keywords where relevant: GUIDE, START, PAIDS, FREE, SYSTEM, MEDIA
+- Single imperative verb. No compound CTAs ("like, share, AND comment").
+- Collective framing: "We" and "Let's" where natural (Ubuntu principle)
+- Urgency WITHOUT false scarcity. Real deadlines only.
+
+Return ONLY JSON (no markdown):
+{
+  "customCTAs": ["CTA 1 (PAIDS stream: X)", "CTA 2", "CTA 3", "CTA 4", "CTA 5"],
+  "platformSpecific": {
+    "instagram": "DM-first or comment-keyword CTA",
+    "tiktok": "comment or stitch CTA",
+    "youtube": "description link + comment CTA",
+    "linkedin": "connection or DM CTA"
+  },
+  "testingAdvice": "A/B test guidance in NOCHILL voice"
+}`
+
+    const prompt = `Generate NOCHILL-system CTAs for this content:
 
 CONTENT: ${contentContext}
-GOAL: ${goal}
-
-Provide:
-1. CUSTOM CTAs (5): Specific to this content
-2. PLATFORM-SPECIFIC (Instagram, TikTok, YouTube, LinkedIn): Optimized CTA for each
-3. A/B TESTING ADVICE: How to test these CTAs
-
-Return JSON:
-{
-  "customCTAs": ["...", ...],
-  "platformSpecific": {"instagram": "...", "tiktok": "...", "youtube": "...", "linkedin": "..."},
-  "testingAdvice": "..."
-}`
+GOAL: ${goal}`
 
     const message = await anthropic.messages.create({
       model: MODELS.HAIKU,
       max_tokens: 1500,
+      system: systemPrompt,
       messages: [{ role: 'user', content: prompt }],
     })
 

@@ -18,6 +18,8 @@ import {
   Upload, CheckCircle2, AlertCircle, ArrowRight, Clock, Trash2, History, GitBranch
 } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { exportElementToPDF } from '@/lib/export-pdf'
+import { BackButton } from '@/components/BackButton'
 import { useContent } from '@/contexts/ContentContext'
 
 interface ContentPiece {
@@ -49,14 +51,14 @@ interface WeeklyArc {
 }
 
 const FOUR_E_COLORS: Record<string, string> = {
-  Educate:   'bg-[#C9A84C]/15 text-[#7A5F18]',
+  Educate:   'bg-[#EFF6FF] text-[#1D4ED8]',
   Entertain: 'bg-purple-100 text-purple-800',
   Encourage: 'bg-emerald-100 text-emerald-800',
   Earn:      'bg-amber-100 text-amber-800',
 }
 
 const CONTENT_TYPE_COLORS: Record<string, string> = {
-  Educational:      'bg-[#C9A84C]/15 text-[#7A5F18]',
+  Educational:      'bg-[#EFF6FF] text-[#1D4ED8]',
   Story:            'bg-purple-100 text-purple-800',
   'Behind-the-Scenes': 'bg-amber-100 text-amber-800',
   'Myth-Busting':   'bg-red-100 text-red-800',
@@ -102,7 +104,7 @@ function parseCSV(raw: string): ContentPiece[] {
 
 export default function BatchPlannerPage() {
   const router = useRouter()
-  const { setPendingAction } = useContent()
+  const { setPendingAction, pendingAction } = useContent()
 
   const [tab, setTab] = useState<'generate' | 'import' | 'history'>('generate')
   const [niche, setNiche] = useState('')
@@ -134,6 +136,37 @@ export default function BatchPlannerPage() {
   interface SavedPlan { id: string; name: string; createdAt: string; plan: ContentPiece[]; seriesName?: string }
   const [planHistory, setPlanHistory] = useState<SavedPlan[]>([])
   const [historyLoading, setHistoryLoading] = useState(true)
+
+  // Restore last active plan + form inputs on mount
+  // Consume fear-analyzer bridge: pre-fill ICP and goals from identified shadow fear
+  useEffect(() => {
+    if (pendingAction?.action === 'use-fear-in-batch' && pendingAction.data) {
+      const { icp, shadowFear, audienceDescription } = pendingAction.data
+      if (icp && icp !== 'auto') setTargetICP(icp)
+      if (shadowFear) setGoals(prev => prev ? `${prev}\nTarget shadow fear: ${shadowFear}` : `Target shadow fear: ${shadowFear}${audienceDescription ? `\nAudience: ${audienceDescription}` : ''}`)
+      setPendingAction(null)
+    }
+  }, [pendingAction])
+
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('batch_active_plan')
+      if (saved) {
+        const { plan, seriesName: sn, weeklyArcs: wa, compliance: co, niche: n, goals: g, platforms: pl, targetICP: icp, leadMagnet: lm } = JSON.parse(saved)
+        if (plan?.length) {
+          setContentPlan(plan)
+          if (sn) setPlanSeriesName(sn)
+          if (wa) setWeeklyArcs(wa)
+          if (co) setPlanCompliance(co)
+          if (n) setNiche(n)
+          if (g) setGoals(g)
+          if (pl) setPlatforms(pl)
+          if (icp) setTargetICP(icp)
+          if (lm) setLeadMagnet(lm)
+        }
+      }
+    } catch { /* ignore */ }
+  }, [])
 
   useEffect(() => {
     const loadFromDB = async () => {
@@ -233,6 +266,12 @@ export default function BatchPlannerPage() {
         if (data.compliance) setPlanCompliance(data.compliance)
         if (data.weeklyArcs) setWeeklyArcs(data.weeklyArcs)
         if (data.seriesName) setPlanSeriesName(data.seriesName)
+        try {
+          sessionStorage.setItem('batch_active_plan', JSON.stringify({
+            plan: data.plan, seriesName: data.seriesName, weeklyArcs: data.weeklyArcs,
+            compliance: data.compliance, niche, goals, platforms, targetICP, leadMagnet,
+          }))
+        } catch { /* ignore */ }
         savePlanToHistory(data.plan, `${data.seriesName || niche} — ${new Date().toLocaleDateString()}`, {
           seriesName: data.seriesName,
           leadMagnet,
@@ -255,6 +294,7 @@ export default function BatchPlannerPage() {
     if (!parsed.length) { setImportError('Could not parse CSV. Check the format: Day, Date, Topic, Hook Idea, Type, Platform, Notes'); return }
     setContentPlan(parsed)
     setPushResult(null)
+    try { sessionStorage.setItem('batch_active_plan', JSON.stringify({ plan: parsed, niche, goals, platforms, targetICP })) } catch { /* ignore */ }
     savePlanToHistory(parsed, `Imported CSV — ${new Date().toLocaleDateString()}`)
   }
 
@@ -366,7 +406,15 @@ export default function BatchPlannerPage() {
   const openScriptWriter = (item: ContentPiece) => {
     setPendingAction({
       action: 'generate-script-from-calendar',
-      data: { title: item.topic, notes: item.notes || item.hookIdea, platform: item.platform },
+      data: {
+        title: item.topic,
+        notes: item.notes || item.hookIdea || item.hook,
+        platform: item.platform,
+        scriptTemplate: 'auto',
+        icp: item.icp || 'auto',
+        shadowFear: item.shadowFear || 'auto',
+        villain: item.villain || '',
+      },
     })
     router.push('/dashboard/scripts')
   }
@@ -378,6 +426,7 @@ export default function BatchPlannerPage() {
 
   return (
     <div className="min-h-full bg-[#F9FAFB]">
+      <div className="px-6 pt-4"><BackButton /></div>
       <ToolPageHeader
         icon={Layers}
         iconColor="text-indigo-600"
@@ -394,10 +443,10 @@ export default function BatchPlannerPage() {
           {(['generate', 'import', 'history'] as const).map(t => (
             <button
               key={t}
-              onClick={() => { setTab(t); if (t !== 'history') { setContentPlan([]); setPushResult(null) } }}
+              onClick={() => { setTab(t); setPushResult(null) }}
               className={`px-4 py-2 rounded-lg text-[12px] font-display font-bold transition-all ${
                 tab === t
-                  ? 'bg-[#C9A84C] text-[#18181B] shadow-sm'
+                  ? 'bg-[#2563EB] text-[#18181B] shadow-sm'
                   : 'text-[#71717A] hover:text-[#18181B]'
               }`}
             >
@@ -484,7 +533,7 @@ export default function BatchPlannerPage() {
                   <Button
                     onClick={handleGenerate}
                     disabled={loading || !niche.trim() || !goals.trim()}
-                    className="w-full bg-[#C9A84C] hover:bg-[#b8963e] text-[#18181B] font-display font-bold"
+                    className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold"
                   >
                     {loading ? 'Generating...' : 'Generate 30-Day Plan'}
                   </Button>
@@ -508,7 +557,7 @@ export default function BatchPlannerPage() {
                   <Button
                     onClick={handleImportCSV}
                     disabled={!csvText.trim()}
-                    className="w-full bg-[#C9A84C] hover:bg-[#b8963e] text-[#18181B] font-display font-bold"
+                    className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold"
                   >
                     <Upload className="w-4 h-4 mr-2" />
                     Import Plan
@@ -542,7 +591,7 @@ export default function BatchPlannerPage() {
                 <Button
                   onClick={pushAllToPipeline}
                   disabled={pushing || pushingPipeline}
-                  className="w-full bg-[#C9A84C] hover:bg-[#b8963e] text-[#18181B] font-display font-bold text-[12px] flex items-center gap-2"
+                  className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold text-[12px] flex items-center gap-2"
                 >
                   <GitBranch className="w-4 h-4" />
                   {pushingPipeline ? 'Pushing...' : `Push All ${contentPlan.length} Days to Pipeline`}
@@ -577,6 +626,14 @@ export default function BatchPlannerPage() {
                   <Download className="w-4 h-4 mr-2" />
                   Export as CSV
                 </Button>
+                <Button
+                  onClick={() => exportElementToPDF('batch-plan-output', `nochill-batch-plan-${Date.now()}.pdf`)}
+                  variant="outline"
+                  className="w-full text-[12px] font-display font-semibold"
+                >
+                  <FileText className="w-4 h-4 mr-2" />
+                  Export as PDF
+                </Button>
               </div>
             )}
           </div>
@@ -595,17 +652,17 @@ export default function BatchPlannerPage() {
 
             {loading && (
               <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
-                <div className="w-10 h-10 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <div className="w-10 h-10 border-2 border-[#2563EB] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                 <p className="text-[#71717A] font-display font-semibold text-sm">Generating 30-day plan...</p>
               </div>
             )}
 
             {contentPlan.length > 0 && !loading && (
-              <div className="space-y-4">
+              <div className="space-y-4" id="batch-plan-output">
                 <div className="flex items-center justify-between">
                   <div>
                     {planSeriesName && (
-                      <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#C9A84C] mb-0.5">{planSeriesName}</p>
+                      <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#2563EB] mb-0.5">{planSeriesName}</p>
                     )}
                     <p className="font-display font-black text-[#18181B] text-sm">
                       {contentPlan.length} content pieces
@@ -614,7 +671,23 @@ export default function BatchPlannerPage() {
                       )}
                     </p>
                   </div>
-                  <p className="text-[11px] text-[#71717A] font-display">Click any row to generate its hook or script</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-[11px] text-[#71717A] font-display">Click any row to generate its hook or script</p>
+                    <button
+                      onClick={() => {
+                        const topItem = contentPlan[0]
+                        localStorage.setItem('pitchScriptPreload', JSON.stringify({
+                          position: planSeriesName || niche,
+                          pain: goals,
+                          proof: topItem?.hookIdea || topItem?.hook || '',
+                        }))
+                        router.push('/dashboard/pitch')
+                      }}
+                      className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-[#2563EB]/40 bg-[#EFF6FF] text-[#1D4ED8] hover:border-[#2563EB] hover:text-[#1E40AF] transition-all text-[10px] font-display font-bold uppercase tracking-wide flex-shrink-0"
+                    >
+                      Build Series Pitch →
+                    </button>
+                  </div>
                 </div>
 
                 {/* Weekly Arcs */}
@@ -623,7 +696,7 @@ export default function BatchPlannerPage() {
                     {weeklyArcs.map(arc => (
                       <div key={arc.week} className="bg-white border border-[#E4E4E7] rounded-xl p-3">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-[9px] font-display font-black uppercase tracking-widest text-[#C9A84C]">Week {arc.week}</span>
+                          <span className="text-[9px] font-display font-black uppercase tracking-widest text-[#2563EB]">Week {arc.week}</span>
                           <span className="text-[9px] font-display font-semibold text-[#71717A] bg-[#F4F4F5] rounded px-1.5 py-0.5">{arc.awarenessLevel}</span>
                         </div>
                         <p className="font-display font-bold text-[#18181B] text-[11px]">{arc.title}</p>
@@ -637,7 +710,7 @@ export default function BatchPlannerPage() {
                 {planCompliance && (
                   <div className="bg-[#18181B] rounded-xl p-5 text-white space-y-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-display font-black uppercase tracking-widest text-[#C9A84C]">NOCHILL DNA — Plan Compliance Report</span>
+                      <span className="text-[10px] font-display font-black uppercase tracking-widest text-[#2563EB]">NOCHILL DNA — Plan Compliance Report</span>
                     </div>
 
                     {/* ICP + Principles row */}
@@ -658,7 +731,7 @@ export default function BatchPlannerPage() {
                         <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Voice Principles</p>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {(planCompliance.principlesApplied || ['You Format', 'Negativity (indirect)']).map((p: string, i: number) => (
-                            <span key={i} className="text-[9px] bg-[#C9A84C]/20 text-[#7A5F18] rounded px-1.5 py-0.5 font-display font-bold">{p}</span>
+                            <span key={i} className="text-[9px] bg-[#DBEAFE] text-[#1D4ED8] rounded px-1.5 py-0.5 font-display font-bold">{p}</span>
                           ))}
                         </div>
                       </div>
@@ -727,7 +800,7 @@ export default function BatchPlannerPage() {
 
                             <div className="flex-1 min-w-0">
                               {item.seriesEpisode && (
-                                <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#C9A84C] mb-0.5">{item.seriesEpisode}</p>
+                                <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#2563EB] mb-0.5">{item.seriesEpisode}</p>
                               )}
                               <div className="flex items-start gap-2 flex-wrap mb-1">
                                 <p className="font-display font-bold text-[#18181B] text-[13px] leading-snug flex-1">{item.topic}</p>
@@ -744,7 +817,7 @@ export default function BatchPlannerPage() {
                               {(item.icp || item.paidsCategory || item.shadowFear) && (
                                 <div className="flex flex-wrap gap-1 mb-1.5">
                                   {item.icp && (
-                                    <span className="text-[9px] bg-[#C9A84C]/10 text-[#7A5F18] font-display font-bold px-1.5 py-0.5 rounded">
+                                    <span className="text-[9px] bg-[#EFF6FF] text-[#1D4ED8] font-display font-bold px-1.5 py-0.5 rounded">
                                       {item.icp.includes('1') ? 'ICP1 · Expert' : 'ICP2 · Creator'}
                                     </span>
                                   )}
@@ -785,7 +858,7 @@ export default function BatchPlannerPage() {
                           <div className="flex items-center gap-2 mt-3 ml-13 pl-0">
                             <button
                               onClick={() => openHookGenerator(item)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C9A84C]/10 hover:bg-[#C9A84C]/20 text-[#7A5F18] rounded-lg text-[11px] font-display font-bold transition-colors"
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
                             >
                               <Zap className="w-3 h-3" />
                               Generate Hook
@@ -821,7 +894,7 @@ export default function BatchPlannerPage() {
               <div className="space-y-3">
                 {historyLoading ? (
                   <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
-                    <div className="w-8 h-8 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                    <div className="w-8 h-8 border-2 border-[#2563EB] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
                     <p className="font-display font-semibold text-[#71717A] text-sm">Loading saved plans...</p>
                   </div>
                 ) : planHistory.length === 0 ? (
@@ -840,7 +913,7 @@ export default function BatchPlannerPage() {
                         <div className="flex items-center gap-2 flex-shrink-0">
                           <button
                             onClick={() => { setContentPlan(saved.plan); setTab('generate'); setPushResult(null) }}
-                            className="px-3 py-1.5 bg-[#C9A84C]/10 hover:bg-[#C9A84C]/20 text-[#7A5F18] rounded-lg text-[11px] font-display font-bold transition-colors"
+                            className="px-3 py-1.5 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             Load Plan
                           </button>

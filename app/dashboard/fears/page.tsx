@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Brain, Sparkles, Copy, Check, AlertCircle, TrendingUp, ArrowRight } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { BackButton } from '@/components/BackButton'
 
 interface IdentifiedFear {
   fearId: number
@@ -88,6 +89,7 @@ export default function FearAnalyzerPage() {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
+      <div className="px-6 pt-4"><BackButton /></div>
       <ToolPageHeader
         icon={Brain}
         iconColor="text-red-500"
@@ -184,16 +186,27 @@ export default function FearAnalyzerPage() {
                               </div>
                               <p className="text-[12px] text-[#71717A]">{fear.reasoning}</p>
                             </div>
-                            <button
-                              onClick={() => {
-                                const savedFear = addFear({ id: fear.fearId, name: fear.fearName, relevance: fear.relevanceScore, hooks: fear.hooks, targetAudience: audienceDescription })
-                                setPendingAction({ action: 'target-fear-in-hooks', data: savedFear })
-                                router.push('/dashboard/hooks')
-                              }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 hover:text-[#18181B] transition-all text-[11px] font-display font-bold uppercase tracking-wide flex-shrink-0"
-                            >
-                              <ArrowRight className="h-3 w-3" /> Hooks
-                            </button>
+                            <div className="flex items-center gap-1.5 flex-shrink-0">
+                              <button
+                                onClick={() => {
+                                  const savedFear = addFear({ id: fear.fearId, name: fear.fearName, relevance: fear.relevanceScore, hooks: fear.hooks, targetAudience: audienceDescription })
+                                  setPendingAction({ action: 'target-fear-in-hooks', data: savedFear })
+                                  router.push('/dashboard/hooks')
+                                }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 hover:text-[#18181B] transition-all text-[11px] font-display font-bold uppercase tracking-wide"
+                              >
+                                <ArrowRight className="h-3 w-3" /> Hooks
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setPendingAction({ action: 'use-fear-in-batch', data: { icp: analysis?.primaryFear ? (fear.fearId <= 5 ? 'icp2' : 'icp1') : 'auto', shadowFear: fear.fearName, audienceDescription } })
+                                  router.push('/dashboard/batch-planner')
+                                }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#2563EB]/40 bg-[#EFF6FF] text-[#1D4ED8] hover:border-[#2563EB] hover:text-[#1E40AF] transition-all text-[11px] font-display font-bold uppercase tracking-wide"
+                              >
+                                <ArrowRight className="h-3 w-3" /> Batch Plan
+                              </button>
+                            </div>
                           </div>
 
                           {/* Fear-targeted hooks */}

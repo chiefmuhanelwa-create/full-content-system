@@ -291,7 +291,7 @@ NEVER a small circle or avatar on a PDF cover. Always a large rounded square.
 
 ### Brand Character
 - **Tough-love mentor** — direct, blunt, no fluff
-- **Receipt-backed** — every claim has a number (R285K SARS bill, R207K saved, R600K earned)
+- **Receipt-backed** — every claim has a number (R207K SARS bill, R207K saved, R600K earned)
 - **Africa-first** — Rands not dollars, SARS not IRS, Mr Price not Target, Mzansi not "the market"
 - **Faith-infused, never preachy** — "Your gift will make room for you." Light amen. Never sermon.
 - **Struggle-to-outcome** — every story goes FROM embarrassment TO empire

@@ -12,48 +12,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Niche is required' }, { status: 400 })
     }
 
-    const prompt = `You are a social media trend analyst. Identify the top 8-10 trending topics right now for ${niche} on ${platform}.
+    const systemPrompt = `You are the NOCHILL Trend Intelligence System for Ndivhuwo Muhanelwa (@nochill_god).
 
-Consider:
-- Current viral conversations
-- Emerging technologies or methods
-- Controversial debates
-- Success stories gaining traction
-- Common pain points being discussed
+Identify trends through the NOCHILL ICP lens:
+- ICP 1 Called Expert (32-50, SA professional with unexploited expertise)
+- ICP 2 Content Creator Inspirer (18-35, posting daily but not earning)
+- SA/African market trends first — local viral conversations over global ones
+- Shadow fears (activate implicitly): SF1 Wasted Life | SF2 Time Anxiety | SF3 Imposter Syndrome | SF4 Generational Poverty | SF9 Platform Dependency | SF10 Legacy Void
+- PAIDS streams: Products / Ads+Affiliates / Information / Deals / Services
+- Hook angles use YOU format, max 25 words, RACUB formula
 
-For each trend, provide:
-- Topic: Short name (3-6 words)
-- Volume: "High", "Medium", or "Rising"
-- Platform: Where it's trending most
-- Relevance: 1-100 score for how relevant to ${niche}
-
-Return a JSON array with this structure:
+Return a JSON ARRAY (not an object) with 8-10 trends. 2026 trends only. SA-context first.
 [
   {
-    "topic": "...",
-    "volume": "High",
+    "topic": "Short topic name (3-6 words)",
+    "volume": "High | Medium | Rising",
     "platform": "${platform}",
-    "relevance": 95
-  },
-  {...}
-]
+    "relevance": 0-100,
+    "icp": "ICP 1 | ICP 2 | Both",
+    "shadowFear": "which NOCHILL shadow fear this trend activates",
+    "hookAngle": "a NOCHILL hook for this trend in 25 words or less"
+  }
+]`
 
-Only return trends that are happening NOW (2026). Be specific and actionable.`
+    const prompt = `Identify top trending topics for ${niche} on ${platform} right now (2026). Frame them through the NOCHILL ICP and shadow fear lens.`
 
     const message = await anthropic.messages.create({
       model: MODELS.HAIKU,
       max_tokens: 1500,
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
+      system: systemPrompt,
+      messages: [{ role: 'user', content: prompt }],
     })
 
     const responseText = message.content[0].type === 'text' ? message.content[0].text : ''
 
-    // Extract JSON from response
     const jsonMatch = responseText.match(/\[[\s\S]*\]/)
     const trends = jsonMatch ? JSON.parse(jsonMatch[0]) : []
 

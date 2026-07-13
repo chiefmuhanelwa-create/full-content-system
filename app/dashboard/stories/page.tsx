@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -44,6 +44,19 @@ export default function StoryExtractorPage() {
   const [savedStoryIndices, setSavedStoryIndices] = useState<Set<number>>(new Set())
   const [savedBankIndices, setSavedBankIndices] = useState<Set<number>>(new Set())
 
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('stories_last_output')
+      if (saved) {
+        const { stories: savedStories, storyInput: savedInput } = JSON.parse(saved)
+        if (savedStories?.length) {
+          setStories(savedStories)
+          if (savedInput) setStoryInput(savedInput)
+        }
+      }
+    } catch { /* ignore */ }
+  }, [])
+
   const extractStories = async () => {
     if (!storyInput.trim()) {
       setError('Please enter your story or experiences')
@@ -75,6 +88,7 @@ export default function StoryExtractorPage() {
 
       // Set local state
       setStories(data.stories)
+      try { sessionStorage.setItem('stories_last_output', JSON.stringify({ stories: data.stories, storyInput })) } catch { /* ignore */ }
 
       // Also save to global context for cross-tool communication
       data.stories.forEach((story: ExtractedStory) => {

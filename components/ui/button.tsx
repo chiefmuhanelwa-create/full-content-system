@@ -9,13 +9,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-gradient-to-br from-[#E6C871] via-[#2563EB] to-[#1D4ED8] text-[#18181B] border border-[rgba(140,111,31,0.35)] shadow-[0_0_20px_rgba(201,166,70,0.22),0_4px_14px_rgba(10,10,10,0.08)] hover:shadow-[0_0_35px_rgba(201,166,70,0.40),0_10px_24px_rgba(10,10,10,0.12)] hover:-translate-y-0.5',
+          'bg-[#18181B] text-white border border-[#18181B] shadow-[0_2px_8px_rgba(0,0,0,0.12)] hover:bg-[#2A2A2E] hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:-translate-y-0.5',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
           'border border-[#E4E4E7] bg-white text-[#18181B] hover:border-[#2563EB]/50 hover:bg-[#F4F4F5] hover:text-[#18181B]',
         secondary:
-          'bg-[#F4F4F5] text-[#18181B] border border-[#E4E4E7] hover:bg-[#EDE4CF] hover:border-[#2563EB]/40',
+          'bg-[#F4F4F5] text-[#18181B] border border-[#E4E4E7] hover:bg-[#E8EBF0] hover:border-[#2563EB]/40',
         ghost:
           'text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#18181B]',
         link:

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
@@ -47,6 +47,23 @@ export default function PitchBuilderPage() {
   const [generatedPitch, setGeneratedPitch] = useState<GeneratedPitch | null>(null)
   const [error, setError] = useState('')
   const [copiedSection, setCopiedSection] = useState<string | null>(null)
+
+  // Consume preload from Script Writer or Batch Planner
+  useEffect(() => {
+    try {
+      const preload = localStorage.getItem('pitchScriptPreload')
+      if (preload) {
+        const { pain, proof, position } = JSON.parse(preload)
+        setFormData(prev => ({
+          ...prev,
+          ...(pain ? { pain } : {}),
+          ...(proof ? { proof } : {}),
+          ...(position ? { position } : {}),
+        }))
+        localStorage.removeItem('pitchScriptPreload')
+      }
+    } catch { /* ignore */ }
+  }, [])
 
   const buildPitch = async () => {
     if (!formData.person.trim() || !formData.position.trim()) {

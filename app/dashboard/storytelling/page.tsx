@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sparkles, Copy, Save, FileText, Download, Loader2, BookOpen, Lightbulb, Database } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { BackButton } from '@/components/BackButton'
+import { exportElementToPDF } from '@/lib/export-pdf'
 
 interface StoryOutput {
   title: string
@@ -53,7 +55,22 @@ export default function StorytellingStudio() {
   const [duration, setDuration] = useState('90')
   const [loading, setLoading] = useState(false)
   const [output, setOutput] = useState<StoryOutput | null>(null)
-  const { addScript, setPendingAction } = useContent()
+  const [isEditing, setIsEditing] = useState(false)
+  const [editedStory, setEditedStory] = useState('')
+  const [savedStoryDbId, setSavedStoryDbId] = useState<string | null>(null)
+  const { setPendingAction } = useContent()
+
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('storytelling_last_output')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        setOutput(parsed.output)
+        if (parsed.duration) setDuration(parsed.duration)
+        if (parsed.coreMessage) setCoreMessage(parsed.coreMessage)
+      }
+    } catch { /* ignore */ }
+  }, [])
 
   const generateStory = async () => {
     if (!selectedFramework || !storyInput || !coreMessage) {
@@ -95,6 +112,7 @@ export default function StorytellingStudio() {
 
       const data = await response.json()
       setOutput(data)
+      try { sessionStorage.setItem('storytelling_last_output', JSON.stringify({ output: data, duration, coreMessage })) } catch { /* ignore */ }
     } catch (error: any) {
       alert(error.message || 'Failed to generate story. Please try again.')
     } finally {
@@ -190,6 +208,10 @@ export default function StorytellingStudio() {
   }
 
   const exportPDF = () => {
+    exportElementToPDF('storytelling-output', `nochill-story-${Date.now()}.pdf`)
+  }
+
+  const _exportPDFLegacy = () => {
     if (!output) return
 
     const content = `
@@ -239,6 +261,7 @@ ${output.applicationTips.map((t, i) => `${i + 1}. ${t}`).join('\n')}
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
+      <div className="px-6 pt-4"><BackButton /></div>
       <ToolPageHeader
         icon={Sparkles}
         eyebrow="Create"
@@ -431,7 +454,7 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
         <div className="space-y-6">
           {output ? (
             <>
-              <Card className="p-6">
+              <Card className="p-6" id="storytelling-output">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="font-display font-black text-lg text-[#18181B]">{output.title}</h2>
                   <span className="text-xs bg-[#2563EB]/15 text-[#7A5F18] px-2 py-1 rounded font-display font-bold">
@@ -441,7 +464,7 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <Button size="sm" variant="outline" onClick={() => copyToClipboard(output.fullStory)}>
+                  <Button size="sm" variant="outline" onClick={() => copyToClipboard(isEditing ? editedStory : output.fullStory)}>
                     <Copy className="h-3 w-3 mr-1" />
                     Copy Story
                   </Button>
@@ -461,16 +484,46 @@ Example: 'Working harder isn't the answer. The right system lets you work less a
                     <Download className="h-3 w-3 mr-1" />
                     Export
                   </Button>
+                  {!isEditing ? (
+                    <Button size="sm" variant="outline" onClick={() => { setEditedStory(output.fullStory); setIsEditing(true) }}>
+                      Edit Story
+                    </Button>
+                  ) : (
+                    <>
+                      <Button size="sm" onClick={async () => {
+                        setOutput(prev => prev ? { ...prev, fullStory: editedStory } : prev)
+                        if (savedStoryDbId) {
+                          await fetch('/api/stories/update', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: savedStoryDbId, content: editedStory }) })
+                        }
+                        setIsEditing(false)
+                      }} style={{ background: '#18181B', color: '#fff' }}>
+                        Save Edits
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => setIsEditing(false)}>
+                        Cancel
+                      </Button>
+                    </>
+                  )}
                 </div>
 
                 {/* Full Story */}
                 <div className="mb-6">
                   <h3 className="text-sm font-display font-bold text-[#52525B] mb-2">Complete Story</h3>
-                  <div className="bg-[#F9FAFB] p-4 rounded-lg border border-[#E4E4E7] max-h-96 overflow-y-auto">
-                    <p className="text-sm text-[#18181B] whitespace-pre-wrap leading-relaxed">
-                      {output.fullStory}
-                    </p>
-                  </div>
+                  {isEditing ? (
+                    <Textarea
+                      value={editedStory}
+                      onChange={e => setEditedStory(e.target.value)}
+                      rows={14}
+                      className="text-sm"
+                      style={{ borderColor: '#2563EB', boxShadow: '0 0 0 3px rgba(37,99,235,0.1)' }}
+                    />
+                  ) : (
+                    <div className="bg-[#F9FAFB] p-4 rounded-lg border border-[#E4E4E7] max-h-96 overflow-y-auto">
+                      <p className="text-sm text-[#18181B] whitespace-pre-wrap leading-relaxed">
+                        {output.fullStory}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Story Breakdown */}

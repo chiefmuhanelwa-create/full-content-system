@@ -354,6 +354,15 @@ export default function HookBankPage() {
     router.push('/dashboard/scripts')
   }
 
+  const useInHooksGenerator = (hook: HookBankEntry) => {
+    localStorage.setItem('hookBankPreload', JSON.stringify({
+      hookText: hook.hookText,
+      hookType: hook.hookType,
+      topic: hook.topic || '',
+    }))
+    router.push('/dashboard/hooks')
+  }
+
   const exportToCSV = () => {
     if (filteredHooks.length === 0) {
       alert('No hooks to export')
@@ -766,6 +775,15 @@ export default function HookBankPage() {
                           hook.isFavorite ? 'fill-red-500 text-red-500' : ''
                         }`}
                       />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => useInHooksGenerator(hook)}
+                      title="Remix in Hooks Generator"
+                      className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                    >
+                      <Sparkles className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"

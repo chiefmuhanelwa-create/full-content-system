@@ -4,6 +4,40 @@ Read this alongside `CLAUDE.md` before every task. Add new entries as they are d
 
 ---
 
+## Kallaway Storytelling Techniques Integrated Into Real Generators (2026-07-11)
+
+A prior pass (in `nochill-knowledge-base/`, outside this repo) studied 16 Kallaway transcripts and produced a storytelling system. This entry is that system reaching the actual product — `lib/knowledge-base.ts` and the hooks/scripts generation routes — not just documentation.
+
+**Added to `lib/knowledge-base.ts`** (as module-level consts, interpolated into the `buildSystemPrompt()` template literal — this file's existing sections are hardcoded inline, NOT sourced from the bottom JSON getters, so new content had to follow that same pattern to actually reach generation):
+- `EXODUS_ENGINE` — 4-phase Called-Expert macro arc (Egypt/But/Therefore/Promised Land), inserted after the 7-Stage Story Arc.
+- `THE_DANCE` — formalized the "But/Therefore Dance" rule (previously one underspecified line buried in the scripts route) into a checkable law: every beat transition uses BUT or THEREFORE, never "and then." Inserted after Rehooking.
+- `ILLUSION_OF_NOVELTY` — added as "Method 3" under the R×A×C×U^B "U — Unique" section, specifically for "boring but real" ICP1 content (tax/compliance).
+- `NINE_HOOK_FORMATS` — a content-genre taxonomy, distinct from the existing 4 C-component hook types.
+- Pattern 10 ([SHORT]/[LONG] rhythm markup) added to the existing Sentence Architecture section.
+- `validateAgainstPrinciples()` extended with a real Dance-connector check (flags 3+ consecutive sentences with no BUT/THEREFORE or equivalent) — confirmed via repo-wide grep this function is called nowhere yet, so the extension is safe but currently inert; a future task could wire it into `app/dashboard/scripts/page.tsx`'s post-stream parse.
+- Fixed a second 7-step-vs-9-step contradiction found inside `knowledge-base.ts` itself (the `scripts:` module block referenced the legacy 7-part Script Architecture Table instead of the actual 9-Step Shell).
+
+**Fixed a real bug in `app/api/scripts/generate/route.ts`:** the route sent the model ~168 lines of a dead "7-Act Retention Formula" prompt block (declared dead in `WAT.md` since the 9-Step Shell replaced it) immediately before instructing it to output in the 9-Step Shell format — active, wasted-token contradiction. Removed both dead blocks (the main 7-Act structure and a second "RETENTION DEVICE DEPLOYMENT STRATEGY"/`REMEMBER` block that sandwiched the valid JSON schema between two contradictory instruction sets), relocated the still-valid Ubuntu Principles, and replaced with a condensed 9-Step Shell pointer + Dance/rehook/rhythm instructions. Net prompt length dropped. Also condensed `systemPromptWithStories` (was re-injecting R×A×C×U^B/4E/PAIDS/4-principles in full even though `buildSystemPrompt('scripts', icp)` already supplies all of it) down to just the dynamic story-rotation logic.
+
+**Extended `app/api/hooks/generate/route.ts` schema:** added `onScreenText` per hook (completes the 3-part visual/text/spoken alignment check alongside existing `verbal`/`visual`), `hookFormat` (1 of the 9) and `shockScore` to the `compliance`/`section13` self-graded block, and a matching `warnings[]` check for missing `onScreenText`.
+
+**UI:** `app/dashboard/hooks/page.tsx` — new render block for `onScreenText`, `Hook Format` added to the compliance metadata grid. `app/dashboard/teleprompter/page.tsx` — added `getLineRhythm()`/`stripRhythmTag()` alongside the existing `isRehookLine()` pattern; `[SHORT]` lines render tight/punchy, `[LONG]` lines get more breathing room, lighter weight, and a blue-grey accent bar distinct from the gold REHOOK bar.
+
+**Docs:** `docs/FRAMEWORKS.md` — added Frameworks 19-22 (Exodus Engine, The Dance, Illusion of Novelty, 9 Hook Formats) plus a bundled backfill of Frameworks 23-25 (HOOKS filter, AFRICA Method, LEGACY System — all three already lived in `knowledge-base.ts` but were never documented, a pre-existing gap fixed in the same pass). `WAT.md` framework count updated 18→25, dead-formula note updated to reflect the actual code removal.
+
+**Explicitly deferred (flagged, not silently skipped):** 6 routes with duplicated inline hook science (`captions/generate`, `competitor/analyze`, `trends/suggest`, `trends/fetch`, `analytics/insights`, `formulas/generate`) still don't pull from the updated `knowledge-base.ts`; 3 divergent proof-story banks (`ndivhuwo-stories.json` slug-keyed, the S001-S020 table in `knowledge-base.ts`, `docs/STORY_BANK.md`'s S01-S15) remain unreconciled; a standalone Hook Grader tool (paste-a-hook, get a real numeric score) is confirmed genuinely buildable but is a new dashboard tool, not a prompt edit — natural next project.
+
+**Verification:** `npx tsc --noEmit` clean after every file edit. `grep -n "ACT "` on the scripts route returns zero hits (no leftover dead-structure references). Grepped all touched files for known fact-conflict terms (P20 Pro, 285,000, 207,869) — clean.
+
+## Cross-Project Fact Sweep (2026-07-11)
+
+Fixed live (non-warning) instances of the recurring R285,000 SARS error and the wrong "P20 Pro / 2018 / borrowed" phone story, found while cross-checking this project against the "Ndivhuwo Twin" build in `nochill-knowledge-base`:
+- `docs/BRAND_GUIDELINES.md` — "R285K SARS bill" in a proof-point list → corrected to R207K.
+- `docs/FRAMEWORKS.md` — 4 live table/list entries treating R285K as real proof → corrected to R207K.
+- `docs/STORY_BANK.md` — 4 instances of the wrong phone story → "borrowed" → "from ATNS salary", "Huawei P20 Pro" → "Huawei", "2018" → "2014".
+- `lib/knowledge/ndivhuwo-stories.json` — same phone-story fix in a snippet field; re-validated as syntactically correct JSON afterward.
+- `CLAUDE.md`, this file's earlier entries, `docs/NOCHILL-CREDIBILITY-REPORT.md`, and `lib/knowledge-base.ts` already had the R285K figure correctly flagged as a banned/unverified figure — left untouched, they were already right.
+
 ## Owner Interview — Captured 2026-06-08
 
 Answers that shaped the initial setup of this workspace:
@@ -165,7 +199,7 @@ The "Failed to parse script response" error had THREE causes:
 
 1. **Prompt template had literal newlines inside a JSON string.** The `fullScript` field in the output format example (line ~655 of the scripts API route) showed the multiline script format WITH actual newlines inside the JSON string. The AI copied this format, producing invalid JSON that breaks `JSON.parse`. Fix: rewrote the `fullScript` example to use `\n` escape sequences. Also added explicit "CRITICAL JSON RULES" block at the top of the OUTPUT FORMAT section.
 
-2. **`max_tokens: 6000` was borderline for the full structure.** The 7-act JSON (actStructure × 7 + fullScript + bRoll + compliance with 15 section13 sub-fields) was hitting or exceeding 6000 tokens on longer content. Fix: raised to 8000 for the content mode. **Note: CLAUDE.md says 6000 for script routes — this is now 8000. Update CLAUDE.md if you rewrite it.**
+2. **`max_tokens: 6000` was borderline for the full structure.** The 7-act JSON (actStructure × 7 + fullScript + bRoll + compliance with 15 section13 sub-fields) was hitting or exceeding 6000 tokens on longer content. Fix: raised to 8000 for the content mode. **Note: CLAUDE.md says 6000 for script routes — this is now 8000. Update CLAUDE.md if you rewrite it.** ⚠️ STALE: actStructure/7-act REPLACED by stepStructure (9 steps) — see 2026-06-14 session. max_tokens remains 8000.
 
 3. **Client had no fallback for literal-newline JSON.** Fix: added two-pass parsing — first try clean JSON, then escape literal newlines inside string values using `/("(?:[^"\\]|\\.)*")/g` regex and `.replace(/\n/g, '\\n')`.
 
@@ -176,6 +210,23 @@ The "Failed to parse script response" error had THREE causes:
 - The `useEffect` that drives the timer depends on `[loading]` — it starts when loading begins and clears the interval when loading ends
 - The live output dark terminal box only renders when `streamingText.length > 20` — avoids showing an empty box on first tick
 - The `[animation-delay:Xms]` pattern for the bouncing dots requires Tailwind's arbitrary value support — works in this codebase
+
+---
+
+## Session 2026-06-14 — 9-Step Shell, Clean Script, ICP Gate, Full Integration
+
+- **7-Act Retention Formula REPLACED by 9-Step NOCHILL Signature Shell.** `actStructure`/7-act dead. `stepStructure` (9 steps) is the live output schema in `app/api/scripts/generate/route.ts`.
+- **9-Step sequence (non-negotiable):** Hook → Introduce Myself → Problem → Rehook → Personal Story → Rehook → Solution → Cost of Not Acting → CTA.
+- **`cleanScript` field added** to scripts API output — same as `fullScript` but `[DIRECTION]` lines removed, `[YOU]:` stripped, `[STEP N: NAME]` → `STEP N — NAME`. AI generates both; UI lets user toggle.
+- **WORDS ONLY is the default view** on scripts page. FULL SCRIPT available as director view. Send to Teleprompter always sends clean version.
+- **Teleprompter `processScriptWithMarkers`** now strips `[DIRECTION]` lines and `[YOU]:` prefix before adding breathing markers. Scripts pasted manually also get cleaned.
+- **120-hook bank active as few-shot training** — 12 examples (2 per category × 6 categories) injected into hooks system prompt before the 52 template section. Pattern recognition, not template copying.
+- **R×A×C×U^B is now pre-generative reasoning** — AI reasons through R→A→C→U→B BEFORE writing each hook. Replaced the old post-validation checklist. Quality impact: hooks are argument-first, not rule-checked.
+- **ICP gate at TOP of both forms** (hooks + scripts) — gold border, "Lock Your ICP First" label, auto-warning. First form element, above Topic/Idea.
+- **Batch → Scripts data transfer complete** — `openScriptWriter()` passes `icp`, `shadowFear`, `villain` + topic + platform. Scripts `pendingAction` consumer applies all 5 fields.
+- **Batch system prompt upgraded** — R×A×C×U^B Hook Quality Law, Proof Story Citation Law, all 10 shadow fears (was first 5 only), 9-step shell reference.
+- **Content Idea Engine deployed** — `nochill-content-ideas.vercel.app`. Separate Vercel project. 9-step formula in API prompt + all 10 fallback ideas in `index.html`.
+- ⚠️ STALE IN SCRIPTS PAGE: `LOADING_STEPS` array still uses 7-Act language ("Writing Act 1: The Negative Hook..."). Cosmetic only — not a logic issue. Fix next time `app/dashboard/scripts/page.tsx` is touched.
 
 ---
 
@@ -208,3 +259,88 @@ When a user says "I can't see the changes":
 1. Check Vercel MCP `list_deployments` to confirm latest commit is `state: "READY"` on production
 2. If READY: the issue is browser cache — tell user to hard refresh (Cmd+Shift+R Mac / Ctrl+Shift+R Windows)
 3. Also check: is the feature state-conditional? (loading card only shows during generation, not on page load) — user may be looking at the page in the wrong state
+
+---
+
+## Session 2026-06-14 — Full Integration, Persistence & Bridge Layer
+
+### What was completed
+1. **BackButton on all tool pages** — shared `components/BackButton.tsx` (ArrowLeft, "All Tools", routes to /dashboard). Added to: hooks, scripts, storytelling, batch-planner, content-calendar-plus, pipeline, teleprompter, content-studio, fears, repurpose.
+2. **Calendar grid/list toggle fix** — replaced single toggle with two-button group. Active = `bg-[#EFF6FF] text-[#2563EB]`, Inactive = `bg-white text-[#A1A1AA]`.
+3. **API update routes** — `PUT /api/hooks/update` and `PUT /api/stories/update` for in-place editing of saved content.
+4. **Storytelling session restore + edit mode** — on generate: saves to `sessionStorage('storytelling_last_output')`. On mount: restores from sessionStorage. Edit Story button → editable Textarea → Save Edits (calls PUT /api/stories/update if DB-saved) / Cancel.
+5. **Hook Bank → Scripts bridge** — hook-bank writes `localStorage('pendingAction')` action `'use-hook-in-script'`. Scripts page now reads this on mount (new `useEffect`) since ContentContext.pendingAction is in-memory only and doesn't survive navigation.
+6. **Hook Bank → Hooks Generator bridge** — new `useInHooksGenerator()` function + Sparkles button. Sets `localStorage('hookBankPreload')` → hooks page reads on mount and populates topic + hookType.
+7. **Story Bank → Scripts bridge** — story-bank writes `localStorage('pendingAction')` action `'use-story-in-script'`. Same scripts mount reader picks it up.
+8. **ICP Pain Library → Hooks bridge** — new `generateHookFromPain()` writes `localStorage('painToHookPreload')`. Hooks page reads on mount, sets topic + shadowFear + icp.
+9. **ICP Pain Library → Scripts bridge** — new `generateScriptFromPain()` writes `localStorage('pendingAction')` action `'use-story-in-script'`. Scripts page picks it up via the same mount reader.
+10. **LOADING_STEPS updated** — scripts page loading steps now reference 9-Step Shell language (Hook, Introduce, Problem, Rehook, Story, Solution, Cost, CTA) instead of stale 7-Act language.
+
+### Critical architecture insight: ContentContext vs localStorage bridges
+- `ContentContext.pendingAction` is **in-memory only** — it resets on page navigation. Using `setPendingAction()` before `router.push()` from a different page will NOT work because the context re-mounts.
+- The correct cross-page bridge pattern: write to `localStorage`, then `router.push()`. The destination page reads from localStorage in a `useEffect` on mount and immediately removes the key.
+- Hook Bank, Story Bank, ICP Pain Library all correctly use this localStorage-then-navigate pattern.
+- ContentContext `pendingAction` DOES work for in-page actions (e.g., Fears → Hooks on the same session without full navigation) — do not replace those with localStorage.
+
+### Content Studio — not migrated (scope decision)
+- Content Studio still uses localStorage for its Planned/Shot/Published Kanban boards.
+- The `ContentCard` DB model requires too many fields (`contentTitle`, `platform`, `contentType`, `contentPillar` mandatory) to map cleanly to the simple studio data model.
+- This is not a bug — it's a scoped-out migration. Do NOT attempt to auto-migrate unless the user explicitly asks and is ready for a full rewrite of the page.
+- Data persists fine within a browser session; only lost if localStorage is cleared manually.
+
+### Vercel CLI authentication note
+- Use the authenticated CLI at `/Users/NOCHILLGOD/.npm-global/bin/vercel` (version 54.9.1, user `chiefmuhanelwa-1497`).
+- Newer system CLI at 54.12.2+ fails with "Not authorized" — do NOT use the system path for production deploys.
+- Command: `/Users/NOCHILLGOD/.npm-global/bin/vercel --prod`
+
+---
+
+## Session 2026-06-15 — ICP 1 DECISION LOCKED + Full System Realignment
+
+### ⚡ DEFINITIVE ICP DECISION: ICP 1 (Called Expert) is the PRIMARY REVENUE ENGINE
+
+This is a permanent strategic decision — not a campaign decision, not a quarterly focus. All future AI generation, content planning, product positioning, and system defaults must reflect this.
+
+**Why ICP 1 is primary (the math that closed the argument):**
+- ICP 1 revenue math: 6–10 cohort sales at R9,997–R18,000 = R100K/month (one cohort. One month.)
+- ICP 2 revenue math to match: 400 sales at R250 = R100K. That's 40–67× more transactions.
+- Ndivhuwo IS ICP 1. He is a currently-employed professional (ATNS, Air Traffic Services) who built R600K/year from content in 4-hour shift windows. He is the proof. No competitor can replicate this.
+- The Called Expert Programme (CHKPLT) is the highest-margin product at R18,000 PIF / R6,500×3.
+- The 30-day Kingdom Business Fast Plan allocates 84% of revenue to ICP 1 products.
+- Survey data re-interpreted: "Monetisation Confusion" (71%) is not ICP 2-only — it IS the Called Expert's problem. They don't know how to monetise their expertise outside their employer. The pain matrix serves both ICPs. Only the LANGUAGE differs.
+
+**ICP 2 role going forward:**
+- ICP 2 = TRAFFIC ENGINE. Builds audience, fills email list, grows reach.
+- Low-ticket ICP 2 buyers (R250–R1,500) are the warmest ICP 1 leads. A creator who buys a R250 product and sees the system works is primed to invest R18K in the Called Expert cohort.
+- Never abandon ICP 2 content entirely — it feeds the pipeline.
+
+**The monopoly position (no competitor can replicate this combination):**
+1. Still employed at ATNS (OR Tambo) while earning R600K+ from content
+2. Shift worker testimony — built in 4-hour night shift windows
+3. Faith-integrated business model (CHKPLT = Christ's Kingdom Platform)
+4. Paid R207,879 SARS from professional + content dual income
+5. No degree — dropped out twice — yet SAMA31 judge, Meta speaker
+
+**The primary proof hook for all ICP 1 content (use this to open every series):**
+"I still work at ATNS. I built R600K in 4-hour shift windows between night shifts at OR Tambo. I never quit first. I built first. You don't have to quit either."
+
+**Kingdom revelation decoded (John 21 → content strategy):**
+- Jesus appeared at the place of WORK, not a church. The miracle happened when they cast on the RIGHT side.
+- Left side = rented platforms (Instagram suspended 780K followers, AdSense disabled December 2024)
+- Right side = CHKPLT (owned platform), products, email list, Called Expert cohort
+- The 153 fish = the Called Experts already in the water, waiting for someone to show them where to cast
+- Deuteronomy 1:6: "You have dwelt long enough at this mountain." = The shift worker, the teacher, the corporate trapped — they've been at the same mountain (job, salary, employer's building) long enough
+
+**The 6 Called Expert Sub-Segments (ICP 1 targeting):**
+1. The Shift Worker (Ndivhuwo's primary) — healthcare, aviation, security, transport, mining
+2. The Corporate Trapped (largest segment) — manager, analyst, accountant, HR
+3. The Teacher/Lecturer — deep expertise, chronically undervalued salary
+4. The Healthcare Worker — knowledge people Google at midnight (premium buyer)
+5. The Faith Professional — spiritual assignment without income structure
+6. The Freelancer at Capacity — fully booked, trading hours for money, no leverage
+
+### What was updated in this session
+- `lib/knowledge-base.ts`: ICP 1 = ⚡ PRIMARY REVENUE ENGINE label, monopoly position, ATNS primary proof hook, John 21 framing added to CREATOR IDENTITY, 6 sub-segments with hook angles, ICP 2 = 🔄 TRAFFIC ENGINE, feeler triggers split into ICP 1 (revenue) and ICP 2 (traffic), `icpDirective` default now leans toward ICP 1
+- `lib/knowledge/creator-dna.json`: `strategic_priority` block added at top level, `called_expert.sub_segments` (6 types), `buying_trigger`, `monopoly_position`, `primary_proof_hook` added to called_expert, `three_feeler_triggers` restructured with ICP 1 triggers first, `creator.positioning` updated to lead with Called Expert
+- `Learnings.md`: this entry
+- `CLAUDE.md` (project): ICP section updated to reflect ICP 1 = Revenue Engine, ICP 2 = Traffic Engine

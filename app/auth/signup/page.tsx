@@ -96,11 +96,23 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
-          <CardDescription className="text-center">
+    <div className="min-h-screen flex items-center justify-center px-4 font-display" style={{ background: '#F8F9FA' }}>
+      {/* Dot grid */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: 'radial-gradient(#D4D4D8 1px, transparent 1px)',
+        backgroundSize: '22px 22px',
+        opacity: 0.35,
+      }} />
+      <Card className="w-full max-w-md relative" style={{ border: '1px solid #E4E4E7', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+        <div className="flex flex-col items-center pt-8">
+          <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
+            style={{ background: '#18181B', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
+            <span className="font-display font-black text-white text-xl">N</span>
+          </div>
+        </div>
+        <CardHeader className="space-y-1 pt-2">
+          <CardTitle className="text-xl font-bold text-center" style={{ color: '#18181B' }}>Create an account</CardTitle>
+          <CardDescription className="text-center text-sm" style={{ color: '#71717A' }}>
             Get started with your content creation system
           </CardDescription>
         </CardHeader>

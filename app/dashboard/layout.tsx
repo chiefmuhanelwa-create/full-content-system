@@ -66,8 +66,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <Menu className="w-5 h-5" />
               </button>
               <div className="flex items-center gap-2 flex-1 justify-center">
-                <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: '#C9A84C' }}>
-                  <span className="font-display font-black text-[10px] leading-none" style={{ color: '#0f0f0f' }}>N</span>
+                <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: '#18181B' }}>
+                  <span className="font-display font-black text-[10px] leading-none" style={{ color: '#FFFFFF' }}>N</span>
                 </div>
                 <span className="font-display font-black text-sm tracking-tight" style={{ color: '#18181B' }}>NOCHILL</span>
               </div>

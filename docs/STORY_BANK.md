@@ -1,6 +1,8 @@
 # NOCHILL Proof Story Bank
 ## Ndivhuwo Muhanelwa — 15 Verified Stories (S01–S15)
 
+> Canonical source: `nochill-knowledge-base/W/stories/story-bank.md` (now synced to match, 15 stories).
+
 **Rules for use:**
 - Max 20% of any script or content piece
 - 1-2 stories per script maximum
@@ -111,14 +113,14 @@ Hook: "A brand DM landed in 2019. I quoted R750. I didn't know I could ask for R
 **Shadow fear it addresses:** Fear of wasting money on yourself | Waiting for perfect conditions
 
 ### The Snippet (10-15s)
-> "Borrowed R6,000 to buy a Huawei P20 Pro in 2018. Used it to create content that landed Netflix, Samsung, and Huawei deals. That phone paid for itself 100x over."
+> "Used my ATNS salary to buy a Huawei phone in 2014. Used it to create content that landed Netflix, Samsung, and Huawei deals. That phone paid for itself 100x over."
 
 ### The Full Story (60-90s delivery)
-> People always ask about equipment. "What camera do you use?" The honest answer: I started with R6,000 I didn't have. Borrowed it. Bought a Huawei P20 Pro. That was 2018. No ring light. No mic. No studio. Just a phone with a good camera and a non-negotiable belief that this investment was going to pay off. Eighteen months later, that same phone landed me Netflix, Samsung, and Huawei partnerships. R600,000+ in brand deals. All from a R6K decision. The equipment is not the barrier. The decision is.
+> People always ask about equipment. "What camera do you use?" The honest answer: I started with R6,000 from my ATNS salary. Bought a Huawei phone. That was 2014. No ring light. No mic. No studio. Just a phone with a good camera and a non-negotiable belief that this investment was going to pay off. Eighteen months later, that same phone landed me Netflix, Samsung, and Huawei partnerships. R600,000+ in brand deals. All from a R6K decision. The equipment is not the barrier. The decision is.
 
 ### The Numbers
-- Investment: R6,000 (borrowed)
-- Phone: Huawei P20 Pro (2018)
+- Investment: R6,000 (from ATNS salary)
+- Phone: Huawei (2014)
 - ROI: R600,000+ in brand deals within 18 months
 - Return multiple: 100x+
 
@@ -139,7 +141,7 @@ Hook: "A brand DM landed in 2019. I quoted R750. I didn't know I could ask for R
 
 ### Platform Scripts
 **TikTok (30s):**
-Hook: "I borrowed R6,000 to buy a phone. That phone made me R600,000." Body: "2018. No camera. No studio. Just a Huawei P20 Pro and a decision. Here's what happened." CTA: "The system I used is free to learn. Link in bio."
+Hook: "I used my salary to buy a R6,000 phone. That phone made me R600,000." Body: "2014. No camera. No studio. Just a Huawei and a decision. Here's what happened." CTA: "The system I used is free to learn. Link in bio."
 
 ---
 

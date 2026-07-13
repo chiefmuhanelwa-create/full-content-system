@@ -9,7 +9,8 @@ import {
   Calendar, BookMarked, ShoppingBag, Star, Repeat, PenTool,
   Tv2, Archive, Settings, ChevronDown, ChevronRight, Globe,
   Package, MonitorPlay, FlaskConical, Search, X,
-  LayoutGrid, Megaphone, Wallet, Hash, ClipboardList, Kanban
+  LayoutGrid, Megaphone, Wallet, Hash, ClipboardList, Kanban,
+  Users, Compass
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -91,6 +92,13 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
+    label: 'Empire',
+    items: [
+      { name: 'AI Board of Advisors', href: '/dashboard/advisors', icon: Users, badge: 'NEW' },
+      { name: 'CHKPLT North Star', href: '/dashboard/mission', icon: Compass, badge: 'NEW' },
+    ],
+  },
+  {
     label: 'System',
     items: [
       { name: 'Settings', href: '/dashboard/settings', icon: Settings },
@@ -132,43 +140,43 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
       "lg:static lg:translate-x-0 lg:z-auto lg:flex-shrink-0",
       isOpen ? "translate-x-0" : "-translate-x-full"
     )}
-    style={{ background: '#0d0d0d', borderRight: '1px solid #222' }}
+    style={{ background: '#FFFFFF', borderRight: '1px solid #E4E4E7' }}
     >
 
       {/* Brand */}
-      <div className="px-4 py-4 flex-shrink-0 flex items-center justify-between" style={{ borderBottom: '1px solid #1e1e1e' }}>
+      <div className="px-4 py-4 flex-shrink-0 flex items-center justify-between" style={{ borderBottom: '1px solid #E4E4E7' }}>
         <Link href="/dashboard" onClick={onClose} className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#C9A84C' }}>
-            <span className="font-display font-black text-xs leading-none" style={{ color: '#0d0d0d' }}>N</span>
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#18181B' }}>
+            <span className="font-display font-black text-xs leading-none" style={{ color: '#FFFFFF' }}>N</span>
           </div>
           <div>
-            <p className="font-display font-black text-[15px] tracking-tight leading-none" style={{ color: '#FAF7F0' }}>NOCHILL</p>
-            <p className="text-[10px] font-display mt-0.5 leading-none" style={{ color: '#5a5a6a' }}>Content Intelligence</p>
+            <p className="font-display font-black text-[15px] tracking-tight leading-none" style={{ color: '#18181B' }}>NOCHILL</p>
+            <p className="text-[10px] font-display mt-0.5 leading-none" style={{ color: '#A1A1AA' }}>Content Intelligence</p>
           </div>
         </Link>
         <button
           onClick={onClose}
           aria-label="Close navigation"
           className="lg:hidden p-1.5 rounded-lg transition-colors"
-          style={{ color: '#5a5a6a' }}
+          style={{ color: '#71717A' }}
         >
           <X className="w-4 h-4" />
         </button>
       </div>
 
       {/* Search */}
-      <div className="px-3 py-2.5 flex-shrink-0" style={{ borderBottom: '1px solid #1e1e1e' }}>
+      <div className="px-3 py-2.5 flex-shrink-0" style={{ borderBottom: '1px solid #E4E4E7' }}>
         <button
           onClick={onSearchOpen}
           className="flex items-center gap-2 px-3 py-2 rounded-lg w-full text-left transition-colors"
-          style={{ background: '#1a1a1a', border: '1px solid #2b2b2b' }}
-          onMouseEnter={e => (e.currentTarget.style.borderColor = '#383838')}
-          onMouseLeave={e => (e.currentTarget.style.borderColor = '#2b2b2b')}
+          style={{ background: '#F4F4F5', border: '1px solid #E4E4E7' }}
+          onMouseEnter={e => (e.currentTarget.style.borderColor = '#D4D4D8')}
+          onMouseLeave={e => (e.currentTarget.style.borderColor = '#E4E4E7')}
         >
-          <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#5a5a6a' }} />
-          <span className="text-[12px] font-display flex-1" style={{ color: '#5a5a6a' }}>Search tools...</span>
+          <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#A1A1AA' }} />
+          <span className="text-[12px] font-display flex-1" style={{ color: '#A1A1AA' }}>Search tools...</span>
           <kbd className="text-[9px] font-display px-1.5 py-0.5 rounded hidden sm:block"
-            style={{ color: '#383838', background: '#111', border: '1px solid #2b2b2b' }}>⌘K</kbd>
+            style={{ color: '#A1A1AA', background: '#FFFFFF', border: '1px solid #E4E4E7' }}>⌘K</kbd>
         </button>
       </div>
 
@@ -183,16 +191,16 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
               <button
                 onClick={() => toggleGroup(group.label)}
                 className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left transition-colors"
-                onMouseEnter={e => (e.currentTarget.style.background = '#1a1a1a')}
+                onMouseEnter={e => (e.currentTarget.style.background = '#F4F4F5')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               >
                 <span className="text-[10px] font-display font-semibold uppercase tracking-widest"
-                  style={{ color: hasActive ? '#C9A84C' : '#3a3a4a' }}>
+                  style={{ color: hasActive ? '#2563EB' : '#A1A1AA' }}>
                   {group.label}
                 </span>
                 {isGroupOpen
-                  ? <ChevronDown className="w-3 h-3" style={{ color: '#3a3a4a' }} />
-                  : <ChevronRight className="w-3 h-3" style={{ color: '#3a3a4a' }} />
+                  ? <ChevronDown className="w-3 h-3" style={{ color: '#A1A1AA' }} />
+                  : <ChevronRight className="w-3 h-3" style={{ color: '#A1A1AA' }} />
                 }
               </button>
 
@@ -208,29 +216,29 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
                         <div
                           className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg transition-all"
                           style={{
-                            background: isActive ? 'rgba(201, 168, 76, 0.12)' : 'transparent',
-                            color: isActive ? '#C9A84C' : '#8a8a96',
+                            background: isActive ? '#EFF6FF' : 'transparent',
+                            color: isActive ? '#2563EB' : '#52525B',
                           }}
                           onMouseEnter={e => {
-                            if (!isActive) e.currentTarget.style.background = '#1a1a1a'
+                            if (!isActive) e.currentTarget.style.background = '#F4F4F5'
                           }}
                           onMouseLeave={e => {
                             if (!isActive) e.currentTarget.style.background = 'transparent'
                           }}
                         >
                           <Icon className="h-4 w-4 flex-shrink-0"
-                            style={{ color: isActive ? '#C9A84C' : '#4a4a5a' }} />
+                            style={{ color: isActive ? '#2563EB' : '#A1A1AA' }} />
                           <div className="flex-1 min-w-0 flex items-center gap-1.5">
                             <p className="text-[13px] font-display truncate leading-none"
                               style={{
                                 fontWeight: isActive ? 600 : 400,
-                                color: isActive ? '#C9A84C' : '#8a8a96',
+                                color: isActive ? '#2563EB' : '#52525B',
                               }}>
                               {item.name}
                             </p>
                             {item.badge && (
                               <span className="text-[8px] font-display font-bold px-1.5 py-0.5 rounded tracking-widest uppercase flex-shrink-0"
-                                style={{ background: '#C9A84C', color: '#0d0d0d' }}>
+                                style={{ background: '#EFF6FF', color: '#1D4ED8' }}>
                                 {item.badge}
                               </span>
                             )}
@@ -247,31 +255,31 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
       </div>
 
       {/* User + logout */}
-      <div className="flex-shrink-0 p-3" style={{ borderTop: '1px solid #1e1e1e' }}>
-        <div className="flex items-center gap-2.5 mb-2">
+      <div className="flex-shrink-0 p-3" style={{ borderTop: '1px solid #E4E4E7' }}>
+        <div className="flex items-center gap-2.5 mb-2 px-1 py-1.5 rounded-lg" style={{ background: '#F8F9FA' }}>
           <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
-            style={{ background: 'rgba(201, 168, 76, 0.15)', border: '1px solid rgba(201, 168, 76, 0.3)' }}>
-            <span className="font-display font-black text-[11px] leading-none" style={{ color: '#C9A84C' }}>
+            style={{ background: '#EFF6FF', border: '1px solid rgba(37, 99, 235, 0.25)' }}>
+            <span className="font-display font-black text-[11px] leading-none" style={{ color: '#2563EB' }}>
               {userName.charAt(0).toUpperCase()}
             </span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-display font-semibold truncate leading-none" style={{ color: '#FAF7F0' }}>{userName}</p>
-            <p className="text-[11px] font-display truncate mt-0.5 leading-none" style={{ color: '#5a5a6a' }}>{userHandle}</p>
+            <p className="text-[13px] font-display font-semibold truncate leading-none" style={{ color: '#18181B' }}>{userName}</p>
+            <p className="text-[11px] font-display truncate mt-0.5 leading-none" style={{ color: '#A1A1AA' }}>{userHandle}</p>
           </div>
         </div>
         <button
           onClick={handleSignOut}
           className="w-full flex items-center justify-center gap-2 py-2 rounded-lg transition-all text-[12px] font-display font-medium"
-          style={{ color: '#5a5a6a', border: '1px solid #1e1e1e' }}
+          style={{ color: '#71717A', border: '1px solid #E4E4E7' }}
           onMouseEnter={e => {
-            e.currentTarget.style.color = '#f87171'
-            e.currentTarget.style.borderColor = 'rgba(248, 113, 113, 0.3)'
-            e.currentTarget.style.background = 'rgba(248, 113, 113, 0.06)'
+            e.currentTarget.style.color = '#EF4444'
+            e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'
+            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.05)'
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.color = '#5a5a6a'
-            e.currentTarget.style.borderColor = '#1e1e1e'
+            e.currentTarget.style.color = '#71717A'
+            e.currentTarget.style.borderColor = '#E4E4E7'
             e.currentTarget.style.background = 'transparent'
           }}
         >

@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { BackButton } from '@/components/BackButton'
 import {
   Select,
   SelectContent,
@@ -14,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen, Monitor, Edit, Save, Layers, Hash, Repeat } from 'lucide-react'
+import { FileText, Sparkles, Copy, Download, Calendar as CalendarIcon, BookOpen, Monitor, Edit, Save, Layers, Hash, Repeat, Target } from 'lucide-react'
 import { useContent } from '@/contexts/ContentContext'
 import { useRouter } from 'next/navigation'
 
@@ -150,6 +151,27 @@ interface GeneratedScript {
   }
 }
 
+// Stateful JSON repair: escapes literal control chars inside string values.
+// Handles fullScript (multi-thousand chars) without regex backtracking issues.
+function repairJSON(raw: string): string {
+  let out = ''
+  let inString = false
+  let escaped = false
+  for (let i = 0; i < raw.length; i++) {
+    const c = raw[i]
+    if (escaped) { out += c; escaped = false; continue }
+    if (c === '\\' && inString) { escaped = true; out += c; continue }
+    if (c === '"') { inString = !inString; out += c; continue }
+    if (inString) {
+      if (c === '\n') { out += '\\n'; continue }
+      if (c === '\r') { out += '\\r'; continue }
+      if (c === '\t') { out += '\\t'; continue }
+    }
+    out += c
+  }
+  return out
+}
+
 export default function ScriptWriterPage() {
   const { pendingAction, setPendingAction, addContentToCalendar, stories, selectedStory, selectStory } = useContent()
   const router = useRouter()
@@ -159,9 +181,11 @@ export default function ScriptWriterPage() {
   const [duration, setDuration] = useState('auto')
   const [loading, setLoading] = useState(false)
   const [script, setScript] = useState<GeneratedScript | null>(null)
+  const [scriptWarnings, setScriptWarnings] = useState<string[]>([])
   const [error, setError] = useState('')
   const [showStorySelector, setShowStorySelector] = useState(false)
   const [copySuccess, setCopySuccess] = useState(false)
+  const [scriptViewMode, setScriptViewMode] = useState<'words' | 'full'>('words')
   const [isEditing, setIsEditing] = useState(false)
   const [editedScript, setEditedScript] = useState<GeneratedScript | null>(null)
   const [saveSuccess, setSaveSuccess] = useState(false)
@@ -171,7 +195,7 @@ export default function ScriptWriterPage() {
 
   // Sales Script Mode
   const [scriptMode, setScriptMode] = useState<'content' | 'sales'>('content')
-  const [scriptTemplate, setScriptTemplate] = useState<'auto' | 'never_ever' | 'important_vs' | 'dont_do_this'>('auto')
+  const [scriptTemplate, setScriptTemplate] = useState<'auto' | 'never_ever' | 'important_vs' | 'dont_do_this' | 'pure_story' | 'revelation' | 'how_to' | 'social_proof'>('auto')
 
   // R50 quality gate
   const [r50Strong, setR50Strong] = useState(false)
@@ -189,10 +213,10 @@ export default function ScriptWriterPage() {
   const LOADING_STEPS = [
     { icon: '🎯', text: 'Locking onto your ICP...', detail: 'Identifying your target audience and shadow fears' },
     { icon: '🔬', text: 'Applying R×A×C×U^B formula...', detail: 'Building hook science — Relevance, Awareness, Clarity, Unique, Broadened' },
-    { icon: '📖', text: 'Writing Act 1: The Negative Hook...', detail: 'Stopping the scroll — the first 3 seconds are everything' },
-    { icon: '💡', text: 'Writing Acts 2–3: Truth + Origin Story...', detail: 'Challenging beliefs and embedding your proof story' },
-    { icon: '🔥', text: 'Writing Acts 4–5: Breaking Point + Transformation...', detail: 'The emotional core — lowest point to breakthrough' },
-    { icon: '⚡', text: 'Writing Acts 6–7: Framework + Mission CTA...', detail: 'Teaching the system and building the collective call to action' },
+    { icon: '🎣', text: 'Writing Step 1: Hook...', detail: 'Stopping the scroll — the first 3 seconds are everything' },
+    { icon: '👋', text: 'Writing Steps 2–3: Introduce + Problem...', detail: 'Who you are, one credibility number, then the pain point' },
+    { icon: '🔥', text: 'Writing Steps 4–5: Rehook + Personal Story...', detail: 'Pulling them back in, then your proof story from the bank' },
+    { icon: '⚡', text: 'Writing Steps 6–8: Solution + Cost + CTA...', detail: 'The system reveal, cost of inaction, and your call to action' },
     { icon: '✅', text: 'Running Section 13 compliance check...', detail: 'Verifying all 15 NOCHILL content protocols' },
     { icon: '🎬', text: 'Finalising your full script...', detail: 'Packaging everything for teleprompter and production' },
   ]
@@ -217,6 +241,20 @@ export default function ScriptWriterPage() {
   const [icp, setIcp] = useState('auto') // ICP 1 Called Expert / ICP 2 Content Creator Inspirer
   const [shadowFear, setShadowFear] = useState('auto') // 10 NOCHILL shadow fears
   const [villain, setVillain] = useState('') // named system/situation villain
+
+  // Restore last generated script on mount
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('scripts_last_output')
+      if (saved) {
+        const { script: savedScript, idea: savedIdea } = JSON.parse(saved)
+        if (savedScript) {
+          setScript(savedScript)
+          if (savedIdea) setIdea(savedIdea)
+        }
+      }
+    } catch { /* ignore */ }
+  }, [])
 
   // Load products from DB
   useEffect(() => {
@@ -286,6 +324,22 @@ export default function ScriptWriterPage() {
     }
   }, [products])
 
+  // Bridge: Hook Bank / Story Bank write to localStorage('pendingAction') directly
+  useEffect(() => {
+    const raw = localStorage.getItem('pendingAction')
+    if (!raw) return
+    try {
+      const parsed = JSON.parse(raw)
+      localStorage.removeItem('pendingAction')
+      if (parsed.action === 'use-hook-in-script' && parsed.data) {
+        setIdea(parsed.data.content || '')
+        if (parsed.data.platform) setPlatform(parsed.data.platform)
+      } else if (parsed.action === 'use-story-in-script' && parsed.data) {
+        setIdea((prev) => (prev ? prev + '\n\nProof Story: ' : 'Proof Story: ') + parsed.data.content)
+      }
+    } catch { /* ignore */ }
+  }, [])
+
   // Check for pending action (hook from Hook Generator or Calendar)
   useEffect(() => {
     if (pendingAction.action === 'use-hook-in-script' && pendingAction.data) {
@@ -305,6 +359,10 @@ export default function ScriptWriterPage() {
       const entry = pendingAction.data
       setIdea(entry.notes || entry.title)
       setPlatform(entry.platform.toLowerCase())
+      if (entry.scriptTemplate) setScriptTemplate(entry.scriptTemplate)
+      if (entry.icp && entry.icp !== 'auto') setIcp(entry.icp)
+      if (entry.shadowFear && entry.shadowFear !== 'auto') setShadowFear(entry.shadowFear)
+      if (entry.villain) setVillain(entry.villain)
       setPendingAction(null)
     }
   }, [pendingAction, setPendingAction])
@@ -499,22 +557,28 @@ export default function ScriptWriterPage() {
         try {
           parsedScript = JSON.parse(jsonStr)
         } catch {
-          // The AI may have output literal newlines inside JSON string values.
-          // Fix: escape literal newlines/tabs that appear inside quoted strings.
-          const fixed = jsonStr.replace(
-            /("(?:[^"\\]|\\.)*")/g,
-            (match) => match
-              .replace(/\n/g, '\\n')
-              .replace(/\r/g, '\\r')
-              .replace(/\t/g, '\\t')
-          )
-          parsedScript = JSON.parse(fixed)
+          // Stateful repair: walk char-by-char to escape literal control characters
+          // inside JSON string values. The regex approach breaks on large strings.
+          parsedScript = JSON.parse(repairJSON(jsonStr))
         }
-      } catch {
+      } catch (parseErr) {
+        console.error('Script parse failed. Raw response (first 500 chars):', fullText.slice(0, 500))
         throw new Error('Failed to parse script response. Try again.')
       }
 
       setScript(parsedScript)
+      try { sessionStorage.setItem('scripts_last_output', JSON.stringify({ script: parsedScript, idea })) } catch { /* ignore */ }
+
+      // Client-side formula validation
+      const sw: string[] = []
+      if (parsedScript.fullScript) {
+        const stepMatches = (parsedScript.fullScript.match(/\[STEP \d+:/g) || []).length
+        if (stepMatches < 9) sw.push(`Only ${stepMatches}/9 step labels found — script may be incomplete`)
+        const ctaStep = parsedScript.fullScript.match(/\[STEP 9:[^\]]*\]([\s\S]*?)(?:\[STEP|$)/)?.[1] || ''
+        const imperatives = (ctaStep.match(/\b(go|click|follow|comment|share|download|join|dm|message|visit|buy|get|start|grab)\b/gi) || [])
+        if (imperatives.length > 2) sw.push(`Step 9 has ${imperatives.length} CTAs — should be ONE clear action`)
+      }
+      setScriptWarnings(sw)
 
       // Track the used story for rotation
       if (parsedScript?.fiveLine?.calibration?.storyUsed) {
@@ -776,6 +840,13 @@ ${script.scripting_principles_check ? `
     }
   }
 
+  const getCleanScript = (raw: string): string =>
+    raw
+      .split('\n')
+      .filter(line => !line.trim().startsWith('[DIRECTION]'))
+      .map(line => line.replace(/^\[YOU\]:\s*/i, '').replace(/^\[STEP (\d+):\s*([^\]]+)\]/i, 'STEP $1 — $2'))
+      .join('\n')
+
   const loadToTeleprompter = () => {
     if (!script) return
 
@@ -783,9 +854,10 @@ ${script.scripting_principles_check ? `
 
     let fullScript = ''
 
-    // Use fullScript field if available (NEW 10-step framework)
+    // Use cleanScript if available, otherwise strip client-side
     if (scriptToUse.fullScript) {
-      fullScript = `${scriptToUse.title}\n\n${scriptToUse.fullScript}`
+      const cleanRaw = (scriptToUse as any).cleanScript || getCleanScript(scriptToUse.fullScript)
+      fullScript = `${scriptToUse.title}\n\n${cleanRaw}`
     }
     // Build from tenStepScript if available
     else if (scriptToUse.tenStepScript) {
@@ -1010,8 +1082,19 @@ ${scriptToUse.fiveLine.community.script}`
     router.push('/dashboard/repurpose')
   }
 
+  const buildPitchFromScript = () => {
+    if (!script) return
+    localStorage.setItem('pitchScriptPreload', JSON.stringify({
+      pain: script.title || idea,
+      proof: (script as any).hook?.text || script.fullScript?.split('\n')[0] || '',
+      seriesContext: '',
+    }))
+    router.push('/dashboard/pitch')
+  }
+
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
+      <div className="px-6 pt-4"><BackButton /></div>
       <ToolPageHeader
         icon={FileText}
         iconColor="text-blue-500"
@@ -1057,19 +1140,26 @@ ${scriptToUse.fiveLine.community.script}`
                   <Select value={scriptTemplate} onValueChange={(v: any) => setScriptTemplate(v)}>
                     <SelectTrigger id="scriptTemplate"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="auto">Auto — AI chooses best structure</SelectItem>
-                      <SelectItem value="never_ever">Never Ever Ever — destroy the wrong, replace with right</SelectItem>
+                      <SelectItem value="auto">Auto — AI reasons to the best approach for your topic</SelectItem>
+                      <SelectItem value="never_ever">Never Ever Ever — destroy the wrong, install the right</SelectItem>
                       <SelectItem value="important_vs">Important V/S Not Important — reframe priorities</SelectItem>
                       <SelectItem value="dont_do_this">Don&apos;t Do This — warning + rescue arc</SelectItem>
+                      <SelectItem value="pure_story">Pure Story — the narrative carries the lesson</SelectItem>
+                      <SelectItem value="revelation">Revelation / Mindshift — counterintuitive truth</SelectItem>
+                      <SelectItem value="how_to">How-To Walkthrough — numbered steps, actionable today</SelectItem>
+                      <SelectItem value="social_proof">Social Proof Cascade — stack receipts, build credibility</SelectItem>
                     </SelectContent>
                   </Select>
-                  {scriptTemplate !== 'auto' && (
-                    <p className="text-[11px] font-display px-2 py-1.5 rounded" style={{ background: 'rgba(201,168,76,0.08)', color: '#C9A84C', border: '1px solid rgba(201,168,76,0.2)' }}>
-                      {scriptTemplate === 'never_ever' && '⚡ Risk Reversal template — Contrast-based authority. Destroy the mistake, install the correct system.'}
-                      {scriptTemplate === 'important_vs' && '🔥 Controversial template — Reframe what actually matters. Takes a position against conventional wisdom.'}
-                      {scriptTemplate === 'dont_do_this' && '🚨 Warning template — Urgency + rescue. Starts mid-consequence. Highest emotional pull.'}
-                    </p>
-                  )}
+                  <p className="text-[11px] font-display px-2 py-1.5 rounded" style={{ background: 'rgba(37,99,235,0.08)', color: '#2563EB', border: '1px solid rgba(37,99,235,0.2)' }}>
+                    {scriptTemplate === 'auto' && '🤖 Auto — AI reads your topic + platform + ICP and picks the best style. Declares choice in the compliance block.'}
+                    {scriptTemplate === 'never_ever' && '⚡ Contrast authority — Step 3: destroy the wrong action with proof. Step 7: install the correct named system. Risk Reversal peak.'}
+                    {scriptTemplate === 'important_vs' && '🔥 Priority reframe — Step 3: name what people obsess over. Step 7: reveal what actually matters. Controversial peak.'}
+                    {scriptTemplate === 'dont_do_this' && '🚨 Warning + rescue — Step 3: open mid-consequence. Step 7: step-by-step rescue. Highest urgency. Negative Assumption peak.'}
+                    {scriptTemplate === 'pure_story' && '📖 Pure Story — Step 3: scene-set the painful before (date, place, moment). Step 7: the exact turning-point — no summary. Emotional Anchor peak.'}
+                    {scriptTemplate === 'revelation' && '💡 Mindshift — Step 3: the false belief they hold as fact. Step 7: the counterintuitive truth that changes everything. Curiosity peak.'}
+                    {scriptTemplate === 'how_to' && '📋 How-To — Step 3: the pain of NOT knowing this. Step 7: exactly 3-5 numbered steps, actionable today. Educational Value peak.'}
+                    {scriptTemplate === 'social_proof' && '🏆 Proof Cascade — Step 3: what life looks like without proof. Step 7: stack verified receipts from the story bank. Proof Point peak.'}
+                  </p>
                 </div>
               )}
 
@@ -1128,6 +1218,25 @@ ${scriptToUse.fiveLine.community.script}`
                   </div>
                 </>
               )}
+
+              {/* ICP Lock — Step 0 */}
+              <div className="space-y-2 p-3 rounded-lg border-2 border-[#2563EB] bg-[#EFF6FF]">
+                <Label htmlFor="icp-top" className="text-sm font-bold text-[#7A5F18] uppercase tracking-wide">
+                  Lock Your ICP First
+                </Label>
+                <p className="text-xs text-[#7A5F18]">Everything else — hook angle, shadow fear, story, CTA — depends on who you're talking to.</p>
+                <Select value={icp} onValueChange={setIcp}>
+                  <SelectTrigger id="icp-top" className="bg-white border-[#2563EB] focus:ring-[#2563EB]"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="auto">🤖 Auto-detect from idea {icp === 'auto' ? '— picking manually gives better output' : ''}</SelectItem>
+                    <SelectItem value="icp1">👔 ICP 1 — Called Expert (32–50, unexploited expertise)</SelectItem>
+                    <SelectItem value="icp2">📱 ICP 2 — Content Creator Inspirer (18–35, aspiring)</SelectItem>
+                  </SelectContent>
+                </Select>
+                {icp === 'auto' && (
+                  <p className="text-xs text-amber-600">⚠️ Auto will guess — picking manually gives significantly better output</p>
+                )}
+              </div>
 
               {/* Main Idea Input */}
               <div className="space-y-2">
@@ -1391,7 +1500,7 @@ ${scriptToUse.fiveLine.community.script}`
               {/* Info Box */}
               <div className={`p-4 border rounded-md ${scriptMode === 'sales' ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'}`}>
                 <p className={`text-sm font-medium mb-2 ${scriptMode === 'sales' ? 'text-green-800' : 'text-blue-800'}`}>
-                  {scriptMode === 'sales' ? '💰 10-Step Sales Framework:' : '🎯 7-Act Retention Formula:'}
+                  {scriptMode === 'sales' ? '💰 10-Step Sales Framework:' : '🎯 9-Step NOCHILL Signature Shell:'}
                 </p>
                 {scriptMode === 'sales' ? (
                   <ul className="text-xs text-green-700 space-y-1">
@@ -1408,13 +1517,15 @@ ${scriptToUse.fiveLine.community.script}`
                   </ul>
                 ) : (
                   <ul className="text-xs text-blue-700 space-y-1">
-                    <li>• <strong>Act 1: Negative Hook (0-15s):</strong> Stop scroll, open loop, emotional response</li>
-                    <li>• <strong>Act 2: Uncomfortable Truth (15s-1min):</strong> Pattern interrupt, challenge beliefs</li>
-                    <li>• <strong>Act 3: Origin Story (1-2.5min):</strong> Build credibility through vulnerability</li>
-                    <li>• <strong>Act 4: Breaking Point (2.5-4min):</strong> Nuclear story, crisis moment</li>
-                    <li>• <strong>Act 5: Transformation (4-5.5min):</strong> Decision point, rapid wins</li>
-                    <li>• <strong>Act 6: Framework (5.5-6.5min):</strong> Tactical teaching, screenshot-worthy</li>
-                    <li>• <strong>Act 7: Mission + CTA (6.5-7.5min):</strong> Rally cry, collective action</li>
+                    <li>• <strong>Step 1: Hook</strong> — R×A×C×U^B formula, 70%+ emotional intensity</li>
+                    <li>• <strong>Step 2: Introduce Myself</strong> — who I am, one credibility number</li>
+                    <li>• <strong>Step 3: Problem</strong> — <span className="text-purple-600">[style approach applies here]</span></li>
+                    <li>• <strong>Step 4: Rehook</strong> — tension-building, specific forward reference</li>
+                    <li>• <strong>Step 5: Personal Story</strong> — vulnerability + verified proof number</li>
+                    <li>• <strong>Step 6: Rehook</strong> — teases the solution about to come</li>
+                    <li>• <strong>Step 7: Solution</strong> — <span className="text-purple-600">[style approach applies here]</span></li>
+                    <li>• <strong>Step 8: Cost of Not Acting</strong> — shadow fear activation, implicit</li>
+                    <li>• <strong>Step 9: CTA</strong> — single action: lead / sales / engagement / sign-up</li>
                   </ul>
                 )}
               </div>
@@ -1580,6 +1691,10 @@ ${scriptToUse.fiveLine.community.script}`
                             {repurposeLoading ? 'Loading...' : 'Repurpose'}
                           </Button>
                         )}
+                        <Button size="sm" variant="outline" onClick={buildPitchFromScript} className="bg-amber-50 hover:bg-amber-100 border-amber-300">
+                          <Target className="h-4 w-4 mr-2 text-amber-600" />
+                          Pitch
+                        </Button>
                       </>
                     )}
                   </div>
@@ -1644,14 +1759,27 @@ ${scriptToUse.fiveLine.community.script}`
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-2xl">🎬</span>
                       <h3 className="text-lg font-bold text-green-700">
-                        {script.actStructure ? '7-ACT RETENTION FORMULA' : 'THE 10-STEP STORYTELLING FRAMEWORK'}
+                        {script.fullScript?.includes('[STEP 1:') ? '9-STEP NOCHILL SIGNATURE FORMULA' : script.actStructure ? '7-ACT RETENTION FORMULA' : 'THE 10-STEP STORYTELLING FRAMEWORK'}
                       </h3>
                     </div>
 
                     {/* Framework Overview Badge */}
                     <div className="mb-4 p-3 bg-blue-100 border-l-4 border-blue-600 rounded text-xs">
                       <p className="font-semibold text-blue-900 mb-2">Framework Structure:</p>
-                      {script.actStructure ? (
+                      {script.fullScript?.includes('[STEP 1:') ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-blue-800">
+                          <div>Step 1: Hook (R×A×C×U^B)</div>
+                          <div>Step 6: Rehook</div>
+                          <div>Step 2: Introduce Myself</div>
+                          <div>Step 7: Solution</div>
+                          <div>Step 3: Problem</div>
+                          <div>Step 8: Cost of Not Acting</div>
+                          <div>Step 4: Rehook</div>
+                          <div>Step 9: CTA</div>
+                          <div>Step 5: Personal Story</div>
+                          <div className="text-purple-600 font-semibold">Shadow Fear + Proof Story</div>
+                        </div>
+                      ) : script.actStructure ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-blue-800">
                           <div>Act 1: Negative Hook</div>
                           <div>Act 5: Transformation</div>
@@ -1694,13 +1822,41 @@ ${scriptToUse.fiveLine.community.script}`
                       </div>
                     )}
 
+                    {scriptWarnings.length > 0 && (
+                      <div className="mb-3 p-3 rounded-md border border-amber-300 bg-amber-50">
+                        <p className="text-xs font-bold text-amber-700 mb-1">⚠️ Formula check</p>
+                        {scriptWarnings.map((w, i) => (
+                          <p key={i} className="text-xs text-amber-700">• {w}</p>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="flex items-center gap-2 mb-3">
+                      <button
+                        onClick={() => setScriptViewMode('words')}
+                        className={`px-3 py-1 text-xs font-bold rounded-full border transition-all ${scriptViewMode === 'words' ? 'bg-[#2563EB] border-[#2563EB] text-black' : 'bg-white border-gray-300 text-gray-600 hover:border-[#2563EB] hover:text-[#2563EB]'}`}
+                      >
+                        WORDS ONLY
+                      </button>
+                      <button
+                        onClick={() => setScriptViewMode('full')}
+                        className={`px-3 py-1 text-xs font-bold rounded-full border transition-all ${scriptViewMode === 'full' ? 'bg-gray-800 border-gray-800 text-white' : 'bg-white border-gray-300 text-gray-600 hover:border-gray-800 hover:text-gray-800'}`}
+                      >
+                        FULL SCRIPT
+                      </button>
+                      <span className="text-xs text-gray-400 ml-1">
+                        {scriptViewMode === 'words' ? 'Spoken words only — ready to record' : 'Director view with camera notes'}
+                      </span>
+                    </div>
                     <div className="bg-white p-4 rounded-md border border-green-200 max-h-[600px] overflow-y-auto">
                       <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-gray-800">
-                        {script.fullScript}
+                        {scriptViewMode === 'words'
+                          ? ((script as any).cleanScript || getCleanScript(script.fullScript || ''))
+                          : script.fullScript}
                       </pre>
                     </div>
                     <p className="text-xs text-green-700 mt-3">
-                      ✅ This script follows the complete {script.actStructure ? '7-Act Retention Formula' : '10-step storytelling framework'} with clear divisions. Click "Teleprompter" above to load it for recording.
+                      ✅ This script follows the 9-Step NOCHILL Signature Shell. Click "Teleprompter" above to load the clean version for recording.
                     </p>
                   </div>
                 )}
@@ -2097,11 +2253,11 @@ ${scriptToUse.fiveLine.community.script}`
                 <div className="rounded-xl p-5 mt-2" style={{ background: '#1a1a1a', border: '1px solid #2b2b2b' }}>
                   <div className="flex items-center gap-2 mb-4">
                     <span style={{ fontSize: 16 }}>⚡</span>
-                    <span className="text-sm font-display font-bold uppercase tracking-wider" style={{ color: '#C9A84C' }}>R50 Quality Gate</span>
+                    <span className="text-sm font-display font-bold uppercase tracking-wider" style={{ color: '#2563EB' }}>R50 Quality Gate</span>
                     <span className="ml-auto text-[10px] font-display px-1.5 py-0.5 rounded font-bold"
                       style={{
                         background: [r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length === 4 ? 'rgba(34,197,94,0.12)' : 'rgba(201,168,76,0.1)',
-                        color: [r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length === 4 ? '#22c55e' : '#C9A84C',
+                        color: [r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length === 4 ? '#22c55e' : '#2563EB',
                         border: `1px solid ${[r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length === 4 ? 'rgba(34,197,94,0.3)' : 'rgba(201,168,76,0.25)'}`,
                       }}>
                       {[r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length}/4 — {[r50Strong, r50Visual, r50Actionable, r50Worthy].filter(Boolean).length === 4 ? 'Ready to post' : 'Keep refining'}

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { checkRateLimit } from '@/lib/rate-limit'
-import { buildSystemPrompt } from '@/lib/knowledge-base'
-import contentFormulas from '@/lib/knowledge/content-formulas.json'
+// content-formulas.json removed — 9-step NOCHILL shell supersedes timing-based formulas
+const contentFormulas: Record<string, unknown> = {}
 
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)
@@ -34,10 +34,23 @@ CRITICAL: Write in THEIR voice, not a generic voice.`
     const formulaType = contentType === 'talking-head' ? 'talkingHeadFormulas' : 'youtubeFormulas'
     const formulaData = (contentFormulas as any)[formulaType] || {}
 
-    const systemPrompt = buildSystemPrompt('scripts') + `
+    const systemPrompt = `You are the NOCHILL Content Intelligence System for Ndivhuwo Muhanelwa (@nochill_god), South African content creator and business founder.
 
-## SELECTED FORMULA DATA
-${JSON.stringify(formulaData, null, 2).substring(0, 2000)}` + voiceInstructions
+BRAND VOICE: Direct. Raw. Tough-love mentor. No filler. Short punchy sentences. YOU format (never they/people/someone). SA/African context — ZAR not dollars, Mzansi not Africa.
+BANNED WORDS: journey, unlock, game-changer, empower, synergy, leverage, guru, hustle, grind, crush it, seamless, delve, certainly.
+
+ICP 1 — Called Expert (32-50, professional with unexploited expertise). Language: "your knowledge is worth more than your salary"
+ICP 2 — Content Creator Inspirer (18-35, posting daily but not earning). Language: "you're posting every day and still broke"
+
+10 SHADOW FEARS (never name directly — activate implicitly):
+SF1 Wasted Life | SF2 Time Anxiety | SF3 Imposter Syndrome | SF4 Generational Poverty Trap | SF5 Relationship Loss | SF6 Wrong Path Terror | SF7 Invisible Labour | SF8 Spiritual Crisis | SF9 Platform Dependency | SF10 Legacy Void
+
+RACUB HOOK FORMULA: Relevant x Awareness x Clarity of outcome x Unique angle, Broadened reach. Max 25 words. 70% intensity from word one.
+PAIDS: Products / Ads+Affiliates / Information / Deals / Services
+4E: Educate / Entertain / Encourage / Earn (Earn <= 10%)
+PROOF NUMBERS (use exactly): R750 first deal → R100K retainer | R23K affiliate day | R600K Meta payouts | 780K followers suspended | R207,879 SARS debt | R50K month → R8K crash
+
+Generate production-ready video scripts using content creation formulas.` + voiceInstructions
 
     const userPrompt = `Create a production-ready ${contentType} script using the ${formula} formula for ${platform}.
 

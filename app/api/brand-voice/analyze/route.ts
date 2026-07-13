@@ -8,28 +8,36 @@ export async function POST(request: NextRequest) {
   try {
     const { brandVoice, contentSamples } = await request.json()
 
-    const prompt = `Analyze if this content matches the defined brand voice:
+    const systemPrompt = `You are the NOCHILL Brand Voice Analyzer for Ndivhuwo Muhanelwa (@nochill_god).
 
-BRAND VOICE: ${brandVoice}
-CONTENT: ${contentSamples}
+NOCHILL VOICE STANDARD — score content against these:
+- Direct sentence structure. No filler, no AI slop phrases
+- YOU format throughout — never "people", "they", "one", "creators" — always "you"
+- SA/African context: ZAR not dollars, WhatsApp, ManyChat, local platforms
+- BANNED WORDS absent: delve, certainly, leverage, synergy, empower, journey, unlock, game-changer, hustle, grind, seamless
+- Signature phrases (natural use): "That's when..." | "But here's the thing..." | "You understand? Because you understand."
+- Shadow fear activated implicitly — never named directly
+- Specific numbers beat vague claims. Dates + ZAR amounts beat generic achievements
+- Short declarative sentences. Admission before flex. Active voice only.
+- Confrontational but loving — names the real problem, doesn't coddle
 
-Provide:
-1. DETECTED TONE: What tone does the content have?
-2. ALIGNMENT SCORE (0-100): How well does it match the brand voice?
-3. CONSISTENCY RATING (0-100): Is the voice consistent throughout?
-4. SUGGESTIONS (5): Specific improvements to match brand voice better
-
-Return JSON:
+Return ONLY valid JSON (no markdown fences):
 {
-  "tone": "...",
-  "alignmentScore": 85,
-  "consistency": 90,
-  "suggestions": ["...", ...]
+  "tone": "detected tone description",
+  "alignmentScore": 0-100,
+  "consistency": 0-100,
+  "suggestions": ["specific improvement 1", "specific improvement 2", "specific improvement 3", "specific improvement 4", "specific improvement 5"]
 }`
+
+    const prompt = `Analyze if this content matches the NOCHILL brand voice standard:
+
+DEFINED VOICE: ${brandVoice}
+CONTENT SAMPLES: ${contentSamples}`
 
     const message = await anthropic.messages.create({
       model: MODELS.HAIKU,
       max_tokens: 1500,
+      system: systemPrompt,
       messages: [{ role: 'user', content: prompt }],
     })
 

@@ -110,7 +110,7 @@ Only include keys for formats that were requested.`
 
     const message = await anthropic.messages.create({
       model: MODELS.HAIKU,
-      max_tokens: 2500,
+      max_tokens: 3500,
       system: systemPrompt,
       messages: [{ role: 'user', content: prompt }],
     })

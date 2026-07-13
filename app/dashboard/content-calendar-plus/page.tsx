@@ -22,6 +22,7 @@ import {
   Clock
 } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { BackButton } from '@/components/BackButton'
 import { useContent } from '@/contexts/ContentContext'
 import { Zap, FileText, ArrowRight, GitBranch } from 'lucide-react'
 import {
@@ -566,6 +567,7 @@ export default function ContentCalendarPlusPage() {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
+      <div className="px-6 pt-4"><BackButton /></div>
       <ToolPageHeader
         icon={CalendarIcon}
         iconColor="text-purple-600"
@@ -583,14 +585,28 @@ export default function ContentCalendarPlusPage() {
             <Download className="h-4 w-4" />
             Export CSV
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-            className="flex items-center gap-2"
-          >
-            {viewMode === 'grid' ? <List className="h-4 w-4" /> : <CalendarIcon className="h-4 w-4" />}
-            {viewMode === 'grid' ? 'List View' : 'Calendar View'}
-          </Button>
+          <div className="flex rounded-xl overflow-hidden" style={{ border: '1px solid #E4E4E7' }}>
+            <button
+              onClick={() => setViewMode('grid')}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-display font-semibold transition-all"
+              style={viewMode === 'grid'
+                ? { background: '#EFF6FF', color: '#2563EB', borderRight: '1px solid rgba(37,99,235,0.2)' }
+                : { background: '#FFFFFF', color: '#A1A1AA', borderRight: '1px solid #E4E4E7' }}
+            >
+              <CalendarIcon className="h-3.5 w-3.5" />
+              Calendar
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-display font-semibold transition-all"
+              style={viewMode === 'list'
+                ? { background: '#EFF6FF', color: '#2563EB' }
+                : { background: '#FFFFFF', color: '#A1A1AA' }}
+            >
+              <List className="h-3.5 w-3.5" />
+              List
+            </button>
+          </div>
         </div>
       </ToolPageHeader>
       <div className="px-6 py-8">
@@ -1213,7 +1229,7 @@ export default function ContentCalendarPlusPage() {
                         <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#F4F4F5] flex-wrap">
                           <button
                             onClick={() => openHookGenerator(entry)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#C9A84C]/10 hover:bg-[#C9A84C]/20 text-[#7A5F18] rounded-lg text-[11px] font-display font-bold transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             <Zap className="w-3 h-3" />
                             Generate Hook

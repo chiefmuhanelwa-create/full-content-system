@@ -137,7 +137,7 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 | R750→R100K | Information Gap | "What brands actually pay for — and it's not your follower count." |
 | Huawei R6K | Desired Result | "R6,000 invested. R600,000 returned. The phone that built everything." |
 | 780K Lost | Undesired Result | "780,000 followers gone overnight. Here's what platform dependency actually costs." |
-| SARS R285K | Undesired Result | "SARS can see your Payfast. 96% of creators don't know this." |
+| SARS R207K | Undesired Result | "SARS can see your Payfast. 96% of creators don't know this." |
 | Family Shame | A-to-B | "They said 'get a real job.' Here's what I built instead." |
 | Netflix Deal | Information Gap | "Netflix didn't care about my 100K followers. Here's what they cared about." |
 | Burnout | Undesired Result | "3 posts a day. 2 million views. R0 revenue. The system problem nobody talks about." |
@@ -169,7 +169,7 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 **Structure:** The moment it hit hardest → Why it hurt → What it taught → What's different now
 
 **Ndivhuwo's Struggle Stories:**
-- SARS R285K — the cost of financial ignorance
+- SARS R207K — the cost of financial ignorance
 - Family shame — the cost of unconventional choices
 - Content burnout — the cost of volume without system
 
@@ -214,7 +214,7 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 **Structure:** Here's the mistake → Here's the cost → Here's what to do instead
 
 **Ndivhuwo's Lesson Stories:**
-- SARS R285K: "I wish someone had told me brand income is taxable from the first rand."
+- SARS R207K: "I wish someone had told me brand income is taxable from the first rand."
 - R750 undercharging: "I wish someone had told me that agencies have rate databases."
 - 780K followers lost: "I wish someone had told me to build what I own."
 
@@ -343,7 +343,7 @@ Use all 7 stages with full detail. Add numbers, emotions, context at every stage
 | R750→R100K | Educate/Encourage | Teaches pricing while proving the result |
 | Huawei R6K | Educate | Investment mindset teaching |
 | 780K Lost | Educate | Platform independence lesson |
-| SARS R285K | Educate | Tax compliance teaching |
+| SARS R207K | Educate | Tax compliance teaching |
 | Family Shame | Encourage | Non-traditional path proof |
 | Netflix Deal | Educate/Earn | Teaches brand deal strategy, CTA to product |
 | Burnout | Educate | System over volume teaching |
@@ -709,6 +709,125 @@ Most people buy tools first, get overwhelmed, quit. Don't reverse the sequence.
 
 **Story to pair with:** Content burnout story | Hamster wheel story  
 **Product to pair with:** Batch & Bank System | Digital Empire Builder
+
+---
+
+## FRAMEWORK 19 — The Exodus Engine (ICP 1 Macro Arc)
+
+**Source:** Kallaway transcript study, reconciled against the existing 7-Stage Story Arc (2026-07-11) — ICP1-specific instantiation, not a replacement.
+**When to use:** ICP1 origin/transformation content — spans Steps 3+5+7+8 of the 9-Step Shell.
+
+**The 4 phases (non-negotiable order):**
+1. **EGYPT** — the trapped state, a named specific system (not "I was unhappy"). Example: The Salary Trap.
+2. **BUT (the calling)** — the disruption moment. Ties to Shadow Fears #6 (Wrong Path Terror) / #8 (Spiritual Crisis).
+3. **THEREFORE (the system)** — a repeatable system built while still employed. Anchor: "You don't have to quit first — build first."
+4. **PROMISED LAND** — payoff as proof + Ubuntu framing, never "I made it."
+
+Every phase transition uses BUT or THEREFORE — see Framework 20.
+
+**Story to pair with:** ATNS-while-building | SARS-to-system story  
+**Product to pair with:** Accelerator PRO — Genesis/Exodus curriculum stages
+
+---
+
+## FRAMEWORK 20 — The Dance (Beat Connection Law)
+
+**Source:** Kallaway transcript study (2026-07-11), formalizing a rule that existed as one underspecified line in the scripts route.
+**The rule:** every beat-to-beat transition connects via BUT (reversal) or THEREFORE (consequence) — never "and then."
+
+**Forbidden connectors:** "and then," "after that," "next," "also," "additionally."
+**Valid substitutes:** "so," "which means," "except," "that's when" (signature transition).
+**Checkable test:** if 2+ consecutive sentences have no BUT/THEREFORE (explicit or equivalent) — rewrite. `validateAgainstPrinciples()` in `lib/knowledge-base.ts` enforces this programmatically.
+
+**Story to pair with:** any — this is a sentence-level law, applies to every script.
+**Product to pair with:** n/a — a writing standard, not a sellable framework.
+
+---
+
+## FRAMEWORK 21 — The Illusion of Novelty
+
+**Source:** Kallaway transcript study (2026-07-11) — a third Uniqueness method for R×A×C×U^B's "U" component, specifically for "boring but real" expertise (tax, compliance, governance — ICP1's core content problem).
+
+**5-step sequence:**
+1. New Reveal + Outcome Mapping — state what's new AND map it to a concrete outcome.
+2. Contrast Framing — position against the boring/default way everyone assumes it's done.
+3. Urgency-if-real — only with a genuine deadline (SARS filing dates); never manufactured.
+4. Bullseye Proof, escalating specificity — narrow to an exact verified number (e.g. R207,879.20 SARS assessment).
+5. Protect the illusion — lowered-register, matter-of-fact delivery; the insider feeling comes from calm specificity, not hype.
+
+**Constraint:** never hide or misrepresent — this frames real expertise as insider knowledge, it never fabricates novelty.
+
+**Story to pair with:** SARS voluntary-disclosure story  
+**Product to pair with:** Called Expert compliance/business-structure content
+
+---
+
+## FRAMEWORK 22 — The 9 Hook Formats
+
+**Source:** Kallaway transcript study (2026-07-11) — a content-genre taxonomy, distinct from the 4 R×A×C×U^B "C-component" hook types (which describe the emotional promise, not the genre).
+
+1. Secret Reveal — insider/regulatory knowledge most people don't have.
+2. Case Study — a specific, named, numbered example.
+3. Comparison — before/after or this-vs-that.
+4. Question — poses the exact question the viewer already has.
+5. Education — direct teaching, no story wrapper.
+6. List — numbered/counted structure ("5 ways...").
+7. Contrarian — reverses a widely-held assumption.
+8. Personal Experience — first-person account as the proof.
+9. Problem — names the exact pain before offering anything.
+
+Every generated hook is tagged with one of these 9 in `compliance.hookFormat` (see `/api/hooks/generate`).
+
+**Story to pair with:** any — pick the format that fits the story, not vice versa.
+**Product to pair with:** n/a — a hook-selection taxonomy.
+
+---
+
+## FRAMEWORK 23 — HOOKS Filter (The Business-First Content Filter)
+
+**Source:** Already live in `lib/knowledge-base.ts` (undocumented until this pass, 2026-07-11) — the quality gate ABOVE R×A×C×U^B.
+
+**H** — Human-Oriented: serves real humans with real problems, not trend-chasing.
+**O** — Outcome-Focused: every hook has a defined business outcome before it's created (Lead Generation | Direct Sale | Authority Building).
+**K** — Kingdom-Aligned: builds for children's children, not just quick wins; compounds over time.
+**S** — Sustainable: sustainable for you (no burnout) and for your audience (no dependency).
+
+A hook can pass R×A×C×U^B and still fail HOOKS if it chases hype over service.
+
+**Story to pair with:** any — this is a pre-publish gate, not a content type.
+**Product to pair with:** n/a.
+
+---
+
+## FRAMEWORK 24 — AFRICA Method (SA Market Adaptation)
+
+**Source:** Already live in `lib/knowledge-base.ts` (undocumented until this pass, 2026-07-11) — run every script through this.
+
+**A** — Awareness: assume one level lower than Western markets; more context, African success proof.
+**F** — Friction: acknowledge data costs, load shedding, payment friction, Rand vs. Dollar.
+**R** — Relevance: African brands and references (Nando's, Capitec, Takealot), Ubuntu values.
+**I** — Income: African CPMs are 1/10th Western rates — every hook connects to one of the 5 African income streams.
+**C** — Context: African success stories, not "Gary Vee did it."
+**A** — Amplification: Ubuntu-driven sharing — content that genuinely serves gets WhatsApp'd to friends.
+
+**Story to pair with:** any SA-market-facing content.
+**Product to pair with:** n/a.
+
+---
+
+## FRAMEWORK 25 — LEGACY System (Implementation Loop)
+
+**Source:** Already live in `lib/knowledge-base.ts` (undocumented until this pass, 2026-07-11) — connects viral hooks to sustainable African businesses.
+
+**L** — Learn: study the audience before creating.
+**E** — Execute: apply R×A×C×U^B with HOOKS and AFRICA context.
+**G** — Generate: batch creation, 3 strategic hooks/week beats 7 random posts.
+**A** — Analyze: track business metrics (list signups, DM inquiries, sales), not vanity metrics.
+**C** — Connect: move audience from rented platforms to owned channels.
+**Y** — Yield: repurpose high-performers into lead magnets, courses, IP.
+
+**Story to pair with:** any — this is the execution loop, not a content type.
+**Product to pair with:** n/a.
 
 ---
 

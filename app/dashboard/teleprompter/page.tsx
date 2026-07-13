@@ -26,6 +26,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { BackButton } from '@/components/BackButton'
 
 export default function TeleprompterPage() {
   const router = useRouter()
@@ -295,6 +296,10 @@ export default function TeleprompterPage() {
   // Process script with breathing markers and voice modulation
   const processScriptWithMarkers = (text: string) => {
     let processedText = text
+      .split('\n')
+      .filter(line => !line.trim().startsWith('[DIRECTION]'))
+      .map(line => line.replace(/^\[YOU\]:\s*/i, '').replace(/^\[STEP (\d+):\s*([^\]]+)\]/i, 'STEP $1 — $2'))
+      .join('\n')
 
     // Add visual pause indicators after punctuation
     if (showBreathingMarkers) {
@@ -383,14 +388,33 @@ export default function TeleprompterPage() {
     return REHOOK_PHRASES.some(phrase => lower.includes(phrase))
   }
 
+  // [SHORT]/[LONG] rhythm markup detection (The Dance / Sentence Architecture Pattern 10)
+  const getLineRhythm = (line: string): 'short' | 'long' | null => {
+    if (/^\[SHORT\]/i.test(line.trim())) return 'short'
+    if (/^\[LONG\]/i.test(line.trim())) return 'long'
+    return null
+  }
+
+  const stripRhythmTag = (line: string) => line.replace(/^\[SHORT\]\s*|^\[LONG\]\s*/i, '')
+
   // Line-per-line renderer — hook first, then one sentence/line per block with spacing
   const renderLinePerLine = (text: string) => {
-    // Split into paragraphs first (double newline or section headers)
-    const paragraphs = text.split(/\n{2,}|(?=ACT \d|HOOK:|LINE \d|Step \d)/i).filter(p => p.trim())
+    // Split into paragraphs on double newline or section headers ([STEP N:], [ACT N:], etc.)
+    const paragraphs = text.split(/\n{2,}|(?=\[STEP \d+:|ACT \d+:|HOOK:|LINE \d+:|Step \d+)/i).filter(p => p.trim())
 
     return paragraphs.map((para, pIdx) => {
+      // Detect section label — [STEP N: NAME] or [ACT N: NAME]
+      const stepMatch = para.match(/^\[STEP (\d+):\s*([^\]]+)\]/i)
+      const actMatch = para.match(/^\[ACT (\d+):\s*([^\]]+)\]/i)
+      const sectionNum = stepMatch?.[1] || actMatch?.[1]
+      const sectionName = stepMatch?.[2]?.toUpperCase() || actMatch?.[2]?.toUpperCase()
+      const sectionLabel = sectionNum ? `STEP ${sectionNum} — ${sectionName}` : null
+
+      // Strip the label marker from the displayed text
+      const cleanPara = para.replace(/^\[STEP \d+:[^\]]+\]\s*/i, '').replace(/^\[ACT \d+:[^\]]+\]\s*/i, '').trim()
+
       // Split paragraph into individual lines/sentences
-      const lines = para
+      const lines = cleanPara
         .split(/\n|(?<=\.)\s+(?=[A-Z])|(?<=\?)\s+(?=[A-Z])|(?<=!)\s+(?=[A-Z])/)
         .map(l => l.trim())
         .filter(l => l.length > 0)
@@ -406,36 +430,64 @@ export default function TeleprompterPage() {
             borderBottom: pIdx < paragraphs.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
           }}
         >
+          {/* Section label badge — shows STEP N — NAME above each section */}
+          {sectionLabel && (
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              marginBottom: `${fontSize * 0.6}px`,
+              padding: '4px 10px',
+              background: 'rgba(201,168,76,0.12)',
+              border: '1px solid rgba(201,168,76,0.35)',
+              borderRadius: '20px',
+              fontSize: `${Math.max(10, fontSize * 0.32)}px`,
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              color: '#2563EB',
+              textTransform: 'uppercase' as const,
+            }}>
+              {sectionLabel}
+            </div>
+          )}
           {lines.map((line, lIdx) => {
             const isHookLine = isHookPara && lIdx === 0
-            const isRehook = isRehookLine(line)
+            const rhythm = getLineRhythm(line)
+            const displayLine = stripRhythmTag(line)
+            const isRehook = isRehookLine(displayLine)
+            const isLong = rhythm === 'long'
 
             return (
               <div
                 key={lIdx}
                 style={{
-                  marginBottom: `${fontSize * lineSpacing * 0.6}px`,
-                  padding: isRehook ? '6px 12px' : '0',
-                  borderLeft: isRehook ? `4px solid #C9A84C` : 'none',
-                  borderRadius: isRehook ? '4px' : '0',
+                  marginBottom: isRehook
+                    ? `${fontSize * lineSpacing * 0.6}px`
+                    : isLong
+                      ? `${fontSize * lineSpacing * 0.85}px`
+                      : `${fontSize * lineSpacing * 0.45}px`,
+                  padding: isRehook ? '6px 12px' : isLong ? '4px 10px' : '0',
+                  borderLeft: isRehook ? `4px solid #2563EB` : isLong ? '3px solid #64748b' : 'none',
+                  borderRadius: isRehook || isLong ? '4px' : '0',
                   backgroundColor: isRehook ? 'rgba(201,168,76,0.1)' : 'transparent',
                 }}
               >
                 {isRehook && (
-                  <div style={{ fontSize: `${Math.max(10, fontSize * 0.35)}px`, color: '#C9A84C', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>
+                  <div style={{ fontSize: `${Math.max(10, fontSize * 0.35)}px`, color: '#2563EB', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>
                     ↺ REHOOK
                   </div>
                 )}
                 <div
                   style={{
-                    fontSize: isHookLine ? `${fontSize * 1.2}px` : `${fontSize}px`,
-                    fontWeight: isHookLine ? 700 : 500,
+                    fontSize: isHookLine ? `${fontSize * 1.2}px` : isLong ? `${fontSize * 0.95}px` : `${fontSize}px`,
+                    fontWeight: isHookLine ? 700 : isLong ? 400 : 500,
+                    letterSpacing: isLong ? '0.01em' : 'normal',
                     color: isHookLine ? '#fbbf24' : 'white',
                     textShadow: isHookLine ? '0 0 15px rgba(251,191,36,0.4)' : '0 2px 4px rgba(0,0,0,0.5)',
                     opacity: textOpacity / 100,
                   }}
                 >
-                  {renderScriptWithModulation(processScriptWithMarkers(line))}
+                  {renderScriptWithModulation(processScriptWithMarkers(displayLine))}
                 </div>
               </div>
             )
@@ -567,6 +619,7 @@ export default function TeleprompterPage() {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
+      <div className="px-6 pt-4"><BackButton /></div>
       <ToolPageHeader
         icon={MonitorPlay}
         iconColor="text-green-600"
@@ -1130,9 +1183,9 @@ export default function TeleprompterPage() {
 
                   {/* Caption + Hashtag Panel */}
                   {showCaptionPanel && captionPanelData && (
-                    <div className="mt-3 p-4 bg-[#111111] border border-[#C9A84C]/40 rounded-lg">
+                    <div className="mt-3 p-4 bg-[#111111] border border-[#2563EB]/40 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#C9A84C] text-xs font-bold uppercase tracking-widest"># Caption + Hashtags</span>
+                        <span className="text-[#2563EB] text-xs font-bold uppercase tracking-widest"># Caption + Hashtags</span>
                         <button
                           onClick={() => setShowCaptionPanel(false)}
                           className="text-gray-500 hover:text-gray-300 text-xs"
@@ -1145,7 +1198,7 @@ export default function TeleprompterPage() {
                       </p>
                       <div className="flex flex-wrap gap-1">
                         {captionPanelData.hashtags?.slice(0, 15).map((tag: string, i: number) => (
-                          <span key={i} className="text-[#C9A84C] text-xs font-medium">#{tag}</span>
+                          <span key={i} className="text-[#2563EB] text-xs font-medium">#{tag}</span>
                         ))}
                       </div>
                     </div>

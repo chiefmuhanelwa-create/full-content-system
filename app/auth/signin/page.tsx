@@ -90,7 +90,7 @@ function SignInContent() {
                 disabled={isLoading}
                 className="w-full rounded-xl px-4 py-3 text-sm font-display transition-all disabled:opacity-50 outline-none"
                 style={{ background: '#F9FAFB', border: '1px solid #E4E4E7', color: '#18181B' }}
-                onFocus={e => (e.currentTarget.style.borderColor = '#C9A84C')}
+                onFocus={e => (e.currentTarget.style.borderColor = '#2563EB')}
                 onBlur={e => (e.currentTarget.style.borderColor = '#E4E4E7')}
               />
             </div>
@@ -109,7 +109,7 @@ function SignInContent() {
                   disabled={isLoading}
                   className="w-full rounded-xl px-4 py-3 pr-11 text-sm font-display transition-all disabled:opacity-50 outline-none"
                   style={{ background: '#F9FAFB', border: '1px solid #E4E4E7', color: '#18181B' }}
-                  onFocus={e => (e.currentTarget.style.borderColor = '#C9A84C')}
+                  onFocus={e => (e.currentTarget.style.borderColor = '#2563EB')}
                   onBlur={e => (e.currentTarget.style.borderColor = '#E4E4E7')}
                 />
                 <button
@@ -130,7 +130,7 @@ function SignInContent() {
               type="submit"
               disabled={isLoading}
               className="w-full py-3.5 rounded-xl font-display font-semibold text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
-              style={{ background: '#C9A84C', color: '#0a0a0a', boxShadow: '0 2px 8px rgba(201,168,76,0.28)' }}
+              style={{ background: '#18181B', color: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
             >
               {isLoading ? (
                 <>
@@ -159,7 +159,7 @@ export default function SignInPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center" style={{ background: '#F4F4F8' }}>
-        <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#E4E4E7', borderTopColor: '#C9A84C' }} />
+        <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#E4E4E7', borderTopColor: '#18181B' }} />
       </div>
     }>
       <SignInContent />

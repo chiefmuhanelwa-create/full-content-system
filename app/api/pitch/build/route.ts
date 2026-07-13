@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
+import { buildSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
 
-const PITCH_BUILDER_PROMPT = `You are a 5 Pillars Pitch expert helping creators build compelling pitches for brand deals, collaborations, and opportunities.
+const PITCH_BUILDER_RULES = `## PITCH BUILDER — SPECIFIC OUTPUT RULES
+
+You are building a pitch using the NOCHILL 5-Pillars framework. The 5 Pillars are:
 
 ## THE 5 PILLARS FRAMEWORK:
 
@@ -53,7 +56,11 @@ Return ONLY a JSON object (no markdown):
 6. Include actionable next steps in variations
 7. Emphasize PROOF over promises
 8. Use YOU format when addressing brands
+9. The pitch must sound like Ndivhuwo — real, direct, SA-grounded — not like a corporate bio
+10. Always cite S001–S020 proof story codes when referencing verified numbers (never fabricate)
 `
+
+const PITCH_BUILDER_PROMPT = buildSystemPrompt('pitch') + '\n\n' + PITCH_BUILDER_RULES
 
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)

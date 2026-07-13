@@ -13,11 +13,13 @@ import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIco
 import { useContent } from '@/contexts/ContentContext'
 import { get120HooksBank } from '@/lib/knowledge-base'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
+import { BackButton } from '@/components/BackButton'
 
 interface Hook {
   id: string
   verbal: string
   visual: string
+  onScreenText: string
   content: string  // kept for backward compat (= verbal)
   likes: number
 }
@@ -48,6 +50,21 @@ export default function HookGeneratorPage() {
   const [showCompliance, setShowCompliance] = useState(false)
   const hookBank = get120HooksBank()
 
+  // Restore last generated output on mount
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('hooks_last_output')
+      if (saved) {
+        const { hooks: savedHooks, compliance: savedCompliance, topic: savedTopic } = JSON.parse(saved)
+        if (savedHooks?.length) {
+          setHooks(savedHooks)
+          if (savedTopic) setTopic(savedTopic)
+          if (savedCompliance) { setCompliance(savedCompliance); setShowCompliance(true) }
+        }
+      }
+    } catch { /* ignore */ }
+  }, [])
+
   useEffect(() => {
     if (pendingAction.action === 'target-fear-in-hooks' && pendingAction.data) {
       const fear = pendingAction.data
@@ -61,6 +78,34 @@ export default function HookGeneratorPage() {
       setPendingAction(null)
     }
   }, [pendingAction, setPendingAction])
+
+  // Bridge: Hook Bank preloads a saved hook for remixing
+  useEffect(() => {
+    const raw = localStorage.getItem('hookBankPreload')
+    if (!raw) return
+    try {
+      const data = JSON.parse(raw)
+      localStorage.removeItem('hookBankPreload')
+      if (data.hookText) setTopic(data.hookText)
+      if (data.hookType) setHookType(data.hookType)
+    } catch { /* ignore */ }
+  }, [])
+
+  // Bridge: ICP Pain Library sends pain point to hooks generator
+  useEffect(() => {
+    const raw = localStorage.getItem('painToHookPreload')
+    if (!raw) return
+    try {
+      const data = JSON.parse(raw)
+      localStorage.removeItem('painToHookPreload')
+      if (data.topic) setTopic(data.topic)
+      if (data.shadowFear) setShadowFear(data.shadowFear)
+      if (data.icp) {
+        if (data.icp.includes('icp1') || data.icp === 'called_expert' || data.icp === 'contentpreneur') setIcp('icp1')
+        else if (data.icp.includes('icp2') || data.icp === 'beginner_creator' || data.icp === 'established_creator') setIcp('icp2')
+      }
+    } catch { /* ignore */ }
+  }, [])
 
   // Consume My Algorithm audience preload
   useEffect(() => {
@@ -110,10 +155,12 @@ export default function HookGeneratorPage() {
       const generatedHooks: Hook[] = data.hooks.map((h: any, index: number) => {
         const verbal = typeof h === 'string' ? h : (h.verbal || h.content || '')
         const visual = typeof h === 'string' ? '' : (h.visual || '')
-        return { id: `${Date.now()}-${index}`, verbal, visual, content: verbal, likes: 0 }
+        const onScreenText = typeof h === 'string' ? '' : (h.onScreenText || '')
+        return { id: `${Date.now()}-${index}`, verbal, visual, onScreenText, content: verbal, likes: 0 }
       })
       setHooks(generatedHooks)
       if (data.compliance) { setCompliance(data.compliance); setShowCompliance(true) }
+      try { sessionStorage.setItem('hooks_last_output', JSON.stringify({ hooks: generatedHooks, compliance: data.compliance || null, topic })) } catch { /* ignore */ }
       generatedHooks.forEach((hook) => addHook({ content: hook.verbal, type: hookType !== 'any' ? hookType as any : 'information_gap', platform }))
     } catch (err: any) {
       setError(err.message || 'An error occurred')
@@ -208,6 +255,7 @@ export default function HookGeneratorPage() {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
+      <div className="px-6 pt-4"><BackButton /></div>
 
       {/* Page header */}
       <ToolPageHeader
@@ -330,6 +378,25 @@ export default function HookGeneratorPage() {
             </div>
           )}
 
+          {/* ICP Lock — Step 0 */}
+          <div className="nc-form-row p-3 rounded-lg border-2 border-[#2563EB] bg-[#EFF6FF]">
+            <label htmlFor="icp" className="font-bold text-[#7A5F18] uppercase tracking-wide" style={{fontSize:'0.7rem'}}>
+              Lock Your ICP First
+            </label>
+            <p className="text-xs text-[#7A5F18] mb-2">Everything — hook angle, shadow fear, proof story — depends on who you're talking to.</p>
+            <Select value={icp} onValueChange={setIcp}>
+              <SelectTrigger id="icp" className="nc-tool-input h-auto border-[#2563EB]"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="auto">🤖 Auto-detect from topic</SelectItem>
+                <SelectItem value="icp1">👔 ICP 1 — Called Expert (32–50)</SelectItem>
+                <SelectItem value="icp2">📱 ICP 2 — Content Creator (18–35)</SelectItem>
+              </SelectContent>
+            </Select>
+            {icp === 'auto' && (
+              <p className="text-xs text-amber-600 mt-1">⚠️ Auto will guess — picking manually gives significantly better output</p>
+            )}
+          </div>
+
           <div className="nc-form-row">
             <label htmlFor="topic">Topic *</label>
             <input
@@ -341,39 +408,25 @@ export default function HookGeneratorPage() {
             />
           </div>
 
-          {/* ICP + Shadow Fear — Primary targeting */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="nc-form-row">
-              <label htmlFor="icp">Target ICP</label>
-              <Select value={icp} onValueChange={setIcp}>
-                <SelectTrigger id="icp" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="auto">Auto-detect from topic</SelectItem>
-                  <SelectItem value="icp1">ICP 1 — Called Expert (32–50)</SelectItem>
-                  <SelectItem value="icp2">ICP 2 — Content Creator (18–35)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="nc-form-row">
-              <label htmlFor="shadowFear">Shadow Fear</label>
-              <Select value={shadowFear} onValueChange={setShadowFear}>
-                <SelectTrigger id="shadowFear" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="auto">Auto-detect</SelectItem>
-                  <SelectItem value="wasted_life">Wasted Life (#1)</SelectItem>
-                  <SelectItem value="generational_poverty">Generational Poverty Trap (#2)</SelectItem>
-                  <SelectItem value="imposter_syndrome">Imposter Syndrome (#3)</SelectItem>
-                  <SelectItem value="wrong_path">Wrong Path Terror (#4)</SelectItem>
-                  <SelectItem value="invisible_labor">Invisible Labor (#5)</SelectItem>
-                  <SelectItem value="platform_dependency">Platform Dependency (#6)</SelectItem>
-                  <SelectItem value="time_anxiety">Time Anxiety (#7)</SelectItem>
-                  <SelectItem value="relationship_loss">Relationship Loss (#8)</SelectItem>
-                  <SelectItem value="spiritual_crisis">Spiritual Crisis (#9)</SelectItem>
-                  <SelectItem value="legacy_void">Legacy Void (#10)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          {/* Shadow Fear */}
+          <div className="nc-form-row">
+            <label htmlFor="shadowFear">Shadow Fear</label>
+            <Select value={shadowFear} onValueChange={setShadowFear}>
+              <SelectTrigger id="shadowFear" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="auto">Auto-detect</SelectItem>
+                <SelectItem value="wasted_life">Wasted Life (#1)</SelectItem>
+                <SelectItem value="generational_poverty">Generational Poverty Trap (#2)</SelectItem>
+                <SelectItem value="imposter_syndrome">Imposter Syndrome (#3)</SelectItem>
+                <SelectItem value="wrong_path">Wrong Path Terror (#4)</SelectItem>
+                <SelectItem value="invisible_labor">Invisible Labor (#5)</SelectItem>
+                <SelectItem value="platform_dependency">Platform Dependency (#6)</SelectItem>
+                <SelectItem value="time_anxiety">Time Anxiety (#7)</SelectItem>
+                <SelectItem value="relationship_loss">Relationship Loss (#8)</SelectItem>
+                <SelectItem value="spiritual_crisis">Spiritual Crisis (#9)</SelectItem>
+                <SelectItem value="legacy_void">Legacy Void (#10)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -513,9 +566,15 @@ export default function HookGeneratorPage() {
                     <p className="font-display font-semibold text-[#18181B] text-[15px] leading-relaxed">{hook.verbal || hook.content}</p>
                   </div>
                   {hook.visual && (
-                    <div className="px-3 py-2.5 rounded-xl" style={{ background: 'rgba(201,168,76,0.07)', border: '1px solid rgba(201,168,76,0.2)' }}>
-                      <p className="text-[9px] font-display font-bold uppercase tracking-widest mb-1" style={{ color: '#C9A84C' }}>Visual Hook — Opening Frame</p>
+                    <div className="px-3 py-2.5 rounded-xl" style={{ background: 'rgba(201,168,76,0.07)', border: '1px solid rgba(37,99,235,0.2)' }}>
+                      <p className="text-[9px] font-display font-bold uppercase tracking-widest mb-1" style={{ color: '#2563EB' }}>Visual Hook — Opening Frame</p>
                       <p className="text-[13px] font-display leading-relaxed" style={{ color: '#D4A843' }}>{hook.visual}</p>
+                    </div>
+                  )}
+                  {hook.onScreenText && (
+                    <div className="px-3 py-2.5 rounded-xl" style={{ background: 'rgba(16,185,129,0.07)', border: '1px solid rgba(16,185,129,0.2)' }}>
+                      <p className="text-[9px] font-display font-bold uppercase tracking-widest mb-1" style={{ color: '#10B981' }}>On-Screen Text — Overlay</p>
+                      <p className="text-[13px] font-display leading-relaxed" style={{ color: '#18181B' }}>{hook.onScreenText}</p>
                     </div>
                   )}
                   <div className="flex flex-wrap items-center gap-1.5">
@@ -609,6 +668,7 @@ export default function HookGeneratorPage() {
                     { label: 'ICP Targeted', value: compliance.icp },
                     { label: 'Shadow Fear', value: compliance.shadowFear },
                     { label: 'Hook Type', value: compliance.hookType?.replace(/_/g, ' ') },
+                    { label: 'Hook Format', value: compliance.hookFormat?.replace(/_/g, ' ') },
                     { label: 'Awareness Level', value: compliance.awarenessLevel?.replace(/_/g, ' ') },
                     { label: 'Business Outcome', value: compliance.businessOutcome },
                     { label: 'PAIDS Category', value: compliance.paidsCategory },

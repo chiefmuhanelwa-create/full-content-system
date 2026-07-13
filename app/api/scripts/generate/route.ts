@@ -47,8 +47,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Build system prompt with framework knowledge
-    const systemPrompt = buildSystemPrompt('scripts')
+    // Build system prompt with framework knowledge — ICP filter at system level
+    const systemPrompt = buildSystemPrompt('scripts', icp as 'icp1' | 'icp2' | undefined)
 
     // Filter out recently used stories to ensure variety
     const availableStories = JSON.parse(JSON.stringify(ndivhuwoStories))
@@ -62,103 +62,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Add Ndivhuwo's story bank to system knowledge
+    // NOTE: R×A×C×U^B, 4E, PAIDS, and the 4 Viral Scripting Principles are already fully
+    // specified in buildSystemPrompt('scripts', icp) above — do not restate them here.
+    // Only the dynamic story-rotation logic (which can't come from the static prompt) lives below.
     const systemPromptWithStories = `${systemPrompt}
-
-## R×A×C×U^B HOOK SCIENCE FORMULA
-
-The foundation of every scroll-stopping hook:
-- **R = Relevant**: Who does this attack? (specific target audience)
-- **A = Awareness**: What level? (symptom/problem/solution/product aware)
-- **C = Clarity of Outcome**: What will they get? (clear promise)
-- **U = Unique**: How does this break the pattern? (pattern interrupt)
-- **B = Broadened**: Accessible to wider audience (not too niche)
-
-Apply this formula to LINE 1: CONTEXT hook creation.
-
-## 4E CONTENT EVOLUTION FRAMEWORK
-
-Content mix for maximum engagement and monetization:
-- **40% EDUCATE**: Teach frameworks, strategies, systems
-- **30% ENTERTAIN**: Stories, humor, relatable struggles
-- **20% ENCOURAGE**: Motivation, inspiration, possibility
-- **10% EARN**: Monetization, offers, CTAs
-
-Use this to balance content across your script.
-
-## PAIDS MONETIZATION FRAMEWORK
-
-Revenue streams for creators:
-- **P = Products**: Physical/digital products you sell
-- **A = Ads/Affiliates**: Sponsored content, affiliate commissions
-- **I = Information**: Courses, coaching, consulting
-- **D = Deals**: Brand partnerships, speaking gigs
-- **S = Services**: Done-for-you services, freelancing
-
-Reference when teaching monetization topics.
-
-## SHADOW FEAR PSYCHOLOGY — 10 NOCHILL SHADOW FEARS
-
-What the audience is REALLY afraid of (never name it directly — activate it):
-
-1. **Wasted Life (#1)** — ICP 1+2 — "I'm spending my best years building someone else's dream"
-2. **Generational Poverty Trap (#2)** — ICP 1 — "I'll repeat my parents' financial story no matter what I do"
-3. **Imposter Syndrome (#3)** — ICP 1+2 — "I'm not qualified enough to charge / teach / lead"
-4. **Wrong Path Terror (#4)** — ICP 1 — "I chose the wrong career and it's too late to switch"
-5. **Invisible Labor (#5)** — ICP 2 — "I'm working harder than anyone can see and have nothing to show"
-6. **Platform Dependency (#6)** — ICP 1+2 — "One algorithm change and everything I built disappears"
-7. **Time Anxiety (#7)** — ICP 2 — "I'm already behind. Everyone else figured this out younger"
-8. **Relationship Loss (#8)** — ICP 2 — "Pursuing this dream will cost me the people I love"
-9. **Spiritual Crisis (#9)** — ICP 1 — "Was I called to this, or am I just chasing money?"
-10. **Legacy Void (#10)** — ICP 1+2 — "I'll die without leaving something that outlasts me"
-
-Target ONE Shadow Fear per script. Activate it — never name it directly.
-
-## 4 VIRAL SCRIPTING PRINCIPLES (Apply to EVERY line)
-
-### PRINCIPLE 1: NEGATIVITY ALWAYS WINS
-
-- Negativity invokes MORE attention and emotion than positivity
-- **CRITICAL RULE: Use INDIRECT negativity only**
-- ❌ DON'T attack the viewer ("YOUR mistake...")
-- ✅ DO attack the problem/system ("This mistake is costing you...")
-- Attack the PROBLEM, never the PERSON
-- Use power words: "suck," "wasting," "bullshit," "terrible," "broken," "failing"
-- Example: "Platform dependency is keeping you broke" (NOT "You're broke because you're lazy")
-
-### PRINCIPLE 2: YOU FORMAT
-
-- Always use "YOU" instead of "they," "people," "someone," "one"
-- Direct address creates personal connection
-- Replace ALL instances:
-  - "They" → "You"
-  - "People" → "You"
-  - "Someone" → "You"
-  - "One" → "You"
-  - "Folks" → "You"
-  - "Everyone" → "You"
-- Example: "You're probably making this mistake" (NOT "People often make this mistake")
-
-### PRINCIPLE 3: SHORT & SIMPLE AS POSSIBLE
-
-- Keep sentences concise and punchy
-- Avoid unnecessary complexity
-- One idea per sentence when possible
-- Cut filler words ruthlessly
-- Use active voice, not passive
-- Simple words beat complex words
-- Example: "Do this" (NOT "You should consider implementing this strategy")
-
-### PRINCIPLE 4: AUDIBLE FLOW CHECK
-
-- Read script OUT LOUD before finalizing
-- If you stumble, rewrite
-- Natural conversational rhythm
-- Breath points for camera delivery
-- Emphasis words clearly marked
-- Sounds like TALKING, not reading
-- Example: Script should flow like you're explaining to a friend at a braai
-
-**ALL 4 PRINCIPLES MUST BE APPLIED TO EVERY LINE OF THE SCRIPT.**
 
 ## NDIVHUWO'S VERIFIED STORIES (Use 20% of script time)
 
@@ -408,7 +315,7 @@ Generate the sales script now following the 10-step framework for ${salesFormat}
       })
     }
 
-    // Build user context - CONTENT MODE (Now using Retention Formula - ACT Structure)
+    // Build user context - CONTENT MODE (9-Step NOCHILL Signature Shell)
     const userPrompt = `## USER'S CONTENT IDEA
 
 "${idea}"
@@ -420,18 +327,23 @@ ${shadowFear ? `SHADOW FEAR TO ACTIVATE: ${shadowFear} — activate this fear im
 ${villain ? `NAMED VILLAIN: "${villain}" — this is the system/situation to attack. Never attack a person.` : ''}
 ${contentType ? `4E TYPE: ${contentType}` : ''}
 ${paidsStream ? `PAIDS STREAM: ${paidsStream}` : ''}
-${scriptTemplate === 'never_ever' ? 'NOCHILL TEMPLATE: "NEVER EVER EVER" — Use the contrast-based authority template from the knowledge base. Destroy the wrong action, then install the correct system. Risk Reversal interest peak.' : ''}
-${scriptTemplate === 'important_vs' ? 'NOCHILL TEMPLATE: "IMPORTANT V/S NOT IMPORTANT" — Use the priority clarification template. Controversial interest peak. Compare what people obsess over vs what actually matters.' : ''}
-${scriptTemplate === 'dont_do_this' ? 'NOCHILL TEMPLATE: "DON\'T DO THIS" — Use the warning + rescue template. Start mid-consequence. Highest urgency. Negative Assumption interest peak.' : ''}
+UNIVERSAL STRUCTURE: Apply the 9-STEP NOCHILL SIGNATURE SHELL to this script. Label every section in fullScript with [STEP 1: HOOK] through [STEP 9: CTA]. Steps 3 and 7 use the style approach below. Platform: ${platform || 'instagram'} — enforce word count limits (Reels: 80–130w | YouTube long-form: 900–1,800w).
+${scriptTemplate === 'never_ever' ? 'STYLE APPROACH: "NEVER EVER EVER" — Step 3: open with the forbidden action, give 2-3 proof-backed reasons WHY it fails. Step 7: destroy wrong approach, install the correct named system. Risk Reversal interest peak.' : ''}
+${scriptTemplate === 'important_vs' ? 'STYLE APPROACH: "IMPORTANT V/S NOT IMPORTANT" — Step 3: name the thing people obsess over, acknowledge it sounds logical, then disrupt it. Step 7: contrast table of not-important vs actually-important, then the named framework that settles the hierarchy. Controversial interest peak.' : ''}
+${scriptTemplate === 'dont_do_this' ? 'STYLE APPROACH: "DON\'T DO THIS" — Step 3: start mid-consequence, name the mistake bluntly, show how common it is. Step 7: the step-by-step rescue — specific, immediate, actionable. Negative Assumption interest peak.' : ''}
+${scriptTemplate === 'pure_story' ? 'STYLE APPROACH: "PURE STORY" — Step 3: scene-set the painful before with a specific date/place/moment. Step 7: the turning-point moment that changed everything — arrive through the story, not a summary. Emotional Anchor interest peak.' : ''}
+${scriptTemplate === 'revelation' ? 'STYLE APPROACH: "REVELATION / MINDSHIFT" — Step 3: name the false belief the audience holds as fact, acknowledge it sounds logical first. Step 7: the counterintuitive truth that changes their behaviour — specific, counter to mainstream advice. Curiosity + Controversial interest peak.' : ''}
+${scriptTemplate === 'how_to' ? 'STYLE APPROACH: "HOW-TO WALKTHROUGH" — Step 3: the specific pain of NOT knowing this skill (use a number). Step 7: exactly 3-5 numbered steps, each specific enough to action today. Named system if possible. Educational Value interest peak.' : ''}
+${scriptTemplate === 'social_proof' ? 'STYLE APPROACH: "SOCIAL PROOF CASCADE" — Step 3: what happens without proof (invisible to brands, unable to charge). Step 7: stack 3-4 verified receipts in ascending order ending with the big number. All numbers must be from the verified story bank (S001-S020). Proof Point interest peak.' : ''}
+${!scriptTemplate || scriptTemplate === 'auto' ? 'STYLE APPROACH: AUTO — Read the topic and select the best style from the knowledge base (never_ever / important_vs / dont_do_this / pure_story / revelation / how_to / social_proof). Declare your choice and reason in compliance.styleChosen.' : ''}
 
 ${isYouTubeLongForm ? `
 🎬 YOUTUBE LONG-FORM REQUIREMENTS:
 - Target script length: 5-15 minutes (300-900 seconds)
-- Use full 7-Act retention structure with maximum depth
-- Deploy ALL retention devices throughout
+- Deploy ALL retention devices throughout (see Rehooking cadence in system prompt)
 - Re-hook every 90-120 seconds with sub-hooks
 - Add MORE teaching depth and examples
-- Include 2-3 stories for proof integrated into ACT 3-5
+- Include 2-3 stories for proof integrated into Steps 5-7
 - Add more examples, analogies, and tactical steps
 - Maintain all Hook Science, Ubuntu principles, and scripting principles
 - Keep conversational pacing with natural pauses and transitions
@@ -439,154 +351,18 @@ ${isYouTubeLongForm ? `
 
 ## GENERATION TASK
 
-Create a COMPLETE production-ready script following the **RETENTION FORMULA - 7-ACT STRUCTURE**:
-
----
-
-## 🎯 RETENTION FORMULA - 7-ACT STRUCTURE
-
-### ACT 1: THE NEGATIVE HOOK (0:00-0:15)
-**Purpose**: Stop the scroll. Create immediate emotional response. Open primary curiosity loop.
-**Energy**: Low, intense, almost whisper. No music yet. Just you and lens.
-**Elements**:
-- Camera tight on face
-- Statement of shocking/negative reality
-- PAUSE - let it land (2 full seconds of silence)
-- Stare into camera for emphasis
-- Introduce yourself with authority
-**Retention Device**: OPEN LOOP - "96% of African creators will never make a living from content"
-**Script Example**: "[DIRECTION] Camera tight on face. Low, intense energy. [YOU]: 96% of content creators will never make a living from their content. [PAUSE 2 seconds] Not because they're not talented. But because they're building like employees on platforms they'll never own."
-
-### ACT 2: THE UNCOMFORTABLE TRUTH (0:15-1:00)
-**Purpose**: Pattern interrupt. Contradict what they believe. Create cognitive dissonance.
-**Energy**: Shift to conversational. More inviting but still intense.
-**Elements**:
-- Cut to slightly wider shot
-- Music begins - low, cinematic, building
-- Challenge common beliefs
-- Name the lie they've been told
-- Introduce new concept/framework
-**Retention Device**: SUB-HOOK - "Content creation is NOT a career the way you're doing it"
-**Script Example**: "[YOU]: You've been lied to. They told you if you get followers, money comes. [Shake head] It's not. Not the way you're doing it. But there's another way. A word you need to learn: Contentpreneur."
-
-### ACT 3: THE ORIGIN STORY (1:00-2:30)
-**Purpose**: Build credibility through vulnerability. Create emotional anchor. Show you understand their struggle.
-**Energy**: Shift to vulnerable. Slower pace. Raw emotion.
-**Elements**:
-- Share specific struggle/origin
-- Include quantified details (R400/month, 780K followers lost, etc.)
-- Create visual imagery with words
-- Reference recurring motif (mother's words, bathroom floors, etc.)
-- Show the pain before transformation
-**Retention Device**: EMOTIONAL ANCHOR - "Mother's last words: 'Get educated'" or "Sleeping on bathroom floors"
-**Script Example**: "[YOU]: I was born in Tshikwarani village. My mother earned R400/month for family of 4. That's R13/day. [TEXT OVERLAY: R13/day] At school, no girl could talk to me. But my mother kept saying: 'Get educated. That's your way out.'"
-
-### ACT 4: THE BREAKING POINT (2:30-4:00)
-**Purpose**: Nuclear story. The moment that proves you earned authority through suffering.
-**Energy**: Lowest point. Quiet. Almost confessional.
-**Elements**:
-- The crisis/rock bottom moment
-- Stack the problems (make it worse)
-- Create dread through pacing
-- Specific sensory details that create scene
-- Moment of near-giving-up
-**Retention Device**: EMOTIONAL WHIPLASH - "From university acceptance → failed one module → lost everything"
-**Script Example**: "[YOU]: University accepted me. Full bursary. First year? I excelled. [PAUSE] Then second year came. [PAUSE] I failed ONE module. They dropped me instantly. No accommodation. No meal plan. Everything gone. But I refused to go home. [Lean close] So for two months... I slept in the university bathrooms."
-
-### ACT 5: THE TRANSFORMATION JOURNEY (4:00-5:30)
-**Purpose**: Show how you went from breaking point to breakthrough. Rapid montage of wins.
-**Energy**: Shift from darkness to light. Pace picks up. Music builds.
-**Elements**:
-- The decision/turning point
-- Quick cuts between milestones
-- Text overlays with dates/numbers
-- Build momentum through pacing
-- Show the climb from bottom to peak
-**Retention Device**: PROOF POINT - "R6,000 phone → R600,000+ revenue (10,000% ROI)"
-**Script Example**: "[YOU]: August 2013. Hired. R6,000/month. I did something crazy. [MONTAGE] Spent ENTIRE salary on smartphone. That phone has generated R600,000+. 10,000% ROI. [Quick cuts] 2014: 100K followers. 2017: R300K offer - said no. 2019: 5.5M views. 2021: 780K followers deleted. Revenue didn't drop. It INCREASED."
-
-### ACT 6: THE FRAMEWORK / EDUCATIONAL VALUE (5:30-6:30)
-**Purpose**: Deliver the lesson. Make it shareable. Give tactical takeaway.
-**Energy**: Shift to TEACHING mode. Confident. Authoritative.
-**Elements**:
-- Direct to camera
-- Clear framework/principle
-- Side-by-side text comparisons
-- Acronym or memorable system
-- Make it screenshot-worthy
-- Reference frameworks (PAIDS, 4E, R×A×C×U^B, Shadow Fears)
-**Retention Device**: EDUCATIONAL VALUE - "Content Creator vs Contentpreneur (side by side)"
-**Script Example**: "[YOU]: Content creator versus contentpreneur. [TEXT OVERLAY side by side] Content creator has audience. Contentpreneur has BUSINESS. Content creator depends on platforms. Contentpreneur OWNS assets. Here's the framework: PAIDS. [Text: P.A.I.D.S] Products. Ads & Affiliates. Information. Deals. Services. Five streams. When I had one, I was vulnerable. Five streams? Unbreakable."
-
-### ACT 7: THE MISSION + CALL TO ACTION (6:30-7:30)
-**Purpose**: Rally cry. Convert emotion into action. Clear next step.
-**Energy**: HIGHEST energy. Stand up if sitting. Preacher moment.
-**Elements**:
-- State the mission clearly
-- Build with repetition ('I'm here because...')
-- Direct eye contact
-- Point at camera
-- Multiple clear CTAs
-- Close with conviction and authority
-**Retention Device**: CRESCENDO - "I'm here to... [builds 3-5 times]"
-**Script Example**: "[YOU]: This is my mission. I'm here to turn African creators into contentpreneurs. I'm here because my mother earned R400/month and I refuse to let another family live on that. I'm here because I slept on bathroom floors. [Point at camera] If you're tired of being broke and famous... follow NOW. If you want to build a BUSINESS from content... hit follow. God didn't give you this gift so you could be famous and broke. He gave you this to be FRUITFUL."
-
-### PLATFORM DURATION ADAPTATIONS:
-
-**60-SECOND SHORT-FORM**:
-- 0-5s: ACT 1 (compressed)
-- 5-15s: ACT 2 + ACT 3 snippet (1-2 lines)
-- 15-35s: ACT 4 (nuclear moment) + ACT 5 (quick transformation)
-- 35-50s: ACT 6 (framework teaching)
-- 50-60s: ACT 7 (CTA)
-
-**90-SECOND REEL**:
-- 0-10s: ACT 1 (full negative hook)
-- 10-25s: ACT 2 + ACT 3 (condensed origin)
-- 25-50s: ACT 4 (breaking point) + ACT 5 (transformation)
-- 50-75s: ACT 6 (framework)
-- 75-90s: ACT 7 (mission + CTA)
-
-**3-5 MINUTE YOUTUBE**:
-- 0-30s: ACT 1 (full hook with pauses)
-- 30-90s: ACT 2 (uncomfortable truth)
-- 90-150s: ACT 3 (origin story with detail)
-- 150-240s: ACT 4 (full breaking point)
-- 240-300s: ACT 5 (transformation montage)
-- 300-360s: ACT 6 (framework teaching)
-- 360-420s: ACT 7 (mission + CTA)
-
-**7-10 MINUTE LONGFORM**:
-- Use ALL 7 acts with maximum depth
-- Deploy ALL retention devices
-- Re-hook every 90-120 seconds
-
-### RETENTION DEVICES GLOSSARY:
-- **OPEN LOOP**: Unanswered question viewer must stay to resolve
-- **SUB-HOOK**: Secondary hook that re-captures attention
-- **EMOTIONAL ANCHOR**: Recurring phrase/image viewer tracks
-- **PATTERN INTERRUPT**: Unexpected statement contradicting belief
-- **VISUAL STORYTELLING**: Specific sensory details creating mental scene
-- **EMOTIONAL WHIPLASH**: Rapid shift positive to negative or vice versa
-- **PROOF POINT**: Specific quantified result building credibility
-- **CRESCENDO**: Building emotional momentum through repetition
-- **CALL-BACK**: Reference to earlier moment (creates cohesion)
-- **EDUCATIONAL VALUE**: Screenshot-worthy framework
-
-### CRITICAL RULES:
-- NEVER go 30+ seconds without a retention device
-- ALWAYS include at least 3 retention devices in short-form (under 90s)
-- PAUSE strategically - silence creates emphasis
-- TEXT OVERLAYS reinforce key numbers/statements
-- MUSIC matches energy shifts between acts
-- DIRECTION notes guide production
-- Consider platform duration for proper ACT compression
+Apply the UNIVERSAL 9-STEP NOCHILL SIGNATURE SHELL (full spec in system prompt) to this script.
 
 ### UBUNTU PRINCIPLES (Apply Throughout):
 1. **WE Over I**: Collective experience first, personal proof later
 2. **System Villains**: Blame systems/structures, not people
 3. **Collective Results**: Frame success as community win
-4. **But/Therefore Dance**: "We believe X, BUT reality is Y, THEREFORE Z"
+4. **But/Therefore Dance**: see THE DANCE — BEAT CONNECTION LAW in system prompt. Never "and then."
+
+### RETENTION & RHYTHM (mandatory):
+- Rehooking cadence: apply the system-prompt cadence table (15s/30s/60s/90s) at Steps 4 and 6.
+- [SHORT]/[LONG] tags: tag every fullScript line per Pattern 10 (Sentence Architecture in system prompt).
+- Dance check: every beat transition uses BUT/THEREFORE (or a valid equivalent), never "and then."
 
 ### OUTPUT FORMAT:
 
@@ -599,97 +375,87 @@ CRITICAL JSON RULES — FAILURE TO FOLLOW = BROKEN RESPONSE:
 Return ONLY a JSON object (no markdown, no extra text):
 {
   "title": "Compelling script title",
-  "actStructure": {
-    "act1_negative_hook": {
-      "timing": "0:00-0:15",
-      "energy": "Low, intense, whisper",
-      "script": "[DIRECTION] Camera tight. Low energy. [YOU]: Script content here with pauses.",
+  "stepStructure": {
+    "step1_hook": {
+      "script": "[DIRECTION] Camera tight. [YOU]: The exact R×A×C×U^B scored opening line.",
       "visual": "What viewer sees",
-      "retentionDevice": "OPEN LOOP - specific example",
-      "shadowFear": "Which Shadow Fear targeted"
+      "retentionDevice": "OPEN LOOP — the specific teased promise",
+      "racubScore": "R✅ A✅ C✅ U✅ B✅"
     },
-    "act2_uncomfortable_truth": {
-      "timing": "0:15-1:00",
-      "energy": "Conversational, inviting but intense",
-      "script": "[DIRECTION] Wider shot. Music begins. [YOU]: Script content challenging beliefs.",
+    "step2_introduce": {
+      "script": "[DIRECTION] Slight pull back. [YOU]: One credibility sentence + one proof number.",
       "visual": "What viewer sees",
-      "retentionDevice": "SUB-HOOK - pattern interrupt",
-      "newConcept": "Framework/term introduced"
+      "proofNumber": "The exact verified number used (from S001–S020)"
     },
-    "act3_origin_story": {
-      "timing": "1:00-2:30",
-      "energy": "Vulnerable, slower pace, raw emotion",
-      "script": "[DIRECTION] Emotional. Slower. [YOU]: Origin story with quantified details.",
+    "step3_problem": {
+      "script": "[DIRECTION] Direct to camera. [YOU]: Pain named in YOU format. Style approach active here.",
       "visual": "What viewer sees",
-      "retentionDevice": "EMOTIONAL ANCHOR - recurring motif",
-      "emotionalAnchor": "Mother's words / bathroom floors / etc.",
-      "numbers": "R400/month, R13/day"
+      "awarenessLevel": "SYMPTOM | PROBLEM | SOLUTION | PRODUCT aware",
+      "shadowFearActivated": "SF number and name"
     },
-    "act4_breaking_point": {
-      "timing": "2:30-4:00",
-      "energy": "Lowest point, quiet, confessional",
-      "script": "[DIRECTION] Lowest energy. Confessional. [YOU]: Nuclear story, crisis moment.",
+    "step4_rehook": {
+      "script": "[DIRECTION] Slight lean. [YOU]: Specific tension sentence — NEVER 'stay with me'.",
       "visual": "What viewer sees",
-      "retentionDevice": "EMOTIONAL WHIPLASH - triumph to devastation",
-      "crisisPoint": "The rock bottom moment"
+      "retentionDevice": "SUB-HOOK — the specific tease"
     },
-    "act5_transformation_journey": {
-      "timing": "4:00-5:30",
-      "energy": "Building, pace picks up, music swells",
-      "script": "[DIRECTION] Montage. Quick cuts. [YOU]: Milestone → Milestone → Milestone.",
+    "step5_story": {
+      "script": "[DIRECTION] Vulnerable energy. [YOU]: Before → After → Number. Must mirror Step 3 pain.",
       "visual": "What viewer sees",
-      "retentionDevice": "PROOF POINT - specific ROI numbers",
-      "numbers": "R6,000 → R600,000 (10,000% ROI)",
-      "milestones": ["Milestone 1", "Milestone 2", "Milestone 3"]
+      "storyCode": "S0XX",
+      "numbers": "Exact verified Before → After numbers"
     },
-    "act6_framework": {
-      "timing": "5:30-6:30",
-      "energy": "Teaching mode, confident, authoritative",
-      "script": "[DIRECTION] Direct to camera. Teaching energy. [YOU]: Framework breakdown.",
+    "step6_rehook": {
+      "script": "[DIRECTION] Energy builds. [YOU]: Teases the solution. Builds anticipation.",
       "visual": "What viewer sees",
-      "retentionDevice": "EDUCATIONAL VALUE - screenshot-worthy",
-      "framework": "PAIDS / 4E / R×A×C×U^B / Shadow Fears / custom",
+      "retentionDevice": "PROOF POINT or EDUCATIONAL VALUE tease"
+    },
+    "step7_solution": {
+      "script": "[DIRECTION] Teaching energy. [YOU]: Framework or steps — actionable today. Style approach active here.",
+      "visual": "What viewer sees",
+      "frameworkUsed": "PAIDS | 4E | R×A×C×U^B | SEEDS | named system",
       "textOverlays": ["Key point 1", "Key point 2", "Key point 3"]
     },
-    "act7_mission_cta": {
-      "timing": "6:30-7:30",
-      "energy": "HIGHEST energy, preacher moment",
-      "script": "[DIRECTION] Stand up. Point at camera. [YOU]: Mission statement building with repetition. CTA.",
+    "step8_cost": {
+      "script": "[DIRECTION] Pull back slightly. [YOU]: Consequence of not acting — implicit. Shadow fear felt not named.",
       "visual": "What viewer sees",
-      "retentionDevice": "CRESCENDO - repetitive building",
-      "cta": "Specific call to action",
-      "collectiveAction": "What WE will do together"
+      "implicitFear": "How the cost statement activates the shadow fear without naming it"
+    },
+    "step9_cta": {
+      "script": "[DIRECTION] Highest energy. Point at camera. [YOU]: Single action. ManyChat keyword if applicable.",
+      "visual": "What viewer sees",
+      "ctaType": "Lead | Sale | Engagement | Sign-up",
+      "manychatKeyword": "PAIDS | SYSTEM | GUIDE | START | FREE | MEDIA | none"
     }
   },
-  "fullScript": "⏱ 0:00 - 0:15 ACT 1: THE NEGATIVE HOOK\\n[DIRECTION] Camera tight on face. Low, intense energy. Almost a whisper. No music yet.\\n\\n[YOU]: 96% of content creators in Africa will never make a living from their content.\\n\\n[DIRECTION] PAUSE. 2 full seconds of silence. Stare into camera.\\n\\n[YOU]: Not because they are not talented. But because they are building like employees on platforms they will never own.\\n\\n⏱ 0:15 - 1:00 ACT 2: THE UNCOMFORTABLE TRUTH\\n[DIRECTION] Cut wider. Music begins low.\\n\\n[YOU]: You have been lied to. Continue all 7 acts in this same format using \\\\n for all line breaks.",
+  "fullScript": "[STEP 1: HOOK]\\n[DIRECTION] Camera tight on face. Direct eye contact.\\n\\n[YOU]: Your exact hook line here — R×A×C×U^B scored.\\n\\n[STEP 2: INTRODUCE MYSELF]\\n[DIRECTION] Same shot or slight pull back.\\n\\n[YOU]: One credibility sentence + one proof number.\\n\\n[STEP 3: PROBLEM]\\n[DIRECTION] Direct to camera.\\n\\n[YOU]: Pain named in YOU format. Style approach governs this step.\\n\\n[STEP 4: REHOOK]\\n[DIRECTION] Slight lean forward.\\n\\n[YOU]: Specific tension sentence. NEVER 'stay with me'.\\n\\n[STEP 5: PERSONAL STORY]\\n[DIRECTION] Vulnerable energy, slower pace.\\n\\n[YOU]: Before → After → Number. Continue all 9 steps in this exact format using \\\\n for all line breaks.",
+  "cleanScript": "STEP 1 — HOOK\\nYour exact opening line here.\\n\\nSTEP 2 — INTRODUCE MYSELF\\nOne credibility sentence + one proof number.\\n\\nSTEP 3 — PROBLEM\\nPain named in YOU format.\\n\\nSTEP 4 — REHOOK\\nSpecific tension sentence.\\n\\nSTEP 5 — PERSONAL STORY\\nBefore → After → Number.\\n\\nSTEP 6 — REHOOK\\nSecond retention spike.\\n\\nSTEP 7 — SOLUTION\\nThe framework or teaching point.\\n\\nSTEP 8 — COST OF NOT ACTING\\nConsequence sentence.\\n\\nSTEP 9 — CTA\\nSingle action only. RULE: cleanScript contains ONLY spoken words. Remove ALL [DIRECTION] lines. Remove ALL [YOU]: prefixes. Convert [STEP N: NAME] to STEP N — NAME. Result is performance-ready — the exact words the creator speaks, nothing else.",
   "bRoll": [
     "B-roll suggestion 1 (specific to content)",
     "B-roll suggestion 2 (specific to content)",
     "B-roll suggestion 3 (specific to content)"
   ],
   "retentionDevicesUsed": {
-    "act1": "OPEN LOOP",
-    "act2": "SUB-HOOK",
-    "act3": "EMOTIONAL ANCHOR",
-    "act4": "EMOTIONAL WHIPLASH",
-    "act5": "PROOF POINT",
-    "act6": "EDUCATIONAL VALUE",
-    "act7": "CRESCENDO + CALL-BACK"
+    "step1": "OPEN LOOP",
+    "step4": "SUB-HOOK — specific tease",
+    "step6": "PROOF POINT or EDUCATIONAL VALUE tease",
+    "step9": "CRESCENDO + CALLBACK"
   },
   "compliance": {
     "icp": "ICP 1 — The Called Expert | ICP 2 — The Content Creator Inspirer",
-    "shadowFear": "Fear name (#number) from the 10 NOCHILL shadow fears",
+    "shadowFear": "Fear name (SF#) from the 10 NOCHILL shadow fears",
     "villain": "Named system/situation villain — never a person",
     "atomicShareLine": "The one line viewers can share verbatim",
     "paidsCategory": "Products | Ads | Information | Deals | Services",
     "fourE": "Educate | Entertain | Encourage | Earn",
     "businessOutcome": "Lead Generation | Direct Sale | Authority Building",
     "retentionLoop": "The exact retention loop tease line at the end",
+    "styleChosen": "auto-selected: [style name] — [one sentence reason why this style fits the topic]",
+    "platformWordCount": "✅/❌ — [actual word count] vs [target range for platform]",
     "section13": {
       "hookQuality": "✅/❌ — R×A×C×U^B check",
       "wStackOrder": "✅/❌ — WHAT+WHY leads, no backstory first",
       "intensity": "✅/❌ — 70%+ intensity from word one",
-      "rehooking": "✅/❌ — sub-hook cadence used",
+      "rehooking": "✅/❌ — rehooks at Step 4 and Step 6",
       "villainContrast": "✅/❌ — [villain named]",
       "wordEconomy": "✅/❌ — avg sentence under 10 words",
       "youFormat": "✅/❌ — zero they/people/someone",
@@ -703,9 +469,16 @@ Return ONLY a JSON object (no markdown, no extra text):
       "africaContext": "✅/❌ — ZAR pricing, SA references"
     },
     "ubuntuCheck": {
-      "weOverI": "✅/❌ — WE framing in Acts 1-2 and 6-7, I only in Acts 3-5",
+      "weOverI": "✅/❌ — WE framing in Steps 1-2 and 7-9, I only in Steps 3-6",
       "systemVillain": "✅/❌ — system/situation blamed, never a person",
       "collectiveResult": "✅/❌ — CTA frames collective action, not individual glory"
+    },
+    "kallawayCheck": {
+      "butThereforeScore": "✅/❌ — [zero 'and then' beats confirmed | or: found at Step X, rewritten to BUT/THEREFORE]",
+      "rhythmCheck": "✅/❌ — [SHORT/LONG pattern marked per line | longest sentence at Step 5 emotional peak]",
+      "loopClose": "✅/❌ — [Step 1 opening image: X | Step 9 closing image: Y | bookend pair used: rented→owned | R200→R18K | bathroom floor→built house | or custom]",
+      "illusionOfNovelty": "applied/not-needed — [if applied: steps used (1=Outcome Reveal, 2=Contrast, 3=Urgency, 4=Bullseye Proof, 5=Gossip-whisperer) | if not: topic already dramatic, IoN skipped]",
+      "bullseyeProof": "level: amount | amount+date | amount+date+ref | amount+date+ref+name — [the exact proof string used in Step 2 or Step 7]"
     },
     "principlesApplied": ["Negativity (indirect)", "You Format", "Short & Simple", "Audible Flow"]
   }
@@ -713,32 +486,39 @@ Return ONLY a JSON object (no markdown, no extra text):
 
 ### CRITICAL REQUIREMENTS:
 
-**7-Act Retention Formula Application:**
-1. **ACT 1 (0:00-0:15)**: Negative hook - stop scroll, create open loop, introduce yourself with authority
-2. **ACT 2 (0:15-1:00)**: Uncomfortable truth - pattern interrupt, challenge beliefs, introduce new concept
-3. **ACT 3 (1:00-2:30)**: Origin story - build credibility through vulnerability, emotional anchor, quantified details
-4. **ACT 4 (2:30-4:00)**: Breaking point - nuclear story, crisis/rock bottom, emotional whiplash
-5. **ACT 5 (4:00-5:30)**: Transformation journey - decision/turning point, rapid wins, proof points
-6. **ACT 6 (5:30-6:30)**: Framework teaching - deliver lesson, make it shareable, screenshot-worthy
-7. **ACT 7 (6:30-7:30)**: Mission + CTA - rally cry, crescendo building, collective action
+**9-Step Signature Shell (non-negotiable sequence):**
+1. **STEP 1 — HOOK**: R×A×C×U^B scored. Scroll-stopper. Label as [STEP 1: HOOK] in fullScript.
+2. **STEP 2 — INTRODUCE MYSELF**: One credibility sentence + one proof number from S001–S020. Label as [STEP 2: INTRODUCE MYSELF].
+3. **STEP 3 — PROBLEM**: Pain named in YOU format. Awareness level matched. Style approach governs this step. Label as [STEP 3: PROBLEM].
+4. **STEP 4 — REHOOK**: Specific tension sentence — NEVER "stay with me". Label as [STEP 4: REHOOK].
+5. **STEP 5 — PERSONAL STORY**: Before → After → Number. Exact verified numbers. Mirrors Step 3 pain. Label as [STEP 5: PERSONAL STORY].
+6. **STEP 6 — REHOOK**: Teases the solution. Builds anticipation. Label as [STEP 6: REHOOK].
+7. **STEP 7 — SOLUTION**: Framework or teaching — actionable today without buying anything. Style approach governs this step. Label as [STEP 7: SOLUTION].
+8. **STEP 8 — COST OF NOT ACTING**: Consequence of inaction — implicit, shadow fear felt not named. Label as [STEP 8: COST OF NOT ACTING].
+9. **STEP 9 — CTA**: Single action only. ManyChat keyword if applicable. Label as [STEP 9: CTA].
 
-**4 Viral Scripting Principles (EVERY ACT):**
-8. **NEGATIVITY**: Use indirect negativity (attack systems/problems, NOT viewer) - especially ACT 1-2
-9. **YOU FORMAT**: Use "YOU" exclusively in ALL acts (never "they/people/someone")
-10. **SHORT & SIMPLE**: Concise sentences, simple words, cut filler ruthlessly throughout
-11. **AUDIBLE FLOW**: Script must sound natural when read aloud (conversational rhythm)
+**4 Viral Scripting Principles (every step):**
+10. **NEGATIVITY**: Indirect negativity (attack systems/problems, NOT the viewer) — especially Steps 3 and 8
+11. **YOU FORMAT**: Use "you" exclusively in ALL steps (never they/people/someone)
+12. **SHORT & SIMPLE**: Concise sentences, simple words, cut filler ruthlessly throughout
+13. **AUDIBLE FLOW**: Script must sound natural when read aloud (conversational rhythm)
 
-**Retention Devices (MANDATORY):**
-12. **Deploy retention device in EVERY act** - never go 30+ seconds without one
-13. **Short-form (under 90s)**: Minimum 3 retention devices total
-14. **Long-form (5+ min)**: Re-hook every 90-120 seconds with sub-hooks
+**Retention Devices (mandatory):**
+14. **Open loop at Step 1** — promise something that requires the viewer to stay
+15. **Sub-hooks at Steps 4 and 6** — must open a NEW curiosity loop. ICP 1 rule: promise a credibility/compliance reveal ("here's what SARS actually said"), not manufactured drama. Never "stay with me." / "keep watching."
+16. **Long-form (5+ min)**: Re-hook every 90–120 seconds with additional sub-hooks
+
+**Kallaway Layer (mandatory):**
+17. **Bullseye Proof at Step 2 + Step 7** — escalate specificity as far as the story bank allows: amount → amount+date → amount+date+ref# → amount+date+ref#+name. Vague proof fails ICP 1.
+18. **Loop-close at Step 9** — final line/image must bookend Step 1. Default pairs: rented (780K suspended)→owned (CHKPLT/email); R200→R18K (offer content only); bathroom floor→built house.
+19. **[SHORT]/[LONG] rhythm** — one sentence per line. Tag every fullScript line. At least one [LONG] sentence (20+ words) at Step 5 emotional peak. Uniform paragraph blocks = rhythm failure.
+20. **Illusion of Novelty** — if the topic is "boring expertise" (tax, compliance, HR, governance, academic): apply the 5-step IoN sequence (Outcome Reveal → Contrast → Bullseye Proof → Gossip-whisperer delivery). Deliver with lowered register and calm specificity, not hype.
 
 **Content Quality:**
-15. **Include specific numbers** in ACT 3-5 (R750 → R100K format, R6K phone → R600K revenue)
-16. **Platform-optimize timing** - adapt ACT structure to platform duration
-17. **Reference frameworks** (PAIDS, 4E, R×A×C×U^B, Shadow Fears) in ACT 6 teaching
-18. **Include fullScript field** with complete camera-ready narration formatted by ACT
-19. **Direction notes included** in fullScript - [DIRECTION], [YOU]:, [PAUSE], [TEXT OVERLAY: ]
+21. **Specific verified numbers** in Steps 2 and 5 — from S001–S020 table only, never approximated
+22. **Platform word count enforced** — Reels: 80–130w | Instagram feed: 150–220w | YouTube medium: 450–800w | YouTube long-form: 900–1,800w
+23. **Label every section** in fullScript with [STEP N: NAME] markers — required for teleprompter parsing
+24. **Direction notes included** in fullScript — [DIRECTION], [YOU]:, [PAUSE], [TEXT OVERLAY: ]
 
 ### CRITICAL DON'TS (Automatic Failure):
 
@@ -747,34 +527,20 @@ Return ONLY a JSON object (no markdown, no extra text):
 ❌ Use complex words when simple ones work
 ❌ Write scripts that don't pass the audible flow check (read aloud test)
 ❌ Go more than 30 seconds without a retention device
-❌ Blame people as villains (blame SYSTEMS only in ACT 2)
-❌ Create individual-focused CTAs (collective action in ACT 7)
+❌ Blame people as villains (blame SYSTEMS only — Step 3/Problem and Step 8/Cost)
+❌ Create individual-focused CTAs (collective action at Step 9)
 ❌ Skip the fullScript field (required for teleprompter integration)
 ❌ Forget DIRECTION notes in fullScript (they guide production)
-
-### RETENTION DEVICE DEPLOYMENT STRATEGY:
-
-**Short-form (60-90s):**
-- ACT 1: OPEN LOOP (unanswered question)
-- ACT 2 + compressed ACT 3: SUB-HOOK (pattern interrupt)
-- ACT 4-5: EMOTIONAL WHIPLASH + PROOF POINT
-- ACT 6: EDUCATIONAL VALUE (screenshot-worthy)
-- ACT 7: CRESCENDO (building repetition)
-
-**Long-form (5-15min):**
-- ALL 7 acts with full retention devices deployed
-- Re-hook every 90-120 seconds with sub-hooks
-- Multiple emotional anchors throughout
-- Call-backs to earlier moments for cohesion
+❌ Connect beats with "and then" — every transition is BUT or THEREFORE (see THE DANCE)
+❌ Leave fullScript lines untagged — every line needs [SHORT] or [LONG] (see Pattern 10)
 
 REMEMBER:
-- WE over I (Ubuntu) in ACT 1-2, 6-7
-- Personal story (I) only in ACT 3-5 for credibility
-- Systems are villains (ACT 2), not people
-- Collective CTA (ACT 7), not individual win
-- MUST include fullScript field formatted by ACT
+- WE over I (Ubuntu) in Steps 1-2 and 7-9; personal story (I) only in Steps 3-6 for credibility
+- Systems are villains (Step 3, Step 8), not people
+- Collective CTA (Step 9), not individual win
+- MUST include fullScript field, labeled [STEP N: NAME], tagged [SHORT]/[LONG] per line
 - DIRECTION notes are critical for production
-- Platform duration determines ACT compression
+- Platform duration determines Step compression, not Act compression — the Shell stays 9 steps at every length
 `
 
     // Call Claude API — streaming to avoid 504 on long generations

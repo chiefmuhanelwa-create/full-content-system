@@ -15,7 +15,7 @@ function ToolCard({
   icon: Icon,
   name,
   desc,
-  accent = '#C9A84C',
+  accent = '#2563EB',
   badge,
 }: {
   href: string
@@ -45,7 +45,7 @@ function ToolCard({
           </div>
           {badge && (
             <span className="text-[10px] font-display font-bold px-2 py-0.5 rounded-md tracking-widest uppercase"
-              style={{ background: '#C9A84C', color: '#0a0a0a' }}>
+              style={{ background: '#2563EB', color: '#FFFFFF' }}>
               {badge}
             </span>
           )}
@@ -78,7 +78,7 @@ function SectionHeader({ title, sub }: { title: string; sub?: string }) {
 }
 
 const systemStats = [
-  { icon: Cpu, value: '45', label: 'AI Tools', color: '#C9A84C', bg: 'rgba(201,168,76,0.1)' },
+  { icon: Cpu, value: '45', label: 'AI Tools', color: '#2563EB', bg: 'rgba(37,99,235,0.08)' },
   { icon: BookOpen, value: '20', label: 'Proof Stories', color: '#16A34A', bg: '#F0FDF4' },
   { icon: Zap, value: '120', label: 'Hook Patterns', color: '#D97706', bg: '#FFFBEB' },
   { icon: Brain, value: '10', label: 'Shadow Fears', color: '#DC2626', bg: '#FEF2F2' },
@@ -114,7 +114,7 @@ export default function DashboardPage() {
             <Link
               href="/dashboard/hooks"
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-display font-semibold text-sm transition-colors"
-              style={{ background: '#C9A84C', color: '#0a0a0a', boxShadow: '0 2px 8px rgba(201,168,76,0.28)' }}
+              style={{ background: '#18181B', color: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
             >
               <Plus className="w-4 h-4" />
               New Content
