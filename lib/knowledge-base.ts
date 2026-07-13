@@ -126,6 +126,86 @@ Verified bookend pairs — use these by default:
 - BATHROOM FLOOR → BUILT HOUSE: Step 1 opens on UP bathroom floor season (2013). Step 9 closes on the owned platform. The Nehemiah frame: built it while still employed.
 Tag: compliance.kallawayCheck.loopClose = "Step 1 image: [X] | Step 9 image: [Y] | bookend: ✅/❌"`
 
+// ─── CTA PRODUCT LIBRARY (2026-07-14) — use in Step 9 only, never fabricate links ──
+export const CTA_PRODUCT_LIBRARY = `## CTA PRODUCT LIBRARY — Live Products (Step 9 only — never fabricate links, never list multiple)
+
+### ICP 1 PRODUCTS — Called Expert (R18K audience):
+1. **PAIDS Framework Workbook** — R899 — the 5 income streams system
+   AnyCheckout: https://anycheckout.com/buy/cho_papb9xqe
+   → Use when: topic is income streams, monetisation system, diversifying revenue
+2. **Build Your Personal Brand** — R599 — full creator blueprint
+   Shopify: https://contentcreatorhub.online/products/build-your-personal-brand
+   → Use when: topic is personal brand, authority, visibility
+3. **Monetise Your Expertise in 30 Days** — R149 — quick-start for Called Experts
+   Paystack: https://paystack.com/buy/monetise-your-expertise-in-30-days-jhcpul
+   → Use when: topic is monetising knowledge, turning expertise into income, Called Expert journey
+4. **Imposter Syndrome Fix** — R199 — mindset guide for credentialed professionals
+   Paystack: https://paystack.com/buy/imposter-syndrome-fix---guide-bswxbx
+   → Use when: topic is self-doubt, credibility, imposter syndrome, "who am I to teach"
+
+### ICP 2 PRODUCTS — Content Creator (R49–R500 audience):
+5. **The Influencer's Code** — R150/R299 — full creator business ebook
+   Paystack: https://paystack.com/buy/the-influencers-code-ebook-ryexhv
+   → Use when: topic is creator business, growing income, brand deals overview
+6. **Your First Brand Deal Script** — R149 — exact script to pitch brands
+   Paystack: https://paystack.com/buy/your-first-brand-deal-script---template-imorro
+   → Use when: topic is brand deals, pitching, creator income from deals
+7. **SA Creator Tax & Income Guide** — R299 — SARS, income, business structure
+   Paystack: https://paystack.com/buy/the-sa-creator-tax--income-guide-wrbquu
+   → Use when: topic is tax, SARS, sole proprietor vs PTY, financial records
+8. **30-Day Content Calendar** — R199 — posting system for creators
+   Paystack: https://paystack.com/buy/the-30-day-content-calendar--notion-template-yvqdff
+   → Use when: topic is consistency, posting schedule, content planning
+9. **Niche Clarity Workbook** — R199 — helps creators find their lane
+   Paystack: https://paystack.com/buy/the-niche-clarity-workbook-ziluov
+   → Use when: topic is niche, positioning, "what should I post about"
+10. **What to Post When You Have No Ideas** — R149 — 50 ideas + SEEDS pipeline
+    AnyCheckout: https://anycheckout.com/buy/cho_4aagfbs7
+    → Use when: topic is content ideas, posting strategy, creator block
+11. **90-Day African Creator Growth System** — R397 — full content + growth system
+    Paystack: https://paystack.com/buy/the-90-day-african-creator-growth-system-mrqbau
+    → Use when: topic is long-term growth, building a system, going from 0 to income
+
+### LIVE WEB APP TOOLS (free — mention when the topic IS the tool):
+- NOCHILL Content System: https://full-content-system-nochill.vercel.app (hooks, scripts, storytelling, batch planning)
+- Shopify Store: https://contentcreatorhub.online (all products)
+
+### SELECTION LAW:
+Pick ONE product — the most logical HOW after the WHAT/WHY the script just taught. The product delivers the HOW. Never list multiple. If ICP is unclear, default to ICP 1. ManyChat keyword for social: DM me "[KEYWORD]" — keywords: PAIDS | SYSTEM | GUIDE | START | FREE | MEDIA.`
+
+// ─── SCRIPT VOICE GUIDE (2026-07-14) — what makes the difference between AI slop and real content ──
+export const SCRIPT_VOICE_GUIDE = `## NDIVHUWO'S VOICE LAWS — Non-Negotiable Script Writing Rules
+
+### SENTENCE PATTERNS (use these — not generic AI transitions):
+- Short declarative → context: "I made R50,000 that month. It was the first time in my life."
+- Repetition for weight: "R8,000. That's it. R8,000."
+- Date stamp + scene: "2019. Sandton City. I'm in a taxi, wearing my only decent shirt."
+- Present tense for past scenes: "I walk in. She pulls out a contract. R350."
+- Question as pivot: "But here's what happened two months later."
+
+### SIGNATURE TRANSITIONS (use these verbatim — never AI connectors):
+"That's when..." | "But here's the thing..." | "You understand? Because you understand."
+"Boom, sanamabish." (sparingly — peak revelation only) | "Go create. Go produce. Go serve. Go be fruitful."
+
+### TONE LAWS:
+- Big brother who went through it and came back with a system. Not a guru. Not a professor.
+- Confrontational is care: "You're not camera shy. You're clarity shy." — naming the real problem is an act of love.
+- Never start with "I want to..." or "Today I'm going to..." — too soft.
+- Never end with "I hope this helps" — too passive.
+- BANNED AI SLOP: "delve," "certainly," "I'd be happy to," "let's explore," "leverage," "unlock," "game-changer" — automatic fail.
+- If it sounds like a LinkedIn post, it's wrong. Rewrite it.
+- No passive voice. "The algorithm changed." Not "The algorithm was changed."
+
+### WOW MOMENT STANDARD — Every script must have ONE:
+A line that makes the viewer think "I can't believe this is free." It arrives where the WHAT meets the WHY in a way that makes the HOW feel like the most obvious next step. It is not a motivational quote — it is a specific, counterintuitive insight backed by a real number or a real consequence. Tag it as 'wowMomentLine' in the output. Example: "Your content isn't failing because the algorithm hates you. It's failing because you have no system. And a system is what I sell."
+
+### WHAT / WHY / HOW LAW (enforced in every script):
+- WHAT: what the viewer needs to do — teach this in the Education section (Step 7)
+- WHY: why it works, why it matters, what happens if they don't — teach this in the Consequences section (Step 8)
+- HOW: the step-by-step execution system — this is the PAID product. NEVER give the HOW for free in the script.
+If the script gives away the full HOW → the CTA has no pull. Review Step 7 and remove any HOW-level detail.
+The education section teaches the framework NAME + WHAT each step does + WHY it works. The product teaches HOW to execute each step in detail.`
+
 // ─── BATCH CONTENT PLAN — DEDICATED KNOWLEDGE SYSTEM PROMPT ─────────────────
 // Fully driven by actual knowledge files. ~1800 token target.
 export function buildBatchSystemPrompt(): string {
@@ -445,6 +525,8 @@ Never two [LONG] lines back to back. Never more than one [LONG] per Shell step. 
 - Never motivates without a system behind it
 - No passive voice. "The algorithm changed." Not "The algorithm was changed."
 - Never puts spiritual reference before the practical lesson
+
+${SCRIPT_VOICE_GUIDE}
 
 ## DATA — AFRICAN CREATOR ECONOMY (USE THESE EXACT NUMBERS)
 - African creator economy: **$5.1B (2025)**, growing to **$29.84B by 2032** — **28.7% CAGR** (faster than global average)
@@ -957,6 +1039,8 @@ Signature closes (ONE per script, sparingly — overuse kills power):
 - "For children's children." — legacy close
 - "Not theory. Proof." — authority close
 - "You understand? Because you understand." — mirror close
+
+${CTA_PRODUCT_LIBRARY}
 
 ## SCRIPT GENERATION CHECKLIST (Quality Gate — all 15 must pass before any script ships)
 □ 1. Hook passes R×A×C×U^B (all five criteria)

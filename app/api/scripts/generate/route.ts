@@ -316,7 +316,23 @@ Generate the sales script now following the 10-step framework for ${salesFormat}
     }
 
     // Build user context - CONTENT MODE (9-Step NOCHILL Signature Shell)
-    const userPrompt = `## USER'S CONTENT IDEA
+    const userPrompt = `## PRE-GENERATION GATE — Both questions must pass before writing a single word.
+
+Q1: Will this script move the ICP closer to their goal?
+  - ICP 1 (Called Expert): monetise existing expertise without quitting their job
+  - ICP 2 (Content Creator): earn consistently from content they're already posting
+Q2: Does this script serve one of the three business outcomes: Lead Generation | Direct Sale | Authority Building?
+
+Topic: "${idea}"
+ICP: ${icp === 'icp1' ? 'ICP 1 — The Called Expert' : icp === 'icp2' ? 'ICP 2 — The Content Creator Inspirer' : 'Default — lean ICP 1'}
+
+Evaluate Q1 and Q2 for this topic. If EITHER fails → return only:
+{ "error": "Gate failed", "reason": "Q1: [explain why it doesn't move ICP toward their goal] / Q2: [explain which business outcome is missing]" }
+Only proceed to generation if BOTH pass.
+
+---
+
+## USER'S CONTENT IDEA
 
 "${idea}"
 
@@ -351,7 +367,7 @@ ${isYouTubeLongForm ? `
 
 ## GENERATION TASK
 
-Apply the UNIVERSAL 9-STEP NOCHILL SIGNATURE SHELL (full spec in system prompt) to this script.
+Apply the UNIVERSAL 9-STEP NOCHILL SIGNATURE SHELL (full spec in system prompt) to this script. The 6-section PURPOSE MAP below governs what Claude writes at each step — the 9-step labels stay in fullScript for teleprompter parsing.
 
 ### UBUNTU PRINCIPLES (Apply Throughout):
 1. **WE Over I**: Collective experience first, personal proof later
@@ -359,32 +375,79 @@ Apply the UNIVERSAL 9-STEP NOCHILL SIGNATURE SHELL (full spec in system prompt) 
 3. **Collective Results**: Frame success as community win
 4. **But/Therefore Dance**: every beat-to-beat transition is BUT (reversal) or THEREFORE (consequence). Never "and then." See THE DANCE in system prompt.
 
-### KALLAWAY LAYER — Apply per step before writing any line:
+---
 
-**Step 1 (Hook):** Run R×A×C×U^B + 3-part alignment (verbal/visual/onScreenText all say the same thing in second 0–2). The hook IS the opening line — zero preamble.
+### 6-SECTION PURPOSE MAP
 
-**Step 2 (Introduce):** Use Bullseye Proof — escalate specificity as high as the story bank supports: amount → amount+date → amount+date+ref# → amount+date+ref#+name. Tag the level in the 'bullseyeProofLevel' field.
+**SECTION 1 — HOOK (Step 1)**
+The only job: stop the scroll. One shot. No second chance.
+- R×A×C×U^B all 5 components — build from the formula, don't check after
+- 3-part alignment: verbal + visual + onScreenText say the same thing in second 0–2
+- 4 Horsemen debug: Delay / Confusion / Irrelevance / Disinterest — all pass
+- Max 25 words. Weight not hype. Start at 70%+ emotional intensity. Zero preamble.
 
-**Step 3→4 transition (The Dance):** Step 3 ends on pain. Step 4 opens with BUT or THEREFORE — the reversal that deepens the problem or introduces the consequence. Never "and then I realised..."
+**SECTION 2 — KALLAWAY STORYTELLING (Steps 2–5)**
+The job: build trust by proving you've lived the problem. Every beat is BUT or THEREFORE. Zero "and then."
+- Step 2: One credibility sentence + Bullseye Proof (escalate: amount → amount+date → amount+date+ref# → amount+date+ref#+name)
+- Step 3: YOU format. Name their exact pain. Awareness level matched. Villain = system, never person.
+- Step 4 (Rehook): Opens a NEW loop. ICP 1 = credibility/compliance reveal. Never "stay with me."
+- Step 5 (Story): Egypt → But → Therefore → Promised Land. ONE [LONG] sentence (20+ words) at emotional peak. If topic is "boring expertise": apply Illusion of Novelty (Outcome Reveal → Contrast → Bullseye Proof → gossip-whisperer delivery).
 
-**Step 4 (Rehook):** Opens a NEW loop. Does NOT close the current one. ICP 1 rule: promise a credibility/compliance reveal — "what SARS actually said," "here's what the contract required" — not manufactured drama. ICP 2: emotional tension allowed if the reveal justifies it. Tag the 'rehookType' field.
+**SECTION 3 — REHOOKS (embedded at Steps 4 + 6, woven through every transition)**
+Not a separate section — a law governing every beat transition.
+- Every step change: BUT (reversal) or THEREFORE (consequence). Never "and then."
+- Step 6 Rehook: Teases the framework WITHOUT delivering it. "Here's exactly how I built the system that survived it" — not "it gets better."
+- [SHORT]/[LONG] rhythm: one sentence per line. At least one [LONG] at Step 5 peak.
 
-**Step 5 (Story):** This is the emotional peak. Apply SHORT/LONG rhythm: one sentence per line. ONE [LONG] sentence (20+ words) at the moment of maximum vulnerability. If the topic is "boring expertise" (tax, compliance, governance, finance): apply Illusion of Novelty — open with the outcome reveal, not the topic; deliver with calm, lowered-register specificity (gossip-whisperer). Tag 'rhythmPeak' and 'illusionOfNoveltyApplied'.
+**SECTION 4 — EDUCATION / VALUE DELIVERY (Step 7)**
+The job: teach the WHAT and WHY. Never the HOW (HOW is the paid product — if HOW slips in, the CTA loses all pull).
+Framework selection — pick ONE that fits the topic:
+- PAIDS: income streams, monetisation, revenue diversification
+- DARES: building a digital asset, passive income, leverage
+- 4E: content strategy, what to post, content mix
+- SEEDS: sales funnel, lead gen, converting followers to buyers
+- POSSESS: Called Expert transformation journey (ICP 1 ONLY)
+- MS×TS×SS: mindset + skills gap, personal development through content
+- HOOKS/AFRICA: hook writing, content quality, platform growth
+- Custom: if none fit — create a named system (acronym preferred) specific to the topic
+Teaching format — choose what makes this idea clearest: step-by-step numbered list | before/after comparison (like a comparison post — old way vs new way) | list of items revealed one by one | worked example with one verified proof number.
+Rules: Simple English. Zero jargon. If a 16-year-old can't follow it — simplify. Every teaching point actionable within 24 hours.
+End Step 7 with the WOW MOMENT LINE: the one line the viewer should feel is worth R1,000. Not a quote — a specific counterintuitive insight backed by a number or real consequence.
 
-**Step 5→6 transition (The Dance):** Step 5 story ends at the turning point. Step 6 opens with THEREFORE — the consequence that demands the solution.
+**SECTION 5 — CONSEQUENCES (Step 8)**
+The job: make the cost of inaction FELT, not lectured.
+- State the consequence of NOT doing what Step 7 just taught.
+- Activate ONE shadow fear IMPLICITLY — never name it.
+- One short, specific sentence. "Every month you don't do this, [specific consequence]."
+- Not a guilt trip. A wake-up call from someone who actually cares.
 
-**Step 6 (Rehook):** Teases the framework/solution without delivering it. Specific promise, not vague tension. "Here's exactly how I built the system that survived it" — not "it gets better."
+**SECTION 6 — CTA (Step 9)**
+The job: move ONE fish from the river to the tank.
+- ONE action only. Never two.
+- Pick the most relevant product from the CTA PRODUCT LIBRARY in system prompt. The product delivers the HOW. The script taught the WHAT and WHY. The transition must feel natural.
+- Loop-close: the closing line/image MUST bookend Step 1. Verified pairs: rented→owned (780K suspended → CHKPLT/email) | R200→R18K (offer content only) | bathroom floor→built house.
+- ManyChat keyword if social: DM me "[KEYWORD]" and I'll send the link.
 
-**Step 7 (Solution):** If Illusion of Novelty was applied in Step 5, continue the calm specificity here — named system, real reference points, Bullseye Proof at the framework level.
+---
 
-**Step 9 (CTA):** Closing line/image must bookend Step 1. Use a verified pair: rented→owned (780K suspended → CHKPLT/email list) | R200→R18K (offer content only) | bathroom floor→built house. Tag the 'loopCloseBookend' field.
+### KALLAWAY LAYER — Applied per step before writing any line:
+
+**Step 1 (Hook):** R×A×C×U^B + 3-part alignment gate.
+**Step 2 (Introduce):** Bullseye Proof — highest specificity the story bank supports. Tag 'bullseyeProofLevel'.
+**Step 3→4 (Dance):** Step 3 ends on pain. Step 4 opens with BUT or THEREFORE. Never "and then I realised..."
+**Step 4 (Rehook):** New loop only. ICP 1: credibility/compliance reveal. Tag 'rehookType'.
+**Step 5 (Story):** ONE [LONG] sentence at emotional peak. Illusion of Novelty if topic is "boring expertise." Tag 'rhythmPeak' and 'illusionOfNoveltyApplied'.
+**Step 5→6 (Dance):** Step 5 ends at turning point. Step 6 opens with THEREFORE.
+**Step 6 (Rehook):** Framework tease without delivery. Tag 'rehookType'.
+**Step 7 (Education):** WHAT + WHY only. HOW is the product. Tag 'frameworkSelected', 'wowMomentLine', 'whatAndWhyOnly'.
+**Step 9 (CTA):** Closing line bookends Step 1. Tag 'loopCloseBookend'. Include ctaProductUsed in compliance.
 
 **fullScript formatting rule:** one sentence per line throughout. At least one [LONG] sentence at Step 5. Every line tagged [SHORT] or [LONG].
 
 ### RETENTION & RHYTHM (mandatory):
 - Rehooking cadence: apply the system-prompt cadence table (15s/30s/60s/90s) at Steps 4 and 6.
-- [SHORT]/[LONG] tags: tag every fullScript line — [SHORT] for punchy lines, [LONG] for the emotional peak at Step 5.
-- Dance check: every step transition uses BUT/THEREFORE. Zero "and then" connectors anywhere in the script.
+- [SHORT]/[LONG] tags: tag every fullScript line.
+- Dance check: every step transition uses BUT/THEREFORE. Zero "and then" connectors.
 
 ### OUTPUT FORMAT:
 
@@ -436,11 +499,16 @@ Return ONLY a JSON object (no markdown, no extra text):
       "retentionDevice": "PROOF POINT or EDUCATIONAL VALUE tease — the specific promise",
       "rehookType": "ICP1: credibility reveal ('here's the exact system that changed it') | ICP2: result tease ('here's what happened when I applied it') — state which and why"
     },
-    "step7_solution": {
-      "script": "[DIRECTION] Teaching energy. [YOU]: Framework or steps — actionable today. Style approach active here.",
-      "visual": "What viewer sees",
-      "frameworkUsed": "PAIDS | 4E | R×A×C×U^B | SEEDS | named system",
-      "textOverlays": ["Key point 1", "Key point 2", "Key point 3"]
+    "step7_education": {
+      "script": "[DIRECTION] Teaching energy. [YOU]: Framework breakdown — WHAT and WHY only. Never the HOW (HOW is the product).",
+      "visual": "What viewer sees (text overlays, comparison slide, list reveal)",
+      "frameworkSelected": "PAIDS | DARES | 4E | SEEDS | POSSESS | MS×TS×SS | HOOKS | AFRICA | Custom:[NAME]",
+      "frameworkReason": "One sentence: why this framework fits this specific topic",
+      "teachingFormat": "step-by-step | before/after comparison | list reveal | worked example",
+      "steps": ["Step 1: ...", "Step 2: ...", "Step 3: ..."],
+      "24hrAction": "The exact one thing they can do in the next 24 hours to start seeing results",
+      "wowMomentLine": "The exact line the viewer should feel is worth R1,000 — a specific counterintuitive insight backed by a number or consequence",
+      "whatAndWhyOnly": "✅/❌ — confirms HOW was not given away (HOW is the product)"
     },
     "step8_cost": {
       "script": "[DIRECTION] Pull back slightly. [YOU]: Consequence of not acting — implicit. Shadow fear felt not named.",
@@ -469,6 +537,16 @@ Return ONLY a JSON object (no markdown, no extra text):
     "step9": "CRESCENDO + CALLBACK"
   },
   "compliance": {
+    "gatePassed": {
+      "q1_icpGoal": "✅ — [one line: how this script moves the ICP closer to their goal]",
+      "q2_businessOutcome": "✅ Lead Generation | Direct Sale | Authority Building"
+    },
+    "ctaProductUsed": {
+      "name": "Product name from CTA PRODUCT LIBRARY",
+      "link": "The exact live buy link used (Paystack or AnyCheckout — never fabricate)",
+      "reason": "Why this product is the logical HOW after the WHAT/WHY this script taught"
+    },
+    "wowMomentLine": "The exact line from step7_education that delivers the R1,000-worth feeling",
     "icp": "ICP 1 — The Called Expert | ICP 2 — The Content Creator Inspirer",
     "shadowFear": "Fear name (SF#) from the 10 NOCHILL shadow fears",
     "villain": "Named system/situation villain — never a person",
@@ -521,7 +599,7 @@ Return ONLY a JSON object (no markdown, no extra text):
 4. **STEP 4 — REHOOK**: Specific tension sentence — NEVER "stay with me". Label as [STEP 4: REHOOK].
 5. **STEP 5 — PERSONAL STORY**: Before → After → Number. Exact verified numbers. Mirrors Step 3 pain. Label as [STEP 5: PERSONAL STORY].
 6. **STEP 6 — REHOOK**: Teases the solution. Builds anticipation. Label as [STEP 6: REHOOK].
-7. **STEP 7 — SOLUTION**: Framework or teaching — actionable today without buying anything. Style approach governs this step. Label as [STEP 7: SOLUTION].
+7. **STEP 7 — EDUCATION**: Teach WHAT and WHY only — HOW is the paid product. Framework or step-by-step teaching — actionable in 24 hours. WOW MOMENT LINE at the end of this step. Style approach governs this step. Label as [STEP 7: EDUCATION].
 8. **STEP 8 — COST OF NOT ACTING**: Consequence of inaction — implicit, shadow fear felt not named. Label as [STEP 8: COST OF NOT ACTING].
 9. **STEP 9 — CTA**: Single action only. ManyChat keyword if applicable. Label as [STEP 9: CTA].
 
