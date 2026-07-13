@@ -654,7 +654,7 @@ REMEMBER:
 
     const stream = anthropic.messages.stream({
       model: MODELS.SONNET,
-      max_tokens: 8000,
+      max_tokens: 16000,
       system: systemPromptWithStories,
       messages: [{ role: 'user', content: userPrompt }],
     })

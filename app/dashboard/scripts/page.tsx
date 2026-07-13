@@ -153,6 +153,28 @@ interface GeneratedScript {
 
 // Stateful JSON repair: escapes literal control chars inside string values.
 // Handles fullScript (multi-thousand chars) without regex backtracking issues.
+function closeJSON(raw: string): string {
+  // Close an uncompleted JSON string — handles output truncation
+  const stack: string[] = []
+  let inString = false
+  let escaped = false
+  for (let i = 0; i < raw.length; i++) {
+    const c = raw[i]
+    if (escaped) { escaped = false; continue }
+    if (c === '\\' && inString) { escaped = true; continue }
+    if (c === '"') { inString = !inString; continue }
+    if (!inString) {
+      if (c === '{') stack.push('}')
+      else if (c === '[') stack.push(']')
+      else if (c === '}' || c === ']') stack.pop()
+    }
+  }
+  let out = raw
+  if (inString) out += '"'
+  out += stack.reverse().join('')
+  return out
+}
+
 function repairJSON(raw: string): string {
   let out = ''
   let inString = false
@@ -559,9 +581,15 @@ export default function ScriptWriterPage() {
         try {
           parsedScript = JSON.parse(jsonStr)
         } catch {
-          // Stateful repair: walk char-by-char to escape literal control characters
-          // inside JSON string values. The regex approach breaks on large strings.
-          parsedScript = JSON.parse(repairJSON(jsonStr))
+          // Pass 2: escape literal control characters inside string values
+          const repaired = repairJSON(jsonStr)
+          try {
+            parsedScript = JSON.parse(repaired)
+          } catch {
+            // Pass 3: output was truncated mid-stream — close all open strings/objects/arrays
+            const closed = closeJSON(repaired)
+            parsedScript = JSON.parse(closed)
+          }
         }
       } catch (parseErr) {
         console.error('Script parse failed. Raw response (first 500 chars):', fullText.slice(0, 500))
