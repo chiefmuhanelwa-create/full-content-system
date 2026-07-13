@@ -51,7 +51,7 @@ export default function TeleprompterPage() {
   const [highlightCurrentWord, setHighlightCurrentWord] = useState(false)
   const [lineSpacing, setLineSpacing] = useState(1.8)
   const [textOpacity, setTextOpacity] = useState(100)
-  const [showBreathingMarkers, setShowBreathingMarkers] = useState(true)
+  const [showBreathingMarkers, setShowBreathingMarkers] = useState(false)
   const [smoothSpeed, setSmoothSpeed] = useState(false)
   const [currentSpeed, setCurrentSpeed] = useState(2)
   const [targetSpeed, setTargetSpeed] = useState(2)
@@ -59,7 +59,7 @@ export default function TeleprompterPage() {
   const [wordsPerMinute, setWordsPerMinute] = useState(150)
   const [highlightColor, setHighlightColor] = useState('#3b82f6') // Blue
   const [backgroundColor, setBackgroundColor] = useState('#000000') // Black
-  const [linePerLine, setLinePerLine] = useState(false) // Hook-first line-per-line mode
+  const [linePerLine, setLinePerLine] = useState(true) // Kallaway rhythm mode — default on
   const [showCaptionPanel, setShowCaptionPanel] = useState(false)
   const [captionPanelData, setCaptionPanelData] = useState<{ caption: string; hashtags: string[] } | null>(null)
 
@@ -293,21 +293,44 @@ export default function TeleprompterPage() {
     return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
-  // Process script with breathing markers and voice modulation
+  // Strip ALL metadata — only spoken words reach the display
   const processScriptWithMarkers = (text: string) => {
-    let processedText = text
-      .split('\n')
-      .filter(line => !line.trim().startsWith('[DIRECTION]'))
-      .map(line => line.replace(/^\[YOU\]:\s*/i, '').replace(/^\[STEP (\d+):\s*([^\]]+)\]/i, 'STEP $1 — $2'))
-      .join('\n')
+    const lines = text.split('\n')
+    const cleaned: string[] = []
 
-    // Add visual pause indicators after punctuation
+    for (const line of lines) {
+      const t = line.trim()
+      // Drop direction, overlay, and pause annotations
+      if (/^\[DIRECTION\]/i.test(t)) continue
+      if (/^\[TEXT OVERLAY/i.test(t)) continue
+      if (/^\[PAUSE\]/i.test(t)) continue
+      // Drop step headers in both formats: [STEP 1: HOOK] and STEP 1 — HOOK
+      if (/^\[STEP \d+:/i.test(t)) continue
+      if (/^STEP \d+ —/i.test(t)) continue
+      // Drop [SHORT] / [LONG] tags as standalone lines (rare, but can happen)
+      if (/^\[SHORT\]$/i.test(t) || /^\[LONG\]$/i.test(t)) continue
+
+      const spoken = line
+        .replace(/^\[YOU\]:\s*/i, '')          // [YOU]: prefix
+        .replace(/^\[SHORT\]\s*/i, '')          // inline [SHORT] tag
+        .replace(/^\[LONG\]\s*/i, '')           // inline [LONG] tag
+        .replace(/\[SHORT\]\s*/gi, '')          // anywhere in line
+        .replace(/\[LONG\]\s*/gi, '')           // anywhere in line
+        .replace(/^\[STEP \d+:[^\]]+\]\s*/i, '') // leftover step markers
+        .replace(/^STEP \d+ — [^\n]+\n?/i, '')  // leftover STEP N — NAME
+        .trim()
+
+      cleaned.push(spoken)
+    }
+
+    let processedText = cleaned.join('\n')
+
+    // Optional breathing cues — subtle, no emoji
     if (showBreathingMarkers) {
       processedText = processedText
-        .replace(/\.\s/g, '. 🫁 ')
-        .replace(/\?\s/g, '? 🫁 ')
-        .replace(/!\s/g, '! 🫁 ')
-        .replace(/,\s/g, ', · ')
+        .replace(/\.\s/g, '.  ')
+        .replace(/\?\s/g, '?  ')
+        .replace(/!\s/g, '!  ')
     }
 
     return processedText
@@ -397,104 +420,65 @@ export default function TeleprompterPage() {
 
   const stripRhythmTag = (line: string) => line.replace(/^\[SHORT\]\s*|^\[LONG\]\s*/i, '')
 
-  // Line-per-line renderer — hook first, then one sentence/line per block with spacing
+  // Kallaway rhythm renderer — pure spoken words, visual weight from [SHORT]/[LONG], no labels
   const renderLinePerLine = (text: string) => {
-    // Split into paragraphs on double newline or section headers ([STEP N:], [ACT N:], etc.)
-    const paragraphs = text.split(/\n{2,}|(?=\[STEP \d+:|ACT \d+:|HOOK:|LINE \d+:|Step \d+)/i).filter(p => p.trim())
+    // First clean ALL metadata from the raw text
+    const cleanedText = processScriptWithMarkers(text)
 
-    return paragraphs.map((para, pIdx) => {
-      // Detect section label — [STEP N: NAME] or [ACT N: NAME]
-      const stepMatch = para.match(/^\[STEP (\d+):\s*([^\]]+)\]/i)
-      const actMatch = para.match(/^\[ACT (\d+):\s*([^\]]+)\]/i)
-      const sectionNum = stepMatch?.[1] || actMatch?.[1]
-      const sectionName = stepMatch?.[2]?.toUpperCase() || actMatch?.[2]?.toUpperCase()
-      const sectionLabel = sectionNum ? `STEP ${sectionNum} — ${sectionName}` : null
+    // Split on blank lines (section breaks) — preserve empty lines as breath points
+    const blocks = cleanedText.split(/\n{2,}/)
 
-      // Strip the label marker from the displayed text
-      const cleanPara = para.replace(/^\[STEP \d+:[^\]]+\]\s*/i, '').replace(/^\[ACT \d+:[^\]]+\]\s*/i, '').trim()
-
-      // Split paragraph into individual lines/sentences
-      const lines = cleanPara
-        .split(/\n|(?<=\.)\s+(?=[A-Z])|(?<=\?)\s+(?=[A-Z])|(?<=!)\s+(?=[A-Z])/)
-        .map(l => l.trim())
-        .filter(l => l.length > 0)
-
-      const isHookPara = pIdx === 0 // First paragraph = hook — biggest treatment
+    return blocks.map((block, bIdx) => {
+      const rawLines = block.split('\n').map(l => l.trim()).filter(l => l.length > 0)
+      if (rawLines.length === 0) return null
 
       return (
         <div
-          key={pIdx}
+          key={bIdx}
           style={{
-            marginBottom: `${fontSize * 1.5}px`,
-            paddingBottom: `${fontSize * 0.5}px`,
-            borderBottom: pIdx < paragraphs.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+            marginBottom: `${fontSize * lineSpacing * 0.9}px`,
           }}
         >
-          {/* Section label badge — shows STEP N — NAME above each section */}
-          {sectionLabel && (
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              marginBottom: `${fontSize * 0.6}px`,
-              padding: '4px 10px',
-              background: 'rgba(201,168,76,0.12)',
-              border: '1px solid rgba(201,168,76,0.35)',
-              borderRadius: '20px',
-              fontSize: `${Math.max(10, fontSize * 0.32)}px`,
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              color: '#2563EB',
-              textTransform: 'uppercase' as const,
-            }}>
-              {sectionLabel}
-            </div>
-          )}
-          {lines.map((line, lIdx) => {
-            const isHookLine = isHookPara && lIdx === 0
-            const rhythm = getLineRhythm(line)
-            const displayLine = stripRhythmTag(line)
+          {rawLines.map((line, lIdx) => {
+            // Tags already stripped by processScriptWithMarkers — use word count for Kallaway rhythm
+            const displayLine = line
             const isRehook = isRehookLine(displayLine)
-            const isLong = rhythm === 'long'
+            const wordCount = displayLine.trim().split(/\s+/).filter(Boolean).length
+            const isLong = wordCount > 18  // Kallaway [LONG] — the immersive roll sentence
+            const isShort = wordCount <= 6 // Kallaway [SHORT] — the punch
 
             return (
               <div
                 key={lIdx}
                 style={{
-                  marginBottom: isRehook
-                    ? `${fontSize * lineSpacing * 0.6}px`
-                    : isLong
-                      ? `${fontSize * lineSpacing * 0.85}px`
+                  marginBottom: isLong
+                    ? `${fontSize * lineSpacing * 0.7}px`
+                    : isShort
+                      ? `${fontSize * lineSpacing * 0.35}px`
                       : `${fontSize * lineSpacing * 0.45}px`,
-                  padding: isRehook ? '6px 12px' : isLong ? '4px 10px' : '0',
-                  borderLeft: isRehook ? `4px solid #2563EB` : isLong ? '3px solid #64748b' : 'none',
-                  borderRadius: isRehook || isLong ? '4px' : '0',
-                  backgroundColor: isRehook ? 'rgba(201,168,76,0.1)' : 'transparent',
+                  paddingLeft: isRehook ? '14px' : '0',
+                  borderLeft: isRehook ? `3px solid #C9A84C` : 'none',
                 }}
               >
-                {isRehook && (
-                  <div style={{ fontSize: `${Math.max(10, fontSize * 0.35)}px`, color: '#2563EB', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>
-                    ↺ REHOOK
-                  </div>
-                )}
                 <div
                   style={{
-                    fontSize: isHookLine ? `${fontSize * 1.2}px` : isLong ? `${fontSize * 0.95}px` : `${fontSize}px`,
-                    fontWeight: isHookLine ? 700 : isLong ? 400 : 500,
-                    letterSpacing: isLong ? '0.01em' : 'normal',
-                    color: isHookLine ? '#fbbf24' : 'white',
-                    textShadow: isHookLine ? '0 0 15px rgba(251,191,36,0.4)' : '0 2px 4px rgba(0,0,0,0.5)',
+                    fontSize: isLong ? `${fontSize * 0.9}px` : `${fontSize}px`,
+                    fontWeight: isShort ? 700 : isLong ? 400 : 500,
+                    letterSpacing: isLong ? '0.02em' : isShort ? '-0.01em' : 'normal',
+                    color: isRehook ? '#C9A84C' : 'white',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.5)',
                     opacity: textOpacity / 100,
+                    lineHeight: isLong ? 1.6 : lineSpacing,
                   }}
                 >
-                  {renderScriptWithModulation(processScriptWithMarkers(displayLine))}
+                  {renderScriptWithModulation(displayLine)}
                 </div>
               </div>
             )
           })}
         </div>
       )
-    })
+    }).filter(Boolean)
   }
 
   // Handle speed preset changes
@@ -824,12 +808,12 @@ export default function TeleprompterPage() {
                     className="h-4 w-4"
                   />
                   <Label htmlFor="line-per-line" className="text-sm font-semibold text-amber-800">
-                    ↺ Line-per-Line + Rehook Mode
+                    Kallaway Rhythm Mode
                   </Label>
                 </div>
                 {linePerLine && (
                   <p className="text-xs text-amber-700 bg-amber-50 p-2 rounded ml-6">
-                    Hook highlighted. Each sentence on its own line. NOCHILL transition phrases marked as REHOOK points.
+                    One sentence per line. Short punchy lines bold. Long immersive sentences breathe. Rehook transitions highlighted in gold.
                   </p>
                 )}
 
