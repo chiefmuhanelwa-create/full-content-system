@@ -60,21 +60,29 @@ export default function LibraryPage() {
     setSavedScripts(prev => prev.filter(s => s.id !== id))
   }
 
+  const parseScriptContent = (script: any): { fullScript: string; title: string } => {
+    const raw = script.content || script.fullScript || ''
+    try {
+      const parsed = JSON.parse(raw)
+      // content field is JSON blob from saveScriptToLibrary — extract fullScript
+      const fullScript = parsed.fullScript || parsed.cleanScript || parsed.hook?.text || raw
+      return { fullScript: typeof fullScript === 'string' ? fullScript : JSON.stringify(fullScript), title: parsed.title || script.title }
+    } catch {
+      // content is already a plain string
+      return { fullScript: raw, title: script.title }
+    }
+  }
+
   const openTeleprompter = (script: any) => {
-    const content = script.content || script.fullScript || script.hook || ''
-    localStorage.setItem('teleprompterScript', JSON.stringify({
-      title: script.title,
-      fullScript: content,
-      content,
-      hook: script.hook,
-    }))
+    const { fullScript, title } = parseScriptContent(script)
+    localStorage.setItem('teleprompterScript', JSON.stringify({ title, fullScript, content: fullScript }))
     router.push('/dashboard/teleprompter')
   }
 
   const exportScriptToPDF = (script: any) => {
     const printWindow = window.open('', '_blank')
     if (!printWindow) return
-    const scriptContent = script.content || script.fullScript || script.hook || 'No script content'
+    const scriptContent = parseScriptContent(script).fullScript || 'No script content'
     printWindow.document.write(`<!DOCTYPE html><html><head><title>${script.title}</title>
       <style>body{font-family:Arial,sans-serif;padding:40px;line-height:1.8;max-width:800px;margin:0 auto;color:#2d3748}
       h1{font-size:22px;margin-bottom:8px}pre{white-space:pre-wrap;word-wrap:break-word;font-family:Arial,sans-serif;
@@ -213,7 +221,7 @@ export default function LibraryPage() {
                 </CardHeader>
                 <CardContent>
                   {script.content && (
-                    <p className="text-sm text-gray-600 line-clamp-2 mb-3">{script.content.slice(0, 200)}</p>
+                    <p className="text-sm text-gray-600 line-clamp-2 mb-3">{parseScriptContent(script).fullScript.slice(0, 200)}</p>
                   )}
                   <div className="flex gap-2 flex-wrap">
                     <Button size="sm" variant="outline" onClick={() => openTeleprompter(script)}>
