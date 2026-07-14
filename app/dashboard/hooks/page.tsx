@@ -697,7 +697,7 @@ export default function HookGeneratorPage() {
                     <div className="space-y-1.5">
                       {Object.entries(compliance.section13).map(([key, value]) => {
                         const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
-                        const val = value as string
+                        const val = typeof value === 'string' ? value : value == null ? '' : JSON.stringify(value)
                         const passed = val.startsWith('✅')
                         const isNA = val.startsWith('N/A')
                         return (
