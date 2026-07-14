@@ -238,9 +238,9 @@ export default function ScriptWriterPage() {
     { icon: '🎯', text: 'Locking onto your ICP...', detail: 'Identifying your target audience and shadow fears' },
     { icon: '🔬', text: 'Applying R×A×C×U^B formula...', detail: 'Building hook science — Relevance, Awareness, Clarity, Unique, Broadened' },
     { icon: '🎣', text: 'Writing Step 1: Hook...', detail: 'Stopping the scroll — the first 3 seconds are everything' },
-    { icon: '👋', text: 'Writing Steps 2–3: Introduce + Problem...', detail: 'Who you are, one credibility number, then the pain point' },
-    { icon: '🔥', text: 'Writing Steps 4–5: Rehook + Personal Story...', detail: 'Pulling them back in, then your proof story from the bank' },
-    { icon: '⚡', text: 'Writing Steps 6–8: Solution + Cost + CTA...', detail: 'The system reveal, cost of inaction, and your call to action' },
+    { icon: '😤', text: 'Writing Step 2: Problem...', detail: 'Naming the exact pain in YOU format — the viewer feels seen' },
+    { icon: '🔥', text: 'Writing Steps 3–4: Rehook + Personal Story...', detail: 'Opening a new loop, then the proof story that mirrors their pain' },
+    { icon: '⚡', text: 'Writing Steps 5–8: Rehook + Education + Cost + CTA...', detail: 'Framework tease, the system reveal, cost of inaction, and one action' },
     { icon: '✅', text: 'Running Section 13 compliance check...', detail: 'Verifying all 15 NOCHILL content protocols' },
     { icon: '🎬', text: 'Finalising your full script...', detail: 'Packaging everything for teleprompter and production' },
   ]
@@ -603,10 +603,10 @@ export default function ScriptWriterPage() {
       const sw: string[] = []
       if (parsedScript.fullScript) {
         const stepMatches = (parsedScript.fullScript.match(/\[STEP \d+:/g) || []).length
-        if (stepMatches < 9) sw.push(`Only ${stepMatches}/9 step labels found — script may be incomplete`)
-        const ctaStep = parsedScript.fullScript.match(/\[STEP 9:[^\]]*\]([\s\S]*?)(?:\[STEP|$)/)?.[1] || ''
+        if (stepMatches < 8) sw.push(`Only ${stepMatches}/8 step labels found — script may be incomplete`)
+        const ctaStep = parsedScript.fullScript.match(/\[STEP 8:[^\]]*\]([\s\S]*?)(?:\[STEP|$)/)?.[1] || ''
         const imperatives = (ctaStep.match(/\b(go|click|follow|comment|share|download|join|dm|message|visit|buy|get|start|grab)\b/gi) || [])
-        if (imperatives.length > 2) sw.push(`Step 9 has ${imperatives.length} CTAs — should be ONE clear action`)
+        if (imperatives.length > 2) sw.push(`Step 8 has ${imperatives.length} CTAs — should be ONE clear action`)
       }
       setScriptWarnings(sw)
 
@@ -896,9 +896,14 @@ ${script.scripting_principles_check ? `
         const stepNum = stepMatch[1]
         const stepName = stepMatch[2].trim()
         const sectionColor: Record<string, string> = {
-          '1': '#3b82f6', '2': '#8b5cf6', '3': '#8b5cf6',
-          '4': '#C9A84C', '5': '#8b5cf6', '6': '#C9A84C',
-          '7': '#10b981', '8': '#ef4444', '9': '#f59e0b',
+          '1': '#3b82f6',   // Hook — blue
+          '2': '#8b5cf6',   // Problem — purple
+          '3': '#C9A84C',   // Rehook — gold
+          '4': '#8b5cf6',   // Story — purple
+          '5': '#C9A84C',   // Rehook — gold
+          '6': '#10b981',   // Education — green
+          '7': '#ef4444',   // Cost — red
+          '8': '#f59e0b',   // CTA — amber
         }
         const color = sectionColor[stepNum] || '#6b7280'
         return (
@@ -1631,7 +1636,7 @@ ${scriptToUse.fiveLine.community.script}`
               {/* Info Box */}
               <div className={`p-4 border rounded-md ${scriptMode === 'sales' ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'}`}>
                 <p className={`text-sm font-medium mb-2 ${scriptMode === 'sales' ? 'text-green-800' : 'text-blue-800'}`}>
-                  {scriptMode === 'sales' ? '💰 10-Step Sales Framework:' : '🎯 9-Step NOCHILL Signature Shell:'}
+                  {scriptMode === 'sales' ? '💰 10-Step Sales Framework:' : '🎯 8-Step NOCHILL Signature Shell:'}
                 </p>
                 {scriptMode === 'sales' ? (
                   <ul className="text-xs text-green-700 space-y-1">
@@ -1649,14 +1654,13 @@ ${scriptToUse.fiveLine.community.script}`
                 ) : (
                   <ul className="text-xs text-blue-700 space-y-1">
                     <li>• <strong>Step 1: Hook</strong> — R×A×C×U^B formula, 70%+ emotional intensity</li>
-                    <li>• <strong>Step 2: Introduce Myself</strong> — who I am, one credibility number</li>
-                    <li>• <strong>Step 3: Problem</strong> — <span className="text-purple-600">[style approach applies here]</span></li>
-                    <li>• <strong>Step 4: Rehook</strong> — tension-building, specific forward reference</li>
-                    <li>• <strong>Step 5: Personal Story</strong> — vulnerability + verified proof number</li>
-                    <li>• <strong>Step 6: Rehook</strong> — teases the solution about to come</li>
-                    <li>• <strong>Step 7: Solution</strong> — <span className="text-purple-600">[style approach applies here]</span></li>
-                    <li>• <strong>Step 8: Cost of Not Acting</strong> — shadow fear activation, implicit</li>
-                    <li>• <strong>Step 9: CTA</strong> — single action: lead / sales / engagement / sign-up</li>
+                    <li>• <strong>Step 2: Problem</strong> — <span className="text-purple-600">[style approach applies here]</span></li>
+                    <li>• <strong>Step 3: Rehook</strong> — tension-building, specific forward reference</li>
+                    <li>• <strong>Step 4: Personal Story</strong> — proof woven in, mirrors Step 2 pain</li>
+                    <li>• <strong>Step 5: Rehook</strong> — teases the framework about to come</li>
+                    <li>• <strong>Step 6: Education</strong> — <span className="text-purple-600">[style approach applies here]</span></li>
+                    <li>• <strong>Step 7: Cost of Not Acting</strong> — shadow fear activation, implicit</li>
+                    <li>• <strong>Step 8: CTA</strong> — single action: lead / sales / engagement / sign-up</li>
                   </ul>
                 )}
               </div>
@@ -1890,7 +1894,7 @@ ${scriptToUse.fiveLine.community.script}`
                     {/* Header */}
                     <div className="bg-[#111111] px-5 py-3 flex items-center justify-between flex-wrap gap-2">
                       <span className="text-[#C9A84C] font-bold text-xs tracking-widest uppercase">
-                        {script.fullScript?.includes('[STEP 1:') ? 'NOCHILL Signature Script — 9-Step Kallaway Shell' : script.actStructure ? '7-Act Retention Formula' : '10-Step Storytelling Framework'}
+                        {script.fullScript?.includes('[STEP 1:') ? 'NOCHILL Signature Script — 8-Step Kallaway Shell' : script.actStructure ? '7-Act Retention Formula' : '10-Step Storytelling Framework'}
                       </span>
                       <div className="flex items-center gap-2">
                         {!isEditingFullScript ? (
@@ -1919,19 +1923,18 @@ ${scriptToUse.fiveLine.community.script}`
                       </div>
                     </div>
 
-                    {/* 9-step map (for new-style scripts) */}
+                    {/* 8-step map (for new-style scripts) */}
                     {script.fullScript?.includes('[STEP 1:') && (
                       <div className="bg-[#1C1C1C] px-5 py-3">
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1 text-xs">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-1 text-xs">
                           <div className="text-blue-400">1 · Hook (R×A×C×U^B)</div>
-                          <div className="text-purple-400">2 · Introduce Myself</div>
-                          <div className="text-purple-400">3 · Problem</div>
-                          <div className="text-[#C9A84C]">4 · Rehook</div>
-                          <div className="text-purple-400">5 · Personal Story</div>
-                          <div className="text-[#C9A84C]">6 · Rehook</div>
-                          <div className="text-emerald-400">7 · Education (WHAT+WHY)</div>
-                          <div className="text-red-400">8 · Cost of Not Acting</div>
-                          <div className="text-amber-400">9 · CTA (One Product)</div>
+                          <div className="text-purple-400">2 · Problem</div>
+                          <div className="text-[#C9A84C]">3 · Rehook</div>
+                          <div className="text-purple-400">4 · Personal Story</div>
+                          <div className="text-[#C9A84C]">5 · Rehook</div>
+                          <div className="text-emerald-400">6 · Education (WHAT+WHY)</div>
+                          <div className="text-red-400">7 · Cost of Not Acting</div>
+                          <div className="text-amber-400">8 · CTA (One Product)</div>
                         </div>
                         <div className="mt-2 flex flex-wrap gap-3 text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>
                           <span><span className="text-[#C9A84C]">●</span> Rehook = gold border</span>
