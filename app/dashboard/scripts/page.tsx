@@ -564,6 +564,8 @@ export default function ScriptWriterPage() {
         fullText += chunk
         setStreamingText(prev => (prev + chunk).slice(-400))
       }
+      // Flush any remaining bytes buffered by the streaming decoder
+      fullText += decoder.decode()
 
       // Parse the accumulated JSON
       let parsedScript: any
@@ -574,6 +576,12 @@ export default function ScriptWriterPage() {
           .replace(/^```\s*/m, '')
           .replace(/\s*```$/m, '')
           .trim()
+
+        // Check for a gate-failure response early
+        if (cleaned.includes('"error"') && cleaned.includes('"Gate failed"')) {
+          const gateResult = JSON.parse(cleaned.match(/\{[\s\S]*\}/)?.[0] || '{}')
+          throw new Error(`Content gate: ${gateResult.reason || 'Topic did not pass Q1/Q2 check — try a more specific idea.'}`)
+        }
 
         const jsonMatch = cleaned.match(/\{[\s\S]*\}/)
         const jsonStr = jsonMatch ? jsonMatch[0] : cleaned
@@ -591,9 +599,14 @@ export default function ScriptWriterPage() {
             parsedScript = JSON.parse(closed)
           }
         }
-      } catch (parseErr) {
-        console.error('Script parse failed. Raw response (first 500 chars):', fullText.slice(0, 500))
-        throw new Error('Failed to parse script response. Try again.')
+      } catch (parseErr: any) {
+        console.error('Script parse failed. Raw response preview:', fullText.slice(0, 600))
+        const hint = fullText.length < 50
+          ? 'Response was empty — Anthropic API may be rate-limited. Wait a moment and retry.'
+          : parseErr?.message?.startsWith('Content gate:')
+            ? parseErr.message
+            : `Failed to parse script response. Raw preview: "${fullText.slice(0, 120).replace(/\n/g, ' ')}…"`
+        throw new Error(hint)
       }
 
       setScript(parsedScript)
