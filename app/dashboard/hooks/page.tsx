@@ -15,6 +15,9 @@ import { get120HooksBank } from '@/lib/knowledge-base'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
 import { BackButton } from '@/components/BackButton'
 
+const safeStr = (v: unknown): string =>
+  typeof v === 'string' ? v : v == null ? '' : JSON.stringify(v)
+
 interface Hook {
   id: string
   verbal: string
@@ -665,15 +668,15 @@ export default function HookGeneratorPage() {
                 {/* Top metadata */}
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { label: 'ICP Targeted', value: compliance.icp },
-                    { label: 'Shadow Fear', value: compliance.shadowFear },
-                    { label: 'Hook Type', value: compliance.hookType?.replace(/_/g, ' ') },
-                    { label: 'Hook Format', value: compliance.hookFormat?.replace(/_/g, ' ') },
-                    { label: 'Awareness Level', value: compliance.awarenessLevel?.replace(/_/g, ' ') },
-                    { label: 'Business Outcome', value: compliance.businessOutcome },
-                    { label: 'PAIDS Category', value: compliance.paidsCategory },
-                    { label: '4E Type', value: compliance.fourE },
-                    { label: 'Villain Named', value: compliance.villain },
+                    { label: 'ICP Targeted', value: safeStr(compliance.icp) },
+                    { label: 'Shadow Fear', value: safeStr(compliance.shadowFear) },
+                    { label: 'Hook Type', value: safeStr(compliance.hookType).replace(/_/g, ' ') },
+                    { label: 'Hook Format', value: safeStr(compliance.hookFormat).replace(/_/g, ' ') },
+                    { label: 'Awareness Level', value: safeStr(compliance.awarenessLevel).replace(/_/g, ' ') },
+                    { label: 'Business Outcome', value: safeStr(compliance.businessOutcome) },
+                    { label: 'PAIDS Category', value: safeStr(compliance.paidsCategory) },
+                    { label: '4E Type', value: safeStr(compliance.fourE) },
+                    { label: 'Villain Named', value: safeStr(compliance.villain) },
                   ].filter(item => item.value).map((item) => (
                     <div key={item.label} className="p-3 bg-[#F9FAFB] rounded-xl border border-[#E4E4E7]">
                       <p className="text-[10px] font-display font-bold uppercase tracking-wider text-[#71717A] mb-1">{item.label}</p>
@@ -686,7 +689,7 @@ export default function HookGeneratorPage() {
                 {compliance.atomicShareLine && (
                   <div className="p-3.5 bg-[#18181B] rounded-xl">
                     <p className="text-[10px] font-display font-bold uppercase tracking-wider text-[#2563EB] mb-2">Atomic Share Line</p>
-                    <p className="text-[13px] font-display font-semibold text-white leading-relaxed">"{compliance.atomicShareLine}"</p>
+                    <p className="text-[13px] font-display font-semibold text-white leading-relaxed">"{safeStr(compliance.atomicShareLine)}"</p>
                   </div>
                 )}
 
