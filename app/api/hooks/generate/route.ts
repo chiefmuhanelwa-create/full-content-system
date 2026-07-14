@@ -3,6 +3,27 @@ import { anthropic, MODELS } from '@/lib/claude'
 import { buildSystemPrompt, buildUserContextPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
 
+function closeHooksJSON(raw: string): string {
+  const stack: string[] = []
+  let inString = false
+  let escaped = false
+  for (let i = 0; i < raw.length; i++) {
+    const c = raw[i]
+    if (escaped) { escaped = false; continue }
+    if (c === '\\' && inString) { escaped = true; continue }
+    if (c === '"') { inString = !inString; continue }
+    if (!inString) {
+      if (c === '{') stack.push('}')
+      else if (c === '[') stack.push(']')
+      else if (c === '}' || c === ']') stack.pop()
+    }
+  }
+  let out = raw
+  if (inString) out += '"'
+  out += stack.reverse().join('')
+  return out
+}
+
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)
   if (rl) return rl
@@ -195,10 +216,10 @@ OUTPUT FORMAT: Return ONLY a valid JSON object. Each hook is an object with: "ve
   }
 }`
 
-    // Call Claude API — HAIKU: 3-4× faster than SONNET for short creative outputs
+    // Call Claude API — SONNET: schema now too large for HAIKU output ceiling
     const message = await anthropic.messages.create({
-      model: MODELS.HAIKU,
-      max_tokens: 3500,
+      model: MODELS.SONNET,
+      max_tokens: 6000,
       system: systemPrompt,
       messages: [
         {
@@ -218,19 +239,27 @@ OUTPUT FORMAT: Return ONLY a valid JSON object. Each hook is an object with: "ve
     let hooks: Array<{ verbal: string; visual: string; onScreenText?: string } | string>
     let compliance: Record<string, any> | undefined
     try {
-      const jsonMatch = content.text.match(/\{[\s\S]*\}/)
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0])
-        hooks = parsed.hooks || []
+      const raw = content.text
+        .replace(/^```json\s*/m, '').replace(/^```\s*/m, '').replace(/\s*```$/m, '').trim()
+      const jsonMatch = raw.match(/\{[\s\S]*\}/)
+      const jsonStr = jsonMatch ? jsonMatch[0] : raw
+      let parsed: any
+      try {
+        parsed = JSON.parse(jsonStr)
+      } catch {
+        // Truncation recovery: close any open strings/arrays/objects
+        const closed = closeHooksJSON(jsonStr)
+        parsed = JSON.parse(closed)
+      }
+      if (parsed.hooks) {
+        hooks = parsed.hooks
         compliance = parsed.compliance
       } else {
-        const arrMatch = content.text.match(/\[[\s\S]*\]/)
-        const raw = arrMatch ? JSON.parse(arrMatch[0]) : JSON.parse(content.text)
-        // normalise plain string arrays from older fallback responses
-        hooks = raw
+        const arrMatch = raw.match(/\[[\s\S]*\]/)
+        hooks = arrMatch ? JSON.parse(arrMatch[0]) : parsed
       }
     } catch (parseError) {
-      console.error('Failed to parse Claude response:', content.text)
+      console.error('Failed to parse Claude response:', content.text.slice(0, 500))
       throw new Error('Failed to parse hooks from Claude response')
     }
 
