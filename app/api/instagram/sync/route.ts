@@ -17,7 +17,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma, checkDatabase } from '@/lib/db-helper'
 import { check } from '@/lib/fact-lock'
 import { analyse } from '@/lib/ai/governed'
-import { getGovernance, OWNER } from '@/lib/governance'
+import { getGovernance, OWNER, normalisePillars } from '@/lib/governance'
 
 const GV = process.env.INSTAGRAM_GRAPH_VERSION || 'v26.0'
 const BASE = 'https://graph.instagram.com'
@@ -108,7 +108,8 @@ async function runSync(request: NextRequest) {
   if (!media.length) return NextResponse.json({ error: 'No media returned. Nothing changed.' }, { status: 404 })
 
   const gov = await getGovernance()
-  const pillarNames = ((gov.pillars as any[]) || []).map((p) => p.name)
+  // The seeded shape is { ruled, pillars: [...] }, not a bare array — normalise it.
+  const pillarNames = normalisePillars(gov.pillars).map((p) => p.name)
 
   const cls = await classify(
     media.map((m) => ({ id: m.id, caption: m.caption || '' })),
