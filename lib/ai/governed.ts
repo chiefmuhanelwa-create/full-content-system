@@ -49,6 +49,19 @@ export type GovernedOpts = {
   enforceFactLock?: boolean
 }
 
+
+/**
+ * Strip unpaired UTF-16 surrogates.
+ *
+ * Captions are full of emoji, and slicing one by code UNITS can cut a surrogate pair in half.
+ * The lone half is not valid UTF-8, so the request body is rejected outright with
+ * "no low surrogate in string" — a failure that looks like a model problem and is not.
+ * Applied to everything sent, so no caller has to remember.
+ */
+export function sanitiseForModel(s: string): string {
+  return String(s ?? '').replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, '')
+}
+
 async function callModel(model: string, system: string, prompt: string, maxTokens: number) {
   // Streaming, not a single blocking POST. A non-streamed request with a large system prompt
   // and a high max_tokens holds the connection open long enough that the hop in front of it
@@ -60,8 +73,8 @@ async function callModel(model: string, system: string, prompt: string, maxToken
   const stream = (anthropic as any).messages.stream({
     model,
     max_tokens: maxTokens,
-    system,
-    messages: [{ role: 'user', content: prompt }],
+    system: sanitiseForModel(system),
+    messages: [{ role: 'user', content: sanitiseForModel(prompt) }],
   })
   const res: any = await stream.finalMessage()
   return (res.content ?? [])
