@@ -39,11 +39,11 @@ export default function HooksPage() {
   }
 
   const toScript = async (hook: string) => {
-    await fetch('/api/handoff', {
+    const r = await fetch('/api/handoff', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fromTool: 'hooks', toTool: 'batch-shoot', kind: 'hook', payload: { hook, topic, pillar, tier } }),
+      body: JSON.stringify({ fromTool: 'hooks', toTool: 'scripts', kind: 'hook', payload: { hook, topic, pillar, tier } }),
     })
-    router.push('/dashboard/batch-shoot')
+    router.push(`/dashboard/scripts?handoff=${(await r.json()).id}`)
   }
 
   const bar = (v: number) => (
