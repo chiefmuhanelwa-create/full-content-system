@@ -53,7 +53,6 @@ const navGroups: NavGroup[] = [
     items: [
       { name: 'Reel Tracker', href: '/dashboard/reels', icon: Instagram, badge: 'LIVE' },
       { name: 'Scorecard', href: '/dashboard/scorecard', icon: TargetIcon, badge: 'KPI' },
-      { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart2 },
       { name: 'History', href: '/dashboard/history', icon: History },
     ],
   },
@@ -62,8 +61,6 @@ const navGroups: NavGroup[] = [
     items: [
       { name: 'ICP Pain Library', href: '/dashboard/icp-pain-library', icon: Target },
       { name: 'Fear Analyzer', href: '/dashboard/fears', icon: Brain },
-      { name: 'Competitor Intel', href: '/dashboard/competitor', icon: Globe },
-      { name: 'Trend Scanner', href: '/dashboard/trends', icon: TrendingUp },
       { name: 'Brand Voice', href: '/dashboard/brand-voice', icon: Mic },
     ],
   },
@@ -104,7 +101,6 @@ const navGroups: NavGroup[] = [
       { name: 'IP Register', href: '/dashboard/ip-register', icon: Fingerprint, badge: 'NEW' },
       { name: 'Hook Bank', href: '/dashboard/hook-bank', icon: BookMarked },
       { name: 'Story Bank', href: '/dashboard/story-bank', icon: BookOpen },
-      { name: 'Saved Scripts', href: '/dashboard/saved-scripts', icon: FileText },
       { name: 'Content Vault', href: '/dashboard/vault', icon: Archive },
     ],
   },

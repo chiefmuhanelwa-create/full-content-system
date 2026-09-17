@@ -1,753 +1,158 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { Zap, Copy, Heart, Trash2, Sparkles, ArrowRight, Calendar as CalendarIcon, Target, X, Save, Download, BookOpen, ChevronDown, ChevronUp, Database } from 'lucide-react'
-import { useContent } from '@/contexts/ContentContext'
-import { get120HooksBank } from '@/lib/knowledge-base'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Textarea } from '@/components/ui/textarea'
+import { Badge } from '@/components/ui/badge'
+import { Zap, Loader2, Copy, ArrowRight, AlertTriangle, Database } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
-import { BackButton } from '@/components/BackButton'
 
-const safeStr = (v: unknown): string =>
-  typeof v === 'string' ? v : v == null ? '' : JSON.stringify(v)
+const PILLARS = ['KEEP IT', 'PRICE IT', 'OWN IT', 'BUILD IT ANYWAY', 'PROVE IT']
+const TIERS = ['ENTRY', 'CORE', 'PREMIUM']
+const AWARENESS = [
+  { k: 'unaware', n: 'Unaware' }, { k: 'problem', n: 'Problem-aware' },
+  { k: 'solution', n: 'Solution-aware' }, { k: 'product', n: 'Product-aware' }, { k: 'most', n: 'Most aware' },
+]
 
-interface Hook {
-  id: string
-  verbal: string
-  visual: string
-  onScreenText: string
-  content: string  // kept for backward compat (= verbal)
-  likes: number
-}
-
-export default function HookGeneratorPage() {
+export default function HooksPage() {
   const router = useRouter()
-  const { addHook, setPendingAction, addContentToCalendar, selectedFears, pendingAction } = useContent()
-
   const [topic, setTopic] = useState('')
-  const [platform, setPlatform] = useState('instagram')
-  const [duration, setDuration] = useState('60s')
-  const [icp, setIcp] = useState('auto')
-  const [shadowFear, setShadowFear] = useState('auto')
-  const [awarenessLevel, setAwarenessLevel] = useState('auto')
-  const [hookType, setHookType] = useState('any')
-  const [interestPeak, setInterestPeak] = useState('auto')
-  const [targetAudience, setTargetAudience] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [hooks, setHooks] = useState<Hook[]>([])
-  const [error, setError] = useState('')
-  const [targetedFear, setTargetedFear] = useState<{ id: number; name: string; relevance: number } | null>(null)
+  const [pillar, setPillar] = useState('PRICE IT')
+  const [tier, setTier] = useState('CORE')
+  const [awareness, setAwareness] = useState('problem')
+  const [surface, setSurface] = useState<'spoken' | 'caption'>('spoken')
+  const [busy, setBusy] = useState(false)
+  const [d, setD] = useState<any>(null)
 
-  const [showHookBank, setShowHookBank] = useState(false)
-  const [selectedHookCategory, setSelectedHookCategory] = useState('all')
-  const [savedIds, setSavedIds] = useState<Set<string>>(new Set())
-  const [savingId, setSavingId] = useState<string | null>(null)
-  const [compliance, setCompliance] = useState<any>(null)
-  const [showCompliance, setShowCompliance] = useState(false)
-  const hookBank = get120HooksBank()
-
-  // Restore last generated output on mount
-  useEffect(() => {
+  const run = async () => {
+    if (!topic.trim()) return
+    setBusy(true); setD(null)
     try {
-      const saved = sessionStorage.getItem('hooks_last_output')
-      if (saved) {
-        const { hooks: savedHooks, compliance: savedCompliance, topic: savedTopic } = JSON.parse(saved)
-        if (savedHooks?.length) {
-          setHooks(savedHooks)
-          if (savedTopic) setTopic(savedTopic)
-          if (savedCompliance) { setCompliance(savedCompliance); setShowCompliance(true) }
-        }
-      }
-    } catch { /* ignore */ }
-  }, [])
-
-  useEffect(() => {
-    if (pendingAction.action === 'target-fear-in-hooks' && pendingAction.data) {
-      const fear = pendingAction.data
-      setTargetedFear({ id: fear.id, name: fear.name, relevance: fear.relevance })
-      setTargetAudience(fear.targetAudience || '')
-      setPendingAction(null)
-    } else if (pendingAction.action === 'generate-hooks-from-calendar' && pendingAction.data) {
-      const entry = pendingAction.data
-      setTopic(entry.notes || entry.title)
-      setPlatform(entry.platform.toLowerCase())
-      setPendingAction(null)
-    }
-  }, [pendingAction, setPendingAction])
-
-  // Bridge: Hook Bank preloads a saved hook for remixing
-  useEffect(() => {
-    const raw = localStorage.getItem('hookBankPreload')
-    if (!raw) return
-    try {
-      const data = JSON.parse(raw)
-      localStorage.removeItem('hookBankPreload')
-      if (data.hookText) setTopic(data.hookText)
-      if (data.hookType) setHookType(data.hookType)
-    } catch { /* ignore */ }
-  }, [])
-
-  // Bridge: ICP Pain Library sends pain point to hooks generator
-  useEffect(() => {
-    const raw = localStorage.getItem('painToHookPreload')
-    if (!raw) return
-    try {
-      const data = JSON.parse(raw)
-      localStorage.removeItem('painToHookPreload')
-      if (data.topic) setTopic(data.topic)
-      if (data.shadowFear) setShadowFear(data.shadowFear)
-      if (data.icp) {
-        if (data.icp.includes('icp1') || data.icp === 'called_expert' || data.icp === 'contentpreneur') setIcp('icp1')
-        else if (data.icp.includes('icp2') || data.icp === 'beginner_creator' || data.icp === 'established_creator') setIcp('icp2')
-      }
-    } catch { /* ignore */ }
-  }, [])
-
-  // Consume My Algorithm audience preload
-  useEffect(() => {
-    const audiencePreload = localStorage.getItem('algorithmAudiencePreload')
-    if (audiencePreload) {
-      if (audiencePreload === 'called_expert') setIcp('icp1')
-      if (audiencePreload === 'content_creator_inspirer') setIcp('icp2')
-      localStorage.removeItem('algorithmAudiencePreload')
-    }
-  }, [])
-
-  useEffect(() => {
-    const vaultData = localStorage.getItem('vaultToHookGenerator')
-    if (vaultData) {
-      try {
-        const data = JSON.parse(vaultData)
-        if (data.contentIdea) {
-          setTopic(data.contentIdea)
-          if (data.hookType) setHookType(data.hookType)
-          if (data.platform) setPlatform(data.platform)
-          if (data.shadowFear) setTargetedFear({ id: Date.now(), name: data.shadowFear, relevance: 85 })
-        }
-        if (data.story) {
-          setTopic(`Create hook about: ${data.lesson || data.story}`)
-          if (data.hookType) setHookType(data.hookType)
-          if (data.shadowFear) setTargetedFear({ id: Date.now(), name: data.shadowFear, relevance: 85 })
-        }
-        localStorage.removeItem('vaultToHookGenerator')
-      } catch (error) {
-        console.error('Error loading vault data:', error)
-      }
-    }
-  }, [])
-
-  const generateHooks = async () => {
-    if (!topic.trim()) { setError('Enter a topic to generate hooks'); return }
-    setLoading(true)
-    setError('')
-    try {
-      const response = await fetch('/api/hooks/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, platform, duration, hookType, icp: icp === 'auto' ? undefined : icp, shadowFear: shadowFear === 'auto' ? undefined : shadowFear, awarenessLevel: awarenessLevel === 'auto' ? undefined : awarenessLevel, interestPeak: interestPeak === 'auto' ? undefined : interestPeak, targetAudience: targetAudience.trim() || undefined, targetFear: targetedFear ? { id: targetedFear.id, name: targetedFear.name, relevance: targetedFear.relevance } : undefined, count: 5 }),
+      const r = await fetch('/api/hooks/generate', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic, pillar, tier, awareness, surface, count: 9 }),
       })
-      const data = await response.json()
-      if (!response.ok) throw new Error(data.error || 'Failed to generate hooks')
-      const generatedHooks: Hook[] = data.hooks.map((h: any, index: number) => {
-        const verbal = typeof h === 'string' ? h : (h.verbal || h.content || '')
-        const visual = typeof h === 'string' ? '' : (h.visual || '')
-        const onScreenText = typeof h === 'string' ? '' : (h.onScreenText || '')
-        return { id: `${Date.now()}-${index}`, verbal, visual, onScreenText, content: verbal, likes: 0 }
-      })
-      setHooks(generatedHooks)
-      if (data.compliance) { setCompliance(data.compliance); setShowCompliance(true) }
-      try { sessionStorage.setItem('hooks_last_output', JSON.stringify({ hooks: generatedHooks, compliance: data.compliance || null, topic })) } catch { /* ignore */ }
-      generatedHooks.forEach((hook) => addHook({ content: hook.verbal, type: hookType !== 'any' ? hookType as any : 'information_gap', platform }))
-    } catch (err: any) {
-      setError(err.message || 'An error occurred')
-    } finally {
-      setLoading(false)
-    }
+      setD(await r.json())
+    } finally { setBusy(false) }
   }
 
-  const copyHook = (content: string) => navigator.clipboard.writeText(content)
-
-  const likeHook = (id: string) => setHooks((prev) => prev.map((hook) => hook.id === id ? { ...hook, likes: hook.likes + 1 } : hook))
-
-  const deleteHook = (id: string) => setHooks((prev) => prev.filter((hook) => hook.id !== id))
-
-  const saveHook = async (hook: Hook) => {
-    setSavingId(hook.id)
-    try {
-      // Save to DB (shows in Saved Hooks page after login on any device)
-      await fetch('/api/hooks/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          content: hook.content,
-          topic: topic || '',
-          platform,
-          duration,
-          hookType: hookType !== 'any' ? hookType : 'general',
-          category: 'generated',
-        }),
-      })
-      setSavedIds(prev => new Set(prev).add(hook.id))
-    } catch (err) {
-      setError('Could not save hook. Try again.')
-    } finally {
-      setSavingId(null)
-    }
+  const toScript = async (hook: string) => {
+    await fetch('/api/handoff', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fromTool: 'hooks', toTool: 'batch-shoot', kind: 'hook', payload: { hook, topic, pillar, tier } }),
+    })
+    router.push('/dashboard/batch-shoot')
   }
 
-  const saveToHookBank = async (hook: Hook) => {
-    setSavingId(hook.id + '-bank')
-    try {
-      const response = await fetch('/api/hook-bank/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ hookText: hook.content, hookType: hookType !== 'any' ? hookType : 'question', awarenessLevel: 'symptom_aware', broadened: false, topic: topic || '', platform: platform || '', timesUsed: 0, avgPerformance: 0, isFavorite: false }),
-      })
-      const data = await response.json()
-      if (!response.ok) throw new Error(data.details ? `${data.error}: ${data.details}` : data.error || 'Failed to save')
-      setSavedIds(prev => new Set(prev).add(hook.id + '-bank'))
-    } catch (err: any) {
-      setError('Error saving to Hook Bank: ' + (err.message || 'Unknown error'))
-    } finally {
-      setSavingId(null)
-    }
-  }
-
-  const saveAllToHookBank = async () => {
-    if (hooks.length === 0) return
-    setLoading(true)
-    let successCount = 0; let failCount = 0; const errors: string[] = []
-    for (const hook of hooks) {
-      try {
-        const response = await fetch('/api/hook-bank/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ hookText: hook.content, hookType: hookType !== 'any' ? hookType : 'question', awarenessLevel: 'symptom_aware', broadened: false, topic: topic || '', platform: platform || '', timesUsed: 0, avgPerformance: 0, isFavorite: false }) })
-        const data = await response.json()
-        if (response.ok) { successCount++ } else { failCount++; errors.push(data.details ? `${data.error}: ${data.details}` : data.error || 'Unknown error') }
-      } catch (err: any) { failCount++; errors.push(err.message || 'Network error') }
-    }
-    setLoading(false)
-    if (failCount === 0) {
-      hooks.forEach(h => setSavedIds(prev => new Set(prev).add(h.id + '-bank')))
-    } else {
-      setError(failCount === hooks.length ? `Failed to save hooks: ${errors[0] || ''}` : `Saved ${successCount} hooks (${failCount} failed)`)
-    }
-  }
-
-  const exportHooksToPDF = () => {
-    const printWindow = window.open('', '_blank')
-    if (printWindow) {
-      printWindow.document.write(`<!DOCTYPE html><html><head><title>Hooks — ${new Date().toLocaleDateString()}</title><style>body{font-family:'Montserrat',Arial,sans-serif;padding:48px;background:#F9FAFB;color:#18181B;max-width:760px;margin:0 auto}.header{margin-bottom:40px;padding:28px 32px;background:linear-gradient(135deg,#E6C871,#2563EB,#1D4ED8);border-radius:12px}.header h1{font-size:22px;font-weight:900;color:#18181B;margin:0 0 6px}.header p{font-size:13px;color:#18181B;opacity:0.7;margin:0}.hook{margin-bottom:24px;padding:20px 24px;background:#fff;border:1px solid #E4E4E7;border-left:3px solid #2563EB;border-radius:8px}.hook-num{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#2563EB;margin-bottom:8px}.hook-text{font-size:15px;font-weight:500;line-height:1.65;color:#18181B}@media print{body{padding:20px}}</style></head><body><div class="header"><h1>Generated Hooks</h1><p>Topic: ${topic} · ${platform} · ${duration} · ${new Date().toLocaleDateString()}</p></div>${hooks.map((hook, i) => `<div class="hook"><div class="hook-num">Hook ${i + 1}</div><div class="hook-text">${hook.content}</div></div>`).join('')}<script>window.onload=function(){window.print();setTimeout(()=>window.close(),100)}<\/script></body></html>`)
-      printWindow.document.close()
-    }
-  }
-
-  const filteredHooks = selectedHookCategory === 'all'
-    ? hookBank.categories.flatMap(cat => cat.hooks)
-    : hookBank.categories.find(cat => cat.id.toString() === selectedHookCategory)?.hooks || []
-
-  const copyBankHook = (hookText: string) => {
-    navigator.clipboard.writeText(hookText)
-    alert('Copied to clipboard!')
-  }
+  const bar = (v: number) => (
+    <span className="inline-flex h-1 w-5 overflow-hidden rounded-full bg-muted">
+      <span className="h-full rounded-full bg-primary" style={{ width: `${(v / 5) * 100}%` }} />
+    </span>
+  )
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
-      <div className="px-6 pt-4"><BackButton /></div>
-
-      {/* Page header */}
+    <div className="space-y-6">
       <ToolPageHeader
-        icon={Zap}
-        iconColor="text-[#2563EB]"
-        eyebrow="Create"
+        eyebrow="80% DATA · 20% AI"
         title="Hook Generator"
-        description="Generate scroll-stopping hooks using the R×A×C×U^B formula — fear, curiosity, data, contrast."
+        description="Fifty templates that have already worked, filled for your topic. The model fills placeholders and scores — it does not invent the shape."
+        icon={Zap}
       />
 
-      <div className="px-6 py-8 space-y-6">
-
-        {/* Hook Bank — 120 proven hooks */}
-        <div className="nc-panel">
-          <button
-            onClick={() => setShowHookBank(!showHookBank)}
-            className="w-full flex items-center justify-between p-5 text-left"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-[#F9FAFB] text-[#2563EB]">
-                <BookOpen className="h-4 w-4" />
-              </div>
-              <div>
-                <p className="font-display font-bold text-[#18181B] text-sm leading-none">NOCHILL 120 Hooks Bank</p>
-                <p className="text-[12px] text-[#71717A] mt-1">Browse 120 proven hooks across 6 categories</p>
-              </div>
-            </div>
-            <div className="text-[#71717A]">
-              {showHookBank ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </div>
-          </button>
-
-          {showHookBank && (
-            <div className="px-5 pb-5 space-y-4 border-t border-[#E4E4E7] pt-4">
-              <div className="flex items-center gap-2 flex-wrap">
-                <button
-                  onClick={() => setSelectedHookCategory('all')}
-                  className={`px-3 py-1.5 rounded-lg text-[11px] font-display font-bold uppercase tracking-wide transition-all ${selectedHookCategory === 'all' ? 'bg-[#2563EB] text-white' : 'bg-white border border-[#E4E4E7] text-[#52525B] hover:border-[#2563EB]/50'}`}
-                >
-                  All (120)
+      <Card>
+        <CardContent className="space-y-3 pt-6">
+          <Textarea value={topic} onChange={e => setTopic(e.target.value)}
+            placeholder="What is this piece about? e.g. creators hand over a rate card before the agency names a budget"
+            className="min-h-[76px]" />
+          <div className="grid gap-2 sm:grid-cols-4">
+            <select value={pillar} onChange={e => setPillar(e.target.value)} className="rounded-md border bg-card px-3 py-2 text-[13px]">
+              {PILLARS.map(p => <option key={p}>{p}</option>)}
+            </select>
+            <select value={tier} onChange={e => setTier(e.target.value)} className="rounded-md border bg-card px-3 py-2 text-[13px]">
+              {TIERS.map(t => <option key={t}>{t}</option>)}
+            </select>
+            <select value={awareness} onChange={e => setAwareness(e.target.value)} className="rounded-md border bg-card px-3 py-2 text-[13px]">
+              {AWARENESS.map(a => <option key={a.k} value={a.k}>{a.n}</option>)}
+            </select>
+            <div className="flex overflow-hidden rounded-md border">
+              {(['spoken', 'caption'] as const).map(s => (
+                <button key={s} onClick={() => setSurface(s)}
+                  className={`flex-1 px-2 py-2 text-[12px] font-medium capitalize transition ${surface === s ? 'bg-primary text-primary-foreground' : 'bg-card hover:bg-muted'}`}>
+                  {s}
                 </button>
-                {hookBank.categories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() => setSelectedHookCategory(category.id.toString())}
-                    className={`px-3 py-1.5 rounded-lg text-[11px] font-display font-bold uppercase tracking-wide transition-all ${selectedHookCategory === category.id.toString() ? 'bg-[#2563EB] text-white' : 'bg-white border border-[#E4E4E7] text-[#52525B] hover:border-[#2563EB]/50'}`}
-                  >
-                    {category.category.split(' & ')[0]} ({category.count})
-                  </button>
-                ))}
-              </div>
-
-              {selectedHookCategory !== 'all' && (
-                <div className="p-3.5 bg-white border border-[#E4E4E7] rounded-xl">
-                  {hookBank.categories.filter(cat => cat.id.toString() === selectedHookCategory).map(category => (
-                    <div key={category.id}>
-                      <p className="font-display font-bold text-[#18181B] text-sm">{category.category}</p>
-                      <p className="text-[13px] text-[#52525B] mt-1">{category.description}</p>
-                      <p className="nc-helper mt-2">
-                        <span className="font-semibold text-[#52525B]">Impact:</span> {category.emotional_impact} ·{' '}
-                        <span className="font-semibold text-[#52525B]">Best for:</span> {category.best_for.join(', ')}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
-                {filteredHooks.length === 0 ? (
-                  <p className="text-center text-[#71717A] py-6 font-display text-sm">No hooks found</p>
-                ) : filteredHooks.map((hook) => (
-                  <div key={hook.id} className="nc-result-card">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1">
-                        <p className="text-[13px] font-display font-semibold text-[#18181B] leading-relaxed">{hook.hook}</p>
-                        {hook.r_a_c_u_b && (
-                          <div className="mt-2 space-y-0.5">
-                            <p className="nc-helper"><span className="font-semibold text-[#52525B]">Relevant:</span> {hook.r_a_c_u_b.relevant}</p>
-                            <p className="nc-helper"><span className="font-semibold text-[#52525B]">Unique:</span> {hook.r_a_c_u_b.unique}</p>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex gap-1 flex-shrink-0">
-                        <button onClick={() => copyBankHook(hook.hook)} className="p-1.5 rounded-lg text-[#71717A] hover:text-[#2563EB] hover:bg-[#F9FAFB] transition-colors" title="Copy">
-                          <Copy className="h-3.5 w-3.5" />
-                        </button>
-                        <button onClick={() => setTopic(hook.hook)} className="p-1.5 rounded-lg text-[#71717A] hover:text-[#2563EB] hover:bg-[#F9FAFB] transition-colors" title="Use as topic">
-                          <ArrowRight className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className="nc-helper italic">Use these as patterns — create your own hooks from the same structure.</p>
+              ))}
             </div>
-          )}
+          </div>
+          <p className="text-[11px] leading-relaxed text-muted-foreground">
+            {surface === 'spoken'
+              ? 'Spoken opens in the second person, about the viewer. Your own loss enters at beat 3, around ten seconds.'
+              : 'Caption opens on your loss with a figure from the ledger. Measured 25.5 median comments against 3.0.'}
+          </p>
+          <Button onClick={run} disabled={busy || !topic.trim()}>
+            {busy ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Filling templates…</> : 'Generate 9 hooks'}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {d?.error && (
+        <div className="rounded-lg border-l-4 border-l-red-600 bg-red-50 p-3 text-[13px]">
+          <p className="font-semibold">{d.error}</p>{d.fix && <p className="mt-1">{d.fix}</p>}
         </div>
+      )}
 
-        {/* Generator form */}
-        <div className="nc-tool-section space-y-5">
-          <div>
-            <p className="nc-eyebrow mb-0.5">Generator</p>
-            <h2 className="font-display font-black text-[#18181B] text-lg leading-none">Generate Viral Hooks</h2>
-          </div>
-
-          {/* Targeted fear badge */}
-          {targetedFear && (
-            <div className="flex items-center justify-between p-3.5 bg-[#F9FAFB] border border-[#2563EB]/30 rounded-xl">
-              <div className="flex items-center gap-2.5">
-                <Target className="h-4 w-4 text-[#2563EB] flex-shrink-0" />
-                <div>
-                  <p className="font-display font-bold text-[#18181B] text-sm leading-none">Targeting: {targetedFear.name}</p>
-                  <p className="nc-helper mt-0.5">Relevance {targetedFear.relevance}% — hooks will target this shadow fear</p>
-                </div>
-              </div>
-              <button onClick={() => setTargetedFear(null)} className="p-1 rounded text-[#71717A] hover:text-[#18181B] transition-colors">
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-          )}
-
-          {/* ICP Lock — Step 0 */}
-          <div className="nc-form-row p-3 rounded-lg border-2 border-[#2563EB] bg-[#EFF6FF]">
-            <label htmlFor="icp" className="font-bold text-[#7A5F18] uppercase tracking-wide" style={{fontSize:'0.7rem'}}>
-              Lock Your ICP First
-            </label>
-            <p className="text-xs text-[#7A5F18] mb-2">Everything — hook angle, shadow fear, proof story — depends on who you're talking to.</p>
-            <Select value={icp} onValueChange={setIcp}>
-              <SelectTrigger id="icp" className="nc-tool-input h-auto border-[#2563EB]"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="auto">🤖 Auto-detect from topic</SelectItem>
-                <SelectItem value="icp1">👔 ICP 1 — Called Expert (32–50)</SelectItem>
-                <SelectItem value="icp2">📱 ICP 2 — Content Creator (18–35)</SelectItem>
-              </SelectContent>
-            </Select>
-            {icp === 'auto' && (
-              <p className="text-xs text-amber-600 mt-1">⚠️ Auto will guess — picking manually gives significantly better output</p>
-            )}
-          </div>
-
-          <div className="nc-form-row">
-            <label htmlFor="topic">Topic *</label>
-            <input
-              id="topic"
-              className="nc-tool-input"
-              placeholder="e.g. brand deals for small creators"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-            />
-          </div>
-
-          {/* Shadow Fear */}
-          <div className="nc-form-row">
-            <label htmlFor="shadowFear">Shadow Fear</label>
-            <Select value={shadowFear} onValueChange={setShadowFear}>
-              <SelectTrigger id="shadowFear" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="auto">Auto-detect</SelectItem>
-                <SelectItem value="wasted_life">Wasted Life (#1)</SelectItem>
-                <SelectItem value="generational_poverty">Generational Poverty Trap (#2)</SelectItem>
-                <SelectItem value="imposter_syndrome">Imposter Syndrome (#3)</SelectItem>
-                <SelectItem value="wrong_path">Wrong Path Terror (#4)</SelectItem>
-                <SelectItem value="invisible_labor">Invisible Labor (#5)</SelectItem>
-                <SelectItem value="platform_dependency">Platform Dependency (#6)</SelectItem>
-                <SelectItem value="time_anxiety">Time Anxiety (#7)</SelectItem>
-                <SelectItem value="relationship_loss">Relationship Loss (#8)</SelectItem>
-                <SelectItem value="spiritual_crisis">Spiritual Crisis (#9)</SelectItem>
-                <SelectItem value="legacy_void">Legacy Void (#10)</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="nc-form-row">
-              <label htmlFor="platform">Platform</label>
-              <Select value={platform} onValueChange={setPlatform}>
-                <SelectTrigger id="platform" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="instagram">Instagram</SelectItem>
-                  <SelectItem value="tiktok">TikTok</SelectItem>
-                  <SelectItem value="youtube">YouTube</SelectItem>
-                  <SelectItem value="linkedin">LinkedIn</SelectItem>
-                  <SelectItem value="twitter">Twitter/X</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="nc-form-row">
-              <label htmlFor="duration">Duration</label>
-              <Select value={duration} onValueChange={setDuration}>
-                <SelectTrigger id="duration" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="15s">15 seconds</SelectItem>
-                  <SelectItem value="30s">30 seconds</SelectItem>
-                  <SelectItem value="60s">60 seconds</SelectItem>
-                  <SelectItem value="90s">90 seconds</SelectItem>
-                  <SelectItem value="3min">3 minutes</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="nc-form-row">
-              <label htmlFor="awarenessLevel">Awareness Level (A in R×A×C×U^B)</label>
-              <Select value={awarenessLevel} onValueChange={setAwarenessLevel}>
-                <SelectTrigger id="awarenessLevel" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="auto">Auto-detect</SelectItem>
-                  <SelectItem value="symptom_aware">Symptom Aware — feels pain, doesn't know cause</SelectItem>
-                  <SelectItem value="problem_aware">Problem Aware — knows the problem</SelectItem>
-                  <SelectItem value="solution_aware">Solution Aware — knows solutions exist</SelectItem>
-                  <SelectItem value="product_aware">Product Aware — knows your offer</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="nc-form-row">
-              <label htmlFor="hookType">Hook Type (C in R×A×C×U^B)</label>
-              <Select value={hookType} onValueChange={setHookType}>
-                <SelectTrigger id="hookType" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="any">Any Type</SelectItem>
-                  <SelectItem value="information_gap">Information Gap</SelectItem>
-                  <SelectItem value="desired_result">Desired Result</SelectItem>
-                  <SelectItem value="undesired_result">Undesired Result</SelectItem>
-                  <SelectItem value="a_to_b_transformation">A→B Transformation</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="nc-form-row">
-              <label htmlFor="interestPeak">Interest Peak Type</label>
-              <Select value={interestPeak} onValueChange={setInterestPeak}>
-                <SelectTrigger id="interestPeak" className="nc-tool-input h-auto"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="auto">Auto-detect</SelectItem>
-                  <SelectItem value="risk_reversal">Risk Reversal — nothing to lose</SelectItem>
-                  <SelectItem value="authority">Authority Endorsement — borrow credibility</SelectItem>
-                  <SelectItem value="controversial">Controversial — trigger an emotion</SelectItem>
-                  <SelectItem value="personal_story">Personal Story — social proof</SelectItem>
-                  <SelectItem value="negative_assumption">Negative Assumption — shatter their excuse</SelectItem>
-                  <SelectItem value="hype_up">Hype Up — maximum anticipation</SelectItem>
-                  <SelectItem value="call_out">Call Out — name who they are</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {error && <div className="nc-error">{error}</div>}
-
-          <button onClick={generateHooks} disabled={loading} className="nc-generate-btn">
-            {loading ? (
-              <><Sparkles className="h-4 w-4 animate-spin" /> Generating Hooks...</>
-            ) : (
-              <><Zap className="h-4 w-4" /> Generate 5 Hooks</>
-            )}
-          </button>
+      {d?.composition && (
+        <div className="flex flex-wrap items-center gap-2 rounded-lg bg-muted px-4 py-2.5 text-[12px]">
+          <Database className="h-3.5 w-3.5 shrink-0" />
+          <span className="font-semibold">{d.composition.ratio}</span>
+          <span className="text-muted-foreground">· from data: {d.composition.fromData}</span>
+          {d.cta && <Badge variant="secondary" className="ml-auto">CTA {d.cta.keyword}</Badge>}
         </div>
+      )}
 
-        {/* Loading skeleton — shown while generation is in progress */}
-        {loading && hooks.length === 0 && (
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="h-2.5 w-14 bg-[#F4F4F5] rounded animate-pulse mb-2" />
-                <div className="h-5 w-44 bg-[#F4F4F5] rounded animate-pulse" />
-              </div>
-            </div>
-            {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className="nc-result-card animate-pulse">
-                <div className="flex flex-col gap-3">
-                  <div className="space-y-2">
-                    <div className="h-2.5 w-10 bg-[#F4F4F5] rounded" />
-                    <div className="h-4 bg-[#F4F4F5] rounded w-full" />
-                    <div className="h-4 bg-[#F4F4F5] rounded w-5/6" />
-                    <div className="h-4 bg-[#F4F4F5] rounded w-3/4" />
-                  </div>
-                  <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map(j => (
-                      <div key={j} className="w-7 h-7 rounded-lg bg-[#F4F4F5]" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Generated hooks */}
-        {hooks.length > 0 && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="nc-eyebrow mb-0.5">Results</p>
-                <h2 className="font-display font-black text-[#18181B] text-lg leading-none">Generated Hooks ({hooks.length})</h2>
-              </div>
-              <button onClick={exportHooksToPDF} className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 hover:text-[#18181B] transition-all text-[12px] font-display font-bold uppercase tracking-wide">
-                <Download className="h-3.5 w-3.5" />
-                Export PDF
-              </button>
+      {d?.hooks?.map((h: any, i: number) => (
+        <Card key={i} className={h.clean === false ? 'border-l-4 border-l-red-600' : undefined}>
+          <CardContent className="pt-5">
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-[16px] font-semibold leading-snug">{h.hook}</p>
+              <span className="shrink-0 rounded-lg bg-primary/10 px-2.5 py-1 font-mono text-[13px] font-bold text-primary">
+                {h.total}<span className="text-[10px] font-normal">/25</span>
+              </span>
             </div>
 
-            {hooks.map((hook, index) => (
-              <div key={hook.id} className="nc-result-card">
-                <div className="flex flex-col gap-3">
-                  <div>
-                    <p className="nc-eyebrow mb-2">Hook {index + 1} — Verbal</p>
-                    <p className="font-display font-semibold text-[#18181B] text-[15px] leading-relaxed">{hook.verbal || hook.content}</p>
-                  </div>
-                  {hook.visual && (
-                    <div className="px-3 py-2.5 rounded-xl" style={{ background: 'rgba(201,168,76,0.07)', border: '1px solid rgba(37,99,235,0.2)' }}>
-                      <p className="text-[9px] font-display font-bold uppercase tracking-widest mb-1" style={{ color: '#2563EB' }}>Visual Hook — Opening Frame</p>
-                      <p className="text-[13px] font-display leading-relaxed" style={{ color: '#D4A843' }}>{hook.visual}</p>
-                    </div>
-                  )}
-                  {hook.onScreenText && (
-                    <div className="px-3 py-2.5 rounded-xl" style={{ background: 'rgba(16,185,129,0.07)', border: '1px solid rgba(16,185,129,0.2)' }}>
-                      <p className="text-[9px] font-display font-bold uppercase tracking-widest mb-1" style={{ color: '#10B981' }}>On-Screen Text — Overlay</p>
-                      <p className="text-[13px] font-display leading-relaxed" style={{ color: '#18181B' }}>{hook.onScreenText}</p>
-                    </div>
-                  )}
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <div className="flex gap-1">
-                      <button onClick={() => likeHook(hook.id)} className="p-1.5 rounded-lg text-[#71717A] hover:text-red-500 hover:bg-[#F9FAFB] transition-colors" title="Like">
-                        <Heart className={`h-3.5 w-3.5 ${hook.likes > 0 ? 'fill-red-500 text-red-500' : ''}`} />
-                      </button>
-                      <button onClick={() => copyHook(hook.verbal || hook.content)} className="p-1.5 rounded-lg text-[#71717A] hover:text-[#2563EB] hover:bg-[#F9FAFB] transition-colors" title="Copy verbal hook">
-                        <Copy className="h-3.5 w-3.5" />
-                      </button>
-                      <button onClick={() => saveHook(hook)} className="p-1.5 rounded-lg text-[#71717A] hover:text-[#2563EB] hover:bg-[#F9FAFB] transition-colors" title="Save">
-                        <Save className="h-3.5 w-3.5" />
-                      </button>
-                      <button onClick={() => saveToHookBank(hook)} className="p-1.5 rounded-lg text-[#71717A] hover:text-[#2563EB] hover:bg-[#F9FAFB] transition-colors" title="Save to Hook Bank">
-                        <Database className="h-3.5 w-3.5" />
-                      </button>
-                      <button onClick={() => deleteHook(hook.id)} className="p-1.5 rounded-lg text-[#71717A] hover:text-red-500 hover:bg-[#F9FAFB] transition-colors" title="Delete">
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                    <div className="flex gap-1">
-                      <button
-                        onClick={() => {
-                          const savedHook = addHook({ content: hook.verbal || hook.content, type: hookType !== 'any' ? hookType as any : 'information_gap', platform })
-                          setPendingAction({ action: 'use-hook-in-script', data: savedHook })
-                          router.push('/dashboard/scripts')
-                        }}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 transition-all text-[11px] font-display font-bold uppercase tracking-wide"
-                      >
-                        <ArrowRight className="h-3 w-3" /> Script
-                      </button>
-                      <button
-                        onClick={() => {
-                          addContentToCalendar({ title: (hook.verbal || hook.content).substring(0, 50) + '...', platform, sourceTools: ['Hook Generator'] })
-                        }}
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 transition-all text-[11px] font-display font-bold uppercase tracking-wide"
-                      >
-                        <CalendarIcon className="h-3 w-3" /> Calendar
-                      </button>
-                    </div>
-                    {hook.likes > 0 && (
-                      <p className="text-[11px] text-[#2563EB] font-display font-bold text-center">{hook.likes} ♥</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            <div className="grid grid-cols-2 gap-3">
-              <button onClick={generateHooks} disabled={loading} className="nc-generate-btn">
-                {loading ? <><Sparkles className="h-4 w-4 animate-spin" /> Generating...</> : <><Zap className="h-4 w-4" /> Generate More</>}
-              </button>
-              <button
-                onClick={saveAllToHookBank}
-                disabled={loading}
-                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-[#E4E4E7] bg-white text-[#52525B] hover:border-[#2563EB]/50 hover:bg-[#F9FAFB] transition-all text-[13px] font-display font-bold uppercase tracking-wide disabled:opacity-50"
-              >
-                <Database className="h-4 w-4 text-[#2563EB]" />
-                Save All to Hook Bank
-              </button>
+            <div className="mt-2.5 flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
+              {h.category && <Badge variant="outline" className="text-[10px]">{h.category}</Badge>}
+              {['R', 'A', 'C', 'U', 'B'].map(k => (
+                <span key={k} className="inline-flex items-center gap-1">{k}{bar(Number(h.scores?.[k]) || 0)}</span>
+              ))}
             </div>
-          </div>
-        )}
 
-        {/* Framework Compliance Panel */}
-        {compliance && (
-          <div className="nc-panel overflow-hidden">
-            <button
-              onClick={() => setShowCompliance(!showCompliance)}
-              className="w-full flex items-center justify-between p-5 text-left"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-[#18181B] text-[#2563EB]">
-                  <Sparkles className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="font-display font-black text-[#18181B] text-sm leading-none">Framework Compliance Report</p>
-                  <p className="text-[12px] text-[#71717A] mt-1">What the AI followed to generate these hooks</p>
-                </div>
-              </div>
-              <div className="text-[#71717A]">
-                {showCompliance ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-              </div>
-            </button>
+            {h.why && <p className="mt-2 text-[12px] text-muted-foreground">{h.why}</p>}
 
-            {showCompliance && (
-              <div className="px-5 pb-5 border-t border-[#E4E4E7] space-y-5 pt-4">
-                {/* Top metadata */}
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { label: 'ICP Targeted', value: safeStr(compliance.icp) },
-                    { label: 'Shadow Fear', value: safeStr(compliance.shadowFear) },
-                    { label: 'Hook Type', value: safeStr(compliance.hookType).replace(/_/g, ' ') },
-                    { label: 'Hook Format', value: safeStr(compliance.hookFormat).replace(/_/g, ' ') },
-                    { label: 'Awareness Level', value: safeStr(compliance.awarenessLevel).replace(/_/g, ' ') },
-                    { label: 'Business Outcome', value: safeStr(compliance.businessOutcome) },
-                    { label: 'PAIDS Category', value: safeStr(compliance.paidsCategory) },
-                    { label: '4E Type', value: safeStr(compliance.fourE) },
-                    { label: 'Villain Named', value: safeStr(compliance.villain) },
-                  ].filter(item => item.value).map((item) => (
-                    <div key={item.label} className="p-3 bg-[#F9FAFB] rounded-xl border border-[#E4E4E7]">
-                      <p className="text-[10px] font-display font-bold uppercase tracking-wider text-[#71717A] mb-1">{item.label}</p>
-                      <p className="text-[12px] font-display font-semibold text-[#18181B] leading-snug">{item.value}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Atomic share line */}
-                {compliance.atomicShareLine && (
-                  <div className="p-3.5 bg-[#18181B] rounded-xl">
-                    <p className="text-[10px] font-display font-bold uppercase tracking-wider text-[#2563EB] mb-2">Atomic Share Line</p>
-                    <p className="text-[13px] font-display font-semibold text-white leading-relaxed">"{safeStr(compliance.atomicShareLine)}"</p>
-                  </div>
-                )}
-
-                {/* Section 13 checklist */}
-                {compliance.section13 && (
-                  <div>
-                    <p className="text-[11px] font-display font-black uppercase tracking-wider text-[#18181B] mb-3">Section 13 — Master Framework Checklist</p>
-                    <div className="space-y-1.5">
-                      {Object.entries(compliance.section13).map(([key, value]) => {
-                        const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
-                        const val = typeof value === 'string' ? value : value == null ? '' : JSON.stringify(value)
-                        const passed = val.startsWith('✅')
-                        const isNA = val.startsWith('N/A')
-                        return (
-                          <div key={key} className="flex items-start gap-2.5 py-1.5 border-b border-[#E4E4E7]/50 last:border-0">
-                            <span className={`text-[13px] flex-shrink-0 mt-0.5 ${passed ? 'text-green-600' : isNA ? 'text-[#B0A898]' : 'text-red-500'}`}>
-                              {passed ? '✅' : isNA ? '—' : '❌'}
-                            </span>
-                            <div className="flex-1 min-w-0">
-                              <span className="text-[11px] font-display font-bold text-[#18181B] uppercase tracking-wide">{label}: </span>
-                              <span className="text-[11px] text-[#52525B]">{val.replace(/^✅\s*|^❌\s*|^N\/A\s*—?\s*/i, '')}</span>
-                            </div>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* Principles */}
-                {compliance.principlesApplied?.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {compliance.principlesApplied.map((p: string) => (
-                      <span key={p} className="px-2.5 py-1 rounded-full bg-[#2563EB]/10 border border-[#2563EB]/30 text-[11px] font-display font-bold text-[#7A5F1A] uppercase tracking-wide">
-                        {p}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+            {h.sourceTemplate && (
+              <p className="mt-2 rounded bg-muted px-2.5 py-1.5 font-mono text-[11px] text-muted-foreground">
+                from: {h.sourceTemplate}
+              </p>
             )}
-          </div>
-        )}
 
-        {/* Empty state */}
-        {hooks.length === 0 && !loading && (
-          <div className="nc-tool-section flex flex-col items-center justify-center py-16 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-[#F9FAFB] border border-[#E4E4E7] flex items-center justify-center mb-5">
-              <Zap className="h-6 w-6 text-[#2563EB]" />
+            {h.clean === false && (
+              <p className="mt-2 flex items-center gap-1.5 text-[12px] font-semibold text-red-700">
+                <AlertTriangle className="h-3.5 w-3.5" />banned: {h.banned?.join(', ')}
+              </p>
+            )}
+
+            <div className="mt-3 flex gap-2">
+              <Button size="sm" variant="secondary" onClick={() => navigator.clipboard?.writeText(h.hook)}>
+                <Copy className="mr-1.5 h-3.5 w-3.5" />Copy
+              </Button>
+              <Button size="sm" onClick={() => toScript(h.hook)} disabled={h.clean === false}>
+                Script it<ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+              </Button>
             </div>
-            <h3 className="font-display font-black text-[#18181B] text-lg mb-2">No hooks generated yet</h3>
-            <p className="text-[#71717A] text-sm max-w-sm">
-              Enter your topic and hit Generate — five scroll-stopping hooks using the NOCHILL R×A×C×U^B formula.
-            </p>
-          </div>
-        )}
-
-      </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   )
 }
