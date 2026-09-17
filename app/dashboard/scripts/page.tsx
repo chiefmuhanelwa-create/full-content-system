@@ -644,14 +644,14 @@ export default function ScriptWriterPage() {
   const convertStoryTitleToKey = (title: string): string | null => {
     const storyMapping: Record<string, string> = {
       'Bathroom Floors to Boardrooms': 'bathroom_floors',
-      'R750 to R100K Brand Evolution': 'r750_to_r100k',
-      'R6,000 Huawei Investment': 'huawei_r6000_investment',
+      'R15,000 Standing Rate → R45,000 Once Costed': 'r750_to_r100k',
+      'R6,000 Phone, 2014': 'huawei_r6000_investment',
       '780K Instagram Followers Lost Overnight': 'instagram_780k_loss',
-      'SARS R207,879 Tax Debt': 'sars_debt',
+      'SARS R207,879.20 Assessment — Unpaid': 'sars_debt',
       'University Dropout Family Shame': 'family_shame_dropout',
-      'First Netflix R100K Deal': 'first_netflix_deal',
+      'The Brand That Came To Me': 'first_netflix_deal',
       'Daily Posting Nearly Killed Me': 'content_burnout',
-      'Samsung Long-term Partnership': 'samsung_partnership',
+      'They Found Me': 'samsung_partnership',
       'Ubuntu: I Am Because We Are': 'ubuntu_principle',
     }
     return storyMapping[title] || null
@@ -1395,7 +1395,7 @@ ${scriptToUse.fiveLine.community.script}`
                   placeholder={
                     scriptMode === 'sales'
                       ? "Optional: Add a specific angle, hook, or context. If blank, AI will create the best sales script based on your product data."
-                      : "e.g., 'Teach creators how to price their brand deals' or 'Share my journey from R750 to R100K brand partnerships'"
+                      : "e.g., 'Teach creators how to price their brand deals' or 'Share how I went from a R15,000 standing rate to R45,000 once I costed the work'"
                   }
                   value={idea}
                   onChange={(e) => setIdea(e.target.value)}

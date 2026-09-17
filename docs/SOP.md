@@ -1,3 +1,9 @@
+> ⛔ **FACT-LOCK 2026-09-17.** This file contained figures that are disproven or banned.
+> Never copy a number out of here without checking
+> `~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv`.
+> **Never name the employer, workplace or industry.** Governing ICP:
+> `~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md`
+
 # NoChill Content System — Full SOP
 **Version:** June 2026 | **Owner:** Ndivhuwo Muhanelwa (NOCHILL PTY LTD) | **Production:** https://full-content-system-nochill.vercel.app/
 
@@ -45,7 +51,7 @@ Every AI output runs through the same knowledge stack, in this order:
 4. **Sentence architecture** — 9 micro-patterns from the published books (short declarative, repetition, present tense for past scenes, date+amount+event, etc.)
 5. **120-hook training bank** — few-shot examples that teach pattern, not template copying
 6. **Pain Priority Matrix** — 7 ranked audience pains (Monetisation Confusion #1 at 0.84)
-7. **Proof story bank** — S001–S020, real numbers only (R750 first deal, R207,879 SARS debt, R23K affiliate day, etc.)
+7. **Proof story bank** — S001–S020, real numbers only (R750 first deal, R207,879.20 SARS debt, R23,524 (March 2019) affiliate day, etc.)
 8. **Section 13 compliance** — 15-point checklist run on every output before delivery
 
 The AI NEVER fabricates numbers. If it reaches for a hypothetical, it violates the system prompt rules. If output sounds like a LinkedIn post, it has drifted — that is the #1 failure mode to catch.
@@ -345,7 +351,7 @@ The AI NEVER fabricates numbers. If it reaches for a hypothetical, it violates t
 ---
 
 ### 19. Revenue Tracker (`/dashboard/revenue`)
-**What it does:** Log income by PAIDS stream (Products, Ads & Affiliates, Information, Deals, Services). Track monthly totals toward the R100K/month target.
+**What it does:** Log income by PAIDS stream (Products, Ads & Affiliates, Information, Deals, Services). Track monthly totals toward the [⛔ REDACTED 2026-09-17]/month target.
 
 ---
 
@@ -524,7 +530,7 @@ Before publishing ANY AI-generated output, run it through this checklist:
 - Language: "your knowledge is worth more than your salary"
 - WTP: R9,000–R45,000
 - Framework: POSSESS (7-step GPS, Deuteronomy 1:6–46), 3Cs, 7-Stage Transformation
-- Product: Called Expert Accelerator PRO (R18,000 PIF / R6,500×3)
+- Product: Called Expert Accelerator PRO ([⛔ REDACTED 2026-09-17] PIF / R6,500×3)
 
 **ICP 2 — Content Creator Inspirer**
 - Age: 18–35
@@ -545,7 +551,7 @@ Built by Ndivhuwo Muhanelwa (NoChill) — founder of NOCHILL PTY LTD, Contentpre
 
 The system exists because generic AI tools produce generic content. This one is wired with 8 years of real SA creator data: proof stories with exact rand amounts, real audience research from 1,643 respondents, a published book's worth of voice patterns, and 120 hook examples trained from actual content that built a 3M+ audience.
 
-The goal is R100K/month from digital products alone. This system is how that happens without spending all day writing manually.
+The goal is [⛔ REDACTED 2026-09-17]/month from digital products alone. This system is how that happens without spending all day writing manually.
 
 ---
 

@@ -1,3 +1,9 @@
+> ⛔ **FACT-LOCK 2026-09-17.** This file contained figures that are disproven or banned.
+> Never copy a number out of here without checking
+> `~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv`.
+> **Never name the employer, workplace or industry.** Governing ICP:
+> `~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md`
+
 # 🎬 NOCHILL Viral Scripting Master Guide - Complete Feature Documentation
 
 **Version**: 2.0.0
@@ -148,7 +154,7 @@ What clarity are you providing?
 ### U = Unique (Pattern Interrupt)
 
 What makes this different?
-- Specific numbers (R600K, 90 days, 1,000 followers)
+- Specific numbers ([⛔ REDACTED 2026-09-17], 90 days, 1,000 followers)
 - Extreme contrasts (bathroom floors → boardrooms)
 - Controversial takes (opposite of popular advice)
 - Personal stories (unique experiences)
@@ -193,7 +199,7 @@ Professional storytelling system with 5 proven story types:
 **When to Use**: Selling courses, building authority
 **Structure**: Before state → What changed → After state
 
-**Example**: "From R0 to R600K in platform revenue by changing one thing in my scripts..."
+**Example**: "From R0 to [⛔ REDACTED 2026-09-17] in platform revenue by changing one thing in my scripts..."
 
 ### 4. Breakthrough Stories
 
@@ -268,7 +274,7 @@ Where you are now + What you learned.
 **Duration**: 15-20% of story
 **Goal**: Deliver the teaching moment
 
-**Example Arc**: University bathroom (Setup) → Family pressure (Inciting) → Failed videos (Escalation) → R0 in bank (Crisis) → Studied viral patterns (Decision) → First viral video (Transformation) → R600K revenue (Resolution)
+**Example Arc**: University bathroom (Setup) → Family pressure (Inciting) → Failed videos (Escalation) → R0 in bank (Crisis) → Studied viral patterns (Decision) → First viral video (Transformation) → [⛔ REDACTED 2026-09-17] revenue (Resolution)
 
 ---
 
@@ -384,7 +390,7 @@ Perfect content balance for sustainable growth:
 
 **Goal**: Revenue generation
 
-**Example**: "Struggling to go viral? I built a framework that generated R600K. Join us..."
+**Example**: "Struggling to go viral? I built a framework that generated [⛔ REDACTED 2026-09-17]. Join us..."
 
 **Content Distribution**:
 ```
@@ -412,7 +418,7 @@ Battle-tested hooks across 6 categories, all following R×A×C×U^B formula:
 
 **Examples**:
 - "Your family thinks you're wasting your life. Prove them wrong in 90 days."
-- "I went from sleeping in university bathrooms to R600K in platform revenue."
+- "I went from sleeping in university bathrooms to [⛔ REDACTED 2026-09-17] in platform revenue."
 - "Your mom worked her entire life so you could succeed. Don't let her down."
 
 ### Category 2: Transformation Hooks (20 hooks)
@@ -422,7 +428,7 @@ Battle-tested hooks across 6 categories, all following R×A×C×U^B formula:
 
 **Examples**:
 - "From 0 followers to 100K in 6 months. Here's the exact system I used."
-- "I was broke 12 months ago. Now I make R50K/month from content."
+- "I was broke 12 months ago. Now I make [⛔ REDACTED 2026-09-17]/month from content."
 - "Same content. Different strategy. 10x the results."
 
 ### Category 3: Lesson & Breakthrough Hooks (20 hooks)
@@ -507,7 +513,7 @@ All content is infused with Ubuntu philosophy: "I am because we are"
 **Concept**: Community wins over personal wins
 **Application**: Share collective success
 
-- ❌ "I made R600K..."
+- ❌ "I made [⛔ REDACTED 2026-09-17]..."
 - ✅ "Our community has generated over R2M together..."
 - ❌ "My students got results..."
 - ✅ "We've helped 1,000+ creators go viral..."
@@ -766,7 +772,7 @@ If you're a content creator stuck at 1,000 followers and feeling like you'll nev
 
 > "You understand? Because you understand."
 
-This framework was built through lived experience. From creating content in university bathrooms to generating R600K in platform revenue. Every principle, every hook, every framework was tested in the real world.
+This framework was built through lived experience. From creating content in university bathrooms to generating [⛔ REDACTED 2026-09-17] in platform revenue. Every principle, every hook, every framework was tested in the real world.
 
 ### Ubuntu. Kingdom. Legacy.
 

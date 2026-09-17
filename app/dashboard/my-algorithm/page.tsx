@@ -12,18 +12,20 @@ import {
 const CREATOR = {
   name: 'Ndivhuwo Muhanelwa',
   alias: 'NoChill',
-  proof: 'From university bathroom floors → R600K+ annual income, 50+ brand deals, 9 awards',
+  proof: 'From university bathroom floors → 19 named brands, 23 agencies, award-winning', // ⛔ FACT-LOCK 2026-09-17: no annual total, no award total
   signature: '"You understand? Because you understand." "For children\'s children."',
 }
 
 const AUDIENCES = [
   {
+    // ⛔ RETIRED 2026-09-17: "The Called Expert", ages 32–50, R9,000–R45,000. Key kept for routing only.
+    // RULED CUSTOMER: the creator whose income is decided by somebody else, and who finds out afterwards.
     id: 'called_expert',
-    name: 'The Called Expert',
+    name: 'The Creator Whose Income Somebody Else Decides',
     tagline: 'You know your field. You just don\'t know how to turn it into content that pays.',
     color: 'text-amber-700',
     badge: 'bg-amber-100 text-amber-800',
-    demographics: 'Age 32-50 · Professionals, coaches, consultants',
+    demographics: 'Money has moved, or money is visibly blocked — and another human being appears in their fear',
     painPoints: [
       'Expert but invisible online',
       'Can\'t be "cringe" — I have a reputation',
@@ -78,14 +80,14 @@ const FEELER_TRIGGERS = [
 
 const STORIES = [
   { key: 'bathroom_floors', title: 'Bathroom Floors to Boardrooms', time: '5-8s', arc: 'Vulnerability → Triumph', products: ['01', '02', 'paids_course_starter'], icon: '🏠' },
-  { key: 'r750_to_r100k', title: 'R750 to R100K Brand Evolution', time: '10-12s', arc: 'Mistake → Mastery', products: ['03', '04', '05', 'paids_course_pro'], icon: '💰' },
-  { key: 'huawei_r6000_investment', title: 'R6,000 Huawei Investment', time: '10-15s', arc: 'Risk → Reward', products: ['01', 'paids_course_starter'], icon: '📱' },
+  { key: 'r750_to_r100k', title: 'R15,000 Standing Rate → R45,000 Once Costed', time: '10-12s', arc: 'Mistake → Mastery', products: ['03', '04', '05', 'paids_course_pro'], icon: '💰' },
+  { key: 'huawei_r6000_investment', title: 'R6,000 Phone, 2014', time: '10-15s', arc: 'Risk → Reward', products: ['01', 'paids_course_starter'], icon: '📱' },
   { key: 'instagram_780k_loss', title: '780K Followers Lost Overnight', time: '12-15s', arc: 'Devastation → Liberation', products: ['02', 'paids_course_pro'], icon: '📉' },
-  { key: 'sars_debt', title: 'SARS R207,879 Tax Debt', time: '15-18s', arc: 'Ignorance → Wisdom', products: ['tax'], icon: '🧾' },
+  { key: 'sars_debt', title: 'SARS R207,879.20 Assessment — Unpaid', time: '15-18s', arc: 'Ignorance → Wisdom', products: ['tax'], icon: '🧾' },
   { key: 'family_shame_dropout', title: 'University Dropout Family Shame', time: '12-15s', arc: 'Shame → Pride', products: ['01', '02'], icon: '🎓' },
-  { key: 'first_netflix_deal', title: 'First Netflix R100K Deal', time: '15-18s', arc: 'Doubt → Confidence', products: ['03', '05', '13', 'paids_course_pro'], icon: '🎬' },
+  { key: 'first_netflix_deal', title: 'The Brand That Came To Me', time: '15-18s', arc: 'Doubt → Confidence', products: ['03', '05', '13', 'paids_course_pro'], icon: '🎬' },
   { key: 'content_burnout', title: 'Daily Posting Nearly Killed Me', time: '18-20s', arc: 'Exhaustion → Liberation', products: ['01', '02', 'paids_course_starter'], icon: '🔥' },
-  { key: 'samsung_partnership', title: 'Samsung Long-term Partnership', time: '12-15s', arc: 'Transactional → Partnership', products: ['04', 'paids_course_pro'], icon: '🤝' },
+  { key: 'samsung_partnership', title: 'They Found Me', time: '12-15s', arc: 'Transactional → Partnership', products: ['04', 'paids_course_pro'], icon: '🤝' },
   { key: 'ubuntu_principle', title: 'Ubuntu: I Am Because We Are', time: '15-18s', arc: 'Scarcity → Abundance', products: ['02', 'paids_course_pro'], icon: '🌍' },
 ]
 
@@ -545,7 +547,7 @@ export default function MyAlgorithmPage() {
                 { label: 'Core Offer', sub: 'PAIDS Course R997', bg: 'bg-amber-100', text: 'text-amber-800', sub_text: 'text-amber-600' },
                 { label: 'Upsell', sub: 'PAIDS Pro R1,997', bg: 'bg-amber-50', text: 'text-amber-800', sub_text: 'text-amber-600' },
                 { label: 'Subscription', sub: 'Hub R497/mo', bg: 'bg-orange-100', text: 'text-orange-800', sub_text: 'text-orange-600' },
-                { label: '1:1 Coaching', sub: 'R9,997', bg: 'bg-red-100', text: 'text-red-800', sub_text: 'text-red-600' },
+                { label: '1:1 Coaching', sub: 'POA', bg: 'bg-red-100', text: 'text-red-800', sub_text: 'text-red-600' }, // ⛔ R9,997 RETIRED 2026-09-17 — ruled premium tier is $499 / R9,000
                 { label: 'Mastermind', sub: 'R25,000+', bg: 'bg-red-50', text: 'text-red-800', sub_text: 'text-red-600' },
               ].map((stage, i, arr) => (
                 <div key={i} className="flex items-center gap-2">
@@ -573,7 +575,7 @@ export default function MyAlgorithmPage() {
             {[
               {
                 type: 'ETHOS', label: 'Credibility',
-                text: "I went from sleeping in a university bathroom to R300,000+ a month partnering with Netflix, Samsung, Red Bull.",
+                text: "I went from sleeping in a university bathroom to 19 named brands and 23 agencies — and a rate I could actually defend.",
                 color: 'border-blue-200 bg-blue-50', badge: 'bg-blue-100 text-blue-700'
               },
               {

@@ -1,13 +1,19 @@
 // Prisma Schema for NOCHILL Viral Script Generator
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
+// ⚠️ CHKPLT database, 2026-09-17. Every table below lives in the `content_system`
+// schema — NEVER in `public`. `public` holds 54 live products, 13 orders, 20 payments
+// and 16 product grants. Nothing here may touch them.
+// Ruled by the founder: keep Prisma's own tables in their own schema.
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+  schemas   = ["content_system"]
 }
 
 // User Model
@@ -50,6 +56,7 @@ model User {
   batchPlans          BatchPlan[]
 
   @@map("users")
+  @@schema("content_system")
 }
 
 model Account {
@@ -70,6 +77,7 @@ model Account {
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
+  @@schema("content_system")
 }
 
 model Session {
@@ -80,6 +88,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
+  @@schema("content_system")
 }
 
 model VerificationToken {
@@ -89,6 +98,7 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_tokens")
+  @@schema("content_system")
 }
 
 // Hook Model
@@ -126,6 +136,7 @@ model Hook {
   @@index([platform])
   @@index([category])
   @@map("hooks")
+  @@schema("content_system")
 }
 
 // Script Model
@@ -167,6 +178,7 @@ model Script {
   @@index([platform])
   @@index([category])
   @@map("scripts")
+  @@schema("content_system")
 }
 
 // Story Model (Proof Stories)
@@ -206,6 +218,7 @@ model Story {
   @@index([userId])
   @@index([storyType])
   @@map("stories")
+  @@schema("content_system")
 }
 
 // Revenue Model (PAIDS Tracking)
@@ -232,6 +245,7 @@ model Revenue {
   @@index([stream])
   @@index([year, month])
   @@map("revenue")
+  @@schema("content_system")
 }
 
 // Content Calendar Model
@@ -262,6 +276,7 @@ model CalendarEntry {
   @@index([date])
   @@index([category])
   @@map("calendar_entries")
+  @@schema("content_system")
 }
 
 // Activity Log Model - Track all user actions
@@ -292,6 +307,7 @@ model ActivityLog {
   @@index([entityType])
   @@index([createdAt])
   @@map("activity_logs")
+  @@schema("content_system")
 }
 
 // Content Version Model - Track content edits and refinements
@@ -324,6 +340,7 @@ model ContentVersion {
   @@index([createdAt])
   @@index([isActive])
   @@map("content_versions")
+  @@schema("content_system")
 }
 
 // System Settings Model - User preferences for operational system
@@ -344,6 +361,7 @@ model SystemSetting {
   @@unique([userId, key])
   @@index([userId])
   @@map("system_settings")
+  @@schema("content_system")
 }
 
 // Data Backup Model - Track system backups
@@ -373,6 +391,7 @@ model DataBackup {
   @@index([status])
   @@index([startedAt])
   @@map("data_backups")
+  @@schema("content_system")
 }
 
 // Content Progress Model - Track content through production pipeline
@@ -438,6 +457,7 @@ model ContentProgress {
   @@index([scheduledFor])
   @@index([createdAt])
   @@map("content_progress")
+  @@schema("content_system")
 }
 
 // ============================================
@@ -540,6 +560,7 @@ model ContentCard {
   @@index([audienceLevel])
   @@index([publishDate])
   @@map("content_cards")
+  @@schema("content_system")
 }
 
 // Hooks Bank Model - Repository of all hook variations
@@ -583,6 +604,7 @@ model HookBank {
   @@index([awarenessLevel])
   @@index([contentPillar])
   @@map("hook_bank")
+  @@schema("content_system")
 }
 
 // Story Bank Model - Repository of personal stories (extended from Story model)
@@ -639,6 +661,7 @@ model StoryBankEntry {
   @@index([storyKey])
   @@index([isQuantifiable])
   @@map("story_bank")
+  @@schema("content_system")
 }
 
 // ICP Pain Library Model - Repository of audience pain points
@@ -692,6 +715,7 @@ model ICPPainLibrary {
   @@index([painCategory])
   @@index([shadowFear])
   @@map("icp_pain_library")
+  @@schema("content_system")
 }
 
 // Product Database Model - NOCHILL PTY LTD Product Ecosystem
@@ -760,6 +784,7 @@ model Product {
   @@index([paidsStream])
   @@index([status])
   @@map("products")
+  @@schema("content_system")
 }
 
 // Enhanced Content Calendar Model (extends existing CalendarEntry)
@@ -821,6 +846,7 @@ model ContentCalendarPlus {
   @@index([contentPillar])
   @@index([fourETag])
   @@map("content_calendar_plus")
+  @@schema("content_system")
 }
 
 // Content Pipeline — Kanban production tracker
@@ -854,6 +880,7 @@ model ContentPipeline {
   @@index([status])
   @@index([platform])
   @@map("content_pipeline")
+  @@schema("content_system")
 }
 
 // Batch Plans — persistent storage for 30-day content plans
@@ -880,4 +907,237 @@ model BatchPlan {
   @@index([userId])
   @@index([createdAt])
   @@map("batch_plans")
+  @@schema("content_system")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LIVE SIGNAL + MODIFIABLE STATE — added 2026-09-17
+// These carry data that ARRIVES rather than data that was seeded. No relation to
+// User: the owner id is a plain string so a sync job can write without a session.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// One Instagram post, with its measured performance and what the system learned from it.
+model InstagramMedia {
+  id      String @id @default(cuid())
+  userId  String
+  mediaId String @unique
+
+  caption     String?  @db.Text
+  mediaType   String?
+  productType String? // REELS / FEED / STORY
+  permalink   String?
+  postedAt    DateTime?
+
+  likeCount     Int @default(0)
+  commentsCount Int @default(0)
+  reach         Int?
+  saved         Int?
+  shares        Int?
+  views         Int?
+
+  /// Classified by the governed model against the ruled pillar set, not guessed by regex.
+  pillar     String?
+  tier       String?
+  ctaKeyword String?
+  hookType   String?
+
+  /// Fact-lock verdict for the caption as published. This is how banned figures already
+  /// live on the account get found instead of assumed absent.
+  factLock Json?
+  analysis Json?
+
+  engagementRate Float?
+  syncedAt       DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+  @@index([postedAt])
+  @@index([pillar])
+  @@map("instagram_media")
+  @@schema("content_system")
+}
+
+/// Account-level numbers over time, so decay is visible rather than remembered.
+model InstagramSnapshot {
+  id     String @id @default(cuid())
+  userId String
+
+  followers  Int?
+  follows    Int?
+  mediaCount Int?
+  reach      Int?
+  profileViews Int?
+  raw        Json?
+
+  capturedAt DateTime @default(now())
+
+  @@index([userId, capturedAt])
+  @@map("instagram_snapshots")
+  @@schema("content_system")
+}
+
+/// Brand deals — the money and tax layer. Nothing in the estate tracked these anywhere.
+model Deal {
+  id     String @id @default(cuid())
+  userId String
+
+  brand        String
+  agency       String?
+  deliverables String? @db.Text
+  status       String  @default("lead") // lead | quoted | contracted | invoiced | received | dead
+
+  quotedZar     Float?
+  contractedZar Float?
+  invoicedZar   Float?
+  receivedZar   Float?
+
+  usageRights   Boolean @default(false)
+  travelCharged Boolean @default(false)
+  exclusivity   Boolean @default(false)
+
+  quotedAt     DateTime?
+  contractedAt DateTime?
+  invoicedAt   DateTime?
+  receivedAt   DateTime?
+  dueAt        DateTime?
+
+  /// Chase log. C-0412 is E1: five chases in 18 months, one uncovered a failed payment batch.
+  chases    Json?
+  /// 35% Rule — what must be held back for SARS on what actually ARRIVED.
+  reserveZar Float?
+  notes      String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, status])
+  @@index([dueAt])
+  @@map("deals")
+  @@schema("content_system")
+}
+
+/// Tool-to-tool handoff. An idea leaves ideation carrying everything the script needs,
+/// so nothing is re-decided downstream.
+model Handoff {
+  id     String @id @default(cuid())
+  userId String
+
+  fromTool String
+  toTool   String
+  kind     String // idea | hook | script | carousel | editbrief | deal
+  payload  Json
+
+  consumed   Boolean   @default(false)
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId, toTool, consumed])
+  @@map("handoffs")
+  @@schema("content_system")
+}
+
+/// The .claude skills, seeded as data so the generators read the SAME rules the CLI does.
+model SkillDoc {
+  id     String @id @default(cuid())
+  userId String
+
+  slug    String
+  title   String?
+  path    String?
+  body    String  @db.Text
+  section String? // SKILL | reference
+  tokens  Int?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@unique([userId, slug])
+  @@index([userId])
+  @@map("skill_docs")
+  @@schema("content_system")
+}
+
+/// Integration health. Secrets stay in env — this records status and last contact only.
+model Integration {
+  id     String @id @default(cuid())
+  userId String
+
+  provider String // instagram | mailerlite | manychat | chkplt | supabase | anthropic
+  status   String @default("unknown") // ok | missing_key | error
+  detail   String? @db.Text
+  meta     Json?
+
+  lastCheckedAt DateTime?
+  lastSyncedAt  DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([userId, provider])
+  @@map("integrations")
+  @@schema("content_system")
+}
+
+/// Every import, so a wrong ledger can be traced to the file that moved it.
+model IngestLog {
+  id     String @id @default(cuid())
+  userId String
+
+  source    String // csv | json | paste | instagram | chkplt
+  target    String // which setting / table it wrote
+  rows      Int      @default(0)
+  summary   String?  @db.Text
+  before    Json?
+  after     Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@map("ingest_logs")
+  @@schema("content_system")
+}
+
+/// One idea, carried all the way through: script -> shoot -> post -> measured -> judged.
+/// This is the record the whole improvement loop runs on. Without a KPI set BEFORE posting,
+/// a post cannot fail, which means it cannot teach.
+model ShootItem {
+  id     String @id @default(cuid())
+  userId String
+
+  idea    String  @db.Text
+  pillar  String?
+  tier    String?
+  format  String? // personal | case_study | explainer | storytelling
+  goal    String? // GROW | NURTURE | SELL
+
+  /// Generated bundle
+  spokenHook   String? @db.Text
+  textHook     String? @db.Text  // the on-screen overlay — a different job from the spoken hook
+  reelScript   String? @db.Text
+  longFormScript String? @db.Text
+  caption      String? @db.Text
+  ctaKeyword   String?
+  rehooks      Json?
+  screenText   Json?
+  hookScore    Json?   // R×A×C×U^B
+  factLock     Json?
+
+  /// Set BEFORE posting
+  kpiMetric String?
+  kpiTarget Int?
+
+  /// Filled after
+  status      String    @default("idea") // idea | scripted | shot | posted | measured
+  postedAt    DateTime?
+  mediaId     String?
+  actualValue Int?
+  verdict     String?   // pass | fail
+  lesson      String?   @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, status])
+  @@index([pillar])
+  @@map("shoot_items")
+  @@schema("content_system")
 }

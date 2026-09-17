@@ -668,7 +668,7 @@ export default function StoryBankPage() {
                         id="specificNumbersAfter"
                         value={(formData.specificNumbers as any)?.after || ''}
                         onChange={(e) => handleSpecificNumbersInput('after', e.target.value)}
-                        placeholder="e.g., R100K per deal"
+                        placeholder="e.g., R45,000 once the work was costed"
                       />
                     </div>
                   </div>

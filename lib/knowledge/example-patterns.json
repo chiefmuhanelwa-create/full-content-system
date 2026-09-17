@@ -1,4 +1,5 @@
 {
+  "_FACT_LOCK": "⛔ FACT-LOCK 2026-09-17. Injected into LLM prompts. Never restore a figure without a row in ~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv. Never name the employer, workplace or industry. Examples here are PATTERNS to imitate structurally — never sources of numbers.",
   "important_notes": {
     "do_not_copy": "CRITICAL: These are STRUCTURAL patterns to learn from, NOT content to copy verbatim",
     "usage": "Study the STRUCTURE and APPROACH, then generate FRESH content for each user",
@@ -38,7 +39,7 @@
   },
   "origin_story": {
     "structure": "[Shame/Fear] drove me to [desperate action]. [Unexpected result]. Now [transformation].",
-    "example": "Family shame drove me to quit my job without backup. Lost R15K. Learned partnerships beat posts. Now R100K/month helping creators.",
+    "example": "Family shame drove me to quit without backup. Learned partnerships beat posts. Now I help creators get paid properly.",
     "components": {
       "emotional_driver": "What pushed them to act (Shadow Fear)",
       "risky_decision": "Bold action taken",
@@ -61,7 +62,7 @@
     },
     "story_hook": {
       "structure": "I [past state]. Now I [current state]. By [unexpected method].",
-      "example": "I used to beg for R750 collabs. Now brands pitch me R50K deals. By changing one email.",
+      "example": "I used to beg for R750 collabs. Now I cost the work before I quote it. By changing one email.",
       "learn_from_this": "Relatability + Aspiration + Curiosity gap"
     }
   }

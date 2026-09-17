@@ -1,3 +1,9 @@
+> ⛔ **FACT-LOCK 2026-09-17.** This file contained figures that are disproven or banned.
+> Never copy a number out of here without checking
+> `~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv`.
+> **Never name the employer, workplace or industry.** Governing ICP:
+> `~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md`
+
 # Persistent Learning & Business Memory
 
 Read this alongside `CLAUDE.md` before every task. Add new entries as they are discovered — never wait until the end of a session.
@@ -31,12 +37,12 @@ A prior pass (in `nochill-knowledge-base/`, outside this repo) studied 16 Kallaw
 
 ## Cross-Project Fact Sweep (2026-07-11)
 
-Fixed live (non-warning) instances of the recurring R285,000 SARS error and the wrong "P20 Pro / 2018 / borrowed" phone story, found while cross-checking this project against the "Ndivhuwo Twin" build in `nochill-knowledge-base`:
-- `docs/BRAND_GUIDELINES.md` — "R285K SARS bill" in a proof-point list → corrected to R207K.
-- `docs/FRAMEWORKS.md` — 4 live table/list entries treating R285K as real proof → corrected to R207K.
-- `docs/STORY_BANK.md` — 4 instances of the wrong phone story → "borrowed" → "from ATNS salary", "Huawei P20 Pro" → "Huawei", "2018" → "2014".
+Fixed live (non-warning) instances of the recurring [⛔ REDACTED 2026-09-17] SARS error and the wrong "P20 Pro / 2018 / borrowed" phone story, found while cross-checking this project against the "Ndivhuwo Twin" build in `nochill-knowledge-base`:
+- `docs/BRAND_GUIDELINES.md` — "[⛔ REDACTED 2026-09-17] SARS bill" in a proof-point list → corrected to R207,879.20.
+- `docs/FRAMEWORKS.md` — 4 live table/list entries treating [⛔ REDACTED 2026-09-17] as real proof → corrected to R207,879.20.
+- `docs/STORY_BANK.md` — 4 instances of the wrong phone story → "borrowed" → "from [⛔ REDACTED 2026-09-17] salary", "[⛔ REDACTED 2026-09-17] P20 Pro" → "[⛔ REDACTED 2026-09-17]", "2018" → "2014".
 - `lib/knowledge/ndivhuwo-stories.json` — same phone-story fix in a snippet field; re-validated as syntactically correct JSON afterward.
-- `CLAUDE.md`, this file's earlier entries, `docs/NOCHILL-CREDIBILITY-REPORT.md`, and `lib/knowledge-base.ts` already had the R285K figure correctly flagged as a banned/unverified figure — left untouched, they were already right.
+- `CLAUDE.md`, this file's earlier entries, `docs/NOCHILL-CREDIBILITY-REPORT.md`, and `lib/knowledge-base.ts` already had the [⛔ REDACTED 2026-09-17] figure correctly flagged as a banned/unverified figure — left untouched, they were already right.
 
 ## Owner Interview — Captured 2026-06-08
 
@@ -47,7 +53,7 @@ Answers that shaped the initial setup of this workspace:
 | #1 goal from this system | Sell my own digital products (product-lab ecosystem) |
 | Business stage | Building — not yet earning consistently |
 | Biggest friction with AI output | Doesn't sound like me — too polished, too corporate, missing rawness |
-| 12-month vision | R100K/month from products alone, running without active selling |
+| 12-month vision | [⛔ REDACTED 2026-09-17]/month from products alone, running without active selling |
 | What's wrong with the AI voice | Too safe, watered down, sounds like LinkedIn not Mzansi |
 
 These answers are the foundation for every preference below. Update them if priorities shift.
@@ -57,12 +63,12 @@ These answers are the foundation for every preference below. Update them if prio
 ## Core Business Rules
 
 - **Product revenue is the primary objective.** Every feature, tool, and AI output should ultimately serve the goal of selling digital products. Brand deals and audience growth are secondary.
-- **R100K/month from products is the 12-month target.** Features that don't contribute to this should be deprioritised. When suggesting improvements, ask: does this help a product sell?
+- **[⛔ REDACTED 2026-09-17]/month from products is the 12-month target.** Features that don't contribute to this should be deprioritised. When suggesting improvements, ask: does this help a product sell?
 - **Building stage, not scaling stage.** Revenue is not yet consistent. Prioritise getting existing products live and converting over building new features.
 - Company is **NOCHILL PTY LTD** — trading as "No Chill in Mzansi Co." Owner: Ndivhuwo Muhanelwa (chiefmuhanelwa@gmail.com). SA-registered. ZAR only.
 - This app is a **personal content OS** — it is not a SaaS product for the public. The owner logs in with `OWNER_EMAIL` + `OWNER_PASSWORD`. Everything is scoped to a single authenticated user.
 - There are **two ICPs** and every AI output must lock onto one before writing: **ICP 1** (Called Expert, **32–50**, unexploited expertise) or **ICP 2** (Content Creator Inspirer, **18–35**, posting but not earning). Never mix them in one output.
-- **Proof numbers are sacred.** Only use real figures from S001–S020 (e.g. R750→R100K, 780K followers, R207,879 SARS debt, R6K phone→R600K). ⚠ NEVER use "R285K SARS" (unverified). Netflix R100K: use with "from published book" attribution only. Never fabricate outcomes.
+- **Proof numbers are sacred.** Only use real figures from S001–S020 (e.g. R750→[⛔ REDACTED 2026-09-17], 780K followers, R207,879.20 SARS debt, R6K phone→[⛔ REDACTED 2026-09-17]). ⚠ NEVER use "[⛔ REDACTED 2026-09-17] SARS" (unverified). [⛔ REDACTED 2026-09-17] [⛔ REDACTED 2026-09-17]: use with "from published book" attribution only. Never fabricate outcomes.
 - The **80/20 framework rule** is non-negotiable for all AI-generated content: 80% must apply NOCHILL protocols (R×A×C×U^B, 4E, PAIDS, Shadow Fears, 7-Act Arc). 20% is contextual adaptation. No generic AI output.
 - **WhatsApp is the primary SA commerce channel.** Any feature touching payments, outreach, or selling should account for WhatsApp-first behaviour — not email-first assumptions.
 - The **wider product ecosystem** (34 digital products — PDFs, web tools, 1:1 sessions) lives in `/Users/NOCHILLGOD/Desktop/product-lab/`. It is separate from this app and not deployed here. Do not conflate the two.
@@ -302,10 +308,10 @@ When a user says "I can't see the changes":
 This is a permanent strategic decision — not a campaign decision, not a quarterly focus. All future AI generation, content planning, product positioning, and system defaults must reflect this.
 
 **Why ICP 1 is primary (the math that closed the argument):**
-- ICP 1 revenue math: 6–10 cohort sales at R9,997–R18,000 = R100K/month (one cohort. One month.)
-- ICP 2 revenue math to match: 400 sales at R250 = R100K. That's 40–67× more transactions.
-- Ndivhuwo IS ICP 1. He is a currently-employed professional (ATNS, Air Traffic Services) who built R600K/year from content in 4-hour shift windows. He is the proof. No competitor can replicate this.
-- The Called Expert Programme (CHKPLT) is the highest-margin product at R18,000 PIF / R6,500×3.
+- ICP 1 revenue math: 6–10 cohort sales at [⛔ REDACTED 2026-09-17]–[⛔ REDACTED 2026-09-17] = [⛔ REDACTED 2026-09-17]/month (one cohort. One month.)
+- ICP 2 revenue math to match: 400 sales at R250 = [⛔ REDACTED 2026-09-17]. That's 40–67× more transactions.
+- Ndivhuwo IS ICP 1. He is a currently-employed professional ([⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17]) who built [⛔ REDACTED 2026-09-17]/year from content in 4-hour shift windows. He is the proof. No competitor can replicate this.
+- The Called Expert Programme (CHKPLT) is the highest-margin product at [⛔ REDACTED 2026-09-17] PIF / R6,500×3.
 - The 30-day Kingdom Business Fast Plan allocates 84% of revenue to ICP 1 products.
 - Survey data re-interpreted: "Monetisation Confusion" (71%) is not ICP 2-only — it IS the Called Expert's problem. They don't know how to monetise their expertise outside their employer. The pain matrix serves both ICPs. Only the LANGUAGE differs.
 
@@ -315,14 +321,14 @@ This is a permanent strategic decision — not a campaign decision, not a quarte
 - Never abandon ICP 2 content entirely — it feeds the pipeline.
 
 **The monopoly position (no competitor can replicate this combination):**
-1. Still employed at ATNS (OR Tambo) while earning R600K+ from content
+1. Still employed at [⛔ REDACTED 2026-09-17] ([⛔ REDACTED 2026-09-17]) while earning [⛔ REDACTED 2026-09-17] from content
 2. Shift worker testimony — built in 4-hour night shift windows
 3. Faith-integrated business model (CHKPLT = Christ's Kingdom Platform)
-4. Paid R207,879 SARS from professional + content dual income
+4. Paid R207,879.20 SARS from professional + content dual income
 5. No degree — dropped out twice — yet SAMA31 judge, Meta speaker
 
 **The primary proof hook for all ICP 1 content (use this to open every series):**
-"I still work at ATNS. I built R600K in 4-hour shift windows between night shifts at OR Tambo. I never quit first. I built first. You don't have to quit either."
+"I still work at [⛔ REDACTED 2026-09-17]. I built [⛔ REDACTED 2026-09-17] in 4-hour shift windows between night shifts at [⛔ REDACTED 2026-09-17]. I never quit first. I built first. You don't have to quit either."
 
 **Kingdom revelation decoded (John 21 → content strategy):**
 - Jesus appeared at the place of WORK, not a church. The miracle happened when they cast on the RIGHT side.
@@ -340,7 +346,7 @@ This is a permanent strategic decision — not a campaign decision, not a quarte
 6. The Freelancer at Capacity — fully booked, trading hours for money, no leverage
 
 ### What was updated in this session
-- `lib/knowledge-base.ts`: ICP 1 = ⚡ PRIMARY REVENUE ENGINE label, monopoly position, ATNS primary proof hook, John 21 framing added to CREATOR IDENTITY, 6 sub-segments with hook angles, ICP 2 = 🔄 TRAFFIC ENGINE, feeler triggers split into ICP 1 (revenue) and ICP 2 (traffic), `icpDirective` default now leans toward ICP 1
+- `lib/knowledge-base.ts`: ICP 1 = ⚡ PRIMARY REVENUE ENGINE label, monopoly position, [⛔ REDACTED 2026-09-17] primary proof hook, John 21 framing added to CREATOR IDENTITY, 6 sub-segments with hook angles, ICP 2 = 🔄 TRAFFIC ENGINE, feeler triggers split into ICP 1 (revenue) and ICP 2 (traffic), `icpDirective` default now leans toward ICP 1
 - `lib/knowledge/creator-dna.json`: `strategic_priority` block added at top level, `called_expert.sub_segments` (6 types), `buying_trigger`, `monopoly_position`, `primary_proof_hook` added to called_expert, `three_feeler_triggers` restructured with ICP 1 triggers first, `creator.positioning` updated to lead with Called Expert
 - `Learnings.md`: this entry
 - `CLAUDE.md` (project): ICP section updated to reflect ICP 1 = Revenue Engine, ICP 2 = Traffic Engine

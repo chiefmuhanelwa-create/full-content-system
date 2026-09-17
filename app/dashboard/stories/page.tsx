@@ -205,7 +205,7 @@ Use Case: ${story.useCase}
                 <Label htmlFor="story">Your Story</Label>
                 <Textarea
                   id="story"
-                  placeholder="Example: I started as a broke creator making R750/month. After 90 days of using the NOCHILL system, I scaled to R100,000/month. I went from posting 3 times a day with no strategy to posting once with a system. My first brand deal was R8,333 for a single post..."
+                  placeholder="Example: My standing rate was R15,000 and I had never costed the work. Then a brief came in, I costed it properly, and quoted R45,000 — same account, same week. I went from posting 3 times a day with no strategy to posting once with a system..."
                   rows={12}
                   value={storyInput}
                   onChange={(e) => setStoryInput(e.target.value)}

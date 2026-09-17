@@ -1,3 +1,9 @@
+> ⛔ **FACT-LOCK 2026-09-17.** This file contained figures that are disproven or banned.
+> Never copy a number out of here without checking
+> `~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv`.
+> **Never name the employer, workplace or industry.** Governing ICP:
+> `~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md`
+
 # NOCHILL BRAND GUIDELINES
 ### The Definitive Brand Identity System
 **NOCHILL PTY LTD (2016/507839/07) · Version 1.0 · June 2026**
@@ -17,7 +23,7 @@
 | **Origin brand** | No Chill in Mzansi (Facebook, 1M+ followers) |
 | **Short link** | chkplt.com |
 | **Email** | info@nochill.co.za |
-| **Proof statement** | From sleeping in university bathrooms → R600,000+ annual income · 50+ brand deals · 23 agencies · 9 awards · SAMA31 judge · Meta speaker |
+| **Proof statement** | From sleeping in university bathrooms → [⛔ REDACTED 2026-09-17] annual income · 19 named brands · 23 agencies · [⛔ REDACTED 2026-09-17] · SAMA31 judge · Meta speaker |
 
 ---
 
@@ -291,7 +297,7 @@ NEVER a small circle or avatar on a PDF cover. Always a large rounded square.
 
 ### Brand Character
 - **Tough-love mentor** — direct, blunt, no fluff
-- **Receipt-backed** — every claim has a number (R207K SARS bill, R207K saved, R600K earned)
+- **Receipt-backed** — every claim has a number (R207,879.20 SARS bill, R207,879.20 saved, [⛔ REDACTED 2026-09-17] earned)
 - **Africa-first** — Rands not dollars, SARS not IRS, Mr Price not Target, Mzansi not "the market"
 - **Faith-infused, never preachy** — "Your gift will make room for you." Light amen. Never sermon.
 - **Struggle-to-outcome** — every story goes FROM embarrassment TO empire
@@ -299,7 +305,7 @@ NEVER a small circle or avatar on a PDF cover. Always a large rounded square.
 ### The 5 Voice Laws
 1. **Grade-7 reading level** — if a 10-year-old can't follow it, simplify
 2. **One idea per sentence** — short sentences, white space as a feature
-3. **Always quantify** — "R23,000 single campaign" not "significant income"
+3. **Always quantify** — "R23,524 (across March 2019) single campaign" not "significant income"
 4. **Speak to ONE person** — "you" not "people" or "creators"
 5. **End with a gut-punch** — last line of every section should land hard
 

@@ -3,6 +3,8 @@ import { anthropic, MODELS } from '@/lib/claude'
 import { buildSystemPrompt, buildUserContextPrompt } from '@/lib/knowledge-base'
 import ndivhuwoStories from '@/lib/knowledge/ndivhuwo-stories.json'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { buildGovernedSystemPrompt } from '@/lib/skills'
+import { check, verdict } from '@/lib/fact-lock'
 
 export const maxDuration = 300
 
@@ -27,7 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { idea, platform, duration, recentStories = [], salesMode = false, product, salesFormat, icp, shadowFear, villain, contentType, paidsStream, scriptTemplate } = body
+    const { pillar, tier, idea, platform, duration, recentStories = [], salesMode = false, product, salesFormat, icp, shadowFear, villain, contentType, paidsStream, scriptTemplate } = body
 
     console.log('Request body:', { idea: idea?.substring(0, 50), platform, duration, salesMode })
 
@@ -48,7 +50,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Build system prompt with framework knowledge — ICP filter at system level
-    const systemPrompt = buildSystemPrompt('scripts', icp as 'icp1' | 'icp2' | undefined)
+    const governed = await buildGovernedSystemPrompt('scripts', { pillar, tier })
+    const systemPrompt = governed.system + '\n\n---\n\n' + buildSystemPrompt('scripts')
 
     // Filter out recently used stories to ensure variety
     const availableStories = JSON.parse(JSON.stringify(ndivhuwoStories))
@@ -87,12 +90,12 @@ TOPIC → STORY MAPPING (use this to pick, then commit):
 - Topic about "quitting job / building while employed / night shifts / time pressure / salary vs income" → bathroom_floors or huawei_r6000_investment
 - Topic about "platform risk / algorithm / suspension / rented vs owned / email list / dependency" → instagram_780k_loss
 - Topic about "tax / SARS / compliance / declarations / financial systems / professional fees" → sars_debt
-- Topic about "first deal / starting with nothing / zero audience / getting started" → r750_to_r100k (R350 first deal, 2017)
-- Topic about "pricing / retainers / brand deals / charging more / value positioning" → r750_to_r100k (R750→R100K arc)
+- Topic about "first deal / starting with nothing / zero audience / getting started" → the rate story: R15,000 standing rate, R45,000 once costed (April 2020). First deal R350, second R750 the same month. ⛔ BANNED, never output: R132,500 · R750→R100K · R600K · R100K/R25K Savanna · Samsung R450,000 · Huawei · Netflix figures (NDA) · "50 brand deals" · any SARS penalty/final figure · "47 subscribers". ⛔ NEVER NAME the employer, workplace, airport or industry — say "a full time job" / "night shifts". Article IV.
+- Topic about "pricing / retainers / brand deals / charging more / value positioning" → r750_to_r100k (legacy key — the RULED arc is R15,000 standing rate → R45,000 once costed, April 2020. ⛔ R750→R100K is BANNED)
 - Topic about "equipment / phone / investment / starting with little / ROI on tools" → huawei_r6000_investment
 - Topic about "income streams / monetisation / passive / affiliates / AdMarula / multiple revenue" → use the affiliate/AdMarula angle from the story bank
 - Topic about "failure / crash / losing income / recovery / algorithm drop" → bathroom_floors (NMMU dropout, no money)
-- Topic about "family / sacrifice / origin / mother / village / poverty / legacy" → bathroom_floors (Florah, farm worker, R400/month)
+- Topic about "family / sacrifice / origin / mother / village / poverty / legacy" → bathroom_floors (his mother, a farm worker, about R400/month; four people lived on it. ⛔ Article IV — NEVER name her or any family member)
 - Topic about "courses / digital products / knowledge monetisation / teaching expertise" → r750_to_r100k (expertise-based progression)
 
 SELECTION RULE:
@@ -437,7 +440,7 @@ The job: make the cost of inaction FELT, not lectured.
 The job: move ONE fish from the river to the tank.
 - ONE action only. Never two.
 - Pick the most relevant product from the CTA PRODUCT LIBRARY in system prompt. The product delivers the HOW. The script taught the WHAT and WHY. The transition must feel natural.
-- Loop-close: the closing line/image MUST bookend Step 1. Verified pairs: rented→owned (780K suspended → CHKPLT/email) | R200→R18K (offer content only) | bathroom floor→built house.
+- Loop-close: the closing line/image MUST bookend Step 1. Verified pairs: rented→owned (780,000 suspended → CHKPLT/email) | R200→the Accelerator at the ruled $499 / R9,000 (offer content only; ⛔ R18K RETIRED) | bathroom floor→built house.
 - ManyChat keyword if social: DM me "[KEYWORD]" and I'll send the link.
 
 ---
@@ -621,7 +624,7 @@ Return ONLY a JSON object (no markdown, no extra text):
 
 **Kallaway Layer (mandatory):**
 16. **Bullseye Proof woven into Step 4 story** — escalate specificity as far as the story bank allows: amount → amount+date → amount+date+ref# → amount+date+ref#+name. Never a standalone credibility sentence — embed in the story itself.
-17. **Loop-close at Step 8** — final line/image must bookend Step 1. Default pairs: rented (780K suspended)→owned (CHKPLT/email); R200→R18K (offer content only); bathroom floor→built house.
+17. **Loop-close at Step 8** — final line/image must bookend Step 1. Default pairs: rented (780,000 suspended)→owned (CHKPLT/email); R200→the Accelerator at the ruled $499 / R9,000 (offer content only; ⛔ R18K RETIRED); bathroom floor→built house.
 18. **[SHORT]/[LONG] rhythm** — one sentence per line. Tag every fullScript line. At least one [LONG] sentence (20+ words) at Step 4 emotional peak. Uniform paragraph blocks = rhythm failure.
 19. **Illusion of Novelty** — if the topic is "boring expertise" (tax, compliance, HR, governance, academic): apply the 5-step IoN sequence (Outcome Reveal → Contrast → Bullseye Proof → Gossip-whisperer delivery). Deliver with lowered register and calm specificity, not hype.
 

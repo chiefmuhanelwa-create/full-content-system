@@ -1,9 +1,9 @@
 {
+  "_FACT_LOCK": "⛔ FACT-LOCK 2026-09-17. This file is injected into LLM prompts. Figures that are disproven or banned were removed and marked [⛔ REDACTED]. Never restore a number without a row in ~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv. NEVER name the employer, workplace, airport or industry — write 'a full time job' / 'night shifts' / 'on shift' (Article IV). Never name a real private individual — companies only. Story keys such as r750_to_r100k, samsung_partnership, first_netflix_deal and huawei_r6000 survive as ROUTING KEYS ONLY and must never appear in output copy. RULED CUSTOMER: the creator whose income is decided by somebody else, and who finds out afterwards; gate = money has moved or is visibly blocked AND another human being appears in their fear. TIERS: FREE R0 · ENTRY R350–R499 · CORE R1,500–R1,800 · PREMIUM $499/R9,000. PILLARS: KEEP IT 30 · PRICE IT 25 · OWN IT 20 · BUILD IT ANYWAY 15 · PROVE IT 10. SAFE FIGURES: R15,000 standing rate → R45,000 once costed (April 2020) · first deal R350, second R750 same month · R23,524 affiliate commission across MARCH 2019 · SARS R207,879.20 UNPAID · $22,180.93 remitted from Meta 2021–2025 · R6,000 first phone 2014 · 780,000 followers lost (NEVER DATED) · ad account terminated end-2024, two appeals refused, second final May 2025 · lifetime R453,710.37 · 19 named brands, 23 agencies · 270,283 IG followers · two published books · list 173.",
   "name": "NOCHILL Viral Scripting Master Guide",
   "version": "1.0",
   "description": "Complete viral scripting system with Hook Science + Storytelling Systems + 4 Foundational Principles",
   "author": "Ndivhuwo 'NO CHILL in Mzansi' Muhanelwa",
-
   "foundational_principles": {
     "description": "The 4 core principles that every viral script must follow",
     "principles": [
@@ -26,7 +26,16 @@
           "negative": "Squats just fucking suck whenever it comes to actually growing your legs instead of just wasting your time in the gym. Here are three leg workouts that will actually get you some tree trunks for legs.",
           "why_negative_wins": "Attacks the problem (ineffective squats) without attacking the person"
         },
-        "power_words": ["suck", "wasting time", "bullshit", "terrible", "failing", "broke", "ignored", "ghosting"],
+        "power_words": [
+          "suck",
+          "wasting time",
+          "bullshit",
+          "terrible",
+          "failing",
+          "broke",
+          "ignored",
+          "ghosting"
+        ],
         "implementation_steps": [
           "Start with your positive version of the hook/statement",
           "Identify what's NOT working (the mistake/problem)",
@@ -145,7 +154,6 @@
       }
     ]
   },
-
   "hook_formula": {
     "name": "R×A×C×U^B Formula",
     "description": "Every viral hook is built on five core components",
@@ -224,7 +232,7 @@
             "description": "Promise to achieve wanted outcome",
             "examples": [
               "Get 10K followers in 30 days",
-              "Land your first R50K brand deal"
+              "Land your first [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] brand deal"
             ]
           },
           {
@@ -232,14 +240,14 @@
             "description": "Promise to avoid negative outcome",
             "examples": [
               "Stop wasting money on ads that don't convert",
-              "Avoid the tax mistakes that cost me R207K"
+              "Avoid the tax mistakes that cost me [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]"
             ]
           },
           {
             "type": "A-to-B Transformation",
             "description": "Promise to move from current state to desired state",
             "examples": [
-              "From R750 brand deals to R8,333/month retainers",
+              "From R7[⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] to R8,333/month retainers",
               "From 0 email subscribers to 100K in 12 months"
             ]
           }
@@ -272,7 +280,7 @@
                 },
                 {
                   "word": "Weaponize",
-                  "usage": "How to weaponize your story into R100K/month",
+                  "usage": "How to weaponize your story into [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]/month",
                   "why_it_works": "Military term for strategic deployment"
                 },
                 {
@@ -282,7 +290,7 @@
                 },
                 {
                   "word": "Surgical",
-                  "usage": "The surgical precision required to turn 10K followers into R50K/month",
+                  "usage": "The surgical precision required to turn 10K followers into [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]/month",
                   "why_it_works": "Medical exactness"
                 },
                 {
@@ -292,7 +300,7 @@
                 },
                 {
                   "word": "Bathroom floors",
-                  "usage": "From bathroom floors to Netflix partnerships",
+                  "usage": "From bathroom floors to [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] partnerships",
                   "why_it_works": "Visceral, unexpected, memorable origin story"
                 },
                 {
@@ -456,12 +464,12 @@
           }
         },
         {
-          "hook": "SARS assessed me R207,879 for undeclared Meta income. I came forward myself — filed VDP, then withdrew it on my practitioner's advice. SARS waived R45,705 in penalties. Final bill R162,174. Here's the system I built so this never happens to you...",
+          "hook": "SARS assessed me R207,879.20 for undeclared content income. I came forward myself instead of hiding — and I'm still carrying it. Here's the system I built so this never happens to you...",
           "breakdown": {
             "R": "African creators making money but ignoring taxes",
             "A": "Problem Aware - They know they should handle taxes, don't know how",
             "C": "Undesired Result - 'SARS is coming. Here's what happens...'",
-            "U": "Personal Nightmare - 'R207K original assessment; resolved to R162K after penalty waiver'",
+            "U": "Personal Nightmare - 'R207,879.20 assessed, still unpaid, still carried'",
             "B": "'Anyone making money online' (not just 'influencers')"
           }
         },
@@ -476,11 +484,11 @@
           }
         },
         {
-          "hook": "I slept on bathroom floors for 2 months. Cold tiles. Harsh lights. Wondering if I'd made the biggest mistake of my life. Now I make R100K/month. Here's every step between the bathroom and the boardroom...",
+          "hook": "I slept on bathroom floors for 2 months. Cold tiles. Harsh lights. Wondering if I'd made the biggest mistake of my life. Now I make [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]/month. Here's every step between the bathroom and the boardroom...",
           "breakdown": {
             "R": "Creators from humble beginnings doubting themselves",
             "A": "Symptom Aware - They feel stuck, don't know what's holding them back",
-            "C": "A-to-B Transformation - 'From poverty to R100K/month'",
+            "C": "A-to-B Transformation - 'From poverty to [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]/month'",
             "U": "Extreme Origin Story - 'Sleeping on bathroom floors'",
             "B": "'Anyone starting from nothing' (not just 'university students')"
           }
@@ -516,7 +524,7 @@
           }
         },
         {
-          "hook": "You're making R300K a month and heading straight to jail. SARS doesn't forget. I owed R207K. Here's the compliance system that keeps you out of trouble...",
+          "hook": "You're making [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] a month and heading straight to jail. SARS doesn't forget. I owed [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]. Here's the compliance system that keeps you out of trouble...",
           "breakdown": {
             "R": "Successful creators ignoring tax obligations",
             "A": "Symptom Aware - Making money but not considering tax consequences",
@@ -551,7 +559,6 @@
       }
     }
   },
-
   "retention_formula": {
     "name": "Viral Retention Formula - ACT Structure",
     "description": "7-Act script structure optimized for maximum retention with strategic retention devices",
@@ -651,7 +658,7 @@
             "examples": [
               "R400/month for family of 4 = R13/day",
               "780,000 followers lost overnight",
-              "R207K owed to SARS"
+              "[⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] owed to SARS"
             ]
           }
         ],
@@ -686,7 +693,7 @@
             "examples": [
               "From university acceptance → failed one module → lost everything",
               "From 780K followers → false copyright claim → account deleted",
-              "From making money → SARS letter → R207K debt"
+              "From making money → SARS letter → [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] debt"
             ]
           }
         ],
@@ -710,7 +717,7 @@
             "device": "SUB-HOOK",
             "description": "Unexpected twist in the journey",
             "examples": [
-              "Someone offered me R300K to buy the page. I said no.",
+              "Someone offered me [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] to buy the page. I said no.",
               "Instagram deleted 780K followers. Best thing that happened.",
               "I went BACK to school in 2024"
             ]
@@ -719,7 +726,7 @@
             "device": "PROOF POINT",
             "description": "Specific numbers that build credibility",
             "examples": [
-              "R6,000 phone → R600,000+ revenue (10,000% ROI)",
+              "R6,000 phone → [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] revenue (10,000% ROI)",
               "R750 first deal → R8,333 monthly retainers",
               "0 email subscribers → 100,000 owned audience"
             ]
@@ -734,7 +741,7 @@
             ]
           }
         ],
-        "script_example": "[YOU]: August 2013. Air Traffic Services hired me. R6,000/month. I did something crazy.\n\n[DIRECTION] MONTAGE with text overlays\n\n[YOU]: Spent my ENTIRE salary on a smartphone. R6,000. That phone has generated R600,000+. That's 10,000% ROI.\n\n[DIRECTION] Quick cuts between milestones\n\n[YOU]: 2014: 100K followers. 2017: R300K offer - said no. 2019: 5.5M views. 2020: R84K first course. Netflix. Samsung. Red Bull.\n\n[YOU]: 2021: 780K followers deleted. Revenue didn't drop. It INCREASED."
+        "script_example": "[YOU]: August 2013. [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] hired me. R6,000/month. I did something crazy.\n\n[DIRECTION] MONTAGE with text overlays\n\n[YOU]: Spent my ENTIRE salary on a smartphone. R6,000. That phone has generated [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]. That's 10,000% ROI.\n\n[DIRECTION] Quick cuts between milestones\n\n[YOU]: 2014: 100K followers. 2017: [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] offer - said no. 2019: 5.5M views. 2020: [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] first course. [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]. [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]. Red Bull.\n\n[YOU]: 2021: 780K followers deleted. Revenue didn't drop. It INCREASED."
       },
       {
         "act": 6,
@@ -805,7 +812,7 @@
             ]
           }
         ],
-        "script_example": "[YOU]: This is my mission. I'm here to turn African creators into contentpreneurs.\n\n[YOU]: I'm here because my mother earned R400 a month and I refuse to let another family live on that.\n\n[YOU]: I'm here because I slept on bathroom floors and I know the system can fail you.\n\n[DIRECTION] Point at camera\n\n[YOU]: If you're tired of being broke and famous... follow this page NOW.\n\n[YOU]: If you want to build a BUSINESS from content... hit follow.\n\n[YOU]: God didn't give you this gift so you could be famous and broke. He gave you this to be FRUITFUL. From bathroom floors to Netflix. I'm NO CHILL. Let's build."
+        "script_example": "[YOU]: This is my mission. I'm here to turn African creators into contentpreneurs.\n\n[YOU]: I'm here because my mother earned R400 a month and I refuse to let another family live on that.\n\n[YOU]: I'm here because I slept on bathroom floors and I know the system can fail you.\n\n[DIRECTION] Point at camera\n\n[YOU]: If you're tired of being broke and famous... follow this page NOW.\n\n[YOU]: If you want to build a BUSINESS from content... hit follow.\n\n[YOU]: God didn't give you this gift so you could be famous and broke. He gave you this to be FRUITFUL. From bathroom floors to [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]. I'm NO CHILL. Let's build."
       }
     ],
     "platform_adaptations": {
@@ -880,7 +887,6 @@
       "Every script must consider platform duration for proper ACT compression"
     ]
   },
-
   "story_arc": {
     "name": "The 7-Stage Story Arc",
     "description": "Every compelling story follows this structure for maximum emotional impact",
@@ -959,7 +965,7 @@
           "What actions were taken?",
           "What results came?"
         ],
-        "nochill_example": "From that R6,000 Huawei phone came R600K+ in platform revenue, then Netflix partnerships, Samsung, Coca-Cola...",
+        "nochill_example": "From that R6,000 [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] phone came [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] in platform revenue, then [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] partnerships, [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv], Coca-Cola...",
         "script_tip": "Include specific numbers and milestones"
       },
       {
@@ -971,7 +977,7 @@
           "The principle extracted",
           "How viewer can use this"
         ],
-        "nochill_example": "Today: 3M+ followers, 100K email subscribers, teaching thousands. The covenant is being fulfilled. You can do the same - here's how...",
+        "nochill_example": "Today: 100K email subscribers, teaching thousands. The covenant is being fulfilled. You can do the same - here's how...",
         "script_tip": "Always bridge to actionable lesson"
       }
     ],
@@ -986,7 +992,6 @@
       }
     }
   },
-
   "paids_framework": {
     "name": "PAIDS Framework",
     "description": "5 revenue streams - every script should serve one",
@@ -1003,7 +1008,7 @@
           "Unboxing/reviews"
         ],
         "script_focus": "Problem → Product → Proof",
-        "example_hook": "This R297 template generated R50K in brand deals—here's what's inside",
+        "example_hook": "This R297 template generated [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] in brand deals—here's what's inside",
         "cta_examples": [
           "Link in bio to grab yours",
           "DM me TEMPLATE for instant access",
@@ -1053,7 +1058,7 @@
           "Transparency content"
         ],
         "script_focus": "Collaboration transparency, value demonstration",
-        "example_hook": "How I landed this R50K campaign—the exact pitch email",
+        "example_hook": "How I landed this [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] campaign—the exact pitch email",
         "positioning_tips": [
           "Show your process",
           "Demonstrate ROI for brands",
@@ -1071,7 +1076,7 @@
           "Service explainers"
         ],
         "script_focus": "Transformation proof, expertise display",
-        "example_hook": "We took this creator from R0 to R25K/month in 90 days—here's how",
+        "example_hook": "We took this creator from R0 to [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] in 90 days—here's how",
         "trust_builders": [
           "Show before/after results",
           "Client testimonials",
@@ -1081,7 +1086,6 @@
       }
     ]
   },
-
   "4e_content_engine": {
     "name": "4E Content Engine",
     "description": "Balance your content across 4 categories to build audience AND revenue",
@@ -1145,7 +1149,7 @@
         "hook_examples": [
           "I lost 780K followers. Here's what I learned about real success",
           "Your family thinks you're wasting time. Prove them wrong",
-          "From bathroom floors to Netflix - the journey no one sees"
+          "From bathroom floors to [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] - the journey no one sees"
         ],
         "goal": "Deepen connection, inspire belief, foster loyalty"
       },
@@ -1162,8 +1166,8 @@
           "Consultation invites"
         ],
         "hook_examples": [
-          "This R297 script template generated R50K in deals. Get it now",
-          "I'm taking 10 creators from R0 to R25K/month. Apply here",
+          "This R297 script template generated [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] in deals. Get it now",
+          "I'm taking 10 creators from R0 to [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]. Apply here",
           "The exact framework from my R5,000 course - free masterclass today"
         ],
         "goal": "Drive sales, generate leads, monetize audience",
@@ -1183,7 +1187,6 @@
       "monthly_review": "Track which category drives most: followers, engagement, revenue. Adjust ratios accordingly."
     }
   },
-
   "platform_templates": {
     "instagram_reels": {
       "platform": "Instagram Reels",
@@ -1281,7 +1284,6 @@
       }
     }
   },
-
   "implementation_roadmap": {
     "day_1": {
       "focus": "Story Extraction",
@@ -1334,7 +1336,6 @@
     },
     "expected_results": "5 pieces of high-quality content posted, initial engagement data, first DM conversations about services/products"
   },
-
   "ubuntu_principles": {
     "description": "I am because we are - Community over competition",
     "core_values": [
@@ -1351,7 +1352,6 @@
       "legacy_thinking": "Always ask: does this serve the next generation?"
     }
   },
-
   "genesis_framework": {
     "description": "5 story types that create authentic connection through shared human experiences",
     "tagline": "Your unfair competitive advantage: Stories that cannot be copied because they're YOUR unique experiences",
@@ -1361,8 +1361,16 @@
         "type": "Origin",
         "description": "Where you came from - the beginning of your journey",
         "purpose": "Establishes relatability and shows humble beginnings",
-        "best_for": ["First-time audience", "Building trust", "Brand story"],
-        "key_elements": ["Starting point", "Initial circumstances", "First steps"],
+        "best_for": [
+          "First-time audience",
+          "Building trust",
+          "Brand story"
+        ],
+        "key_elements": [
+          "Starting point",
+          "Initial circumstances",
+          "First steps"
+        ],
         "emotional_impact": "Connection through shared beginnings"
       },
       {
@@ -1370,8 +1378,16 @@
         "type": "Struggle",
         "description": "The challenges and obstacles you faced",
         "purpose": "Creates empathy and shows you understand their pain",
-        "best_for": ["Problem-aware audience", "Building authority", "Overcoming objections"],
-        "key_elements": ["Specific problem", "What didn't work", "Low points"],
+        "best_for": [
+          "Problem-aware audience",
+          "Building authority",
+          "Overcoming objections"
+        ],
+        "key_elements": [
+          "Specific problem",
+          "What didn't work",
+          "Low points"
+        ],
         "emotional_impact": "Validation of their current struggles"
       },
       {
@@ -1379,8 +1395,16 @@
         "type": "Transformation",
         "description": "The moment everything changed - your breakthrough",
         "purpose": "Demonstrates possibility and inspires action",
-        "best_for": ["Solution-aware audience", "Selling transformation", "Motivational content"],
-        "key_elements": ["Turning point", "What changed", "New perspective"],
+        "best_for": [
+          "Solution-aware audience",
+          "Selling transformation",
+          "Motivational content"
+        ],
+        "key_elements": [
+          "Turning point",
+          "What changed",
+          "New perspective"
+        ],
         "emotional_impact": "Hope and inspiration"
       },
       {
@@ -1388,8 +1412,16 @@
         "type": "Breakthrough",
         "description": "The specific method or insight that led to success",
         "purpose": "Provides tangible value and positions your expertise",
-        "best_for": ["Product-aware audience", "Educational content", "Authority building"],
-        "key_elements": ["Specific strategy", "Why it works", "Results achieved"],
+        "best_for": [
+          "Product-aware audience",
+          "Educational content",
+          "Authority building"
+        ],
+        "key_elements": [
+          "Specific strategy",
+          "Why it works",
+          "Results achieved"
+        ],
         "emotional_impact": "Clarity and confidence"
       },
       {
@@ -1397,8 +1429,16 @@
         "type": "Lesson",
         "description": "The wisdom gained from experience - what you learned",
         "purpose": "Shares insights while reinforcing expertise",
-        "best_for": ["Engaged audience", "Thought leadership", "Community building"],
-        "key_elements": ["Key insight", "Mistakes to avoid", "What you'd tell your past self"],
+        "best_for": [
+          "Engaged audience",
+          "Thought leadership",
+          "Community building"
+        ],
+        "key_elements": [
+          "Key insight",
+          "Mistakes to avoid",
+          "What you'd tell your past self"
+        ],
         "emotional_impact": "Trust and respect"
       }
     ],

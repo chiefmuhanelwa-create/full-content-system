@@ -18,8 +18,11 @@ BRAND VISUAL DNA:
 - Colours: Heritage Gold (#C9A84C), Charcoal (#1C1C1C), Tool Black (#111111), Cream (#FAF7F0)
 - Typography: Montserrat (headings, bold/black) + Lato (body)
 - Tone: Raw, direct, confrontational energy in visuals — NOT polished, NOT corporate
-- ICP 1 (Called Expert): professional/office/boardroom setups, suit + clean desk
-- ICP 2 (Content Creator): phone, ring light, bedroom/home studio, casual lifestyle
+⛔ RETIRED 2026-09-17 — "Called Expert" / ICP1 / ICP2 / ages 32–50 are retired personas; the keys below are legacy routing only.
+- icp1 (legacy key): professional/office/desk setups, clean workspace
+- icp2 (legacy key): phone, ring light, bedroom/home studio, casual lifestyle
+RULED CUSTOMER: the creator whose income is decided by somebody else, and who finds out afterwards.
+⛔ Never depict or name the employer, workplace, airport or industry — Article IV.
 - SA context first: Johannesburg skyline, townships, phones, people who look like Ndivhuwo's audience
 - Thumbnail text: short, punchy, YOU format, max 6 words — activates a fear or desire, never explains
 

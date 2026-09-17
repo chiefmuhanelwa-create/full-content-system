@@ -35,3 +35,13 @@ next-env.d.ts
 
 # prisma
 prisma/migrations
+
+# Hardened 2026-09-17: `.env*.local` does NOT match a dated backup such as
+# `.env.local.pre-chkplt-2026-09-17`, which held 16 live credentials and was one
+# `git add -A` away from entering history permanently.
+.env*
+!.env.example
+# Local source backups — clutter, and occasionally secret-adjacent.
+*.bak-*
+*.pre-*
+*.superseded-*

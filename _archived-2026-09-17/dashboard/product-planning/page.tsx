@@ -77,7 +77,7 @@ export default function ProductPlanningPage() {
   const [showShopifyModal, setShowShopifyModal] = useState(false)
   const [showPromoteModal, setShowPromoteModal] = useState(false)
   const [promoteLoading, setPromoteLoading] = useState(false)
-  const [shopifyLoading, setShopifyLoading] = useState(false)
+  const [pushLoading, setPushLoading] = useState(false)
   const [copiedCode, setCopiedCode] = useState<string | null>(null)
   const [toast, setToast] = useState<ToastState | null>(null)
   const [promotedCodes, setPromotedCodes] = useState<Set<string>>(new Set())
@@ -208,26 +208,25 @@ export default function ProductPlanningPage() {
 
   // ─── Push to Shopify ────────────────────────────────────────────────────
 
-  const pushToShopify = async (product: ProductPlanEntry) => {
-    setShopifyLoading(true)
+  const pushToChkplt = async (product: ProductPlanEntry) => {
+    setPushLoading(true)
     try {
-      const res = await fetch('/api/shopify/push-product', {
+      const res = await fetch('/api/chkplt/push-product', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: product.name,
-          body_html: product.shopifyCopy.replace(/\n/g, '<br/>'),
-          vendor: 'NOCHILL',
+          long_description: product.shopifyCopy,
+          price: product.price,
           product_type: product.productType,
           tags: [product.code, product.track, `ICP${product.icp}`, ...product.shadowFears],
-          variants: [{ price: String(product.price), sku: product.code }],
-          status: 'draft',
+          // status is forced to 'draft' server-side — this route cannot publish.
         }),
       })
 
       if (!res.ok) {
         const data = await res.json()
-        throw new Error(data.message || 'Shopify push failed')
+        throw new Error(data.message || 'Push to chkplt.com failed')
       }
 
       const updated = { ...statusMap, [product.code]: 'live' as PlanningStatus }
@@ -238,7 +237,7 @@ export default function ProductPlanningPage() {
     } catch (err: any) {
       showToast(err.message || 'Shopify push failed', 'error')
     } finally {
-      setShopifyLoading(false)
+      setPushLoading(false)
     }
   }
 
@@ -627,7 +626,7 @@ export default function ProductPlanningPage() {
               <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl flex gap-2">
                 <AlertCircle className="h-4 w-4 text-amber-600 flex-shrink-0 mt-0.5" />
                 <p className="text-xs text-amber-700">
-                  Requires <code className="bg-amber-100 px-1 rounded">SHOPIFY_SHOP_URL</code> and <code className="bg-amber-100 px-1 rounded">SHOPIFY_ACCESS_TOKEN</code> in your <code className="bg-amber-100 px-1 rounded">.env.local</code>. The listing will be created as a draft and needs images added manually in Shopify.
+                  Creates the product on <code className="bg-amber-100 px-1 rounded">chkplt.com</code> as a <strong>draft</strong> — it is not purchasable until you publish it there. Requires <code className="bg-amber-100 px-1 rounded">SUPABASE_SERVICE_ROLE_KEY</code>; without it the payload is returned for you to create by hand. It will never overwrite a product that already exists.
                 </p>
               </div>
 
@@ -636,7 +635,7 @@ export default function ProductPlanningPage() {
                   variant="outline"
                   className="flex-1"
                   onClick={() => setShowShopifyModal(false)}
-                  disabled={shopifyLoading}
+                  disabled={pushLoading}
                 >
                   Cancel
                 </Button>
@@ -644,16 +643,16 @@ export default function ProductPlanningPage() {
                   variant="outline"
                   className="gap-1.5 border-[#E4E4E7]"
                   onClick={() => copyShopifyCopy(selectedProduct.shopifyCopy, 'modal')}
-                  disabled={shopifyLoading}
+                  disabled={pushLoading}
                 >
                   {copiedCode === 'modal' ? <><Check className="h-4 w-4" /> Copied</> : <><Copy className="h-4 w-4" /> Copy Copy</>}
                 </Button>
                 <Button
                   className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-display font-black"
-                  onClick={() => pushToShopify(selectedProduct)}
-                  disabled={shopifyLoading}
+                  onClick={() => pushToChkplt(selectedProduct)}
+                  disabled={pushLoading}
                 >
-                  {shopifyLoading ? (
+                  {pushLoading ? (
                     <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Pushing...</>
                   ) : (
                     <><ShoppingCart className="h-4 w-4 mr-2" /> Push Draft to Shopify</>

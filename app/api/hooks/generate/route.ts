@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { buildSystemPrompt, buildUserContextPrompt } from '@/lib/knowledge-base'
+import { buildGovernedSystemPrompt } from '@/lib/skills'
+import { check, verdict } from '@/lib/fact-lock'
 import { checkRateLimit } from '@/lib/rate-limit'
 
 function closeHooksJSON(raw: string): string {
@@ -30,6 +32,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const {
+      pillar,
+      tier,
       topic,
       platform,
       duration,
@@ -51,14 +55,26 @@ export async function POST(request: NextRequest) {
     }
 
     // Build system prompt with framework knowledge — ICP filter at system level
-    const systemPrompt = buildSystemPrompt('hooks', icp as 'icp1' | 'icp2' | undefined)
+    // Doctrine is injected UNCONDITIONALLY, from the database, ahead of the legacy prompt.
+    // The previous build only added the ruled customer when an `icp` param happened to be
+    // passed, so the default path still taught the retired Called Expert persona.
+    const governed = await buildGovernedSystemPrompt('hooks', { pillar, tier })
+    const systemPrompt = governed.system + '\n\n---\n\n' + buildSystemPrompt('hooks')
+
+// ⛔ FACT-LOCK 2026-09-17 — the ruled customer. Supersedes ICP1 "Called Expert" (32–50) and ICP2.
+const RULED_CUSTOMER_PROMPT = `TARGET CUSTOMER: the creator whose income is decided by somebody else, and who finds out afterwards.
+Gate: money has moved, or money is visibly blocked — AND another human being appears in their fear.
+TIERS: FREE R0 the Beginner Aspirant (never sold to) · ENTRY R350–R499 the Blocked · CORE R1,500–R1,800 the Underpriced & Unreserved · PREMIUM $499/R9,000 the Asset-Backed Contentpreneur.
+PILLARS: KEEP IT 30 · PRICE IT 25 · OWN IT 20 · BUILD IT ANYWAY 15 · PROVE IT 10.
+⛔ Never name the employer, workplace, airport or industry — say "a full time job" / "night shifts". Article IV.`
 
     // Build user context prompt
     const additionalContextParts = []
     if (hookType) additionalContextParts.push(`Hook Type (C component): ${hookType}`)
     if (awarenessLevel) additionalContextParts.push(`Awareness Level (A component): ${awarenessLevel}`)
-    if (icp === 'icp1') additionalContextParts.push(`TARGET ICP: ICP 1 — Called Expert (32–50, professional, unexploited expertise). Shadow fears: Imposter Syndrome, Generational Poverty Trap, Wrong Path Terror, Spiritual Crisis. Language: "your knowledge is worth more than your salary"`)
-    if (icp === 'icp2') additionalContextParts.push(`TARGET ICP: ICP 2 — Content Creator Inspirer (18–35, aspiring, Instagram/TikTok/FB-first). Shadow fears: Invisible Labor, Time Anxiety, Relationship Loss, Platform Dependency. Language: "you're posting every day and still broke"`)
+    // ⛔ FACT-LOCK 2026-09-17: 'Called Expert', the ICP1/ICP2 split and ages 32-50 are RETIRED.
+    // icp1/icp2 survive only as legacy routing keys; both now resolve to the ruled customer.
+    if (icp === 'icp1' || icp === 'icp2') additionalContextParts.push(RULED_CUSTOMER_PROMPT)
     if (shadowFear) additionalContextParts.push(`SHADOW FEAR TO ACTIVATE: ${shadowFear} — embed this fear implicitly in the hook. Never name it directly.`)
     if (interestPeak) additionalContextParts.push(`INTEREST PEAK TYPE: ${interestPeak} — every hook in this set must use this Interest Peak mechanism as its emotional engine.`)
 
@@ -117,7 +133,7 @@ Choose ONE of these 4 hook types:
 - Information Gap: "Here's what brands actually look for..."
 - Desired Result: "Get 10K followers in 30 days..."
 - Undesired Result: "Stop wasting money on ads that don't convert..."
-- A-to-B Transformation: "From R750 brand deals to R8,333/month retainers..."
+- A-to-B Transformation: "From a R15,000 standing rate to R45,000 once I actually costed the work..."
 
 **U = UNIQUE** - How does this break the pattern?
 Method 1 - Unique Power Words (African context):
@@ -183,7 +199,7 @@ OUTPUT FORMAT: Return ONLY a valid JSON object. Each hook is an object with: "ve
     }
   ],
   "compliance": {
-    "icp": "ICP 1 — The Called Expert | ICP 2 — The Content Creator Inspirer",
+    "icp": "legacy routing key only — icp1 | icp2. ⛔ 'Called Expert' and the 32–50 persona are RETIRED 2026-09-17; never write them into output copy",
     "interestPeak": "risk_reversal | authority | controversial | personal_story | negative_assumption | hype_up | call_out",
     "shadowFear": "Name + number e.g. Imposter Syndrome (#3)",
     "hookType": "information_gap | desired_result | undesired_result | a_to_b_transformation",

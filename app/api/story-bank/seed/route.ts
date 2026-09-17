@@ -1,3 +1,13 @@
+// ⛔ FACT-LOCK 2026-09-17 — this file is a claim surface. It seeds copy into the product DB.
+// Never add a number here without a row in ~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv.
+// BANNED: R132,500 · R600K/R600,000 or any annual total · R750→R100K · "R100,000 per post" ·
+// Samsung R450,000 · Huawei as deal proof · Savanna R25K/R100K/R300K · AdSense R180,000 ·
+// Netflix figures (under NDA) · "50 brand deals"/"40+ brands" · R285K/R207K/R162,174/R45,705 ·
+// "SARS came for me" · "47 subscribers"/"50,000 email list" · "18% engagement" ·
+// "600k"/"millions of followers"/"3 million" · R50K→R8K · R84K course · "6,000+ books sold" ·
+// "R23,000 in ONE DAY" · 9/10 awards (say "award-winning") · R9,997–R18,000 · "Called Expert"/ICP1/ICP2/32–50.
+// ⛔ NEVER name the employer, workplace, airport or industry. Never name a real private individual.
+// Governing ICP: ~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md
 import { NextRequest, NextResponse } from 'next/server'
 import { Prisma } from '@prisma/client'
 import { prisma, checkDatabase } from '@/lib/db-helper'
@@ -27,18 +37,20 @@ const PROOF_STORIES = [
     tags: JSON.stringify(['origin', 'resilience', 'called-expert', 'transformation']),
   },
   {
+    // ⛔ storyKey kept for reference resolution only. The R750→R100K escalation is BANNED (unsupported).
+    // Ruled replacement: R15,000 standing rate → R45,000 once costed, April 2020 — same account, same week.
     storyKey: 'r750_to_r100k',
-    title: 'From R750/Post to R100K Deals',
-    snippet: 'I used to charge R750 per post. Then I learned my worth. First R100K brand deal changed everything.',
-    fullVersion: "I was charging R750 per sponsored post. R750. Posting for brands who were making millions off my audience and I thought that was normal. The moment I learned how to price my value — using real data, real frameworks — I closed my first R100K deal. Same audience. Different knowledge.",
+    title: 'R15,000 Standing Rate → R45,000 Once Costed',
+    snippet: 'My standing rate was R15,000. Then one brief came in and I actually costed the work. I quoted R45,000. April 2020.',
+    fullVersion: "My standing rate was R15,000. I did not arrive at it. I inherited it from the first person who ever said a number to me. Then a brief landed that was bigger than the number, and for the first time I sat down and costed the work — the shoot, the usage, the exclusivity, the time. R45,000. Same account. Same week. Nothing about me changed. The costing changed. My first deal was R350. The second was R750, the same month. I spent years pricing off that R750 instead of off the work.",
     timeframe: '15-18s',
     emotion: 'Ignorance → Mastery',
     lesson: 'Undercharging is not humility. It is ignorance. Learn your worth.',
     useFor: JSON.stringify(['Pricing', 'Brand Deals', 'Content Creator Inspirer', 'Monetisation']),
     contentPillars: JSON.stringify(['education', 'authority', 'story']),
-    beforeState: 'Charging R750 per sponsored post',
-    afterState: 'Closing R100K brand deals',
-    specificNumbers: JSON.stringify({ before: 'R750 per post', after: 'R100,000 per deal' }),
+    beforeState: 'Standing rate R15,000, never costed',
+    afterState: 'R45,000 quoted once the scope was costed, April 2020',
+    specificNumbers: JSON.stringify({ before: 'R15,000 standing rate', after: 'R45,000 once costed', date: 'April 2020', first_deal: 'R350', second_deal: 'R750 the same month' }),
     isSpecial: true, isRelevant: true, isQuantifiable: true, hasNames: false,
     villain: 'Undervaluing your own worth',
     shadowFear: 'Fear of asking for real money',
@@ -47,17 +59,17 @@ const PROOF_STORIES = [
   },
   {
     storyKey: 'huawei_r6000_investment',
-    title: 'R6000 Huawei Investment',
-    snippet: "I invested R6000 I didn't have into a Huawei phone to start creating. That R6000 bet on myself changed everything.",
-    fullVersion: "Everyone talks about needing perfect conditions to start. I had R6000 to my name. I bet it on a phone — a Huawei — and decided that this was my tool. Not a camera. Not a studio. A phone. Everything I built started with that one uncomfortable decision to invest in myself when I had the least.",
+    title: 'R6,000 Phone, 2014',
+    snippet: "In 2014 I put R6,000 of my own salary into a phone to start creating. That R6,000 bet on myself changed everything.",
+    fullVersion: "Everyone talks about needing perfect conditions to start. In 2014 I took R6,000 out of my own salary. I bet it on a phone — and decided that this was my tool. Not a camera. Not a studio. A phone. Everything I built started with that one uncomfortable decision to invest in myself when I had the least.",
     timeframe: '10-12s',
     emotion: 'Scarcity → Abundance through action',
     lesson: 'Start with what you have. The conditions will never be perfect.',
     useFor: JSON.stringify(['Starting Out', 'Taking Action', 'Content Creator Inspirer', 'Resourcefulness']),
     contentPillars: JSON.stringify(['motivation', 'story', 'education']),
-    beforeState: 'R6000 to my name, no equipment',
+    beforeState: 'One salary, R6,000 spent on a phone, no other equipment',
     afterState: 'Built entire content business starting from that phone',
-    specificNumbers: JSON.stringify({ investment: 'R6,000', tool: 'Huawei phone' }),
+    specificNumbers: JSON.stringify({ investment: 'R6,000', year: '2014', source: 'own salary', tool: 'a phone' }),
     isSpecial: true, isRelevant: true, isQuantifiable: true, hasNames: true,
     villain: 'Waiting for perfect conditions',
     shadowFear: 'Fear of wasting money on yourself',
@@ -85,17 +97,17 @@ const PROOF_STORIES = [
   },
   {
     storyKey: 'sars_debt',
-    title: 'SARS R207,879 Tax Debt',
-    snippet: "SARS assessed me R207,879.20. Undeclared Meta income, 2020–2022. Nobody told me brand payments were taxable. Got an accountant. Filed amended returns. Penalties waived: R45,705. Final paid: R162,174 over 11 months.",
-    fullVersion: "Nobody teaches creators about tax. I found out the hard way. SARS assessed R207,879.20 in undeclared brand income — three years of not knowing the rules. Filed amended returns. SARS waived R45,705.06 in penalties. Final debt: R162,174.14. Paid over 11 months at R17,000/month. Plus R30,000 in professional fees. Total cost of not having a structure: over R192,000. I tell you this not because it's comfortable. Because you need to know before SARS tells you first.",
+    title: 'SARS R207,879.20 Assessment — Unpaid',
+    snippet: "SARS assessed me R207,879.20 on undeclared content income. Nobody told me brand payments were taxable. I came forward instead of hiding — and I am still carrying it.",
+    fullVersion: "Nobody teaches creators about tax. I found out the hard way. SARS assessed R207,879.20 in undeclared brand income — years of not knowing the rules. I came forward and corrected it rather than hiding, because hiding only makes the number grow. But I am not going to sell you a neat ending: it is not paid, and I carry it into every month I trade. That is what it costs to spend money that was never yours. So split every payment the day it lands — 25% SARS, 10% business, 65% yours. I tell you this not because it's comfortable. Because you need to know before SARS tells you first.",
     timeframe: '15-18s',
-    emotion: 'Ignorance → Expert Guidance → Resolution',
-    lesson: 'Track every brand payment from your first R1. SARS can see your Payfast. Get an accountant before you need one.',
+    emotion: 'Ignorance → Coming Forward → Still Carrying It',
+    lesson: 'Track every brand payment from your first R1. SARS can see your Payfast. Reserve before it is owed — 25% SARS, 10% business, 65% yours.',
     useFor: JSON.stringify(['Tax Education', 'Business Structure', 'Financial Systems', 'Creator Compliance']),
     contentPillars: JSON.stringify(['education', 'story', 'authority']),
-    beforeState: 'R207,879.20 SARS assessment — undeclared Meta income 2020–2022',
-    afterState: 'R162,174.14 final debt paid (R45,705.06 penalties waived). 11-month payment plan.',
-    specificNumbers: JSON.stringify({ original_assessment: 'R207,879.20', penalties_waived: 'R45,705.06', final_paid: 'R162,174.14', professional_fees: 'R30,000' }),
+    beforeState: 'R207,879.20 SARS assessment on undeclared content income',
+    afterState: 'Still unpaid, still carried — he came forward rather than hiding. Never claim it was paid off, cleared or settled.',
+    specificNumbers: JSON.stringify({ original_assessment: 'R207,879.20', status: 'UNPAID — no payments started, still carried', reserve_rule: '35% Rule: 25% SARS / 10% business / 65% yours' }),
     isSpecial: true, isRelevant: true, isQuantifiable: true, hasNames: true,
     villain: 'Financial illiteracy — no system for tracking taxable creator income',
     shadowFear: 'Fear of being exposed as bad with money / SARS catching up with you',
@@ -122,23 +134,25 @@ const PROOF_STORIES = [
     tags: JSON.stringify(['legacy', 'culture', 'family', 'african-creator', 'purpose']),
   },
   {
+    // ⛔ storyKey kept for reference resolution only. The Netflix engagement is UNDER NDA —
+    // publish no figure and no client name. Rewritten as the unnamed inbound-authority story.
     storyKey: 'first_netflix_deal',
-    title: 'First Netflix Deal',
-    snippet: 'The day Netflix called. I almost thought it was spam. A content creator from Mzansi, on Netflix.',
-    fullVersion: "I grew up watching Netflix. Never in any version of my life did I think Netflix would come to me. But that is exactly what happened. And when it did, I understood something — the called expert who shows up consistently, who builds real authority, does not chase the brand. The brand comes to them.",
+    title: 'The Brand That Came To Me',
+    snippet: 'The day a brand I grew up watching called me. I almost thought it was spam. A content creator from Mzansi.',
+    fullVersion: "I grew up watching them. Never in any version of my life did I think they would come to me. But that is exactly what happened. And when it did, I understood something — the creator who shows up consistently, who builds real authority, does not chase the brand. The brand comes to them.",
     timeframe: '10-12s',
     emotion: 'Disbelief → Validation → Responsibility',
     lesson: 'Build authority so consistently that opportunities find you.',
     useFor: JSON.stringify(['Brand Deals', 'Authority', 'Called Expert', 'Social Proof', 'Mzansi']),
     contentPillars: JSON.stringify(['story', 'authority', 'social-proof']),
     beforeState: 'Unknown content creator from South Africa',
-    afterState: 'Netflix partnership, international brand recognition',
-    specificNumbers: JSON.stringify({ brand: 'Netflix' }),
+    afterState: 'An inbound international partnership. ⛔ Client is under NDA — never named, no figure.',
+    specificNumbers: JSON.stringify({ brand: 'UNDER NDA — never name, never quote a figure' }),
     isSpecial: true, isRelevant: true, isQuantifiable: false, hasNames: true,
     villain: "Imposter syndrome — 'this can't be for me'",
     shadowFear: 'Fear that big opportunities are not for people like you',
     isFavorite: true,
-    tags: JSON.stringify(['netflix', 'brand-deal', 'authority', 'social-proof', 'mzansi']),
+    tags: JSON.stringify(['inbound-authority', 'brand-deal', 'authority', 'social-proof', 'mzansi']),
   },
   {
     storyKey: 'content_burnout',
@@ -160,23 +174,25 @@ const PROOF_STORIES = [
     tags: JSON.stringify(['burnout', 'systems', 'efficiency', 'dares', 'creator-inspirer']),
   },
   {
+    // ⛔ storyKey kept for reference resolution only. The Samsung R450,000 / 18-month partnership
+    // claim is DISPROVEN — evidence shows one week, March 2020, no fee. No brand named, no figure.
     storyKey: 'samsung_partnership',
-    title: 'Samsung Partnership',
-    snippet: 'Samsung approached me. Not because I had the most followers. Because I had the right audience and the right authority.',
-    fullVersion: "When Samsung came to me, I had not pitched them. They found me. And the conversation was not about my follower count — it was about my engagement, my audience's buying behaviour, and the authority I had built. That is the called expert advantage. You become undeniable to the right brands.",
+    title: 'They Found Me',
+    snippet: 'A brand approached me. Not because I had the most followers. Because I had the right audience and the right authority.',
+    fullVersion: "When they came to me, I had not pitched them. They found me. And the conversation was not about my follower count — it was about my engagement, my audience's buying behaviour, and the authority I had built. That is the advantage. You become undeniable to the right brands.",
     timeframe: '12-15s',
     emotion: 'Authority → Inbound opportunity',
     lesson: 'The right audience is worth more than a large audience.',
     useFor: JSON.stringify(['Brand Deals', 'Audience Quality', 'Called Expert', 'Authority', 'Niche']),
     contentPillars: JSON.stringify(['authority', 'story', 'social-proof', 'education']),
     beforeState: 'Building niche authority without massive follower count',
-    afterState: 'Samsung partnership through inbound authority',
-    specificNumbers: JSON.stringify({ brand: 'Samsung' }),
+    afterState: 'An inbound engagement won on authority, not reach',
+    specificNumbers: JSON.stringify({ brand: 'not named — the Samsung deal claim is disproven' }),
     isSpecial: true, isRelevant: true, isQuantifiable: false, hasNames: true,
     villain: 'Chasing follower count over audience quality',
-    shadowFear: 'Fear that you need millions of followers to get brand deals',
+    shadowFear: 'Fear that you need a huge following to get brand deals',
     isFavorite: false,
-    tags: JSON.stringify(['samsung', 'brand-deal', 'authority', 'niche', 'called-expert']),
+    tags: JSON.stringify(['inbound-authority', 'brand-deal', 'authority', 'niche']),
   },
   {
     storyKey: 'ubuntu_principle',

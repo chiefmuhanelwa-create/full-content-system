@@ -1,3 +1,9 @@
+> ⛔ **FACT-LOCK 2026-09-17.** This file contained figures that are disproven or banned.
+> Never copy a number out of here without checking
+> `~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv`.
+> **Never name the employer, workplace or industry.** Governing ICP:
+> `~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md`
+
 # NOCHILL Content Intelligence System — Feature Reference
 
 **System:** full-content-system (full-content-system.vercel.app)

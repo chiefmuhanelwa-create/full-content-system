@@ -499,7 +499,8 @@ export default function BatchPlannerPage() {
                     <Select value={postingFrequency} onValueChange={setPostingFrequency}>
                       <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="daily">Daily (30 posts)</SelectItem>
+                        <SelectItem value="measured">4 a week — 16 posts (measured)</SelectItem>
+                        <SelectItem value="daily">Daily (30 posts) — ⚠️ against the data</SelectItem>
                         <SelectItem value="weekdays">Weekdays (20-22 posts)</SelectItem>
                         <SelectItem value="3x-week">3× per Week (12-13 posts)</SelectItem>
                       </SelectContent>

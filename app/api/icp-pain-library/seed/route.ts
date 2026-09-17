@@ -1,3 +1,13 @@
+// ⛔ FACT-LOCK 2026-09-17 — this file is a claim surface. It seeds copy into the product DB.
+// Never add a number here without a row in ~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv.
+// BANNED: R132,500 · R600K/R600,000 or any annual total · R750→R100K · "R100,000 per post" ·
+// Samsung R450,000 · Huawei as deal proof · Savanna R25K/R100K/R300K · AdSense R180,000 ·
+// Netflix figures (under NDA) · "50 brand deals"/"40+ brands" · R285K/R207K/R162,174/R45,705 ·
+// "SARS came for me" · "47 subscribers"/"50,000 email list" · "18% engagement" ·
+// "600k"/"millions of followers"/"3 million" · R50K→R8K · R84K course · "6,000+ books sold" ·
+// "R23,000 in ONE DAY" · 9/10 awards (say "award-winning") · R9,997–R18,000 · "Called Expert"/ICP1/ICP2/32–50.
+// ⛔ NEVER name the employer, workplace, airport or industry. Never name a real private individual.
+// Governing ICP: ~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma, checkDatabase } from '@/lib/db-helper'
 

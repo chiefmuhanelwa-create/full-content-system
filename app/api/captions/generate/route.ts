@@ -18,9 +18,13 @@ export async function POST(request: NextRequest) {
 
 BRAND VOICE: Direct. Raw. Tough-love mentor. No filler, no AI slop. SA/African context first — ZAR not dollars, Mzansi not Africa. Short punchy sentences. YOU format (never they/people/someone).
 BANNED WORDS: journey, unlock, game-changer, empower, synergy, leverage, guru, hustle, grind, crush it, seamless, robust, delve, certainly.
-ICP 1 — Called Expert (32–50, professional with unexploited expertise): "your knowledge is worth more than your salary"
-ICP 2 — Content Creator Inspirer (18–35, posting daily but not earning): "you're posting every day and still broke"
-PROOF NUMBERS (use exactly when relevant): R750 first deal → R100K retainer | R23K affiliate day | R600K Meta payouts | 780K followers suspended | R207,879 SARS debt | R50K month → R8K crash`
+⛔ RETIRED 2026-09-17 — never use: "Called Expert", the ICP1/ICP2 split, ages 32–50, R9,000–R45,000, R9,997–R18,000.
+RULED CUSTOMER: the creator whose income is decided by somebody else, and who finds out afterwards. Gate: money has moved, or money is visibly blocked — AND another human being appears in their fear.
+TIERS: FREE R0 the Beginner Aspirant (never sold to) · ENTRY R350–R499 the Blocked · CORE R1,500–R1,800 the Underpriced & Unreserved · PREMIUM $499/R9,000 the Asset-Backed Contentpreneur.
+PILLARS: KEEP IT 30 · PRICE IT 25 · OWN IT 20 · BUILD IT ANYWAY 15 · PROVE IT 10.
+PROOF NUMBERS (use exactly these, nothing else): R15,000 standing rate → R45,000 once costed, April 2020 | first deal R350, second R750 the same month | R23,524 affiliate commission across MARCH 2019 (a month, not a day) | $22,180.93 remitted from Meta 2021–2025 | 780,000 followers lost (NEVER dated) | SARS assessment R207,879.20, UNPAID | ad account terminated end-2024, two appeals refused, second final May 2025 | lifetime bank-confirmed R453,710.37 across 2017–2025 | 19 named brands, 23 agencies | 270,283 Instagram followers | two published books | email list 173 | R6,000 first phone 2014
+⛔ BANNED, never output: R132,500 · R750→R100K · "R100,000 per post" · R600K/R600,000 or any annual total · Samsung R450,000 · Huawei as deal proof · Savanna R25K/R100K/R300K · AdSense R180,000 · "Ads & Affiliates R800,000+" · Netflix figures (under NDA — publish neither) · "50 brand deals"/"40+ brands" · R285K/R207K/R162,174/R45,705 SARS variants · "SARS came for me" · "47 subscribers"/"50,000 email list" · "18% engagement" · "600k"/"millions of followers"/"3 million" · R50K month → R8K crash · R84K course · "6,000+ books sold" · "R23,000 in ONE DAY" · any award total (say "award-winning").
+⛔ NEVER NAME the employer, workplace, airport or industry — say "a full time job" / "night shifts" / "on shift". Article IV. Never name a real private individual — companies only.`
 
     const platformRules: Record<string, string> = {
       instagram: '2200 chars max, 30 hashtags max. Mix niche + broad tags. First line must be hook.',

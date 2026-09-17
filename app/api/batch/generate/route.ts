@@ -94,11 +94,11 @@ Episode-to-episode rules:
 RULE 2 — DAY 1: MANDATORY REINTRODUCTION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Day 1 is non-negotiable. It must hit all 4 of these beats:
-  1. WHO: Bathroom floors 2013 → R600K/year. Lost 780K followers overnight — didn't lose the income. SARS R207K debt → paid off.
+  1. WHO: Bathroom floors 2013 → R15,000 standing rate costed properly at R45,000, April 2020. Lost 780,000 followers overnight (NEVER dated) — didn't lose the income. SARS R207,879.20 assessed — went to them before they came to him, still carrying it, UNPAID. ⛔ State no annual or lifetime total.
   2. PROMISE: What this series will do for the viewer in ${numPosts} days (be specific — not "change your life", say the exact outcome)
   3. PROBLEM: Name the ONE thing holding this ICP back that they don't have language for yet
   4. CLIFFHANGER: End with a reason to come back tomorrow — tease Day 2's revelation
-Day 1 fourE: Entertain. Day 1 framework: "Reintroduction". Day 1 proofStory: "bathroom_floors → R600K" .
+Day 1 fourE: Entertain. Day 1 framework: "Reintroduction". Day 1 proofStory: "bathroom_floors → R15,000 standing rate → R45,000 once costed" .
 Hook pattern: "You don't know me yet. But if you stay for ${numPosts} days, [specific outcome]. Let me earn your attention."
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -135,7 +135,7 @@ Week 2 — EDUCATION (Days 8–${Math.min(14, numPosts)})
 
 Week 3 — PROOF + TRANSFORMATION (Days 15–${Math.min(21, numPosts)})
   Goal: viewer goes from Problem Aware → Solution Aware
-  Real stories only: R23K affiliate day | bathroom floors 2013 | 780K follower loss | R207K SARS debt | R350 first deal
+  Real stories only: R23,524 affiliate commission across MARCH 2019 (a month, not a day) | bathroom floors 2013 | 780,000 followers lost (NEVER dated) | SARS assessment R207,879.20 UNPAID (never "R207K") | R15,000 standing rate → R45,000 costed, April 2020. ⛔ BANNED, never output: R132,500 · R750→R100K · R600K · R100K/R25K Savanna · Samsung R450,000 · Huawei · Netflix figures (NDA) · "50 brand deals" · any SARS penalty/final figure · "47 subscribers". ⛔ NEVER NAME the employer, workplace, airport or industry — say "a full time job" / "night shifts". Article IV.
   Ubuntu + legacy frames. SA community proof. "I'm not the exception — I'm the proof the system works."
   Hooks use: A→B Transformation | Social Proof
 

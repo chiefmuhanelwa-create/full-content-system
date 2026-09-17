@@ -4,13 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import {
-  Zap, FileText, BookOpen, Brain, LayoutDashboard, LogOut, History,
-  Cpu, Mic, Layers, Target, TrendingUp, BarChart2,
-  Calendar, BookMarked, ShoppingBag, Star, Repeat, PenTool,
-  Tv2, Archive, Settings, ChevronDown, ChevronRight, Globe,
-  Package, MonitorPlay, FlaskConical, Search, X,
-  LayoutGrid, Megaphone, Wallet, Hash, ClipboardList, Kanban,
-  Users, Compass
+  Archive, BarChart2, BookMarked, BookOpen, Brain, Briefcase, Calendar, CalendarRange, ChevronDown, ChevronRight, Clapperboard, ClipboardList, Cpu, Database, FileText, Fingerprint, Globe, Handshake, Hash, History, Instagram, Kanban, Layers, LayoutDashboard, LayoutGrid, Link2, LogOut, Megaphone, Mic, MonitorPlay, Package, PenTool, Plug, Repeat, RotateCcw, Search, Settings, ShieldCheck, ShoppingBag, Star, Target, Target as TargetIcon, TrendingUp, Tv2, Users, Wallet, X, Zap, Mail
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -32,75 +26,93 @@ const navGroups: NavGroup[] = [
     label: 'Command',
     items: [
       { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+      { name: 'Features', href: '/dashboard/features', icon: LayoutGrid, badge: 'ALL' },
       { name: 'My Algorithm', href: '/dashboard/my-algorithm', icon: Cpu, badge: 'CORE' },
+      { name: 'Fact-Lock', href: '/dashboard/fact-lock', icon: ShieldCheck, badge: 'GATE' },
     ],
   },
   {
-    label: 'Create',
+    label: 'Content',
     items: [
+      { name: 'Batch Shoot', href: '/dashboard/batch-shoot', icon: Clapperboard, badge: 'START' },
       { name: 'Hook Generator', href: '/dashboard/hooks', icon: Zap },
       { name: 'Script Writer', href: '/dashboard/scripts', icon: FileText },
       { name: 'Storytelling Studio', href: '/dashboard/storytelling', icon: Tv2 },
+      { name: 'Carousel', href: '/dashboard/carousel', icon: LayoutGrid, badge: '2.2x' },
       { name: 'Story Extractor', href: '/dashboard/stories', icon: BookOpen },
       { name: 'Teleprompter', href: '/dashboard/teleprompter', icon: MonitorPlay },
       { name: 'Caption + Hashtags', href: '/dashboard/captions', icon: Hash },
       { name: 'Repurpose', href: '/dashboard/repurpose', icon: Repeat },
       { name: 'Content Studio', href: '/dashboard/content-studio', icon: PenTool },
+      { name: 'Visuals', href: '/dashboard/visuals', icon: Star },
+      { name: 'Shoot Runsheet', href: '/dashboard/runsheet', icon: ClipboardList },
+    ],
+  },
+  {
+    label: 'Tracking',
+    items: [
+      { name: 'Reel Tracker', href: '/dashboard/reels', icon: Instagram, badge: 'LIVE' },
+      { name: 'Scorecard', href: '/dashboard/scorecard', icon: TargetIcon, badge: 'KPI' },
+      { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart2 },
+      { name: 'History', href: '/dashboard/history', icon: History },
     ],
   },
   {
     label: 'Audience',
     items: [
-      { name: 'Fear Analyzer', href: '/dashboard/fears', icon: Brain },
       { name: 'ICP Pain Library', href: '/dashboard/icp-pain-library', icon: Target },
+      { name: 'Fear Analyzer', href: '/dashboard/fears', icon: Brain },
       { name: 'Competitor Intel', href: '/dashboard/competitor', icon: Globe },
       { name: 'Trend Scanner', href: '/dashboard/trends', icon: TrendingUp },
       { name: 'Brand Voice', href: '/dashboard/brand-voice', icon: Mic },
     ],
   },
   {
+    label: 'Planning',
+    items: [
+      { name: 'The Week', href: '/dashboard/the-week', icon: CalendarRange, badge: 'MON' },
+      { name: 'The Return', href: '/dashboard/the-return', icon: RotateCcw },
+      { name: 'Pipeline Board', href: '/dashboard/pipeline', icon: Kanban },
+      { name: 'Content Calendar', href: '/dashboard/content-calendar-plus', icon: Calendar },
+      { name: 'Batch Planner', href: '/dashboard/batch-planner', icon: Layers },
+      { name: 'AI Board of Advisors', href: '/dashboard/advisors', icon: Users },
+    ],
+  },
+  {
+    label: 'Marketing',
+    items: [
+      { name: 'Email', href: '/dashboard/email', icon: Mail, badge: 'OWNED' },
+      { name: 'Launch Campaigns', href: '/dashboard/campaigns', icon: Megaphone },
+      { name: 'CTA Check', href: '/dashboard/cta-check', icon: Link2 },
+      { name: 'CTA Optimizer', href: '/dashboard/cta-optimizer', icon: Zap },
+      { name: 'Pitch Builder', href: '/dashboard/pitch', icon: Target },
+      { name: 'Godfather Offers', href: '/dashboard/offers', icon: Star },
+    ],
+  },
+  {
+    label: 'Brand & Money',
+    items: [
+      { name: 'Brand Engine', href: '/dashboard/brand', icon: Briefcase, badge: 'NEW' },
+      { name: 'Brand Deals', href: '/dashboard/deals', icon: Handshake },
+      { name: 'Revenue Tracker', href: '/dashboard/revenue', icon: Wallet },
+      { name: 'Products', href: '/dashboard/products', icon: Package },
+    ],
+  },
+  {
     label: 'Library',
     items: [
+      { name: 'IP Register', href: '/dashboard/ip-register', icon: Fingerprint, badge: 'NEW' },
       { name: 'Hook Bank', href: '/dashboard/hook-bank', icon: BookMarked },
       { name: 'Story Bank', href: '/dashboard/story-bank', icon: BookOpen },
       { name: 'Saved Scripts', href: '/dashboard/saved-scripts', icon: FileText },
       { name: 'Content Vault', href: '/dashboard/vault', icon: Archive },
-      { name: 'History', href: '/dashboard/history', icon: History },
-    ],
-  },
-  {
-    label: 'Revenue',
-    items: [
-      { name: 'Products', href: '/dashboard/products', icon: Package },
-      { name: 'Product Lab', href: '/dashboard/product-planning', icon: FlaskConical, badge: 'NEW' },
-      { name: 'Godfather Offers', href: '/dashboard/offers', icon: Star },
-      { name: 'Pitch Builder', href: '/dashboard/pitch', icon: Target },
-      { name: 'CTA Optimizer', href: '/dashboard/cta-optimizer', icon: Zap },
-      { name: 'Revenue Tracker', href: '/dashboard/revenue', icon: Wallet },
-    ],
-  },
-  {
-    label: 'Planning',
-    items: [
-      { name: 'Pipeline Board', href: '/dashboard/pipeline', icon: Kanban, badge: 'NEW' },
-      { name: 'Content Calendar', href: '/dashboard/content-calendar-plus', icon: Calendar },
-      { name: 'Batch Planner', href: '/dashboard/batch-planner', icon: Layers },
-      { name: 'Shoot Runsheet', href: '/dashboard/runsheet', icon: ClipboardList },
-      { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart2 },
-      { name: 'Content Cards', href: '/dashboard/content-cards', icon: LayoutGrid },
-      { name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone },
-    ],
-  },
-  {
-    label: 'Empire',
-    items: [
-      { name: 'AI Board of Advisors', href: '/dashboard/advisors', icon: Users, badge: 'NEW' },
-      { name: 'CHKPLT North Star', href: '/dashboard/mission', icon: Compass, badge: 'NEW' },
     ],
   },
   {
     label: 'System',
     items: [
+      { name: 'Knowledge', href: '/dashboard/knowledge', icon: Database, badge: 'EDIT' },
+      { name: 'Integrations', href: '/dashboard/integrations', icon: Plug },
       { name: 'Settings', href: '/dashboard/settings', icon: Settings },
     ],
   },

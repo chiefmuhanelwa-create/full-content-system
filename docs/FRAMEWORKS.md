@@ -1,3 +1,9 @@
+> ⛔ **FACT-LOCK 2026-09-17.** This file contained figures that are disproven or banned.
+> Never copy a number out of here without checking
+> `~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv`.
+> **Never name the employer, workplace or industry.** Governing ICP:
+> `~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md`
+
 # NOCHILL Frameworks — Complete Reference
 ## Ndivhuwo Muhanelwa | All 7 Frameworks + Story & Product Mapping
 
@@ -17,7 +23,7 @@
 
 **Examples:**
 - ❌ "You're making this mistake" → personal attack
-- ✅ "This mistake is costing you R50K/year" → attack the mistake, not the person
+- ✅ "This mistake is costing you [⛔ REDACTED 2026-09-17]/year" → attack the mistake, not the person
 - ❌ "You don't have a system" → shame
 - ✅ "Content without a system is just free advertising for brands" → attack the situation
 
@@ -109,7 +115,7 @@ What exactly will they get? The outcome must be specific and believable.
 1. **Information Gap** — "Here's what brands never tell creators about pricing."
 2. **Desired Result** — "How to turn one brand deal into 18 months of retainer income."
 3. **Undesired Result** — "What saying yes to R2,500 deals is actually costing you."
-4. **A-to-B Transformation** — "From 0 brand deals to R100K — here's the exact path."
+4. **A-to-B Transformation** — "From 0 brand deals to [⛔ REDACTED 2026-09-17] — here's the exact path."
 
 **U^B — Unique^Broadened**
 U = Pattern interrupt. Does something unexpected. Breaks the scroll.
@@ -133,15 +139,15 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 
 | Story | Best Hook Type | Example Hook |
 |-------|---------------|--------------|
-| Bathroom Floors | A-to-B | "From sleeping on bathroom floors to R100K brand deals. Same person. Different system." |
-| R750→R100K | Information Gap | "What brands actually pay for — and it's not your follower count." |
-| Huawei R6K | Desired Result | "R6,000 invested. R600,000 returned. The phone that built everything." |
+| Bathroom Floors | A-to-B | "From sleeping on bathroom floors to [⛔ REDACTED 2026-09-17] brand deals. Same person. Different system." |
+| R750→[⛔ REDACTED 2026-09-17] | Information Gap | "What brands actually pay for — and it's not your follower count." |
+| [⛔ REDACTED 2026-09-17] R6K | Desired Result | "R6,000 invested. [⛔ REDACTED 2026-09-17] returned. The phone that built everything." |
 | 780K Lost | Undesired Result | "780,000 followers gone overnight. Here's what platform dependency actually costs." |
-| SARS R207K | Undesired Result | "SARS can see your Payfast. 96% of creators don't know this." |
+| SARS R207,879.20 | Undesired Result | "SARS can see your Payfast. 96% of creators don't know this." |
 | Family Shame | A-to-B | "They said 'get a real job.' Here's what I built instead." |
-| Netflix Deal | Information Gap | "Netflix didn't care about my 100K followers. Here's what they cared about." |
+| [⛔ REDACTED 2026-09-17] Deal | Information Gap | "[⛔ REDACTED 2026-09-17] didn't care about my 100K followers. Here's what they cared about." |
 | Burnout | Undesired Result | "3 posts a day. 2 million views. R0 revenue. The system problem nobody talks about." |
-| Samsung | Desired Result | "One question turned a R15K deal into R450K over 18 months." |
+| [⛔ REDACTED 2026-09-17] | Desired Result | "One question turned a R15K deal into [⛔ REDACTED 2026-09-17] over 18 months." |
 | Ubuntu | A-to-B | "200 creators to their first R10K month. Here's the only business philosophy that scales." |
 
 ---
@@ -169,7 +175,7 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 **Structure:** The moment it hit hardest → Why it hurt → What it taught → What's different now
 
 **Ndivhuwo's Struggle Stories:**
-- SARS R207K — the cost of financial ignorance
+- SARS R207,879.20 — the cost of financial ignorance
 - Family shame — the cost of unconventional choices
 - Content burnout — the cost of volume without system
 
@@ -184,9 +190,9 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 **Structure:** Where I/they were → The method I found → Where I/they are now → You can do this too
 
 **Ndivhuwo's Transformation Stories:**
-- R750 → R100K: The method = learn your value, not your desperation
-- Content burnout → R50K: The method = system over schedule
-- 6 months/R0 → R50K/month: The method = one strategic post over daily noise
+- R750 → [⛔ REDACTED 2026-09-17]: The method = learn your value, not your desperation
+- Content burnout → [⛔ REDACTED 2026-09-17]: The method = system over schedule
+- 6 months/R0 → [⛔ REDACTED 2026-09-17]/month: The method = one strategic post over daily noise
 
 **Products to mention:** PAIDS Starter Course, brand deal products (03, 04, 05)
 
@@ -199,9 +205,9 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 **Structure:** The question that bothered me → What I did to find the answer → The insight → Why it matters to you
 
 **Ndivhuwo's Breakthrough Stories:**
-- Netflix deal: The insight = brands buy engagement rates, not follower counts
-- Samsung: The insight = ask about business goals, not content goals
-- R6K Huawei: The insight = investment mindset > waiting-for-perfect mindset
+- [⛔ REDACTED 2026-09-17] deal: The insight = brands buy engagement rates, not follower counts
+- [⛔ REDACTED 2026-09-17]: The insight = ask about business goals, not content goals
+- R6K [⛔ REDACTED 2026-09-17]: The insight = investment mindset > waiting-for-perfect mindset
 
 **Products to mention:** Product 13 (be ready), Product 03 (brand DM response), PAIDS Pro
 
@@ -214,7 +220,7 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 **Structure:** Here's the mistake → Here's the cost → Here's what to do instead
 
 **Ndivhuwo's Lesson Stories:**
-- SARS R207K: "I wish someone had told me brand income is taxable from the first rand."
+- SARS R207,879.20: "I wish someone had told me brand income is taxable from the first rand."
 - R750 undercharging: "I wish someone had told me that agencies have rate databases."
 - 780K followers lost: "I wish someone had told me to build what I own."
 
@@ -229,10 +235,10 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 | Stage | Name | What Happens | SA Story Example |
 |-------|------|-------------|-----------------|
 | 1 | Normal World | Life before the disruption — relatable baseline | "I was posting every day, brand deals trickling in, thinking this was it." |
-| 2 | Disruption | The event that changes everything | "Then the Samsung brief came in. The biggest budget I'd ever seen." |
+| 2 | Disruption | The event that changes everything | "Then the [⛔ REDACTED 2026-09-17] brief came in. The biggest budget I'd ever seen." |
 | 3 | Resistance | Internal doubt, external obstacle, the hesitation | "I almost said my usual rate. R15K. One post. Done." |
 | 4 | Crisis Point | The decision point — where everything hangs | "They asked for my retainer rate. I had never charged a retainer in my life." |
-| 5 | Decision | The choice made, usually at great risk | "I quoted R450K for 18 months. Silence on the other end." |
+| 5 | Decision | The choice made, usually at great risk | "I quoted [⛔ REDACTED 2026-09-17] for 18 months. Silence on the other end." |
 | 6 | Transformation | What happened as a result | "They agreed. That one decision changed how I built my entire business." |
 | 7 | New World | The life after — what's now possible | "Now every client conversation starts with retainer rate. Not one-off rate." |
 
@@ -240,7 +246,7 @@ The power: `U^B` is the multiplier. Good R×A×C = decent hook. Add U^B = viral 
 
 **For 15-60s content (Reels/TikTok):**
 Start at Stage 4 (Crisis Point). Compress 4→5→6. End with 7 as the lesson.
-"I had to quote a retainer rate with zero experience. I said R450K. They said yes. Here's what that taught me."
+"I had to quote a retainer rate with zero experience. I said [⛔ REDACTED 2026-09-17]. They said yes. Here's what that taught me."
 
 **For 3-10 minute content (YouTube, Podcast):**
 Use all 7 stages. Spend most time on 3 (Resistance) and 5 (Decision). The struggle is the story.
@@ -259,7 +265,7 @@ Use all 7 stages with full detail. Add numbers, emotions, context at every stage
 **Creator application:** Your NOCHILL product library — all 10 products
 **Content approach:** Educate on the problem → reveal the product solves it
 **Proof story:** Burnout story (the system I built became a product)
-**Example hook:** "This R297 template generated R50K in brand deals — here's what's inside"
+**Example hook:** "This R297 template generated [⛔ REDACTED 2026-09-17] in brand deals — here's what's inside"
 
 **Products in this stream:** 01, 02, 03, 04, 05, 11, 13, tax, PAIDS courses
 
@@ -287,10 +293,10 @@ Use all 7 stages with full detail. Add numbers, emotions, context at every stage
 
 ### D — Deals
 **What:** Brand partnerships, sponsorships, campaign collaborations
-**Creator application:** Netflix, Samsung, Huawei, Red Bull, Savanna, etc.
+**Creator application:** [⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17], Red Bull, [⛔ REDACTED 2026-09-17], etc.
 **Content approach:** Teach brand deal strategy → demonstrate with your own deals as proof
-**Proof story:** R750→R100K, Netflix deal, Samsung partnership
-**Example hook:** "How I landed this R100K campaign — the exact pitch email"
+**Proof story:** R750→[⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17] deal, [⛔ REDACTED 2026-09-17] partnership
+**Example hook:** "How I landed this [⛔ REDACTED 2026-09-17] campaign — the exact pitch email"
 
 **Products this teaches toward:** 03, 04, 05, 11, 13
 
@@ -298,10 +304,10 @@ Use all 7 stages with full detail. Add numbers, emotions, context at every stage
 
 ### S — Services
 **What:** Done-for-you services, consulting, agency work, coaching
-**Creator application:** 1:1 coaching (R9,997), Mastermind (R25,000+), content strategy consulting
+**Creator application:** 1:1 coaching ([⛔ REDACTED 2026-09-17]), Mastermind (R25,000+), content strategy consulting
 **Content approach:** Demonstrate expertise → show what's possible with your direct help
-**Proof story:** Ubuntu story (200 creators to first R10K), Samsung partnership (thinking like a strategist)
-**Example hook:** "We took this creator from R0 to R25K/month in 90 days — here's how"
+**Proof story:** Ubuntu story (200 creators to first R10K), [⛔ REDACTED 2026-09-17] partnership (thinking like a strategist)
+**Example hook:** "We took this creator from R0 to [⛔ REDACTED 2026-09-17] in 90 days — here's how"
 
 ---
 
@@ -310,10 +316,10 @@ Use all 7 stages with full detail. Add numbers, emotions, context at every stage
 | PAIDS Stream | Story | Product |
 |-------------|-------|---------|
 | Products | Burnout (the system became the product) | 01, 02 |
-| Ads/Affiliates | Huawei R6K (strategic tool investment) | — |
-| Information | Content burnout → R50K with system | PAIDS courses |
-| Deals | R750→R100K, Netflix, Samsung | 03, 04, 05, 11, 13 |
-| Services | Ubuntu (200 creators), Samsung strategy | Coaching, Mastermind |
+| Ads/Affiliates | [⛔ REDACTED 2026-09-17] R6K (strategic tool investment) | — |
+| Information | Content burnout → [⛔ REDACTED 2026-09-17] with system | PAIDS courses |
+| Deals | R750→[⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17] | 03, 04, 05, 11, 13 |
+| Services | Ubuntu (200 creators), [⛔ REDACTED 2026-09-17] strategy | Coaching, Mastermind |
 
 ---
 
@@ -340,14 +346,14 @@ Use all 7 stages with full detail. Add numbers, emotions, context at every stage
 | Story | 4E Category | Why |
 |-------|-------------|-----|
 | Bathroom Floors | Encourage | Proof that transformation is possible |
-| R750→R100K | Educate/Encourage | Teaches pricing while proving the result |
-| Huawei R6K | Educate | Investment mindset teaching |
+| R750→[⛔ REDACTED 2026-09-17] | Educate/Encourage | Teaches pricing while proving the result |
+| [⛔ REDACTED 2026-09-17] R6K | Educate | Investment mindset teaching |
 | 780K Lost | Educate | Platform independence lesson |
-| SARS R207K | Educate | Tax compliance teaching |
+| SARS R207,879.20 | Educate | Tax compliance teaching |
 | Family Shame | Encourage | Non-traditional path proof |
-| Netflix Deal | Educate/Earn | Teaches brand deal strategy, CTA to product |
+| [⛔ REDACTED 2026-09-17] Deal | Educate/Earn | Teaches brand deal strategy, CTA to product |
 | Burnout | Educate | System over volume teaching |
-| Samsung | Educate | Long-term partnership strategy |
+| [⛔ REDACTED 2026-09-17] | Educate | Long-term partnership strategy |
 | Ubuntu | Encourage | Community and legacy proof |
 
 ### 4E × Audience
@@ -385,7 +391,7 @@ Use all 7 stages with full detail. Add numbers, emotions, context at every stage
 - **S (Signal):** Hook: "You're leaving R50,000 on the table every brand deal."
 - **E (Engagement):** "Reply to this email — what's the worst offer you've ever received from a brand?"
 - **E (Education):** "Here's the exact rate card system — CPM formula, 13 African currencies, live exchange rates."
-- **D (Decision):** "R750 was my starting rate. Netflix was R100,000. Same quality. Different knowledge. Here's the product."
+- **D (Decision):** "R750 was my starting rate. [⛔ REDACTED 2026-09-17] was [⛔ REDACTED 2026-09-17]. Same quality. Different knowledge. Here's the product."
 - **S (Success):** "Here's what [buyer name] negotiated using this system — their first R30,000 deal."
 
 ---
@@ -397,10 +403,10 @@ Use all 7 stages with full detail. Add numbers, emotions, context at every stage
 | 4 Principles | All (applied to every script) | Any — principles are applied to how you tell it | Both |
 | R×A×C×U^B | All (hooks for every product) | Hooks drawn from all stories | Both |
 | 5 Story Types | PAIDS courses, coaching | All 10 stories | Both |
-| 7-Stage Arc | Transformation products, courses | Burnout, R750→R100K, Samsung | Both |
-| PAIDS | 02, PAIDS courses | Burnout, Ubuntu, R750→R100K | Content Creator Inspirer |
+| 7-Stage Arc | Transformation products, courses | Burnout, R750→[⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17] | Both |
+| PAIDS | 02, PAIDS courses | Burnout, Ubuntu, R750→[⛔ REDACTED 2026-09-17] | Content Creator Inspirer |
 | 4E Engine | Content Calendar products | Content burnout, Ubuntu | Content Creator Inspirer |
-| SEEDS | Education products, free teaching | SARS, Netflix, Samsung | Both |
+| SEEDS | Education products, free teaching | SARS, [⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17] | Both |
 
 ---
 
@@ -427,16 +433,16 @@ PAIDS Pro Course (R1,997)
     ↓
 Content Creator Hub subscription (R497/mo)
     ↓
-1:1 Coaching (R9,997)
+1:1 Coaching ([⛔ REDACTED 2026-09-17])
     ↓
 Mastermind (R25,000+)
 ```
 
 **Story role in the Coil:**
 - Cold content: Entertain/Encourage stories (bathroom floors, burnout, family shame)
-- Email nurture: Education stories (SARS, R750→R100K)
-- Tripwire: Proof stories (Netflix, Samsung — "this is what the knowledge unlocks")
-- Core offer: Transformation stories (burnout → R50K, R750 → R100K)
+- Email nurture: Education stories (SARS, R750→[⛔ REDACTED 2026-09-17])
+- Tripwire: Proof stories ([⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17] — "this is what the knowledge unlocks")
+- Core offer: Transformation stories (burnout → [⛔ REDACTED 2026-09-17], R750 → [⛔ REDACTED 2026-09-17])
 - High-ticket: Ubuntu/legacy stories (building for children's children)
 
 ---
@@ -458,7 +464,7 @@ Every framework can be activated by one of three emotional triggers:
 ### Trigger 3: Hunger for Proof It's Possible for Me
 **Line:** "Show me someone from where I'm from who did it. Not an American. Me."
 **Framework to pair with:** 5 Story Types + 7-Stage Arc (I was you, here's the arc)
-**Story to pair with:** Bathroom floors, R750→R100K (Ndivhuwo IS the proof)
+**Story to pair with:** Bathroom floors, R750→[⛔ REDACTED 2026-09-17] (Ndivhuwo IS the proof)
 
 ---
 
@@ -532,7 +538,7 @@ Systematic service to the community — not charity, not marketing. The NoChill 
 - Amplification (months 4–9): First paid product, first email sequence, first R1K month
 - Multiplication (months 10–18): Recurring income, 2+ streams, 50% less daily time
 
-**Story to pair with:** Origin story | R750→R100K deal (passion + system = profit)
+**Story to pair with:** Origin story | R750→[⛔ REDACTED 2026-09-17] deal (passion + system = profit)
 **Product to pair with:** Niche Clarity Quiz | PAIDS Course
 
 ---
@@ -575,7 +581,7 @@ Answer: Email list + one digital product. Platform-independent, recurring, owned
 **Upgrade sequence:** Mindset first → Skillset second (builds real evidence) → Toolset third (now you can use it)  
 Most people buy tools first, get overwhelmed, quit. Don't reverse the sequence.
 
-**Story to pair with:** R750→R100K (MS: belief → TS: first phone → SS: content skill)
+**Story to pair with:** R750→[⛔ REDACTED 2026-09-17] (MS: belief → TS: first phone → SS: content skill)
 **Product to pair with:** Contentpreneur book | PAIDS Course | Niche Clarity Quiz
 
 ---
@@ -600,7 +606,7 @@ Most people buy tools first, get overwhelmed, quit. Don't reverse the sequence.
 - MFM (Money Flow Mode): Money works for you. Investment portfolio, licensing, platform subscription revenue.
 - Goal: Move from 95% OTH → 50% LL + 30% MFM over 2 years.
 
-**Story to pair with:** R80K/month exhaustion story | Savanna campaign burnout  
+**Story to pair with:** R80K/month exhaustion story | [⛔ REDACTED 2026-09-17] campaign burnout  
 **Product to pair with:** Digital Empire Builder | PAIDS Course | Platform-Proof Income
 
 ---
@@ -680,7 +686,7 @@ Most people buy tools first, get overwhelmed, quit. Don't reverse the sequence.
 2. Growth (Month 4–9): Narrow niche, build email list, first lead magnet, first collaboration
 3. Monetisation (Month 10+): PAIDS grid, first digital product, OTH→LL transition, DARES-ify
 
-**NoChill proof:** R6,000 Huawei phone in 2013 → R600,000+ revenue. The phone was ordinary. The ATM mindset was the difference.
+**NoChill proof:** R6,000 [⛔ REDACTED 2026-09-17] phone in 2013 → [⛔ REDACTED 2026-09-17] revenue. The phone was ordinary. The ATM mindset was the difference.
 
 **Story to pair with:** Phone investment story | Origin story  
 **Product to pair with:** Creator Blueprint | Contentpreneur book
@@ -725,7 +731,7 @@ Most people buy tools first, get overwhelmed, quit. Don't reverse the sequence.
 
 Every phase transition uses BUT or THEREFORE — see Framework 20.
 
-**Story to pair with:** ATNS-while-building | SARS-to-system story  
+**Story to pair with:** [⛔ REDACTED 2026-09-17]-while-building | SARS-to-system story  
 **Product to pair with:** Accelerator PRO — Genesis/Exodus curriculum stages
 
 ---
@@ -845,4 +851,4 @@ All frameworks apply with these localisations:
 | Platform reality | "Just post on Instagram" | Load shedding, data costs, no creator union |
 | Philosophy | Western individualism | Ubuntu: rising together is legacy |
 | Business context | US LLC, IRS | PTY LTD, SARS, CIPC, BBBEE |
-| Brand landscape | Nike, Apple | Samsung SA, Netflix SA, Huawei, Mr Price, Takealot, Savanna |
+| Brand landscape | Nike, Apple | [⛔ REDACTED 2026-09-17] SA, [⛔ REDACTED 2026-09-17], [⛔ REDACTED 2026-09-17], Mr Price, Takealot, [⛔ REDACTED 2026-09-17] |

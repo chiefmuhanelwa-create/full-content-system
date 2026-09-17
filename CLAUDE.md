@@ -1,3 +1,9 @@
+> ⛔ **FACT-LOCK 2026-09-17.** This file contained figures that are disproven or banned.
+> Never copy a number out of here without checking
+> `~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv`.
+> **Never name the employer, workplace or industry.** Governing ICP:
+> `~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md`
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -14,20 +20,55 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Wider ecosystem:** 34 digital products (PDFs, web tools, 1:1 sessions) in `/Users/NOCHILLGOD/Desktop/product-lab/` — separate from this app, not deployed here.
 - **Business stage:** Building — products exist but revenue is not yet consistent. Pre-scale. Every feature should serve the goal of getting products live and selling.
 - **#1 goal:** Sell digital products. Not brand deals. Not audience growth. Product revenue first — specifically the 34 products in the product-lab ecosystem. Everything built in this system should support that funnel.
-- **12-month target:** R100K/month from products alone — ecosystem fully live, running without active selling.
+- **12-month target:** [⛔ REDACTED 2026-09-17]/month from products alone — ecosystem fully live, running without active selling.
 - **Critical voice problem:** AI output is too polished and corporate. Missing rawness. Sounds like a LinkedIn post, not Ndivhuwo. The system must generate content that is direct, unfiltered, real-talk SA energy — not motivational speaker, not TED Talk, not watered down. If it wouldn't make someone uncomfortable to read, it's probably not NOCHILL enough.
 
-### Target Audience (Two ICPs — ICP 1 is primary revenue engine)
-- **ICP 1 — Called Expert ⚡ REVENUE ENGINE** (32–50, SA professional, has unexploited expertise, wants to monetise knowledge WITHOUT quitting their job). Revenue math: 6–10 cohort sales at R9,997–R18,000 = R100K/month. Primary proof hook: "I still work at ATNS. I built R600K in 4-hour shift windows. You don't have to quit first." Language: "your knowledge is worth more than your salary" | "you don't need another certification" | "you don't have to quit first — build first." Shadow fears: Wrong Path Terror (#6), Imposter Syndrome (#3), Generational Poverty (#4), Spiritual Crisis (#8). 6 sub-segments: Shift Worker (primary), Corporate Trapped (largest), Teacher/Lecturer, Healthcare Worker, Faith Professional, Freelancer at Capacity.
-- **ICP 2 — Content Creator Inspirer 🔄 TRAFFIC ENGINE** (18–35, aspiring creator, Instagram/TikTok/FB-first, posting daily but not earning). Builds audience and email list that upgrades to ICP 1. Low-ticket R250–R1,500. Language: "you're posting every day and still broke." Shadow fears: Invisible Labour (#7), Time Anxiety (#2), Relationship Loss (#5).
+### 🔴 THE CUSTOMER — ruled 2026-09-17. This replaces every earlier ICP.
 
-All AI-generated content must lock onto ONE ICP before writing. Never mix them in the same output. When topic could serve either ICP, default to ICP 1 language and framing. John 21 frame: Left side = rented platforms (Instagram suspended, AdSense disabled). Right side = CHKPLT (owned platform), Called Expert cohort, email list. Cast on the right side.
+**The creator whose income is decided by somebody else, and who finds out afterwards.**
+
+**Two tests, both run on one sentence:**
+1. **Money has moved, or money is visibly blocked.** Not follower count, not niche.
+   1.2M views and R0 **qualifies**. 400 followers asking how to go viral **does not**.
+2. **Does another human being appear in their fear?**
+   *"Provide for my kids"* → **customer.** *"To get 0 likes"* → **traffic.**
+
+**Four tiers:**
+
+| Tier | Who | Their line | Pillar |
+|---|---|---|---|
+| **FREE R0** ⛔ | **The Beginner Aspirant** — 18–24, R0 revenue. **Content only, never sold to** | *"To get 0 likes"* | — |
+| **ENTRY R350–R499** | **The Blocked** — money exists, a system holds it | *"Millions of views but I am not earning"* | OWN IT · KEEP IT |
+| **CORE R1,500–R1,800** | **The Underpriced & Unreserved** — money arrives and leaks | *"I'm not sure about rates"* | PRICE IT · KEEP IT · BUILD IT ANYWAY |
+| **PREMIUM $499/R9,000** 🔒 | **The Asset-Backed Contentpreneur** — had it, lost it | *"There was nobody to phone"* | OWN IT · PROVE IT |
+
+**Pillars:** KEEP IT 30 · PRICE IT 25 · OWN IT 20 · BUILD IT ANYWAY 15 · PROVE IT 10.
+One per week, five-week rotation. **PAIDS is an income model, not a pillar set.**
+
+**The mechanism, true of all four:** *somebody else decides what they earn, and they find out
+afterwards.* Meta decides eligibility, country and "originality". The agency sets the budget
+before it makes contact. **That is what "Famous is not paid" means.**
+
+> ⛔ **RETIRED:** ICP1 "Called Expert" 32–50 at R9,000–R45,000 · the ICP1/ICP2 split · the
+> Sipho/Lerato personas. The Called Expert was never measured; when it was — **median age 21,
+> two people over 32 out of 70, zero purchasers.**
+
+**Governing document:** `~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md`
+**Skill reference:** `~/.claude/skills/nochill-brain/references/ICP-TIERS.md`
+
+> ⛔ **What was here, and why it was removed — 2026-09-17.**
+> A two-ICP block naming **ICP 1 "Called Expert", 32–50**, with cohort pricing at
+> **[⛔ REDACTED 2026-09-17]–[⛔ REDACTED 2026-09-17]** (dead — the ruled tier is **$499 / R9,000** 🔒), and a "primary proof hook"
+> that **named the employer** and claimed **"[⛔ REDACTED 2026-09-17]"**.
+> **Three breaches in one line:** the employer is banned in all public content (Article IV),
+> [⛔ REDACTED 2026-09-17] is not in the ledger (bank-confirmed lifetime is **R453,710.37**), and the pricing was
+> superseded on 2026-09-01. **Write "a full time job" or "night shifts". State no lifetime total.**
 
 ### Tone & Voice (Non-Negotiable)
 - Direct. No filler. No AI slop ("delve," "certainly," "I'd be happy to").
 - SA/African context first — ZAR pricing, Supabase/Vercel not AWS, WhatsApp as primary commerce channel.
 - Framework-first: 80% of every AI output must apply NOCHILL protocols (R×A×C×U^B, 4E, PAIDS, Shadow Fears, 9-Step Shell). 20% is contextual adaptation.
-- Proof is sacred: only use real numbers from S001–S020 story bank (R750→R100K, 780K followers, R207,879 SARS debt, R6K phone→R600K, R350 first deal, R23K affiliate day, R100K Savanna). Never fabricate outcomes. ⚠ Do NOT use "R285K SARS" — unverified. Netflix R100K: use with "from published book" attribution only.
+- Proof is sacred: only use real numbers from the story bank (the S001–S020 codes are RETIRED numbering — the canonical bank is the 15-story registry in `nochill-knowledge-base/W/stories/story-bank.md`; codes are kept only so old references resolve) (R750→R100K, 780K followers, R207,879 SARS debt, R6K phone→R600K, R132,500 lost undercharging 50 brand deals, R23K affiliate day, R100K Savanna). Never fabricate outcomes. ⚠ Do NOT use "R285K SARS" — unverified. Netflix R100K: use with "from published book" attribution only.
 - Ndivhuwo's signature transitions: "That's when..." / "But here's the thing..." / "You understand? Because you understand." — use these, not generic AI connectors.
 
 ### System Memory

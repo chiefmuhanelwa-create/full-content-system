@@ -3,10 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import {
-  Search, ArrowRight, Zap, FileText, BookOpen, Brain, Cpu, LayoutDashboard,
-  Target, TrendingUp, BarChart2, Calendar, BookMarked, Star, Repeat, PenTool,
-  Tv2, Archive, Settings, History, Globe, Mic, MonitorPlay, Package, Layers,
-  FlaskConical, LayoutGrid, Megaphone, Wallet,
+  Search, ArrowRight, Zap, FileText, BookOpen, Brain, Cpu, LayoutDashboard, Target, TrendingUp, BarChart2, Calendar, BookMarked, Star, Repeat, PenTool, Tv2, Archive, Settings, History, Globe, Mic, MonitorPlay, Package, Layers, Megaphone, Wallet, ShieldCheck, CalendarRange, Link2, RotateCcw, Instagram, Database, Handshake, Plug, Clapperboard, Briefcase, Fingerprint, LayoutGrid
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -38,16 +35,28 @@ const tools: Tool[] = [
   { name: 'Content Vault', href: '/dashboard/vault', category: 'Library', icon: Archive },
   { name: 'History', href: '/dashboard/history', category: 'Library', icon: History },
   { name: 'Products', href: '/dashboard/products', category: 'Revenue', icon: Package },
-  { name: 'Product Lab', href: '/dashboard/product-planning', category: 'Revenue', icon: FlaskConical },
   { name: 'Godfather Offers', href: '/dashboard/offers', category: 'Revenue', icon: Star },
   { name: 'Pitch Builder', href: '/dashboard/pitch', category: 'Revenue', icon: Target },
   { name: 'CTA Optimizer', href: '/dashboard/cta-optimizer', category: 'Revenue', icon: Zap },
+  { name: 'CTA Check', href: '/dashboard/cta-check', category: 'Revenue', icon: Link2 },
   { name: 'Revenue Tracker', href: '/dashboard/revenue', category: 'Revenue', icon: Wallet },
+  { name: 'The Week', href: '/dashboard/the-week', category: 'Planning', icon: CalendarRange },
+  { name: 'The Return', href: '/dashboard/the-return', category: 'Planning', icon: RotateCcw },
   { name: 'Content Calendar', href: '/dashboard/content-calendar-plus', category: 'Planning', icon: Calendar },
   { name: 'Batch Planner', href: '/dashboard/batch-planner', category: 'Planning', icon: Layers },
   { name: 'Analytics', href: '/dashboard/analytics', category: 'Planning', icon: BarChart2 },
-  { name: 'Content Cards', href: '/dashboard/content-cards', category: 'Planning', icon: LayoutGrid },
   { name: 'Campaigns', href: '/dashboard/campaigns', category: 'Planning', icon: Megaphone },
+  { name: 'Reel Tracker', href: '/dashboard/reels', category: 'Live', icon: Instagram },
+  { name: 'Brand Deals', href: '/dashboard/deals', category: 'Live', icon: Handshake },
+  { name: 'Knowledge', href: '/dashboard/knowledge', category: 'System', icon: Database },
+  { name: 'Integrations', href: '/dashboard/integrations', category: 'System', icon: Plug },
+  { name: 'Batch Shoot', href: '/dashboard/batch-shoot', category: 'Content', icon: Clapperboard },
+  { name: 'Carousel', href: '/dashboard/carousel', category: 'Content', icon: LayoutGrid },
+  { name: 'Scorecard', href: '/dashboard/scorecard', category: 'Tracking', icon: Target },
+  { name: 'Brand Engine', href: '/dashboard/brand', category: 'Brand', icon: Briefcase },
+  { name: 'IP Register', href: '/dashboard/ip-register', category: 'Library', icon: Fingerprint },
+  { name: 'Features', href: '/dashboard/features', category: 'System', icon: LayoutGrid },
+  { name: 'Fact-Lock', href: '/dashboard/fact-lock', category: 'System', icon: ShieldCheck },
   { name: 'Settings', href: '/dashboard/settings', category: 'System', icon: Settings },
 ]
 

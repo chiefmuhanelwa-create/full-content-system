@@ -76,7 +76,7 @@ Return ONLY a JSON object:
     "Which PAIDS category this serves"
   ],
   "compliance": {
-    "icp": "ICP 1 — Called Expert | ICP 2 — Content Creator Inspirer",
+    "icp": "legacy routing key only — icp1 | icp2. ⛔ 'Called Expert' and the 32–50 persona are RETIRED 2026-09-17; never write them into output copy",
     "shadowFear": "Name (#number)",
     "villain": "The system/situation villain in this story",
     "atomicShareLine": "The one line viewers can share verbatim",

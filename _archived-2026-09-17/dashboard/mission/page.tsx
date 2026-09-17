@@ -62,7 +62,7 @@ const VALUES = [
   {
     number: '02',
     name: 'Proof, not Promises',
-    desc: 'Every claim is receipted. R750→R10,500. R207,879 SARS resolved. R600K in 4-hour windows. The testimony IS the product.',
+    desc: 'Every claim is receipted. R15,000 standing rate → R45,000 costed. R207,879.20 SARS assessed, unpaid, still carried. Built in 4-hour windows around a full time job. The testimony IS the product.',
   },
   {
     number: '03',
@@ -103,7 +103,7 @@ const PHASES = [
     scripture: '"In the beginning, God SPOKE."',
     meaning: 'Content is your speaking. Products are your "let there be." Platform is the earth taking form.',
     tracks: ['Platform: CHKPLT live, 5 free + 5 paid products', 'Content: Series 1 "I Fished All Night" — 30 days', 'Products: 5 free lead magnets + 5 paid upsells designed and live'],
-    goal: '6 Called Expert Accelerator cohort spots filled × R18K = R108K',
+    goal: '6 Contentpreneur Accelerator seats filled at the ruled $499 / R9,000', // ⛔ R9,997–R18,000 RETIRED 2026-09-17
     color: '#C9A84C',
   },
   {
@@ -232,9 +232,9 @@ export default function MissionPage() {
               </div>
               <div className="space-y-2">
                 {[
-                  { element: 'Night fishing (v3–4)', parallel: 'Instagram 780K suspended. AdSense R180K disabled. "We caught nothing."' },
-                  { element: '"Cast on the RIGHT side" (v6)', parallel: 'LEFT = rented platforms. RIGHT = CHKPLT, products, email list, Called Expert cohort.' },
-                  { element: '153 large fish (v11)', parallel: 'The Called Experts already in the water — shift workers, teachers, nurses, pastors. They exist. They just need the net.' },
+                  { element: 'Night fishing (v3–4)', parallel: '780,000 followers suspended (NEVER dated). Ad account terminated end-2024; two appeals refused, second final May 2025. "We caught nothing."' }, // ⛔ AdSense R180,000 is BANNED — 13 payments, peak month $260.01
+                  { element: '"Cast on the RIGHT side" (v6)', parallel: 'LEFT = rented platforms. RIGHT = CHKPLT, products, email list, the Accelerator cohort.' },
+                  { element: '153 large fish (v11)', parallel: 'The creators already in the water whose income somebody else decides. They exist. They just need the net.' },
                   { element: 'Net did NOT break (v11)', parallel: 'Instagram breaks nets. AdSense breaks nets. CHKPLT is the net that holds 153 without tearing.' },
                 ].map((row, i) => (
                   <div key={i} className="grid grid-cols-2 gap-3 text-xs">
@@ -274,7 +274,7 @@ export default function MissionPage() {
             {/* Support scriptures */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
-                { ref: 'Deut 1:6', text: '"You have dwelt long enough at this mountain."', note: 'ATNS was the mountain. The salary was the mountain. Time to possess the land.' },
+                { ref: 'Deut 1:6', text: '"You have dwelt long enough at this mountain."', note: 'The job was the mountain. The salary was the mountain. Time to possess the land.' },
                 { ref: 'Psalm 115:12', text: '"He has been mindful of us."', note: 'Present tense. Not after the cohort fills. Now, in the debt and the mess.' },
                 { ref: 'Psalm 115:16', text: '"The earth He has given to man."', note: 'CHKPLT is the assigned portion of earth. Products are territory. Possess it.' },
               ].map((s, i) => (

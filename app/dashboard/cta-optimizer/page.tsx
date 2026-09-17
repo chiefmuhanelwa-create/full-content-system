@@ -16,10 +16,10 @@ const CTA_LIBRARY = {
   ],
   conversion: [
     "Link in bio to get started today",
-    "DM me 'READY' to learn more",
+    "Comment RATE and I'll send you the calculator — converts at 5.75% on 3× the traffic",
     "Click the link below—let's fix this together",
-    "Want this? Comment 'INFO' for details",
-    "Join 10,000+ creators inside [product name]"
+    "⛔ Never mint a new keyword. Only RATE and TAX resolve. BOOK, RESEARCH, CONTENT and PAID land nowhere.",
+    "Comment TAX and I'll send you the reserve calculator — converts at 8.68%, best on the account"
   ],
   community: [
     "We're building something different here. Join us.",

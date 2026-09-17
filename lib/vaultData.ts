@@ -68,7 +68,7 @@ export const contentIdeas: ContentIdea[] = [
   {
     id: 'fin-003',
     category: 'financial',
-    title: 'From R750 to R100K: My Brand Deal Pricing Evolution',
+    title: 'From R15,000 to R45,000: What Costing the Work Actually Changed',
     description: 'How I went from accepting scraps to commanding premium rates for the same work',
     hookType: 'a_to_b_transformation',
     frameworks: ['Genesis', 'MS×TS×SS', '4E-Encourage'],
@@ -94,7 +94,7 @@ export const contentIdeas: ContentIdea[] = [
   {
     id: 'fin-005',
     category: 'financial',
-    title: 'How to Make R50K/Month as a Micro-Creator',
+    title: 'How to Get Paid Properly as a Micro-Creator',
     description: '5 revenue streams that work with 10K-50K followers',
     hookType: 'desired_result',
     frameworks: ['SEEDS', '4E-Earn', 'PAIDS'],
@@ -108,7 +108,7 @@ export const contentIdeas: ContentIdea[] = [
     id: 'fin-006',
     category: 'financial',
     title: 'The SARS Tax Trap Every Creator Falls Into',
-    description: 'How I owed SARS R207,879 in undeclared Meta income — filed VDP, withdrew it on expert advice, got R45K in penalties waived, resolved to R162K',
+    description: 'How I ended up with a R207,879.20 SARS assessment on undeclared content income, why I came forward instead of hiding, and why I am still carrying it',
     hookType: 'undesired_result',
     frameworks: ['DARES', '4E-Educate'],
     shadowFear: ['Financial Insecurity', 'Failure'],
@@ -120,7 +120,7 @@ export const contentIdeas: ContentIdea[] = [
   {
     id: 'fin-007',
     category: 'financial',
-    title: 'Build a R100K Media Kit in 30 Minutes',
+    title: 'Build a Media Kit That Defends Your Rate in 30 Minutes',
     description: 'The exact template that lands me 6-figure deals without design skills',
     hookType: 'desired_result',
     frameworks: ['PAIDS', '4E-Earn'],
@@ -146,7 +146,7 @@ export const contentIdeas: ContentIdea[] = [
   {
     id: 'fin-009',
     category: 'financial',
-    title: 'The R6K Investment That Made Me R600K',
+    title: 'The R6,000 Phone That Started Everything, 2014',
     description: 'How one strategic purchase changed my entire creator business',
     hookType: 'a_to_b_transformation',
     frameworks: ['Genesis', 'MS×TS×SS', '4E-Encourage'],
@@ -185,14 +185,14 @@ export const contentIdeas: ContentIdea[] = [
   {
     id: 'fin-012',
     category: 'financial',
-    title: 'The Netflix Deal Breakdown: How I Negotiated R100K',
+    title: 'The Inbound Deal Breakdown: How I Negotiated It', // ⛔ client UNDER NDA — never named, no figure
     description: 'Behind the scenes of my biggest brand partnership and what made them say yes',
     hookType: 'information_gap',
     frameworks: ['Genesis', 'PAIDS', '4E-Educate'],
     shadowFear: ['Rejection', 'Being Average'],
     targetPlatform: ['Instagram', 'YouTube', 'LinkedIn'],
     estimatedDuration: '120-180 seconds',
-    keywords: ['Netflix', 'negotiation', 'brand deal', 'case study'],
+    keywords: ['inbound', 'negotiation', 'brand deal', 'case study'],
     audienceLevel: 'Contentpreneur'
   },
   {
@@ -237,7 +237,7 @@ export const contentIdeas: ContentIdea[] = [
   {
     id: 'fin-016',
     category: 'financial',
-    title: 'The Brand Deal Red Flags That Cost Me R50K',
+    title: 'The Brand Deal Red Flags That Cost Me', // ⛔ the R50K figure is unsourced — slot left empty
     description: 'Warning signs to watch for before signing partnership contracts',
     hookType: 'undesired_result',
     frameworks: ['DARES', '4E-Educate'],
@@ -835,7 +835,7 @@ export const storyVariations: StoryVariation[] = [
     id: 'origin-001',
     theme: 'origin',
     title: 'Bathroom Floors to Boardrooms',
-    snippet: 'I used to sleep on bathroom floors. Now I negotiate R100K+ brand deals in boardrooms.',
+    snippet: 'I used to sleep on bathroom floors. Now I cost the work before I quote it.',
     timeframe: '5-8 seconds',
     hookType: 'a_to_b_transformation',
     frameworks: ['Genesis', 'MS×TS×SS'],
@@ -861,7 +861,7 @@ export const storyVariations: StoryVariation[] = [
     id: 'origin-003',
     theme: 'origin',
     title: 'First Camera Story',
-    snippet: 'Borrowed R6,000 to buy a Huawei P20 Pro in 2018. That phone paid for itself 100x over in brand deals.',
+    snippet: 'Spent R6,000 of my own salary on a phone in 2014. Everything I built started there.',
     timeframe: '10-12 seconds',
     hookType: 'a_to_b_transformation',
     frameworks: ['Genesis', 'MS×TS×SS'],
@@ -871,7 +871,7 @@ export const storyVariations: StoryVariation[] = [
     audienceLevel: 'Beginner',
     numbers: {
       before: 'R6,000 debt',
-      after: 'R600,000+ ROI',
+      after: '19 named brands, 23 agencies', // ⛔ state no revenue total
       timeline: '18 months'
     }
   },
@@ -879,7 +879,7 @@ export const storyVariations: StoryVariation[] = [
     id: 'origin-004',
     theme: 'origin',
     title: 'No Film School Background',
-    snippet: 'Never went to film school. Learned everything from YouTube tutorials and trial-and-error. Now brands pay me R100K.',
+    snippet: 'Never went to film school. Learned everything from YouTube tutorials and trial-and-error. Now I cost the work and quote it.',
     timeframe: '10-12 seconds',
     hookType: 'a_to_b_transformation',
     frameworks: ['Genesis', '4E-Encourage'],
@@ -1019,8 +1019,8 @@ export const storyVariations: StoryVariation[] = [
   {
     id: 'turn-003',
     theme: 'turning_points',
-    title: 'Netflix Said Yes',
-    snippet: 'Netflix didn\'t care about my 100K followers. They cared about my 18% engagement. I charged R100K for 3 posts. They said yes in 24 hours.',
+    title: 'They Said Yes', // ⛔ client UNDER NDA — never named
+    snippet: 'They didn\'t care about my follower count. They cared about whether my audience actually moved. I costed the work, quoted it, and they said yes.', // ⛔ BANNED: the client (NDA), "18% engagement" (current IG median is 2.78%), and every R100K figure
     timeframe: '15-18 seconds',
     hookType: 'desired_result',
     frameworks: ['PAIDS', 'Genesis', '4E-Encourage'],
@@ -1030,7 +1030,7 @@ export const storyVariations: StoryVariation[] = [
     audienceLevel: 'Contentpreneur',
     numbers: {
       before: '100,000 followers',
-      after: 'R100,000 deal',
+      after: 'A deal won on engagement, not reach', // ⛔ client under NDA — no figure
       timeline: '24-hour approval'
     }
   },
@@ -1038,19 +1038,19 @@ export const storyVariations: StoryVariation[] = [
     id: 'turn-004',
     theme: 'turning_points',
     title: 'SARS Tax Debt Wake-Up',
-    snippet: 'Owed SARS R207,879 because I didn\'t declare Meta payouts for 2020-2022. Filed VDP, then withdrew it on expert advice. SARS waived R45,705 in penalties. Final debt: R162,174 — paid in 11-month instalments.',
+    snippet: 'Owed SARS R207,879.20 because I didn\'t declare my content income. I came forward myself instead of hiding. It is still not paid — I am carrying it while I trade.',
     timeframe: '15-18 seconds',
     hookType: 'undesired_result',
     frameworks: ['DARES', 'Genesis'],
     shadowFear: ['Financial Ruin', 'Legal Trouble'],
-    emotion: 'Ignorance → Expert Guidance → Resolution',
-    lesson: 'Come forward before SARS finds you. Get a practitioner who knows VDP vs eFiling correction — the right route saves thousands.',
+    emotion: 'Ignorance → Coming Forward → Still Carrying It',
+    lesson: 'Come forward before SARS finds you — but coming forward does not erase it. Reserve before it is owed: 25% SARS, 10% business, 65% yours. The 35% Rule.',
     audienceLevel: 'Established',
     numbers: {
-      before: 'R207,879.20 SARS assessment (undeclared Meta income 2020-2022)',
-      after: 'R162,174.14 final debt (R45,705.06 penalties waived)',
-      timeline: 'Resolved via standard eFiling amended returns + 11-month payment plan',
-      roi: 'Professional fees: R30,000 (Thome-Lee Wright)'
+      before: 'R207,879.20 SARS assessment on undeclared content income',
+      after: 'Still unpaid — no payments started, still being carried',
+      timeline: 'Ongoing. Never claim it was paid off, cleared, settled or resolved.',
+      roi: 'The 35% Rule that prevents it: 25% SARS / 10% business / 65% yours'
     }
   },
   {

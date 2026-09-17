@@ -66,7 +66,7 @@ export default function LandingPage() {
               <span className="text-[10px] font-display font-bold uppercase tracking-wider" style={{ color: '#A1A1AA' }}>Proof Story · S004</span>
             </div>
             <div className="text-2xl font-display font-black leading-none" style={{ color: '#18181B' }}>R50,000</div>
-            <p className="text-[11px] mt-1 font-display leading-relaxed" style={{ color: '#71717A' }}>March 2021 — first R50K month. Crashed to R8K two months later.</p>
+            <p className="text-[11px] mt-1 font-display leading-relaxed" style={{ color: '#71717A' }}>April 2020 — standing rate R15,000. Costed the work. Quoted R45,000.</p>
             <div className="mt-2.5 h-1.5 rounded-full" style={{ background: '#F4F4F5' }}>
               <div className="h-full w-4/5 rounded-full" style={{ background: '#2563EB' }} />
             </div>
@@ -135,7 +135,7 @@ export default function LandingPage() {
                 <span className="block" style={{ fontSize: 'clamp(52px, 7vw, 84px)', color: '#2563EB' }}>Sell more.</span>
               </h1>
               <p className="text-lg font-display font-normal mb-9 leading-relaxed max-w-lg mx-auto" style={{ color: '#71717A' }}>
-                45 AI tools built on the NoChill frameworks. The exact system behind R600K+ in annual income.
+                45 AI tools built on the NoChill frameworks. The exact system behind eight years of receipted creator income.
               </p>
               <Link href="/auth/signin"
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-display font-bold text-sm transition-all hover:opacity-90"
@@ -152,7 +152,7 @@ export default function LandingPage() {
       <section id="proof" className="py-10 px-6" style={{ borderTop: '1px solid #E4E4E7', borderBottom: '1px solid #E4E4E7', background: '#FFFFFF' }}>
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { value: 'R600K+', label: 'Annual income' },
+            { value: 'R453,710', label: 'Bank-confirmed, 2017–2025' },
             { value: '50+', label: 'Brand deals closed' },
             { value: '3M+', label: 'Total followers' },
             { value: '45', label: 'AI tools in system' },
@@ -246,7 +246,7 @@ export default function LandingPage() {
               This is your system.
             </h2>
             <p className="font-display text-sm mb-8 leading-relaxed" style={{ color: '#71717A' }}>
-              Built on the exact frameworks behind R600,000+ in annual income.
+              Built on the exact frameworks behind 19 named brands and 23 agencies.
             </p>
             <Link href="/auth/signin"
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-display font-bold text-sm transition-all hover:opacity-90"

@@ -179,7 +179,7 @@ export default function AdvisorsPage() {
           <textarea
             value={question}
             onChange={e => setQuestion(e.target.value)}
-            placeholder="E.g. 'Should I price the cohort at R9,997 or R18,000?' or 'Should I launch Series 1 or build more products first?' or 'Is it time to hire a VA?'"
+            placeholder="E.g. 'Should the Accelerator stay at the ruled $499 / R9,000?' or 'Should I launch Series 1 or build more products first?' or 'Is it time to hire a VA?'"
             rows={4}
             className="w-full text-sm resize-none rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#C9A84C]"
             style={{ borderColor: '#E4E4E7', color: '#18181B', background: '#FAFAFA' }}

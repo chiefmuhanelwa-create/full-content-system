@@ -1,10 +1,10 @@
 {
+  "_FACT_LOCK": "⛔ FACT-LOCK 2026-09-17. This file is injected into LLM prompts. Figures that are disproven or banned were removed and marked [⛔ REDACTED]. Never restore a number without a row in ~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv. NEVER name the employer, workplace, airport or industry — write 'a full time job' / 'night shifts' / 'on shift' (Article IV). Never name a real private individual — companies only. Story keys such as r750_to_r100k, samsung_partnership, first_netflix_deal and huawei_r6000 survive as ROUTING KEYS ONLY and must never appear in output copy. RULED CUSTOMER: the creator whose income is decided by somebody else, and who finds out afterwards; gate = money has moved or is visibly blocked AND another human being appears in their fear. TIERS: FREE R0 · ENTRY R350–R499 · CORE R1,500–R1,800 · PREMIUM $499/R9,000. PILLARS: KEEP IT 30 · PRICE IT 25 · OWN IT 20 · BUILD IT ANYWAY 15 · PROVE IT 10. SAFE FIGURES: R15,000 standing rate → R45,000 once costed (April 2020) · first deal R350, second R750 same month · R23,524 affiliate commission across MARCH 2019 · SARS R207,879.20 UNPAID · $22,180.93 remitted from Meta 2021–2025 · R6,000 first phone 2014 · 780,000 followers lost (NEVER DATED) · ad account terminated end-2024, two appeals refused, second final May 2025 · lifetime R453,710.37 · 19 named brands, 23 agencies · 270,283 IG followers · two published books · list 173.",
   "name": "NOCHILL 120 Proven Hooks Bank",
   "version": "1.0",
   "description": "120 battle-tested hooks across 6 categories, all following R×A×C×U^B formula and 4 Foundational Principles",
   "author": "Ndivhuwo 'NO CHILL in Mzansi' Muhanelwa",
   "total_hooks": 120,
-
   "categories": [
     {
       "id": 1,
@@ -12,7 +12,11 @@
       "description": "Build instant relatability and emotional connection through origin stories and struggles",
       "count": 20,
       "emotional_impact": "Very High",
-      "best_for": ["Relatability content", "About me sections", "Connection building"],
+      "best_for": [
+        "Relatability content",
+        "About me sections",
+        "Connection building"
+      ],
       "hooks": [
         {
           "id": 1,
@@ -27,12 +31,12 @@
         },
         {
           "id": 2,
-          "hook": "I went from sleeping in university bathrooms to R600K in platform revenue. Here's what I learned.",
+          "hook": "I went from sleeping in university bathrooms to [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] in platform revenue. Here's what I learned.",
           "r_a_c_u_b": {
             "relevant": "Struggling students/entrepreneurs",
             "awareness": "Solution aware - seeking breakthrough stories",
             "clarity": "Specific lessons from transformation",
-            "unique": "Extreme contrast (bathrooms → R600K)",
+            "unique": "Extreme contrast (bathrooms → [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv])",
             "broadened": "Anyone facing extreme adversity"
           }
         },
@@ -60,7 +64,7 @@
         },
         {
           "id": 5,
-          "hook": "From R400/month village life to partnerships with Netflix. The journey started with one decision.",
+          "hook": "From R400/month village life to partnerships with [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]. The journey started with one decision.",
           "r_a_c_u_b": {
             "relevant": "People from humble beginnings",
             "awareness": "Solution aware - seeking transformation path",
@@ -82,7 +86,7 @@
         },
         {
           "id": 7,
-          "hook": "I owed SARS R207K because I didn't understand this one thing about creator taxes.",
+          "hook": "I owed SARS [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] because I didn't understand this one thing about creator taxes.",
           "r_a_c_u_b": {
             "relevant": "South African creators",
             "awareness": "Problem aware - tax compliance fears",
@@ -104,7 +108,7 @@
         },
         {
           "id": 9,
-          "hook": "The R6,000 phone that generated R600K. ROI: 10,000%. Here's the investment mindset shift.",
+          "hook": "The R6,000 phone that generated [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]. ROI: 10,000%. Here's the investment mindset shift.",
           "r_a_c_u_b": {
             "relevant": "Creators with limited capital",
             "awareness": "Solution aware - looking for high-ROI investments",
@@ -137,7 +141,7 @@
         },
         {
           "id": 12,
-          "hook": "From accepting R750 brand deals to commanding R8,333/month retainers. The 5-step framework.",
+          "hook": "From accepting R7[⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] to commanding R8,333/month retainers. The 5-step framework.",
           "r_a_c_u_b": {
             "relevant": "Creators underpricing services",
             "awareness": "Solution aware - seeking pricing strategy",
@@ -242,11 +246,15 @@
       "description": "Demonstrate possibility through before/after transformations",
       "count": 20,
       "emotional_impact": "High",
-      "best_for": ["Case studies", "Social proof", "Method validation"],
+      "best_for": [
+        "Case studies",
+        "Social proof",
+        "Method validation"
+      ],
       "hooks": [
         {
           "id": 21,
-          "hook": "R0 to R50K/month in 90 days. No ads. No fancy equipment. Just this system.",
+          "hook": "R0 to [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]/month in 90 days. No ads. No fancy equipment. Just this system.",
           "r_a_c_u_b": {
             "relevant": "Creators at R0",
             "awareness": "Solution aware - seeking proven system",
@@ -268,18 +276,18 @@
         },
         {
           "id": 23,
-          "hook": "I turned 10 followers into R100K in revenue. Here's the owned audience strategy.",
+          "hook": "I turned 10 followers into [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] in revenue. Here's the owned audience strategy.",
           "r_a_c_u_b": {
             "relevant": "Micro-creators",
             "awareness": "Solution aware - quality over quantity",
             "clarity": "Revenue despite tiny following",
-            "unique": "Extreme ratio (10 followers → R100K)",
+            "unique": "Extreme ratio (10 followers → [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv])",
             "broadened": "Any small audience monetization"
           }
         },
         {
           "id": 24,
-          "hook": "Quit my R25K/month job. Now earn R180K/month. The 6-month transition plan.",
+          "hook": "Quit my [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] job. Now earn [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]/month. The 6-month transition plan.",
           "r_a_c_u_b": {
             "relevant": "Employed people wanting freedom",
             "awareness": "Solution aware - seeking exit strategy",
@@ -356,7 +364,7 @@
         },
         {
           "id": 31,
-          "hook": "From R2,000/month freelance gigs to R50K/month retainers. Stopped selling hours, started selling outcomes.",
+          "hook": "From R2,000/month freelance gigs to [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]/month retainers. Stopped selling hours, started selling outcomes.",
           "r_a_c_u_b": {
             "relevant": "Hourly freelancers",
             "awareness": "Problem aware - income ceiling",
@@ -472,11 +480,15 @@
       "description": "Teach principles through experience and 'aha' moments",
       "count": 20,
       "emotional_impact": "Medium-High",
-      "best_for": ["Educational content", "Framework teaching", "Wisdom sharing"],
+      "best_for": [
+        "Educational content",
+        "Framework teaching",
+        "Wisdom sharing"
+      ],
       "hooks": [
         {
           "id": 41,
-          "hook": "I made R207K in mistakes so you don't have to. The 7 creator tax traps.",
+          "hook": "I made [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] in mistakes so you don't have to. The 7 creator tax traps.",
           "r_a_c_u_b": {
             "relevant": "South African creators",
             "awareness": "Problem aware - tax compliance fears",
@@ -663,7 +675,7 @@
         },
         {
           "id": 58,
-          "hook": "I said no to a R100K deal because it didn't align with my values. Best decision ever.",
+          "hook": "I said no to a [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] deal because it didn't align with my values. Best decision ever.",
           "r_a_c_u_b": {
             "relevant": "Creators facing ethical compromises",
             "awareness": "Problem aware - values vs. money tension",
@@ -702,11 +714,15 @@
       "description": "Build credibility through results, partnerships, and expertise",
       "count": 20,
       "emotional_impact": "Medium",
-      "best_for": ["Credibility building", "Premium positioning", "Trust establishment"],
+      "best_for": [
+        "Credibility building",
+        "Premium positioning",
+        "Trust establishment"
+      ],
       "hooks": [
         {
           "id": 61,
-          "hook": "Netflix, Samsung, Coca-Cola. Here's how I landed partnerships most creators dream of.",
+          "hook": "[⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv], [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv], Coca-Cola. Here's how I landed partnerships most creators dream of.",
           "r_a_c_u_b": {
             "relevant": "Creators seeking premium brand deals",
             "awareness": "Solution aware - studying success paths",
@@ -717,7 +733,7 @@
         },
         {
           "id": 62,
-          "hook": "3M+ followers across platforms. 100K email subscribers. The only metric that actually matters.",
+          "hook": "100K email subscribers. The only metric that actually matters.",
           "r_a_c_u_b": {
             "relevant": "Creators chasing follower counts",
             "awareness": "Problem aware - vanity metrics focus",
@@ -750,7 +766,7 @@
         },
         {
           "id": 65,
-          "hook": "5,000+ books sold. R50K/month in passive income. The digital product blueprint.",
+          "hook": "5,000+ books sold. [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]/month in passive income. The digital product blueprint.",
           "r_a_c_u_b": {
             "relevant": "Creators considering digital products",
             "awareness": "Solution aware - seeking product strategy",
@@ -761,7 +777,7 @@
         },
         {
           "id": 66,
-          "hook": "15 full-service clients at R8K-R15K/month each. The agency model that scales.",
+          "hook": "15 full-service clients at [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv]-R15K/month each. The agency model that scales.",
           "r_a_c_u_b": {
             "relevant": "Solopreneurs wanting to scale",
             "awareness": "Solution aware - seeking agency model",
@@ -772,7 +788,7 @@
         },
         {
           "id": 67,
-          "hook": "I've generated R600K+ from platform revenue alone. Then I built the system that doesn't need it.",
+          "hook": "I've generated [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] from platform revenue alone. Then I built the system that doesn't need it.",
           "r_a_c_u_b": {
             "relevant": "Platform-dependent creators",
             "awareness": "Solution aware - seeking independence",
@@ -932,7 +948,11 @@
       "description": "Break expected patterns to capture attention immediately",
       "count": 20,
       "emotional_impact": "High",
-      "best_for": ["Stopping the scroll", "Standing out", "Creating intrigue"],
+      "best_for": [
+        "Stopping the scroll",
+        "Standing out",
+        "Creating intrigue"
+      ],
       "hooks": [
         {
           "id": 81,
@@ -1002,7 +1022,7 @@
         },
         {
           "id": 87,
-          "hook": "Your competitors are your biggest asset. I made R100K from this collaboration framework.",
+          "hook": "Your competitors are your biggest asset. I made [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] from this collaboration framework.",
           "r_a_c_u_b": {
             "relevant": "Creators viewing others as threats",
             "awareness": "Solution aware - seeking collaboration",
@@ -1057,7 +1077,7 @@
         },
         {
           "id": 92,
-          "hook": "I made R50K from content I created 2 years ago. The evergreen monetization strategy.",
+          "hook": "I made [⛔ REDACTED 2026-09-17 — banned/disproven; see PROOF_BANK.csv] from content I created 2 years ago. The evergreen monetization strategy.",
           "r_a_c_u_b": {
             "relevant": "Creators on content hamster wheel",
             "awareness": "Solution aware - seeking passive income",
@@ -1162,7 +1182,11 @@
       "description": "Challenge conventional wisdom and spark debate (use strategically)",
       "count": 20,
       "emotional_impact": "Very High",
-      "best_for": ["Viral potential", "Positioning as thought leader", "Sparking conversation"],
+      "best_for": [
+        "Viral potential",
+        "Positioning as thought leader",
+        "Sparking conversation"
+      ],
       "hooks": [
         {
           "id": 101,
@@ -1387,7 +1411,6 @@
       ]
     }
   ],
-
   "usage_guidelines": {
     "category_distribution": {
       "origin_struggle": "Use for relatability and connection building - early in customer journey",
@@ -1414,7 +1437,15 @@
     },
     "testing_framework": {
       "A_B_test": "Test 2 hooks from different categories on same content",
-      "track_metrics": ["Views", "Watch time", "Saves", "Shares", "DMs", "Link clicks", "Conversions"],
+      "track_metrics": [
+        "Views",
+        "Watch time",
+        "Saves",
+        "Shares",
+        "DMs",
+        "Link clicks",
+        "Conversions"
+      ],
       "iterate": "Double down on winning hook categories for your specific audience"
     }
   }

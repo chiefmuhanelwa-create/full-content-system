@@ -1,0 +1,282 @@
+[
+ {
+  "amount": 136138.57,
+  "stream": "products",
+  "description": "international inbound paid this amount into the business account across 11 payment(s) in 2025",
+  "month": 1,
+  "year": 2025,
+  "date": "2025-01-01"
+ },
+ {
+  "amount": 47500.0,
+  "stream": "deals",
+  "description": "Grey Advertising paid this amount into the business account across 2 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 36000.0,
+  "stream": "deals",
+  "description": "GBets paid this amount into the business account across 1 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 34317.15,
+  "stream": "ads",
+  "description": "AdMarula paid this amount into the business account across 4 payment(s) in 2019",
+  "month": 1,
+  "year": 2019,
+  "date": "2019-01-01"
+ },
+ {
+  "amount": 25000.0,
+  "stream": "deals",
+  "description": "DStv paid this amount into the business account across 1 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 22000.0,
+  "stream": "deals",
+  "description": "SlikourOnLife paid this amount into the business account across 2 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 20000.0,
+  "stream": "deals",
+  "description": "Eclipse PR paid this amount into the business account across 1 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 20000.0,
+  "stream": "deals",
+  "description": "Investec paid this amount into the business account across 2 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 17227.5,
+  "stream": "ads",
+  "description": "OfferForge paid this amount into the business account across 5 payment(s) in 2019",
+  "month": 1,
+  "year": 2019,
+  "date": "2019-01-01"
+ },
+ {
+  "amount": 16005.5,
+  "stream": "ads",
+  "description": "OfferForge paid this amount into the business account across 4 payment(s) in 2018",
+  "month": 1,
+  "year": 2018,
+  "date": "2018-01-01"
+ },
+ {
+  "amount": 15000.0,
+  "stream": "deals",
+  "description": "Ubu paid this amount into the business account across 1 payment(s) in 2018",
+  "month": 1,
+  "year": 2018,
+  "date": "2018-01-01"
+ },
+ {
+  "amount": 11200.0,
+  "stream": "products",
+  "description": "USD conversion inbound paid this amount into the business account across 45 payment(s) in 2018",
+  "month": 1,
+  "year": 2018,
+  "date": "2018-01-01"
+ },
+ {
+  "amount": 8750.0,
+  "stream": "deals",
+  "description": "LocoNetwork paid this amount into the business account across 3 payment(s) in 2019",
+  "month": 1,
+  "year": 2019,
+  "date": "2019-01-01"
+ },
+ {
+  "amount": 7245.0,
+  "stream": "ads",
+  "description": "AdMarula paid this amount into the business account across 1 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 7200.0,
+  "stream": "products",
+  "description": "USD conversion inbound paid this amount into the business account across 18 payment(s) in 2019",
+  "month": 1,
+  "year": 2019,
+  "date": "2019-01-01"
+ },
+ {
+  "amount": 5805.0,
+  "stream": "deals",
+  "description": "Rawbust paid this amount into the business account across 7 payment(s) in 2018",
+  "month": 1,
+  "year": 2018,
+  "date": "2018-01-01"
+ },
+ {
+  "amount": 5000.0,
+  "stream": "deals",
+  "description": "Rawbust paid this amount into the business account across 2 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 3500.0,
+  "stream": "products",
+  "description": "Instagram paid this amount into the business account across 2 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 2817.5,
+  "stream": "ads",
+  "description": "OfferForge paid this amount into the business account across 1 payment(s) in 2017",
+  "month": 1,
+  "year": 2017,
+  "date": "2017-01-01"
+ },
+ {
+  "amount": 2700.0,
+  "stream": "deals",
+  "description": "LocoNetwork paid this amount into the business account across 4 payment(s) in 2018",
+  "month": 1,
+  "year": 2018,
+  "date": "2018-01-01"
+ },
+ {
+  "amount": 2600.0,
+  "stream": "deals",
+  "description": "Rawbust paid this amount into the business account across 3 payment(s) in 2019",
+  "month": 1,
+  "year": 2019,
+  "date": "2019-01-01"
+ },
+ {
+  "amount": 2000.0,
+  "stream": "products",
+  "description": "international inbound paid this amount into the business account across 1 payment(s) in 2018",
+  "month": 1,
+  "year": 2018,
+  "date": "2018-01-01"
+ },
+ {
+  "amount": 1979.0,
+  "stream": "products",
+  "description": "international inbound paid this amount into the business account across 1 payment(s) in 2024",
+  "month": 1,
+  "year": 2024,
+  "date": "2024-01-01"
+ },
+ {
+  "amount": 1500.0,
+  "stream": "deals",
+  "description": "Peegle paid this amount into the business account across 2 payment(s) in 2020",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 1400.0,
+  "stream": "deals",
+  "description": "StyledOnlineSA paid this amount into the business account across 4 payment(s) in 2018",
+  "month": 1,
+  "year": 2018,
+  "date": "2018-01-01"
+ },
+ {
+  "amount": 475.15,
+  "stream": "products",
+  "description": "international inbound paid this amount into the business account across 1 payment(s) in 2019",
+  "month": 1,
+  "year": 2019,
+  "date": "2019-01-01"
+ },
+ {
+  "amount": 350.0,
+  "stream": "products",
+  "description": "international inbound paid this amount into the business account across 1 payment(s) in 2017",
+  "month": 1,
+  "year": 2017,
+  "date": "2017-01-01"
+ },
+ {
+  "amount": 12500.0,
+  "stream": "deals",
+  "description": "Information-services invoice",
+  "month": 8,
+  "year": 2020,
+  "date": "2020-08-01"
+ },
+ {
+  "amount": 12000.0,
+  "stream": "deals",
+  "description": "Information-services invoice",
+  "month": 8,
+  "year": 2020,
+  "date": "2020-08-01"
+ },
+ {
+  "amount": 10000.0,
+  "stream": "deals",
+  "description": "MOOD Creative Agency invoice",
+  "month": 1,
+  "year": 2020,
+  "date": "2020-01-01"
+ },
+ {
+  "amount": 7500.0,
+  "stream": "products",
+  "description": "Meta invoice",
+  "month": 6,
+  "year": 2025,
+  "date": "2025-06-01"
+ },
+ {
+  "amount": 1606.47,
+  "stream": "info",
+  "description": "An individual paid for knowledge. Contentpreneur Foundation Kit, Paystack charge.success, gateway response Successful",
+  "month": 6,
+  "year": 2026,
+  "date": "2026-06-01"
+ },
+ {
+  "amount": 10.99,
+  "stream": "info",
+  "description": "An individual paid for knowledge. SARS and Creator Income PDF guide, Paystack charge.success, Approved",
+  "month": 8,
+  "year": 2026,
+  "date": "2026-08-01"
+ },
+ {
+  "amount": 149.0,
+  "stream": "info",
+  "description": "An individual paid for knowledge. What To Post (When You Have No Ideas), Paystack charge.success, Approved",
+  "month": 9,
+  "year": 2026,
+  "date": "2026-09-01"
+ },
+ {
+  "amount": 1606.47,
+  "stream": "info",
+  "description": "A second, different individual paid for knowledge the same night. Contentpreneur Foundation Kit, Paystack charge.success",
+  "month": 6,
+  "year": 2026,
+  "date": "2026-06-01"
+ }
+]

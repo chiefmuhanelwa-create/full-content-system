@@ -6,8 +6,7 @@ import {
   Zap, FileText, BookOpen, Brain, Target, Calendar,
   TrendingUp, MonitorPlay, Repeat, BarChart2, Package,
   Layers, Globe, Mic, BookMarked,
-  ArrowRight, Tv2, PenTool, Star, Archive, Plus, Cpu,
-  FlaskConical
+  ArrowRight, Tv2, PenTool, Star, Archive, Plus, Cpu
 } from 'lucide-react'
 
 function ToolCard({
@@ -229,7 +228,6 @@ export default function DashboardPage() {
           <SectionHeader title="Products & Revenue" sub="PAIDS — 5 income streams" />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
             <ToolCard href="/dashboard/products" icon={Package} name="Products" desc="Full product catalogue — 10 NoChill products" accent="#D97706" />
-            <ToolCard href="/dashboard/product-planning" icon={FlaskConical} name="Product Lab" desc="55 products — draft to live" accent="#2563EB" badge="NEW" />
             <ToolCard href="/dashboard/pitch" icon={Target} name="Pitch Builder" desc="5 Pillars + Ethos-Pathos-Logos by format" accent="#EA580C" />
             <ToolCard href="/dashboard/offers" icon={Star} name="Godfather Offers" desc="Core + bonuses + guarantee + urgency stacked" accent="#D97706" />
             <ToolCard href="/dashboard/cta-optimizer" icon={Zap} name="CTA Optimizer" desc="5 CTA variants with trigger breakdown" accent="#CA8A04" />

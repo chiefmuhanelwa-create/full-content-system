@@ -1,3 +1,9 @@
+> ⛔ **FACT-LOCK 2026-09-17.** This file contained figures that are disproven or banned.
+> Never copy a number out of here without checking
+> `~/Desktop/NOCHILL-OS/02-INFORMATION/PROOF_BANK.csv`.
+> **Never name the employer, workplace or industry.** Governing ICP:
+> `~/Desktop/NOCHILL-OS/02-UNDERSTANDING/audience/U-A-007-icp-by-tier.md`
+
 # NOCHILL PTY LTD — Credibility Report
 ### Ndivhuwo Muhanelwa | Compiled June 2026 from Campaign Email Archive (2020–2026)
 *Source: 840+ campaign emails · 23 agencies · 18 brands · 6 years of receipts*
@@ -17,7 +23,7 @@
 | Suzuki SA | KOW Group | Suzuki Fronx Launch Road Trip | Social posts | Undisclosed | Aug 2023 | Completed |
 | SANParks | KOW Group | Suzuki SANParks Campaign | Social posts | Undisclosed | 2023 | Completed |
 | Mahindra | KOW Group | Mahindra XUV700 Campaign | Social posts | Undisclosed | — | Completed |
-| Netflix | Eclipse Comms | Young Famous & African S2 | Content + memes | Undisclosed | May 2023 | Completed |
+| [⛔ REDACTED 2026-09-17] | Eclipse Comms | Young Famous & African S2 | Content + memes | Undisclosed | May 2023 | Completed |
 | Standard Bank | Webfluential | WalletWise Campaign | IG/TikTok video | Undisclosed | — | Completed |
 | ABSA | Webfluential | ABSA Campaign | IG post | Undisclosed | — | Completed |
 | Showmax | Duma Collective | Life With Kelly Khumalo | Twitter content | Undisclosed | — | Completed |
@@ -36,10 +42,10 @@
 | SA Tourism (Trending Topix) | R10,000 |
 | Superbalist/Takealot Singles' Day | R12,000 |
 | Playa Bets Retainer (ongoing) | R12,500/month |
-| Meta Platform Payouts (12 months) | ~R600,000 |
-| **Total confirmed receipted income (campaigns)** | **R45,000 (campaigns) + R600,000 (Meta) + ongoing retainer** |
+| Meta Platform Payouts (12 months) | ~[⛔ REDACTED 2026-09-17] |
+| **Total confirmed receipted income (campaigns)** | **R45,000 (campaigns) + [⛔ REDACTED 2026-09-17] (Meta) + ongoing retainer** |
 
-**⚠ SARS FIGURE NOTE:** The verified SARS debt figure is **R207,879** (from receipts/NOCHILL SARS tax story). Some sales scripts and marketing content use "R285,000" — this is unverified. Use R207,879 only in all content and copy.
+**⚠ SARS FIGURE NOTE:** The verified SARS debt figure is **R207,879.20** (from receipts/NOCHILL SARS tax story). Some sales scripts and marketing content use "[⛔ REDACTED 2026-09-17]" — this is unverified. Use R207,879.20 only in all content and copy.
 
 ---
 
@@ -53,7 +59,7 @@
 | 4 | R-Squared Agency | Jahno Pieterse | jahno.pieterse@r-squared.agency | Twizza |
 | 5 | Special Effects Media | Palesa Mawasha | palesa@speceffectmedia.co.za | Multiple (IAB SA) |
 | 6 | Webfluential | Rose Choeu | rose@webfluential.co.za | Standard Bank, ABSA, Binomo |
-| 7 | Eclipse Comms | Kylie Reid | kylie@eclipsecomms.com | Netflix (exclusively) |
+| 7 | Eclipse Comms | Kylie Reid | kylie@eclipsecomms.com | [⛔ REDACTED 2026-09-17] (exclusively) |
 | 8 | BCW Global | Siyabonga Thwala | siyabonga.thwala@bcw-global.com | WarnerMedia, TNT Africa |
 | 9 | Atmosphere Communications | Miche Africa | Miche@atmosphere.co.za | Multiple |
 | 10 | Duma Collective | Fifi Seboni | fifi@dumacollective.com | Showmax |
@@ -84,7 +90,7 @@
 | YouTubeBlack Africa Creator Week | YouTube / Google | Featured creator — content livestreamed on Google Africa YouTube channel (2020) |
 | Meta Career Day Fireside Chat | Meta / Clockwork Media | Speaker at Meta Career Day — university audience. Approved by Meta client. |
 | DStv Content Creator Awards | DStv | Engaged — 4th Annual Content Creator Awards (entries open) |
-| Social Media Personality of the Year | Multiple awards bodies | 9 awards in ~8 years (2022 data) |
+| Social Media Personality of the Year | Multiple awards bodies | [⛔ REDACTED 2026-09-17] in ~8 years (2022 data) |
 | CUT FM Radio Interview | CUT FM | Transcript in Knowledge Base |
 
 ---
@@ -111,22 +117,22 @@
 | First big single-campaign cheque | ~R50,000 | 2021 |
 | Capitec campaign | R10,500 | 2026 |
 | SA Tourism campaign | R10,000 | — |
-| Meta platform payouts (12 months) | ~R600,000 | 2023 |
-| SARS tax debt (verified — use this figure only) | R207,879 | — |
+| Meta platform payouts (12 months) | ~[⛔ REDACTED 2026-09-17] | 2023 |
+| SARS tax debt (verified — use this figure only) | R207,879.20 | — |
 | Playa Bets retainer | R12,500/month | 2025–2026 |
-| Claimed monthly revenue (2026 — from sales content) | R300,000+/month | 2026 |
+| Claimed monthly revenue (2026 — from sales content) | [⛔ REDACTED 2026-09-17]/month | 2026 |
 
 ---
 
 ## SECTION 6: PROOF STATEMENT (USE IN COPY)
 
-> "From sleeping in university bathrooms to R600,000+ in a single year — with receipts from Capitec, Netflix, Standard Bank, Superbalist, Suzuki, SA Tourism, ABSA, Showmax, Flying Fish, and 40+ other brands — across 23 agencies, 9 awards, a SAMA31 judge seat, and a Meta speaker slot."
+> "From sleeping in university bathrooms to [⛔ REDACTED 2026-09-17] in a single year — with receipts from Capitec, [⛔ REDACTED 2026-09-17], Standard Bank, Superbalist, Suzuki, SA Tourism, ABSA, Showmax, Flying Fish, and 40+ other brands — across 23 agencies, [⛔ REDACTED 2026-09-17], a SAMA31 judge seat, and a Meta speaker slot."
 
 **Short version (for hooks):**
-> "R600K in 12 months. 50+ brand deals. 9 awards. All from a phone and a bathroom floor."
+> "[⛔ REDACTED 2026-09-17] in 12 months. 19 named brands. [⛔ REDACTED 2026-09-17]. All from a phone and a bathroom floor."
 
 **Named brands (confirmed from email archive):**
-Capitec · Netflix · Standard Bank (WalletWise) · ABSA · Superbalist · Takealot · MrD Food · Suzuki SA · FlySafair · SANParks · Showmax · Flying Fish (AB InBev) · South African Tourism · Mahindra · Solidarity Fund · WarnerMedia (TNT Africa) · Hungry Lion · No Hair · Barbed Era
+Capitec · [⛔ REDACTED 2026-09-17] · Standard Bank (WalletWise) · ABSA · Superbalist · Takealot · MrD Food · Suzuki SA · FlySafair · SANParks · Showmax · Flying Fish (AB InBev) · South African Tourism · Mahindra · Solidarity Fund · WarnerMedia (TNT Africa) · Hungry Lion · No Hair · Barbed Era
 
 ---
 

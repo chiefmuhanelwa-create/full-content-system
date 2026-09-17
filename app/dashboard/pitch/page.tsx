@@ -167,7 +167,7 @@ export default function PitchBuilderPage() {
                 </Label>
                 <Textarea
                   id="proof"
-                  placeholder="Example: 50K followers, 2M+ monthly impressions, 8% average engagement rate, worked with 15+ brands including..."
+                  placeholder="Only what has a receipt. e.g. 19 named brands, 23 agencies · R15,000 standing rate costed at R45,000 (April 2020) · R23,524 affiliate commission, March 2019 · two published books. Never a follower total, never an engagement rate, never an award count."
                   rows={3}
                   value={formData.proof}
                   onChange={(e) => setFormData({ ...formData, proof: e.target.value })}

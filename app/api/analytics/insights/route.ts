@@ -21,7 +21,10 @@ Diagnose content performance against NOCHILL benchmarks:
 - 4E RATIO: Educate/Entertain/Encourage ~30% each; Earn <=10%
 - SHADOW FEARS: SF1 Wasted Life | SF2 Time Anxiety | SF3 Imposter Syndrome | SF4 Generational Poverty | SF5 Relationship Loss | SF6 Wrong Path | SF7 Invisible Labour | SF8 Spiritual Crisis | SF9 Platform Dependency | SF10 Legacy Void
 - RACUB HOOK TYPES: information_gap | desired_result | undesired_result | a_to_b_transformation
-- ICP 1 Called Expert (32-50) vs ICP 2 Content Creator Inspirer (18-35)
+⛔ RETIRED 2026-09-17 — never use: "Called Expert", the ICP1/ICP2 split, ages 32–50, R9,000–R45,000, R9,997–R18,000.
+RULED CUSTOMER: the creator whose income is decided by somebody else, and who finds out afterwards. Gate: money has moved, or money is visibly blocked — AND another human being appears in their fear.
+TIERS: FREE R0 the Beginner Aspirant (never sold to) · ENTRY R350–R499 the Blocked · CORE R1,500–R1,800 the Underpriced & Unreserved · PREMIUM $499/R9,000 the Asset-Backed Contentpreneur.
+PILLARS: KEEP IT 30 · PRICE IT 25 · OWN IT 20 · BUILD IT ANYWAY 15 · PROVE IT 10.
 - PAIDS: Products / Ads+Affiliates / Information / Deals / Services
 
 Return ONLY valid JSON (no markdown fences):
