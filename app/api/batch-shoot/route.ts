@@ -85,7 +85,7 @@ Return ONE JSON object, no prose, no fence:
 }`
 
   const out = await generate({
-    prompt, system, pillar, tier, tier_of: 'main', maxTokens: 8000, temperature: 0.8,
+    prompt, system, pillar, tier, tier_of: 'main', maxTokens: 8000,
   })
 
   let bundle: any = null

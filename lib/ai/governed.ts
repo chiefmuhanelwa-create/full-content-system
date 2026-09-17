@@ -42,19 +42,27 @@ export type GovernedOpts = {
   tier?: string
   tier_of?: 'fast' | 'main' | 'deep'
   maxTokens?: number
+  /** Accepted for call-site compatibility; never sent — deprecated on current models. */
   temperature?: number
   /** Set false for pure analysis (no claims made), which skips the repair pass. */
   enforceFactLock?: boolean
 }
 
-async function callModel(model: string, system: string, prompt: string, maxTokens: number, temperature: number) {
-  const res: any = await anthropic.messages.create({
+async function callModel(model: string, system: string, prompt: string, maxTokens: number) {
+  // Streaming, not a single blocking POST. A non-streamed request with a large system prompt
+  // and a high max_tokens holds the connection open long enough that the hop in front of it
+  // closes the body early — surfacing as "Premature close" with no useful detail. The SDK
+  // recommends streaming for exactly this, and .finalMessage() still gives one whole result.
+  //
+  // `temperature` is deprecated on current Claude models and is rejected outright, so it is
+  // never sent. Determinism is steered through the prompt instead.
+  const stream = (anthropic as any).messages.stream({
     model,
     max_tokens: maxTokens,
-    temperature,
     system,
     messages: [{ role: 'user', content: prompt }],
   })
+  const res: any = await stream.finalMessage()
   return (res.content ?? [])
     .filter((b: any) => b.type === 'text')
     .map((b: any) => b.text)
@@ -66,7 +74,6 @@ export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
   const model = MODEL[opts.tier_of ?? 'main']
   const enforce = opts.enforceFactLock !== false
   const maxTokens = opts.maxTokens ?? 4000
-  const temperature = opts.temperature ?? 0.7
 
   const g = await getGovernance()
   const doctrine = await governanceForPrompt({ pillar: opts.pillar, tier: opts.tier })
@@ -77,7 +84,7 @@ export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
     opts.system ?? '',
   ].filter(Boolean).join('\n\n---\n\n')
 
-  let text = await callModel(model, system, opts.prompt, maxTokens, temperature)
+  let text = await callModel(model, system, opts.prompt, maxTokens)
   let repaired = false
   let fl = check(text)
 
@@ -95,7 +102,7 @@ YOUR PREVIOUS OUTPUT:
 ${text}
 
 Return only the corrected version, nothing else.`
-    text = await callModel(model, system, repairPrompt, maxTokens, 0.4)
+    text = await callModel(model, system, repairPrompt, maxTokens)
     repaired = true
     fl = check(text)
   }
@@ -134,7 +141,7 @@ export async function analyse<T = any>(opts: {
     `Reply with ONE valid JSON object and nothing else. No prose, no markdown fence.\nShape: ${opts.schemaHint}`,
   ].filter(Boolean).join('\n\n---\n\n')
 
-  const raw = await callModel(model, system, opts.prompt, opts.maxTokens ?? 3000, 0.2)
+  const raw = await callModel(model, system, opts.prompt, opts.maxTokens ?? 3000)
   let data: T | null = null
   try {
     const m = raw.match(/\{[\s\S]*\}/)

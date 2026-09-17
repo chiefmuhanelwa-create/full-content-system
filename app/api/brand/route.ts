@@ -160,7 +160,7 @@ Rules for the reply:
 - Sign off as Ndivhuwo.
 
 Return the email only.`,
-      tier_of: 'main', maxTokens: 1200, temperature: 0.5,
+      tier_of: 'main', maxTokens: 1200,
     })
     return NextResponse.json({ success: true, draft: out.text, factLock: out.factLock,
       checklist: gov.agency_intel?.theyAskFor ?? [] })
