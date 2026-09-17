@@ -63,6 +63,17 @@ async function classify(items: { id: string; caption: string }[], pillars: strin
 }
 
 export async function POST(request: NextRequest) {
+  try {
+    return await runSync(request)
+  } catch (e: any) {
+    return NextResponse.json({
+      error: e?.message || 'Instagram sync failed.',
+      hint: 'If this mentions an access token, it has expired. Refresh it at graph.instagram.com/refresh_access_token and update INSTAGRAM_ACCESS_TOKEN.',
+    }, { status: 502 })
+  }
+}
+
+async function runSync(request: NextRequest) {
   const dbError = checkDatabase()
   if (dbError) return dbError
 
@@ -79,11 +90,13 @@ export async function POST(request: NextRequest) {
     source = 'imported payload'
   } else if (token) {
     const limit = Number(body?.limit ?? 50)
-    const j = await fetchJson(`${BASE}/${GV}/me/media?fields=${MEDIA_FIELDS}&limit=${limit}&access_token=${token}`)
+    // `me` is not valid for every token type; the explicit user id always is.
+    const who = process.env.INSTAGRAM_USER_ID || 'me'
+    const j = await fetchJson(`${BASE}/${GV}/${who}/media?fields=${MEDIA_FIELDS}&limit=${limit}&access_token=${token}`)
     media = j.data || []
     source = 'graph.instagram.com'
     try {
-      profile = await fetchJson(`${BASE}/${GV}/me?fields=username,followers_count,follows_count,media_count&access_token=${token}`)
+      profile = await fetchJson(`${BASE}/${GV}/${who}?fields=username,followers_count,follows_count,media_count&access_token=${token}`)
     } catch {}
   } else {
     return NextResponse.json({
