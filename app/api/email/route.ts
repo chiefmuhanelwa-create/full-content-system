@@ -18,6 +18,7 @@ import { getGovernance, OWNER } from '@/lib/governance'
 import { buildGovernedSystemPrompt } from '@/lib/skills'
 import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
+import { extractJson } from '@/lib/json-extract'
 
 const ML = 'https://connect.mailerlite.com/api'
 
@@ -96,9 +97,15 @@ Return ONE JSON object:
       system, pillar, tier, tier_of: 'main', maxTokens: 3000,
     })
 
-    let email: any = null
-    try { const m = out.text.match(/\{[\s\S]*\}/); email = m ? JSON.parse(m[0]) : null } catch {}
-    if (!email) return NextResponse.json({ error: 'Model did not return usable JSON.', raw: out.text.slice(0, 800) }, { status: 502 })
+    const ex = extractJson<any>(out.text)
+    const email = ex.data
+    if (!email) {
+      return NextResponse.json({
+        error: 'The model did not return usable JSON.',
+        diagnosis: ex.truncated ? 'The response was cut off at the token limit.' : 'No JSON object found.',
+        raw: out.text.slice(0, 1500),
+      }, { status: 502 })
+    }
 
     const fl = check(`${email.subjectLines?.join(' ')} ${email.preheader} ${email.body}`)
     return NextResponse.json({

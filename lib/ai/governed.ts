@@ -18,6 +18,7 @@
 import { anthropic } from '@/lib/claude'
 import { check, banListForPrompt, verdict, type Hit } from '@/lib/fact-lock'
 import { governanceForPrompt, getGovernance } from '@/lib/governance'
+import { extractJson } from '@/lib/json-extract'
 
 export const MODEL = {
   fast: process.env.AI_MODEL_FAST || 'claude-haiku-4-5-20251001',
@@ -142,10 +143,6 @@ export async function analyse<T = any>(opts: {
   ].filter(Boolean).join('\n\n---\n\n')
 
   const raw = await callModel(model, system, opts.prompt, opts.maxTokens ?? 3000)
-  let data: T | null = null
-  try {
-    const m = raw.match(/\{[\s\S]*\}/)
-    data = m ? JSON.parse(m[0]) : null
-  } catch { data = null }
+  const { data } = extractJson<T>(raw)
   return { data, raw, model }
 }

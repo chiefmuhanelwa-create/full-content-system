@@ -23,6 +23,7 @@ import { getGovernance, OWNER, normalisePillars } from '@/lib/governance'
 import { buildGovernedSystemPrompt } from '@/lib/skills'
 import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
+import { extractJson } from '@/lib/json-extract'
 
 function pickCta(gov: any, pillar?: string) {
   const lib = gov.cta_library?.keywords ?? []
@@ -88,16 +89,16 @@ Return ONE JSON object, no prose, no fence:
     prompt, system, pillar, tier, tier_of: 'main', maxTokens: 8000,
   })
 
-  let bundle: any = null
-  try {
-    const m = out.text.match(/\{[\s\S]*\}/)
-    bundle = m ? JSON.parse(m[0]) : null
-  } catch { bundle = null }
+  const ex = extractJson<any>(out.text)
+  const bundle = ex.data
 
   if (!bundle) {
     return NextResponse.json({
       error: 'The model did not return usable JSON.',
-      factLock: out.factLock, raw: out.text.slice(0, 1200),
+      diagnosis: ex.truncated
+        ? 'The response was cut off at the token limit. Try a shorter runtime.'
+        : 'No JSON object was found in the response.',
+      factLock: out.factLock, raw: out.text.slice(0, 1500),
     }, { status: 502 })
   }
 

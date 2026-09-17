@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { jsonMatch as findJson } from '@/lib/json-extract'
 
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)
@@ -64,7 +65,7 @@ Be specific and immediately actionable. These suggestions should help create con
     const responseText = message.content[0].type === 'text' ? message.content[0].text : ''
 
     // Extract JSON from response
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/)
+    const jsonMatch = findJson(responseText)
     const suggestions = jsonMatch ? JSON.parse(jsonMatch[0]) : {}
 
     return NextResponse.json({ suggestions })

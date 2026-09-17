@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { buildBatchSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { jsonMatch as findJson } from '@/lib/json-extract'
 
 // Two-pass JSON parse — escapes literal newlines inside string values
 function safeParseJSON(raw: string): any {
@@ -229,7 +230,7 @@ Now generate all ${numPosts} plan items. Every day. No gaps.`
     const responseText = message.content[0].type === 'text' ? message.content[0].text : ''
 
     // Extract JSON from response
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/)
+    const jsonMatch = findJson(responseText)
     if (!jsonMatch) {
       return NextResponse.json({ error: 'AI returned no JSON. Please try again.' }, { status: 500 })
     }

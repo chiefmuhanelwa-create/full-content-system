@@ -4,6 +4,7 @@ import { buildSystemPrompt, buildUserContextPrompt } from '@/lib/knowledge-base'
 import { buildGovernedSystemPrompt } from '@/lib/skills'
 import { check, verdict } from '@/lib/fact-lock'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { jsonMatch as findJson } from '@/lib/json-extract'
 
 function closeHooksJSON(raw: string): string {
   const stack: string[] = []
@@ -257,7 +258,7 @@ OUTPUT FORMAT: Return ONLY a valid JSON object. Each hook is an object with: "ve
     try {
       const raw = content.text
         .replace(/^```json\s*/m, '').replace(/^```\s*/m, '').replace(/\s*```$/m, '').trim()
-      const jsonMatch = raw.match(/\{[\s\S]*\}/)
+      const jsonMatch = findJson(raw)
       const jsonStr = jsonMatch ? jsonMatch[0] : raw
       let parsed: any
       try {

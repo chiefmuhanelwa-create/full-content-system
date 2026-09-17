@@ -12,6 +12,7 @@ import { getGovernance, OWNER } from '@/lib/governance'
 import { buildGovernedSystemPrompt } from '@/lib/skills'
 import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
+import { extractJson } from '@/lib/json-extract'
 
 export async function POST(request: NextRequest) {
   const { idea, pillar, tier, slides = 8 } = await request.json()
@@ -41,12 +42,20 @@ RULES:
 
 Return ONE JSON object, no prose:
 {"slides":[{"n":1,"headline":"...","body":"..."}],"caption":"...","ctaKeyword":"${cta?.k ?? 'NONE'}","designNote":"one line on the visual treatment"}`,
-    system, pillar, tier, tier_of: 'main', maxTokens: 3000,
+    system, pillar, tier, tier_of: 'main', maxTokens: 6000,
   })
 
-  let deck: any = null
-  try { const m = out.text.match(/\{[\s\S]*\}/); deck = m ? JSON.parse(m[0]) : null } catch {}
-  if (!deck) return NextResponse.json({ error: 'Model did not return usable JSON.', raw: out.text.slice(0, 800) }, { status: 502 })
+  const ex = extractJson<any>(out.text)
+  const deck = ex.data
+  if (!deck) {
+    return NextResponse.json({
+      error: 'The model did not return usable JSON.',
+      diagnosis: ex.truncated
+        ? 'The response was cut off at the token limit. Try fewer slides.'
+        : 'No JSON object was found in the response.',
+      raw: out.text.slice(0, 1500),
+    }, { status: 502 })
+  }
 
   const fl = check([deck.caption, ...(deck.slides ?? []).map((s: any) => `${s.headline} ${s.body}`)].join('\n'))
 

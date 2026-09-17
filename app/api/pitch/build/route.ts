@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { buildSystemPrompt } from '@/lib/knowledge-base'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { jsonMatch as findJson } from '@/lib/json-extract'
 
 const PITCH_BUILDER_RULES = `## PITCH BUILDER — SPECIFIC OUTPUT RULES
 
@@ -117,7 +118,7 @@ Create a complete pitch with all 5 pillars filled out professionally, plus 3 var
     // Parse the JSON response
     let result: any
     try {
-      const jsonMatch = content.text.match(/\{[\s\S]*\}/)
+      const jsonMatch = findJson(content.text)
       if (jsonMatch) {
         result = JSON.parse(jsonMatch[0])
       } else {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { buildSystemPrompt } from '@/lib/knowledge-base'
+import { jsonMatch as findJson } from '@/lib/json-extract'
 
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)
@@ -110,7 +111,7 @@ Return ONLY a JSON object:
 
     let adapterOutput
     try {
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/)
+      const jsonMatch = findJson(responseText)
       adapterOutput = jsonMatch ? JSON.parse(jsonMatch[0]) : JSON.parse(responseText)
     } catch {
       return NextResponse.json({ error: 'Failed to parse adapter output. Please try again.' }, { status: 500 })

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { jsonMatch as findJson } from '@/lib/json-extract'
 
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)
@@ -49,7 +50,7 @@ ${JSON.stringify(performanceData, null, 2)}`
 
     const responseText = message.content[0].type === 'text' ? message.content[0].text : ''
 
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/)
+    const jsonMatch = findJson(responseText)
     const insights = jsonMatch ? JSON.parse(jsonMatch[0]) : { recommendations: [] }
 
     return NextResponse.json({ insights })

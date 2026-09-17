@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { anthropic, MODELS } from '@/lib/claude'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { jsonMatch as findJson } from '@/lib/json-extract'
 
 export async function POST(request: NextRequest) {
   const rl = checkRateLimit(request)
@@ -109,7 +110,7 @@ RUNSHEET RULES:
       .replace(/\s*```$/m, '')
       .trim()
 
-    const jsonMatch = cleaned.match(/\{[\s\S]*\}/)
+    const jsonMatch = findJson(cleaned)
     const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : cleaned)
 
     return NextResponse.json({ success: true, ...parsed })
