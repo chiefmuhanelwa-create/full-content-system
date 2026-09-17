@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -17,7 +17,7 @@ const FORMATS = [
   { k: 'explainer', n: 'Explainer' }, { k: 'storytelling', n: 'Story arc' },
 ]
 
-export default function ScriptsPage() {
+function ScriptWriter() {
   const params = useSearchParams()
   const [idea, setIdea] = useState('')
   const [hook, setHook] = useState('')
@@ -197,5 +197,18 @@ export default function ScriptsPage() {
         </>
       )}
     </div>
+  )
+}
+
+/**
+ * useSearchParams() opts the tree into client-side rendering, so Next requires a Suspense
+ * boundary or the production prerender fails. A local build can miss this when .next is
+ * warm — only a clean build reproduces it.
+ */
+export default function ScriptsPage() {
+  return (
+    <Suspense fallback={<div className="py-20 text-center text-sm text-muted-foreground">Loading…</div>}>
+      <ScriptWriter />
+    </Suspense>
   )
 }
