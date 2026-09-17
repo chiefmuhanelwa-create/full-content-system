@@ -19,6 +19,9 @@ import { check } from '@/lib/fact-lock'
 import { analyse } from '@/lib/ai/governed'
 import { getGovernance, OWNER, normalisePillars } from '@/lib/governance'
 
+/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
+export const maxDuration = 300
+
 const GV = process.env.INSTAGRAM_GRAPH_VERSION || 'v26.0'
 const BASE = 'https://graph.instagram.com'
 

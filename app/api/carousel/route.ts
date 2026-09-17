@@ -14,6 +14,9 @@ import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 
+/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
+export const maxDuration = 300
+
 export async function POST(request: NextRequest) {
   const { idea, pillar, tier, slides = 8 } = await request.json()
   if (!idea?.trim()) return NextResponse.json({ error: 'An idea is required.' }, { status: 400 })

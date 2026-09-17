@@ -22,6 +22,9 @@ import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 import { logActivity } from '@/lib/activity'
 
+/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
+export const maxDuration = 300
+
 export async function POST(request: NextRequest) {
   const {
     idea, hook, pillar, tier, duration = '90s', format = 'personal', platform = 'reel',

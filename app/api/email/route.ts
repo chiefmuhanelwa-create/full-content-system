@@ -20,6 +20,9 @@ import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 
+/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
+export const maxDuration = 300
+
 const ML = 'https://connect.mailerlite.com/api'
 
 function mlHeaders() {

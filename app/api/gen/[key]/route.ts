@@ -15,6 +15,9 @@ import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 import { logActivity, type Entity } from '@/lib/activity'
 
+/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
+export const maxDuration = 300
+
 const ENTITY: Record<string, Entity> = {
   captions: 'caption', repurpose: 'script', storytelling: 'story', fears: 'governance',
   runsheet: 'shoot', pitch: 'script', offers: 'script', visuals: 'shoot',

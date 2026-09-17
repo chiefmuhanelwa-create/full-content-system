@@ -19,6 +19,9 @@ import { prisma, checkDatabase } from '@/lib/db-helper'
 import { getGovernance, OWNER } from '@/lib/governance'
 import { generate, analyse } from '@/lib/ai/governed'
 
+/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
+export const maxDuration = 300
+
 /** Live account numbers. Falls back to the ruled figures if no sync has run. */
 async function accountNumbers() {
   const gov = await getGovernance()

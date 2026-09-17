@@ -31,7 +31,7 @@ export type GovernedResult = {
   blocked: boolean
   factLock: { clean: boolean; banned: Hit[]; careful: Hit[]; verdict: string }
   repaired: boolean
-  meta: { model: string; pillar?: string; tier?: string; governance: string; ms: number }
+  meta: { model: string; pillar?: string; tier?: string; governance: string; ms: number; stopReason?: string | null }
 }
 
 export type GovernedOpts = {
@@ -77,10 +77,23 @@ async function callModel(model: string, system: string, prompt: string, maxToken
     messages: [{ role: 'user', content: sanitiseForModel(prompt) }],
   })
   const res: any = await stream.finalMessage()
-  return (res.content ?? [])
+  const text = (res.content ?? [])
     .filter((b: any) => b.type === 'text')
     .map((b: any) => b.text)
     .join('')
+  return { text, stopReason: res.stop_reason ?? null }
+}
+
+/**
+ * A stream occasionally completes carrying no text at all — measured at roughly one call in
+ * three on some prompts. It is not a content problem: the same input succeeds on retry. One
+ * automatic retry turns an intermittent 502 into a slightly slower success.
+ */
+async function callModelWithRetry(model: string, system: string, prompt: string, maxTokens: number) {
+  let last = await callModel(model, system, prompt, maxTokens)
+  if (last.text.trim()) return last
+  last = await callModel(model, system, prompt, maxTokens)
+  return last
 }
 
 export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
@@ -98,7 +111,9 @@ export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
     opts.system ?? '',
   ].filter(Boolean).join('\n\n---\n\n')
 
-  let text = await callModel(model, system, opts.prompt, maxTokens)
+  const first = await callModelWithRetry(model, system, opts.prompt, maxTokens)
+  let text = first.text
+  const stopReason = first.stopReason
   let repaired = false
   let fl = check(text)
 
@@ -116,7 +131,7 @@ YOUR PREVIOUS OUTPUT:
 ${text}
 
 Return only the corrected version, nothing else.`
-    text = await callModel(model, system, repairPrompt, maxTokens)
+    text = (await callModelWithRetry(model, system, repairPrompt, maxTokens)).text
     repaired = true
     fl = check(text)
   }
@@ -131,6 +146,7 @@ Return only the corrected version, nothing else.`
       pillar: opts.pillar,
       tier: opts.tier,
       governance: String(g._source ?? 'unknown'),
+      stopReason,
       ms: Date.now() - started,
     },
   }
@@ -155,7 +171,7 @@ export async function analyse<T = any>(opts: {
     `Reply with ONE valid JSON object and nothing else. No prose, no markdown fence.\nShape: ${opts.schemaHint}`,
   ].filter(Boolean).join('\n\n---\n\n')
 
-  const raw = await callModel(model, system, opts.prompt, opts.maxTokens ?? 3000)
+  const raw = (await callModelWithRetry(model, system, opts.prompt, opts.maxTokens ?? 3000)).text
   const { data } = extractJson<T>(raw)
   return { data, raw, model }
 }
