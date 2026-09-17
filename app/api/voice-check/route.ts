@@ -38,7 +38,9 @@ export async function POST(request: NextRequest) {
   const shortShare = lens.length ? +((lens.filter((n) => n <= 6).length / lens.length) * 100).toFixed(1) : 0
 
   const lower = String(text).toLowerCase()
-  const slopFound = slop.filter((w) => new RegExp(`\\b${w}\\b`, 'i').test(lower))
+  // Match the stem, not the exact word — "delved" and "delving" are the same tell as "delve".
+  const stem = (w: string) => w.replace(/e$/, '')
+  const slopFound = slop.filter((w) => new RegExp(`\\b${stem(w)}(e|ed|es|ing|s)?\\b`, 'i').test(lower))
 
   // SA money format: R199 and R1,800 are right; "R 199" and "R199.00" are not.
   const badMoney = Array.from(String(text).matchAll(/R\s+\d|R\d+\.\d{2}\b/g)).map((m) => m[0])

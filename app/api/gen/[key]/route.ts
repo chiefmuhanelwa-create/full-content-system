@@ -33,7 +33,18 @@ function allText(v: any, acc: string[] = []): string[] {
 }
 
 export async function POST(request: NextRequest, { params }: { params: { key: string } }) {
-  const key = params.key
+  try {
+    return await run(request, params.key)
+  } catch (e: any) {
+    // A thrown handler returns a bare 500 with no body — nothing to act on. Say what broke.
+    return NextResponse.json({
+      error: e?.message || 'The generator failed.',
+      hint: 'If this mentions a timeout, the piece is too long for one pass — try a shorter runtime or fewer items.',
+    }, { status: 502 })
+  }
+}
+
+async function run(request: NextRequest, key: string) {
   const spec = SPECS[key]
   if (!spec) return NextResponse.json({ error: `Unknown generator "${key}".` }, { status: 404 })
 
