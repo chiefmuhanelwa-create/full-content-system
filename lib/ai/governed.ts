@@ -85,15 +85,24 @@ async function callModel(model: string, system: string, prompt: string, maxToken
 }
 
 /**
- * A stream occasionally completes carrying no text at all — measured at roughly one call in
- * three on some prompts. It is not a content problem: the same input succeeds on retry. One
- * automatic retry turns an intermittent 502 into a slightly slower success.
+ * An empty completion has two very different causes, and retrying only helps one of them:
+ *   - the stream genuinely returned nothing (fast, and a retry fixes it)
+ *   - the serverless function was killed mid-stream at the plan's duration ceiling (slow,
+ *     and a retry guarantees a second kill)
+ * So retry ONLY when the first attempt came back quickly. Anything slower is a timeout
+ * wearing an empty-response costume, and the honest move is to say so.
  */
+const RETRY_IF_FASTER_THAN_MS = 20_000
+
 async function callModelWithRetry(model: string, system: string, prompt: string, maxTokens: number) {
-  let last = await callModel(model, system, prompt, maxTokens)
-  if (last.text.trim()) return last
-  last = await callModel(model, system, prompt, maxTokens)
-  return last
+  const t0 = Date.now()
+  const first = await callModel(model, system, prompt, maxTokens)
+  const elapsed = Date.now() - t0
+  if (first.text.trim()) return first
+  if (elapsed > RETRY_IF_FASTER_THAN_MS) {
+    return { ...first, timedOut: true as const }
+  }
+  return await callModel(model, system, prompt, maxTokens)
 }
 
 export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
@@ -113,7 +122,7 @@ export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
 
   const first = await callModelWithRetry(model, system, opts.prompt, maxTokens)
   let text = first.text
-  const stopReason = first.stopReason
+  const stopReason = (first as any).timedOut ? 'function_timeout' : first.stopReason
   let repaired = false
   let fl = check(text)
 

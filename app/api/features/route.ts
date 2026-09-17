@@ -35,7 +35,7 @@ const META: Record<string, Meta> = {
   // ── AUDIENCE ──
   'icp-pain-library': { name: 'ICP Pain Library', cat: 'Audience', icon: 'Target', accent: 'blue', solves: 'The four ruled tiers in their own words.', stage: 'Research' },
   'fears':         { name: 'Fear Analyzer', cat: 'Audience', icon: 'Brain', accent: 'violet', solves: '~17 of 61 named provision as their deepest fear — the gate question.', stage: 'Research' },
-  'brand-voice':   { name: 'Brand Voice', cat: 'Audience', icon: 'Mic', accent: 'slate', solves: 'Median sentence 5 words. 57.2% are six or fewer. Measured, not described.', stage: 'Research' },
+  'brand-voice':   { name: 'Voice Check', cat: 'Governance', icon: 'Mic', accent: 'rose', solves: 'Median sentence length, slop words, SA spelling and ZAR format — all arithmetic, so no model is called.', stage: 'Governance' },
 
   // ── PLANNING ──
   'the-week':      { name: 'The Week', cat: 'Planning', icon: 'CalendarRange', accent: 'blue', solves: 'One pillar per week, five-week rotation. Decides which job, when.', stage: 'Planning' },

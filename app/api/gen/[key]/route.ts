@@ -15,8 +15,9 @@ import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 import { logActivity, type Entity } from '@/lib/activity'
 
-/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
-export const maxDuration = 300
+/** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
+ * exactly like a model failure — that is what made this hard to see. */
+export const maxDuration = 60
 
 const ENTITY: Record<string, Entity> = {
   captions: 'caption', repurpose: 'script', storytelling: 'story', fears: 'governance',
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest, { params }: { params: { key: st
 
   const out = await generate({
     prompt: `${built.prompt}\n\nReturn ONE JSON object, no prose, no fence.\nShape: ${built.schemaHint}`,
-    system, pillar: input.pillar, tier: input.tier, tier_of: 'main', maxTokens: 5000,
+    system, pillar: input.pillar, tier: input.tier, tier_of: 'main', maxTokens: 3000,
   })
 
   const { data } = extractJson<any>(out.text)

@@ -19,8 +19,9 @@ import { prisma, checkDatabase } from '@/lib/db-helper'
 import { getGovernance, OWNER } from '@/lib/governance'
 import { generate, analyse } from '@/lib/ai/governed'
 
-/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
-export const maxDuration = 300
+/** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
+ * exactly like a model failure — that is what made this hard to see. */
+export const maxDuration = 60
 
 /** Live account numbers. Falls back to the ruled figures if no sync has run. */
 async function accountNumbers() {

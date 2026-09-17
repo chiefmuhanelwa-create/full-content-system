@@ -19,8 +19,9 @@ import { check } from '@/lib/fact-lock'
 import { analyse } from '@/lib/ai/governed'
 import { getGovernance, OWNER, normalisePillars } from '@/lib/governance'
 
-/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
-export const maxDuration = 300
+/** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
+ * exactly like a model failure — that is what made this hard to see. */
+export const maxDuration = 60
 
 const GV = process.env.INSTAGRAM_GRAPH_VERSION || 'v26.0'
 const BASE = 'https://graph.instagram.com'

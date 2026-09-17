@@ -20,8 +20,9 @@ import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 
-/** Generation regularly runs past the default ceiling; a truncated function reads as an empty model response. */
-export const maxDuration = 300
+/** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
+ * exactly like a model failure — that is what made this hard to see. */
+export const maxDuration = 60
 
 const ML = 'https://connect.mailerlite.com/api'
 

@@ -1,154 +1,92 @@
 'use client'
 
 import { useState } from 'react'
-import { Mic, CheckCircle, AlertCircle, Sparkles } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Textarea } from '@/components/ui/textarea'
+import { Mic, Loader2, Check, X } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
 
-interface VoiceAnalysis {
-  tone: string
-  consistency: number
-  suggestions: string[]
-  alignmentScore: number
-}
-
 export default function BrandVoicePage() {
-  const [brandVoice, setBrandVoice] = useState('')
-  const [contentSamples, setContentSamples] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [analysis, setAnalysis] = useState<VoiceAnalysis | null>(null)
-  const [error, setError] = useState('')
+  const [text, setText] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [d, setD] = useState<any>(null)
 
-  const handleAnalyze = async () => {
-    if (!brandVoice.trim() || !contentSamples.trim()) {
-      setError('Fill in both fields before analysing')
-      return
-    }
-    setError('')
-    setLoading(true)
+  const run = async () => {
+    if (!text.trim()) return
+    setBusy(true); setD(null)
     try {
-      const response = await fetch('/api/brand-voice/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ brandVoice, contentSamples }),
+      const r = await fetch('/api/voice-check', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }),
       })
-      if (response.ok) {
-        const data = await response.json()
-        setAnalysis(data.analysis)
-      }
-    } catch (error) {
-      console.error('Error:', error)
-    } finally {
-      setLoading(false)
-    }
+      setD(await r.json())
+    } finally { setBusy(false) }
   }
 
-  const scoreColor = analysis
-    ? analysis.alignmentScore >= 70 ? '#16a34a' : '#D4541F'
-    : '#2563EB'
-
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
+    <div className="space-y-6">
       <ToolPageHeader
+        eyebrow="100% COMPUTED"
+        title="Voice Check"
+        description="Median sentence 5 words. 57.2% six or fewer. These are arithmetic, so they are measured here — no model is called."
         icon={Mic}
-        iconColor="text-purple-500"
-        eyebrow="Audience"
-        title="Brand Voice"
-        description="Score content against your voice profile — then rewrite anything that's off-brand."
       />
 
-      <div className="px-6 py-8">
-        <div className="grid lg:grid-cols-2 gap-6">
+      <Card>
+        <CardContent className="space-y-3 pt-6">
+          <Textarea value={text} onChange={e => setText(e.target.value)}
+            placeholder="Paste a caption, script or email…" className="min-h-[180px]" />
+          <Button onClick={run} disabled={busy || !text.trim()}>
+            {busy ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Measuring…</> : 'Measure it'}
+          </Button>
+        </CardContent>
+      </Card>
 
-          {/* Input */}
-          <div className="nc-tool-section space-y-5">
-            <div>
-              <p className="nc-eyebrow mb-0.5">Input</p>
-              <h2 className="font-display font-black text-[#18181B] text-lg leading-none">Define Your Voice</h2>
-            </div>
-
-            <div className="nc-form-row">
-              <label htmlFor="brandVoice">Your Brand Voice</label>
-              <textarea
-                id="brandVoice"
-                className="nc-tool-input min-h-[140px] resize-y"
-                value={brandVoice}
-                onChange={(e) => setBrandVoice(e.target.value)}
-                placeholder="Direct, no-nonsense, empowering. Anti-guru. Tough-love mentor. Short punchy sentences. SA context. Always speaks to 'you' directly. Never corporate."
-              />
-            </div>
-
-            <div className="nc-form-row">
-              <label htmlFor="contentSamples">Content to Analyse</label>
-              <textarea
-                id="contentSamples"
-                className="nc-tool-input min-h-[180px] resize-y"
-                value={contentSamples}
-                onChange={(e) => setContentSamples(e.target.value)}
-                placeholder="Paste the content you want to check for voice consistency..."
-              />
-            </div>
-
-            {error && <div className="nc-error">{error}</div>}
-
-            <button onClick={handleAnalyze} disabled={loading} className="nc-generate-btn">
-              {loading ? <><Sparkles className="h-4 w-4 animate-spin" /> Analysing Voice...</> : <><Mic className="h-4 w-4" /> Check Voice Consistency</>}
-            </button>
+      {d?.checks && (
+        <>
+          <div className="grid gap-3 sm:grid-cols-4">
+            {[
+              { l: 'Score', v: d.score + '%' }, { l: 'Median sentence', v: d.stats.medianSentence + 'w' },
+              { l: 'Six or fewer', v: d.stats.sixOrFewerPct + '%' }, { l: 'Sentences', v: d.stats.sentences },
+            ].map(c => (
+              <Card key={c.l}><CardContent className="pt-5">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{c.l}</p>
+                <p className="mt-1 font-mono text-xl font-bold">{c.v}</p>
+              </CardContent></Card>
+            ))}
           </div>
 
-          {/* Results */}
-          <div className="space-y-4">
-            {analysis ? (
-              <>
-                {/* Score card */}
-                <div className="nc-result-card text-center py-8">
-                  <div className="flex items-center justify-center gap-2 mb-3">
-                    {analysis.alignmentScore >= 70
-                      ? <CheckCircle className="h-5 w-5 text-emerald-600" />
-                      : <AlertCircle className="h-5 w-5 text-[#D4541F]" />
-                    }
-                    <p className="nc-eyebrow">Alignment Score</p>
-                  </div>
-                  <div className="font-display font-black text-6xl leading-none mb-2" style={{ color: scoreColor }}>
-                    {analysis.alignmentScore}%
-                  </div>
-                  <p className="text-[#71717A] text-sm">Voice alignment with your brand</p>
-                </div>
-
-                {/* Detected tone */}
-                <div className="nc-result-card">
-                  <p className="nc-eyebrow mb-2">Detected Tone</p>
-                  <p className="font-display font-bold text-[#18181B] text-sm leading-relaxed p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
-                    {analysis.tone}
-                  </p>
-                </div>
-
-                {/* Suggestions */}
-                <div className="nc-result-card space-y-3">
-                  <p className="nc-eyebrow">Improvement Suggestions</p>
-                  {analysis.suggestions.map((s, i) => (
-                    <div key={i} className="flex items-start gap-3 p-3 bg-[#F9FAFB] border border-[#E4E4E7] rounded-lg">
-                      <span className="w-5 h-5 rounded-full bg-[#2563EB]/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-[10px] font-display font-black text-[#1D4ED8]">{i + 1}</span>
-                      </span>
-                      <p className="text-[13px] text-[#18181B] leading-relaxed">{s}</p>
+          <Card>
+            <CardHeader><CardTitle className="text-base">{d.passed} of {d.total} passed</CardTitle>
+              <CardDescription>{d.computed}</CardDescription></CardHeader>
+            <CardContent>
+              <div className="divide-y">
+                {d.checks.map((c: any) => (
+                  <div key={c.name} className="grid grid-cols-[22px_1fr_auto] items-start gap-3 py-2.5 text-[13px]">
+                    {c.pass ? <Check className="mt-0.5 h-4 w-4 text-green-700" /> : <X className="mt-0.5 h-4 w-4 text-red-600" />}
+                    <div>
+                      <p className="font-semibold">{c.name}</p>
+                      {c.note && <p className="text-[12px] text-muted-foreground">{c.note}</p>}
                     </div>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <div className="nc-tool-section flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-[#F9FAFB] border border-[#E4E4E7] flex items-center justify-center mb-5">
-                  <Mic className="h-6 w-6 text-[#2563EB]" />
-                </div>
-                <h3 className="font-display font-black text-[#18181B] text-lg mb-2">Voice analysis will appear here</h3>
-                <p className="text-[#71717A] text-sm max-w-xs">
-                  Describe your brand voice, paste content to check, and hit Analyse.
-                </p>
+                    <span className={`whitespace-nowrap font-mono text-[12px] ${c.pass ? 'text-muted-foreground' : 'font-semibold text-red-700'}`}>
+                      {c.actual}<span className="text-muted-foreground"> / {c.target}</span>
+                    </span>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-        </div>
-      </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader><CardTitle className="text-base">The opener</CardTitle>
+              <CardDescription>Spoken hooks accuse the viewer. Captions open on his loss with a figure. Never reuse one as the other.</CardDescription></CardHeader>
+            <CardContent>
+              <p className="rounded-lg bg-muted p-3 text-[14px] font-medium">{d.opener.text}</p>
+              <p className="mt-2 text-[13px] leading-relaxed">{d.opener.guidance}</p>
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   )
 }
