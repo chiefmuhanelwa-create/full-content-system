@@ -94,8 +94,12 @@ export function explainGenerationFailure(
         error: `The model returned nothing for ${noun}, twice.`,
         // Do not blame the platform here. This message only exists because the function was
         // alive to write it — so it was not killed, and maxDuration is not involved.
-        why: `It was asked twice and came back with no text both times, over ${secs}s total. The function was not killed: it stayed alive long enough to report this. So this is the model returning an empty completion, not a duration limit.`,
-        fix: 'Run it again — an empty completion is usually transient and the retry now happens automatically. If the same topic fails repeatedly, the topic is the problem: something in it is being refused.',
+        why: `It was asked twice and came back with no text both times, over ${secs}s total. The function was not killed: it stayed alive long enough to report this.`,
+        // The measured cause, 2026-09-19: thinking is billed as output and was unbounded, so
+        // it consumed the whole ceiling before a text block was ever opened — 8,766 of 10,000
+        // tokens on one run. "Transient, try again" was the wrong answer and sent people back
+        // to re-run a call that would fail the same way.
+        fix: 'Check the thinking budget against maxTokens on this route. Unbounded thinking is billed as output and can spend the entire ceiling before any text is written, which arrives here looking like an empty response. If the budget is already capped, then the topic is being refused.',
         elapsedMs: ms, model, status: 502,
       }
     }

@@ -108,6 +108,32 @@ function systemBlocks(s: SystemParts): any {
   return blocks
 }
 
+/**
+ * Thinking is billed as OUTPUT, and left unset it is unbounded — so it eats the ceiling that
+ * was meant for the answer.
+ *
+ * 🔴 Measured on the scripts route, 2026-09-19:
+ *     output_tokens 10,000 · thinking_tokens 8,766 · text 3,341 chars · stop_reason max_tokens
+ *   The model spent 88% of the budget reasoning, then ran out of room and the script was cut
+ *   off mid-write. The same script with thinking off: 13.2s and 912 output tokens.
+ *
+ * That one default explains three separate symptoms that were each chased on their own:
+ *   - the 50-85s generations
+ *   - scripts that stopped mid-sentence
+ *   - "the model returned nothing", when thinking consumed the budget before any text block
+ *     was opened, leaving content with a thinking block and no text
+ *
+ * So the budget is always explicit, always a minority share, and never able to crowd out the
+ * text it exists to reason about.
+ */
+function thinkingFor(maxTokens: number) {
+  const budget = Math.min(2000, Math.floor(maxTokens * 0.35))
+  // The API rejects a budget under 1024, and it must stay below max_tokens. A small ceiling
+  // means there is no room to think without starving the answer, so it does not think.
+  if (budget < 1024) return { type: 'disabled' as const }
+  return { type: 'enabled' as const, budget_tokens: budget }
+}
+
 async function callModel(model: string, system: SystemParts, prompt: string, maxTokens: number) {
   // Streaming, not a single blocking POST. A non-streamed request with a large system prompt
   // and a high max_tokens holds the connection open long enough that the hop in front of it
@@ -119,6 +145,7 @@ async function callModel(model: string, system: SystemParts, prompt: string, max
   const send = (sys: any) => (anthropic as any).messages.stream({
     model,
     max_tokens: maxTokens,
+    thinking: thinkingFor(maxTokens),
     system: sys,
     messages: [{ role: 'user', content: sanitiseForModel(prompt) }],
   })
