@@ -18,6 +18,7 @@
 import { anthropic } from '@/lib/claude'
 import { check, banListForPrompt, verdict, type Hit } from '@/lib/fact-lock'
 import { governanceForPrompt, getGovernance } from '@/lib/governance'
+import { brainDoc } from '@/lib/skills'
 import { extractJson } from '@/lib/json-extract'
 import { recordGeneration } from '@/lib/ai/record'
 
@@ -182,13 +183,19 @@ export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
   const maxTokens = opts.maxTokens ?? 2000
 
   const g = await getGovernance()
-  const doctrine = await governanceForPrompt({ pillar: opts.pillar, tier: opts.tier })
+  const [brain, doctrine] = await Promise.all([
+    brainDoc(),
+    governanceForPrompt({ pillar: opts.pillar, tier: opts.tier }),
+  ])
 
   // Three cached blocks, ordered most-shared first: doctrine is common to every tool, the
   // ban list to every authoring tool, skills to this module. The tool's own rules are the
   // only part that changes per call, so they alone stay uncached.
+  // Four cached blocks, most-shared first. The brain leads because it is identical for
+  // every tool on every call — the best possible cache prefix — and because it is the
+  // document everything below is derived from.
   const system: SystemParts = {
-    cached: [doctrine, enforce ? banListForPrompt() : '', opts.skills ?? ''],
+    cached: [brain, doctrine, enforce ? banListForPrompt() : '', opts.skills ?? ''],
     volatile: opts.system ?? '',
   }
 

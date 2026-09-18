@@ -48,7 +48,32 @@ async function walk(dir: string): Promise<string[]> {
   return out
 }
 
+/**
+ * The global CLAUDE.md is the brain the whole system generates from, and it is NOT under any
+ * skills directory — so the walk above cannot see it. It was seeded only by the API route,
+ * which meant editing the file left the database stale and every generation kept running on
+ * the old brain.
+ */
+async function seedBrain() {
+  const brainPath = path.join(os.homedir(), '.claude', 'CLAUDE.md')
+  let body = ''
+  try { body = await fs.readFile(brainPath, 'utf8') } catch { return null }
+  await prisma.skillDoc.upsert({
+    where: { userId_slug: { userId: OWNER, slug: 'global/CLAUDE' } },
+    create: { userId: OWNER, slug: 'global/CLAUDE', title: 'Global CLAUDE.md — the brain',
+              path: brainPath, body, section: 'SKILL', tokens: Math.ceil(body.length / 4) },
+    update: { title: 'Global CLAUDE.md — the brain', path: brainPath, body,
+              tokens: Math.ceil(body.length / 4) },
+  })
+  return body.length
+}
+
 async function main() {
+  const brainChars = await seedBrain()
+  console.log(brainChars
+    ? `  brain: global/CLAUDE re-seeded · ${brainChars.toLocaleString()} chars`
+    : '  brain: ~/.claude/CLAUDE.md not found — SKIPPED')
+
   let n = 0, chars = 0
   const missing: string[] = []
   for (const skill of WANTED) {

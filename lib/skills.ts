@@ -103,6 +103,29 @@ export async function skillsForModule(module: string): Promise<{ text: string; u
 }
 
 /**
+ * The global CLAUDE.md — the brain this whole system derives from.
+ *
+ * It is seeded as `global/CLAUDE` and was reaching no prompt at all: in the database,
+ * loaded by nothing. Exactly what had happened to PLAIN-SPEECH.
+ *
+ * It is NOT a module skill. It leads every generation regardless of tool, so it is returned
+ * separately and sent as the FIRST cached block — the most-shared prefix in the system, and
+ * therefore the one that caches best.
+ */
+export async function brainDoc(): Promise<string> {
+  if (!prisma) return ''
+  try {
+    const row = await prisma.skillDoc.findFirst({
+      where: { userId: OWNER, slug: 'global/CLAUDE' },
+      select: { body: true },
+    })
+    return row?.body ?? ''
+  } catch {
+    return ''   // a missing brain must not stop a generation; the doctrine still stands
+  }
+}
+
+/**
  * The skills a module needs, ready to hand to generate().
  *
  * ⚠️ THIS RETURNS SKILLS ONLY — no doctrine, no ban list.
