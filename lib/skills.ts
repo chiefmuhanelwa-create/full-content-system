@@ -56,6 +56,10 @@ const MODULE_SKILLS: Record<string, string[]> = {
     // why output matched the RULES of new-scripting while looking nothing like its EXAMPLES.
     // A rule tells the model what not to do. An exemplar tells it what finished looks like.
     'new-scripting/references/GOLD-SCRIPTS',
+    // The graded record — what was produced and the verdict on it. GOLD-SCRIPTS shows the
+    // target, this shows the misses, including the two failures a fact-lock cannot catch:
+    // an invented attribution, and an invented CAUSE attached to real figures.
+    'new-scripting/references/EXEMPLARS',
     // Borrowable mechanics only. Its own header: "THIS SKILL DOES NOT GOVERN — every one
     // must clear new-scripting's gate and his own measured data before use." Loaded LAST
     // so new-scripting is read first and stays the container.
