@@ -28,7 +28,26 @@ export async function GET() {
       orderBy: [{ starred: 'desc' }, { updatedAt: 'desc' }],
     })
 
-    return NextResponse.json({ ideas, seeded: ideas.length > 0 })
+    // Close the loop: an idea that became a post carries its live numbers back.
+    // Metrics are JOINED, never copied onto the idea, so there is one source of truth
+    // and the bank can never drift out of step with the tracker.
+    const linked = ideas.map((i) => i.mediaId).filter(Boolean) as string[]
+    const perf = linked.length
+      ? await db.instagramMedia.findMany({
+          where: { mediaId: { in: linked } },
+          select: {
+            mediaId: true, permalink: true, thumbnailUrl: true, mediaUrl: true,
+            likeCount: true, commentsCount: true, reach: true, views: true,
+            engagementRate: true, postedAt: true,
+          },
+        })
+      : []
+    const byMedia = new Map(perf.map((p) => [p.mediaId, p]))
+
+    return NextResponse.json({
+      ideas: ideas.map((i) => ({ ...i, performance: i.mediaId ? byMedia.get(i.mediaId) ?? null : null })),
+      seeded: ideas.length > 0,
+    })
   } catch {
     return NextResponse.json({ ideas: [], seeded: false })
   }
@@ -79,6 +98,7 @@ export async function PATCH(request: NextRequest) {
     const allowed = [
       'title', 'pillar', 'tier', 'status', 'format', 'spokenHook', 'captionOpener',
       'painPoint', 'cta', 'script', 'notes', 'storyId', 'evidence', 'factlock', 'starred',
+      'mediaId',
     ] as const
 
     const data: Record<string, unknown> = {}

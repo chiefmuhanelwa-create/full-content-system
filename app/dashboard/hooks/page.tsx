@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
@@ -18,6 +18,8 @@ const AWARENESS = [
 
 export default function HooksPage() {
   const router = useRouter()
+  const params = useSearchParams()
+  const [ideaId, setIdeaId] = useState('')
   const [topic, setTopic] = useState('')
   const [pillar, setPillar] = useState('PRICE IT')
   const [tier, setTier] = useState('CORE')
@@ -25,6 +27,23 @@ export default function HooksPage() {
   const [surface, setSurface] = useState<'spoken' | 'caption'>('spoken')
   const [busy, setBusy] = useState(false)
   const [d, setD] = useState<any>(null)
+
+  // An idea handed over from the Idea Bank arrives here already chosen. The ideaId rides
+  // along so whatever is written downstream can be saved back onto the idea it came from.
+  useEffect(() => {
+    const id = params.get('handoff')
+    if (!id) return
+    fetch(`/api/handoff?id=${id}`).then(r => r.json()).then(j => {
+      const p = j?.handoff?.payload
+      if (!p) return
+      if (p.topic) setTopic(p.topic)
+      if (p.pillar) setPillar(p.pillar)
+      if (p.tier) setTier(p.tier)
+      if (p.surface) setSurface(p.surface)
+      if (p.ideaId) setIdeaId(p.ideaId)
+      fetch('/api/handoff', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
+    }).catch(() => {})
+  }, [params])
 
   const run = async () => {
     if (!topic.trim()) return
@@ -41,7 +60,7 @@ export default function HooksPage() {
   const toScript = async (hook: string) => {
     const r = await fetch('/api/handoff', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fromTool: 'hooks', toTool: 'scripts', kind: 'hook', payload: { hook, topic, pillar, tier } }),
+      body: JSON.stringify({ fromTool: 'hooks', toTool: 'scripts', kind: 'hook', payload: { hook, topic, pillar, tier, ideaId } }),
     })
     router.push(`/dashboard/scripts?handoff=${(await r.json()).id}`)
   }

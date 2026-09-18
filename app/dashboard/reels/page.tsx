@@ -12,7 +12,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import {
   Instagram, RefreshCw, AlertTriangle, Loader2, ExternalLink,
-  Heart, MessageCircle, Eye, TrendingUp, ImageOff,
+  Heart, MessageCircle, Eye, TrendingUp, ImageOff, Link2, Check,
 } from 'lucide-react'
 import { ToolPageHeader } from '@/components/ToolPageHeader'
 
@@ -61,9 +61,26 @@ export default function ReelsPage() {
   const [msg, setMsg] = useState('')
   const [sort, setSort] = useState<Sort>('recent')
   const [pillar, setPillar] = useState('')
+  // Linking a post back to the idea that produced it is what turns the bank into a
+  // scoreboard. Metrics stay here; the idea just holds the mediaId.
+  const [ideas, setIdeas] = useState<{ id: string; title: string; mediaId?: string | null }[]>([])
+  const [linking, setLinking] = useState<string | null>(null)
+  const [pick, setPick] = useState('')
 
   const load = () => fetch('/api/instagram/sync').then((r) => r.json()).then(setD).catch(() => {})
   useEffect(() => { load() }, [])
+  useEffect(() => {
+    fetch('/api/ideas').then(r => r.json()).then(j => setIdeas(j.ideas ?? [])).catch(() => {})
+  }, [])
+
+  async function linkToIdea(ideaId: string, mediaId: string) {
+    await fetch('/api/ideas', {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: ideaId, mediaId, status: 'posted' }),
+    })
+    setIdeas(prev => prev.map(i => (i.id === ideaId ? { ...i, mediaId } : i)))
+    setLinking(null); setPick('')
+  }
 
   async function sync() {
     setSyncing(true); setMsg('')
@@ -272,6 +289,35 @@ export default function ReelsPage() {
                         Open <ExternalLink className="w-3 h-3" />
                       </a>
                     )}
+
+                    {(() => {
+                      const linked = ideas.find(i => i.mediaId === m.mediaId)
+                      if (linked) return (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-display font-semibold"
+                              style={{ background: 'rgba(22,163,74,0.10)', color: '#16A34A' }}
+                              title={linked.title}>
+                          <Check className="w-3 h-3" />{linked.title.slice(0, 28)}
+                        </span>
+                      )
+                      return linking === m.mediaId ? (
+                        <select autoFocus value={pick}
+                          onChange={e => { if (e.target.value) linkToIdea(e.target.value, m.mediaId) }}
+                          onBlur={() => setLinking(null)}
+                          className="px-2 py-1 rounded-md text-[11px] font-display outline-none"
+                          style={{ background: '#FFF', border: '1px solid #2563EB', maxWidth: 260 }}>
+                          <option value="">Pick the idea this came from…</option>
+                          {ideas.filter(i => !i.mediaId).map(i => (
+                            <option key={i.id} value={i.id}>{i.title}</option>
+                          ))}
+                        </select>
+                      ) : (
+                        <button onClick={() => setLinking(m.mediaId)}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-display"
+                          style={{ background: '#F4F4F5', color: '#71717A' }}>
+                          <Link2 className="w-3 h-3" />Link to idea
+                        </button>
+                      )
+                    })()}
                   </div>
                 </div>
               </div>

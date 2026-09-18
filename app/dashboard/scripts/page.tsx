@@ -27,6 +27,8 @@ function ScriptWriter() {
   const [format, setFormat] = useState('personal')
   const [busy, setBusy] = useState(false)
   const [d, setD] = useState<any>(null)
+  const [ideaId, setIdeaId] = useState('')
+  const [saved, setSaved] = useState(false)
 
   // A hook handed over from the Hook Generator arrives here, already chosen.
   useEffect(() => {
@@ -39,6 +41,7 @@ function ScriptWriter() {
       if (p.topic) setIdea(p.topic)
       if (p.pillar) setPillar(p.pillar)
       if (p.tier) setTier(p.tier)
+      if (p.ideaId) setIdeaId(p.ideaId)
       fetch('/api/handoff', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
     }).catch(() => {})
   }, [params])
@@ -56,6 +59,19 @@ function ScriptWriter() {
   }
 
   const s = d?.script
+
+  // Close the loop: a script written from an Idea Bank handoff is saved back onto the idea
+  // that produced it, and the idea moves to "script". Nothing is retyped, and the bank stops
+  // being a list of titles and starts holding the work.
+  const saveToIdea = async () => {
+    if (!ideaId || !s) return
+    const body = s.fullScript ?? (typeof s === 'string' ? s : JSON.stringify(s, null, 2))
+    await fetch('/api/ideas', {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: ideaId, script: body, status: 'script', ...(hook ? { spokenHook: hook } : {}) }),
+    })
+    setSaved(true)
+  }
 
   return (
     <div className="space-y-6">
@@ -182,6 +198,19 @@ function ScriptWriter() {
               </Card>
             </div>
           </div>
+
+          {ideaId && (
+            <Card>
+              <CardContent className="flex items-center gap-3 py-4 flex-wrap">
+                <p className="text-sm text-muted-foreground flex-1 min-w-[200px]">
+                  This script came from the Idea Bank. Save it back and the idea moves to <strong>Scripted</strong>.
+                </p>
+                <Button size="sm" onClick={saveToIdea} disabled={saved}>
+                  {saved ? 'Saved to the idea' : 'Save to idea'}
+                </Button>
+              </CardContent>
+            </Card>
+          )}
 
           {([['fullScript', 'Full script', MonitorPlay], ['caption', 'Caption', FileText]] as const).map(([k, label, Icon]) => (
             <Card key={k}>

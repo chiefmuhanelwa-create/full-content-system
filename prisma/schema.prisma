@@ -1176,6 +1176,11 @@ model ContentIdea {
 
   storyId        String  @default("")
   evidence       String  @default("")
+
+  /// The Instagram post this idea became. Metrics are NOT copied here — the Idea Bank joins
+  /// to instagram_media at read time, so there is one source of truth for performance and
+  /// nothing can drift out of sync.
+  mediaId        String?
   factlock       String  @default("pending") // pending|pass|blocked
   starred        Boolean @default(false)
 

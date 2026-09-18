@@ -12,7 +12,9 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import {
   Lightbulb, Search, Star, Check, Download, Calendar as CalIcon,
   LayoutGrid, List, X, ChevronLeft, ChevronRight, Trash2, Plus,
+  Zap, FileText, Eye, Heart, MessageCircle, ExternalLink,
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { BackButton } from '@/components/BackButton'
 
 interface Idea {
@@ -35,6 +37,13 @@ interface Idea {
   starred: boolean
   scheduledFor: string | null
   postedAt: string | null
+  mediaId?: string | null
+  /** Joined from the Reel Tracker at read time — never copied onto the idea. */
+  performance?: {
+    mediaId: string; permalink: string | null; thumbnailUrl: string | null; mediaUrl: string | null
+    likeCount: number; commentsCount: number; reach: number | null; views: number | null
+    engagementRate: number | null; postedAt: string | null
+  } | null
 }
 
 /** R16, 2026-09-17. The weights are ruled — the calendar mix is measured against them. */
@@ -64,6 +73,7 @@ const TIERS = ['FREE', 'ENTRY', 'CORE', 'PREMIUM']
 const FORMATS = ['reel', 'carousel', 'story', 'email', 'post']
 
 export default function IdeaBankPage() {
+  const router = useRouter()
   const [ideas, setIdeas] = useState<Idea[]>([])
   const [loading, setLoading] = useState(true)
   const [seeding, setSeeding] = useState(false)
@@ -131,6 +141,31 @@ export default function IdeaBankPage() {
       body: JSON.stringify({ title, pillar: fPillar || 'KEEP IT' }),
     })
     fetchIdeas()
+  }
+
+  /**
+   * Hand the idea to the next tool in the documented chain
+   * (idea -> hook -> script -> teleprompter). The ideaId rides along so whatever gets
+   * written downstream can be saved straight back onto this row.
+   */
+  async function handoff(idea: Idea, toTool: 'hooks' | 'scripts') {
+    const r = await fetch('/api/handoff', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fromTool: 'idea-bank', toTool, kind: 'idea',
+        payload: {
+          ideaId: idea.id,
+          topic: idea.title,
+          idea: idea.title,
+          pillar: idea.pillar,
+          tier: idea.tier === 'FREE' ? 'ENTRY' : idea.tier,   // downstream tools have no FREE
+          hook: idea.spokenHook || undefined,
+          surface: 'spoken',
+        },
+      }),
+    })
+    const j = await r.json()
+    if (j.id) router.push(`/dashboard/${toTool}?handoff=${j.id}`)
   }
 
   async function remove(id: string) {
@@ -464,6 +499,61 @@ export default function IdeaBankPage() {
                   ))}
                 </div>
               </div>
+
+              {/* Hand off down the chain: idea -> hook -> script */}
+              <div>
+                <p className="text-[11px] font-display font-bold uppercase tracking-wide mb-2" style={{ color: '#71717A' }}>Work this idea</p>
+                <div className="flex gap-2 flex-wrap">
+                  <button onClick={() => handoff(open, 'hooks')}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-display font-semibold"
+                    style={{ background: '#18181B', color: '#FFF' }}>
+                    <Zap className="w-3.5 h-3.5" />Write hooks
+                  </button>
+                  <button onClick={() => handoff(open, 'scripts')}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-display font-semibold"
+                    style={{ background: '#F4F4F5', color: '#18181B', border: '1px solid #E4E4E7' }}>
+                    <FileText className="w-3.5 h-3.5" />Write the script
+                  </button>
+                </div>
+                <p className="text-[11px] mt-1.5" style={{ color: '#A1A1AA' }}>
+                  Carries the pillar, tier and pain across. Whatever you write there saves back here.
+                </p>
+              </div>
+
+              {/* What it actually did, joined live from the Reel Tracker */}
+              {open.performance && (
+                <div className="rounded-lg p-3" style={{ background: '#F0FDF4', border: '1px solid #BBF7D0' }}>
+                  <p className="text-[11px] font-display font-bold uppercase tracking-wide mb-2" style={{ color: '#16A34A' }}>
+                    What it did
+                  </p>
+                  <div className="flex gap-3 items-center flex-wrap">
+                    {(open.performance.thumbnailUrl || open.performance.mediaUrl) && (
+                      <img src={open.performance.thumbnailUrl || open.performance.mediaUrl || ''} alt=""
+                        className="rounded-md object-cover" style={{ width: 44, height: 58 }} />
+                    )}
+                    <span className="inline-flex items-center gap-1 text-xs font-display font-semibold" style={{ color: '#3F3F46' }}>
+                      <Eye className="w-3.5 h-3.5" />{(open.performance.reach ?? open.performance.views ?? 0).toLocaleString('en-ZA')}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs font-display font-semibold" style={{ color: '#3F3F46' }}>
+                      <Heart className="w-3.5 h-3.5" />{open.performance.likeCount.toLocaleString('en-ZA')}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs font-display font-semibold" style={{ color: '#3F3F46' }}>
+                      <MessageCircle className="w-3.5 h-3.5" />{open.performance.commentsCount.toLocaleString('en-ZA')}
+                    </span>
+                    {open.performance.engagementRate != null && (
+                      <span className="text-xs font-display font-semibold" style={{ color: '#3F3F46' }}>
+                        {open.performance.engagementRate.toFixed(2)}% ER
+                      </span>
+                    )}
+                    {open.performance.permalink && (
+                      <a href={open.performance.permalink} target="_blank" rel="noreferrer"
+                         className="inline-flex items-center gap-1 text-xs font-display ml-auto" style={{ color: '#2563EB' }}>
+                        Open <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
 
               <div className="flex gap-2 flex-wrap">
                 <select value={open.pillar} onChange={e => patch(open.id, { pillar: e.target.value })}
