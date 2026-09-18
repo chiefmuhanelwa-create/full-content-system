@@ -148,8 +148,8 @@ CTA: ${cta ? `"${cta.k}" — resolves to ${cta.destination}` : 'no keyword resol
 Return ONE JSON object, no prose:
 {
   "format":"${fmt.name}",
-  "beats":[{"n":1,"beat":"the exact beat name from the list","band":"0-8s","marker":"one of the four","screen":"ON-SCREEN TEXT IN CAPS or null","line":"what he says, with [BUT] and [THEREFORE] inline where they land"}],
-  "rehooks":[{"after":2,"line":"the rehook line"}],
+  "beats":[{"n":1,"beat":"the exact beat name from the list","band":"0-8s","marker":"one of the four","screen":"ON-SCREEN TEXT IN CAPS or null","line":"what he says, with [BUT] and [THEREFORE] inline where they land. In a TEACHING beat, put [REHOOK] inline immediately before the LAST item — see the teaching-beat rule."}],
+  "rehooks":[{"after":2,"line":"the rehook line"}],   // BETWEEN beats only. The teaching beat's own rehook goes INLINE in its line, not here — "after" cannot express "before the last item".
   "tail":"the unfinished line that loops back",
   // NOTE: do NOT ask for fullScript. It is the beats again in prose — composing it here from
   // the beats roughly halves the output and stops the two versions drifting apart.
