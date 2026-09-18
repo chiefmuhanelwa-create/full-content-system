@@ -256,6 +256,8 @@ export async function governanceForPrompt(opts: { pillar?: string; tier?: string
   const icp = g.icp || {}
   const voice = g.voice || {}
   const ps = g.plain_speech || {}
+  const tb = ps.teachingBeat || {}
+  const we = ps.workedExample || {}
 
   const tierLines = tiers.map((t) =>
     `- ${t.tier} (${t.price}) — ${t.who}${t.age ? ', ' + t.age : ''}.${t.line ? ` They say: "${t.line}".` : ''}${t.sell === false ? ' NEVER SOLD TO.' : ''}${t.limit ? ' RULE: ' + t.limit : ''}`
@@ -313,6 +315,25 @@ Say the plain thing, not the industry thing:
 ${(ps.swaps ?? []).map((w: any) => `- NOT "${w.not}" -> "${w.use}"`).join('\n')}
 
 If you write a term the listener would have to already know, you have broken this rule. Gloss it in the next clause or cut it.
+
+### THE TEACHING BEAT — how a list is taught out loud
+
+${tb.rule ?? ''}
+${tb.countFirst ?? ''}
+SHAPE: ${tb.shape ?? ''}
+WHY: ${tb.why ?? ''}
+
+THE REHOOK GOES INSIDE THE BEAT: ${tb.rehookGoesInside?.rule ?? ''}
+  e.g. "${tb.rehookGoesInside?.example ?? ''}"
+  ${tb.rehookGoesInside?.why ?? ''}
+
+WORKED EXAMPLE — ${we.source ?? 'his own script'}:
+"${we.open ?? ''}"
+${(we.items ?? []).map((it: any) => it.rehook
+  ? `  [REHOOK, INSIDE THE BEAT] "${it.rehook}"`
+  : `  SCREEN: ${it.screen}\n    ${it.nameIt} ${it.means} ${it.doIt}`).join('\n')}
+
+Copy that shape. Never the labels.
 
 ## RETIRED — never write these
 "Called Expert", "ICP 1", "ICP 2", the 32-50 professional, R9,000-R45,000, R9,997, R18,000.${retired ? '\n' + retired : ''}
