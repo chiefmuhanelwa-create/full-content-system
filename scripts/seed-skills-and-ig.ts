@@ -9,8 +9,32 @@ import os from 'os'
 
 const prisma = new PrismaClient()
 const OWNER = 'default-user-id'
-const SKILLS_DIR = path.join(os.homedir(), '.claude', 'skills')
-const WANTED = ['nochill-brain','nochill-script','nochill-storytelling','nochill-edit','nochill-week','nochill-email','nochill-brand','nochill-carousel','nochill-product-kit','nochill-claim-check','nochill-ops','nochill-curriculum']
+/**
+ * Skills do not all live in ~/.claude/skills.
+ *
+ * `new-scripting` — which its own 2026-09-15 ruling calls "THE scripting system... the one
+ * that governs" — lives under `ICP LEARNING/skills`, so a seeder that only read the home
+ * directory could never see it. It was missing from the database entirely, and every script
+ * the app generated was therefore built on nochill-script, which that same ruling says is
+ * "out of date" on the container it names.
+ *
+ * Roots are searched in order; the FIRST one holding a skill wins, so a home-directory copy
+ * still overrides a project copy if one is ever added.
+ */
+const SKILL_ROOTS = [
+  path.join(os.homedir(), '.claude', 'skills'),
+  path.join(os.homedir(), 'Desktop', 'VS code', 'ICP LEARNING', 'skills'),
+]
+const SKILLS_DIR = SKILL_ROOTS[0]
+const WANTED = ['new-scripting','nochill-brain','nochill-script','nochill-storytelling','nochill-edit','nochill-week','nochill-email','nochill-brand','nochill-carousel','nochill-product-kit','nochill-claim-check','nochill-ops','nochill-curriculum']
+
+/** Where does this skill actually live? */
+async function rootFor(skill: string): Promise<string | null> {
+  for (const r of SKILL_ROOTS) {
+    try { await fs.access(path.join(r, skill)); return r } catch {}
+  }
+  return null
+}
 
 async function walk(dir: string): Promise<string[]> {
   const out: string[] = []
@@ -28,7 +52,9 @@ async function main() {
   let n = 0, chars = 0
   const missing: string[] = []
   for (const skill of WANTED) {
-    const base = path.join(SKILLS_DIR, skill)
+    const root = await rootFor(skill)
+    if (!root) { missing.push(skill); continue }
+    const base = path.join(root, skill)
     const files = await walk(base)
     if (!files.length) { missing.push(skill); continue }
     for (const f of files) {
