@@ -102,6 +102,21 @@ SLOTS:
 REHOOK PHRASES you may adapt (do not invent a new shape):
 ${phrases.slice(0, 5).map((p: string) => `  - ${p}`).join('\n')}
 
+PLAIN SPEECH — the law, and the rule most often half-followed:
+  No term stands alone. NAME IT → SAY WHAT IT MEANS → SAY WHAT TO DO. All three, same order,
+  every time. A word the listener has to already know is a word that loses them, and they do
+  not rewind — they scroll.
+
+  Every numbered item inside a breakdown takes all three moves:
+    1 NAME IT        "Part one is access."
+    2 WHAT IT MEANS  "That's the brand showing their product to your people."
+    3 WHAT TO DO     "Open your last nine posts, tap View Insights, and add up the likes."
+
+  ⛔ Two moves is the common failure: naming it and explaining it, then moving on. An item
+  with no action is a definition, not a lesson.
+  ⛔ Never "The three parts are access, production and usage." Three labels and nothing else
+  is the shape of a slide, not of speech.
+
 SCRIPTING PRINCIPLES — all four are non-negotiable:
 ${principles.map((p: any) => `  ${p.n}. ${p.name} — ${p.rule}`).join('\n')}
 Villain: ${gov.script_principles?.advanced?.villain ?? ''}
@@ -172,7 +187,19 @@ Return ONE JSON object, no prose:
     }
   }
 
-  // 2 · The format names how many rehooks and where. Missing ones vanish silently in the
+  // 2 · Plain speech, move three. Naming a thing and explaining it is two moves; the rule
+  //     wants an ACTION on each item. Detected loosely — an imperative or a second-person
+  //     instruction somewhere in the beat that carries the numbered list.
+  const numbered = (data.beats ?? []).find((b: any) => /\bOne\.|\b1\./.test(String(b.line ?? '')))
+  if (numbered) {
+    const line = String(numbered.line)
+    const hasAction = /\b(open|ask|send|write|count|check|add up|divide|take|go|tap|put|make|charge|reply|save|start|stop)\b/i.test(line)
+    if (!hasAction) {
+      warnings.push(`PLAIN SPEECH — beat ${numbered.n} names and explains each item but never says what to do. Two moves out of three. An item with no action is a definition, not a lesson.`)
+    }
+  }
+
+  // 3 · The format names how many rehooks and where. Missing ones vanish silently in the
   //     composed script, because the composer only renders rehooks that match a beat.
   const wantRehooks = String(fmt.rehooks ?? '').split('·').length
   const gotRehooks = (data.rehooks ?? []).length

@@ -24,6 +24,24 @@ export type GovKey =
 
 /** Estate-derived defaults. Used only when a key has never been written to the DB. */
 const FALLBACK: Record<string, any> = {
+  plain_speech: {
+    ruled: '2026-09-17',
+    source: 'A line-by-line read of his own RATE script (332 words, ~115s).',
+    law: 'No term stands alone. Name it, say what it means, say what to do.',
+    why: 'A word the listener has to already know is a word that loses them — and they do not rewind, they scroll.',
+    moves: [
+      { n: 1, move: 'Name it', example: 'Part one is access.' },
+      { n: 2, move: 'Say what it means', example: "That's the brand showing their product to your people." },
+      { n: 3, move: 'Say what to do', example: 'Open your last nine posts, tap View Insights, and add up the likes, comments, shares and saves.' },
+    ],
+    order: 'Fixed. By the second item the listener can predict the shape, and that prediction carries them through items two and three — the places a list normally loses people.',
+    banned: 'Never "The three parts are access, production and usage." That is three labels and nothing else. It is the shape of a slide, not of speech.',
+    swaps: [
+      { not: 'divide by reach', use: 'divide by how many people saw them' },
+      { not: 'engagement rate, as a bare label', use: 'the bigger that number, the higher your price' },
+      { not: 'usage rights, with no gloss', use: 'when the brand puts your video in their own adverts' },
+    ],
+  },
   icp: {
     ruled: '2026-09-17',
     definition: 'The earning creator who is leaking. Money has moved, or money is visibly blocked.',
@@ -237,6 +255,7 @@ export async function governanceForPrompt(opts: { pillar?: string; tier?: string
   const pillars = normalisePillars(g.pillars)
   const icp = g.icp || {}
   const voice = g.voice || {}
+  const ps = g.plain_speech || {}
 
   const tierLines = tiers.map((t) =>
     `- ${t.tier} (${t.price}) — ${t.who}${t.age ? ', ' + t.age : ''}.${t.line ? ` They say: "${t.line}".` : ''}${t.sell === false ? ' NEVER SOLD TO.' : ''}${t.limit ? ' RULE: ' + t.limit : ''}`
@@ -277,6 +296,23 @@ The same post does both. Write both. Never reuse one as the other.
 SA English: colour, organise, realise. ZAR written R199 / R1,800 — never "R 199" or "R199.00". SARS/CIPC/PTY LTD, never IRS/LLC/SEC.
 BANNED FORMAT: daily process documentation — 25 posts, median zero comments.
 NEVER use AI slop language: ${(voice.never ?? voice.ai_slop_banned ?? ['delve','leverage','synergy','utilize','certainly','absolutely']).join(', ')}.
+
+## PLAIN SPEECH — ruled ${ps.ruled ?? '2026-09-17'}. This governs every word you write.
+
+${ps.law ?? 'No term stands alone. Name it, say what it means, say what to do.'}
+${ps.why ?? ''}
+
+Every teaching unit takes the same three moves, in the same order, every time:
+${(ps.moves ?? []).map((m: any) => `${m.n}. ${m.move} — e.g. "${m.example}"`).join('\n')}
+
+${ps.order ?? ''}
+
+BANNED: ${ps.banned ?? ''}
+
+Say the plain thing, not the industry thing:
+${(ps.swaps ?? []).map((w: any) => `- NOT "${w.not}" -> "${w.use}"`).join('\n')}
+
+If you write a term the listener would have to already know, you have broken this rule. Gloss it in the next clause or cut it.
 
 ## RETIRED — never write these
 "Called Expert", "ICP 1", "ICP 2", the 32-50 professional, R9,000-R45,000, R9,997, R18,000.${retired ? '\n' + retired : ''}
