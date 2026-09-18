@@ -12,9 +12,18 @@ import { ToolPageHeader } from '@/components/ToolPageHeader'
 const PILLARS = ['KEEP IT', 'PRICE IT', 'OWN IT', 'BUILD IT ANYWAY', 'PROVE IT']
 const TIERS = ['ENTRY', 'CORE', 'PREMIUM']
 const DURATIONS = ['15s', '30s', '60s', '90s']
-const FORMATS = [
-  { k: 'personal', n: 'Personal story' }, { k: 'case_study', n: 'Case study' },
-  { k: 'explainer', n: 'Explainer' }, { k: 'storytelling', n: 'Story arc' },
+/**
+ * Fallback only. The real list is fetched from the seeded formats below, so the dropdown can
+ * never offer something the engine cannot build.
+ *
+ * It previously offered a fourth option, "Story arc" (`storytelling`), which new-scripting
+ * does not have — it defines exactly THREE formats. Picking it would now hit the route's
+ * 503, because a format with no beat table is refused rather than improvised.
+ */
+const FORMATS_FALLBACK = [
+  { k: 'personal', n: 'Personal Learning / Epiphany' },
+  { k: 'case_study', n: 'Case Study / Testimonial Recap' },
+  { k: 'explainer', n: 'Breakdowns / Explainers' },
 ]
 
 function ScriptWriter() {
@@ -28,6 +37,23 @@ function ScriptWriter() {
   const [busy, setBusy] = useState(false)
   const [d, setD] = useState<any>(null)
   const [ideaId, setIdeaId] = useState('')
+  const [formats, setFormats] = useState(FORMATS_FALLBACK)
+
+  // Drive the dropdown from what is actually seeded, so the options and the engine cannot
+  // drift apart. Names come straight from new-scripting.
+  useEffect(() => {
+    fetch('/api/knowledge')
+      .then((r) => r.json())
+      .then((j) => {
+        const rows = j?.keys ?? j?.entries ?? []
+        const sf = Array.isArray(rows)
+          ? rows.find((k: any) => k.key === 'script_formats')?.value
+          : j?.script_formats
+        const list = (sf?.formats ?? []).filter((f: any) => f.beats?.length)
+        if (list.length) setFormats(list.map((f: any) => ({ k: f.key, n: f.name })))
+      })
+      .catch(() => {})
+  }, [])
   const [saved, setSaved] = useState(false)
 
   // A hook handed over from the Hook Generator arrives here, already chosen.
@@ -100,7 +126,7 @@ function ScriptWriter() {
               {TIERS.map(t => <option key={t}>{t}</option>)}
             </select>
             <select value={format} onChange={e => setFormat(e.target.value)} className="rounded-md border bg-card px-3 py-2 text-[13px]">
-              {FORMATS.map(f => <option key={f.k} value={f.k}>{f.n}</option>)}
+              {formats.map(f => <option key={f.k} value={f.k}>{f.n}</option>)}
             </select>
             <div className="flex overflow-hidden rounded-md border">
               {DURATIONS.map(x => (
