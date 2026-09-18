@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
   const markers: string[] = gov.script_formats?.markers ?? []
   const slots = gov.script_formats?.slots ?? {}
 
-  const { system, skillsUsed } = await buildGovernedSystemPrompt('scripts', { pillar, tier })
+  const { skills, skillsUsed } = await buildGovernedSystemPrompt('scripts', { pillar, tier })
 
   const out = await generate({
     tool: 'scripts',
@@ -136,7 +136,7 @@ Return ONE JSON object, no prose:
     "ctaKeyword":"${cta?.k ?? 'NONE'} — confirm live before recording"
   }
 }`,
-    system, pillar, tier, tier_of: 'main', maxTokens: 6000,
+    skills, pillar, tier, tier_of: 'main', maxTokens: 6000,
   })
 
   const { data } = extractJson<any>(out.text)

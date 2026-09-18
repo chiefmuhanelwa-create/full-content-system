@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
   const fmt = (gov.script_formats?.formats ?? []).find((f: any) => f.key === format)
   const kpi = (gov.kpi_model?.goals ?? []).find((g: any) => g.goal === goal)
 
-  const { system, skillsUsed } = await buildGovernedSystemPrompt('scripts', { pillar, tier })
+  const { skills, skillsUsed } = await buildGovernedSystemPrompt('scripts', { pillar, tier })
 
   const prompt = `Produce a complete shoot bundle for ONE idea.
 
@@ -97,7 +97,7 @@ Return ONE JSON object, no prose, no fence:
 
   const out = await generate({
     tool: 'batch-shoot',
-    prompt, system, pillar, tier, tier_of: 'main', maxTokens: 8000,
+    prompt, skills, pillar, tier, tier_of: 'main', maxTokens: 8000,
   })
 
   const ex = extractJson<any>(out.text)

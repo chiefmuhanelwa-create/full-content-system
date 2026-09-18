@@ -50,6 +50,12 @@ export type GovernedOpts = {
   enforceFactLock?: boolean
   /** Which tool asked. Recorded so the history is browsable by tool. */
   tool?: string
+  /**
+   * Skill text for this module, from buildGovernedSystemPrompt. Cached as its own block —
+   * it is stable per module, so after the first call it is read back at a fraction of the
+   * price instead of re-sent whole.
+   */
+  skills?: string
   /** Set when the work came from an Idea Bank handoff, so the record links back. */
   ideaId?: string
 }
@@ -178,8 +184,11 @@ export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
   const g = await getGovernance()
   const doctrine = await governanceForPrompt({ pillar: opts.pillar, tier: opts.tier })
 
+  // Three cached blocks, ordered most-shared first: doctrine is common to every tool, the
+  // ban list to every authoring tool, skills to this module. The tool's own rules are the
+  // only part that changes per call, so they alone stay uncached.
   const system: SystemParts = {
-    cached: [doctrine, enforce ? banListForPrompt() : ''],
+    cached: [doctrine, enforce ? banListForPrompt() : '', opts.skills ?? ''],
     volatile: opts.system ?? '',
   }
 

@@ -3,9 +3,9 @@ import dotenv from 'dotenv'
 dotenv.config({ path: '.env' })
 dotenv.config({ path: '.env.local', override: true })
 /** End-to-end proof: governance -> skills -> prompt -> model -> fact-lock. */
-import { getGovernance, normalisePillars, normaliseTiers } from '../lib/governance'
+import { getGovernance, governanceForPrompt, normalisePillars, normaliseTiers } from '../lib/governance'
 import { buildGovernedSystemPrompt } from '../lib/skills'
-import { check, verdict } from '../lib/fact-lock'
+import { check, verdict, banListForPrompt } from '../lib/fact-lock'
 import { generate } from '../lib/ai/governed'
 
 async function main() {
@@ -16,7 +16,11 @@ async function main() {
   console.log('   pillars:', normalisePillars(g.pillars).map(p => `${p.name} ${p.weight}%->${p.sells_to}`).join(' · '))
 
   console.log('\n2 · PROMPT COMPOSITION')
-  const { system, skillsUsed } = await buildGovernedSystemPrompt('hooks', { pillar: 'PRICE IT', tier: 'CORE' })
+  // Compose it the way generate() does — doctrine + ban list + skills — so this verifies
+  // what is actually SENT, not just one of the three blocks.
+  const { skills, skillsUsed } = await buildGovernedSystemPrompt('hooks', { pillar: 'PRICE IT', tier: 'CORE' })
+  const doctrine = await governanceForPrompt({ pillar: 'PRICE IT', tier: 'CORE' })
+  const system = [doctrine, banListForPrompt(), skills].filter(Boolean).join('\n\n---\n\n')
   console.log('   system prompt:', system.length.toLocaleString(), 'chars')
   console.log('   skills injected:', skillsUsed.join(', ') || 'NONE')
   console.log('   contains ruled tiers?  ', /R1,500-R1,800|R1,500–R1,800/.test(system) ? 'YES' : 'NO')
@@ -24,7 +28,7 @@ async function main() {
   // persona in order to ban it. A real leak is the persona being TAUGHT — so check that
   // every mention sits inside a retirement notice.
   const mentions = Array.from(system.matchAll(/Called Expert|ICP\s?1\b|ICP\s?2\b/gi))
-  const taught = mentions.filter((m) => {
+  const taught = mentions.filter((m: RegExpMatchArray) => {
     const around = system.slice(Math.max(0, m.index! - 260), m.index! + 260).toLowerCase()
     return !/retir|⛔|never|banned|superseded|do not|dead/.test(around)
   })

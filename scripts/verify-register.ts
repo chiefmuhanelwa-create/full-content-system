@@ -1,7 +1,8 @@
 import dotenv from 'dotenv'
 dotenv.config({ path: '.env' }); dotenv.config({ path: '.env.local', override: true })
 import fs from 'fs'; import path from 'path'
-import { getGovernance } from '../lib/governance'
+import { getGovernance, governanceForPrompt } from '../lib/governance'
+import { banListForPrompt } from '../lib/fact-lock'
 import { buildGovernedSystemPrompt } from '../lib/skills'
 
 async function main() {
@@ -37,7 +38,9 @@ async function main() {
   }
 
   // 3. does it reach a prompt
-  const { system, skillsUsed } = await buildGovernedSystemPrompt('scripts', { pillar: 'PRICE IT', tier: 'CORE' })
+  const { skills, skillsUsed } = await buildGovernedSystemPrompt('scripts', { pillar: 'PRICE IT', tier: 'CORE' })
+  const doctrine = await governanceForPrompt({ pillar: 'PRICE IT', tier: 'CORE' })
+  const system = [doctrine, banListForPrompt(), skills].filter(Boolean).join('\n\n---\n\n')
   console.log('\n3 · REACHES THE GENERATOR')
   console.log('   system prompt:', system.length.toLocaleString(), 'chars ·', skillsUsed.length, 'skill docs')
   console.log('   PII leaked (agency contact)?', /@\w+\.co\.za|@\w+\.com/.test(system) ? 'YES — LEAK' : 'no')

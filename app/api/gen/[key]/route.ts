@@ -69,7 +69,7 @@ async function run(request: NextRequest, key: string) {
     }, { status: 503 })
   }
 
-  const { system, skillsUsed } = await buildGovernedSystemPrompt(
+  const { skills, skillsUsed } = await buildGovernedSystemPrompt(
     key === 'storytelling' ? 'stories' : key === 'runsheet' || key === 'visuals' ? 'edit' : 'scripts',
     { pillar: input.pillar, tier: input.tier },
   )
@@ -77,7 +77,7 @@ async function run(request: NextRequest, key: string) {
   const out = await generate({
     tool: key,   // captions | fears | storytelling | visuals | repurpose | runsheet | offers | pitch
     prompt: `${built.prompt}\n\nReturn ONE JSON object, no prose, no fence.\nShape: ${built.schemaHint}`,
-    system, pillar: input.pillar, tier: input.tier, tier_of: 'main', maxTokens: 3000,
+    skills, pillar: input.pillar, tier: input.tier, tier_of: 'main', maxTokens: 3000,
   })
 
   const { data } = extractJson<any>(out.text)

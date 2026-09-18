@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
   const cta = ctaForPillar(gov, pillar)
   const law = surface === 'caption' ? lib.captionHookLaw : lib.spokenHookLaw
 
-  const { system, skillsUsed } = await buildGovernedSystemPrompt('hooks', { pillar, tier })
+  const { skills, skillsUsed } = await buildGovernedSystemPrompt('hooks', { pillar, tier })
 
   // ── 20%: the model only fills placeholders and scores ───────────────────
   const out = await generate({
@@ -111,7 +111,7 @@ R relevant to this audience · A matches awareness level "${awareness}" · C cla
 
 Return ONE JSON object, no prose:
 {"hooks":[{"n":1,"hook":"the filled line","category":"...","scores":{"R":1,"A":1,"C":1,"U":1,"B":1},"total":0,"why":"one short sentence"}],"pillar":"...","tier":"..."}`,
-    system, pillar, tier, tier_of: 'main', maxTokens: 4000,
+    skills, pillar, tier, tier_of: 'main', maxTokens: 4000,
   })
 
   const { data } = extractJson<any>(out.text)

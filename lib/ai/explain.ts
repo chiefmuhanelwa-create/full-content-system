@@ -54,7 +54,7 @@ export function explainGenerationFailure(
     const names = (out.factLock?.banned ?? []).map((b) => b.name).filter(Boolean)
     return {
       stage: 'blocked',
-      error: `The ${noun} were written, then blocked.`,
+      error: `Wrote ${noun}, then blocked it.`,
       why: names.length
         ? `The output kept using ${names.join(', ')} — a claim the fact-lock bans. It was asked to rewrite once and used it again.`
         : 'The output carried a banned claim twice, so it was withheld rather than shipped.',
@@ -66,17 +66,27 @@ export function explainGenerationFailure(
   // 1 and 2 — nothing came back. The elapsed time says which.
   if (!text) {
     if (timedOut || ms > maxDurationSec * 900) {
+      const secs = (ms / 1000).toFixed(0)
+      // Only claim the route ceiling if we actually got near it. Otherwise something ELSE
+      // killed the stream — most often a platform function limit BELOW the route's setting,
+      // which is invisible from here. Saying "you hit 300s" when it died at 60 sends
+      // everyone to the wrong place, which is the whole failure this file exists to stop.
+      const nearCeiling = ms > maxDurationSec * 900
       return {
         stage: 'timeout',
-        error: `This ran out of time before the ${noun} were finished.`,
-        why: `The request took ${(ms / 1000).toFixed(0)}s against a ${maxDurationSec}s ceiling on this route, so the function was killed mid-stream. A killed stream returns empty text, which looks exactly like a model failure and is not one.`,
-        fix: `Ask for fewer at once, or raise maxDuration on this route (vercel.json already allows 300s). If it also had to run a fact-lock repair pass, that is two full generations inside one ${maxDurationSec}s budget.`,
+        error: `Ran out of time before finishing ${noun}.`,
+        why: nearCeiling
+          ? `It ran ${secs}s against this route's ${maxDurationSec}s ceiling and was killed mid-stream. A killed stream returns empty text, which looks exactly like a model failure and is not one.`
+          : `It returned nothing after ${secs}s — well short of this route's ${maxDurationSec}s ceiling, so something else ended the stream. The usual cause is a PLATFORM function limit lower than the route's own setting: a Vercel Hobby project caps at 60s no matter what maxDuration says.`,
+        fix: nearCeiling
+          ? `Ask for less in one pass. A fact-lock repair counts as a second full generation inside the same ${maxDurationSec}s budget.`
+          : `Check the deployment's actual function limit before changing anything here. If it is 60s, the fix is the plan or a shorter generation — not maxDuration, which is already ${maxDurationSec}.`,
         elapsedMs: ms, model, status: 504,
       }
     }
     return {
       stage: 'empty',
-      error: `The model returned nothing for the ${noun}.`,
+      error: `The model returned nothing for ${noun}.`,
       why: `It came back empty in ${(ms / 1000).toFixed(1)}s — too fast to be a timeout, so the model genuinely produced no text. That usually means the prompt asked for something it would not write, or an input was empty.`,
       fix: 'Check the topic is filled in and specific. If it keeps happening on one topic, the topic is the problem, not the tool.',
       elapsedMs: ms, model, status: 502,
@@ -87,8 +97,8 @@ export function explainGenerationFailure(
   if (parsed == null) {
     return {
       stage: 'unparseable',
-      error: `The ${noun} came back in the wrong shape.`,
-      why: `The model wrote ${text.length} characters but not the JSON object this tool needs — usually prose, an apology, or JSON cut off mid-way because it hit the token ceiling.`,
+      error: `Got ${noun} back in the wrong shape.`,
+      why: `It wrote ${text.length} characters but not the JSON object this tool needs — usually prose, an apology, or JSON cut off mid-way at the token ceiling.`,
       fix: 'If the raw text below ends mid-sentence it ran out of tokens: raise maxTokens or ask for fewer items. If it is prose, the prompt needs a firmer instruction to return only JSON.',
       elapsedMs: ms, model, raw: text.slice(0, 1200), status: 502,
     }

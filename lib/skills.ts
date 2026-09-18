@@ -103,24 +103,23 @@ export async function skillsForModule(module: string): Promise<{ text: string; u
 }
 
 /**
- * The replacement for buildSystemPrompt(module, icp).
- * Note there is no `icp` parameter: the ICP is ruled, singular, and read from the database.
+ * The skills a module needs, ready to hand to generate().
+ *
+ * ⚠️ THIS RETURNS SKILLS ONLY — no doctrine, no ban list.
+ *
+ * It used to return all three glued together, and every caller passed that straight into
+ * generate(), which ALSO prepends the doctrine and the ban list. So both were sent TWICE on
+ * every single call, and the skills text — 88k chars on the scripts module — landed in the
+ * uncacheable half of the prompt.
+ *
+ * generate() now composes: doctrine, ban list and skills are three separate CACHED blocks,
+ * because all three are stable per module. Only the tool's own rules stay uncached.
  */
 export async function buildGovernedSystemPrompt(
   module: string,
   opts: { pillar?: string; tier?: string; extra?: string } = {}
-): Promise<{ system: string; skillsUsed: string[] }> {
-  const [doctrine, skills] = await Promise.all([
-    governanceForPrompt({ pillar: opts.pillar, tier: opts.tier }),
-    skillsForModule(module),
-  ])
-
-  const system = [
-    doctrine,
-    skills.text,
-    banListForPrompt(),
-    opts.extra ?? '',
-  ].filter(Boolean).join('\n\n---\n\n')
-
-  return { system, skillsUsed: skills.used }
+): Promise<{ skills: string; skillsUsed: string[] }> {
+  const skills = await skillsForModule(module)
+  const text = [skills.text, opts.extra ?? ''].filter(Boolean).join('\n\n---\n\n')
+  return { skills: text, skillsUsed: skills.used }
 }

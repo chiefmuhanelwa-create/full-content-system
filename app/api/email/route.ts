@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
 
     const cta = (gov.cta_library?.keywords ?? []).find((k: any) => k.status === 'live' && k.pillar === pillar)
       ?? (gov.cta_library?.keywords ?? []).find((k: any) => k.status === 'live')
-    const { system } = await buildGovernedSystemPrompt('email', { pillar, tier })
+    const { skills } = await buildGovernedSystemPrompt('email', { pillar, tier })
 
     const out = await generate({
     tool: 'email',
@@ -104,7 +104,7 @@ RULES:
 
 Return ONE JSON object:
 {"subjectLines":["three options, under 45 characters each"],"preheader":"under 90 characters","body":"the email, plain text with line breaks","cta":"the single ask","pillar":"...","tier":"..."}`,
-      system, pillar, tier, tier_of: 'main', maxTokens: 3000,
+      skills, pillar, tier, tier_of: 'main', maxTokens: 3000,
     })
 
     const ex = extractJson<any>(out.text)

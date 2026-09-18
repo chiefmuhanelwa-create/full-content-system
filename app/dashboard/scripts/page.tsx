@@ -130,13 +130,16 @@ function ScriptWriter() {
               <Database className="h-4 w-4" />The skeleton — from data
             </CardTitle>
             <CardDescription>
-              {d.skeleton.rehooks} rehook(s), one every {d.skeleton.every}. Target {d.skeleton.target}. {d.skeleton.why}
+              {d.skeleton.format} · rehooks {d.skeleton.rehooks}
+              {d.skeleton.cadence?.target ? ` · target ${d.skeleton.cadence.target}` : ''}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-1.5">
-              {d.skeleton.beats.map((b: string, i: number) => (
-                <span key={i} className="rounded-full bg-muted px-3 py-1 text-[12px] font-medium">{i + 1}. {b}</span>
+              {d.skeleton.beats?.map((b: any, i: number) => (
+                <span key={b.n ?? i} className="rounded-full bg-muted px-3 py-1 text-[12px] font-medium">
+                  {b.n ?? i + 1}. {b.beat} <span className="font-mono opacity-60">{b.band}</span>
+                </span>
               ))}
             </div>
             <p className="mt-3 text-[12px] text-muted-foreground">{d.composition.ratio} — {d.composition.fromData}</p>
@@ -159,19 +162,36 @@ function ScriptWriter() {
                 <CardDescription>What you say, and what is on screen while you say it.</CardDescription></CardHeader>
               <CardContent className="space-y-2">
                 {s.beats?.map((b: any) => (
-                  <div key={b.n} className="rounded-lg border p-3">
-                    <div className="mb-1 flex items-center gap-2">
-                      <Badge variant="secondary" className="text-[10px]">{b.label}</Badge>
-                      <span className="font-mono text-[11px] text-muted-foreground">{b.seconds}</span>
+                  <div key={b.n}>
+                    <div className="rounded-lg border p-3">
+                      <div className="mb-1 flex flex-wrap items-center gap-2">
+                        <Badge variant="secondary" className="text-[10px]">{b.n}. {b.beat}</Badge>
+                        <span className="font-mono text-[11px] text-muted-foreground">{b.band ?? b.seconds}</span>
+                        {b.marker && <Badge variant="outline" className="text-[10px]">{b.marker}</Badge>}
+                      </div>
+                      {b.screen && (
+                        <p className="mb-2 inline-block rounded bg-zinc-900 px-2 py-1 text-[11px] font-bold uppercase text-white">
+                          SCREEN: {b.screen}
+                        </p>
+                      )}
+                      <p className="whitespace-pre-wrap text-[14px] leading-relaxed">{b.line}</p>
                     </div>
-                    <p className="text-[14px] leading-relaxed">{b.line}</p>
-                    {b.screen && (
-                      <p className="mt-1.5 inline-block rounded bg-zinc-900 px-2 py-1 text-[11px] font-bold uppercase text-white">
-                        {b.screen}
+                    {/* Rehooks sit BETWEEN beats, at the seam they were written for. */}
+                    {s.rehooks?.filter((r: any) => r.after === b.n).map((r: any, i: number) => (
+                      <p key={i} className="my-2 rounded-lg border-l-4 border-l-amber-500 bg-amber-50 px-3 py-2 text-[13px] italic">
+                        REHOOK — {r.line}
                       </p>
-                    )}
+                    ))}
                   </div>
                 ))}
+
+                {s.tail && (
+                  <div className="rounded-lg border border-dashed p-3">
+                    <Badge variant="outline" className="mb-1 text-[10px]">TAIL · loops back</Badge>
+                    <p className="text-[14px] italic leading-relaxed">{s.tail}</p>
+                    {s.loopsTo && <p className="mt-1 text-[12px] text-muted-foreground">↻ {s.loopsTo}</p>}
+                  </div>
+                )}
               </CardContent>
             </Card>
 
@@ -182,20 +202,28 @@ function ScriptWriter() {
                   <p className="rounded-lg bg-zinc-900 px-3 py-5 text-center text-[16px] font-bold uppercase leading-tight text-white">
                     {s.textHook}
                   </p>
-                  <p className="mt-2 text-[11px] text-muted-foreground">{s.runtimeCheck}</p>
+                  <p className="mt-2 text-[11px] text-muted-foreground">{s.editNotes?.runtimeTarget ?? s.runtimeCheck}</p>
                   {s.ctaKeyword && s.ctaKeyword !== 'NONE' && (
                     <Badge variant="secondary" className="mt-2">CTA {s.ctaKeyword}</Badge>
                   )}
                 </CardContent>
               </Card>
-              <Card>
-                <CardHeader><CardTitle className="text-base">Rehooks used</CardTitle></CardHeader>
-                <CardContent className="space-y-1.5">
-                  {s.rehooksUsed?.map((r: string, i: number) => (
-                    <p key={i} className="rounded bg-muted px-2.5 py-1.5 text-[12px]">{r}</p>
-                  ))}
-                </CardContent>
-              </Card>
+              {s.editNotes && (
+                <Card>
+                  <CardHeader><CardTitle className="text-base">Edit notes</CardTitle>
+                    <CardDescription>What the cut needs, not what the script says.</CardDescription></CardHeader>
+                  <CardContent className="space-y-1">
+                    {Object.entries(s.editNotes).map(([k, v]) => (
+                      <div key={k} className="flex gap-2 text-[12px]">
+                        <span className="w-[104px] shrink-0 text-muted-foreground">
+                          {k.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase())}
+                        </span>
+                        <span className="flex-1">{String(v)}</span>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
 

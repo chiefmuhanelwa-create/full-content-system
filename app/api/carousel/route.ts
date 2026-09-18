@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
   const gov = await getGovernance()
   const cta = ctaForPillar(gov, pillar)
 
-  const { system } = await buildGovernedSystemPrompt('carousel', { pillar, tier })
+  const { skills } = await buildGovernedSystemPrompt('carousel', { pillar, tier })
 
   const out = await generate({
     tool: 'carousel',
@@ -52,7 +52,7 @@ RULES:
 
 Return ONE JSON object, no prose:
 {"slides":[{"n":1,"headline":"...","body":"..."}],"caption":"...","ctaKeyword":"${cta?.k ?? 'NONE'}","designNote":"one line on the visual treatment"}`,
-    system, pillar, tier, tier_of: 'main', maxTokens: 6000,
+    skills, pillar, tier, tier_of: 'main', maxTokens: 6000,
   })
 
   const ex = extractJson<any>(out.text)
