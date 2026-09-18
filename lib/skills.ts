@@ -26,15 +26,18 @@ import { banListForPrompt } from '@/lib/fact-lock'
  * this app produced ran on the superseded container and came out in a generic
  * Hook/Build/Rehook spine instead of one of the three ruled formats.
  *
- * PLAIN-SPEECH is now on every writing module. It was seeded all along and loaded by none
- * of them, which is why output kept using the industry word instead of the plain one.
+ * PLAIN-SPEECH moved OUT of these bundles on 2026-09-18. Its law, the teaching-beat shape
+ * and the worked example now sit in the doctrine block in lib/governance.ts, which every
+ * call receives and no character budget can drop. It was in the bundles before that, where
+ * a larger skill could silently push it out — which is exactly what happened when
+ * new-scripting/SKILL (35k) landed. Do not add it back here; edit `plain_speech` in
+ * Knowledge instead.
  */
 const MODULE_SKILLS: Record<string, string[]> = {
   hooks: [
     'new-scripting/SKILL',
     'new-scripting/references/HOOK-GATE',
     'new-scripting/references/VOICE',
-    'nochill-script/references/PLAIN-SPEECH',
     'nochill-script/references/HOOK-BANK',
     'jatho-scripting/SKILL',   // borrowable mechanics, does NOT govern — see scripts above
   ],
@@ -42,7 +45,6 @@ const MODULE_SKILLS: Record<string, string[]> = {
     'new-scripting/SKILL',
     'new-scripting/references/FORMATS',
     'new-scripting/references/VOICE',
-    'nochill-script/references/PLAIN-SPEECH',
     'nochill-script/references/VOICE-EVIDENCE',
     // Borrowable mechanics only. Its own header: "THIS SKILL DOES NOT GOVERN — every one
     // must clear new-scripting's gate and his own measured data before use." Loaded LAST
