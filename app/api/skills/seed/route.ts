@@ -79,6 +79,21 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  // The global CLAUDE.md is the brain this app derives its doctrine from, so it lives in the
+  // system rather than only on disk. It is deliberately NOT added to any module's skill
+  // bundle — at ~35k chars it would crowd out the references. The laws inside it are already
+  // extracted into governance keys; this is the readable, versioned source of record.
+  try {
+    const brainPath = path.join(os.homedir(), '.claude', 'CLAUDE.md')
+    const brain = await fs.readFile(brainPath, 'utf8')
+    await prisma!.skillDoc.upsert({
+      where: { userId_slug: { userId: OWNER, slug: 'global/CLAUDE' } },
+      create: { userId: OWNER, slug: 'global/CLAUDE', title: 'Global CLAUDE.md — the brain', path: brainPath, body: brain, section: 'SKILL', tokens: Math.ceil(brain.length / 4) },
+      update: { title: 'Global CLAUDE.md — the brain', path: brainPath, body: brain, tokens: Math.ceil(brain.length / 4) },
+    })
+    seeded.push({ slug: 'global/CLAUDE', section: 'SKILL', chars: brain.length })
+  } catch { /* the app still works without it */ }
+
   await prisma!.ingestLog.create({
     data: {
       userId: OWNER, source: 'skills', target: 'skill_docs', rows: seeded.length,
