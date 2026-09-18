@@ -140,29 +140,24 @@ Return ONE JSON object, no prose:
   "beats":[{"n":1,"beat":"the exact beat name from the list","band":"0-8s","marker":"one of the four","screen":"ON-SCREEN TEXT IN CAPS or null","line":"what he says, with [BUT] and [THEREFORE] inline where they land"}],
   "rehooks":[{"after":2,"line":"the rehook line"}],
   "tail":"the unfinished line that loops back",
+  // NOTE: do NOT ask for fullScript. It is the beats again in prose — composing it here from
+  // the beats roughly halves the output and stops the two versions drifting apart.
   "loopsTo":"the opening line, word for word",
-  "fullScript":"the whole thing as continuous speakable text, with SCREEN: cues and REHOOK labels inline",
   "textHook":"3-7 words for the opening overlay",
   "caption":"opens on HIS loss with a figure from the list, then the teach, then ONE CTA",
   "ctaKeyword":"${cta?.k ?? 'NONE'}",
   "editNotes":{
-    "runtimeTarget":"e.g. 94s",
-    "bands":"the beat bands joined with a dot",
-    "rehooks":"where they sit",
     "visualHook":"ONE object, described",
-    "firstCut":"no earlier than 5.0s",
-    "cutCadence":"11-14/min",
     "screenshotBeat":"which beat carries it",
     "figuresOnScreen":"only figures from the list above",
-    "figuresSpoken":"any range the viewer replaces with their own, marked as such",
-    "ctaKeyword":"${cta?.k ?? 'NONE'} — confirm live before recording"
+    "figuresSpoken":"any range the viewer replaces with their own, marked as such"
   }
 }`,
     skills, pillar, tier, tier_of: 'main',
     // max_tokens is a CEILING, not a spend — output is billed on what is produced. Headroom
     // is free; truncation is not. The last run stopped mid-sentence at 6000 and rendered as
     // a success, because a repaired-but-cut object still parses.
-    maxTokens: 8000,
+    maxTokens: 10000,
   })
 
   const { data, truncated } = extractJson<any>(out.text)
@@ -209,6 +204,19 @@ Return ONE JSON object, no prose:
   const orphanRehooks = (data.rehooks ?? []).filter((r: any) => !(data.beats ?? []).some((b: any) => b.n === r.after))
   if (orphanRehooks.length) {
     warnings.push(`${orphanRehooks.length} rehook(s) point at a beat that does not exist, so they would not appear in the script.`)
+  }
+
+  // The rest of the edit notes are already known here. Asking the model to restate the
+  // bands, the rehook seams, the CTA and two measured constants cost output tokens it did
+  // not have — run two hit the 8,000 ceiling and could not even be repaired. Derived.
+  data.editNotes = {
+    runtimeTarget: fmtBeats[fmtBeats.length - 1]?.band?.split('-')[1] ?? duration,
+    bands: fmtBeats.map((b) => b.band).join(' · '),
+    rehooks: fmt.rehooks,
+    firstCut: 'no earlier than 5.0s',
+    cutCadence: '11-14/min',
+    ctaKeyword: cta ? `${cta.k} — ${cta.destination}` : 'none resolves; ask for a save',
+    ...(data.editNotes ?? {}),
   }
 
   // fullScript is the beats again in prose. Asking the model for both roughly doubles the
