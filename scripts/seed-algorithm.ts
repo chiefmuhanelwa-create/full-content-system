@@ -124,13 +124,71 @@ const SCRIPT_PRINCIPLES = {
 
 const SCRIPT_FORMATS = {
   rule: 'Pick ONE per piece. Never blend two — it reads as neither.',
+
+  // 🔴 BEATS, BANDS AND REHOOK SEAMS ARE TAKEN FROM new-scripting/references/FORMATS.md.
+  // They are the source doc's own beat NAMES, which that skill calls "the shared
+  // vocabulary" and says do not change. Do not paraphrase them into friendlier words.
+  //
+  // Previously the route built its skeleton from rehook.cadence.structure —
+  // "Hook → Build → Rehook → Build → Rehook → Build → Peak → CTA" — a generic spine that
+  // belongs to no format. Because the route told the model "the skeleton is fixed", that
+  // spine beat the seeded skill every time, and every script came out in it.
   formats: [
-    { key: 'personal',   name: 'Personal Story',  shape: 'Loss → Numbers → What changed → Lesson', use: 'Beat 4, the confession. Highest comment driver.', bank: 'FAILURE-BANK.md' },
-    { key: 'case_study', name: 'Case Study',      shape: 'Before → Intervention → After → Transferable rule', use: 'Beat 8, the receipt. Needs an E1 row.', bank: 'CREDIBILITY-BANK.md' },
-    { key: 'explainer',  name: 'Explainer',       shape: 'Misconception → Mechanism → Worked example → One action', use: 'Latent-demand topics like tax, where nobody is searching yet.' },
-    { key: 'storytelling', name: 'Story Arc',     shape: 'Modern arc — cold open, no setup. Conflict first, context later.', use: 'Long-form and carousel.' },
+    {
+      key: 'personal', name: 'Personal Learning / Epiphany', style: 'storytelling',
+      use: 'The default. Warmest and most personal. Use when the method is one he runs himself and the before state is genuinely embarrassing.',
+      bank: 'FAILURE-BANK.md',
+      beats: [
+        { n: 1, beat: 'Hook', band: '0-8s' },
+        { n: 2, beat: 'Establish desired result (with proof)', band: '8-22s' },
+        { n: 3, beat: 'Explain before state', band: '22-38s' },
+        { n: 4, beat: 'Explain process to get transformation reveal', band: '38-70s' },
+        { n: 5, beat: 'Lesson epiphanies', band: '70-84s' },
+        { n: 6, beat: 'CTA', band: '84-94s' },
+      ],
+      rehooks: '3→4 seam · before the last step',
+      note: 'Beat 3 carries the costly confession and the I→you handover. Cut the handover and it is autobiography.',
+    },
+    {
+      key: 'case_study', name: 'Case Study / Testimonial Recap', style: 'practical',
+      use: 'When the subject is someone OTHER than him — that is the format\'s real value, since his own stories are finite and capped at 20% of a piece.',
+      bank: 'CREDIBILITY-BANK.md',
+      beats: [
+        { n: 1, beat: 'Hook — Case Study format', band: '0-8s' },
+        { n: 2, beat: 'Establish Context', band: '8-26s' },
+        { n: 3, beat: 'Core Breakdown / Explanation', band: '26-62s' },
+        { n: 4, beat: 'Key Insight', band: '62-84s' },
+        { n: 5, beat: 'CTA', band: '84-94s' },
+      ],
+      rehooks: '2→3 seam · before the last item',
+      note: 'Run on his own receipt and it is a brag unless beat 4 reassigns cause to structure.',
+    },
+    {
+      key: 'explainer', name: 'Breakdowns / Explainers', style: 'tactical',
+      use: 'Strongest for a cold audience — beat 1 is about other people, so there is no status to swallow before the teaching starts. Also the format for latent-demand topics like tax.',
+      beats: [
+        { n: 1, beat: 'Hook', band: '0-8s' },
+        { n: 2, beat: 'Rapid Context', band: '8-24s' },
+        { n: 3, beat: 'Core Breakdown / Explanation', band: '24-58s' },
+        { n: 4, beat: 'So What', band: '58-84s' },
+        { n: 5, beat: 'CTA', band: '84-94s' },
+      ],
+      rehooks: '2→3 seam · before the So What turn',
+      note: 'Beat 4 carries one line of his story as a cost he paid. That line is the whole story budget in this format.',
+    },
   ],
-  law: 'A confession without a receipt is a diary. A receipt without a confession is a brag. Every strong piece takes one from each.',
+
+  // Every beat carries one. From new-scripting — the four content markers.
+  markers: ['Reframe', 'Fundamental truth', 'Aha moment', 'Contrarian belief'],
+
+  // Written inline in the spoken line, not described.
+  joiners: { BUT: 'the turn — contradicts what was just said', THEREFORE: 'the consequence — what follows from it' },
+
+  slots: {
+    QUOTE_SLOT: 'One line read verbatim off a real source, in quotes. No paraphrase, no brand name. The beat does not open without it.',
+    SCREENSHOT: 'The one card worth saving — usually the close of the core breakdown.',
+    TAIL: 'An unfinished line that loops back to the opening line, word for word.',
+  },
 }
 
 const CTA_LIBRARY = {

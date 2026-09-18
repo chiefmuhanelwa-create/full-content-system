@@ -22,6 +22,7 @@ import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 import { logActivity } from '@/lib/activity'
 import { explainGenerationFailure } from '@/lib/ai/explain'
+import { ctaForPillar } from '@/lib/cta'
 
 /** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
  * exactly like a model failure — that is what made this hard to see. */
@@ -51,14 +52,26 @@ export async function POST(request: NextRequest) {
   }
 
   const fmt = (gov.script_formats?.formats ?? []).find((f: any) => f.key === format)
-  const cta = (gov.cta_library?.keywords ?? []).find((k: any) => k.status === 'live' && k.pillar === pillar)
-    ?? (gov.cta_library?.keywords ?? []).find((k: any) => k.status === 'live')
+  const cta = ctaForPillar(gov, pillar)
   const safe = (gov.fact_lock?.safe ?? []).slice(0, 8)
   const principles = gov.script_principles?.principles ?? []
   const phrases = gov.rehook?.phrases ?? []
 
-  // ── The skeleton is computed from data, not chosen by the model ─────────
-  const beats = String(cadence.structure).split('→').map((b: string) => b.trim())
+  // ── The skeleton is the FORMAT'S OWN BEATS ──────────────────────────────
+  // Not rehook.cadence.structure. That is a generic Hook→Build→Rehook→Peak spine belonging
+  // to no format, and because this prompt says "the skeleton is fixed" it beat the seeded
+  // skill every time — which is why every script came out in it.
+  const fmtBeats: { n: number; beat: string; band: string }[] = fmt?.beats ?? []
+  if (!fmtBeats.length) {
+    return NextResponse.json({
+      error: `The "${format}" format has no beat table.`,
+      why: 'Beats come from script_formats, which mirrors new-scripting/references/FORMATS.md. Without them there is no skeleton and the model would invent one.',
+      fix: 'Run scripts/seed-algorithm.ts.',
+      available: (gov.script_formats?.formats ?? []).map((f: any) => f.key),
+    }, { status: 503 })
+  }
+  const markers: string[] = gov.script_formats?.markers ?? []
+  const slots = gov.script_formats?.slots ?? {}
 
   const { system, skillsUsed } = await buildGovernedSystemPrompt('scripts', { pillar, tier })
 
@@ -71,8 +84,20 @@ PILLAR: ${pillar ?? 'infer and state it'}
 TIER SERVED: ${tier ?? 'infer and state it'}
 FORMAT: ${fmt ? `${fmt.name} — ${fmt.shape}. ${fmt.use}` : format}
 
-SKELETON — ${cadence.rehooks} rehook(s), one every ${cadence.every}:
-${beats.map((b: string, i: number) => `  beat ${i + 1}: ${b}`).join('\n')}
+BEATS — these names are the shared vocabulary from the format. Use them EXACTLY, do not rename or paraphrase:
+${fmtBeats.map((b) => `  ${b.n}. ${b.beat}  [${b.band}]`).join('\n')}
+
+REHOOKS — ${fmt.rehooks}. Write them as their own lines between beats, labelled REHOOK 1 / REHOOK 2.
+FORMAT NOTE: ${fmt.note ?? ''}
+
+EVERY BEAT CARRIES ONE MARKER: ${markers.join(' · ')}
+
+JOINERS — write [BUT] and [THEREFORE] INLINE in the spoken line where the turn and the consequence land. Do not describe them.
+
+SLOTS:
+  [QUOTE SLOT] ${slots.QUOTE_SLOT ?? ''}
+  [SCREENSHOT] ${slots.SCREENSHOT ?? ''}
+  [TAIL] ${slots.TAIL ?? ''}
 
 REHOOK PHRASES you may adapt (do not invent a new shape):
 ${phrases.slice(0, 5).map((p: string) => `  - ${p}`).join('\n')}
@@ -89,13 +114,27 @@ CTA: ${cta ? `"${cta.k}" — resolves to ${cta.destination}` : 'no keyword resol
 
 Return ONE JSON object, no prose:
 {
-  "beats":[{"n":1,"label":"Hook","seconds":"0-8","line":"what he says","screen":"on-screen text or null"}],
-  "rehooksUsed":["the rehook lines, in order"],
-  "fullScript":"the whole thing as continuous speakable text, with [SCREEN: ...] cues inline",
+  "format":"${fmt.name}",
+  "beats":[{"n":1,"beat":"the exact beat name from the list","band":"0-8s","marker":"one of the four","screen":"ON-SCREEN TEXT IN CAPS or null","line":"what he says, with [BUT] and [THEREFORE] inline where they land"}],
+  "rehooks":[{"after":2,"line":"the rehook line"}],
+  "tail":"the unfinished line that loops back",
+  "loopsTo":"the opening line, word for word",
+  "fullScript":"the whole thing as continuous speakable text, with SCREEN: cues and REHOOK labels inline",
   "textHook":"3-7 words for the opening overlay",
   "caption":"opens on HIS loss with a figure from the list, then the teach, then ONE CTA",
   "ctaKeyword":"${cta?.k ?? 'NONE'}",
-  "runtimeCheck":"your estimate of spoken length at ~150 words per minute"
+  "editNotes":{
+    "runtimeTarget":"e.g. 94s",
+    "bands":"the beat bands joined with a dot",
+    "rehooks":"where they sit",
+    "visualHook":"ONE object, described",
+    "firstCut":"no earlier than 5.0s",
+    "cutCadence":"11-14/min",
+    "screenshotBeat":"which beat carries it",
+    "figuresOnScreen":"only figures from the list above",
+    "figuresSpoken":"any range the viewer replaces with their own, marked as such",
+    "ctaKeyword":"${cta?.k ?? 'NONE'} — confirm live before recording"
+  }
 }`,
     system, pillar, tier, tier_of: 'main', maxTokens: 6000,
   })
@@ -124,11 +163,16 @@ Return ONE JSON object, no prose:
     success: true,
     script: data,
     skeleton: {
-      duration, beats, rehooks: cadence.rehooks, every: cadence.every,
-      why: gov.rehook?.why, target: gov.rehook?.target,
+      duration,
+      format: fmt.name,
+      beats: fmtBeats,
+      rehooks: fmt.rehooks,
+      // The measured rehook cadence is still reported — it is the retention evidence — but
+      // it no longer supplies the skeleton. The format's beat table does.
+      cadence: { loops: cadence.rehooks, every: cadence.every, why: gov.rehook?.why, target: gov.rehook?.target },
     },
     composition: {
-      fromData: `the ${duration} rehook cadence (${cadence.rehooks} loops, every ${cadence.every}), ${principles.length} scripting principles, the ${fmt?.name ?? format} shape, ${safe.length} evidenced figures and the ruled pillar set`,
+      fromData: `the ${fmt.name} beat table from new-scripting (${fmtBeats.length} beats, rehooks ${fmt.rehooks}), the ${duration} rehook cadence, ${principles.length} scripting principles, ${safe.length} evidenced figures and the ruled pillar set`,
       fromModel: 'the lines inside the fixed skeleton',
       ratio: '80% data / 20% model',
     },
