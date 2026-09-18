@@ -27,11 +27,12 @@ const GV = process.env.INSTAGRAM_GRAPH_VERSION || 'v26.0'
 const BASE = 'https://graph.instagram.com'
 
 const MEDIA_FIELDS =
-  'id,caption,media_type,media_product_type,permalink,timestamp,like_count,comments_count'
+  'id,caption,media_type,media_product_type,permalink,timestamp,like_count,comments_count,thumbnail_url,media_url'
 
 type RawMedia = {
   id: string; caption?: string; media_type?: string; media_product_type?: string
   permalink?: string; timestamp?: string; like_count?: number; comments_count?: number
+  thumbnail_url?: string; media_url?: string
 }
 
 async function fetchJson(url: string) {
@@ -150,6 +151,8 @@ async function runSync(request: NextRequest) {
       mediaType: m.media_type ?? null,
       productType: m.media_product_type ?? null,
       permalink: m.permalink ?? null,
+      thumbnailUrl: m.thumbnail_url ?? null,
+      mediaUrl: m.media_url ?? null,
       postedAt: m.timestamp ? new Date(m.timestamp) : null,
       likeCount: likes,
       commentsCount: comments,

@@ -54,6 +54,7 @@ model User {
   contentCalendarPlus ContentCalendarPlus[]
   pipeline            ContentPipeline[]
   batchPlans          BatchPlan[]
+  contentIdeas        ContentIdea[]
 
   @@map("users")
   @@schema("content_system")
@@ -928,6 +929,11 @@ model InstagramMedia {
   permalink   String?
   postedAt    DateTime?
 
+  /// Instagram CDN URLs. They EXPIRE — treat a broken image as stale, not as missing data,
+  /// and re-sync rather than chasing it. thumbnailUrl is video-only; mediaUrl covers stills.
+  thumbnailUrl String? @db.Text
+  mediaUrl     String? @db.Text
+
   likeCount     Int @default(0)
   commentsCount Int @default(0)
   reach         Int?
@@ -1139,5 +1145,50 @@ model ShootItem {
   @@index([userId, status])
   @@index([pillar])
   @@map("shoot_items")
+  @@schema("content_system")
+}
+
+// ── The Idea Bank ─────────────────────────────────────────────────────────────
+// 250 seeded ideas, each mapped to one of the five RULED pillars (R16, 2026-09-17):
+// KEEP IT 30 · PRICE IT 25 · OWN IT 20 · BUILD IT ANYWAY 15 · PROVE IT 10.
+// `sourceGroup` keeps the founder's original category so nothing is lost in the map.
+model ContentIdea {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title       String
+  pillar      String  @default("KEEP IT")
+  sourceGroup String  @default("")
+  tier        String  @default("CORE") // FREE | ENTRY | CORE | PREMIUM
+  status      String  @default("idea") // idea|draft|script|shoot|edit|schedule|posted|parked
+  format      String  @default("reel") // reel|carousel|story|email|post
+
+  // The two surfaces are deliberately separate fields: a caption opens on the
+  // founder's own loss with a figure, a spoken hook opens in second person.
+  // They are never the same words.
+  spokenHook     String @default("")
+  captionOpener  String @default("")
+  painPoint      String @default("")
+  cta            String @default("")
+  script         String @default("")
+  notes          String @default("")
+
+  storyId        String  @default("")
+  evidence       String  @default("")
+  factlock       String  @default("pending") // pending|pass|blocked
+  starred        Boolean @default(false)
+
+  scheduledFor DateTime?
+  postedAt     DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([pillar])
+  @@index([scheduledFor])
+  @@map("content_ideas")
   @@schema("content_system")
 }

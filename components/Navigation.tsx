@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import {
-  Archive, BarChart2, BookMarked, BookOpen, Brain, Briefcase, Calendar, CalendarRange, ChevronDown, ChevronRight, Clapperboard, ClipboardList, Cpu, Database, FileText, Fingerprint, Globe, Handshake, Hash, History, Instagram, Kanban, Layers, LayoutDashboard, LayoutGrid, Link2, LogOut, Megaphone, Mic, MonitorPlay, Package, PenTool, Plug, Repeat, RotateCcw, Search, Settings, ShieldCheck, ShoppingBag, Star, Target, Target as TargetIcon, TrendingUp, Tv2, Users, Wallet, X, Zap, Mail
+  Archive, BarChart2, BookMarked, BookOpen, Brain, Briefcase, Calendar, CalendarRange, ChevronDown, ChevronRight, Clapperboard, ClipboardList, Cpu, Database, FileText, Fingerprint, Globe, Handshake, Hash, History, Instagram, Kanban, Layers, LayoutDashboard, Lightbulb, LayoutGrid, Link2, LogOut, Megaphone, Mic, MonitorPlay, Package, PenTool, Plug, Repeat, RotateCcw, Search, Settings, ShieldCheck, ShoppingBag, Star, Target, Target as TargetIcon, TrendingUp, Tv2, Users, Wallet, X, Zap, Mail
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -21,6 +21,26 @@ type NavGroup = {
   items: NavItem[]
 }
 
+/**
+ * RETIRED FROM THE SIDEBAR — 2026-09-18.
+ *
+ * Five tools were removed from the nav after a live row count. Each is storage-backed:
+ * storing rows is its entire purpose, and each held ZERO.
+ *
+ *   Pipeline Board      /dashboard/pipeline               content_pipeline       0 rows
+ *   Content Calendar    /dashboard/content-calendar-plus  content_calendar_plus  0 rows
+ *   Batch Planner       /dashboard/batch-planner          batch_plans            0 rows
+ *   Brand Deals         /dashboard/deals                  deals                  0 rows
+ *   Shoot Runsheet      /dashboard/runsheet               shoot_items            0 rows
+ *
+ * The PAGES AND TABLES ARE UNTOUCHED — every route still resolves if opened directly.
+ * To restore one, put its line back in the group below.
+ *
+ * Deliberately NOT retired, because zero rows does not prove disuse for these: the
+ * generator tools (Hook Generator, Script Writer, Captions, Repurpose, Storytelling,
+ * Visuals, Fear Analyzer) write nothing unless you press save, so an empty `hooks` or
+ * `scripts` table means "not saved", not "not used".
+ */
 const navGroups: NavGroup[] = [
   {
     label: 'Command',
@@ -45,7 +65,6 @@ const navGroups: NavGroup[] = [
       { name: 'Repurpose', href: '/dashboard/repurpose', icon: Repeat },
       { name: 'Content Studio', href: '/dashboard/content-studio', icon: PenTool },
       { name: 'Visuals', href: '/dashboard/visuals', icon: Star },
-      { name: 'Shoot Runsheet', href: '/dashboard/runsheet', icon: ClipboardList },
     ],
   },
   {
@@ -69,9 +88,7 @@ const navGroups: NavGroup[] = [
     items: [
       { name: 'The Week', href: '/dashboard/the-week', icon: CalendarRange, badge: 'MON' },
       { name: 'The Return', href: '/dashboard/the-return', icon: RotateCcw },
-      { name: 'Pipeline Board', href: '/dashboard/pipeline', icon: Kanban },
-      { name: 'Content Calendar', href: '/dashboard/content-calendar-plus', icon: Calendar },
-      { name: 'Batch Planner', href: '/dashboard/batch-planner', icon: Layers },
+      { name: 'Idea Bank', href: '/dashboard/idea-bank', icon: Lightbulb, badge: '250' },
       { name: 'AI Board of Advisors', href: '/dashboard/advisors', icon: Users },
     ],
   },
@@ -90,7 +107,6 @@ const navGroups: NavGroup[] = [
     label: 'Brand & Money',
     items: [
       { name: 'Brand Engine', href: '/dashboard/brand', icon: Briefcase, badge: 'NEW' },
-      { name: 'Brand Deals', href: '/dashboard/deals', icon: Handshake },
       { name: 'Revenue Tracker', href: '/dashboard/revenue', icon: Wallet },
       { name: 'Products', href: '/dashboard/products', icon: Package },
     ],

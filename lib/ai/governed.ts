@@ -62,7 +62,41 @@ export function sanitiseForModel(s: string): string {
   return String(s ?? '').replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, '')
 }
 
-async function callModel(model: string, system: string, prompt: string, maxTokens: number) {
+/**
+ * The system prompt in two parts, because only one of them is worth caching.
+ *
+ * `stable` is the doctrine + ban list. It is byte-identical on every call from every tool,
+ * so it is sent as its own block marked cacheable — the cache is a PREFIX match, so all ten
+ * tools share one cached prefix and pay ~10% for it on a hit instead of full price.
+ *
+ * `volatile` is the tool's own rules. It changes per tool and is never cached.
+ *
+ * This is the whole token story on this system: input ran ~6.7x output over 30 days, so the
+ * saving is in what we RE-SEND, not in what the model writes.
+ */
+export type SystemParts = { cached: string[]; volatile?: string }
+
+let cacheUnsupported = false // set once if the API rejects cache_control, then never retried
+
+/**
+ * `cached` blocks are ordered most-shared first — doctrine, then the ban list — so every
+ * tool matches on the doctrine prefix even when it does not send the ban list. The cache is
+ * a prefix match, so block ORDER is what decides the hit rate, not block content.
+ */
+function systemBlocks(s: SystemParts): any {
+  const cached = s.cached.map(sanitiseForModel).filter(Boolean)
+  const volatile = sanitiseForModel(s.volatile ?? '')
+  if (cacheUnsupported) {
+    return [...cached, volatile].filter(Boolean).join('\n\n---\n\n')
+  }
+  const blocks: any[] = cached.map((text) => ({
+    type: 'text', text, cache_control: { type: 'ephemeral' },
+  }))
+  if (volatile) blocks.push({ type: 'text', text: volatile })
+  return blocks
+}
+
+async function callModel(model: string, system: SystemParts, prompt: string, maxTokens: number) {
   // Streaming, not a single blocking POST. A non-streamed request with a large system prompt
   // and a high max_tokens holds the connection open long enough that the hop in front of it
   // closes the body early — surfacing as "Premature close" with no useful detail. The SDK
@@ -70,18 +104,41 @@ async function callModel(model: string, system: string, prompt: string, maxToken
   //
   // `temperature` is deprecated on current Claude models and is rejected outright, so it is
   // never sent. Determinism is steered through the prompt instead.
-  const stream = (anthropic as any).messages.stream({
+  const send = (sys: any) => (anthropic as any).messages.stream({
     model,
     max_tokens: maxTokens,
-    system: sanitiseForModel(system),
+    system: sys,
     messages: [{ role: 'user', content: sanitiseForModel(prompt) }],
   })
-  const res: any = await stream.finalMessage()
+
+  let res: any
+  try {
+    res = await send(systemBlocks(system)).finalMessage()
+  } catch (e: any) {
+    // The pinned SDK predates prompt caching going GA. If the shape is rejected, fall back
+    // to a plain string once and stop trying for the life of the process — a caching
+    // optimisation must never be the reason generation fails.
+    const msg = String(e?.message ?? '')
+    if (!cacheUnsupported && /cache_control|system/i.test(msg)) {
+      cacheUnsupported = true
+      res = await send(systemBlocks(system)).finalMessage()
+    } else {
+      throw e
+    }
+  }
+
+  const u = res.usage ?? {}
+  const cache = {
+    created: u.cache_creation_input_tokens ?? 0,
+    read: u.cache_read_input_tokens ?? 0,
+    input: u.input_tokens ?? 0,
+    output: u.output_tokens ?? 0,
+  }
   const text = (res.content ?? [])
     .filter((b: any) => b.type === 'text')
     .map((b: any) => b.text)
     .join('')
-  return { text, stopReason: res.stop_reason ?? null }
+  return { text, stopReason: res.stop_reason ?? null, cache }
 }
 
 /**
@@ -94,7 +151,7 @@ async function callModel(model: string, system: string, prompt: string, maxToken
  */
 const RETRY_IF_FASTER_THAN_MS = 20_000
 
-async function callModelWithRetry(model: string, system: string, prompt: string, maxTokens: number) {
+async function callModelWithRetry(model: string, system: SystemParts, prompt: string, maxTokens: number) {
   const t0 = Date.now()
   const first = await callModel(model, system, prompt, maxTokens)
   const elapsed = Date.now() - t0
@@ -109,16 +166,17 @@ export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
   const started = Date.now()
   const model = MODEL[opts.tier_of ?? 'main']
   const enforce = opts.enforceFactLock !== false
-  const maxTokens = opts.maxTokens ?? 4000
+  // 2000, not 4000. Output was ~15% of the 30-day spend and almost nothing here needs
+  // 4k tokens; a caller that genuinely does still passes maxTokens explicitly.
+  const maxTokens = opts.maxTokens ?? 2000
 
   const g = await getGovernance()
   const doctrine = await governanceForPrompt({ pillar: opts.pillar, tier: opts.tier })
 
-  const system = [
-    doctrine,
-    enforce ? banListForPrompt() : '',
-    opts.system ?? '',
-  ].filter(Boolean).join('\n\n---\n\n')
+  const system: SystemParts = {
+    cached: [doctrine, enforce ? banListForPrompt() : ''],
+    volatile: opts.system ?? '',
+  }
 
   const first = await callModelWithRetry(model, system, opts.prompt, maxTokens)
   let text = first.text
@@ -174,13 +232,17 @@ export async function analyse<T = any>(opts: {
 }): Promise<{ data: T | null; raw: string; model: string }> {
   const model = MODEL[opts.tier_of ?? 'fast']
   const doctrine = await governanceForPrompt()
-  const system = [
-    doctrine,
-    opts.system ?? '',
-    `Reply with ONE valid JSON object and nothing else. No prose, no markdown fence.\nShape: ${opts.schemaHint}`,
-  ].filter(Boolean).join('\n\n---\n\n')
+  // Same cached prefix as generate() uses, so analysis calls hit the cache the authoring
+  // calls warmed — and vice versa.
+  const system: SystemParts = {
+    cached: [doctrine],
+    volatile: [
+      opts.system ?? '',
+      `Reply with ONE valid JSON object and nothing else. No prose, no markdown fence.\nShape: ${opts.schemaHint}`,
+    ].filter(Boolean).join('\n\n---\n\n'),
+  }
 
-  const raw = (await callModelWithRetry(model, system, opts.prompt, opts.maxTokens ?? 3000)).text
+  const raw = (await callModelWithRetry(model, system, opts.prompt, opts.maxTokens ?? 2000)).text
   const { data } = extractJson<T>(raw)
   return { data, raw, model }
 }
