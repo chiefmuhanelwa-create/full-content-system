@@ -24,10 +24,16 @@ import { buildGovernedSystemPrompt } from '@/lib/skills'
 import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
+import { explainGenerationFailure } from '@/lib/ai/explain'
 
 /** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
  * exactly like a model failure — that is what made this hard to see. */
-export const maxDuration = 60
+/**
+ * vercel.json allows 300s, but a route-level export WINS over it — so the 60 that used to be
+ * here was the real ceiling, and every long generation was killed mid-stream and reported as
+ * a model failure. See lib/ai/explain.ts.
+ */
+export const maxDuration = 300
 
 function pickCta(gov: any, pillar?: string) {
   const lib = gov.cta_library?.keywords ?? []
@@ -98,13 +104,16 @@ Return ONE JSON object, no prose, no fence:
   const bundle = ex.data
 
   if (!bundle) {
-    return NextResponse.json({
-      error: 'The model did not return usable JSON.',
-      diagnosis: ex.truncated
-        ? 'The response was cut off at the token limit. Try a shorter runtime.'
-        : 'No JSON object was found in the response.',
-      factLock: out.factLock, raw: out.text.slice(0, 1500),
-    }, { status: 502 })
+    const bad = explainGenerationFailure(out, null, 'the shoot bundle', 300)
+    if (bad) {
+      const { status, ...body } = bad
+      // The extractor knows one thing explain() cannot: whether the JSON was cut off.
+      if (ex.truncated) {
+        body.why = 'The response was cut off at the token limit — the JSON is incomplete, not missing.'
+        body.fix = 'Ask for a shorter runtime, or raise maxTokens on this route.'
+      }
+      return NextResponse.json({ ...body, factLock: out.factLock }, { status })
+    }
   }
 
   // Fact-check every written surface separately — a clean script with a dirty caption still ships dirty.

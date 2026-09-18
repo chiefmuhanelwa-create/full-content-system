@@ -14,10 +14,16 @@ import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 import { logActivity, type Entity } from '@/lib/activity'
+import { explainGenerationFailure } from '@/lib/ai/explain'
 
 /** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
  * exactly like a model failure — that is what made this hard to see. */
-export const maxDuration = 60
+/**
+ * vercel.json allows 300s, but a route-level export WINS over it — so the 60 that used to be
+ * here was the real ceiling, and every long generation was killed mid-stream and reported as
+ * a model failure. See lib/ai/explain.ts.
+ */
+export const maxDuration = 300
 
 const ENTITY: Record<string, Entity> = {
   captions: 'caption', repurpose: 'script', storytelling: 'story', fears: 'governance',
@@ -75,11 +81,10 @@ async function run(request: NextRequest, key: string) {
   })
 
   const { data } = extractJson<any>(out.text)
-  if (!data) {
-    return NextResponse.json({
-      error: 'The model did not return usable JSON.',
-      raw: out.text.slice(0, 1200),
-    }, { status: 502 })
+  const bad = explainGenerationFailure(out, data, spec.title.toLowerCase(), 300)
+  if (bad) {
+    const { status, ...body } = bad
+    return NextResponse.json(body, { status })
   }
 
   const fl = check(allText(data).join('\n'))

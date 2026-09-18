@@ -22,10 +22,16 @@ import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 import { logActivity } from '@/lib/activity'
+import { explainGenerationFailure } from '@/lib/ai/explain'
 
 /** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
  * exactly like a model failure — that is what made this hard to see. */
-export const maxDuration = 60
+/**
+ * vercel.json allows 300s, but a route-level export WINS over it — so the 60 that used to be
+ * here was the real ceiling, and every long generation was killed mid-stream and reported as
+ * a model failure. See lib/ai/explain.ts.
+ */
+export const maxDuration = 300
 
 /** Awareness -> which trigger categories actually fit. From the library's own guidance. */
 const BY_AWARENESS: Record<string, string[]> = {
@@ -109,8 +115,10 @@ Return ONE JSON object, no prose:
   })
 
   const { data } = extractJson<any>(out.text)
-  if (!data?.hooks?.length) {
-    return NextResponse.json({ error: 'The model did not return usable hooks.', raw: out.text.slice(0, 1200) }, { status: 502 })
+  const bad = explainGenerationFailure(out, data?.hooks?.length ? data : null, 'hooks', 300)
+  if (bad) {
+    const { status, ...body } = bad
+    return NextResponse.json(body, { status })
   }
 
   // Attach provenance and fact-check each line independently.

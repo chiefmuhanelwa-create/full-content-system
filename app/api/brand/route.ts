@@ -21,7 +21,12 @@ import { generate, analyse } from '@/lib/ai/governed'
 
 /** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
  * exactly like a model failure — that is what made this hard to see. */
-export const maxDuration = 60
+/**
+ * vercel.json allows 300s, but a route-level export WINS over it — so the 60 that used to be
+ * here was the real ceiling, and every long generation was killed mid-stream and reported as
+ * a model failure. See lib/ai/explain.ts.
+ */
+export const maxDuration = 300
 
 /** Live account numbers. Falls back to the ruled figures if no sync has run. */
 async function accountNumbers() {
