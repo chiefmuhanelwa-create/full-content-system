@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,7 +16,7 @@ const AWARENESS = [
   { k: 'solution', n: 'Solution-aware' }, { k: 'product', n: 'Product-aware' }, { k: 'most', n: 'Most aware' },
 ]
 
-export default function HooksPage() {
+function HookGenerator() {
   const router = useRouter()
   const params = useSearchParams()
   const [ideaId, setIdeaId] = useState('')
@@ -173,5 +173,18 @@ export default function HooksPage() {
         </Card>
       ))}
     </div>
+  )
+}
+
+/**
+ * useSearchParams() opts the tree out of static prerendering, and Next fails the build
+ * unless it is wrapped. The Script Writer already did this — the Hook Generator only needed
+ * it once it started reading a handoff off the query string.
+ */
+export default function HooksPage() {
+  return (
+    <Suspense fallback={<div className="p-6 text-sm text-muted-foreground">Loading…</div>}>
+      <HookGenerator />
+    </Suspense>
   )
 }
