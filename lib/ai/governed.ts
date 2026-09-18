@@ -154,24 +154,36 @@ async function callModel(model: string, system: SystemParts, prompt: string, max
 }
 
 /**
- * An empty completion has two very different causes, and retrying only helps one of them:
- *   - the stream genuinely returned nothing (fast, and a retry fixes it)
- *   - the serverless function was killed mid-stream at the plan's duration ceiling (slow,
- *     and a retry guarantees a second kill)
- * So retry ONLY when the first attempt came back quickly. Anything slower is a timeout
- * wearing an empty-response costume, and the honest move is to say so.
+ * An empty completion used to be read as two causes, and the slow one was assumed fatal:
+ * a slow empty response was called a killed function and NOT retried.
+ *
+ * 🔴 That assumption was wrong, and production disproved it. A function killed at its
+ * duration ceiling cannot answer — the reply is the platform's, not ours. Every time a user
+ * saw our own "ran out of time" JSON, the function was alive and had simply been handed an
+ * empty completion. So the one case that a retry would have rescued was the single case the
+ * code refused to retry, and it then blamed the platform's function limit, sending everyone
+ * to look at maxDuration, which was never involved.
+ *
+ * Retry on empty regardless of how long it took. The only real constraint is the remaining
+ * budget: an attempt costs roughly as long as the one before it, so a retry is only started
+ * if there is room for another one of the same size.
  */
-const RETRY_IF_FASTER_THAN_MS = 20_000
+const BUDGET_MS = 300_000
 
 async function callModelWithRetry(model: string, system: SystemParts, prompt: string, maxTokens: number) {
   const t0 = Date.now()
   const first = await callModel(model, system, prompt, maxTokens)
-  const elapsed = Date.now() - t0
   if (first.text.trim()) return first
-  if (elapsed > RETRY_IF_FASTER_THAN_MS) {
-    return { ...first, timedOut: true as const }
+
+  // No room for a second attempt of the same size — say that, rather than inventing a cause.
+  const elapsed = Date.now() - t0
+  if (elapsed * 2 > BUDGET_MS) {
+    return { ...first, emptyTwice: false as const, tookMs: elapsed }
   }
-  return await callModel(model, system, prompt, maxTokens)
+
+  const second = await callModel(model, system, prompt, maxTokens)
+  if (second.text.trim()) return second
+  return { ...second, emptyTwice: true as const, tookMs: Date.now() - t0 }
 }
 
 export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
@@ -201,7 +213,9 @@ export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
 
   const first = await callModelWithRetry(model, system, opts.prompt, maxTokens)
   let text = first.text
-  const stopReason = (first as any).timedOut ? 'function_timeout' : first.stopReason
+  // 'empty_completion' is what we actually observed. It is NOT a function timeout, and
+  // naming it one is how the last round of debugging went to the wrong place entirely.
+  const stopReason = (first as any).tookMs !== undefined ? 'empty_completion' : first.stopReason
   let repaired = false
   let fl = check(text)
 

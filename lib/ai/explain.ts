@@ -8,8 +8,9 @@
  *
  * There are four distinct failures behind one symptom, and they need four different answers:
  *
- *   1. EMPTY, SLOW      the function hit its ceiling. Raise maxDuration or ask for less.
- *   2. EMPTY, FAST      the model genuinely returned nothing. Usually a bad prompt or a refusal.
+ *   1. EMPTY, AT THE CEILING   ran the full budget. Ask for less in one pass.
+ *   2. EMPTY, UNDER THE CEILING the model returned no text, twice. NOT a timeout — if this
+ *                               message renders, the function was alive to write it.
  *   3. TEXT, NO JSON    it wrote prose instead of the object. A prompt problem.
  *   4. BLOCKED          it wrote a banned claim twice, so the fact-lock kept it in.
  */
@@ -55,7 +56,9 @@ export function explainGenerationFailure(
   const text = (out.text ?? '').trim()
   const ms = out.meta?.ms ?? 0
   const model = out.meta?.model
-  const timedOut = out.meta?.stopReason === 'function_timeout'
+  // The model answered with nothing, twice. This is NOT evidence of a function timeout:
+  // if this message is being rendered, the function was alive long enough to write it.
+  const emptyCompletion = out.meta?.stopReason === 'empty_completion'
 
   // 4 — it produced something, but the fact-lock refused to let it out.
   if (out.blocked) {
@@ -73,23 +76,27 @@ export function explainGenerationFailure(
 
   // 1 and 2 — nothing came back. The elapsed time says which.
   if (!text) {
-    if (timedOut || ms > maxDurationSec * 900) {
+    const nearCeiling = ms > maxDurationSec * 900
+    if (nearCeiling) {
       const secs = (ms / 1000).toFixed(0)
-      // Only claim the route ceiling if we actually got near it. Otherwise something ELSE
-      // killed the stream — most often a platform function limit BELOW the route's setting,
-      // which is invisible from here. Saying "you hit 300s" when it died at 60 sends
-      // everyone to the wrong place, which is the whole failure this file exists to stop.
-      const nearCeiling = ms > maxDurationSec * 900
       return {
         stage: 'timeout',
         error: `Ran out of time before finishing ${noun}.`,
-        why: nearCeiling
-          ? `It ran ${secs}s against this route's ${maxDurationSec}s ceiling and was killed mid-stream. A killed stream returns empty text, which looks exactly like a model failure and is not one.`
-          : `It returned nothing after ${secs}s — well short of this route's ${maxDurationSec}s ceiling, so something else ended the stream. The usual cause is a PLATFORM function limit lower than the route's own setting: a Vercel Hobby project caps at 60s no matter what maxDuration says.`,
-        fix: nearCeiling
-          ? `Ask for less in one pass. A fact-lock repair counts as a second full generation inside the same ${maxDurationSec}s budget.`
-          : `Check the deployment's actual function limit before changing anything here. If it is 60s, the fix is the plan or a shorter generation — not maxDuration, which is already ${maxDurationSec}.`,
+        why: `It ran ${secs}s against this route's ${maxDurationSec}s ceiling. That is genuinely close to the limit, and a stream cut at the ceiling returns empty text — which looks exactly like a model failure and is not one.`,
+        fix: `Ask for less in one pass. A fact-lock repair counts as a second full generation inside the same ${maxDurationSec}s budget.`,
         elapsedMs: ms, model, status: 504,
+      }
+    }
+    if (emptyCompletion) {
+      const secs = (ms / 1000).toFixed(0)
+      return {
+        stage: 'empty',
+        error: `The model returned nothing for ${noun}, twice.`,
+        // Do not blame the platform here. This message only exists because the function was
+        // alive to write it — so it was not killed, and maxDuration is not involved.
+        why: `It was asked twice and came back with no text both times, over ${secs}s total. The function was not killed: it stayed alive long enough to report this. So this is the model returning an empty completion, not a duration limit.`,
+        fix: 'Run it again — an empty completion is usually transient and the retry now happens automatically. If the same topic fails repeatedly, the topic is the problem: something in it is being refused.',
+        elapsedMs: ms, model, status: 502,
       }
     }
     return {
