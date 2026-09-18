@@ -258,6 +258,7 @@ export async function governanceForPrompt(opts: { pillar?: string; tier?: string
   const ps = g.plain_speech || {}
   const tb = ps.teachingBeat || {}
   const we = ps.workedExample || {}
+  const ex = g.script_exemplars || {}
 
   const tierLines = tiers.map((t) =>
     `- ${t.tier} (${t.price}) — ${t.who}${t.age ? ', ' + t.age : ''}.${t.line ? ` They say: "${t.line}".` : ''}${t.sell === false ? ' NEVER SOLD TO.' : ''}${t.limit ? ' RULE: ' + t.limit : ''}`
@@ -334,6 +335,23 @@ ${(we.items ?? []).map((it: any) => it.rehook
   : `  SCREEN: ${it.screen}\n    ${it.nameIt} ${it.means} ${it.doIt}`).join('\n')}
 
 Copy that shape. Never the labels.
+
+## STORYTELLING — the graded record. Copy the MOVES, never the topic or the labels.
+
+${(ex.keep ?? []).length ? `THESE LANDED. Do them again, in his voice, on whatever the idea is:
+${(ex.keep ?? []).map((k: any) => `- ${k.move}\n    e.g. "${k.quote}"`).join('\n')}` : ''}
+
+${(ex.fix ?? []).length ? `THESE SHIPPED AND SHOULD NOT HAVE — each one is quoted from a real output:
+${(ex.fix ?? []).map((f: any) => `- ${f.defect}: "${f.found}"\n    Why it is wrong: ${f.why}\n    Instead: ${f.instead}`).join('\n')}` : ''}
+
+${ex.reject ? `THE SPINE THAT WAS REJECTED: ${ex.reject.spine}
+${ex.reject.why}
+${ex.reject.verdict ?? ''}
+The tell: ${ex.reject.tell ?? ''}` : ''}
+
+${ex.neverAttribute ? `NEVER INVENT AN ATTRIBUTION: ${ex.neverAttribute.found}
+${ex.neverAttribute.why}
+${ex.neverAttribute.rule}` : ''}
 
 ## RETIRED — never write these
 "Called Expert", "ICP 1", "ICP 2", the 32-50 professional, R9,000-R45,000, R9,997, R18,000.${retired ? '\n' + retired : ''}

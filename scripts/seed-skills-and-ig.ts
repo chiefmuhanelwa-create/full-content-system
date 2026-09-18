@@ -6,47 +6,11 @@ import { PrismaClient } from '@prisma/client'
 import fs from 'fs/promises'
 import path from 'path'
 import os from 'os'
+import { SKILL_ROOTS, WANTED, rootFor, walkMarkdown as walk } from '../lib/skill-sources'
 
 const prisma = new PrismaClient()
 const OWNER = 'default-user-id'
-/**
- * Skills do not all live in ~/.claude/skills.
- *
- * `new-scripting` — which its own 2026-09-15 ruling calls "THE scripting system... the one
- * that governs" — lives under `ICP LEARNING/skills`, so a seeder that only read the home
- * directory could never see it. It was missing from the database entirely, and every script
- * the app generated was therefore built on nochill-script, which that same ruling says is
- * "out of date" on the container it names.
- *
- * Roots are searched in order; the FIRST one holding a skill wins, so a home-directory copy
- * still overrides a project copy if one is ever added.
- */
-const SKILL_ROOTS = [
-  path.join(os.homedir(), '.claude', 'skills'),
-  path.join(os.homedir(), 'Desktop', 'VS code', 'ICP LEARNING', 'skills'),
-]
-const SKILLS_DIR = SKILL_ROOTS[0]
-const WANTED = ['new-scripting','jatho-scripting','nochill-motion','nochill-brain','nochill-script','nochill-storytelling','nochill-edit','nochill-week','nochill-email','nochill-brand','nochill-carousel','nochill-product-kit','nochill-claim-check','nochill-ops','nochill-curriculum']
-
-/** Where does this skill actually live? */
-async function rootFor(skill: string): Promise<string | null> {
-  for (const r of SKILL_ROOTS) {
-    try { await fs.access(path.join(r, skill)); return r } catch {}
-  }
-  return null
-}
-
-async function walk(dir: string): Promise<string[]> {
-  const out: string[] = []
-  let entries: any[] = []
-  try { entries = await fs.readdir(dir, { withFileTypes: true }) } catch { return out }
-  for (const e of entries) {
-    const p = path.join(dir, e.name)
-    if (e.isDirectory()) out.push(...(await walk(p)))
-    else if (e.name.endsWith('.md')) out.push(p)
-  }
-  return out
-}
+// Roots and list live in lib/skill-sources.ts so this and the API route cannot disagree.
 
 /**
  * The global CLAUDE.md is the brain the whole system generates from, and it is NOT under any

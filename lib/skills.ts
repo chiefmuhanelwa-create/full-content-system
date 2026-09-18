@@ -51,6 +51,11 @@ const MODULE_SKILLS: Record<string, string[]> = {
     'new-scripting/references/FORMATS',
     'new-scripting/references/VOICE',
     'nochill-script/references/VOICE-EVIDENCE',
+    // The reference build. Its own header: "These are the reference build. When a new script
+    // is written, it should look like these on the page." It had never been loaded — which is
+    // why output matched the RULES of new-scripting while looking nothing like its EXAMPLES.
+    // A rule tells the model what not to do. An exemplar tells it what finished looks like.
+    'new-scripting/references/GOLD-SCRIPTS',
     // Borrowable mechanics only. Its own header: "THIS SKILL DOES NOT GOVERN — every one
     // must clear new-scripting's gate and his own measured data before use." Loaded LAST
     // so new-scripting is read first and stays the container.
@@ -81,7 +86,10 @@ const MODULE_SKILLS: Record<string, string[]> = {
 // every call after. Cheap to be thorough, expensive to be wrong.
 //
 // Drops are still reported, never silent.
-const CHAR_BUDGET = 100000
+// Raised again for GOLD-SCRIPTS. Affordable because all of it is in the CACHED half of the
+// prompt: a large stable prefix is paid once and read back at roughly a tenth thereafter.
+// Measured: 36,839 tokens read from cache on the second call.
+const CHAR_BUDGET = 130000
 
 /** Pull seeded skill bodies for a module. Falls back to nothing rather than to stale text. */
 export async function skillsForModule(module: string): Promise<{ text: string; used: string[] }> {

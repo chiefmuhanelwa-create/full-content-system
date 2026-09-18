@@ -322,6 +322,76 @@ const AGENCY_INTEL = {
   retainer: 'R12,500/month — 40 meme reels a month plus bio link and affiliate. The only recurring line in the entire record, and the most under-used receipt in the estate.',
 }
 
+/**
+ * THE GRADED RECORD — what actually came out, and the verdict on it.
+ *
+ * new-scripting/references/GOLD-SCRIPTS.md says what a finished script looks like, and it is
+ * now loaded into the scripts module. This is the other half: real outputs, graded, with the
+ * offending text kept verbatim.
+ *
+ * A rule tells the model what not to do. An exemplar tells it what finished sounds like.
+ * Every line below is quoted from a script that was actually generated — nothing is written
+ * here to illustrate a point.
+ */
+const SCRIPT_EXEMPLARS = {
+  rule: 'Copy the MOVES. Never copy the topic, and never copy the labels.',
+
+  // The 2026-09-18 purpose script. His verdict, verbatim: "i love the whole perspective in
+  // the output - it makes purpose with agencies and brand to give people know perspective so
+  // that agencies and influencers will understand each other and i fill the gap".
+  keep: [
+    { move: 'Rename the problem in the first two lines. No figure, second person.',
+      quote: "You don't have a pricing problem. You have a costing problem." },
+    { move: 'Put BOTH sides of the gap in one sentence. This is the line that makes the agency and the creator understand each other — it is the whole differentiator, not a flourish.',
+      quote: "They're not robbing you. They're just never going to correct you." },
+    { move: 'Confess the OMISSION, not only the loss. What he failed to ask is more useful than what he lost.',
+      quote: 'I never once asked what the brand actually needed from me. Not one time. Years of quotes, and I never asked.' },
+    { move: 'Hand over at the end of the confession beat, in four words. Without it the beat is autobiography.',
+      quote: 'You do the same thing.' },
+    { move: 'Let the buying side speak, word for word off the bank. Never paraphrase it into his own voice.',
+      quote: 'We had a number for this before we ever contacted you. You came in under it. We were never going to correct you.' },
+    { move: 'Close by reversing the premise of the idea itself, with the joiner inline.',
+      quote: 'Get the purpose right [THEREFORE] the people come.' },
+  ],
+
+  // Same script. These shipped and should not have.
+  fix: [
+    {
+      defect: 'Invented framework',
+      found: 'purpose · cost · the number',
+      why: 'That three-part model exists in ZERO files in the estate. The evidenced spine for what a brand pays for is access · production · usage, which appears in five. A model minted to fit the topic reads authoritative and is worth nothing.',
+      instead: 'Teach the evidenced spine, or teach it WITHOUT numbering. There are already 147 frameworks against a cap of 19.',
+    },
+    {
+      defect: 'Duplicate rehook',
+      found: 'But wait — none of this works without the third part.',
+      why: 'It was spoken inside beat 4 AND printed again as REHOOK 2. On the page that is a stutter, and in the edit it is two cuts on the same line.',
+      instead: 'A rehook goes INSIDE the beat, or on its own line between beats. Never both.',
+    },
+    {
+      defect: 'Tail did not loop',
+      found: "You'll finally get this right, because  -",
+      why: 'The tail exists to return to the opening line word for word. This one returns to nothing, so the loop is decorative.',
+      instead: 'The tail is an unfinished line that lands the listener back on beat 1, verbatim.',
+    },
+  ],
+
+  // The 2026-09-17 output he rejected outright, under the `personal` format.
+  reject: {
+    spine: 'Hook -> Build -> Rehook -> Build -> Rehook -> Build -> Peak -> CTA',
+    why: 'That spine belongs to no format. It is the generic cadence, and because the route once called it "fixed" it beat the seeded format every time.',
+    verdict: 'His words: "i dont see the lessons in that script, and it doesnt follow the wording, structure and the words i said should be used, plain english in simple words".',
+    tell: 'Four labels and no meaning: "Deliverables. Usage rights. Revisions. Exclusivity." Naming a list is not teaching it — each item still owes NAME IT, WHAT IT MEANS, WHAT TO DO.',
+  },
+
+  // The failure no figure check can catch.
+  neverAttribute: {
+    found: '[QUOTE SLOT] "We already had R45,000 budgeted for this."',
+    why: 'R45,000 is on the safe list — it is HIS OWN quote (C-0351). The figure passed. The speaker was invented. A fact-lock reads figures, not attribution.',
+    rule: 'A line in quotation marks comes off quote_bank word for word, or there is no quote in the piece.',
+  },
+}
+
 const KPI_MODEL = {
   rule: 'Every post carries ONE goal set before it ships. A post without a KPI cannot fail, which means it cannot teach.',
   goals: [
@@ -352,6 +422,7 @@ async function main() {
     ['identity', IDENTITY],
     ['agency_intel', AGENCY_INTEL],
     ['kpi_model', KPI_MODEL],
+    ['script_exemplars', SCRIPT_EXEMPLARS],
   ]
   for (const [k, v] of entries) {
     await setKey(k, v, 'seed:algorithm-2026-09-17')

@@ -14,18 +14,14 @@ import { OWNER } from '@/lib/governance'
 import fs from 'fs/promises'
 import path from 'path'
 import os from 'os'
-
-const SKILLS_DIR = path.join(os.homedir(), '.claude', 'skills')
-
-/** Only the NoChill skills. The rest of the directory is unrelated tooling. */
-const WANTED = [
-  'nochill-brain', 'nochill-script', 'nochill-storytelling', 'nochill-edit',
-  'nochill-week', 'nochill-email', 'nochill-brand', 'nochill-carousel',
-  'nochill-product-kit', 'nochill-claim-check', 'nochill-ops', 'nochill-curriculum',
-]
+// One list, shared with scripts/seed-skills-and-ig.ts. This route used to carry its own —
+// single-root, and missing new-scripting, which is the skill that governs every script.
+import { SKILL_ROOTS, WANTED, rootFor, walkMarkdown } from '@/lib/skill-sources'
 
 /** Which generator reads which skill. Drives the prompt composition in lib/skills.ts. */
 const CONSUMERS: Record<string, string[]> = {
+  'new-scripting': ['hooks', 'scripts', 'stories', 'storytelling', 'captions', 'repurpose'],
+  'jatho-scripting': ['hooks', 'scripts'],
   'nochill-script': ['hooks', 'scripts', 'batch', 'teleprompter', 'repurpose'],
   'nochill-storytelling': ['stories', 'storytelling', 'scripts'],
   'nochill-brain': ['*'],
@@ -38,18 +34,6 @@ const CONSUMERS: Record<string, string[]> = {
   'nochill-claim-check': ['fact-lock', '*'],
 }
 
-async function walk(dir: string): Promise<string[]> {
-  const out: string[] = []
-  let entries: any[] = []
-  try { entries = await fs.readdir(dir, { withFileTypes: true }) } catch { return out }
-  for (const e of entries) {
-    const p = path.join(dir, e.name)
-    if (e.isDirectory()) out.push(...(await walk(p)))
-    else if (e.name.endsWith('.md')) out.push(p)
-  }
-  return out
-}
-
 export async function POST(request: NextRequest) {
   const dbError = checkDatabase(); if (dbError) return dbError
   let body: any = {}; try { body = await request.json() } catch {}
@@ -59,8 +43,10 @@ export async function POST(request: NextRequest) {
   const missing: string[] = []
 
   for (const skill of only) {
-    const base = path.join(SKILLS_DIR, skill)
-    const files = await walk(base)
+    const root = await rootFor(skill)
+    if (!root) { missing.push(skill); continue }
+    const base = path.join(root, skill)
+    const files = await walkMarkdown(base)
     if (!files.length) { missing.push(skill); continue }
 
     for (const f of files) {
@@ -97,7 +83,7 @@ export async function POST(request: NextRequest) {
   await prisma!.ingestLog.create({
     data: {
       userId: OWNER, source: 'skills', target: 'skill_docs', rows: seeded.length,
-      summary: `Seeded ${seeded.length} skill documents from ~/.claude/skills. Missing: ${missing.join(', ') || 'none'}`,
+      summary: `Seeded ${seeded.length} skill documents from ${SKILL_ROOTS.length} skill roots. Missing: ${missing.join(', ') || 'none'}`,
     },
   })
 
