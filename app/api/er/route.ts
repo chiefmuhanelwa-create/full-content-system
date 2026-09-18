@@ -41,6 +41,32 @@ function overLimit(ip: string) {
   return recent.length > MAX_PER_WINDOW
 }
 
+/**
+ * The CPE ladder, lifted verbatim from digital-empire-builder/src/lib/rate-card-engine.ts.
+ *
+ * This is the mechanism: engagement-deliverable pricing is CPE × interactions, and the CPE
+ * rand value is chosen by ENGAGEMENT RATE. So a higher ER does not just look better — it
+ * moves you up a band and multiplies the rate. Reach-deliverable pricing is the other path:
+ * CPM ÷ 1000 × views, which ER does not touch at all.
+ *
+ * Keep these numbers identical to the engine. If they drift, the tool and the rate card
+ * quote two different prices for the same account — which is the B1 defect all over again.
+ */
+const CPE_TIER = [
+  { min: 0,   max: 0.99, cpe_zar: 1.0,  label: 'Low' },
+  { min: 1.0, max: 1.99, cpe_zar: 2.5,  label: 'Moderate' },
+  { min: 2.0, max: 3.49, cpe_zar: 4.5,  label: 'High' },
+  { min: 3.5, max: 5.99, cpe_zar: 7.0,  label: 'Premium' },
+  { min: 6.0, max: 100,  cpe_zar: 11.0, label: 'Exceptional' },
+]
+const cpeTier = (er: number) => CPE_TIER.find((t) => er >= t.min && er <= t.max) ?? CPE_TIER[0]
+
+/** Facebook pays far more per engagement than Instagram in this market — 4.70x. */
+const CPE_MULT: Record<string, number> = {
+  instagram: 1.0, facebook: 4.7, linkedin: 1.2, twitter_x: 0.7,
+  pinterest: 0.6, tiktok: 0.4, youtube: 0.25,
+}
+
 type Post = { like_count?: number; comments_count?: number; timestamp?: string; media_product_type?: string }
 
 const median = (xs: number[]) => {
@@ -169,6 +195,22 @@ export async function GET(request: NextRequest) {
       avgComments: Math.round(comments.reduce((a, c) => a + c, 0) / posts.length),
       commentSharePct: Number(commentShare.toFixed(1)),
       band: band(er, followers),
+
+      // What the ER is worth, on the rate card's own ladder.
+      cpe: (() => {
+        const t = cpeTier(er)
+        const avgInteractions = Math.round(avg)
+        return {
+          tier: t.label,
+          cpeZar: t.cpe_zar,
+          nextTierAt: CPE_TIER.find((x) => x.min > er)?.min ?? null,
+          nextTierCpeZar: CPE_TIER.find((x) => x.min > er)?.cpe_zar ?? null,
+          // CPE path: what one engagement-deliverable post is worth on an average post.
+          perPostZar: Math.round(t.cpe_zar * avgInteractions),
+          perPostFacebookZar: Math.round(t.cpe_zar * CPE_MULT.facebook * avgInteractions),
+          note: 'Engagement deliverables price as CPE x interactions, and the CPE band is chosen by engagement rate. Reach deliverables price on CPM x views instead, which engagement rate does not affect.',
+        }
+      })(),
       window: {
         newest: posts[0]?.timestamp ?? null,
         oldest: posts[posts.length - 1]?.timestamp ?? null,

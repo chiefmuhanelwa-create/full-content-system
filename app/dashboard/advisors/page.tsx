@@ -143,7 +143,7 @@ export default function AdvisorsPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#FAFAFA' }}>
+    <div className="min-h-screen" >
       <div className="max-w-4xl mx-auto px-4 py-8">
         <BackButton />
 

@@ -22,6 +22,10 @@ type Result = {
   avgInteractions: number; avgLikes: number; avgComments: number
   commentSharePct: number
   band: { label: string; note: string }
+  cpe: {
+    tier: string; cpeZar: number; nextTierAt: number | null; nextTierCpeZar: number | null
+    perPostZar: number; perPostFacebookZar: number; note: string
+  }
   window: { newest: string | null; oldest: string | null }
 }
 
@@ -52,7 +56,7 @@ export default function ErPage() {
   const tone = (b: string) => TONE[b] ?? '#6B6480'
 
   return (
-    <div className="min-h-full" style={{ background: '#FAFAFA' }}>
+    <div className="min-h-full">
       <ToolPageHeader
         icon={Activity}
         eyebrow="PUBLIC DATA"
@@ -62,7 +66,7 @@ export default function ErPage() {
 
       <div className="p-6 flex flex-col gap-5 max-w-3xl">
         {/* input */}
-        <div className="rounded-xl p-4" style={{ background: '#FFF', border: '1px solid #E9E5F5' }}>
+        <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>
           <div className="flex gap-2 flex-wrap">
             <div className="relative flex-1 min-w-[220px]">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: '#9B94AD' }}>@</span>
@@ -98,7 +102,7 @@ export default function ErPage() {
 
         {d && (
           <>
-            <div className="rounded-xl p-6" style={{ background: '#FFF', border: '1px solid #E9E5F5' }}>
+            <div className="rounded-xl p-6" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>
               <div className="flex items-center gap-3 mb-5">
                 {d.profilePicture && (
                   <img src={d.profilePicture} alt="" className="w-11 h-11 rounded-full object-cover" />
@@ -153,8 +157,40 @@ export default function ErPage() {
               </p>
             </div>
 
+            {/* What the ER is actually worth — the CPE ladder from the rate card engine */}
+            {d.cpe && (
+              <div className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>
+                <p className="text-[11px] font-display font-bold uppercase tracking-[0.2em]" style={{ color: '#7C3AED' }}>
+                  What this rate is worth
+                </p>
+                <p className="text-sm font-display font-bold mt-1.5" style={{ color: '#1A1523' }}>
+                  CPE band: {d.cpe.tier} — R{d.cpe.cpeZar.toFixed(2)} per engagement
+                </p>
+
+                <div className="grid grid-cols-2 gap-2 mt-3">
+                  <Cell label="Per post · Instagram" value={`R${d.cpe.perPostZar.toLocaleString('en-ZA')}`} />
+                  <Cell label="Per post · Facebook (4.7x)" value={`R${d.cpe.perPostFacebookZar.toLocaleString('en-ZA')}`} />
+                </div>
+
+                {d.cpe.nextTierAt != null && (
+                  <p className="text-sm mt-3" style={{ color: '#3F3A4D' }}>
+                    At <strong>{d.cpe.nextTierAt}%</strong> the band moves to{' '}
+                    <strong>R{d.cpe.nextTierCpeZar?.toFixed(2)}</strong> per engagement —{' '}
+                    <strong>{(((d.cpe.nextTierCpeZar ?? 0) / d.cpe.cpeZar - 1) * 100).toFixed(0)}% more</strong> for
+                    the same post. That is the whole reason engagement rate is worth moving.
+                  </p>
+                )}
+
+                <p className="text-xs mt-3" style={{ color: '#6B6480' }}>
+                  <strong>Engagement</strong> deliverables price as CPE × interactions, and the band is chosen by
+                  this rate. <strong>Awareness/reach</strong> deliverables price on CPM × views instead — the engagement
+                  rate does not touch that path. Two mechanisms, two deliverables.
+                </p>
+              </div>
+            )}
+
             {/* Comments share — the metric the Loss Law moves */}
-            <div className="rounded-xl p-5" style={{ background: '#FFF', border: '1px solid #E9E5F5' }}>
+            <div className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>
               <p className="text-sm font-display font-bold" style={{ color: '#1A1523' }}>
                 {d.commentSharePct.toFixed(1)}% of engagement is comments
               </p>

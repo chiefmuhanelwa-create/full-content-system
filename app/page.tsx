@@ -38,7 +38,7 @@ export default function LandingPage() {
 
           {/* Floating card — Hook Generator */}
           <div className="absolute top-4 left-0 w-52 rounded-2xl p-4 -rotate-2 z-20 hidden lg:block hover:-rotate-1 transition-transform duration-300"
-            style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
+            style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
             <div className="flex items-center gap-2 mb-2.5">
               <div className="p-1.5 rounded-lg" style={{ background: 'rgba(139,92,246,0.08)' }}>
                 <Zap className="w-3.5 h-3.5" style={{ color: '#8B5CF6' }} />
@@ -58,7 +58,7 @@ export default function LandingPage() {
 
           {/* Floating card — Proof Story */}
           <div className="absolute top-2 right-0 w-56 rounded-2xl p-4 rotate-2 z-20 hidden lg:block hover:rotate-1 transition-transform duration-300"
-            style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
+            style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
             <div className="flex items-center gap-2 mb-2.5">
               <div className="p-1.5 rounded-lg" style={{ background: 'rgba(139,92,246,0.08)' }}>
                 <BarChart2 className="w-3.5 h-3.5" style={{ color: '#8B5CF6' }} />
@@ -74,7 +74,7 @@ export default function LandingPage() {
 
           {/* Floating card — Pipeline */}
           <div className="absolute bottom-4 left-2 w-60 rounded-2xl p-4 rotate-1 z-20 hidden lg:block hover:rotate-0 transition-transform duration-300"
-            style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
+            style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
             <div className="flex items-center gap-2 mb-3">
               <div className="p-1.5 rounded-lg" style={{ background: 'rgba(99,102,241,0.08)' }}>
                 <Layers className="w-3.5 h-3.5" style={{ color: '#6366f1' }} />
@@ -97,7 +97,7 @@ export default function LandingPage() {
 
           {/* Floating card — Shadow Fears */}
           <div className="absolute bottom-6 right-2 w-52 rounded-2xl p-4 -rotate-1 z-20 hidden lg:block hover:rotate-0 transition-transform duration-300"
-            style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
+            style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
             <div className="flex items-center gap-2 mb-3">
               <div className="p-1.5 rounded-lg" style={{ background: 'rgba(220,38,38,0.06)' }}>
                 <Brain className="w-3.5 h-3.5" style={{ color: '#DC2626' }} />
@@ -116,7 +116,7 @@ export default function LandingPage() {
 
           {/* Hero container */}
           <div className="rounded-3xl overflow-hidden relative flex flex-col items-center text-center px-8 py-24 md:py-32"
-            style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+            style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
             <div className="absolute inset-0 pointer-events-none" style={{
               backgroundImage: 'radial-gradient(#E9E5F5 1px, transparent 1px)',
               backgroundSize: '22px 22px',
@@ -240,7 +240,7 @@ export default function LandingPage() {
           backgroundSize: '22px 22px',
         }} />
         <div className="max-w-xl mx-auto text-center relative">
-          <div className="rounded-2xl p-12" style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', boxShadow: '0 4px 32px rgba(0,0,0,0.06)' }}>
+          <div className="rounded-2xl p-12" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 32px rgba(0,0,0,0.06)' }}>
             <p className="font-display font-semibold text-xs uppercase tracking-widest mb-4" style={{ color: '#8B5CF6' }}>For children's children</p>
             <h2 className="text-[32px] font-display font-black leading-tight mb-3" style={{ color: '#1A1523' }}>
               This is your system.

@@ -122,7 +122,7 @@ export default function ReelsPage() {
   )
 
   return (
-    <div className="min-h-full" style={{ background: '#FAFAFA' }}>
+    <div className="min-h-full">
       <ToolPageHeader
         title="Reel Tracker"
         description="What the account actually did, not what the strategy says it should. Every caption is fact-checked on the way in."
@@ -132,7 +132,7 @@ export default function ReelsPage() {
 
       {/* Controls */}
       <div className="px-6 py-4 flex items-center gap-3 flex-wrap"
-           style={{ background: '#FFF', borderBottom: '1px solid #E9E5F5' }}>
+           style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.6)' }}>
         <button onClick={sync} disabled={syncing}
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-display font-semibold"
           style={{ background: '#1A1523', color: '#FFF', opacity: syncing ? 0.6 : 1 }}>
@@ -198,7 +198,7 @@ export default function ReelsPage() {
 
         {/* Pillar performance — computed from stored rows, never generated */}
         {!!d?.pillarPerformance?.length && (
-          <div className="rounded-xl p-5" style={{ background: '#FFF', border: '1px solid #E9E5F5' }}>
+          <div className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>
             <p className="text-sm font-display font-bold" style={{ color: '#1A1523' }}>What the account teaches</p>
             <p className="text-xs mb-3" style={{ color: '#6B6480' }}>Computed from stored rows. Ranked by comments — the metric the Loss Law moves.</p>
             <div className="flex gap-2 flex-wrap">
@@ -219,7 +219,7 @@ export default function ReelsPage() {
         <div className="flex flex-col gap-2">
           {rows.length === 0 && (
             <p className="p-8 text-center text-sm rounded-xl"
-               style={{ background: '#FFF', border: '1px solid #E9E5F5', color: '#6B6480' }}>
+               style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#6B6480' }}>
               {d ? 'No posts stored yet. Sync to populate.' : 'Loading…'}
             </p>
           )}

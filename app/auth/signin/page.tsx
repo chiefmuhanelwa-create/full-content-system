@@ -65,7 +65,7 @@ function SignInContent() {
         </div>
 
         {/* Form card */}
-        <div className="rounded-2xl p-8" style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+        <div className="rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
           <h2 className="font-display font-bold text-xl mb-1" style={{ color: '#1A1523' }}>Welcome back.</h2>
           <p className="text-sm font-display mb-7" style={{ color: '#6B6480' }}>Sign in to your command centre.</p>
 

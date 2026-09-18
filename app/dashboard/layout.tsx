@@ -6,6 +6,7 @@ import { ContentProvider } from '@/contexts/ContentContext'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { CommandPalette } from '@/components/CommandPalette'
 import { Menu, Search } from 'lucide-react'
+import { AURORA_BG, DotGrid } from '@/components/premium'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -35,7 +36,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <ErrorBoundary>
       <ContentProvider>
-        <div className="flex h-screen overflow-hidden" style={{ background: '#FAFAFA' }}>
+        {/* The aurora ground from Rate Card Pro. Every page sits on it, so the system and
+            the storefront tool read as one product. DotGrid is a plain absolute backdrop —
+            it must not be wrapped in anything that clips, or sticky rails break. */}
+        <div className="relative flex h-screen overflow-hidden" style={{ background: AURORA_BG }}>
+          <DotGrid />
 
           {/* Mobile backdrop */}
           {mobileNavOpen && (
@@ -51,10 +56,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             onSearchOpen={() => setCommandPaletteOpen(true)}
           />
 
-          <main className="flex-1 overflow-y-auto min-h-0">
+          <main className="relative flex-1 overflow-y-auto min-h-0">
 
             {/* Mobile top bar — sticky inside scroll container */}
-            <div className="lg:hidden sticky top-0 z-30 px-4 h-14 flex items-center gap-3" style={{ background: '#FFFFFF', borderBottom: '1px solid #E9E5F5' }}>
+            <div className="lg:hidden sticky top-0 z-30 px-4 h-14 flex items-center gap-3" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.6)' }}>
               <button
                 onClick={() => setMobileNavOpen(true)}
                 aria-label="Open navigation"

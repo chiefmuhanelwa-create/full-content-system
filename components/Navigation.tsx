@@ -41,6 +41,65 @@ type NavGroup = {
  * Visuals, Fear Analyzer) write nothing unless you press save, so an empty `hooks` or
  * `scripts` table means "not saved", not "not used".
  */
+/**
+ * A hue per tool, so the sidebar reads like an app drawer rather than a list of grey
+ * glyphs. Grouped by what the tool is FOR — money is green, content is violet, audience is
+ * pink, tracking is blue — so the colour carries meaning instead of decorating.
+ */
+const TINT: Record<string, string> = {
+  '/dashboard': '#8B5CF6',
+  '/dashboard/features': '#8B5CF6',
+  '/dashboard/my-algorithm': '#7C3AED',
+  '/dashboard/fact-lock': '#DC2626',
+
+  '/dashboard/batch-shoot': '#F97316',
+  '/dashboard/hooks': '#F59E0B',
+  '/dashboard/scripts': '#8B5CF6',
+  '/dashboard/storytelling': '#A855F7',
+  '/dashboard/carousel': '#D4A82F',
+  '/dashboard/stories': '#A855F7',
+  '/dashboard/teleprompter': '#6366F1',
+  '/dashboard/captions': '#EC4899',
+  '/dashboard/repurpose': '#14B8A6',
+  '/dashboard/content-studio': '#8B5CF6',
+  '/dashboard/visuals': '#EC4899',
+
+  '/dashboard/reels': '#E1306C',
+  '/dashboard/er': '#06B6D4',
+  '/dashboard/scorecard': '#3B82F6',
+  '/dashboard/history': '#6B6480',
+
+  '/dashboard/icp-pain-library': '#EC4899',
+  '/dashboard/fears': '#A855F7',
+  '/dashboard/brand-voice': '#F472B6',
+
+  '/dashboard/the-week': '#3B82F6',
+  '/dashboard/the-return': '#22C55E',
+  '/dashboard/idea-bank': '#F59E0B',
+  '/dashboard/advisors': '#6366F1',
+
+  '/dashboard/email': '#22C55E',
+  '/dashboard/campaigns': '#EC4899',
+  '/dashboard/cta-check': '#14B8A6',
+  '/dashboard/cta-optimizer': '#14B8A6',
+  '/dashboard/pitch': '#F97316',
+  '/dashboard/offers': '#D4A82F',
+
+  '/dashboard/brand': '#8B5CF6',
+  '/dashboard/revenue': '#22C55E',
+  '/dashboard/products': '#D4A82F',
+
+  '/dashboard/ip-register': '#7C3AED',
+  '/dashboard/hook-bank': '#F59E0B',
+  '/dashboard/story-bank': '#A855F7',
+  '/dashboard/vault': '#6366F1',
+
+  '/dashboard/knowledge': '#3B82F6',
+  '/dashboard/integrations': '#14B8A6',
+  '/dashboard/settings': '#6B6480',
+}
+const tintOf = (href: string) => TINT[href] ?? '#8B5CF6'
+
 const navGroups: NavGroup[] = [
   {
     label: 'Command',
@@ -201,7 +260,7 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
           <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#9B94AD' }} />
           <span className="text-[12px] font-display flex-1" style={{ color: '#9B94AD' }}>Search tools...</span>
           <kbd className="text-[9px] font-display px-1.5 py-0.5 rounded hidden sm:block"
-            style={{ color: '#9B94AD', background: '#FFFFFF', border: '1px solid #E9E5F5' }}>⌘K</kbd>
+            style={{ color: '#9B94AD', background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>⌘K</kbd>
         </button>
       </div>
 
@@ -251,8 +310,26 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
                             if (!isActive) e.currentTarget.style.background = 'transparent'
                           }}
                         >
-                          <Icon className="h-4 w-4 flex-shrink-0"
-                            style={{ color: isActive ? '#8B5CF6' : '#9B94AD' }} />
+                          {(() => {
+                            const t = tintOf(item.href)
+                            return (
+                              <span
+                                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[7px] transition-all"
+                                style={{
+                                  background: isActive
+                                    ? `linear-gradient(145deg, ${t} 0%, ${t}D9 55%, ${t}B3 100%)`
+                                    : `linear-gradient(145deg, ${t}24 0%, ${t}14 100%)`,
+                                  boxShadow: isActive
+                                    ? `0 2px 6px -1px ${t}80, inset 0 1px 0 rgba(255,255,255,0.45)`
+                                    : `inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 ${t}1A`,
+                                  border: `1px solid ${isActive ? 'transparent' : t + '2E'}`,
+                                }}
+                              >
+                                <Icon className="h-[13px] w-[13px]"
+                                  style={{ color: isActive ? '#FFFFFF' : t }} />
+                              </span>
+                            )
+                          })()}
                           <div className="flex-1 min-w-0 flex items-center gap-1.5">
                             <p className="text-[13px] font-display truncate leading-none"
                               style={{

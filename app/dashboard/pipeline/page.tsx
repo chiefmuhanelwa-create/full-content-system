@@ -197,8 +197,8 @@ export default function PipelinePage() {
   const stage = (stageId: string) => STAGES.find(s => s.id === stageId) || STAGES[0]
 
   return (
-    <div className="min-h-full" style={{ background: '#FAFAFA' }}>
-      <div className="px-6 pt-4 pb-2" style={{ background: '#FFFFFF', borderBottom: '1px solid #E9E5F5' }}>
+    <div className="min-h-full">
+      <div className="px-6 pt-4 pb-2" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.6)' }}>
         <BackButton />
       </div>
 
@@ -227,13 +227,13 @@ export default function PipelinePage() {
             onKeyDown={e => e.key === 'Enter' && createCard()}
             placeholder="New content piece title..."
             className="flex-1 min-w-[200px] px-3 py-2 rounded-lg text-sm font-display outline-none"
-            style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#1A1523' }}
+            style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }}
           />
           <select
             value={newStatus}
             onChange={e => setNewStatus(e.target.value)}
             className="px-3 py-2 rounded-lg text-sm font-display outline-none"
-            style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#1A1523' }}
+            style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }}
           >
             {STAGES.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
           </select>
@@ -368,7 +368,7 @@ export default function PipelinePage() {
           <div className="w-full max-w-lg overflow-y-auto" style={{ background: '#FFFFFF', borderLeft: '1px solid #E9E5F5' }}>
 
             {/* Panel header */}
-            <div className="sticky top-0 z-10 px-6 py-4 flex items-center justify-between" style={{ background: '#FFFFFF', borderBottom: '1px solid #E9E5F5' }}>
+            <div className="sticky top-0 z-10 px-6 py-4 flex items-center justify-between" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.6)' }}>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full" style={{ background: stage(activeCard.status).dot }} />
                 <span className="text-xs font-display font-bold uppercase tracking-wider" style={{ color: stage(activeCard.status).dot }}>
@@ -400,7 +400,7 @@ export default function PipelinePage() {
                   value={editDraft.title || ''}
                   onChange={e => setEditDraft(p => ({ ...p, title: e.target.value }))}
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display font-semibold outline-none"
-                  style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#1A1523' }}
+                  style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }}
                 />
               </div>
 
@@ -417,7 +417,7 @@ export default function PipelinePage() {
                       value={(editDraft as any)[key] || ''}
                       onChange={e => setEditDraft(p => ({ ...p, [key]: e.target.value }))}
                       className="w-full px-2 py-2 rounded-lg text-xs font-display outline-none"
-                      style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#1A1523' }}
+                      style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }}
                     >
                       {opts.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
@@ -432,7 +432,7 @@ export default function PipelinePage() {
                   value={editDraft.interestPeak || ''}
                   onChange={e => setEditDraft(p => ({ ...p, interestPeak: e.target.value }))}
                   className="w-full px-3 py-2 rounded-lg text-xs font-display outline-none"
-                  style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#1A1523' }}
+                  style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }}
                 >
                   {INTEREST_PEAKS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
@@ -449,7 +449,7 @@ export default function PipelinePage() {
                   rows={2}
                   placeholder="The first sentence that stops the scroll..."
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display outline-none resize-none"
-                  style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#1A1523' }}
+                  style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }}
                 />
               </div>
 
@@ -478,7 +478,7 @@ export default function PipelinePage() {
                   rows={3}
                   placeholder="The lesson, framework, or story being taught..."
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display outline-none resize-none"
-                  style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#1A1523' }}
+                  style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }}
                 />
               </div>
 
@@ -490,12 +490,12 @@ export default function PipelinePage() {
                   onChange={e => setEditDraft(p => ({ ...p, cta: e.target.value }))}
                   placeholder="What should they do? Save, DM, click the link..."
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display outline-none"
-                  style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#1A1523' }}
+                  style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }}
                 />
               </div>
 
               {/* Quality Gate */}
-              <div className="rounded-xl p-4" style={{ background: '#FFFFFF', border: '1px solid #E9E5F5' }}>
+              <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>
                 <div className="flex items-center gap-2 mb-3">
                   <Zap className="w-4 h-4" style={{ color: '#8B5CF6' }} />
                   <span className="text-xs font-display font-bold uppercase tracking-wider" style={{ color: '#8B5CF6' }}>R50 Quality Gate</span>
@@ -547,7 +547,7 @@ export default function PipelinePage() {
                   onChange={e => setEditDraft(p => ({ ...p, rawFootageLink: e.target.value }))}
                   placeholder="Drive / Dropbox / Frame.io link..."
                   className="w-full px-3 py-2.5 rounded-lg text-sm font-display outline-none"
-                  style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#1A1523' }}
+                  style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }}
                 />
               </div>
 
@@ -558,7 +558,7 @@ export default function PipelinePage() {
                   <button
                     onClick={() => openInScriptWriter(activeCard)}
                     className="flex flex-col items-center gap-1.5 py-3 rounded-lg transition-all"
-                    style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#52525B' }}
+                    style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#52525B' }}
                   >
                     <FileText className="w-4 h-4" />
                     <span className="text-[10px] font-display font-bold">Script Writer</span>
@@ -566,7 +566,7 @@ export default function PipelinePage() {
                   <button
                     onClick={() => openInTeleprompter(activeCard)}
                     className="flex flex-col items-center gap-1.5 py-3 rounded-lg transition-all"
-                    style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#52525B' }}
+                    style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#52525B' }}
                   >
                     <MonitorPlay className="w-4 h-4" />
                     <span className="text-[10px] font-display font-bold">Teleprompter</span>
@@ -574,7 +574,7 @@ export default function PipelinePage() {
                   <button
                     onClick={() => openCaptionGenerator(activeCard)}
                     className="flex flex-col items-center gap-1.5 py-3 rounded-lg transition-all"
-                    style={{ background: '#FFFFFF', border: '1px solid #E9E5F5', color: '#52525B' }}
+                    style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#52525B' }}
                   >
                     <Hash className="w-4 h-4" />
                     <span className="text-[10px] font-display font-bold">Caption</span>

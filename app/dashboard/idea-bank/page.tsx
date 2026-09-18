@@ -199,14 +199,14 @@ export default function IdeaBankPage() {
   const wip = ideas.filter(i => !['idea', 'posted', 'parked'].includes(i.status)).length
 
   if (loading) {
-    return <div className="min-h-full flex items-center justify-center" style={{ background: '#FAFAFA' }}>
+    return <div className="min-h-full flex items-center justify-center" >
       <p className="text-sm" style={{ color: '#6B6480' }}>Loading the bank…</p>
     </div>
   }
 
   return (
-    <div className="min-h-full" style={{ background: '#FAFAFA' }}>
-      <div className="px-6 pt-4 pb-2" style={{ background: '#FFFFFF', borderBottom: '1px solid #E9E5F5' }}>
+    <div className="min-h-full">
+      <div className="px-6 pt-4 pb-2" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.6)' }}>
         <BackButton />
       </div>
 
@@ -260,7 +260,7 @@ export default function IdeaBankPage() {
 
       {/* Toolbar */}
       <div className="px-6 py-3 flex gap-2 flex-wrap items-center"
-           style={{ background: '#FFFFFF', borderBottom: '1px solid #E9E5F5' }}>
+           style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.6)' }}>
         <div className="relative flex-1 min-w-[200px]">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#9B94AD' }} />
           <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search ideas, pain, hooks…"
@@ -327,12 +327,12 @@ export default function IdeaBankPage() {
                 onKeyDown={e => e.key === 'Enter' && addIdea()}
                 placeholder="Add an idea of your own…"
                 className="flex-1 px-3 py-2 rounded-lg text-sm font-display outline-none"
-                style={{ background: '#FFF', border: '1px solid #E9E5F5', color: '#1A1523' }} />
+                style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)', color: '#1A1523' }} />
               <button onClick={addIdea} className="px-3 py-2 rounded-lg inline-flex items-center gap-1.5 text-sm font-display font-semibold"
                 style={{ background: '#1A1523', color: '#FFF' }}><Plus className="w-4 h-4" />Add</button>
             </div>
 
-            <div className="rounded-xl overflow-hidden" style={{ background: '#FFF', border: '1px solid #E9E5F5' }}>
+            <div className="rounded-xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>
               {filtered.length === 0 && (
                 <p className="p-8 text-center text-sm" style={{ color: '#6B6480' }}>
                   {ideas.length === 0 ? 'The bank is empty. Load the 250 ideas above.' : 'Nothing matches those filters.'}
@@ -385,7 +385,7 @@ export default function IdeaBankPage() {
               const col = filtered.filter(i => i.status === s.id)
               return (
                 <div key={s.id} className="shrink-0 w-[260px] rounded-xl p-3"
-                     style={{ background: '#FFF', border: '1px solid #E9E5F5' }}>
+                     style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>
                   <div className="flex items-center gap-2 mb-3">
                     <span className="w-2 h-2 rounded-full" style={{ background: s.color }} />
                     <span className="text-xs font-display font-bold" style={{ color: '#1A1523' }}>{s.label}</span>
@@ -423,7 +423,7 @@ export default function IdeaBankPage() {
             i.scheduledFor && new Date(i.scheduledFor).toDateString() === new Date(y, m, d).toDateString())
 
           return (
-            <div className="rounded-xl p-4" style={{ background: '#FFF', border: '1px solid #E9E5F5' }}>
+            <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 20px -8px rgba(76,29,149,0.18)' }}>
               <div className="flex items-center justify-between mb-4">
                 <button onClick={() => setMonth(new Date(y, m - 1, 1))} className="p-1.5 rounded-lg" style={{ border: '1px solid #E9E5F5' }}>
                   <ChevronLeft className="w-4 h-4" style={{ color: '#6B6480' }} />
@@ -471,7 +471,7 @@ export default function IdeaBankPage() {
           <div className="w-full max-w-[520px] h-full overflow-y-auto" style={{ background: '#FFF' }}
                onClick={e => e.stopPropagation()}>
             <div className="sticky top-0 px-5 py-4 flex items-start gap-3"
-                 style={{ background: '#FFF', borderBottom: '1px solid #E9E5F5' }}>
+                 style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.6)' }}>
               <span className="w-2 h-2 rounded-full mt-2 shrink-0" style={{ background: PC(open.pillar) }} />
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] font-display font-bold uppercase tracking-wide" style={{ color: PC(open.pillar) }}>
