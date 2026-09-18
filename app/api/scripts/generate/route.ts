@@ -106,6 +106,13 @@ SCRIPTING PRINCIPLES — all four are non-negotiable:
 ${principles.map((p: any) => `  ${p.n}. ${p.name} — ${p.rule}`).join('\n')}
 Villain: ${gov.script_principles?.advanced?.villain ?? ''}
 
+QUOTE SLOT — the ONLY lines you may put in quotation marks as something somebody said.
+${(gov.quote_bank?.lines ?? []).map((q: any) => `  - "${q.say}" — ${q.who} (${q.tier})`).join('\n')}
+${gov.quote_bank?.rule ?? ''}
+If none of them fits this piece, WRITE NO QUOTE AT ALL and leave the slot out. Never invent a
+line and never attach a figure to a speaker who did not say it — a figure can be on the safe
+list and the ATTRIBUTION still be fabricated, which no figure check can catch.
+
 FIGURES YOU MAY USE — and nothing else:
 ${safe.map((s: any) => `  - ${s.fig} — ${s.note}`).join('\n')}
 If a beat wants a number you cannot source from that list, write the beat so it does not need one.
@@ -150,6 +157,33 @@ Return ONE JSON object, no prose:
     return NextResponse.json(body, { status })
   }
 
+  // ── Two checks the fact-lock cannot do, because neither is about a figure ──────
+  const warnings: string[] = []
+
+  // 1 · A quote must be in the bank, word for word. A safe figure inside an invented
+  //     attribution passes every figure check there is — that is how
+  //     [QUOTE SLOT] "We already had R45,000 budgeted for this." shipped.
+  const bank: string[] = (gov.quote_bank?.lines ?? []).map((q: any) => String(q.say).toLowerCase())
+  const norm = (x: string) => x.toLowerCase().replace(/[“”"']/g, '').replace(/\s+/g, ' ').trim()
+  for (const m of String(out.text).matchAll(/\[QUOTE SLOT\]\s*[“"']([^”"']{12,})[”"']/g)) {
+    const said = norm(m[1])
+    if (!bank.some((b) => norm(b).includes(said) || said.includes(norm(b)))) {
+      warnings.push(`QUOTE NOT IN THE BANK — "${m[1].slice(0, 90)}". Nobody is recorded saying this. Cut it or replace it with a line from the quote bank.`)
+    }
+  }
+
+  // 2 · The format names how many rehooks and where. Missing ones vanish silently in the
+  //     composed script, because the composer only renders rehooks that match a beat.
+  const wantRehooks = String(fmt.rehooks ?? '').split('·').length
+  const gotRehooks = (data.rehooks ?? []).length
+  if (gotRehooks < wantRehooks) {
+    warnings.push(`REHOOKS: ${gotRehooks} of ${wantRehooks}. ${fmt.name} wants them at ${fmt.rehooks}.`)
+  }
+  const orphanRehooks = (data.rehooks ?? []).filter((r: any) => !(data.beats ?? []).some((b: any) => b.n === r.after))
+  if (orphanRehooks.length) {
+    warnings.push(`${orphanRehooks.length} rehook(s) point at a beat that does not exist, so they would not appear in the script.`)
+  }
+
   // fullScript is the beats again in prose. Asking the model for both roughly doubles the
   // output tokens — which is what was truncating the script — and lets the two drift apart.
   // Composed here instead, from the beats it already wrote, so they cannot disagree.
@@ -177,6 +211,7 @@ Return ONE JSON object, no prose:
 
   return NextResponse.json({
     success: true,
+    warnings,
     script: data,
     skeleton: {
       duration,

@@ -220,6 +220,34 @@ const CTA_LIBRARY = {
   suspended: 'The orphaned-comment counts above are SUSPENDED (R14) — built on a stale list that wrongly called RATE dead. Re-derive from live ManyChat and comment data before quoting any number.',
 }
 
+/**
+ * The QUOTE SLOT bank — the only lines that may be spoken as a quotation.
+ *
+ * new-scripting requires an outside voice read "verbatim off a real source, in quotes. No
+ * paraphrase, no brand name." With nothing to draw from, a generated script invented one:
+ *   [QUOTE SLOT] "We already had R45,000 budgeted for this."
+ * No brand ever said that. R45,000 is `C-0351` — HIS quote for the Savanna brief. The
+ * fact-lock passed it because R45,000 is a SAFE figure; what was fabricated was the
+ * ATTRIBUTION, and a figure check cannot see that.
+ *
+ * ⛔ If no line here fits the piece, LEAVE THE SLOT EMPTY and say so. An invented quote is
+ * worse than a missing one: it is unfalsifiable, it is repeatable, and it is the one error
+ * that costs more than the piece earns.
+ */
+const QUOTE_BANK = {
+  rule: 'A quote is spoken ONLY if it appears below, word for word. Never assemble one, never adjust one to fit, never attribute a figure to a speaker who did not say it.',
+  lines: [
+    { say: 'We had a number for this before we ever contacted you. You came in under it. We were never going to correct you.', who: 'the buying side', tier: 'E1', use: 'PRICE IT — the ceiling mechanism. The strongest outside voice in the estate.' },
+    { say: 'Have you worked with any competing brand in the past few months?', who: 'a brief, paraphrased shape — ASK BEFORE USING AS A QUOTE', tier: 'E2', use: 'PRICE IT — exclusivity, taken free.' },
+    { say: 'You were the only influencer who had ever done it.', who: 'an agency, on the unprompted report', tier: 'E1', use: 'PROVE IT — third-party character proof. Does not decay.' },
+    { say: 'I have millions of views but I am not earning any money.', who: 'inbound DM, the #1 ask', tier: 'E2', use: 'OWN IT — the ENTRY tier in its own words.' },
+    { say: "I'm not sure about rates, but I would like to charge 5k.", who: 'a creator with a real audience', tier: 'E2', use: 'PRICE IT — highest-intent line in a 273-row bank.' },
+    { say: 'Is it safer to own an email list than a Facebook page?', who: 'an audience question', tier: 'E2', use: 'OWN IT — the only question where somebody worked out the mechanism themselves.' },
+    { say: "I've been scammed several times while trying to learn.", who: 'a survey respondent', tier: 'E2', use: 'PROVE IT — the trust barrier. Receipts first, offer second.' },
+    { say: 'There was nobody to phone.', who: 'the PREMIUM tier', tier: 'E2', use: 'PREMIUM — the line that names the gap.' },
+  ],
+}
+
 const IPS = {
   rule: 'Named, ownable methods extracted from what he already does. The bank holds 146 frameworks, 101 latent. The canonical cap is 19.',
   register: [
@@ -319,6 +347,7 @@ async function main() {
     ['script_principles', SCRIPT_PRINCIPLES],
     ['script_formats', SCRIPT_FORMATS],
     ['cta_library', CTA_LIBRARY],
+    ['quote_bank', QUOTE_BANK],
     ['ips', IPS],
     ['identity', IDENTITY],
     ['agency_intel', AGENCY_INTEL],

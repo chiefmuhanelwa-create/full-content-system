@@ -173,6 +173,17 @@ function ScriptWriter() {
         </Card>
       )}
 
+      {!!d?.warnings?.length && (
+        <div className="rounded-lg border-l-4 border-l-amber-500 bg-amber-50 p-3">
+          <p className="text-[13px] font-semibold">Check these before you record</p>
+          <ul className="mt-1 space-y-1">
+            {d.warnings.map((w: string, i: number) => (
+              <li key={i} className="text-[13px] leading-snug">· {w}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {d?.blocked && (
         <p className="flex items-start gap-2 rounded-lg border-l-4 border-l-red-600 bg-red-50 p-3 text-[13px]">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-red-700" />
