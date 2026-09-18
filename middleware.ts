@@ -12,10 +12,15 @@ export default withAuth(
       authorized: ({ token, req }) => {
         // Public paths that don't require authentication
         const publicPaths = ['/', '/auth/signin', '/auth/signup', '/auth/error']
+        // The engagement-rate lookup is deliberately public: it is meant to be used by
+        // other creators and embedded in Rate Card Pro, which cannot ask them to log in.
+        // It reads only data Instagram already publishes, and is rate limited in the route.
+        const publicApi = ['/api/er']
         const internalSeedPaths = ['/api/products/seed', '/api/story-bank/seed']
         const isPublicPath = publicPaths.some(path =>
           req.nextUrl.pathname === path || req.nextUrl.pathname.startsWith('/api/auth')
-        ) || (internalSeedPaths.includes(req.nextUrl.pathname) && req.headers.get('x-internal-seed') === '1')
+        ) || publicApi.includes(req.nextUrl.pathname)
+          || (internalSeedPaths.includes(req.nextUrl.pathname) && req.headers.get('x-internal-seed') === '1')
 
         if (isPublicPath) {
           return true

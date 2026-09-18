@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import {
-  Archive, BarChart2, BookMarked, BookOpen, Brain, Briefcase, Calendar, CalendarRange, ChevronDown, ChevronRight, Clapperboard, ClipboardList, Cpu, Database, FileText, Fingerprint, Globe, Handshake, Hash, History, Instagram, Kanban, Layers, LayoutDashboard, Lightbulb, LayoutGrid, Link2, LogOut, Megaphone, Mic, MonitorPlay, Package, PenTool, Plug, Repeat, RotateCcw, Search, Settings, ShieldCheck, ShoppingBag, Star, Target, Target as TargetIcon, TrendingUp, Tv2, Users, Wallet, X, Zap, Mail
+  Activity, Archive, BarChart2, BookMarked, BookOpen, Brain, Briefcase, Calendar, CalendarRange, ChevronDown, ChevronRight, Clapperboard, ClipboardList, Cpu, Database, FileText, Fingerprint, Globe, Handshake, Hash, History, Instagram, Kanban, Layers, LayoutDashboard, Lightbulb, LayoutGrid, Link2, LogOut, Megaphone, Mic, MonitorPlay, Package, PenTool, Plug, Repeat, RotateCcw, Search, Settings, ShieldCheck, ShoppingBag, Star, Target, Target as TargetIcon, TrendingUp, Tv2, Users, Wallet, X, Zap, Mail
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
@@ -71,6 +71,7 @@ const navGroups: NavGroup[] = [
     label: 'Tracking',
     items: [
       { name: 'Reel Tracker', href: '/dashboard/reels', icon: Instagram, badge: 'LIVE' },
+      { name: 'Engagement Rate', href: '/dashboard/er', icon: Activity, badge: 'ANY @' },
       { name: 'Scorecard', href: '/dashboard/scorecard', icon: TargetIcon, badge: 'KPI' },
       { name: 'History', href: '/dashboard/history', icon: History },
     ],
