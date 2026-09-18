@@ -23,6 +23,7 @@ import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 import { logActivity } from '@/lib/activity'
 import { explainGenerationFailure } from '@/lib/ai/explain'
+import { ctaForPillar, shippableCtas } from '@/lib/cta'
 
 /** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
  * exactly like a model failure — that is what made this hard to see. */
@@ -82,8 +83,7 @@ export async function POST(request: NextRequest) {
   const templates = chosen.slice(0, count)
 
   const safeFigures = (gov.fact_lock?.safe ?? []).map((s: any) => `${s.fig} — ${s.note}`).slice(0, 8)
-  const cta = (gov.cta_library?.keywords ?? []).find((k: any) => k.status === 'live' && k.pillar === pillar)
-    ?? (gov.cta_library?.keywords ?? []).find((k: any) => k.status === 'live')
+  const cta = ctaForPillar(gov, pillar)
   const law = surface === 'caption' ? lib.captionHookLaw : lib.spokenHookLaw
 
   const { system, skillsUsed } = await buildGovernedSystemPrompt('hooks', { pillar, tier })

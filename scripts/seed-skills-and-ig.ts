@@ -26,7 +26,7 @@ const SKILL_ROOTS = [
   path.join(os.homedir(), 'Desktop', 'VS code', 'ICP LEARNING', 'skills'),
 ]
 const SKILLS_DIR = SKILL_ROOTS[0]
-const WANTED = ['new-scripting','nochill-brain','nochill-script','nochill-storytelling','nochill-edit','nochill-week','nochill-email','nochill-brand','nochill-carousel','nochill-product-kit','nochill-claim-check','nochill-ops','nochill-curriculum']
+const WANTED = ['new-scripting','jatho-scripting','nochill-motion','nochill-brain','nochill-script','nochill-storytelling','nochill-edit','nochill-week','nochill-email','nochill-brand','nochill-carousel','nochill-product-kit','nochill-claim-check','nochill-ops','nochill-curriculum']
 
 /** Where does this skill actually live? */
 async function rootFor(skill: string): Promise<string | null> {

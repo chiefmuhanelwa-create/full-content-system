@@ -13,6 +13,7 @@ import { buildGovernedSystemPrompt } from '@/lib/skills'
 import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
+import { ctaForPillar, shippableCtas } from '@/lib/cta'
 
 /** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
  * exactly like a model failure — that is what made this hard to see. */
@@ -28,8 +29,7 @@ export async function POST(request: NextRequest) {
   if (!idea?.trim()) return NextResponse.json({ error: 'An idea is required.' }, { status: 400 })
 
   const gov = await getGovernance()
-  const cta = (gov.cta_library?.keywords ?? []).find((k: any) => k.status === 'live' && k.pillar === pillar)
-    ?? (gov.cta_library?.keywords ?? []).find((k: any) => k.status === 'live')
+  const cta = ctaForPillar(gov, pillar)
 
   const { system } = await buildGovernedSystemPrompt('carousel', { pillar, tier })
 

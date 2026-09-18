@@ -25,6 +25,7 @@ import { generate } from '@/lib/ai/governed'
 import { check } from '@/lib/fact-lock'
 import { extractJson } from '@/lib/json-extract'
 import { explainGenerationFailure } from '@/lib/ai/explain'
+import { ctaForPillar, shippableCtas } from '@/lib/cta'
 
 /** Hobby plan ceiling. A function killed mid-stream returns empty text, which reads
  * exactly like a model failure — that is what made this hard to see. */
@@ -36,8 +37,7 @@ import { explainGenerationFailure } from '@/lib/ai/explain'
 export const maxDuration = 300
 
 function pickCta(gov: any, pillar?: string) {
-  const lib = gov.cta_library?.keywords ?? []
-  const live = lib.filter((k: any) => k.status === 'live')
+  const live = shippableCtas(gov)
   const forPillar = live.find((k: any) => k.pillar === pillar)
   return forPillar ?? live[0] ?? null
 }

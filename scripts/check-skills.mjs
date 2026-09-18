@@ -10,7 +10,14 @@ for (const f of ['.env','.env.local']) { if(!fs.existsSync(f))continue
 
 const src = fs.readFileSync('lib/skills.ts','utf8')
 const budget = Number(src.match(/CHAR_BUDGET\s*=\s*(\d+)/)[1])
-const block = src.slice(src.indexOf('const MODULE_SKILLS'), src.indexOf('// new-scripting/SKILL alone'))
+// Strip line comments FIRST. A quoted phrase inside a comment ("...gate and his own
+// measured data...") otherwise parses as a slug and reports a false failure — which is
+// exactly what this script exists to prevent, so it must not do it itself.
+const block = src
+  .slice(src.indexOf('const MODULE_SKILLS'), src.indexOf('const CHAR_BUDGET'))
+  .split('\n')
+  .map((l) => l.replace(/\/\/.*$/, ''))
+  .join('\n')
 const modules = {}
 for (const m of block.matchAll(/(\w+):\s*\[([^\]]*)\]/g)) {
   modules[m[1]] = [...m[2].matchAll(/'([^']+)'/g)].map(x => x[1])

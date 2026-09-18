@@ -36,6 +36,7 @@ const MODULE_SKILLS: Record<string, string[]> = {
     'new-scripting/references/VOICE',
     'nochill-script/references/PLAIN-SPEECH',
     'nochill-script/references/HOOK-BANK',
+    'jatho-scripting/SKILL',   // borrowable mechanics, does NOT govern — see scripts above
   ],
   scripts: [
     'new-scripting/SKILL',
@@ -43,6 +44,10 @@ const MODULE_SKILLS: Record<string, string[]> = {
     'new-scripting/references/VOICE',
     'nochill-script/references/PLAIN-SPEECH',
     'nochill-script/references/VOICE-EVIDENCE',
+    // Borrowable mechanics only. Its own header: "THIS SKILL DOES NOT GOVERN — every one
+    // must clear new-scripting's gate and his own measured data before use." Loaded LAST
+    // so new-scripting is read first and stays the container.
+    'jatho-scripting/SKILL',
   ],
   stories:      ['new-scripting/SKILL', 'nochill-storytelling/SKILL', 'nochill-script/references/PLAIN-SPEECH', 'nochill-script/references/PROOF'],
   storytelling: ['new-scripting/SKILL', 'nochill-storytelling/SKILL', 'nochill-script/references/PLAIN-SPEECH'],
@@ -51,12 +56,12 @@ const MODULE_SKILLS: Record<string, string[]> = {
   carousel:     ['nochill-carousel/SKILL', 'nochill-script/references/PLAIN-SPEECH', 'nochill-brand/SKILL'],
   email:        ['nochill-email/SKILL', 'nochill-script/references/PLAIN-SPEECH'],
   week:         ['nochill-week/SKILL'],
-  edit:         ['nochill-edit/SKILL', 'nochill-edit/references/RETENTION-EVIDENCE'],
+  edit:         ['nochill-edit/SKILL', 'nochill-edit/references/RETENTION-EVIDENCE', 'nochill-motion/SKILL'],
   products:     ['nochill-product-kit/SKILL', 'nochill-script/references/PLAIN-SPEECH'],
   pitch:        ['nochill-product-kit/SKILL', 'nochill-script/references/PLAIN-SPEECH'],
   fears:        ['nochill-brain/SKILL'],
   offers:       ['nochill-product-kit/SKILL', 'nochill-script/references/PLAIN-SPEECH'],
-  visuals:      ['nochill-brand/SKILL'],
+  visuals:      ['nochill-brand/SKILL', 'nochill-motion/SKILL'],
   runsheet:     ['nochill-edit/SKILL'],
 }
 

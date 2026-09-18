@@ -136,17 +136,30 @@ const SCRIPT_FORMATS = {
 const CTA_LIBRARY = {
   rule: 'No content publishes with a CTA that has no destination. Do not mint a tenth keyword.',
   mechanism: 'Comment-to-DM via ManyChat. "Must be following" — Instagram blocks DMs from non-followers, and that line converts as a filter.',
+
+  // ⚠️ `status` and `converts` are TWO DIFFERENT THINGS and were previously one word.
+  //
+  //   status   — WHERE a comment lands.   live = automated · manual = fulfilled by hand ·
+  //              orphaned = nowhere. Article XI: only live and manual may ship.
+  //   converts — WHAT it does when it lands. Measured, not asserted.
+  //
+  // TAX was marked "unverified" here while the measured record had it as the BEST-converting
+  // keyword on the account at 8.68%. Both were true: it converts, and its ManyChat flow is
+  // not automated. One word carrying both meanings meant the generators, which filter on
+  // status === 'live', silently refused to use the best keyword he has.
   keywords: [
-    { k: 'RATE',     status: 'live',       pillar: 'PRICE IT', destination: 'Rate Card Pro', note: 'Converts 5.75%. 636 comments on its best reel — the highest on the account.' },
-    { k: 'TAX',      status: 'unverified', pillar: 'KEEP IT',  destination: 'needs wiring',  note: 'Converts 8.68% — best rate on the account, on a third of RATE traffic.' },
-    { k: 'GUIDE',    status: 'live',       pillar: 'OWN IT',   destination: 'Starter Kit (in bio)', note: 'Founder-confirmed live, volume unrecorded.' },
-    { k: 'BOOK',     status: 'orphaned',   pillar: 'BUILD IT ANYWAY', destination: 'none',  note: '143 comments with nowhere to land.' },
-    { k: 'RENT',     status: 'unverified', pillar: 'OWN IT',   destination: 'scorecard',     note: 'Used in the last 8 posts, absent from the estate.' },
-    { k: 'PAID',     status: 'orphaned',   pillar: 'PROVE IT', destination: 'none',          note: '35 comments, PAIDS map promised.' },
-    { k: 'CONTENT',  status: 'orphaned',   pillar: 'BUILD IT ANYWAY', destination: 'none',  note: '61 comments.' },
-    { k: 'RESEARCH', status: 'orphaned',   pillar: 'PROVE IT', destination: 'none',          note: '81 comments.' },
+    { k: 'RATE',     status: 'live',     converts: '5.75%', pillar: 'PRICE IT', destination: 'Rate Card Pro', note: '636 comments on its best reel — the highest on the account.' },
+    { k: 'TAX',      status: 'manual',   converts: '8.68%', pillar: 'KEEP IT',  destination: 'ManyChat flow specced, fulfilled by hand until ManyChat Pro', note: 'Best rate on the account, on a third of RATE traffic.' },
+    { k: 'GUIDE',    status: 'live',     converts: null,    pillar: 'OWN IT',   destination: 'Starter Kit (in bio)', note: 'Founder-confirmed live, volume unrecorded (D-53).' },
+    { k: 'RENT',     status: 'manual',   converts: null,    pillar: 'OWN IT',   destination: 'scorecard', note: 'Used in the last 8 posts, absent from the estate. Unverified, not dead.' },
+    { k: 'BOOK',     status: 'orphaned', converts: null,    pillar: 'BUILD IT ANYWAY', destination: null, note: '143 comments with nowhere to land.' },
+    { k: 'PAID',     status: 'orphaned', converts: null,    pillar: 'PROVE IT', destination: null, note: '35 comments, PAIDS map promised.' },
+    { k: 'CONTENT',  status: 'orphaned', converts: null,    pillar: 'BUILD IT ANYWAY', destination: null, note: '61 comments.' },
+    { k: 'RESEARCH', status: 'orphaned', converts: null,    pillar: 'PROVE IT', destination: null, note: '81 comments.' },
   ],
+  shippable: ['live', 'manual'],
   warning: 'A keyword without a destination converts nothing AND loses the comment. Wire it or reuse one that resolves.',
+  suspended: 'The orphaned-comment counts above are SUSPENDED (R14) — built on a stale list that wrongly called RATE dead. Re-derive from live ManyChat and comment data before quoting any number.',
 }
 
 const IPS = {
