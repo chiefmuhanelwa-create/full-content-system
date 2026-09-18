@@ -80,8 +80,8 @@ async function run(request: NextRequest, key: string) {
     skills, pillar: input.pillar, tier: input.tier, tier_of: 'main', maxTokens: 3000,
   })
 
-  const { data } = extractJson<any>(out.text)
-  const bad = explainGenerationFailure(out, data, spec.title.toLowerCase(), 300)
+  const { data, truncated } = extractJson<any>(out.text)
+  const bad = explainGenerationFailure(out, data, spec.title.toLowerCase(), 300, truncated)
   if (bad) {
     const { status, ...body } = bad
     return NextResponse.json(body, { status })

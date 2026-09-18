@@ -25,7 +25,7 @@ export type Explained = {
   error: string
   why: string
   fix: string
-  stage: 'timeout' | 'empty' | 'unparseable' | 'blocked'
+  stage: 'timeout' | 'empty' | 'unparseable' | 'truncated' | 'blocked'
   elapsedMs?: number
   model?: string
   raw?: string
@@ -43,6 +43,14 @@ export function explainGenerationFailure(
   parsed: unknown,
   noun: string,
   maxDurationSec = 60,
+  /**
+   * From extractJson(). TRUE means the object was closed by repair because the model stopped
+   * mid-write — the JSON parses, but the content is cut off.
+   *
+   * This is the quiet one. A truncated script PARSES, so it renders as a success with a
+   * sentence that stops mid-word, and nobody is told. It has to fail loudly or it ships.
+   */
+  truncated = false,
 ): Explained | null {
   const text = (out.text ?? '').trim()
   const ms = out.meta?.ms ?? 0
@@ -93,7 +101,18 @@ export function explainGenerationFailure(
     }
   }
 
-  // 3 — there IS text, it just is not the shape the route needs.
+  // 3a — it parsed, but it stopped mid-write.
+  if (truncated) {
+    return {
+      stage: 'truncated',
+      error: `The ${noun.replace(/^a /, '')} stopped mid-sentence.`,
+      why: `The model hit its token ceiling before finishing. The JSON was closed by repair so it still parses — which is why this can look like a success and read like a draft someone abandoned.`,
+      fix: 'Raise maxTokens on this route, or ask for a shorter piece. If the last beat trails off mid-word, that is this and nothing else.',
+      elapsedMs: ms, model, raw: text.slice(-600), status: 502,
+    }
+  }
+
+  // 3b — there IS text, it just is not the shape the route needs.
   if (parsed == null) {
     return {
       stage: 'unparseable',

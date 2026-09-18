@@ -114,8 +114,8 @@ Return ONE JSON object, no prose:
     skills, pillar, tier, tier_of: 'main', maxTokens: 4000,
   })
 
-  const { data } = extractJson<any>(out.text)
-  const bad = explainGenerationFailure(out, data?.hooks?.length ? data : null, 'hooks', 300)
+  const { data, truncated } = extractJson<any>(out.text)
+  const bad = explainGenerationFailure(out, data?.hooks?.length ? data : null, 'hooks', 300, truncated)
   if (bad) {
     const { status, ...body } = bad
     return NextResponse.json(body, { status })

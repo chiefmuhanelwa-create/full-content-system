@@ -136,15 +136,31 @@ Return ONE JSON object, no prose:
     "ctaKeyword":"${cta?.k ?? 'NONE'} — confirm live before recording"
   }
 }`,
-    skills, pillar, tier, tier_of: 'main', maxTokens: 6000,
+    skills, pillar, tier, tier_of: 'main',
+    // max_tokens is a CEILING, not a spend — output is billed on what is produced. Headroom
+    // is free; truncation is not. The last run stopped mid-sentence at 6000 and rendered as
+    // a success, because a repaired-but-cut object still parses.
+    maxTokens: 8000,
   })
 
-  const { data } = extractJson<any>(out.text)
-  const bad = explainGenerationFailure(out, data, 'a script', 300)
+  const { data, truncated } = extractJson<any>(out.text)
+  const bad = explainGenerationFailure(out, data, 'a script', 300, truncated)
   if (bad) {
     const { status, ...body } = bad
     return NextResponse.json(body, { status })
   }
+
+  // fullScript is the beats again in prose. Asking the model for both roughly doubles the
+  // output tokens — which is what was truncating the script — and lets the two drift apart.
+  // Composed here instead, from the beats it already wrote, so they cannot disagree.
+  data.fullScript = [
+    ...(data.beats ?? []).flatMap((b: any) => [
+      b.screen ? `SCREEN: ${b.screen}` : null,
+      b.line,
+      ...(data.rehooks ?? []).filter((r: any) => r.after === b.n).map((r: any) => `REHOOK — ${r.line}`),
+    ]),
+    data.tail ? `TAIL — ${data.tail}` : null,
+  ].filter(Boolean).join('\n\n')
 
   const surfaces = ['fullScript', 'caption', 'textHook'] as const
   const perSurface: Record<string, any> = {}
