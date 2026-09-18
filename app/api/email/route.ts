@@ -80,6 +80,7 @@ export async function POST(request: NextRequest) {
     const { system } = await buildGovernedSystemPrompt('email', { pillar, tier })
 
     const out = await generate({
+    tool: 'email',
       prompt: `Write the weekly email.
 
 TOPIC: ${topic}

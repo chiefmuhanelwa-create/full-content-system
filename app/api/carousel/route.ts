@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
   const { system } = await buildGovernedSystemPrompt('carousel', { pillar, tier })
 
   const out = await generate({
+    tool: 'carousel',
     prompt: `Build a ${slides}-slide Instagram carousel.
 
 IDEA: ${idea}

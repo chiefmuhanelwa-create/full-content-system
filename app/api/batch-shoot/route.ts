@@ -90,6 +90,7 @@ Return ONE JSON object, no prose, no fence:
 }`
 
   const out = await generate({
+    tool: 'batch-shoot',
     prompt, system, pillar, tier, tier_of: 'main', maxTokens: 8000,
   })
 

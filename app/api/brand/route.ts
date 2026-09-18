@@ -104,6 +104,7 @@ export async function POST(request: NextRequest) {
 
   if (action === 'mediakit') {
     const out = await generate({
+    tool: 'brand',
       prompt: `Write a forwardable one-page media kit. The reader is an agency account manager who will paste it into an email to a client.
 
 LIVE NUMBERS: ${numbers.followers.toLocaleString()} Instagram followers${numbers.engagementRate ? `, ${numbers.engagementRate}% engagement rate` : ''}${numbers.medianReach ? `, ${numbers.medianReach.toLocaleString()} median reach` : ''}. Audience 75.7% South Africa, 56.8% aged 25–34.
@@ -120,6 +121,7 @@ Do NOT include any figure that is not in the safe list. No follower totals acros
     const { brand, offer, deliverables, fee } = body
     const values = (gov.identity?.values ?? []).map((v: any) => `${v.name}: ${v.means}`).join('\n')
     const { data } = await analyse<any>({
+    tool: 'brand',
       prompt: `Decide whether to take this brand deal.
 
 BRAND: ${brand}
@@ -143,6 +145,7 @@ Judge on four things: (1) does it contradict a stated value, (2) does it contrad
     const { thread, objective, fee, intent = 'negotiate' } = body
     const rules = (gov.agency_intel?.fourRules ?? []).map((r: any) => `${r.n}. ${r.rule} → ${r.counter}`).join('\n')
     const out = await generate({
+    tool: 'brand',
       prompt: `Draft the reply to this agency email.
 
 THEIR EMAIL:

@@ -84,6 +84,7 @@ export async function POST(request: NextRequest) {
 
   // ── 20%: the model only fills placeholders and scores ───────────────────
   const out = await generate({
+    tool: 'hooks',
     prompt: `Fill each proven template below for ONE specific topic. Do not invent new hook shapes — the templates are the structure and they have already been proven.
 
 TOPIC: ${topic}

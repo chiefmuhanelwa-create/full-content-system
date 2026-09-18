@@ -69,6 +69,7 @@ async function run(request: NextRequest, key: string) {
   )
 
   const out = await generate({
+    tool: key,   // captions | fears | storytelling | visuals | repurpose | runsheet | offers | pitch
     prompt: `${built.prompt}\n\nReturn ONE JSON object, no prose, no fence.\nShape: ${built.schemaHint}`,
     system, pillar: input.pillar, tier: input.tier, tier_of: 'main', maxTokens: 3000,
   })

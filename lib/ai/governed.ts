@@ -19,6 +19,7 @@ import { anthropic } from '@/lib/claude'
 import { check, banListForPrompt, verdict, type Hit } from '@/lib/fact-lock'
 import { governanceForPrompt, getGovernance } from '@/lib/governance'
 import { extractJson } from '@/lib/json-extract'
+import { recordGeneration } from '@/lib/ai/record'
 
 export const MODEL = {
   fast: process.env.AI_MODEL_FAST || 'claude-haiku-4-5-20251001',
@@ -47,6 +48,10 @@ export type GovernedOpts = {
   temperature?: number
   /** Set false for pure analysis (no claims made), which skips the repair pass. */
   enforceFactLock?: boolean
+  /** Which tool asked. Recorded so the history is browsable by tool. */
+  tool?: string
+  /** Set when the work came from an Idea Bank handoff, so the record links back. */
+  ideaId?: string
 }
 
 
@@ -203,6 +208,26 @@ Return only the corrected version, nothing else.`
     fl = check(text)
   }
 
+  const ms = Date.now() - started
+
+  // Recorded here, at the single choke point every governed tool passes through, rather
+  // than at each call site — so a tool added tomorrow is covered without being told to.
+  recordGeneration({
+    tool: opts.tool ?? 'unknown',
+    kind: 'generate',
+    model,
+    pillar: opts.pillar,
+    tier: opts.tier,
+    input: opts.prompt,
+    output: text,
+    factLock: { clean: fl.clean, banned: fl.banned, careful: fl.careful },
+    blocked: enforce && !fl.clean,
+    repaired,
+    ms,
+    governance: String(g._source ?? 'unknown'),
+    ideaId: opts.ideaId,
+  })
+
   return {
     text,
     blocked: enforce && !fl.clean,
@@ -214,7 +239,7 @@ Return only the corrected version, nothing else.`
       tier: opts.tier,
       governance: String(g._source ?? 'unknown'),
       stopReason,
-      ms: Date.now() - started,
+      ms,
     },
   }
 }
@@ -229,6 +254,7 @@ export async function analyse<T = any>(opts: {
   schemaHint: string
   tier_of?: 'fast' | 'main' | 'deep'
   maxTokens?: number
+  tool?: string
 }): Promise<{ data: T | null; raw: string; model: string }> {
   const model = MODEL[opts.tier_of ?? 'fast']
   const doctrine = await governanceForPrompt()
@@ -242,7 +268,14 @@ export async function analyse<T = any>(opts: {
     ].filter(Boolean).join('\n\n---\n\n'),
   }
 
+  const t0 = Date.now()
   const raw = (await callModelWithRetry(model, system, opts.prompt, opts.maxTokens ?? 2000)).text
   const { data } = extractJson<T>(raw)
+
+  recordGeneration({
+    tool: opts.tool ?? 'analysis', kind: 'analyse', model,
+    input: opts.prompt, output: raw, ms: Date.now() - t0,
+  })
+
   return { data, raw, model }
 }

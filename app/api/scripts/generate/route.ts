@@ -57,6 +57,7 @@ export async function POST(request: NextRequest) {
   const { system, skillsUsed } = await buildGovernedSystemPrompt('scripts', { pillar, tier })
 
   const out = await generate({
+    tool: 'scripts',
     prompt: `Write ONE ${duration} ${platform} script into the skeleton below. The skeleton is fixed — it is measured, not a preference.
 
 ${hook ? `OPENING LINE (already chosen, use it verbatim as beat 1):\n"${hook}"\n` : ''}IDEA: ${idea || hook}

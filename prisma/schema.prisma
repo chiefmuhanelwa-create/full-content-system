@@ -55,6 +55,7 @@ model User {
   pipeline            ContentPipeline[]
   batchPlans          BatchPlan[]
   contentIdeas        ContentIdea[]
+  generations         Generation[]
 
   @@map("users")
   @@schema("content_system")
@@ -1195,5 +1196,49 @@ model ContentIdea {
   @@index([pillar])
   @@index([scheduledFor])
   @@map("content_ideas")
+  @@schema("content_system")
+}
+
+// ── Every generated output, kept ──────────────────────────────────────────────
+// Written server-side at the moment of generation, NOT when someone presses save. The
+// `hooks` and `scripts` tables sat empty for months because saving was a manual step
+// nobody took — so this records first and asks nothing of the user.
+//
+// Survives refresh, logout and redeploy, which makes it the actual record of what this
+// system has produced.
+model Generation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tool   String                       // hooks | scripts | carousel | captions | email | …
+  kind   String  @default("generate") // generate | analyse
+  model  String  @default("")
+  pillar String?
+  tier   String?
+
+  /// What was asked for. Trimmed — this is a record, not a replay buffer.
+  input  String @db.Text
+  /// What came back, verbatim.
+  output String @db.Text
+
+  /// Fact-lock verdict at the moment it was produced, so a bad output is traceable to the
+  /// doctrine that produced it rather than re-judged later against different rules.
+  factLock   Json?
+  blocked    Boolean @default(false)
+  repaired   Boolean @default(false)
+  ms         Int     @default(0)
+  governance String  @default("")
+
+  /// Set when the generation came from an Idea Bank handoff.
+  ideaId    String?
+  starred   Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([tool])
+  @@index([ideaId])
+  @@map("generations")
   @@schema("content_system")
 }
