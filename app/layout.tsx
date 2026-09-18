@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable} ${lato.variable}`}>
-      <body className="font-sans antialiased bg-white text-[#18181B]">
+      <body className="font-sans antialiased bg-white text-[#1A1523]">
         <AuthProvider>
           {children}
         </AuthProvider>

@@ -123,25 +123,25 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
   return (
     <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[12vh] px-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.2)] border border-[#E4E4E7] overflow-hidden">
+      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.2)] border border-[#E9E5F5] overflow-hidden">
 
         {/* Search input */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#E4E4E7]">
-          <Search className="w-4 h-4 text-[#A1A1AA] flex-shrink-0" />
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#E9E5F5]">
+          <Search className="w-4 h-4 text-[#9B94AD] flex-shrink-0" />
           <input
             ref={inputRef}
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Search tools..."
-            className="flex-1 bg-transparent text-[#18181B] text-sm font-display placeholder-[#A1A1AA] outline-none"
+            className="flex-1 bg-transparent text-[#1A1523] text-sm font-display placeholder-[#9B94AD] outline-none"
           />
-          <kbd className="text-[10px] font-display font-semibold text-[#A1A1AA] bg-[#F4F4F5] border border-[#E4E4E7] px-1.5 py-0.5 rounded hidden sm:block">ESC</kbd>
+          <kbd className="text-[10px] font-display font-semibold text-[#9B94AD] bg-[#F5F3FF] border border-[#E9E5F5] px-1.5 py-0.5 rounded hidden sm:block">ESC</kbd>
         </div>
 
         {/* Results */}
         <div ref={listRef} className="max-h-[52vh] overflow-y-auto py-1.5">
           {filtered.length === 0 ? (
-            <p className="text-center text-[#71717A] py-8 text-sm font-display">
+            <p className="text-center text-[#6B6480] py-8 text-sm font-display">
               No tools match &ldquo;{query}&rdquo;
             </p>
           ) : filtered.map((tool, i) => {
@@ -157,15 +157,15 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
               >
                 <div className={cn(
                   'p-1.5 rounded-lg flex-shrink-0',
-                  i === selectedIndex ? 'bg-blue-100' : 'bg-[#F4F4F5]'
+                  i === selectedIndex ? 'bg-blue-100' : 'bg-[#F5F3FF]'
                 )}>
-                  <Icon className={cn('w-3.5 h-3.5', i === selectedIndex ? 'text-blue-600' : 'text-[#71717A]')} />
+                  <Icon className={cn('w-3.5 h-3.5', i === selectedIndex ? 'text-blue-600' : 'text-[#6B6480]')} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className={cn('text-sm font-display font-medium truncate', i === selectedIndex ? 'text-blue-600' : 'text-[#18181B]')}>
+                  <p className={cn('text-sm font-display font-medium truncate', i === selectedIndex ? 'text-blue-600' : 'text-[#1A1523]')}>
                     {tool.name}
                   </p>
-                  <p className="text-[11px] font-display text-[#A1A1AA]">{tool.category}</p>
+                  <p className="text-[11px] font-display text-[#9B94AD]">{tool.category}</p>
                 </div>
                 {i === selectedIndex && <ArrowRight className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />}
               </button>
@@ -174,17 +174,17 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2.5 border-t border-[#F4F4F5] flex items-center gap-5 bg-[#FAFAFA]">
-          <span className="text-[10px] font-display text-[#A1A1AA] flex items-center gap-1">
-            <kbd className="bg-white border border-[#E4E4E7] px-1 py-0.5 rounded text-[9px]">↑↓</kbd> navigate
+        <div className="px-4 py-2.5 border-t border-[#F5F3FF] flex items-center gap-5 bg-[#FAFAFA]">
+          <span className="text-[10px] font-display text-[#9B94AD] flex items-center gap-1">
+            <kbd className="bg-white border border-[#E9E5F5] px-1 py-0.5 rounded text-[9px]">↑↓</kbd> navigate
           </span>
-          <span className="text-[10px] font-display text-[#A1A1AA] flex items-center gap-1">
-            <kbd className="bg-white border border-[#E4E4E7] px-1 py-0.5 rounded text-[9px]">↵</kbd> open
+          <span className="text-[10px] font-display text-[#9B94AD] flex items-center gap-1">
+            <kbd className="bg-white border border-[#E9E5F5] px-1 py-0.5 rounded text-[9px]">↵</kbd> open
           </span>
-          <span className="text-[10px] font-display text-[#A1A1AA] flex items-center gap-1">
-            <kbd className="bg-white border border-[#E4E4E7] px-1 py-0.5 rounded text-[9px]">ESC</kbd> close
+          <span className="text-[10px] font-display text-[#9B94AD] flex items-center gap-1">
+            <kbd className="bg-white border border-[#E9E5F5] px-1 py-0.5 rounded text-[9px]">ESC</kbd> close
           </span>
-          <span className="ml-auto text-[10px] font-display text-[#D4D4D8]">{filtered.length} tools</span>
+          <span className="ml-auto text-[10px] font-display text-[#D6CFEA]">{filtered.length} tools</span>
         </div>
       </div>
     </div>

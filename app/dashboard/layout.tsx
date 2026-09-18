@@ -54,30 +54,30 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <main className="flex-1 overflow-y-auto min-h-0">
 
             {/* Mobile top bar — sticky inside scroll container */}
-            <div className="lg:hidden sticky top-0 z-30 px-4 h-14 flex items-center gap-3" style={{ background: '#FFFFFF', borderBottom: '1px solid #E4E4E7' }}>
+            <div className="lg:hidden sticky top-0 z-30 px-4 h-14 flex items-center gap-3" style={{ background: '#FFFFFF', borderBottom: '1px solid #E9E5F5' }}>
               <button
                 onClick={() => setMobileNavOpen(true)}
                 aria-label="Open navigation"
                 className="p-2 rounded-lg transition-colors flex-shrink-0"
-                style={{ color: '#71717A' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#18181B')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#71717A')}
+                style={{ color: '#6B6480' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#1A1523')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#6B6480')}
               >
                 <Menu className="w-5 h-5" />
               </button>
               <div className="flex items-center gap-2 flex-1 justify-center">
-                <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: '#18181B' }}>
+                <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: '#1A1523' }}>
                   <span className="font-display font-black text-[10px] leading-none" style={{ color: '#FFFFFF' }}>N</span>
                 </div>
-                <span className="font-display font-black text-sm tracking-tight" style={{ color: '#18181B' }}>NOCHILL</span>
+                <span className="font-display font-black text-sm tracking-tight" style={{ color: '#1A1523' }}>NOCHILL</span>
               </div>
               <button
                 onClick={() => setCommandPaletteOpen(true)}
                 aria-label="Search tools"
                 className="p-2 rounded-lg transition-colors flex-shrink-0"
-                style={{ color: '#71717A' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#18181B')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#71717A')}
+                style={{ color: '#6B6480' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#1A1523')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#6B6480')}
               >
                 <Search className="w-5 h-5" />
               </button>

@@ -51,14 +51,14 @@ interface WeeklyArc {
 }
 
 const FOUR_E_COLORS: Record<string, string> = {
-  Educate:   'bg-[#EFF6FF] text-[#1D4ED8]',
+  Educate:   'bg-[#EFF6FF] text-[#7C3AED]',
   Entertain: 'bg-purple-100 text-purple-800',
   Encourage: 'bg-emerald-100 text-emerald-800',
   Earn:      'bg-amber-100 text-amber-800',
 }
 
 const CONTENT_TYPE_COLORS: Record<string, string> = {
-  Educational:      'bg-[#EFF6FF] text-[#1D4ED8]',
+  Educational:      'bg-[#EFF6FF] text-[#7C3AED]',
   Story:            'bg-purple-100 text-purple-800',
   'Behind-the-Scenes': 'bg-amber-100 text-amber-800',
   'Myth-Busting':   'bg-red-100 text-red-800',
@@ -439,15 +439,15 @@ export default function BatchPlannerPage() {
       <div className="px-6 py-6">
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-white border border-[#E4E4E7] rounded-xl p-1 mb-6 w-fit">
+        <div className="flex gap-1 bg-white border border-[#E9E5F5] rounded-xl p-1 mb-6 w-fit">
           {(['generate', 'import', 'history'] as const).map(t => (
             <button
               key={t}
               onClick={() => { setTab(t); setPushResult(null) }}
               className={`px-4 py-2 rounded-lg text-[12px] font-display font-bold transition-all ${
                 tab === t
-                  ? 'bg-[#2563EB] text-[#18181B] shadow-sm'
-                  : 'text-[#71717A] hover:text-[#18181B]'
+                  ? 'bg-[#8B5CF6] text-[#1A1523] shadow-sm'
+                  : 'text-[#6B6480] hover:text-[#1A1523]'
               }`}
             >
               {t === 'generate' ? 'Generate Plan' : t === 'import' ? 'Import CSV' : `My Plans (${planHistory.length})`}
@@ -458,7 +458,7 @@ export default function BatchPlannerPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left panel */}
           <div className="lg:col-span-1 space-y-4">
-            <div className="bg-white border border-[#E4E4E7] rounded-xl p-5">
+            <div className="bg-white border border-[#E9E5F5] rounded-xl p-5">
               {tab === 'generate' ? (
                 <div className="space-y-4">
                   <div>
@@ -482,7 +482,7 @@ export default function BatchPlannerPage() {
                       placeholder="e.g. Free PAIDS Workbook, 30-Day Content Calendar..."
                       className="mt-1"
                     />
-                    <p className="text-[10px] text-[#71717A] mt-1">Every post will CTA to email capture using this. Leave blank for AI to decide.</p>
+                    <p className="text-[10px] text-[#6B6480] mt-1">Every post will CTA to email capture using this. Leave blank for AI to decide.</p>
                   </div>
                   <div>
                     <Label className="nc-label text-[11px]">Series Name (optional)</Label>
@@ -492,7 +492,7 @@ export default function BatchPlannerPage() {
                       placeholder="e.g. The Contentpreneur Foundation Series"
                       className="mt-1"
                     />
-                    <p className="text-[10px] text-[#71717A] mt-1">AI will structure all 30 posts as episodes in this series.</p>
+                    <p className="text-[10px] text-[#6B6480] mt-1">AI will structure all 30 posts as episodes in this series.</p>
                   </div>
                   <div>
                     <Label className="nc-label text-[11px]">Posting Frequency</Label>
@@ -529,12 +529,12 @@ export default function BatchPlannerPage() {
                         <SelectItem value="icp2">ICP 2 — The Content Creator Inspirer (18–35)</SelectItem>
                       </SelectContent>
                     </Select>
-                    <p className="text-[10px] text-[#71717A] mt-1">Called Expert: unexploited professional expertise. Creator: aspiring, no system yet.</p>
+                    <p className="text-[10px] text-[#6B6480] mt-1">Called Expert: unexploited professional expertise. Creator: aspiring, no system yet.</p>
                   </div>
                   <Button
                     onClick={handleGenerate}
                     disabled={loading || !niche.trim() || !goals.trim()}
-                    className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold"
+                    className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-[#1A1523] font-display font-bold"
                   >
                     {loading ? 'Generating...' : 'Generate 30-Day Plan'}
                   </Button>
@@ -558,7 +558,7 @@ export default function BatchPlannerPage() {
                   <Button
                     onClick={handleImportCSV}
                     disabled={!csvText.trim()}
-                    className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold"
+                    className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-[#1A1523] font-display font-bold"
                   >
                     <Upload className="w-4 h-4 mr-2" />
                     Import Plan
@@ -569,14 +569,14 @@ export default function BatchPlannerPage() {
 
             {/* Actions after plan loads */}
             {contentPlan.length > 0 && (
-              <div className="bg-white border border-[#E4E4E7] rounded-xl p-4 space-y-2">
-                <p className="text-[11px] font-display font-black uppercase tracking-widest text-[#71717A] mb-3">
+              <div className="bg-white border border-[#E9E5F5] rounded-xl p-4 space-y-2">
+                <p className="text-[11px] font-display font-black uppercase tracking-widest text-[#6B6480] mb-3">
                   Push to System
                 </p>
                 <Button
                   onClick={pushAllToCalendar}
                   disabled={pushing || pushingPipeline}
-                  className="w-full bg-[#18181B] hover:bg-[#1A1A1A] text-white font-display font-bold text-[12px] flex items-center gap-2"
+                  className="w-full bg-[#1A1523] hover:bg-[#1A1A1A] text-white font-display font-bold text-[12px] flex items-center gap-2"
                 >
                   <CalendarDays className="w-4 h-4" />
                   {pushing ? 'Pushing...' : `Push All ${contentPlan.length} Days to Calendar`}
@@ -592,7 +592,7 @@ export default function BatchPlannerPage() {
                 <Button
                   onClick={pushAllToPipeline}
                   disabled={pushing || pushingPipeline}
-                  className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-[#18181B] font-display font-bold text-[12px] flex items-center gap-2"
+                  className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-[#1A1523] font-display font-bold text-[12px] flex items-center gap-2"
                 >
                   <GitBranch className="w-4 h-4" />
                   {pushingPipeline ? 'Pushing...' : `Push All ${contentPlan.length} Days to Pipeline`}
@@ -645,16 +645,16 @@ export default function BatchPlannerPage() {
               <div className="bg-white border border-red-200 rounded-xl p-5 flex items-start gap-3">
                 <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-display font-bold text-[#18181B] text-sm">Generation failed</p>
-                  <p className="text-[#71717A] text-sm mt-0.5">{generateError}</p>
+                  <p className="font-display font-bold text-[#1A1523] text-sm">Generation failed</p>
+                  <p className="text-[#6B6480] text-sm mt-0.5">{generateError}</p>
                 </div>
               </div>
             )}
 
             {loading && (
-              <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
-                <div className="w-10 h-10 border-2 border-[#2563EB] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                <p className="text-[#71717A] font-display font-semibold text-sm">Generating 30-day plan...</p>
+              <div className="bg-white border border-[#E9E5F5] rounded-xl p-12 text-center">
+                <div className="w-10 h-10 border-2 border-[#8B5CF6] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-[#6B6480] font-display font-semibold text-sm">Generating 30-day plan...</p>
               </div>
             )}
 
@@ -663,9 +663,9 @@ export default function BatchPlannerPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     {planSeriesName && (
-                      <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#2563EB] mb-0.5">{planSeriesName}</p>
+                      <p className="text-[10px] font-display font-black uppercase tracking-widest text-[#8B5CF6] mb-0.5">{planSeriesName}</p>
                     )}
-                    <p className="font-display font-black text-[#18181B] text-sm">
+                    <p className="font-display font-black text-[#1A1523] text-sm">
                       {contentPlan.length} content pieces
                       {pushResult && pushResult.failed === 0 && (
                         <span className="ml-2 text-emerald-600 font-semibold">· Pushed to Calendar ✓</span>
@@ -673,7 +673,7 @@ export default function BatchPlannerPage() {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <p className="text-[11px] text-[#71717A] font-display">Click any row to generate its hook or script</p>
+                    <p className="text-[11px] text-[#6B6480] font-display">Click any row to generate its hook or script</p>
                     <button
                       onClick={() => {
                         const topItem = contentPlan[0]
@@ -684,7 +684,7 @@ export default function BatchPlannerPage() {
                         }))
                         router.push('/dashboard/pitch')
                       }}
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-[#2563EB]/40 bg-[#EFF6FF] text-[#1D4ED8] hover:border-[#2563EB] hover:text-[#1E40AF] transition-all text-[10px] font-display font-bold uppercase tracking-wide flex-shrink-0"
+                      className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-[#8B5CF6]/40 bg-[#EFF6FF] text-[#7C3AED] hover:border-[#8B5CF6] hover:text-[#1E40AF] transition-all text-[10px] font-display font-bold uppercase tracking-wide flex-shrink-0"
                     >
                       Build Series Pitch →
                     </button>
@@ -695,13 +695,13 @@ export default function BatchPlannerPage() {
                 {weeklyArcs.length > 0 && (
                   <div className="grid grid-cols-2 gap-2">
                     {weeklyArcs.map(arc => (
-                      <div key={arc.week} className="bg-white border border-[#E4E4E7] rounded-xl p-3">
+                      <div key={arc.week} className="bg-white border border-[#E9E5F5] rounded-xl p-3">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-[9px] font-display font-black uppercase tracking-widest text-[#2563EB]">Week {arc.week}</span>
-                          <span className="text-[9px] font-display font-semibold text-[#71717A] bg-[#F4F4F5] rounded px-1.5 py-0.5">{arc.awarenessLevel}</span>
+                          <span className="text-[9px] font-display font-black uppercase tracking-widest text-[#8B5CF6]">Week {arc.week}</span>
+                          <span className="text-[9px] font-display font-semibold text-[#6B6480] bg-[#F5F3FF] rounded px-1.5 py-0.5">{arc.awarenessLevel}</span>
                         </div>
-                        <p className="font-display font-bold text-[#18181B] text-[11px]">{arc.title}</p>
-                        <p className="text-[10px] text-[#71717A] mt-0.5 leading-relaxed">{arc.theme}</p>
+                        <p className="font-display font-bold text-[#1A1523] text-[11px]">{arc.title}</p>
+                        <p className="text-[10px] text-[#6B6480] mt-0.5 leading-relaxed">{arc.theme}</p>
                       </div>
                     ))}
                   </div>
@@ -709,30 +709,30 @@ export default function BatchPlannerPage() {
 
                 {/* NOCHILL DNA Compliance Panel */}
                 {planCompliance && (
-                  <div className="bg-[#18181B] rounded-xl p-5 text-white space-y-4">
+                  <div className="bg-[#1A1523] rounded-xl p-5 text-white space-y-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-display font-black uppercase tracking-widest text-[#2563EB]">NOCHILL DNA — Plan Compliance Report</span>
+                      <span className="text-[10px] font-display font-black uppercase tracking-widest text-[#8B5CF6]">NOCHILL DNA — Plan Compliance Report</span>
                     </div>
 
                     {/* ICP + Principles row */}
                     <div className="grid grid-cols-2 gap-3 text-[11px]">
                       <div className="bg-white/5 rounded-lg p-3">
-                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Target ICP</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#6B6480] mb-1">Target ICP</p>
                         <p className="font-display font-bold text-white/90">{planCompliance.icp || '—'}</p>
                       </div>
                       <div className="bg-white/5 rounded-lg p-3">
-                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Africa Context</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#6B6480] mb-1">Africa Context</p>
                         <p className="font-display font-bold text-white/90">{planCompliance.africaContext || '✅ ZAR, SA context'}</p>
                       </div>
                       <div className="bg-white/5 rounded-lg p-3">
-                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Villains</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#6B6480] mb-1">Villains</p>
                         <p className="font-display font-bold text-white/90">{planCompliance.villainsDefined || '✅ System/situation'}</p>
                       </div>
                       <div className="bg-white/5 rounded-lg p-3">
-                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-1">Voice Principles</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#6B6480] mb-1">Voice Principles</p>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {(planCompliance.principlesApplied || ['You Format', 'Negativity (indirect)']).map((p: string, i: number) => (
-                            <span key={i} className="text-[9px] bg-[#DBEAFE] text-[#1D4ED8] rounded px-1.5 py-0.5 font-display font-bold">{p}</span>
+                            <span key={i} className="text-[9px] bg-[#DBEAFE] text-[#7C3AED] rounded px-1.5 py-0.5 font-display font-bold">{p}</span>
                           ))}
                         </div>
                       </div>
@@ -741,12 +741,12 @@ export default function BatchPlannerPage() {
                     {/* 4E Distribution */}
                     {planCompliance.fourEBreakdown && (
                       <div>
-                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">4E Engine Distribution</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#6B6480] mb-2">4E Engine Distribution</p>
                         <div className="grid grid-cols-4 gap-2">
                           {Object.entries(planCompliance.fourEBreakdown).map(([key, val]) => (
                             <div key={key} className="bg-white/5 rounded-lg p-2 text-center">
                               <p className="text-[18px] font-display font-black text-white">{String(val)}</p>
-                              <p className="text-[9px] font-display font-bold uppercase tracking-wide text-[#71717A] capitalize">{key}</p>
+                              <p className="text-[9px] font-display font-bold uppercase tracking-wide text-[#6B6480] capitalize">{key}</p>
                             </div>
                           ))}
                         </div>
@@ -756,13 +756,13 @@ export default function BatchPlannerPage() {
                     {/* PAIDS Distribution */}
                     {planCompliance.paidsDistribution && (
                       <div>
-                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">PAIDS Category Coverage</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#6B6480] mb-2">PAIDS Category Coverage</p>
                         <div className="flex flex-wrap gap-2">
                           {Object.entries(planCompliance.paidsDistribution).map(([key, val]) => (
                             Number(val) > 0 && (
                               <div key={key} className="flex items-center gap-1.5 bg-white/5 rounded-lg px-2.5 py-1.5">
                                 <span className="text-[12px] font-display font-black text-white">{String(val)}</span>
-                                <span className="text-[9px] font-display font-bold uppercase tracking-wide text-[#71717A] capitalize">{key}</span>
+                                <span className="text-[9px] font-display font-bold uppercase tracking-wide text-[#6B6480] capitalize">{key}</span>
                               </div>
                             )
                           ))}
@@ -773,7 +773,7 @@ export default function BatchPlannerPage() {
                     {/* Shadow Fears Used */}
                     {planCompliance.shadowFearsUsed && planCompliance.shadowFearsUsed.length > 0 && (
                       <div>
-                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#71717A] mb-2">Shadow Fears Activated</p>
+                        <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#6B6480] mb-2">Shadow Fears Activated</p>
                         <div className="flex flex-wrap gap-1.5">
                           {planCompliance.shadowFearsUsed.map((fear: string, i: number) => (
                             <span key={i} className="text-[9px] bg-red-900/40 text-red-300 rounded px-2 py-1 font-display font-bold">{fear}</span>
@@ -785,32 +785,32 @@ export default function BatchPlannerPage() {
                 )}
 
                 {weeks.map(({ week, items }) => (
-                  <div key={week} className="bg-white border border-[#E4E4E7] rounded-xl overflow-hidden">
-                    <div className="px-4 py-2.5 bg-[#F9FAFB] border-b border-[#E4E4E7]">
-                      <p className="text-[11px] font-display font-black uppercase tracking-widest text-[#71717A]">Week {week}</p>
+                  <div key={week} className="bg-white border border-[#E9E5F5] rounded-xl overflow-hidden">
+                    <div className="px-4 py-2.5 bg-[#F9FAFB] border-b border-[#E9E5F5]">
+                      <p className="text-[11px] font-display font-black uppercase tracking-widest text-[#6B6480]">Week {week}</p>
                     </div>
-                    <div className="divide-y divide-[#F4F4F5]">
+                    <div className="divide-y divide-[#F5F3FF]">
                       {items.map((item, idx) => (
                         <div key={idx} className="p-4 hover:bg-[#F9FAFB] transition-colors">
                           <div className="flex items-start gap-3">
                             {/* Day badge */}
-                            <div className="w-10 h-10 bg-[#18181B] text-white rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+                            <div className="w-10 h-10 bg-[#1A1523] text-white rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                               <span className="text-[8px] font-display font-black uppercase tracking-wide leading-none text-white/50">DAY</span>
                               <span className="text-[15px] font-display font-black leading-none">{item.day}</span>
                             </div>
 
                             <div className="flex-1 min-w-0">
                               {item.seriesEpisode && (
-                                <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#2563EB] mb-0.5">{item.seriesEpisode}</p>
+                                <p className="text-[9px] font-display font-black uppercase tracking-widest text-[#8B5CF6] mb-0.5">{item.seriesEpisode}</p>
                               )}
                               <div className="flex items-start gap-2 flex-wrap mb-1">
-                                <p className="font-display font-bold text-[#18181B] text-[13px] leading-snug flex-1">{item.topic}</p>
+                                <p className="font-display font-bold text-[#1A1523] text-[13px] leading-snug flex-1">{item.topic}</p>
                                 {item.fourE && (
-                                  <span className={`text-[9px] font-display font-black px-2 py-0.5 rounded-full flex-shrink-0 ${FOUR_E_COLORS[item.fourE] || 'bg-[#E4E4E7] text-[#52525B]'}`}>
+                                  <span className={`text-[9px] font-display font-black px-2 py-0.5 rounded-full flex-shrink-0 ${FOUR_E_COLORS[item.fourE] || 'bg-[#E9E5F5] text-[#52525B]'}`}>
                                     {item.fourE}
                                   </span>
                                 )}
-                                <span className={`text-[10px] font-display font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType || ''] || 'bg-[#E4E4E7] text-[#52525B]'}`}>
+                                <span className={`text-[10px] font-display font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${CONTENT_TYPE_COLORS[item.contentType || ''] || 'bg-[#E9E5F5] text-[#52525B]'}`}>
                                   {item.contentType}
                                 </span>
                               </div>
@@ -818,7 +818,7 @@ export default function BatchPlannerPage() {
                               {(item.icp || item.paidsCategory || item.shadowFear) && (
                                 <div className="flex flex-wrap gap-1 mb-1.5">
                                   {item.icp && (
-                                    <span className="text-[9px] bg-[#EFF6FF] text-[#1D4ED8] font-display font-bold px-1.5 py-0.5 rounded">
+                                    <span className="text-[9px] bg-[#EFF6FF] text-[#7C3AED] font-display font-bold px-1.5 py-0.5 rounded">
                                       {item.icp.includes('1') ? 'ICP1 · Expert' : 'ICP2 · Creator'}
                                     </span>
                                   )}
@@ -833,19 +833,19 @@ export default function BatchPlannerPage() {
                                     </span>
                                   )}
                                   {item.villain && (
-                                    <span className="text-[9px] bg-[#18181B]/5 text-[#18181B] font-display font-bold px-1.5 py-0.5 rounded truncate max-w-[140px]" title={item.villain}>
+                                    <span className="text-[9px] bg-[#1A1523]/5 text-[#1A1523] font-display font-bold px-1.5 py-0.5 rounded truncate max-w-[140px]" title={item.villain}>
                                       ⚔ {item.villain}
                                     </span>
                                   )}
                                 </div>
                               )}
                               {item.date && (
-                                <div className="flex items-center gap-1 text-[10px] text-[#71717A] mb-1.5">
+                                <div className="flex items-center gap-1 text-[10px] text-[#6B6480] mb-1.5">
                                   <Clock className="w-3 h-3" />{item.date} · {item.platform}
                                 </div>
                               )}
                               <p className="text-[11px] text-[#52525B] leading-relaxed line-clamp-2">
-                                <span className="font-semibold text-[#71717A]">Hook:</span> "{item.hookIdea}"
+                                <span className="font-semibold text-[#6B6480]">Hook:</span> "{item.hookIdea}"
                               </p>
                               {item.ctaSuggestion && (
                                 <p className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-lg px-2 py-1.5 mt-1.5 leading-relaxed">
@@ -859,7 +859,7 @@ export default function BatchPlannerPage() {
                           <div className="flex items-center gap-2 mt-3 ml-13 pl-0">
                             <button
                               onClick={() => openHookGenerator(item)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#7C3AED] rounded-lg text-[11px] font-display font-bold transition-colors"
                             >
                               <Zap className="w-3 h-3" />
                               Generate Hook
@@ -883,9 +883,9 @@ export default function BatchPlannerPage() {
             )}
 
             {contentPlan.length === 0 && !loading && tab !== 'history' && (
-              <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
-                <Layers className="h-12 w-12 mx-auto mb-4 text-[#E4E4E7]" />
-                <p className="font-display font-bold text-[#71717A] text-sm">
+              <div className="bg-white border border-[#E9E5F5] rounded-xl p-12 text-center">
+                <Layers className="h-12 w-12 mx-auto mb-4 text-[#E9E5F5]" />
+                <p className="font-display font-bold text-[#6B6480] text-sm">
                   {tab === 'generate' ? 'Fill in your niche and goals, then generate your plan' : 'Paste your CSV and click Import Plan'}
                 </p>
               </div>
@@ -894,33 +894,33 @@ export default function BatchPlannerPage() {
             {tab === 'history' && (
               <div className="space-y-3">
                 {historyLoading ? (
-                  <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
-                    <div className="w-8 h-8 border-2 border-[#2563EB] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-                    <p className="font-display font-semibold text-[#71717A] text-sm">Loading saved plans...</p>
+                  <div className="bg-white border border-[#E9E5F5] rounded-xl p-12 text-center">
+                    <div className="w-8 h-8 border-2 border-[#8B5CF6] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                    <p className="font-display font-semibold text-[#6B6480] text-sm">Loading saved plans...</p>
                   </div>
                 ) : planHistory.length === 0 ? (
-                  <div className="bg-white border border-[#E4E4E7] rounded-xl p-12 text-center">
-                    <History className="h-12 w-12 mx-auto mb-4 text-[#E4E4E7]" />
-                    <p className="font-display font-bold text-[#71717A] text-sm">No saved plans yet. Generate or import a plan first.</p>
+                  <div className="bg-white border border-[#E9E5F5] rounded-xl p-12 text-center">
+                    <History className="h-12 w-12 mx-auto mb-4 text-[#E9E5F5]" />
+                    <p className="font-display font-bold text-[#6B6480] text-sm">No saved plans yet. Generate or import a plan first.</p>
                   </div>
                 ) : (
                   planHistory.map(saved => (
-                    <div key={saved.id} className="bg-white border border-[#E4E4E7] rounded-xl p-4">
+                    <div key={saved.id} className="bg-white border border-[#E9E5F5] rounded-xl p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
-                          <p className="font-display font-bold text-[#18181B] text-[13px] truncate">{saved.name}</p>
-                          <p className="text-[11px] text-[#71717A] mt-0.5">{saved.plan.length} days · {new Date(saved.createdAt).toLocaleDateString()}</p>
+                          <p className="font-display font-bold text-[#1A1523] text-[13px] truncate">{saved.name}</p>
+                          <p className="text-[11px] text-[#6B6480] mt-0.5">{saved.plan.length} days · {new Date(saved.createdAt).toLocaleDateString()}</p>
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
                           <button
                             onClick={() => { setContentPlan(saved.plan); setTab('generate'); setPushResult(null) }}
-                            className="px-3 py-1.5 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
+                            className="px-3 py-1.5 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#7C3AED] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             Load Plan
                           </button>
                           <button
                             onClick={() => deletePlanFromHistory(saved.id)}
-                            className="p-1.5 hover:bg-red-50 text-[#71717A] hover:text-red-600 rounded-lg transition-colors"
+                            className="p-1.5 hover:bg-red-50 text-[#6B6480] hover:text-red-600 rounded-lg transition-colors"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>

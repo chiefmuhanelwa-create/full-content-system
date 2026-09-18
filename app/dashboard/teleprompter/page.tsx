@@ -59,7 +59,7 @@ export default function TeleprompterPage() {
   const [wordsPerMinute, setWordsPerMinute] = useState(130)
   const [showFloatingControls, setShowFloatingControls] = useState(true)
   const [showTapHint, setShowTapHint] = useState(false)
-  const [highlightColor, setHighlightColor] = useState('#3b82f6') // Blue
+  const [highlightColor, setHighlightColor] = useState('#A78BFA') // Blue
   const [backgroundColor, setBackgroundColor] = useState('#000000') // Black
   const [linePerLine, setLinePerLine] = useState(true) // Kallaway rhythm mode — default on
   const [showCaptionPanel, setShowCaptionPanel] = useState(false)
@@ -660,7 +660,7 @@ export default function TeleprompterPage() {
               text-align: center;
               margin-bottom: 40px;
               padding: 30px;
-              background: #2563EB;
+              background: #8B5CF6;
               color: white;
               border-radius: 15px;
             }
@@ -1474,9 +1474,9 @@ export default function TeleprompterPage() {
 
                   {/* Caption + Hashtag Panel */}
                   {showCaptionPanel && captionPanelData && (
-                    <div className="mt-3 p-4 bg-[#111111] border border-[#2563EB]/40 rounded-lg">
+                    <div className="mt-3 p-4 bg-[#111111] border border-[#8B5CF6]/40 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#2563EB] text-xs font-bold uppercase tracking-widest"># Caption + Hashtags</span>
+                        <span className="text-[#8B5CF6] text-xs font-bold uppercase tracking-widest"># Caption + Hashtags</span>
                         <button
                           onClick={() => setShowCaptionPanel(false)}
                           className="text-gray-500 hover:text-gray-300 text-xs"
@@ -1489,7 +1489,7 @@ export default function TeleprompterPage() {
                       </p>
                       <div className="flex flex-wrap gap-1">
                         {captionPanelData.hashtags?.slice(0, 15).map((tag: string, i: number) => (
-                          <span key={i} className="text-[#2563EB] text-xs font-medium">#{tag}</span>
+                          <span key={i} className="text-[#8B5CF6] text-xs font-medium">#{tag}</span>
                         ))}
                       </div>
                     </div>

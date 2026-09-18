@@ -9,17 +9,17 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-[#18181B] text-white border border-[#18181B] shadow-[0_2px_8px_rgba(0,0,0,0.12)] hover:bg-[#2A2A2E] hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:-translate-y-0.5',
+          'bg-[#1A1523] text-white border border-[#1A1523] shadow-[0_2px_8px_rgba(0,0,0,0.12)] hover:bg-[#2A2A2E] hover:shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:-translate-y-0.5',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
-          'border border-[#E4E4E7] bg-white text-[#18181B] hover:border-[#2563EB]/50 hover:bg-[#F4F4F5] hover:text-[#18181B]',
+          'border border-[#E9E5F5] bg-white text-[#1A1523] hover:border-[#8B5CF6]/50 hover:bg-[#F5F3FF] hover:text-[#1A1523]',
         secondary:
-          'bg-[#F4F4F5] text-[#18181B] border border-[#E4E4E7] hover:bg-[#E8EBF0] hover:border-[#2563EB]/40',
+          'bg-[#F5F3FF] text-[#1A1523] border border-[#E9E5F5] hover:bg-[#E8EBF0] hover:border-[#8B5CF6]/40',
         ghost:
-          'text-[#52525B] hover:bg-[#F4F4F5] hover:text-[#18181B]',
+          'text-[#52525B] hover:bg-[#F5F3FF] hover:text-[#1A1523]',
         link:
-          'text-[#1D4ED8] underline-offset-4 hover:underline hover:text-[#2563EB]',
+          'text-[#7C3AED] underline-offset-4 hover:underline hover:text-[#8B5CF6]',
       },
       size: {
         default: 'h-11 px-5 py-2.5',

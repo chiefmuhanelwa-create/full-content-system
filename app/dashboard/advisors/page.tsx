@@ -153,10 +153,10 @@ export default function AdvisorsPage() {
             <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold"
               style={{ background: '#C9A84C', color: '#FFFFFF' }}>✝</div>
             <div>
-              <h1 className="text-2xl font-black tracking-tight" style={{ color: '#18181B', fontFamily: 'Montserrat, sans-serif' }}>
+              <h1 className="text-2xl font-black tracking-tight" style={{ color: '#1A1523', fontFamily: 'Montserrat, sans-serif' }}>
                 AI Board of Advisors
               </h1>
-              <p className="text-sm" style={{ color: '#71717A' }}>
+              <p className="text-sm" style={{ color: '#6B6480' }}>
                 Kingdom-aligned counsel before every major decision
               </p>
             </div>
@@ -172,8 +172,8 @@ export default function AdvisorsPage() {
         </div>
 
         {/* Question Input */}
-        <div className="rounded-xl border p-5 mb-6" style={{ background: '#FFFFFF', borderColor: '#E4E4E7' }}>
-          <label className="block text-sm font-bold mb-2" style={{ color: '#18181B', fontFamily: 'Montserrat, sans-serif' }}>
+        <div className="rounded-xl border p-5 mb-6" style={{ background: '#FFFFFF', borderColor: '#E9E5F5' }}>
+          <label className="block text-sm font-bold mb-2" style={{ color: '#1A1523', fontFamily: 'Montserrat, sans-serif' }}>
             Your decision or question
           </label>
           <textarea
@@ -182,7 +182,7 @@ export default function AdvisorsPage() {
             placeholder="E.g. 'Should the Accelerator stay at the ruled $499 / R9,000?' or 'Should I launch Series 1 or build more products first?' or 'Is it time to hire a VA?'"
             rows={4}
             className="w-full text-sm resize-none rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#C9A84C]"
-            style={{ borderColor: '#E4E4E7', color: '#18181B', background: '#FAFAFA' }}
+            style={{ borderColor: '#E9E5F5', color: '#1A1523', background: '#FAFAFA' }}
           />
           {error && <p className="text-xs mt-2 text-red-600">{error}</p>}
 
@@ -191,7 +191,7 @@ export default function AdvisorsPage() {
               onClick={handleAskAll}
               disabled={loading}
               className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all disabled:opacity-50"
-              style={{ background: '#18181B', color: '#FFFFFF' }}
+              style={{ background: '#1A1523', color: '#FFFFFF' }}
             >
               {loading && !selectedAdvisor ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               Ask All Advisors
@@ -215,7 +215,7 @@ export default function AdvisorsPage() {
                   {advisor.avatar}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-black text-sm leading-tight" style={{ color: '#18181B', fontFamily: 'Montserrat, sans-serif' }}>
+                  <p className="font-black text-sm leading-tight" style={{ color: '#1A1523', fontFamily: 'Montserrat, sans-serif' }}>
                     {advisor.name}
                   </p>
                   <p className="text-[10px] mt-0.5 leading-tight" style={{ color: advisor.color }}>
@@ -248,7 +248,7 @@ export default function AdvisorsPage() {
         {/* Responses */}
         {responses.length > 0 && (
           <div className="space-y-4">
-            <h2 className="text-sm font-black uppercase tracking-widest" style={{ color: '#71717A' }}>
+            <h2 className="text-sm font-black uppercase tracking-widest" style={{ color: '#6B6480' }}>
               Board Counsel
             </h2>
             {responses.map((r, i) => {
@@ -275,17 +275,17 @@ export default function AdvisorsPage() {
                         {advisorMeta?.avatar || '?'}
                       </div>
                       <div className="text-left min-w-0">
-                        <p className="text-sm font-bold truncate" style={{ color: '#18181B' }}>
+                        <p className="text-sm font-bold truncate" style={{ color: '#1A1523' }}>
                           {r.advisor}
                         </p>
-                        <p className="text-xs truncate" style={{ color: '#71717A' }}>
+                        <p className="text-xs truncate" style={{ color: '#6B6480' }}>
                           {r.question.length > 60 ? r.question.slice(0, 60) + '…' : r.question}
                         </p>
                       </div>
                     </div>
                     {isExpanded
-                      ? <ChevronUp className="w-4 h-4 flex-shrink-0" style={{ color: '#A1A1AA' }} />
-                      : <ChevronDown className="w-4 h-4 flex-shrink-0" style={{ color: '#A1A1AA' }} />
+                      ? <ChevronUp className="w-4 h-4 flex-shrink-0" style={{ color: '#9B94AD' }} />
+                      : <ChevronDown className="w-4 h-4 flex-shrink-0" style={{ color: '#9B94AD' }} />
                     }
                   </button>
                   {isExpanded && (

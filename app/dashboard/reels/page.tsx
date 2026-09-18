@@ -35,10 +35,10 @@ type Payload = {
 }
 
 const PC: Record<string, string> = {
-  'KEEP IT': '#D4A82F', 'PRICE IT': '#2563EB', 'OWN IT': '#16A34A',
-  'BUILD IT ANYWAY': '#9333EA', 'PROVE IT': '#DC2626', UNMAPPED: '#A1A1AA',
+  'KEEP IT': '#D4A82F', 'PRICE IT': '#8B5CF6', 'OWN IT': '#16A34A',
+  'BUILD IT ANYWAY': '#9333EA', 'PROVE IT': '#DC2626', UNMAPPED: '#9B94AD',
 }
-const pc = (p?: string | null) => PC[(p ?? '').toUpperCase()] ?? '#A1A1AA'
+const pc = (p?: string | null) => PC[(p ?? '').toUpperCase()] ?? '#9B94AD'
 
 const n = (v: number | null | undefined) => {
   if (v == null) return '—'
@@ -122,7 +122,7 @@ export default function ReelsPage() {
   )
 
   return (
-    <div className="min-h-full" style={{ background: '#F8F9FA' }}>
+    <div className="min-h-full" style={{ background: '#FAFAFA' }}>
       <ToolPageHeader
         title="Reel Tracker"
         description="What the account actually did, not what the strategy says it should. Every caption is fact-checked on the way in."
@@ -132,32 +132,32 @@ export default function ReelsPage() {
 
       {/* Controls */}
       <div className="px-6 py-4 flex items-center gap-3 flex-wrap"
-           style={{ background: '#FFF', borderBottom: '1px solid #E4E4E7' }}>
+           style={{ background: '#FFF', borderBottom: '1px solid #E9E5F5' }}>
         <button onClick={sync} disabled={syncing}
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-display font-semibold"
-          style={{ background: '#18181B', color: '#FFF', opacity: syncing ? 0.6 : 1 }}>
+          style={{ background: '#1A1523', color: '#FFF', opacity: syncing ? 0.6 : 1 }}>
           {syncing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
           {syncing ? 'Syncing…' : 'Sync from Instagram'}
         </button>
 
         {d?.account && (
-          <p className="text-sm" style={{ color: '#71717A' }}>
-            <strong style={{ color: '#18181B' }}>{d.account.followers?.toLocaleString('en-ZA')}</strong> followers ·{' '}
-            <strong style={{ color: '#18181B' }}>{d.count}</strong> posts stored
-            {medReach > 0 && <> · median reach <strong style={{ color: '#18181B' }}>{n(medReach)}</strong></>}
+          <p className="text-sm" style={{ color: '#6B6480' }}>
+            <strong style={{ color: '#1A1523' }}>{d.account.followers?.toLocaleString('en-ZA')}</strong> followers ·{' '}
+            <strong style={{ color: '#1A1523' }}>{d.count}</strong> posts stored
+            {medReach > 0 && <> · median reach <strong style={{ color: '#1A1523' }}>{n(medReach)}</strong></>}
           </p>
         )}
 
         <div className="ml-auto flex gap-2 flex-wrap">
           <select value={pillar} onChange={(e) => setPillar(e.target.value)}
             className="px-3 py-2 rounded-lg text-sm font-display outline-none"
-            style={{ background: '#F8F9FA', border: '1px solid #E4E4E7', color: '#18181B' }}>
+            style={{ background: '#FAFAFA', border: '1px solid #E9E5F5', color: '#1A1523' }}>
             <option value="">All pillars</option>
             {pillars.map((p) => <option key={p} value={p}>{p}</option>)}
           </select>
           <select value={sort} onChange={(e) => setSort(e.target.value as Sort)}
             className="px-3 py-2 rounded-lg text-sm font-display outline-none"
-            style={{ background: '#F8F9FA', border: '1px solid #E4E4E7', color: '#18181B' }}>
+            style={{ background: '#FAFAFA', border: '1px solid #E9E5F5', color: '#1A1523' }}>
             <option value="recent">Most recent</option>
             <option value="multiple">Biggest outlier</option>
             <option value="reach">Most reach</option>
@@ -168,7 +168,7 @@ export default function ReelsPage() {
       </div>
 
       {msg && (
-        <div className="px-6 py-2.5 text-sm font-display" style={{ background: '#F4F4F5', color: '#3F3F46' }}>{msg}</div>
+        <div className="px-6 py-2.5 text-sm font-display" style={{ background: '#F5F3FF', color: '#3F3A4D' }}>{msg}</div>
       )}
 
       <div className="p-6 flex flex-col gap-6">
@@ -176,20 +176,20 @@ export default function ReelsPage() {
         {!!d?.flaggedCount && (
           <div className="rounded-xl overflow-hidden" style={{ background: '#FFF', border: '1px solid #FCA5A5', borderLeft: '3px solid #DC2626' }}>
             <div className="px-5 py-4">
-              <p className="text-sm font-display font-bold flex items-center gap-2" style={{ color: '#18181B' }}>
+              <p className="text-sm font-display font-bold flex items-center gap-2" style={{ color: '#1A1523' }}>
                 <AlertTriangle className="w-4 h-4" style={{ color: '#DC2626' }} />
                 {d.flaggedCount} published post{d.flaggedCount !== 1 ? 's' : ''} carry a banned claim
               </p>
-              <p className="text-sm mt-1" style={{ color: '#71717A' }}>These are already live. Correcting them is a task, not a warning.</p>
+              <p className="text-sm mt-1" style={{ color: '#6B6480' }}>These are already live. Correcting them is a task, not a warning.</p>
             </div>
             <div className="px-5 pb-4 flex flex-col gap-1.5">
               {d.flagged.map((f) => (
                 <a key={f.mediaId} href={f.permalink ?? '#'} target="_blank" rel="noreferrer"
                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg"
                    style={{ background: '#FEF2F2' }}>
-                  <span className="text-sm font-display flex-1" style={{ color: '#3F3F46' }}>{f.banned.join(' · ')}</span>
-                  <span className="text-xs" style={{ color: '#A1A1AA' }}>{f.postedAt?.slice(0, 10)}</span>
-                  <ExternalLink className="w-3.5 h-3.5" style={{ color: '#2563EB' }} />
+                  <span className="text-sm font-display flex-1" style={{ color: '#3F3A4D' }}>{f.banned.join(' · ')}</span>
+                  <span className="text-xs" style={{ color: '#9B94AD' }}>{f.postedAt?.slice(0, 10)}</span>
+                  <ExternalLink className="w-3.5 h-3.5" style={{ color: '#8B5CF6' }} />
                 </a>
               ))}
             </div>
@@ -198,15 +198,15 @@ export default function ReelsPage() {
 
         {/* Pillar performance — computed from stored rows, never generated */}
         {!!d?.pillarPerformance?.length && (
-          <div className="rounded-xl p-5" style={{ background: '#FFF', border: '1px solid #E4E4E7' }}>
-            <p className="text-sm font-display font-bold" style={{ color: '#18181B' }}>What the account teaches</p>
-            <p className="text-xs mb-3" style={{ color: '#71717A' }}>Computed from stored rows. Ranked by comments — the metric the Loss Law moves.</p>
+          <div className="rounded-xl p-5" style={{ background: '#FFF', border: '1px solid #E9E5F5' }}>
+            <p className="text-sm font-display font-bold" style={{ color: '#1A1523' }}>What the account teaches</p>
+            <p className="text-xs mb-3" style={{ color: '#6B6480' }}>Computed from stored rows. Ranked by comments — the metric the Loss Law moves.</p>
             <div className="flex gap-2 flex-wrap">
               {d.pillarPerformance.map((p) => (
                 <div key={p.pillar} className="px-3 py-2 rounded-lg"
                      style={{ background: `${pc(p.pillar)}0F`, border: `1px solid ${pc(p.pillar)}33` }}>
                   <p className="text-xs font-display font-bold" style={{ color: pc(p.pillar) }}>{p.pillar}</p>
-                  <p className="text-[11px]" style={{ color: '#3F3F46' }}>
+                  <p className="text-[11px]" style={{ color: '#3F3A4D' }}>
                     {p.posts} posts · {p.medianComments} comments · {p.medianLikes} likes
                   </p>
                 </div>
@@ -219,7 +219,7 @@ export default function ReelsPage() {
         <div className="flex flex-col gap-2">
           {rows.length === 0 && (
             <p className="p-8 text-center text-sm rounded-xl"
-               style={{ background: '#FFF', border: '1px solid #E4E4E7', color: '#71717A' }}>
+               style={{ background: '#FFF', border: '1px solid #E9E5F5', color: '#6B6480' }}>
               {d ? 'No posts stored yet. Sync to populate.' : 'Loading…'}
             </p>
           )}
@@ -231,14 +231,14 @@ export default function ReelsPage() {
             const dirty = m.factLock && !m.factLock.clean
             return (
               <div key={m.mediaId} className="flex gap-4 p-3 rounded-xl"
-                   style={{ background: '#FFF', border: `1px solid ${dirty ? '#FCA5A5' : '#E4E4E7'}` }}>
+                   style={{ background: '#FFF', border: `1px solid ${dirty ? '#FCA5A5' : '#E9E5F5'}` }}>
                 {/* thumbnail */}
                 <a href={m.permalink ?? '#'} target="_blank" rel="noreferrer"
                    className="shrink-0 rounded-lg overflow-hidden flex items-center justify-center"
-                   style={{ width: 84, height: 112, background: '#F4F4F5' }}>
+                   style={{ width: 84, height: 112, background: '#F5F3FF' }}>
                   {img
                     ? <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
-                    : <ImageOff className="w-5 h-5" style={{ color: '#D4D4D8' }} />}
+                    : <ImageOff className="w-5 h-5" style={{ color: '#D6CFEA' }} />}
                 </a>
 
                 <div className="flex-1 min-w-0 flex flex-col">
@@ -249,23 +249,23 @@ export default function ReelsPage() {
                     )}
                     {m.tier && (
                       <span className="text-[10px] font-display px-1.5 py-0.5 rounded"
-                            style={{ background: '#F4F4F5', color: '#71717A' }}>{m.tier}</span>
+                            style={{ background: '#F5F3FF', color: '#6B6480' }}>{m.tier}</span>
                     )}
                     {m.ctaKeyword && (
                       <span className="text-[10px] font-display font-bold px-1.5 py-0.5 rounded"
-                            style={{ background: 'rgba(37,99,235,0.10)', color: '#2563EB' }}>{m.ctaKeyword}</span>
+                            style={{ background: 'rgba(139,92,246,0.10)', color: '#8B5CF6' }}>{m.ctaKeyword}</span>
                     )}
                     {dirty && (
                       <span className="text-[10px] font-display font-bold px-1.5 py-0.5 rounded"
                             style={{ background: '#FEE2E2', color: '#DC2626' }}>BANNED CLAIM</span>
                     )}
-                    <span className="text-[10px] ml-auto" style={{ color: '#A1A1AA' }}>
+                    <span className="text-[10px] ml-auto" style={{ color: '#9B94AD' }}>
                       {m.postedAt?.slice(0, 10)}
                     </span>
                   </div>
 
-                  <p className="text-[13px] font-display leading-snug mb-2" style={{ color: '#18181B' }}>
-                    {(m.caption ?? '').split('\n')[0].slice(0, 130) || <em style={{ color: '#A1A1AA' }}>No caption</em>}
+                  <p className="text-[13px] font-display leading-snug mb-2" style={{ color: '#1A1523' }}>
+                    {(m.caption ?? '').split('\n')[0].slice(0, 130) || <em style={{ color: '#9B94AD' }}>No caption</em>}
                   </p>
 
                   {/* the numbers */}
@@ -273,7 +273,7 @@ export default function ReelsPage() {
                     {multiple > 0 && (
                       <Stat icon={TrendingUp}
                         value={`${multiple.toFixed(1)}x`}
-                        tone={multiple >= 2 ? '#16A34A' : multiple < 0.6 ? '#DC2626' : '#71717A'}
+                        tone={multiple >= 2 ? '#16A34A' : multiple < 0.6 ? '#DC2626' : '#6B6480'}
                         title="Reach against the median of everything stored" />
                     )}
                     <Stat icon={Eye} value={n(reach)} title="Reach (falls back to views)" />
@@ -285,7 +285,7 @@ export default function ReelsPage() {
                     {m.permalink && (
                       <a href={m.permalink} target="_blank" rel="noreferrer"
                          className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-display"
-                         style={{ background: '#F4F4F5', color: '#2563EB' }}>
+                         style={{ background: '#F5F3FF', color: '#8B5CF6' }}>
                         Open <ExternalLink className="w-3 h-3" />
                       </a>
                     )}
@@ -304,7 +304,7 @@ export default function ReelsPage() {
                           onChange={e => { if (e.target.value) linkToIdea(e.target.value, m.mediaId) }}
                           onBlur={() => setLinking(null)}
                           className="px-2 py-1 rounded-md text-[11px] font-display outline-none"
-                          style={{ background: '#FFF', border: '1px solid #2563EB', maxWidth: 260 }}>
+                          style={{ background: '#FFF', border: '1px solid #8B5CF6', maxWidth: 260 }}>
                           <option value="">Pick the idea this came from…</option>
                           {ideas.filter(i => !i.mediaId).map(i => (
                             <option key={i.id} value={i.id}>{i.title}</option>
@@ -313,7 +313,7 @@ export default function ReelsPage() {
                       ) : (
                         <button onClick={() => setLinking(m.mediaId)}
                           className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-display"
-                          style={{ background: '#F4F4F5', color: '#71717A' }}>
+                          style={{ background: '#F5F3FF', color: '#6B6480' }}>
                           <Link2 className="w-3 h-3" />Link to idea
                         </button>
                       )
@@ -334,7 +334,7 @@ function Stat({ icon: Icon, value, tone, title }:
   return (
     <span title={title}
       className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-display font-semibold"
-      style={{ background: '#F8F9FA', border: '1px solid #EFEFF1', color: tone ?? '#3F3F46' }}>
+      style={{ background: '#FAFAFA', border: '1px solid #EFEBF8', color: tone ?? '#3F3A4D' }}>
       {Icon && <Icon className="w-3 h-3" />}
       {value}
     </span>

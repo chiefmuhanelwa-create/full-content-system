@@ -165,43 +165,43 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
       "lg:static lg:translate-x-0 lg:z-auto lg:flex-shrink-0",
       isOpen ? "translate-x-0" : "-translate-x-full"
     )}
-    style={{ background: '#FFFFFF', borderRight: '1px solid #E4E4E7' }}
+    style={{ background: '#FFFFFF', borderRight: '1px solid #E9E5F5' }}
     >
 
       {/* Brand */}
-      <div className="px-4 py-4 flex-shrink-0 flex items-center justify-between" style={{ borderBottom: '1px solid #E4E4E7' }}>
+      <div className="px-4 py-4 flex-shrink-0 flex items-center justify-between" style={{ borderBottom: '1px solid #E9E5F5' }}>
         <Link href="/dashboard" onClick={onClose} className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#18181B' }}>
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#1A1523' }}>
             <span className="font-display font-black text-xs leading-none" style={{ color: '#FFFFFF' }}>N</span>
           </div>
           <div>
-            <p className="font-display font-black text-[15px] tracking-tight leading-none" style={{ color: '#18181B' }}>NOCHILL</p>
-            <p className="text-[10px] font-display mt-0.5 leading-none" style={{ color: '#A1A1AA' }}>Content Intelligence</p>
+            <p className="font-display font-black text-[15px] tracking-tight leading-none" style={{ color: '#1A1523' }}>NOCHILL</p>
+            <p className="text-[10px] font-display mt-0.5 leading-none" style={{ color: '#9B94AD' }}>Content Intelligence</p>
           </div>
         </Link>
         <button
           onClick={onClose}
           aria-label="Close navigation"
           className="lg:hidden p-1.5 rounded-lg transition-colors"
-          style={{ color: '#71717A' }}
+          style={{ color: '#6B6480' }}
         >
           <X className="w-4 h-4" />
         </button>
       </div>
 
       {/* Search */}
-      <div className="px-3 py-2.5 flex-shrink-0" style={{ borderBottom: '1px solid #E4E4E7' }}>
+      <div className="px-3 py-2.5 flex-shrink-0" style={{ borderBottom: '1px solid #E9E5F5' }}>
         <button
           onClick={onSearchOpen}
           className="flex items-center gap-2 px-3 py-2 rounded-lg w-full text-left transition-colors"
-          style={{ background: '#F4F4F5', border: '1px solid #E4E4E7' }}
-          onMouseEnter={e => (e.currentTarget.style.borderColor = '#D4D4D8')}
-          onMouseLeave={e => (e.currentTarget.style.borderColor = '#E4E4E7')}
+          style={{ background: '#F5F3FF', border: '1px solid #E9E5F5' }}
+          onMouseEnter={e => (e.currentTarget.style.borderColor = '#D6CFEA')}
+          onMouseLeave={e => (e.currentTarget.style.borderColor = '#E9E5F5')}
         >
-          <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#A1A1AA' }} />
-          <span className="text-[12px] font-display flex-1" style={{ color: '#A1A1AA' }}>Search tools...</span>
+          <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#9B94AD' }} />
+          <span className="text-[12px] font-display flex-1" style={{ color: '#9B94AD' }}>Search tools...</span>
           <kbd className="text-[9px] font-display px-1.5 py-0.5 rounded hidden sm:block"
-            style={{ color: '#A1A1AA', background: '#FFFFFF', border: '1px solid #E4E4E7' }}>⌘K</kbd>
+            style={{ color: '#9B94AD', background: '#FFFFFF', border: '1px solid #E9E5F5' }}>⌘K</kbd>
         </button>
       </div>
 
@@ -216,16 +216,16 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
               <button
                 onClick={() => toggleGroup(group.label)}
                 className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left transition-colors"
-                onMouseEnter={e => (e.currentTarget.style.background = '#F4F4F5')}
+                onMouseEnter={e => (e.currentTarget.style.background = '#F5F3FF')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               >
                 <span className="text-[10px] font-display font-semibold uppercase tracking-widest"
-                  style={{ color: hasActive ? '#2563EB' : '#A1A1AA' }}>
+                  style={{ color: hasActive ? '#8B5CF6' : '#9B94AD' }}>
                   {group.label}
                 </span>
                 {isGroupOpen
-                  ? <ChevronDown className="w-3 h-3" style={{ color: '#A1A1AA' }} />
-                  : <ChevronRight className="w-3 h-3" style={{ color: '#A1A1AA' }} />
+                  ? <ChevronDown className="w-3 h-3" style={{ color: '#9B94AD' }} />
+                  : <ChevronRight className="w-3 h-3" style={{ color: '#9B94AD' }} />
                 }
               </button>
 
@@ -242,28 +242,28 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
                           className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg transition-all"
                           style={{
                             background: isActive ? '#EFF6FF' : 'transparent',
-                            color: isActive ? '#2563EB' : '#52525B',
+                            color: isActive ? '#8B5CF6' : '#52525B',
                           }}
                           onMouseEnter={e => {
-                            if (!isActive) e.currentTarget.style.background = '#F4F4F5'
+                            if (!isActive) e.currentTarget.style.background = '#F5F3FF'
                           }}
                           onMouseLeave={e => {
                             if (!isActive) e.currentTarget.style.background = 'transparent'
                           }}
                         >
                           <Icon className="h-4 w-4 flex-shrink-0"
-                            style={{ color: isActive ? '#2563EB' : '#A1A1AA' }} />
+                            style={{ color: isActive ? '#8B5CF6' : '#9B94AD' }} />
                           <div className="flex-1 min-w-0 flex items-center gap-1.5">
                             <p className="text-[13px] font-display truncate leading-none"
                               style={{
                                 fontWeight: isActive ? 600 : 400,
-                                color: isActive ? '#2563EB' : '#52525B',
+                                color: isActive ? '#8B5CF6' : '#52525B',
                               }}>
                               {item.name}
                             </p>
                             {item.badge && (
                               <span className="text-[8px] font-display font-bold px-1.5 py-0.5 rounded tracking-widest uppercase flex-shrink-0"
-                                style={{ background: '#EFF6FF', color: '#1D4ED8' }}>
+                                style={{ background: '#EFF6FF', color: '#7C3AED' }}>
                                 {item.badge}
                               </span>
                             )}
@@ -280,31 +280,31 @@ export function Navigation({ isOpen = false, onClose, onSearchOpen }: Navigation
       </div>
 
       {/* User + logout */}
-      <div className="flex-shrink-0 p-3" style={{ borderTop: '1px solid #E4E4E7' }}>
-        <div className="flex items-center gap-2.5 mb-2 px-1 py-1.5 rounded-lg" style={{ background: '#F8F9FA' }}>
+      <div className="flex-shrink-0 p-3" style={{ borderTop: '1px solid #E9E5F5' }}>
+        <div className="flex items-center gap-2.5 mb-2 px-1 py-1.5 rounded-lg" style={{ background: '#FAFAFA' }}>
           <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
-            style={{ background: '#EFF6FF', border: '1px solid rgba(37, 99, 235, 0.25)' }}>
-            <span className="font-display font-black text-[11px] leading-none" style={{ color: '#2563EB' }}>
+            style={{ background: '#EFF6FF', border: '1px solid rgba(139, 92, 246, 0.25)' }}>
+            <span className="font-display font-black text-[11px] leading-none" style={{ color: '#8B5CF6' }}>
               {userName.charAt(0).toUpperCase()}
             </span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-display font-semibold truncate leading-none" style={{ color: '#18181B' }}>{userName}</p>
-            <p className="text-[11px] font-display truncate mt-0.5 leading-none" style={{ color: '#A1A1AA' }}>{userHandle}</p>
+            <p className="text-[13px] font-display font-semibold truncate leading-none" style={{ color: '#1A1523' }}>{userName}</p>
+            <p className="text-[11px] font-display truncate mt-0.5 leading-none" style={{ color: '#9B94AD' }}>{userHandle}</p>
           </div>
         </div>
         <button
           onClick={handleSignOut}
           className="w-full flex items-center justify-center gap-2 py-2 rounded-lg transition-all text-[12px] font-display font-medium"
-          style={{ color: '#71717A', border: '1px solid #E4E4E7' }}
+          style={{ color: '#6B6480', border: '1px solid #E9E5F5' }}
           onMouseEnter={e => {
             e.currentTarget.style.color = '#EF4444'
             e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'
             e.currentTarget.style.background = 'rgba(239, 68, 68, 0.05)'
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.color = '#71717A'
-            e.currentTarget.style.borderColor = '#E4E4E7'
+            e.currentTarget.style.color = '#6B6480'
+            e.currentTarget.style.borderColor = '#E9E5F5'
             e.currentTarget.style.background = 'transparent'
           }}
         >

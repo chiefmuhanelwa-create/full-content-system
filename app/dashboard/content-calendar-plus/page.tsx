@@ -585,13 +585,13 @@ export default function ContentCalendarPlusPage() {
             <Download className="h-4 w-4" />
             Export CSV
           </Button>
-          <div className="flex rounded-xl overflow-hidden" style={{ border: '1px solid #E4E4E7' }}>
+          <div className="flex rounded-xl overflow-hidden" style={{ border: '1px solid #E9E5F5' }}>
             <button
               onClick={() => setViewMode('grid')}
               className="flex items-center gap-1.5 px-3 py-2 text-xs font-display font-semibold transition-all"
               style={viewMode === 'grid'
-                ? { background: '#EFF6FF', color: '#2563EB', borderRight: '1px solid rgba(37,99,235,0.2)' }
-                : { background: '#FFFFFF', color: '#A1A1AA', borderRight: '1px solid #E4E4E7' }}
+                ? { background: '#EFF6FF', color: '#8B5CF6', borderRight: '1px solid rgba(139,92,246,0.2)' }
+                : { background: '#FFFFFF', color: '#9B94AD', borderRight: '1px solid #E9E5F5' }}
             >
               <CalendarIcon className="h-3.5 w-3.5" />
               Calendar
@@ -600,8 +600,8 @@ export default function ContentCalendarPlusPage() {
               onClick={() => setViewMode('list')}
               className="flex items-center gap-1.5 px-3 py-2 text-xs font-display font-semibold transition-all"
               style={viewMode === 'list'
-                ? { background: '#EFF6FF', color: '#2563EB' }
-                : { background: '#FFFFFF', color: '#A1A1AA' }}
+                ? { background: '#EFF6FF', color: '#8B5CF6' }
+                : { background: '#FFFFFF', color: '#9B94AD' }}
             >
               <List className="h-3.5 w-3.5" />
               List
@@ -1226,10 +1226,10 @@ export default function ContentCalendarPlusPage() {
                         )}
 
                         {/* Integration actions */}
-                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#F4F4F5] flex-wrap">
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#F5F3FF] flex-wrap">
                           <button
                             onClick={() => openHookGenerator(entry)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#1D4ED8] rounded-lg text-[11px] font-display font-bold transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#7C3AED] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             <Zap className="w-3 h-3" />
                             Generate Hook
@@ -1237,7 +1237,7 @@ export default function ContentCalendarPlusPage() {
                           </button>
                           <button
                             onClick={() => openScriptWriter(entry)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#18181B]/8 hover:bg-[#18181B]/15 text-[#18181B] rounded-lg text-[11px] font-display font-bold transition-colors"
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A1523]/8 hover:bg-[#1A1523]/15 text-[#1A1523] rounded-lg text-[11px] font-display font-bold transition-colors"
                           >
                             <FileText className="w-3 h-3" />
                             Write Script

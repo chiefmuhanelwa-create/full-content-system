@@ -41,7 +41,7 @@ export default function MyAlgorithmPage() {
           <div className="mb-4 flex h-2.5 overflow-hidden rounded-full">
             {pillars.map((p: any, i: number) => (
               <span key={p.k} title={`${p.k} ${p.pct}%`}
-                style={{ width: `${p.pct}%`, background: ['#2563EB', '#059669', '#7C3AED', '#D97706', '#E11D48'][i % 5] }} />
+                style={{ width: `${p.pct}%`, background: ['#8B5CF6', '#059669', '#7C3AED', '#D97706', '#E11D48'][i % 5] }} />
             ))}
           </div>
           <div className="space-y-2">

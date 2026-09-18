@@ -23,7 +23,7 @@ const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HT
   ({ className, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn('font-display font-bold text-xl leading-snug tracking-tight text-[#18181B]', className)}
+      className={cn('font-display font-bold text-xl leading-snug tracking-tight text-[#1A1523]', className)}
       {...props}
     />
   )

@@ -24,7 +24,7 @@ export const PILLAR_ACCENT: Record<string, Accent> = {
 }
 
 const GLOW: Record<Accent, string> = {
-  blue:    'radial-gradient(120% 120% at 70% 10%, #2563EB 0%, #1D3A8A 38%, #0B1220 78%)',
+  blue:    'radial-gradient(120% 120% at 70% 10%, #8B5CF6 0%, #1D3A8A 38%, #0B1220 78%)',
   violet:  'radial-gradient(120% 120% at 70% 10%, #7C3AED 0%, #4C1D95 38%, #120B20 78%)',
   emerald: 'radial-gradient(120% 120% at 70% 10%, #059669 0%, #064E3B 38%, #07160F 78%)',
   amber:   'radial-gradient(120% 120% at 70% 10%, #D97706 0%, #7C2D12 38%, #1A0E06 78%)',

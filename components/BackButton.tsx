@@ -14,9 +14,9 @@ export function BackButton({ label = 'All Tools', href = '/dashboard' }: BackBut
     <button
       onClick={() => router.push(href)}
       className="inline-flex items-center gap-1.5 text-sm font-display transition-colors"
-      style={{ color: '#A1A1AA' }}
-      onMouseEnter={e => (e.currentTarget.style.color = '#18181B')}
-      onMouseLeave={e => (e.currentTarget.style.color = '#A1A1AA')}
+      style={{ color: '#9B94AD' }}
+      onMouseEnter={e => (e.currentTarget.style.color = '#1A1523')}
+      onMouseLeave={e => (e.currentTarget.style.color = '#9B94AD')}
     >
       <ArrowLeft className="w-3.5 h-3.5" />
       {label}
