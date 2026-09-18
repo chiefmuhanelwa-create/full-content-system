@@ -20,6 +20,24 @@ const DURATIONS = ['15s', '30s', '60s', '90s']
  * does not have — it defines exactly THREE formats. Picking it would now hit the route's
  * 503, because a format with no beat table is refused rather than improvised.
  */
+/**
+ * INTAKE's six starting points, verbatim. "This spine needs a METHOD, not a feeling. The
+ * useful question is what you're holding, not what you want to say."
+ *
+ * This is the consistency the input was missing: a theme gives the model nothing to run on,
+ * so it invents a mechanism. Naming what you hold is what makes two scripts on different
+ * topics come out equally sharp instead of one of them being improvised.
+ */
+const HOLDING = [
+  { k: '', n: 'What are you holding? (pick one)' },
+  { k: 'a method I run myself', n: 'A method I run myself — quote sheet, reserve split, invoice chase' },
+  { k: 'a receipt with a mechanism behind it', n: 'A receipt with a mechanism behind it — beat 2 writes itself' },
+  { k: 'a correction someone gave me', n: "A correction someone gave me — beat 4's quoted turn already exists" },
+  { k: 'a question that keeps arriving in DMs', n: 'A question that keeps arriving in DMs — use their phrasing verbatim' },
+  { k: 'a mistake I watched someone else make', n: 'A mistake I watched someone else make — the confession stays mine' },
+  { k: "a rule that isn't obvious until it costs money", n: "A rule that isn't obvious until it costs money — strongest for PROVE IT" },
+]
+
 const FORMATS_FALLBACK = [
   { k: 'personal', n: 'Personal Learning / Epiphany' },
   { k: 'case_study', n: 'Case Study / Testimonial Recap' },
@@ -38,6 +56,7 @@ function ScriptWriter() {
   const [d, setD] = useState<any>(null)
   const [ideaId, setIdeaId] = useState('')
   const [formats, setFormats] = useState(FORMATS_FALLBACK)
+  const [holding, setHolding] = useState('')
 
   // Drive the dropdown from what is actually seeded, so the options and the engine cannot
   // drift apart. Names come straight from new-scripting.
@@ -78,7 +97,7 @@ function ScriptWriter() {
     try {
       const r = await fetch('/api/scripts/generate', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idea, hook, pillar, tier, duration, format }),
+        body: JSON.stringify({ idea, hook, pillar, tier, duration, format, holding }),
       })
       setD(await r.json())
     } finally { setBusy(false) }
@@ -121,6 +140,10 @@ function ScriptWriter() {
           <div className="grid gap-2 sm:grid-cols-4">
             <select value={pillar} onChange={e => setPillar(e.target.value)} className="rounded-md border bg-card px-3 py-2 text-[13px]">
               {PILLARS.map(p => <option key={p}>{p}</option>)}
+            </select>
+            <select value={holding} onChange={e => setHolding(e.target.value)}
+              className="rounded-md border px-3 py-2 text-[13px]">
+              {HOLDING.map(h => <option key={h.k} value={h.k}>{h.n}</option>)}
             </select>
             <select value={tier} onChange={e => setTier(e.target.value)} className="rounded-md border bg-card px-3 py-2 text-[13px]">
               {TIERS.map(t => <option key={t}>{t}</option>)}

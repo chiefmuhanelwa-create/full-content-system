@@ -36,6 +36,7 @@ export const maxDuration = 300
 export async function POST(request: NextRequest) {
   const {
     idea, hook, pillar, tier, duration = '90s', format = 'personal', platform = 'reel',
+    holding = '',   // one of INTAKE's six starting points — what you are actually holding
   } = await request.json()
   if (!idea?.trim() && !hook?.trim()) {
     return NextResponse.json({ error: 'An idea or a hook is required.' }, { status: 400 })
@@ -101,6 +102,16 @@ SLOTS:
 
 REHOOK PHRASES you may adapt (do not invent a new shape):
 ${phrases.slice(0, 5).map((p: string) => `  - ${p}`).join('\n')}
+
+WHAT IS BEING HELD: ${holding || 'not stated — infer it, and if none of the six fits, say so in the first beat rather than inventing a mechanism'}
+
+⛔ DO NOT INVENT A FRAMEWORK. If you teach a numbered breakdown, every part must be a
+mechanism that already exists in the doctrine above — what a brand actually pays for, the
+reserve split, the two statutory dates, the deduction categories, the agency patterns. If the
+idea has no evidenced mechanism behind it, TEACH IT WITHOUT NUMBERING. A three-part model
+invented to fit the topic reads authoritative and is worth nothing — there are already 147
+frameworks in the bank against a cap of 19, and minting a 148th inside a reel is how that
+happened.
 
 PLAIN SPEECH — the law, and the rule most often half-followed:
   No term stands alone. NAME IT → SAY WHAT IT MEANS → SAY WHAT TO DO. All three, same order,
@@ -182,7 +193,15 @@ Return ONE JSON object, no prose:
     }
   }
 
-  // 2 · Plain speech, move three. Naming a thing and explaining it is two moves; the rule
+  // 2 · A numbered breakdown must run on a mechanism that exists. "Purpose · cost · the
+  //     number" appeared in a generated script and in zero files anywhere — invented on the
+  //     spot to fit a thematic prompt. It reads exactly as authoritative as the real one.
+  const numberedBeat = (data.beats ?? []).find((b: any) => /Part one|One\.\s/i.test(String(b.line ?? '')))
+  if (numberedBeat && !holding) {
+    warnings.push(`Beat ${numberedBeat.n} teaches a numbered model, but no starting point was given. Check each part against the doctrine — a three-part model invented to fit the topic reads exactly as convincing as an evidenced one.`)
+  }
+
+  // 3 · Plain speech, move three. Naming a thing and explaining it is two moves; the rule
   //     wants an ACTION on each item. Detected loosely — an imperative or a second-person
   //     instruction somewhere in the beat that carries the numbered list.
   const numbered = (data.beats ?? []).find((b: any) => /\bOne\.|\b1\./.test(String(b.line ?? '')))
@@ -194,7 +213,7 @@ Return ONE JSON object, no prose:
     }
   }
 
-  // 3 · The format names how many rehooks and where. Missing ones vanish silently in the
+  // 4 · The format names how many rehooks and where. Missing ones vanish silently in the
   //     composed script, because the composer only renders rehooks that match a beat.
   const wantRehooks = String(fmt.rehooks ?? '').split('·').length
   const gotRehooks = (data.rehooks ?? []).length

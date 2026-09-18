@@ -43,6 +43,11 @@ const MODULE_SKILLS: Record<string, string[]> = {
   ],
   scripts: [
     'new-scripting/SKILL',
+    // INTAKE is the gate BEFORE the hook: "this spine needs a method, not a feeling."
+    // Without it, a thematic idea ("I want to talk about purpose") has no mechanism to run
+    // on, and the model invents one to fill the gap — which is how a script came back
+    // teaching "purpose · cost · the number", a three-part model that exists in no file.
+    'new-scripting/references/INTAKE',
     'new-scripting/references/FORMATS',
     'new-scripting/references/VOICE',
     'nochill-script/references/VOICE-EVIDENCE',
