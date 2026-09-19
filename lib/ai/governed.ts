@@ -34,6 +34,14 @@ export type GovernedResult = {
   factLock: { clean: boolean; banned: Hit[]; careful: Hit[]; verdict: string }
   repaired: boolean
   meta: { model: string; pillar?: string; tier?: string; governance: string; ms: number; stopReason?: string | null }
+  /**
+   * The provider refused the call outright — billing, auth, rate limit, overload.
+   *
+   * These used to throw, and no route caught them, so a spent credit balance reached the user
+   * as a 500 with a JavaScript stack trace in it. That is the opposite of an error that
+   * teaches: the one sentence that mattered ("add credits") was buried in a stack.
+   */
+  providerError?: { kind: 'billing' | 'auth' | 'rate_limit' | 'overloaded' | 'provider'; status: number; message: string }
 }
 
 export type GovernedOpts = {
@@ -213,6 +221,17 @@ async function callModelWithRetry(model: string, system: SystemParts, prompt: st
   return { ...second, emptyTwice: true as const, tookMs: Date.now() - t0 }
 }
 
+/** Read the provider's own refusal, rather than guessing from a stack trace. */
+function classifyProviderError(e: any): { kind: 'billing' | 'auth' | 'rate_limit' | 'overloaded' | 'provider'; status: number; message: string } {
+  const status = Number(e?.status ?? 0)
+  const message = String(e?.error?.error?.message ?? e?.error?.message ?? e?.message ?? 'The model provider refused the call.')
+  if (/credit balance is too low|insufficient.*(credit|quota)|billing/i.test(message)) return { kind: 'billing', status, message }
+  if (status === 401 || status === 403 || /authentication|invalid x-api-key|api key/i.test(message)) return { kind: 'auth', status, message }
+  if (status === 429 || /rate.?limit/i.test(message)) return { kind: 'rate_limit', status, message }
+  if (status === 529 || /overloaded/i.test(message)) return { kind: 'overloaded', status, message }
+  return { kind: 'provider', status, message }
+}
+
 export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
   const started = Date.now()
   const model = MODEL[opts.tier_of ?? 'main']
@@ -238,7 +257,18 @@ export async function generate(opts: GovernedOpts): Promise<GovernedResult> {
     volatile: opts.system ?? '',
   }
 
-  const first = await callModelWithRetry(model, system, opts.prompt, maxTokens)
+  let first: Awaited<ReturnType<typeof callModelWithRetry>>
+  try {
+    first = await callModelWithRetry(model, system, opts.prompt, maxTokens)
+  } catch (e: any) {
+    const providerError = classifyProviderError(e)
+    return {
+      text: '', blocked: false, repaired: false,
+      factLock: { clean: true, banned: [], careful: [], verdict: 'not run — the provider refused the call' },
+      meta: { model, pillar: opts.pillar, tier: opts.tier, governance: g.version ?? '', ms: Date.now() - started, stopReason: 'provider_error' },
+      providerError,
+    }
+  }
   let text = first.text
   // 'empty_completion' is what we actually observed. It is NOT a function timeout, and
   // naming it one is how the last round of debugging went to the wrong place entirely.

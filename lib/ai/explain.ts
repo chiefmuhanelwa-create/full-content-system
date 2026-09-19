@@ -17,6 +17,7 @@
 
 export type GenerationLike = {
   text: string
+  providerError?: { kind: string; status: number; message: string }
   blocked?: boolean
   factLock?: { banned?: { name: string; found?: string[] }[] }
   meta?: { ms?: number; model?: string; stopReason?: string | null }
@@ -26,7 +27,7 @@ export type Explained = {
   error: string
   why: string
   fix: string
-  stage: 'timeout' | 'empty' | 'unparseable' | 'truncated' | 'blocked'
+  stage: 'timeout' | 'empty' | 'unparseable' | 'truncated' | 'blocked' | 'provider'
   elapsedMs?: number
   model?: string
   raw?: string
@@ -59,6 +60,49 @@ export function explainGenerationFailure(
   // The model answered with nothing, twice. This is NOT evidence of a function timeout:
   // if this message is being rendered, the function was alive long enough to write it.
   const emptyCompletion = out.meta?.stopReason === 'empty_completion'
+
+  // 0 — the provider never ran the call. This is FIRST because every other stage below
+  //     describes something the model did, and here the model was never reached. Billing
+  //     reached users as a 500 with a stack trace until this existed.
+  if (out.providerError) {
+    const { kind, status, message } = out.providerError
+    const known: Record<string, { error: string; why: string; fix: string; status: number }> = {
+      billing: {
+        error: 'Out of API credit.',
+        why: 'Anthropic refused the request because the workspace credit balance is spent. Nothing was generated, and nothing was charged. This is an account state, not a fault in the tool or in your topic.',
+        fix: 'Add credit at console.anthropic.com -> Plans & Billing, then run it again. Nothing else needs changing — the same request will work.',
+        status: 402,
+      },
+      auth: {
+        error: 'The API key was rejected.',
+        why: 'Anthropic refused the key itself — missing, mistyped, revoked, or belonging to a different workspace.',
+        fix: 'Check ANTHROPIC_API_KEY in the deployment environment. It must be the key for the workspace that holds the credit.',
+        status: 401,
+      },
+      rate_limit: {
+        error: 'Too many requests, too fast.',
+        why: 'The workspace hit its rate limit. The request was refused before the model saw it.',
+        fix: 'Wait a minute and try again. If it keeps happening, generate one piece at a time rather than a batch.',
+        status: 429,
+      },
+      overloaded: {
+        error: 'The model is overloaded right now.',
+        why: 'Anthropic is shedding load. This is upstream and temporary — it says nothing about the prompt.',
+        fix: 'Wait a moment and run it again.',
+        status: 503,
+      },
+    }
+    const k = known[kind]
+    return k
+      ? { stage: 'provider', ...k, elapsedMs: out.meta?.ms, model: out.meta?.model, raw: message.slice(0, 400) }
+      : {
+          stage: 'provider',
+          error: 'The model provider refused the call.',
+          why: `It came back ${status || 'with an error'} before generating anything: ${message.slice(0, 200)}`,
+          fix: 'This is upstream of the prompt — the request never reached the model. Read the message above; it is the provider\'s own words.',
+          status: 502, elapsedMs: out.meta?.ms, model: out.meta?.model, raw: message.slice(0, 400),
+        }
+  }
 
   // 4 — it produced something, but the fact-lock refused to let it out.
   if (out.blocked) {
