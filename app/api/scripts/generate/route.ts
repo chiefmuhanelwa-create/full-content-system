@@ -88,7 +88,14 @@ FORMAT: ${fmt ? `${fmt.name} — ${fmt.shape}. ${fmt.use}` : format}
 BEATS — these names are the shared vocabulary from the format. Use them EXACTLY, do not rename or paraphrase:
 ${fmtBeats.map((b) => `  ${b.n}. ${b.beat}  [${b.band}]`).join('\n')}
 
-REHOOKS — ${fmt.rehooks}. Write them as their own lines between beats, labelled REHOOK 1 / REHOOK 2.
+REHOOKS — ${fmt.rehooks}
+  Read that placement literally. "3→4 seam" means a line of its own between beats 3 and 4.
+  "before the last step" / "before the last item" / "before the So What turn" means INSIDE
+  that beat, written into its line as [REHOOK] immediately before the final item — NOT a
+  separate line between beats. His own script puts it there: "The third one is the one
+  you're going to skip." The last item is where a list drops people; a rehook sitting
+  between beats does nothing for that drop.
+  Put seam rehooks in the "rehooks" array. Put in-beat rehooks inline in the beat's line.
 FORMAT NOTE: ${fmt.note ?? ''}
 
 EVERY BEAT CARRIES ONE MARKER: ${markers.join(' · ')}
