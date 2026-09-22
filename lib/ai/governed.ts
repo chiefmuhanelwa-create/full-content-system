@@ -36,7 +36,7 @@ export type GovernedResult = {
   meta: {
     model: string; pillar?: string; tier?: string; governance: string; ms: number
     stopReason?: string | null
-    usage?: { created: number; read: number; input: number; output: number }
+    usage?: { created: number; read: number; input: number; output: number; ttl5m?: number | null; ttl1h?: number | null }
     cost?: { input: number; cacheWrite: number; cacheRead: number; output: number; total: number } | null
   }
   /**
@@ -214,6 +214,11 @@ async function callModel(model: string, system: SystemParts, prompt: string, max
     read: u.cache_read_input_tokens ?? 0,
     input: u.input_tokens ?? 0,
     output: u.output_tokens ?? 0,
+    // Which TTL bucket the write actually landed in. Asking for '1h' is not the same as
+    // getting it — an older SDK can drop an unknown field silently, and the totals look
+    // identical either way because a 5m write and a 1h write differ only in rate.
+    ttl5m: u.cache_creation?.ephemeral_5m_input_tokens ?? null,
+    ttl1h: u.cache_creation?.ephemeral_1h_input_tokens ?? null,
   }
   const text = (res.content ?? [])
     .filter((b: any) => b.type === 'text')
