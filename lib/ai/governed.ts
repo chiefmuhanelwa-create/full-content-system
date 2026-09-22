@@ -131,15 +131,24 @@ function systemBlocks(s: SystemParts): any {
  *   - "the model returned nothing", when thinking consumed the budget before any text block
  *     was opened, leaving content with a thinking block and no text
  *
- * So the budget is always explicit, always a minority share, and never able to crowd out the
- * text it exists to reason about.
+ * So thinking is always constrained, never able to crowd out the text it exists to reason about.
+ *
+ * ⚠️ HOW that constraint is expressed changed, and the old way now fails the call outright.
+ * `thinking: {type:'enabled', budget_tokens: N}` is REMOVED on the current models and returns
+ * a 400 before generating anything:
+ *
+ *     "thinking.type.enabled" is not supported for this model.
+ *     Use "thinking.type.adaptive" and "output_config.effort".
+ *
+ * On claude-sonnet-5, `adaptive` is the only on-mode and `budget_tokens` is rejected. Depth is
+ * controlled by effort instead, which is the right lever anyway: it shortens the reasoning
+ * rather than guillotining it mid-thought at a token count.
  */
-function thinkingFor(maxTokens: number) {
-  const budget = Math.min(2000, Math.floor(maxTokens * 0.35))
-  // The API rejects a budget under 1024, and it must stay below max_tokens. A small ceiling
-  // means there is no room to think without starving the answer, so it does not think.
-  if (budget < 1024) return { type: 'disabled' as const }
-  return { type: 'enabled' as const, budget_tokens: budget }
+function effortFor(maxTokens: number): 'low' | 'medium' | 'high' {
+  // These are authoring tasks against a large, already-composed prompt — the thinking is not
+  // where the value is. Default low, and only buy more room on the long-form asks.
+  if (maxTokens >= 6000) return 'medium'
+  return 'low'
 }
 
 async function callModel(model: string, system: SystemParts, prompt: string, maxTokens: number) {
@@ -153,7 +162,8 @@ async function callModel(model: string, system: SystemParts, prompt: string, max
   const send = (sys: any) => (anthropic as any).messages.stream({
     model,
     max_tokens: maxTokens,
-    thinking: thinkingFor(maxTokens),
+    thinking: { type: 'adaptive' },
+    output_config: { effort: effortFor(maxTokens) },
     system: sys,
     messages: [{ role: 'user', content: sanitiseForModel(prompt) }],
   })
