@@ -33,7 +33,12 @@ export type GovernedResult = {
   blocked: boolean
   factLock: { clean: boolean; banned: Hit[]; careful: Hit[]; verdict: string }
   repaired: boolean
-  meta: { model: string; pillar?: string; tier?: string; governance: string; ms: number; stopReason?: string | null }
+  meta: {
+    model: string; pillar?: string; tier?: string; governance: string; ms: number
+    stopReason?: string | null
+    usage?: { created: number; read: number; input: number; output: number }
+    cost?: { input: number; cacheWrite: number; cacheRead: number; output: number; total: number } | null
+  }
   /**
    * The provider refused the call outright — billing, auth, rate limit, overload.
    *
@@ -215,6 +220,34 @@ async function callModel(model: string, system: SystemParts, prompt: string, max
  */
 const BUDGET_MS = 300_000
 
+/**
+ * Published per-MTok rates. Cache write is 1.25x input, cache read is 0.1x input.
+ * Only the models this app actually calls — an unknown id prices at 0 rather than guessing.
+ */
+const RATES: Record<string, { in: number; out: number }> = {
+  'claude-sonnet-5': { in: 2, out: 10 },
+  'claude-opus-5': { in: 5, out: 25 },
+  'claude-haiku-4-5-20251001': { in: 1, out: 5 },
+  'claude-haiku-4-5': { in: 1, out: 5 },
+}
+
+function priceOf(model: string, c: { created: number; read: number; input: number; output: number }) {
+  const r = RATES[model]
+  if (!r) return null
+  const usd = (n: number, rate: number) => (n / 1_000_000) * rate
+  const input = usd(c.input, r.in)
+  const cacheWrite = usd(c.created, r.in * 1.25)
+  const cacheRead = usd(c.read, r.in * 0.1)
+  const output = usd(c.output, r.out)
+  return {
+    input: +input.toFixed(5),
+    cacheWrite: +cacheWrite.toFixed(5),
+    cacheRead: +cacheRead.toFixed(5),
+    output: +output.toFixed(5),
+    total: +(input + cacheWrite + cacheRead + output).toFixed(5),
+  }
+}
+
 async function callModelWithRetry(model: string, system: SystemParts, prompt: string, maxTokens: number) {
   const t0 = Date.now()
   const first = await callModel(model, system, prompt, maxTokens)
@@ -336,6 +369,13 @@ Return only the corrected version, nothing else.`
       tier: opts.tier,
       governance: String(g._source ?? 'unknown'),
       stopReason,
+      // Surfaced so spend is measured per call rather than reconstructed from a monthly
+      // chart. `cost` prices the four lines at this model's published rates: cache WRITE
+      // bills at 1.25x input and cache READ at 0.1x, so a prefix that is rewritten more
+      // often than it is read is costing money rather than saving it — the one thing a
+      // cost dashboard cannot show you, because it aggregates both into one bar.
+      usage: first.cache,
+      cost: priceOf(model, first.cache),
       ms,
     },
   }
