@@ -101,6 +101,25 @@ export function sanitiseForModel(s: string): string {
  */
 export type SystemParts = { cached: string[]; volatile?: string }
 
+/**
+ * ONE HOUR, not the five-minute default.
+ *
+ * 🔴 Measured on this app, 2026-09-22. The cached prefix is 64,755 tokens:
+ *     cold call (writes the prefix)  $0.17516
+ *     warm call (reads it back)      $0.02821   — 84% cheaper
+ *
+ * The saving only lands if the prefix is still alive when the next call arrives. On a 5m TTL
+ * it usually was not: the billing for 18 Sep shows $1.99 of cache WRITES against $0.21 of
+ * reads — roughly ten times more spent building the cache than was ever recovered by reading
+ * it. Nobody uses a writing tool in five-minute bursts; they generate, read it, think, come
+ * back.
+ *
+ * A 1h write bills at 2x base input instead of 1.25x, so one cold call gets dearer. Six calls
+ * spread across an hour: 5m TTL rewrites every time (~$1.05), 1h TTL writes once and reads
+ * five times (~$0.33). The longer the gaps, the more it wins.
+ */
+const CACHE_TTL = '1h'
+
 let cacheUnsupported = false // set once if the API rejects cache_control, then never retried
 
 /**
@@ -115,7 +134,7 @@ function systemBlocks(s: SystemParts): any {
     return [...cached, volatile].filter(Boolean).join('\n\n---\n\n')
   }
   const blocks: any[] = cached.map((text) => ({
-    type: 'text', text, cache_control: { type: 'ephemeral' },
+    type: 'text', text, cache_control: { type: 'ephemeral', ttl: CACHE_TTL },
   }))
   if (volatile) blocks.push({ type: 'text', text: volatile })
   return blocks
