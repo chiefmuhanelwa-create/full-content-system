@@ -33,6 +33,54 @@ import { ctaForPillar } from '@/lib/cta'
  */
 export const maxDuration = 300
 
+
+/**
+ * A fixed `slice(0, 8)` over a fixed list is why six different ideas came out telling the
+ * same story. The ledger is ordered with the rate receipts first, so R15,000 → R45,000 and
+ * "R350 then R750" sat at the top of every prompt ever sent, and three figures at the bottom
+ * were never offered at all.
+ *
+ * Order by what the topic is about instead, and send the whole list. Nothing is withheld —
+ * the model simply reads the relevant evidence first.
+ */
+const FIGURE_HINTS: Record<string, RegExp> = {
+  'R15,000': /rate|price|pricing|quote|charg|worth|undercharg|cost(ing)?/i,
+  'R350': /rate|price|first deal|brand deal|asked|negotiat/i,
+  'R23,524': /affiliate|commission|link|passive/i,
+  'R207,879': /tax|sars|reserve|provisional|assessment|owe/i,
+  '$22,180': /meta|facebook|platform pay|monetis|monetiz|payout|bonus/i,
+  'R453,710': /lifetime|total|career|eight years|receipts/i,
+  '780,000': /lost|gone|suspend|terminat|ban|appeal|switch|platform risk|own/i,
+  'Two appeals': /appeal|suspend|terminat|ban|meta|facebook|recover/i,
+  '19 brands': /agency|agencies|brand deal|roster|who has paid/i,
+  '270,283': /follower|audience|reach|size|vanity/i,
+  '173': /email|list|newsletter|own|subscriber/i,
+}
+
+function figuresFor(all: any[], topic: string): any[] {
+  const t = String(topic || '')
+  const score = (fig: string) => {
+    const key = Object.keys(FIGURE_HINTS).find((k) => fig.includes(k))
+    return key && FIGURE_HINTS[key].test(t) ? 1 : 0
+  }
+  // Stable sort: relevant first, original order preserved inside each group.
+  return [...all].sort((a, b) => score(b.fig) - score(a.fig))
+}
+
+/**
+ * The same five rehook phrases went out on every call, so they stopped being shapes and
+ * became boilerplate — "but here's the thing most people" turned up across unrelated topics.
+ * Rotate a subset, seeded by the idea, so a given topic is stable across regenerations but
+ * two different topics do not get the same three.
+ */
+function rotate<T>(arr: T[], n: number, seed: string): T[] {
+  if (arr.length <= n) return arr
+  let h = 0
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) & 0x7fffffff
+  const start = h % arr.length
+  return Array.from({ length: n }, (_, i) => arr[(start + i) % arr.length])
+}
+
 export async function POST(request: NextRequest) {
   const {
     idea, hook, pillar, tier, duration = '90s', format = 'personal', platform = 'reel',
@@ -54,9 +102,9 @@ export async function POST(request: NextRequest) {
 
   const fmt = (gov.script_formats?.formats ?? []).find((f: any) => f.key === format)
   const cta = ctaForPillar(gov, pillar)
-  const safe = (gov.fact_lock?.safe ?? []).slice(0, 8)
+  const safe = figuresFor(gov.fact_lock?.safe ?? [], `${idea ?? ''} ${hook ?? ''} ${pillar ?? ''}`)
   const principles = gov.script_principles?.principles ?? []
-  const phrases = gov.rehook?.phrases ?? []
+  const phrases: string[] = gov.rehook?.phrases ?? []
 
   // ── The skeleton is the FORMAT'S OWN BEATS ──────────────────────────────
   // Not rehook.cadence.structure. That is a generic Hook→Build→Rehook→Peak spine belonging
@@ -107,8 +155,10 @@ SLOTS:
   [SCREENSHOT] ${slots.SCREENSHOT ?? ''}
   [TAIL] ${slots.TAIL ?? ''}
 
-REHOOK PHRASES you may adapt (do not invent a new shape):
-${phrases.slice(0, 5).map((p: string) => `  - ${p}`).join('\n')}
+REHOOK — these are SHAPES, not lines to copy. Every one of them has already shipped, so a
+script that reuses the words verbatim sounds like the last one. Write the rehook in the
+language of THIS topic; borrow only the turn each shape makes:
+${rotate(phrases, 3, idea || hook || '').map((p: string) => `  - ${p}`).join('\n')}
 
 WHAT IS BEING HELD: ${holding || 'not stated — infer it, and if none of the six fits, say so in the first beat rather than inventing a mechanism'}
 
@@ -146,9 +196,20 @@ If none of them fits this piece, WRITE NO QUOTE AT ALL and leave the slot out. N
 line and never attach a figure to a speaker who did not say it — a figure can be on the safe
 list and the ATTRIBUTION still be fabricated, which no figure check can catch.
 
-FIGURES YOU MAY USE — and nothing else:
+FIGURES YOU MAY USE — and nothing else. Ordered by what this topic is actually about:
 ${safe.map((s: any) => `  - ${s.fig} — ${s.note}`).join('\n')}
 If a beat wants a number you cannot source from that list, write the beat so it does not need one.
+
+⛔ DO NOT DEFAULT TO THE RATE STORY. R15,000 → R45,000 and "R350 then R750" are the two most
+reachable receipts in the ledger, so they turn up in every script unless you stop yourself.
+Use a figure because THIS topic needs that specific evidence — not because it is the one you
+reached first. A script about usage rights, exclusivity, travel or the reserve is not the
+rate-card story, and telling it as the rate-card story is how six different ideas come out
+sounding like one.
+
+THIS PIECE MUST NOT READ LIKE THE LAST ONE. The format is fixed and the ledger is fixed —
+everything else is yours. The opening image, the mechanism you teach, the evidence you pick
+and the words you pick it with all come from this idea and no other.
 
 CTA: ${cta ? `"${cta.k}" — resolves to ${cta.destination}` : 'no keyword resolves; ask for a save or a reply instead'}
 
