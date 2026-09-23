@@ -175,6 +175,28 @@ function effortFor(maxTokens: number): 'low' | 'medium' | 'high' {
   return 'low'
 }
 
+/**
+ * ⚠️ THINKING CONFIG IS PER MODEL. It is not a house style, and sending one shape to every
+ * model breaks whichever models do not take it.
+ *
+ * That is exactly what happened here: the fix for Sonnet 5's rejection of `budget_tokens` was
+ * applied to every tier, so the `fast` tier started failing with
+ *
+ *     400 adaptive thinking is not supported on this model
+ *
+ * Haiku 4.5 supports neither `adaptive` NOR `output_config.effort` — both are rejected. It
+ * takes the older `{type:'enabled', budget_tokens}` or nothing at all, and the fast tier does
+ * classification, where thinking buys nothing. So it gets nothing, which is also the cheapest
+ * and fastest answer.
+ *
+ * Anything not known to be an older model is treated as current: adaptive plus effort.
+ */
+function thinkingParams(model: string, maxTokens: number): Record<string, unknown> {
+  const older = /haiku|sonnet-4-5|sonnet-3|opus-4-5|opus-3|claude-3/i.test(model)
+  if (older) return {}
+  return { thinking: { type: 'adaptive' }, output_config: { effort: effortFor(maxTokens) } }
+}
+
 async function callModel(model: string, system: SystemParts, prompt: string, maxTokens: number) {
   // Streaming, not a single blocking POST. A non-streamed request with a large system prompt
   // and a high max_tokens holds the connection open long enough that the hop in front of it
@@ -186,8 +208,7 @@ async function callModel(model: string, system: SystemParts, prompt: string, max
   const send = (sys: any) => (anthropic as any).messages.stream({
     model,
     max_tokens: maxTokens,
-    thinking: { type: 'adaptive' },
-    output_config: { effort: effortFor(maxTokens) },
+    ...thinkingParams(model, maxTokens),
     system: sys,
     messages: [{ role: 'user', content: sanitiseForModel(prompt) }],
   })
