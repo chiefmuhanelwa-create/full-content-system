@@ -36,35 +36,33 @@ export const maxDuration = 300
 
 /**
  * A fixed `slice(0, 8)` over a fixed list is why six different ideas came out telling the
- * same story. The ledger is ordered with the rate receipts first, so R15,000 → R45,000 and
- * "R350 then R750" sat at the top of every prompt ever sent, and three figures at the bottom
- * were never offered at all.
+ * same story. The ledger was ordered with the rate receipts first, so R15,000 → R45,000 and
+ * "R350 then R750" sat at the top of every prompt ever sent.
  *
- * Order by what the topic is about instead, and send the whole list. Nothing is withheld —
- * the model simply reads the relevant evidence first.
+ * Two things fixed it. The pool went from 11 figures to 38 — a script about travel or usage
+ * rights now has evidence of its own to reach for instead of reaching for the rate story.
+ * And relevance moved INTO the data: every figure carries its own `topics`, editable in
+ * Knowledge, so adding a receipt no longer means editing a regex map in this file.
  */
-const FIGURE_HINTS: Record<string, RegExp> = {
-  'R15,000': /rate|price|pricing|quote|charg|worth|undercharg|cost(ing)?/i,
-  'R350': /rate|price|first deal|brand deal|asked|negotiat/i,
-  'R23,524': /affiliate|commission|link|passive/i,
-  'R207,879': /tax|sars|reserve|provisional|assessment|owe/i,
-  '$22,180': /meta|facebook|platform pay|monetis|monetiz|payout|bonus/i,
-  'R453,710': /lifetime|total|career|eight years|receipts/i,
-  '780,000': /lost|gone|suspend|terminat|ban|appeal|switch|platform risk|own/i,
-  'Two appeals': /appeal|suspend|terminat|ban|meta|facebook|recover/i,
-  '19 brands': /agency|agencies|brand deal|roster|who has paid/i,
-  '270,283': /follower|audience|reach|size|vanity/i,
-  '173': /email|list|newsletter|own|subscriber/i,
-}
-
-function figuresFor(all: any[], topic: string): any[] {
-  const t = String(topic || '')
-  const score = (fig: string) => {
-    const key = Object.keys(FIGURE_HINTS).find((k) => fig.includes(k))
-    return key && FIGURE_HINTS[key].test(t) ? 1 : 0
+function figuresFor(all: any[], topic: string): { rows: any[]; anyRelevant: boolean } {
+  // Match on the IDEA, never the pillar. "PRICE IT" would otherwise pull the rate story onto
+  // every pricing topic, including the ones — usage rights, exclusivity, travel — that are
+  // about something else entirely.
+  const stem = (w: string) => w.replace(/(ing|ed|es|s)$/, '')
+  const words = new Set((String(topic || '').toLowerCase().match(/[a-z]{4,}/g) ?? []).map(stem))
+  const score = (r: any) => {
+    let hits = 0
+    for (const t of (r.topics ?? [])) {
+      for (const w of String(t).toLowerCase().split(/\s+/)) {
+        if (w.length >= 4 && words.has(stem(w))) { hits++; break }
+      }
+    }
+    return hits
   }
-  // Stable sort: relevant first, original order preserved inside each group.
-  return [...all].sort((a, b) => score(b.fig) - score(a.fig))
+  const scored = [...all].map((r, i) => ({ r, i, s: score(r) }))
+  const anyRelevant = scored.some((x) => x.s > 0)
+  const rows = scored.sort((a, b) => b.s - a.s || a.i - b.i).map((x) => x.r)
+  return { rows, anyRelevant }
 }
 
 /**
@@ -102,7 +100,7 @@ export async function POST(request: NextRequest) {
 
   const fmt = (gov.script_formats?.formats ?? []).find((f: any) => f.key === format)
   const cta = ctaForPillar(gov, pillar)
-  const safe = figuresFor(gov.fact_lock?.safe ?? [], `${idea ?? ''} ${hook ?? ''} ${pillar ?? ''}`)
+  const { rows: safe, anyRelevant } = figuresFor(gov.fact_lock?.safe ?? [], `${idea ?? ''} ${hook ?? ''}`)
   const principles = gov.script_principles?.principles ?? []
   const phrases: string[] = gov.rehook?.phrases ?? []
 
@@ -200,12 +198,18 @@ FIGURES YOU MAY USE — and nothing else. Ordered by what this topic is actually
 ${safe.map((s: any) => `  - ${s.fig} — ${s.note}`).join('\n')}
 If a beat wants a number you cannot source from that list, write the beat so it does not need one.
 
-⛔ DO NOT DEFAULT TO THE RATE STORY. R15,000 → R45,000 and "R350 then R750" are the two most
+${anyRelevant
+  ? `⛔ DO NOT DEFAULT TO THE RATE STORY. R15,000 → R45,000 and "R350 then R750" are the two most
 reachable receipts in the ledger, so they turn up in every script unless you stop yourself.
 Use a figure because THIS topic needs that specific evidence — not because it is the one you
-reached first. A script about usage rights, exclusivity, travel or the reserve is not the
-rate-card story, and telling it as the rate-card story is how six different ideas come out
-sounding like one.
+reached first. The list above is ordered by what this idea is actually about; the top of it is
+where the fitting evidence is.`
+  : `⛔ NOTHING IN THE LEDGER IS ABOUT THIS TOPIC. The list above is ordered by relevance and
+nothing scored — there is no receipt for this idea. So WRITE IT WITHOUT A FIGURE. Teach the
+mechanism, name the cost in the viewer's own terms, and leave the number out. Do NOT reach for
+the rate story because it is the nearest thing to hand; an unrelated receipt bolted onto a
+topic is how six different ideas come out sounding like one. An empty slot beats a plausible
+filler.`}
 
 THIS PIECE MUST NOT READ LIKE THE LAST ONE. The format is fixed and the ledger is fixed —
 everything else is yours. The opening image, the mechanism you teach, the evidence you pick
